@@ -1,12 +1,13 @@
 require('dotenv').config();
 
 const Discord = require('discord.js');
+const YTDL = require('ytdl-core');
 const PREFIX = '?';
 const key = process.env.KEY;
 
 let bot = new Discord.Client();
-
 let embed = new Discord.RichEmbed();
+let servers = {};
 
 let fortunes = [
   "Yes",
@@ -18,11 +19,18 @@ let fortunes = [
   "Kill Yourself"
 ];
 
-let commands = [
-  "Commands Are: ",
-  "ping",
-  "8ball"
-];
+function play(connection, message) {
+  let server = servers[message.guild.id];
+
+  server.dispatcher = connection.playStream(YTDL(server.queue[0], {filter: 'audioonly'}));
+
+  server.queue.shift();
+
+  server.dispatcher.on("end", () => {
+    if(server.queue[0]) play(connection, message);
+    else connection.disconnect();
+  });
+}
 
 bot.on("message", (message) => {
   if(message.author.equals(bot.user)) return;
@@ -35,6 +43,7 @@ bot.on("message", (message) => {
     case "ping":
       message.channel.sendMessage("pong")
       break;
+
     case "commands":
       message.channel.sendMessage(
         embed
@@ -43,12 +52,49 @@ bot.on("message", (message) => {
         .setColor(0xff0080)
       );
       break;
+
     case "8ball":
       if(args[1]) message.channel.sendMessage(fortunes[Math.floor(Math.random() * fortunes.length)]);
       else message.channel.sendMessage("Ask a question.");
       break;
+
+    case "dice":
+      message.channel.sendMessage('You rolled a ' + (Math.floor(Math.random() * 20)));
+      break;
+
     case "embed":
       message.channel.sendMessage(embed.setDescription("This is an embed"));
+      break;
+
+    //Music Commands
+    case "play":
+      if(!args[1]){
+        message.channel.sendMessage("Please provide a link");
+        return;
+      }
+
+      if(!message.member.voiceChannel) {
+        message.channel.sendMessage("You must be in a voice channel");
+        return;
+      }
+
+      if(!servers[message.guild.id]) servers[message.guild.id] = {
+        queue: []
+      };
+
+      let server = servers[message.guild.id]
+
+      server.queue.push(args[1]);
+
+      if(!message.guild.voiceConnection) message.member.voiceChannel.join().then((connection) => {
+        play(connection, message);
+      })
+      break;
+    case "skip":
+      if(server.dispatcher) server.dispatcher.end();
+      break;
+    case "stop":
+      if(message.guild.voiceConnection) message.guild.voiceConnection.disconnect();
       break;
     default:
       "Not a valid command"
