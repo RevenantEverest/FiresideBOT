@@ -1,22 +1,59 @@
+require('dotenv').config();
+
 const Discord = require('discord.js');
-const Commando = require('discord.js-commando');
-const bot = new Commando.Client();
+const PREFIX = '?';
+const key = process.env.KEY;
 
-const key = require('./secret')
+let bot = new Discord.Client();
 
-bot.registry.registerGroup('random', 'Random');
-bot.registry.registerGroup('text-commands', 'Text-Commands');
-bot.registry.registerGroup('social-media', 'Social-Media');
+let embed = new Discord.RichEmbed();
 
-bot.registry.registerDefaults();
-bot.registry.registerCommandsIn(__dirname + '/commands');
+let fortunes = [
+  "Yes",
+  "No",
+  "Maybe",
+  "Fuck You",
+  "If you believe hard enough",
+  "Try asking again",
+  "Kill Yourself"
+];
 
+let commands = [
+  "Commands Are: ",
+  "ping",
+  "8ball"
+];
 
-bot.on('message', (message) => {
+bot.on("message", (message) => {
+  if(message.author.equals(bot.user)) return;
 
-  if(message.content == 'ping'){
-    message.reply('pong')
+  if(!message.content.startsWith(PREFIX)) return;
+
+  let args = message.content.substring(PREFIX.length).split(" ");
+
+  switch (args[0].toLowerCase()) {
+    case "ping":
+      message.channel.sendMessage("pong")
+      break;
+    case "commands":
+      message.channel.sendMessage(
+        embed
+        .addField(`!ping :` ,`Responds with "pong"`, true)
+        .addField(`!8ball :`, `Responds with a fortune but requires a question (ex. !8ball Am I emotionally stable?)`, true)
+        .setColor(0xff0080)
+      );
+      break;
+    case "8ball":
+      if(args[1]) message.channel.sendMessage(fortunes[Math.floor(Math.random() * fortunes.length)]);
+      else message.channel.sendMessage("Ask a question.");
+      break;
+    case "embed":
+      message.channel.sendMessage(embed.setDescription("This is an embed"));
+      break;
+    default:
+      "Not a valid command"
+      break;
   }
 })
 
-bot.login(key.botKey)
+bot.login(key);

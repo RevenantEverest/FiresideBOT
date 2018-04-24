@@ -11,7 +11,7 @@
   "dependencies": {
     "bufferutil": "^3.0.3",
     "discord.js": "^11.3.2",
-    "discord.js-commando": "^0.9.0",
+    "dotenv": "^5.0.1",
     "opusscript": "0.0.6",
     "ytdl-core": "^0.20.2"
   }
