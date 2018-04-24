@@ -39,6 +39,12 @@ bot.on("message", (message) => {
 
   let args = message.content.substring(PREFIX.length).split(" ");
 
+  if(!servers[message.guild.id]) servers[message.guild.id] = {
+    queue: []
+  };
+
+  let server = servers[message.guild.id]
+
   switch (args[0].toLowerCase()) {
     case "ping":
       message.channel.sendMessage("pong")
@@ -78,19 +84,18 @@ bot.on("message", (message) => {
         return;
       }
 
-      if(!servers[message.guild.id]) servers[message.guild.id] = {
-        queue: []
-      };
-
-      let server = servers[message.guild.id]
-
       server.queue.push(args[1]);
 
       if(!message.guild.voiceConnection) message.member.voiceChannel.join().then((connection) => {
         play(connection, message);
       })
       break;
+    case "queue":
+      // let server = servers[message.guild.id]
+      message.channel.sendMessage(server.queue);
+      break;
     case "skip":
+      // let server = servers[message.guild.id]
       if(server.dispatcher) server.dispatcher.end();
       break;
     case "stop":
