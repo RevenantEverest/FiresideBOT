@@ -47,11 +47,11 @@ bot.on("message", (message) => {
 
   switch (args[0].toLowerCase()) {
     case "ping":
-      message.channel.sendMessage("pong")
+      message.channel.send("pong")
       break;
 
     case "commands":
-      message.channel.sendMessage(
+      message.channel.send(
         embed
         .addField(`!ping :` ,`Responds with "pong"`, true)
         .addField(`!8ball :`, `Responds with a fortune but requires a question (ex. !8ball Am I emotionally stable?)`, true)
@@ -60,27 +60,27 @@ bot.on("message", (message) => {
       break;
 
     case "8ball":
-      if(args[1]) message.channel.sendMessage(fortunes[Math.floor(Math.random() * fortunes.length)]);
-      else message.channel.sendMessage("Ask a question.");
+      if(args[1]) message.channel.send(fortunes[Math.floor(Math.random() * fortunes.length)]);
+      else message.channel.send("Ask a question.");
       break;
 
     case "dice":
-      message.channel.sendMessage('You rolled a ' + (Math.floor(Math.random() * 20)));
+      message.channel.send('You rolled a ' + (Math.floor(Math.random() * 20)));
       break;
 
     case "embed":
-      message.channel.sendMessage(embed.setDescription("This is an embed"));
+      message.channel.send(embed.setDescription("This is an embed"));
       break;
 
     //Music Commands
     case "play":
       if(!args[1]){
-        message.channel.sendMessage("Please provide a link");
+        message.channel.send("Please provide a link");
         return;
       }
 
       if(!message.member.voiceChannel) {
-        message.channel.sendMessage("You must be in a voice channel");
+        message.channel.send("You must be in a voice channel");
         return;
       }
 
@@ -91,11 +91,9 @@ bot.on("message", (message) => {
       })
       break;
     case "queue":
-      // let server = servers[message.guild.id]
-      message.channel.sendMessage(server.queue);
+      message.channel.send(server.queue);
       break;
     case "skip":
-      // let server = servers[message.guild.id]
       if(server.dispatcher) server.dispatcher.end();
       break;
     case "stop":
