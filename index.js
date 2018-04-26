@@ -89,13 +89,14 @@ bot.on("message", (message) => {
         if(info.title === undefined) {
           message.channel.send("Can't read title of undefined")
         }else {
-          let length = Math.floor(info.length_seconds / 60);
+          let minutes = Math.floor(info.length_seconds / 60);
+          let seconds = Math.floor(info.length_seconds - minutes * 60);
 
           message.channel.send(embed
             .addField(info.title, info.author.name)
             .addField('Link', args[1])
             .setThumbnail(info.thumbnail_url)
-            .setFooter(length + ' minutes')
+            .setFooter(minutes + ' minutes ' + seconds + ' seconds ')
             .setColor(0x0be289)
           )
         }
