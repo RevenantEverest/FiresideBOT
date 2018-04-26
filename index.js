@@ -84,6 +84,22 @@ bot.on("message", (message) => {
         return;
       }
 
+      YTDL.getInfo(args[1].toString(), (err, info) => {
+        console.log('Song info', info);
+        if(info.title === undefined) {
+          message.channel.send("Can't read title of undefined")
+        }else {
+          let length = Math.floor(info.length_seconds / 60);
+
+          message.channel.send(embed
+            .addField(info.title, info.author.name)
+            .addField('Link', args[1])
+            .setThumbnail(info.thumbnail_url)
+            .setFooter(length + ' minutes')
+            .setColor(0x0be289)
+          )
+        }
+      })
       server.queue.push(args[1]);
 
       if(!message.guild.voiceConnection) message.member.voiceChannel.join().then((connection) => {
