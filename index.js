@@ -9,6 +9,18 @@ let bot = new Discord.Client();
 let embed = new Discord.RichEmbed();
 let servers = {};
 
+// let search = require('youtube-search');
+//
+// let opts = {
+//   maxResults: 10
+// };
+
+// search('jsconf', opts, (err, results) => {
+//   if(err) return console.log(err);
+//
+//   console.dir(results);
+// });
+
 let fortunes = [
   "Yes",
   "No",
@@ -50,14 +62,14 @@ bot.on("message", (message) => {
       message.channel.send("pong")
       break;
 
-    case "commands":
-      message.channel.send(
-        embed
-        .addField(`!ping :` ,`Responds with "pong"`, true)
-        .addField(`!8ball :`, `Responds with a fortune but requires a question (ex. !8ball Am I emotionally stable?)`, true)
-        .setColor(0xff0080)
-      );
-      break;
+    // case "commands":
+    //   message.channel.send(
+    //     embed
+    //     .addField(`!ping :` ,`Responds with "pong"`, true)
+    //     .addField(`!8ball :`, `Responds with a fortune but requires a question (ex. !8ball Am I emotionally stable?)`, true)
+    //     .setColor(0xff0080)
+    //   );
+    //   break;
 
     case "8ball":
       if(args[1]) message.channel.send(fortunes[Math.floor(Math.random() * fortunes.length)]);
@@ -84,8 +96,9 @@ bot.on("message", (message) => {
         return;
       }
 
-      YTDL.getInfo(args[1].toString(), (err, info) => {
-        console.log('Song info', info);
+      server.queue.push(args[1]);
+
+      YTDL.getInfo(server.queue[0].toString(), (err, info) => {
         if(info.title === undefined) {
           message.channel.send("Can't read title of undefined")
         }else {
@@ -101,14 +114,13 @@ bot.on("message", (message) => {
           )
         }
       })
-      server.queue.push(args[1]);
 
       if(!message.guild.voiceConnection) message.member.voiceChannel.join().then((connection) => {
         play(connection, message);
       })
       break;
     case "queue":
-      message.channel.send(server.queue);
+      console.log(server.queue);
       break;
     case "skip":
       if(server.dispatcher) server.dispatcher.end();
@@ -117,7 +129,7 @@ bot.on("message", (message) => {
       if(message.guild.voiceConnection) message.guild.voiceConnection.disconnect();
       break;
     default:
-      "Not a valid command"
+      message.channel.send("Not a valid command");
       break;
   }
 })
