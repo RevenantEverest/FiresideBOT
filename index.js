@@ -28,7 +28,13 @@ let fortunes = [
   "Fuck You",
   "If you believe hard enough",
   "Try asking again",
-  "Kill Yourself"
+  "Kill Yourself",
+  "Sure",
+  "Fair Enough",
+  "Please stop",
+  "Incorrect",
+  "You got it",
+  "Mhm"
 ];
 
 function play(connection, message) {
