@@ -6,20 +6,14 @@ const PREFIX = '?';
 const key = process.env.KEY;
 
 let bot = new Discord.Client();
-let embed = new Discord.RichEmbed();
 let servers = {};
 
-// let search = require('youtube-search');
-//
-// let opts = {
-//   maxResults: 10
-// };
+let search = require('youtube-search');
 
-// search('jsconf', opts, (err, results) => {
-//   if(err) return console.log(err);
-//
-//   console.dir(results);
-// });
+let opts = {
+  maxResults: 10,
+  key: process.env.GOOGLE_KEY
+};
 
 let fortunes = [
   "Yes",
@@ -38,15 +32,37 @@ let fortunes = [
 ];
 
 function play(connection, message) {
+  let embed = new Discord.RichEmbed();
   let server = servers[message.guild.id];
+  let embedLink = server.queue[0];
 
   server.dispatcher = connection.playStream(YTDL(server.queue[0], {filter: 'audioonly'}));
+
+  YTDL.getInfo(embedLink.toString(), (err, info) => {
+    if(info.title === undefined) {
+      message.channel.send(`Can't read title of undefined`)
+    }else {
+      let minutes = Math.floor(info.length_seconds / 60);
+      let seconds = Math.floor(info.length_seconds - minutes * 60);
+
+      message.channel.send(embed
+        .addField(info.title, info.author.name)
+        .addField('Link', embedLink)
+        .setThumbnail(info.thumbnail_url)
+        .setFooter(minutes + ' minutes ' + seconds + ' seconds ')
+        .setColor(0x0be289)
+      )
+    }
+  });
 
   server.queue.shift();
 
   server.dispatcher.on("end", () => {
     if(server.queue[0]) play(connection, message);
-    else connection.disconnect();
+    else {
+      message.channel.send('Queue concluded.');
+      connection.disconnect();
+    }
   });
 }
 
@@ -68,15 +84,6 @@ bot.on("message", (message) => {
       message.channel.send("pong")
       break;
 
-    // case "commands":
-    //   message.channel.send(
-    //     embed
-    //     .addField(`!ping :` ,`Responds with "pong"`, true)
-    //     .addField(`!8ball :`, `Responds with a fortune but requires a question (ex. !8ball Am I emotionally stable?)`, true)
-    //     .setColor(0xff0080)
-    //   );
-    //   break;
-
     case "8ball":
       if(args[1]) message.channel.send(fortunes[Math.floor(Math.random() * fortunes.length)]);
       else message.channel.send("Ask a question.");
@@ -92,6 +99,7 @@ bot.on("message", (message) => {
 
     //Music Commands
     case "play":
+
       if(!args[1]){
         message.channel.send("Please provide a link");
         return;
@@ -102,28 +110,42 @@ bot.on("message", (message) => {
         return;
       }
 
-      server.queue.push(args[1]);
-
-      YTDL.getInfo(server.queue[0].toString(), (err, info) => {
-        if(info.title === undefined) {
-          message.channel.send("Can't read title of undefined")
-        }else {
-          let minutes = Math.floor(info.length_seconds / 60);
-          let seconds = Math.floor(info.length_seconds - minutes * 60);
-
-          message.channel.send(embed
-            .addField(info.title, info.author.name)
-            .addField('Link', args[1])
-            .setThumbnail(info.thumbnail_url)
-            .setFooter(minutes + ' minutes ' + seconds + ' seconds ')
-            .setColor(0x0be289)
-          )
+      if(args[1].startsWith('http')) {
+        server.queue.push(args[1]);
+        if(!message.guild.voiceConnection) message.member.voiceChannel.join().then((connection) => {
+          play(connection, message);
+        })
+        .catch(err => console.log("Failed at Play => ", err))
+      }else {
+        let songRequest = '';
+        for(let i = 0; i < args.length; i++ ) {
+          if(args[i] !== args[0]) songRequest += (args[i] + ' ');
         }
-      })
+        let link;
+        search(songRequest, opts, (err, results) => {
+          if(err) return console.log(err);
 
-      if(!message.guild.voiceConnection) message.member.voiceChannel.join().then((connection) => {
-        play(connection, message);
-      })
+          for(let i = 0; i < results.length; i++) {
+            if(results[i].kind == 'youtube#video') {
+              link = `${results[i].link}`;
+              YTDL.getInfo(link.toString(), (err, info) => {
+                if(info.length_seconds > 3600) {
+                  message.channel.send('Request Exceeds 60 min.')
+                  return;
+                }else {
+                  server.queue.push(link);
+                  message.channel.send(`${results[i].title} added to the queue`);
+                  if(!message.guild.voiceConnection) message.member.voiceChannel.join().then((connection) => {
+                    play(connection, message);
+                  })
+                  return;
+                }
+              })
+              return;
+            }
+          }
+        })
+      }
       break;
     case "queue":
       console.log(server.queue);
