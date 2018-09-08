@@ -14,11 +14,13 @@ let fortunes = [
   "Please stop",
   "Incorrect",
   "You got it",
-  "Mhm"
+  "Mhm",
+  "這都是中文的。當然"
 ];
 
 //Command Imports
-const musicCommands = require('./music/play');
+const play = require('./music/play');
+const queue = require('./music/queue');
 
 module.exports = {
   commands(message) {
@@ -33,6 +35,7 @@ module.exports = {
     let server = config.servers[message.guild.id]
 
     switch (args[0].toLowerCase()) {
+
       case "ping":
         message.channel.send("pong")
         break;
@@ -47,10 +50,25 @@ module.exports = {
         break;
 
       //Music Commands
-
-      case "play" || "skip" || "stop":
-        musicCommands.commands(message, args, server)
+      case "play":
+        play.play(message, args, server);
         break;
+      case "queue":
+        message.channel.send(queue.queue(message, args, server));
+        break;
+      case "currentsong":
+        message.channel.send(queue.showCurrentSong(message, args, server));
+        break;
+      case "skip":
+        if(server.dispatcher)
+          server.dispatcher.end();
+        break;
+      case "stop":
+        if(message.guild.voiceConnection)
+          message.guild.voiceConnection.disconnect();
+        break;
+
+      //Easter Eggs
       default:
         message.channel.send("Not a valid command");
         break;

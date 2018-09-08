@@ -2,14 +2,17 @@ const config = require('../../config/config');
 const Discord = require('discord.js');
 const YTDL = require('ytdl-core');
 
+const currentPlaylist = require('./queue').currentPlaylist;
+const currentSong = require('./queue').currentSong;
+
 const search = require('youtube-search');
 const opts = {
   maxResults: 10,
   key: process.env.GOOGLE_KEY
 };
 
-function play(connection, message) {
-  let embed = new Discord.RichEmbed();
+function playSong(connection, message) {
+  let currentSongEmbed = new Discord.RichEmbed();
   let server = config.servers[message.guild.id];
   let embedLink = server.queue[0];
 
@@ -22,7 +25,7 @@ function play(connection, message) {
       let minutes = Math.floor(info.length_seconds / 60);
       let seconds = Math.floor(info.length_seconds - minutes * 60);
 
-      message.channel.send(embed
+      message.channel.send(currentSongEmbed
         .addField(info.title, info.author.name)
         .addField('Link', embedLink)
         .setThumbnail(info.thumbnail_url)
@@ -31,12 +34,14 @@ function play(connection, message) {
       )
     }
   });
-
+  currentPlaylist.titles.shift();
+  currentPlaylist.links.shift();
+  currentSong[0] = currentSongEmbed;
   server.queue.shift();
 
   server.dispatcher.on("end", () => {
     if(server.queue[0])
-      play(connection, message);
+      playSong(connection, message);
     else {
       message.channel.send('Queue concluded.');
       connection.disconnect();
@@ -45,7 +50,7 @@ function play(connection, message) {
 };
 
 module.exports = {
-  commands(message, args, server) {
+  play(message, args, server) {
     switch (args[0]) {
       case "play":
 
@@ -62,9 +67,9 @@ module.exports = {
         if(args[1].startsWith('http')) {
           server.queue.push(args[1]);
           if(!message.guild.voiceConnection) message.member.voiceChannel.join().then((connection) => {
-            play(connection, message);
+            playSong(connection, message);
           })
-          .catch(err => console.log("Failed at Play => ", err))
+          .catch(err => console.log("Failed at Play Song => ", err))
         }else {
           let songRequest = '';
           for(let i = 0; i < args.length; i++ ) {
@@ -82,10 +87,12 @@ module.exports = {
                     message.channel.send('Request Exceeds 60 min.')
                     return;
                   }else {
+                    currentPlaylist.titles.push(results[i].title);
+                    currentPlaylist.links.push(results[i].link);
                     server.queue.push(link);
                     message.channel.send(`${results[i].title} added to the queue`);
                     if(!message.guild.voiceConnection) message.member.voiceChannel.join().then((connection) => {
-                      play(connection, message);
+                      playSong(connection, message);
                     })
                     return;
                   }
@@ -95,14 +102,6 @@ module.exports = {
             }
           })
         }
-        break;
-      case "skip":
-        if(server.dispatcher)
-          server.dispatcher.end();
-        break;
-      case "stop":
-        if(message.guild.voiceConnection)
-          message.guild.voiceConnection.disconnect();
         break;
       default:
         break;
