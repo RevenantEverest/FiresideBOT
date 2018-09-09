@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS playlists;
+DROP TABLE IF EXISTS songs;
 
 CREATE TABLE users (
   user_id SERIAL PRIMARY KEY,
@@ -8,12 +9,13 @@ CREATE TABLE users (
 );
 
 CREATE TABLE playlists (
-  user_id INT,
   playlist_id SERIAL PRIMARY KEY,
+  user_id INT,
   name VARCHAR(255)
 );
 
-CREATE TABLE playlist_songs (
+CREATE TABLE songs (
+  song_id SERIAL PRIMARY KEY,
   playlist_id INT,
   song_name VARCHAR(255),
   link VARCHAR(255)

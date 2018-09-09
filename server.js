@@ -14,12 +14,20 @@ const PORT = process.env.PORT || 3001;
 const bot = new config.Discord.Client();
 const commands = require('./commands/commands');
 
+//Route Imports
+const usersRouter = require('./routes/userRoutes');
+const playlistsRouter = require('./routes/playlistRoutes');
+const songsRouter = require('./routes/songRoutes');
+
 //Middleware
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 //Routes
+app.use("/users", usersRouter);
+app.use("/playlists", playlistsRouter);
+app.use("/songs", songsRouter);
 
 //Default Routes
 app.use("/", (req, res) => {

@@ -1,21 +1,28 @@
 const config = require('.././config/config');
 const PREFIX = '?';
 
+// let fortunes = [
+//   "Yes",
+//   "No",
+//   "Maybe",
+//   "Fuck You",
+//   "If you believe hard enough",
+//   "Try asking again",
+//   "Kill Yourself",
+//   "Sure",
+//   "Fair Enough",
+//   "Please stop",
+//   "Incorrect",
+//   "You got it",
+//   "Mhm",
+//   "這都是中文的。當然"
+// ];
+
 let fortunes = [
-  "Yes",
-  "No",
-  "Maybe",
-  "Fuck You",
-  "If you believe hard enough",
-  "Try asking again",
-  "Kill Yourself",
-  "Sure",
-  "Fair Enough",
-  "Please stop",
-  "Incorrect",
-  "You got it",
-  "Mhm",
-  "這都是中文的。當然"
+  "McDonalds",
+  "Wendys",
+  "Burger King",
+  "Taco Bell"
 ];
 
 //Command Imports
@@ -66,6 +73,9 @@ module.exports = {
       case "stop":
         if(message.guild.voiceConnection)
           message.guild.voiceConnection.disconnect();
+        break;
+      case "playlist":
+        play.play(message, args, server);
         break;
 
       //Easter Eggs

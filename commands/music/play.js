@@ -4,6 +4,8 @@ const YTDL = require('ytdl-core');
 
 const currentPlaylist = require('./queue').currentPlaylist;
 const currentSong = require('./queue').currentSong;
+//
+const services = require('../services/apiServices');
 
 const search = require('youtube-search');
 const opts = {
@@ -102,6 +104,24 @@ module.exports = {
             }
           })
         }
+        break;
+      case "playlist":
+        if(!message.member.voiceChannel) {
+          message.channel.send("You must be in a voice channel");
+          return;
+        }
+        services.getSongs()
+          .then(results => {
+            console.log(results.data.data);
+            for(let i = 0; i < results.data.data.length; i++) {
+              server.queue.push(results.data.data[i].link);
+            }
+            if(!message.guild.voiceConnection) message.member.voiceChannel.join().then((connection) => {
+              playSong(connection, message);
+            })
+            return;
+          })
+          .catch(err => console.log(err));
         break;
       default:
         break;
