@@ -1,4 +1,5 @@
 const songsDB = require('../models/songsDB');
+const YTDL = require('ytdl-core');
 
 module.exports = {
   index(req, res, next) {
@@ -30,5 +31,19 @@ module.exports = {
         })
       })
       .catch(err => next(err));
+  },
+  addSong(req, res, next) {
+    let songData = {playlist_id: req.body.playlist_id, link: req.body.link, title: ''};
+    YTDL.getInfo(songData.link, (err, info) => {
+      songData.title = info.title;
+      songsDB.save(songData)
+        .then(results => {
+          res.json({
+            message: "Adding Song",
+            data: results
+          })
+        })
+        .catch(err => next(err));
+    })
   }
 };

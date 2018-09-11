@@ -75,7 +75,7 @@ module.exports = {
           message.guild.voiceConnection.disconnect();
         break;
       case "playlist":
-        play.play(message, args, server);
+        message.channel.send(play.play(message, args, server));
         break;
 
       //Easter Eggs

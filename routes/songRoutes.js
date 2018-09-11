@@ -4,8 +4,9 @@ const songsRouter = express.Router();
 
 songsRouter.route("/")
   .get(songsController.index)
+  .post(songsController.addSong)
 
-songsRouter.route("/:id")
+songsRouter.route("/playlist/:id")
   .get(songsController.getByPlaylistId)
 
 module.exports = songsRouter;

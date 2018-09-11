@@ -7,10 +7,14 @@ module.exports = {
   currentSong: [],
   queue(message, args, server) {
     let queueEmbed = new Discord.RichEmbed();
-    for(let i = 0; i < this.currentPlaylist.titles.length; i++) {
-      queueEmbed.addField((i + 1 + ". ") + this.currentPlaylist.titles[i], "Link: " + this.currentPlaylist.links[i] );
+    if(this.currentPlaylist.titles.length >= 1) {
+      for(let i = 0; i < this.currentPlaylist.titles.length; i++) {
+        queueEmbed.addField((i + 1 + ". ") + this.currentPlaylist.titles[i], "Link: " + this.currentPlaylist.links[i] );
+      }
+      return queueEmbed;
+    }else {
+      return "No other songs in queue.";
     }
-    return queueEmbed;
   },
   showCurrentSong(message, args, server) {
     return this.currentSong[0];

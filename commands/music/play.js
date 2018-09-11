@@ -110,16 +110,20 @@ module.exports = {
           message.channel.send("You must be in a voice channel");
           return;
         }
-        services.getSongs()
-          .then(results => {
-            console.log(results.data.data);
-            for(let i = 0; i < results.data.data.length; i++) {
-              server.queue.push(results.data.data[i].link);
-            }
-            if(!message.guild.voiceConnection) message.member.voiceChannel.join().then((connection) => {
-              playSong(connection, message);
-            })
-            return;
+        services.getPlaylist(args[1])
+          .then(playlist => {
+            services.getSongs(playlist.data.data.playlist_id)
+              .then(songs => {
+                for(let i = 0; i < songs.data.data.length; i++) {
+                  currentPlaylist.titles.push(songs.data.data[i].title);
+                  currentPlaylist.links.push(songs.data.data[i].link);
+                  server.queue.push(songs.data.data[i].link)
+                }
+                if(!message.guild.voiceConnection) message.member.voiceChannel.join().then((connection) => {
+                      playSong(connection, message);
+                    })
+              })
+              .catch(err => console.log(err));
           })
           .catch(err => console.log(err));
         break;

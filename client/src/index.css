@@ -3,3 +3,12 @@ body, html {
   padding: 0;
   font-family: sans-serif;
 }
+
+h1 {
+  display: inline;
+  padding-right: 5%;
+}
+h1:hover {
+  color: cyan;
+  cursor: pointer;
+}

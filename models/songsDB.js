@@ -11,6 +11,6 @@ module.exports = {
     return db.many('SELECT * FROM songs WHERE playlist_id = $1', id);
   },
   save(song) {
-    return db.one('INSERT INTO songs (playlist_id, song_name, link) VALUES ($/playlist_id/, $/song_name/, $/link/) RETURNING *', song);
+    return db.one('INSERT INTO songs (playlist_id, title, link) VALUES ($/playlist_id/, $/title/, $/link/) RETURNING *', song);
   }
 }
