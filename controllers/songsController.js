@@ -15,6 +15,7 @@ module.exports = {
   getByPlaylistId(req, res, next) {
     songsDB.findByPlaylistId(req.params.id)
       .then(songs => {
+        if(songs.length < 1) return;
         res.json({
           message: "FInding songs by playlist",
           data: songs
@@ -45,5 +46,14 @@ module.exports = {
         })
         .catch(err => next(err));
     })
+  },
+  delete(req, res, next) {
+    songsDB.destroy(req.params.id)
+      .then(results => {
+        res.json({
+          message: "Song Deleted"
+        })
+      })
+      .catch(err => next(err));
   }
 };

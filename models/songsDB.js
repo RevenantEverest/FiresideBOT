@@ -12,5 +12,8 @@ module.exports = {
   },
   save(song) {
     return db.one('INSERT INTO songs (playlist_id, title, link) VALUES ($/playlist_id/, $/title/, $/link/) RETURNING *', song);
+  },
+  destroy(id) {
+    return db.none('DELETE FROM songs WHERE song_id = $1', id);
   }
 }

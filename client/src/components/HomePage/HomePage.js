@@ -22,7 +22,9 @@ class HomePage extends Component {
   render() {
     return(
       <div className="HomePage">
-        <button onClick={(e) => this.setState({ playlistRedirect: true })}>Go To Playlists</button>
+        <div className="Logo" />
+        <h1 className="Text-Logo">Fireside BOT</h1>
+        <button className="HomePage-Playlists" onClick={(e) => this.setState({ playlistRedirect: true })}>Go To Playlists</button>
         {this.state.playlistRedirect ? <Redirect to="/playlists" /> : ''}
       </div>
     );

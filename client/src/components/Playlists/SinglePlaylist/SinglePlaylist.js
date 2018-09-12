@@ -32,12 +32,18 @@ class SinglePlaylist extends Component {
       .catch(err => console.log(err));
   }
 
+  deleteSong(el) {
+    songsServices.deleteSong(el.song_id)
+      .then(results => { this.getSongs(); }).catch(err => console.log(err));
+  }
+
   renderSongs() {
     let counter = 0;
     let Songs = this.state.songData.map((el, idx) => {
       counter++;
       return(
         <div className="SinglePlaylist-SongContent" key={idx}>
+          <button onClick={(e) => this.deleteSong(el)}>Delete Song</button>
           <p>{counter}. {el.title}</p>
           <Link to={el.link}>{el.link}</Link>
         </div>

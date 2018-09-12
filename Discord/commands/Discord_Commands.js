@@ -1,36 +1,31 @@
-const config = require('.././config/config');
+const config = require('../.././config/config');
 const PREFIX = '?';
 
-// let fortunes = [
-//   "Yes",
-//   "No",
-//   "Maybe",
-//   "Fuck You",
-//   "If you believe hard enough",
-//   "Try asking again",
-//   "Kill Yourself",
-//   "Sure",
-//   "Fair Enough",
-//   "Please stop",
-//   "Incorrect",
-//   "You got it",
-//   "Mhm",
-//   "這都是中文的。當然"
-// ];
-
 let fortunes = [
-  "McDonalds",
-  "Wendys",
-  "Burger King",
-  "Taco Bell"
+  "Yes",
+  "No",
+  "Maybe",
+  "Fuck You",
+  "If you believe hard enough",
+  "Try asking again",
+  "Kill Yourself",
+  "Sure",
+  "Fair Enough",
+  "Please stop",
+  "Incorrect",
+  "You got it",
+  "Mhm",
+  "這都是中文的。當然"
 ];
 
 //Command Imports
 const play = require('./music/play');
 const queue = require('./music/queue');
+const delSong = require('./music/delSong');
 
 module.exports = {
   commands(message) {
+
     if(!message.content.startsWith(PREFIX)) return;
 
     let args = message.content.substring(PREFIX.length).split(" ");
@@ -53,7 +48,18 @@ module.exports = {
         break;
 
       case "dice":
-        message.channel.send('You rolled a ' + (Math.floor(Math.random() * 20)));
+        if(!args[1]) {
+          message.channel.send('You rolled a ' + (Math.floor(Math.random() * 20)));
+          return;
+        }
+        if(isNaN(parseInt(args[1], 10)) && args[1] != " ") {
+          message.channel.send("Please specify a number.");
+          return;
+        }
+        if(!isNaN(parseInt(args[1], 10))) {
+          message.channel.send('You rolled a ' + (Math.floor(Math.random() * args[1])));
+          return;
+        }
         break;
 
       //Music Commands
@@ -75,9 +81,15 @@ module.exports = {
           message.guild.voiceConnection.disconnect();
         break;
       case "playlist":
-        message.channel.send(play.play(message, args, server));
+        play.play(message, args, server);
         break;
-
+      case "delsong":
+        if(!args[1]) {
+          message.channel.send("Please specifiy a song to delete.");
+          return;
+        }
+        delSong.delsong(message, args, server);
+        break;
       //Easter Eggs
       default:
         message.channel.send("Not a valid command");

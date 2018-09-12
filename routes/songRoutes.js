@@ -9,4 +9,7 @@ songsRouter.route("/")
 songsRouter.route("/playlist/:id")
   .get(songsController.getByPlaylistId)
 
+songsRouter.route("/song_id/:id")
+  .delete(songsController.delete)
+
 module.exports = songsRouter;

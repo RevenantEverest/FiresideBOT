@@ -19,4 +19,14 @@ services.addSong = (data) => {
     }
   });
 };
+
+services.deleteSong = (data) => {
+  return axios({
+    method: 'DELETE',
+    url: `/songs/song_id/${data}`,
+    data: {
+      song_id: data
+    }
+  })
+}
 export default services;

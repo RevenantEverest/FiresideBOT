@@ -1,4 +1,4 @@
-const config = require('../../config/config');
+const config = require('../../../config/config');
 const Discord = require('discord.js');
 const YTDL = require('ytdl-core');
 

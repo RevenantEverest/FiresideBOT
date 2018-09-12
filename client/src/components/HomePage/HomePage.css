@@ -1,3 +1,40 @@
 .HomePage {
-  
+  height: 100vh;
+  background-color: #1a1a1a;
+}
+
+.Logo {
+  position: relative;
+  height: 27vh;
+  width: 10%;
+  background-image: url(../../res/images/Logo.png);
+  background-repeat: no-repeat;
+  background-size: 100%;
+  margin-left: 44%;
+  top: 10%;
+}
+
+.Text-Logo {
+  position: relative;
+  color: #dedede;
+  font-family: "Risa", sans-serif;
+  font-size: 200px;
+  margin-left: 30%;
+  top: 80px;
+}
+
+.HomePage-Playlists {
+  position: relative;
+  left: -28%;
+  top: 400px;
+  font-weight: 800;
+  font-size: 30px;
+  padding: .5%;
+  transition: .5s;
+}
+
+.HomePage-Playlists:hover {
+  color: cyan;
+  background-color: black;
+  border: solid #dedede;
 }

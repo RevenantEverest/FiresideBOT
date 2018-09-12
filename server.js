@@ -11,8 +11,11 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-const bot = new config.Discord.Client();
-const commands = require('./commands/commands');
+const Discord_Bot = new config.Discord.Client();
+const Discord_Commands = require('./Discord/commands/Discord_Commands');
+
+const Twitch_Bot = new config.TMI.client(config.Twitch_Bot_Options);
+const Twitch_Commands = require('./Twitch/commands/Twitch_Commands');
 
 //Route Imports
 const usersRouter = require('./routes/userRoutes');
@@ -40,9 +43,24 @@ app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
 });
 
-bot.on("message", (message) => {
-  if(message.author.equals(bot.user)) return;
-  commands.commands(message);
+//Twitch Bot
+Twitch_Bot.on('chat', (channel, userstate, message, self) => {
+  if(self) return;
+  Twitch_Commands.commands(channel, userstate, message, self, Twitch_Bot);
 });
 
-bot.login(config.key);
+Twitch_Bot.connect();
+
+//Discord Bot
+Discord_Bot.on("message", (message) => {
+  // let author_id = message.author.id;
+  // let author_username = message.author.username;
+  // let guild_name = message.guild.name;
+  // let guild_id = message.guild.id;
+  if(message.author.equals(Discord_Bot.user)) return;
+  Discord_Commands.commands(message);
+});
+
+Discord_Bot.login(config.Discord_Key);
+
+// TODO: Economy feature

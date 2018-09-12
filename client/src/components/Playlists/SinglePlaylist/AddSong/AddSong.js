@@ -30,14 +30,17 @@ class AddSong extends Component {
       link: this.state.link
     }
     songsServices.addSong(songData)
-      .then(results => { this.props.getSongs(); this.setState({ link: '' }) })
+      .then(results => {
+        this.props.getSongs();
+        document.querySelector("#AddSongForm").reset();
+      })
       .catch(err =>  console.log(err));
   }
 
   render() {
     return(
       <div className="AddSong">
-        <form onSubmit={this.handleSubmit}>
+        <form id="AddSongForm" onSubmit={this.handleSubmit}>
           <input type="text" name="link" placeholder="YouTube Link" onChange={this.handleChange} />
           <input type="submit" value="Add" />
         </form>

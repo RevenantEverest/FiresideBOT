@@ -20,3 +20,15 @@ CREATE TABLE songs (
   title VARCHAR(255),
   link VARCHAR(255)
 );
+
+CREATE TABLE *Insert Name Here* (
+  id SERIAL PRIMARY KEY,
+  username VARCHAR(255),
+  author_id INT,
+  guild_name VARCHAR(255),
+  guild_id INT
+);
+
+CREATE TABLE economy (
+
+);

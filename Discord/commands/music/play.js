@@ -1,4 +1,4 @@
-const config = require('../../config/config');
+const config = require('../../../config/config');
 const Discord = require('discord.js');
 const YTDL = require('ytdl-core');
 
@@ -110,6 +110,10 @@ module.exports = {
           message.channel.send("You must be in a voice channel");
           return;
         }
+        if(!args[1]) {
+          message.channel.send("No playlist name provided.");
+          return;
+        }
         services.getPlaylist(args[1])
           .then(playlist => {
             services.getSongs(playlist.data.data.playlist_id)
@@ -119,6 +123,7 @@ module.exports = {
                   currentPlaylist.links.push(songs.data.data[i].link);
                   server.queue.push(songs.data.data[i].link)
                 }
+                message.channel.send(`Adding playlist ${playlist.data.data.name} to the queue.`);
                 if(!message.guild.voiceConnection) message.member.voiceChannel.join().then((connection) => {
                       playSong(connection, message);
                     })
