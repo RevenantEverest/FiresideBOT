@@ -21,6 +21,7 @@ const Twitch_Commands = require('./Twitch/commands/Twitch_Commands');
 const usersRouter = require('./routes/userRoutes');
 const playlistsRouter = require('./routes/playlistRoutes');
 const songsRouter = require('./routes/songRoutes');
+const customCommandsRouter = require('./routes/customCommandRoutes');
 
 //Middleware
 app.use(logger('dev'));
@@ -31,6 +32,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/users", usersRouter);
 app.use("/playlists", playlistsRouter);
 app.use("/songs", songsRouter);
+app.use("/commands/custom", customCommandsRouter);
 
 //Default Routes
 app.use("/", (req, res) => {

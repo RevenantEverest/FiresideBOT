@@ -1,6 +1,11 @@
 .DefaultCommands {
   display: inline-block;
-  height: auto;
+  height: 100%;
   width: 88%;
+  background-color: #dedede;
+}
+
+.DefaultCommands-Contents {
+  height: auto;
   background-color: #dedede;
 }
