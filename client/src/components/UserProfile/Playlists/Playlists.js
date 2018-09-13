@@ -3,7 +3,7 @@ import { Redirect, Link } from 'react-router-dom';
 import './Playlists.css';
 
 //Services Imports
-import playlistServices from '../../services/playlistServices';
+import playlistServices from '../../../services/playlistServices';
 
 //Component Imports
 import AddPlaylist from './AddPlaylist/AddPlaylist';
@@ -47,7 +47,7 @@ class Playlists extends Component {
       return(
         <div className="PlaylistDisplay" key={idx}>
           <Link to={{
-            pathname: `/playlists/${el.name}`,
+            pathname: `/user/playlists/${el.name}`,
             state: {
               userData: this.props.userData,
               playlistData: el
@@ -70,9 +70,11 @@ class Playlists extends Component {
   render() {
     return(
       <div className="Playlists">
-        {this.state.dataRecieved ? this.renderPlaylists() : <div className="loading" id="Playlists" />}
-        <AddPlaylist userData={this.props.userData} getPlaylists={this.getPlaylists} />
-        {this.state.playlistRedirect ? <Redirect to="/playlists/single" /> : ''}
+        <div className="Playlists-Contents">
+          {this.state.dataRecieved ? this.renderPlaylists() : <div className="loading" id="Playlists" />}
+          <AddPlaylist userData={this.props.userData} getPlaylists={this.getPlaylists} />
+          {this.state.playlistRedirect ? <Redirect to="/playlists/single" /> : ''}
+        </div>
       </div>
     );
   }

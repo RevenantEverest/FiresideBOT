@@ -1,19 +1,26 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway'); /* Raleway Font Import */
+@import url('https://fonts.googleapis.com/css?family=Roboto'); /* Roboto Font Import */
 @font-face {
   font-family: 'Risa';
   src: url(./res/fonts/Risa.otf);
 }
 
 body, html {
+  max-height: 100%;
+  height: 100%;
+  max-width: 100vw;
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  background-color: #1a1a1a;
 }
 
-h1 {
-  display: inline;
-  padding-right: 5%;
+a{
+  text-decoration: none;
+  color: inherit;
 }
-h1:hover {
-  color: cyan;
-  cursor: pointer;
+
+a:visited, a:hover, a:focus, a:active {
+  text-decoration: none;
+  color: inherit;
 }

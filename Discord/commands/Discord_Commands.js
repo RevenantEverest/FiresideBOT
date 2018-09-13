@@ -22,6 +22,7 @@ let fortunes = [
 const play = require('./music/play');
 const queue = require('./music/queue');
 const delSong = require('./music/delSong');
+const poll = require('./poll/poll');
 
 module.exports = {
   commands(message) {
@@ -31,10 +32,13 @@ module.exports = {
     let args = message.content.substring(PREFIX.length).split(" ");
 
     if(!config.servers[message.guild.id]) config.servers[message.guild.id] = {
-      queue: []
+      queue: {
+        titles: [],
+        links: []
+      }
     };
 
-    let server = config.servers[message.guild.id]
+    let server = config.servers[message.guild.id];
 
     switch (args[0].toLowerCase()) {
 
@@ -60,6 +64,43 @@ module.exports = {
           message.channel.send('You rolled a ' + (Math.floor(Math.random() * args[1])));
           return;
         }
+        break;
+
+      //Poll Commands
+      case "poll":
+        if(!args[1]) {
+          message.channel.send("No Poll Question Specified.");
+          return;
+        }
+        // TODO: Check if a poll is active
+        break;
+      case "newpoll":
+        if(!args[1]) {
+          message.channel.send("No poll name specified.");
+          return;
+        }
+        poll.pollname(message, args, server);
+        break;
+      case "pollanswer":
+        if(!args[1]) {
+          message.channel.send("No poll answer specified.");
+          return;
+        }
+        poll.pollanswer(message, args, server);
+        break;
+      case "sendpoll":
+        if(!server.poll) {
+          message.channel.send("No current poll.");
+          return;
+        }
+        poll.sendPoll(message, args, server);
+        break;
+      case "vote":
+        if(!args[1]) {
+          message.channel.send("Please specify a numberic value.");
+          return;
+        }
+        poll.vote(message, args, server);
         break;
 
       //Music Commands
@@ -89,6 +130,9 @@ module.exports = {
           return;
         }
         delSong.delsong(message, args, server);
+        break;
+
+      case "test":
         break;
       //Easter Eggs
       default:

@@ -1,11 +1,17 @@
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS playlists;
 DROP TABLE IF EXISTS songs;
+DROP TABLE IF EXISTS economy;
 
 CREATE TABLE users (
   user_id SERIAL PRIMARY KEY,
   username VARCHAR(255),
   password VARCHAR(255)
+);
+
+CREATE TABLE user_settings (
+  user_id INT,
+  prefix VARCHAR(10)
 );
 
 CREATE TABLE playlists (
@@ -21,14 +27,14 @@ CREATE TABLE songs (
   link VARCHAR(255)
 );
 
-CREATE TABLE *Insert Name Here* (
-  id SERIAL PRIMARY KEY,
-  username VARCHAR(255),
-  author_id INT,
-  guild_name VARCHAR(255),
-  guild_id INT
-);
+-- CREATE TABLE *Insert Name Here* (
+--   id SERIAL PRIMARY KEY,
+--   username VARCHAR(255),
+--   author_id INT,
+--   guild_name VARCHAR(255),
+--   guild_id INT
+-- );
 
-CREATE TABLE economy (
-
-);
+-- CREATE TABLE economy (
+--
+-- );

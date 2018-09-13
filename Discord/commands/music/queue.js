@@ -3,13 +3,12 @@ const Discord = require('discord.js');
 const YTDL = require('ytdl-core');
 
 module.exports = {
-  currentPlaylist: { titles: [], links: [], length: [] },
   currentSong: [],
   queue(message, args, server) {
     let queueEmbed = new Discord.RichEmbed();
-    if(this.currentPlaylist.titles.length >= 1) {
-      for(let i = 0; i < this.currentPlaylist.titles.length; i++) {
-        queueEmbed.addField((i + 1 + ". ") + this.currentPlaylist.titles[i], "Link: " + this.currentPlaylist.links[i] );
+    if(server.queue.titles.length >= 1) {
+      for(let i = 0; i < server.queue.titles.length; i++) {
+        queueEmbed.addField((i + 1 + ". ") + server.queue.titles[i], "Link: " + server.queue.links[i] );
       }
       return queueEmbed;
     }else {

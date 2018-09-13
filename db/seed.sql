@@ -3,8 +3,7 @@ INSERT INTO users (username, password) VALUES(
   '1234'
 );
 
-
-INSERT INTO playlists (user_id, name) VALUES(
+INSERT INTO user_settings (user_id, prefix) VALUES(
   1,
-  'test'
+  '?'
 );

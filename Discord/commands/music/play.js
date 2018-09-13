@@ -2,10 +2,9 @@ const config = require('../../../config/config');
 const Discord = require('discord.js');
 const YTDL = require('ytdl-core');
 
-const currentPlaylist = require('./queue').currentPlaylist;
-const currentSong = require('./queue').currentSong;
-//
 const services = require('../services/apiServices');
+
+const currentSong = require('./queue').currentSong;
 
 const search = require('youtube-search');
 const opts = {
@@ -16,9 +15,9 @@ const opts = {
 function playSong(connection, message) {
   let currentSongEmbed = new Discord.RichEmbed();
   let server = config.servers[message.guild.id];
-  let embedLink = server.queue[0];
+  let embedLink = server.queue.links[0];
 
-  server.dispatcher = connection.playStream(YTDL(server.queue[0], {filter: 'audioonly'}));
+  server.dispatcher = connection.playStream(YTDL(server.queue.links[0], {filter: 'audioonly'}));
 
   YTDL.getInfo(embedLink.toString(), (err, info) => {
     if(info.title === undefined) {
@@ -36,19 +35,29 @@ function playSong(connection, message) {
       )
     }
   });
-  currentPlaylist.titles.shift();
-  currentPlaylist.links.shift();
+  server.queue.titles.shift();
   currentSong[0] = currentSongEmbed;
-  server.queue.shift();
+  server.queue.links.shift();
 
   server.dispatcher.on("end", () => {
-    if(server.queue[0])
+    if(server.queue.links[0] && message.guild.voiceConnection)
       playSong(connection, message);
     else {
-      message.channel.send('Queue concluded.');
       connection.disconnect();
+      message.channel.send('Queue concluded.');
+
+      if(server.queue.links[0]) {
+        for(let i = 0; i < server.queue.links.length; i++) {
+          server.queue.titles.shift();
+          server.queue.links.shift();
+          currentSong[0] = '';
+        }
+      }
     }
   });
+  server.dispatcher.on("meme", () => {
+    message.channel.send('Fuck');
+  })
 };
 
 module.exports = {
@@ -89,9 +98,8 @@ module.exports = {
                     message.channel.send('Request Exceeds 60 min.')
                     return;
                   }else {
-                    currentPlaylist.titles.push(results[i].title);
-                    currentPlaylist.links.push(results[i].link);
-                    server.queue.push(link);
+                    server.queue.titles.push(results[i].title);
+                    server.queue.links.push(results[i].link);
                     message.channel.send(`${results[i].title} added to the queue`);
                     if(!message.guild.voiceConnection) message.member.voiceChannel.join().then((connection) => {
                       playSong(connection, message);
@@ -119,9 +127,8 @@ module.exports = {
             services.getSongs(playlist.data.data.playlist_id)
               .then(songs => {
                 for(let i = 0; i < songs.data.data.length; i++) {
-                  currentPlaylist.titles.push(songs.data.data[i].title);
-                  currentPlaylist.links.push(songs.data.data[i].link);
-                  server.queue.push(songs.data.data[i].link)
+                  server.queue.titles.push(songs.data.data[i].title);
+                  server.queue.links.push(songs.data.data[i].link);
                 }
                 message.channel.send(`Adding playlist ${playlist.data.data.name} to the queue.`);
                 if(!message.guild.voiceConnection) message.member.voiceChannel.join().then((connection) => {

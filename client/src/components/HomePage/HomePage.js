@@ -24,8 +24,8 @@ class HomePage extends Component {
       <div className="HomePage">
         <div className="Logo" />
         <h1 className="Text-Logo">Fireside BOT</h1>
-        <button className="HomePage-Playlists" onClick={(e) => this.setState({ playlistRedirect: true })}>Go To Playlists</button>
-        {this.state.playlistRedirect ? <Redirect to="/playlists" /> : ''}
+        {/* <button className="HomePage-Playlists" onClick={(e) => this.setState({ playlistRedirect: true })}>Go To Playlists</button>
+        {this.state.playlistRedirect ? <Redirect to="/playlists" /> : ''} */}
       </div>
     );
   }

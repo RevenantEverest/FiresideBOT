@@ -1,0 +1,63 @@
+.NavBar {
+  position: sticky;
+  background-color: #1a1a1a;
+  height: 100%;
+  width: 12%;
+  color: #dedede;
+  display: inline-block;
+  margin: 0;
+  vertical-align: top;
+}
+
+.NavBar-Logo-Container {
+  position: relative;
+  background-color: #333333;
+  color: #dedede;
+  font-family: "Risa", sans-serif;
+  font-size: 24px;
+}
+
+.NavBar-Logo-Image {
+  position: relative;
+  height: 5vh;
+  width: 15%;
+  top: 10px;
+  margin-left: 3%;
+  margin-right: 5%;
+  background-image: url(../../../res/images/Logo.png);
+  background-repeat: no-repeat;
+  background-size: 100%;
+  display: inline-block;
+}
+
+.NavBar-Logo-Text {
+  position: relative;
+  top: -2px;
+  display: inline;
+}
+
+.NavBar-Contents {
+  text-align: center;
+  font-family: "Raleway", sans-serif;
+  font-weight: 800;
+  padding: 20px;
+  transition: 1s;
+  /* border: solid white; */
+}
+
+/* .NavBar-Contents:hover {
+  color: #999999;
+  cursor: pointer;
+} */
+
+.NavBar-Dropdown {
+  position: absolute;
+  display: none;
+  height: 0vh;
+  transition: 1s;
+  padding: 2%;
+}
+
+.NavBar-Dropdown-Content:hover { color: red; }
+
+.NavBar-Contents:hover .NavBar-Dropdown { display: inline-block; }

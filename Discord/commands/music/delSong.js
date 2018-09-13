@@ -11,14 +11,13 @@ module.exports = {
       message.channel.send("Please specify a numeric value.");
       return;
     }
-    if(!server.queue[index]) {
+    if(!server.queue.links[index]) {
       message.channel.send(`Song doesn't exist in queue.`);
       return;
     }
-    let removedSong = currentPlaylist.titles[index];
-    currentPlaylist.titles.splice(index, 1);
-    currentPlaylist.links.splice(index, 1);
-    server.queue.splice(index, 1);
+    let removedSong = server.queue.titles[index];
+    server.queue.titles.splice(index, 1);
+    server.queue.links.splice(index, 1);
     message.channel.send(`${removedSong} has been removed from the queue.`);
   }
 }

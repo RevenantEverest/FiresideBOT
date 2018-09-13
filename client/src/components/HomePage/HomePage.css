@@ -11,7 +11,8 @@
   background-repeat: no-repeat;
   background-size: 100%;
   margin-left: 44%;
-  top: 10%;
+  top: 25%;
+  margin-bottom: 12%;
 }
 
 .Text-Logo {
@@ -20,7 +21,6 @@
   font-family: "Risa", sans-serif;
   font-size: 200px;
   margin-left: 30%;
-  top: 80px;
 }
 
 .HomePage-Playlists {
