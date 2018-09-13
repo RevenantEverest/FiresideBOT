@@ -59,7 +59,7 @@ class DefaultCommands extends Component {
     return(
       <div className="DefaultCommands">
         <div className="DefaultCommands-Contents">
-          {this.state.dataRecieved ? this.renderCommands() : <div className="loading" id="DefaultCommands" />}
+          {/* {this.state.dataRecieved ? this.renderCommands() : <div className="loading" id="DefaultCommands" />} */}
         </div>
       </div>
     );
