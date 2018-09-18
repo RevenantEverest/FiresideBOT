@@ -6,6 +6,8 @@ const currentPlaylist = require('./queue').currentPlaylist;
 
 module.exports = {
   delsong(message, args, server) {
+    if(!args[1]) return message.channel.send("Please specifiy a song to delete.");
+    
     let index = parseInt(args[1], 10) - 1;
     if(isNaN(index)) {
       message.channel.send("Please specify a numeric value.");

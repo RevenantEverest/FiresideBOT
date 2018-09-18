@@ -9,6 +9,7 @@ import UserProfile from './components/UserProfile/UserProfile';
 import Dashboard from './components/UserProfile/Dashboard/Dashboard';
 import Playlists from './components/UserProfile/Playlists/Playlists';
 import SinglePlaylist from './components/UserProfile/Playlists/SinglePlaylist/SinglePlaylist';
+import AutoDJ from './components/UserProfile/AutoDJ/AutoDJ';
 import DefaultCommands from './components/UserProfile/Commands/DefaultCommands/DefaultCommands';
 import CustomCommands from './components/UserProfile/Commands/CustomCommands/CustomCommands';
 
@@ -21,6 +22,7 @@ class App extends Component {
         user_id: 1
       }
     }
+    this.render = this.render.bind(this);
   }
 
   render() {
@@ -37,6 +39,7 @@ class App extends Component {
               <Route path="/user/commands/custom" component={() => (<CustomCommands userData={this.state.userData}/>) } />
               <Route exact path="/user/playlists" component={() => (<Playlists userData={this.state.userData}/>) } />
               <Route path="/user/playlists/:playlist_name" component={SinglePlaylist} />
+              <Route path="/user/autodj" component={ () => (<AutoDJ userData={this.state.userData}/>) } />
             </div>
           </div>
         </Router>

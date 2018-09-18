@@ -4,6 +4,7 @@ module.exports = {
   servers: {},
   Discord_Key: process.env.DISCORD_KEY,
   Twitch_Key: process.env.TWITCH_KEY,
+  Google_Key: process.env.GOOGLE_KEY,
   Twitch_Bot_Options: {
     options: {
       debug: true
@@ -16,6 +17,6 @@ module.exports = {
       username: 'FiresideBOT',
       password: process.env.TWITCH_KEY
     },
-    channels: ['RevenantEverest']
+    channels: ['RevenantEverest', 'DJRectangle', 'SkyisDead']
   }
 }

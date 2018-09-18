@@ -1,11 +1,11 @@
-.Dashboard {
+.AutoDJ {
   display: inline-block;
-  height: 99%;;
+  height: 99%;
   width: 88%;
   background-color: #dedede;
 }
 
-.Dashboard-Contents {
+.AutoDJ-Contents {
   height: auto;
   background-color: #dedede;
 }

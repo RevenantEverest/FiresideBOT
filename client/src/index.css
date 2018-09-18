@@ -4,6 +4,10 @@
   font-family: 'Risa';
   src: url(./res/fonts/Risa.otf);
 }
+@@font-face {
+  font-family: 'Cocogoose';
+  src: url(./res/fonts/Cocogoose.ttf);
+}
 
 body, html {
   max-height: 100%;

@@ -1,22 +1,11 @@
 const config = require('../.././config/config');
-const PREFIX = '?';
+let PREFIX = '?';
 
-let fortunes = [
-  "Yes",
-  "No",
-  "Maybe",
-  "Fuck You",
-  "If you believe hard enough",
-  "Try asking again",
-  "Kill Yourself",
-  "Sure",
-  "Fair Enough",
-  "Please stop",
-  "Incorrect",
-  "You got it",
-  "Mhm",
-  "這都是中文的。當然"
-];
+//Services Imports
+const apiServices = require('./services/apiServices');
+
+//Component Imports
+const fortunes = require('./fortunes');
 
 //Command Imports
 const play = require('./music/play');
@@ -43,7 +32,7 @@ module.exports = {
     switch (args[0].toLowerCase()) {
 
       case "ping":
-        message.channel.send("pong")
+        message.channel.send("pong");
         break;
 
       case "8ball":
@@ -52,59 +41,35 @@ module.exports = {
         break;
 
       case "dice":
-        if(!args[1]) {
-          message.channel.send('You rolled a ' + (Math.floor(Math.random() * 20)));
-          return;
-        }
-        if(isNaN(parseInt(args[1], 10)) && args[1] != " ") {
-          message.channel.send("Please specify a number.");
-          return;
-        }
-        if(!isNaN(parseInt(args[1], 10))) {
-          message.channel.send('You rolled a ' + (Math.floor(Math.random() * args[1])));
-          return;
-        }
+        dice.rollDice(message, args, server);
         break;
 
       //Poll Commands
       case "poll":
-        if(!args[1]) {
-          message.channel.send("No Poll Question Specified.");
-          return;
-        }
+        if(!args[1]) return message.channel.send("No Poll Question Specified.");
         // TODO: Check if a poll is active
         break;
       case "newpoll":
-        if(!args[1]) {
-          message.channel.send("No poll name specified.");
-          return;
-        }
         poll.pollname(message, args, server);
         break;
       case "pollanswer":
-        if(!args[1]) {
-          message.channel.send("No poll answer specified.");
-          return;
-        }
         poll.pollanswer(message, args, server);
         break;
       case "sendpoll":
-        if(!server.poll) {
-          message.channel.send("No current poll.");
-          return;
-        }
         poll.sendPoll(message, args, server);
         break;
       case "vote":
-        if(!args[1]) {
-          message.channel.send("Please specify a numberic value.");
-          return;
-        }
         poll.vote(message, args, server);
+        break;
+      case "delpoll":
+      poll.deletePoll(message, args, server);
         break;
 
       //Music Commands
       case "play":
+        play.play(message, args, server);
+        break;
+      case "playnext":
         play.play(message, args, server);
         break;
       case "queue":
@@ -118,21 +83,17 @@ module.exports = {
           server.dispatcher.end();
         break;
       case "stop":
-        if(message.guild.voiceConnection)
-          message.guild.voiceConnection.disconnect();
+        if(message.guild.voiceConnection) message.guild.voiceConnection.disconnect();
         break;
       case "playlist":
         play.play(message, args, server);
         break;
       case "delsong":
-        if(!args[1]) {
-          message.channel.send("Please specifiy a song to delete.");
-          return;
-        }
         delSong.delsong(message, args, server);
         break;
 
       case "test":
+        console.log(message.guild.id);
         break;
       //Easter Eggs
       default:

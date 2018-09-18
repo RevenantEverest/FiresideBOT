@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import './Dashboard.css';
+import './AutoDJ.css';
 
-class Dashboard extends Component {
+class AutoDJ extends Component {
 
   constructor(props) {
     super(props);
@@ -11,15 +11,17 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
-    document.querySelector('.NavBar').style.display = "inline-block";
+
   }
 
   render() {
     return(
-      <div className="Dashboard">
+      <div className="AutoDJ">
+        <div className="AutoDJ-Contents">
+        </div>
       </div>
     );
   }
 };
 
-export default Dashboard;
+export default AutoDJ;

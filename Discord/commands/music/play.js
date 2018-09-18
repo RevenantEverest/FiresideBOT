@@ -3,14 +3,9 @@ const Discord = require('discord.js');
 const YTDL = require('ytdl-core');
 
 const services = require('../services/apiServices');
+const youtubeServices = require('../services/youtubeServices');
 
 const currentSong = require('./queue').currentSong;
-
-const search = require('youtube-search');
-const opts = {
-  maxResults: 10,
-  key: process.env.GOOGLE_KEY
-};
 
 function playSong(connection, message) {
   let currentSongEmbed = new Discord.RichEmbed();
@@ -55,9 +50,6 @@ function playSong(connection, message) {
       }
     }
   });
-  server.dispatcher.on("meme", () => {
-    message.channel.send('Fuck');
-  })
 };
 
 module.exports = {
@@ -65,52 +57,28 @@ module.exports = {
     switch (args[0]) {
       case "play":
 
-        if(!args[1]){
-          message.channel.send("Please provide a link");
-          return;
-        }
-
-        if(!message.member.voiceChannel) {
-          message.channel.send("You must be in a voice channel");
-          return;
-        }
+        if(!args[1]) return message.channel.send("Please provide a link");
+        if(!message.member.voiceChannel) return message.channel.send("You must be in a voice channel");
 
         if(args[1].startsWith('http')) {
-          server.queue.push(args[1]);
+          server.queue.links.push(args[1]);
           if(!message.guild.voiceConnection) message.member.voiceChannel.join().then((connection) => {
             playSong(connection, message);
           })
-          .catch(err => console.log("Failed at Play Song => ", err))
+          .catch(err => console.log(err));
         }else {
           let songRequest = '';
-          for(let i = 0; i < args.length; i++ ) {
-            if(args[i] !== args[0]) songRequest += (args[i] + ' ');
-          }
-          let link;
-          search(songRequest, opts, (err, results) => {
-            if(err) return console.log(err);
-
-            for(let i = 0; i < results.length; i++) {
-              if(results[i].kind == 'youtube#video') {
-                link = `${results[i].link}`;
-                YTDL.getInfo(link.toString(), (err, info) => {
-                  if(info.length_seconds > 3600) {
-                    message.channel.send('Request Exceeds 60 min.')
-                    return;
-                  }else {
-                    server.queue.titles.push(results[i].title);
-                    server.queue.links.push(results[i].link);
-                    message.channel.send(`${results[i].title} added to the queue`);
-                    if(!message.guild.voiceConnection) message.member.voiceChannel.join().then((connection) => {
-                      playSong(connection, message);
-                    })
-                    return;
-                  }
-                })
-                return;
-              }
-            }
-          })
+          for(let i = 1; i < args.length; i++ ) { songRequest += (args[i] + ' '); }
+          youtubeServices.youtubeSearch(songRequest)
+            .then(results => {
+              server.queue.titles.push(results.data.items[0].snippet.title);
+              server.queue.links.push(`https://www.youtube.com/watch?v=${results.data.items[0].id.videoId}`);
+              message.channel.send(`${results.data.items[0].snippet.title} was added to the queue.`)
+              if(!message.guild.voiceConnection) message.member.voiceChannel.join().then((connection) => {
+                playSong(connection, message);
+              })
+            })
+            .catch(err => console.log(err));
         }
         break;
       case "playlist":
@@ -138,6 +106,28 @@ module.exports = {
               .catch(err => console.log(err));
           })
           .catch(err => console.log(err));
+        break;
+      case "playnext":
+        if(args[1].startsWith('http')) {
+          server.queue.links.splice(0, 0, args[1]);
+          if(!message.guild.voiceConnection) message.member.voiceChannel.join().then((connection) => {
+            playSong(connection, message);
+          })
+          .catch(err => console.log(err));
+        }else {
+          let songRequest = '';
+          for(let i = 1; i < args.length; i++ ) { songRequest += (args[i] + ' '); }
+          youtubeServices.youtubeSearch(songRequest)
+            .then(results => {
+              server.queue.titles.splice(0, 0, results.data.items[0].snippet.title);
+              server.queue.links.splice(0, 0, `https://www.youtube.com/watch?v=${results.data.items[0].id.videoId}`);
+              message.channel.send(`${results.data.items[0].snippet.title} was added to the queue.`)
+              if(!message.guild.voiceConnection) message.member.voiceChannel.join().then((connection) => {
+                playSong(connection, message);
+              })
+            })
+            .catch(err => console.log(err));
+        }
         break;
       default:
         break;

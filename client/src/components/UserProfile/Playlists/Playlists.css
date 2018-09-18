@@ -1,10 +1,12 @@
 .Playlists {
   display: inline-block;
-  height: auto;
+  height: 99%;
   width: 88%;
   background-color: #dedede;
 }
 
 .Playlists-Contents {
   display: inline-block;
+  height: auto;
+  background-color: #dedede;
 }

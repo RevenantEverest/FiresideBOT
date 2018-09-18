@@ -54,11 +54,11 @@ Twitch_Bot.on('chat', (channel, userstate, message, self) => {
 Twitch_Bot.connect();
 
 //Discord Bot
+Discord_Bot.on("ready", () => {
+  // console.log("Hello World", Discord_Bot.guilds);
+});
+
 Discord_Bot.on("message", (message) => {
-  // let author_id = message.author.id;
-  // let author_username = message.author.username;
-  // let guild_name = message.guild.name;
-  // let guild_id = message.guild.id;
   if(message.author.equals(Discord_Bot.user)) return;
   Discord_Commands.commands(message);
 });

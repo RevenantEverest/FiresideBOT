@@ -21,7 +21,6 @@
     "opusscript": "0.0.6",
     "pg-promise": "^8.4.6",
     "tmi.js": "^1.2.1",
-    "youtube-search": "^1.1.0",
     "ytdl-core": "^0.20.2"
   }
 }
