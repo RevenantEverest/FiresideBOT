@@ -47,6 +47,12 @@ module.exports = {
           .then(pokemon => { bot.say(channel, pokemon.data.name) })
           .catch(err => console.log(err));
         break;
+      case "test":
+        // if(!userstate.badges) return bot.say(channel, 'You are not a Mod');
+        // if(userstate.badges.subscriber === '0') return bot.say(channel, 'You are not a Mod, but you are a subscriber!');
+        // if(userstate.badges.moderator === '1' || userstate.badges.broadcaster === '1') return bot.say(channel, "You are Mod");
+        console.log(userstate);
+        break;
       default:
         break;
     }

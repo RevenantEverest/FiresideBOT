@@ -9,3 +9,34 @@
   height: auto;
   background-color: #dedede;
 }
+
+.videoWrapper-Container {
+  width: 360px;
+}
+
+.videoWrapper {
+  position: relative;
+  padding-bottom: 56.25%;
+  padding-top: 25px;
+  height: 0px;
+}
+
+iframe {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%
+}
+
+.NextButton {
+  position: relative;
+  left: 120%;
+  height: 14vh;
+  width: 20%;
+  background-image: url(https://www.clker.com/cliparts/e/W/V/j/4/F/icon-next-blue-light-braun-md.png);
+  background-repeat: no-repeat;
+  background-size: 100%;
+}

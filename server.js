@@ -22,6 +22,7 @@ const usersRouter = require('./routes/userRoutes');
 const playlistsRouter = require('./routes/playlistRoutes');
 const songsRouter = require('./routes/songRoutes');
 const customCommandsRouter = require('./routes/customCommandRoutes');
+const loginRouter = require('./routes/login/loginRoutes');
 
 //Middleware
 app.use(logger('dev'));
@@ -33,6 +34,7 @@ app.use("/users", usersRouter);
 app.use("/playlists", playlistsRouter);
 app.use("/songs", songsRouter);
 app.use("/commands/custom", customCommandsRouter);
+app.use("/login", loginRouter);
 
 //Default Routes
 app.use("/", (req, res) => {
@@ -55,7 +57,6 @@ Twitch_Bot.connect();
 
 //Discord Bot
 Discord_Bot.on("ready", () => {
-  // console.log("Hello World", Discord_Bot.guilds);
 });
 
 Discord_Bot.on("message", (message) => {
