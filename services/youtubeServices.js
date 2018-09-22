@@ -1,5 +1,5 @@
 const axios = require('axios');
-const config = require('../../../config/config');
+const config = require('../config/config');
 const KEY = config.Google_Key;
 const services = {};
 

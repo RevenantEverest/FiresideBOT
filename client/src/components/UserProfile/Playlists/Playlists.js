@@ -20,6 +20,7 @@ class Playlists extends Component {
 
   componentDidMount() {
     this.getPlaylists();
+    console.log(this.state.userData);
   }
 
   getPlaylists() {

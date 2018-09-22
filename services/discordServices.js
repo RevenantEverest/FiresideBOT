@@ -13,6 +13,16 @@ services.getToken = (data) => {
       Authorization: `Basic ${creds}`,
     },
   })
-}
+};
+
+services.getUserInfo = (data) => {
+  return axios({
+    method: "GET",
+    url: 'https://discordapp.com/api/users/@me',
+    headers: {
+      Authorization: `Bearer ${data}`
+    }
+  })
+};
 
 module.exports = services;

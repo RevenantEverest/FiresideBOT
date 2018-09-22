@@ -11,11 +11,8 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-const Discord_Bot = new config.Discord.Client();
-const Discord_Commands = require('./Discord/commands/Discord_Commands');
-
-const Twitch_Bot = new config.TMI.client(config.Twitch_Bot_Options);
-const Twitch_Commands = require('./Twitch/commands/Twitch_Commands');
+const Discord_Bot = require('./Discord/Discord_Bot');
+const Twitch_Bot = require('./Twitch/Twitch_Bot');
 
 //Route Imports
 const usersRouter = require('./routes/userRoutes');
@@ -23,6 +20,7 @@ const playlistsRouter = require('./routes/playlistRoutes');
 const songsRouter = require('./routes/songRoutes');
 const customCommandsRouter = require('./routes/customCommandRoutes');
 const loginRouter = require('./routes/login/loginRoutes');
+const guildRouter = require('./routes/guildRoutes');
 
 //Middleware
 app.use(logger('dev'));
@@ -35,6 +33,7 @@ app.use("/playlists", playlistsRouter);
 app.use("/songs", songsRouter);
 app.use("/commands/custom", customCommandsRouter);
 app.use("/login", loginRouter);
+app.use("/guilds", guildRouter);
 
 //Default Routes
 app.use("/", (req, res) => {
@@ -47,23 +46,6 @@ app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
 });
 
-//Twitch Bot
-Twitch_Bot.on('chat', (channel, userstate, message, self) => {
-  if(self) return;
-  Twitch_Commands.commands(channel, userstate, message, self, Twitch_Bot);
-});
-
+//Bot Logins
 Twitch_Bot.connect();
-
-//Discord Bot
-Discord_Bot.on("ready", () => {
-});
-
-Discord_Bot.on("message", (message) => {
-  if(message.author.equals(Discord_Bot.user)) return;
-  Discord_Commands.commands(message);
-});
-
 Discord_Bot.login(config.Discord_Key);
-
-// TODO: Economy feature

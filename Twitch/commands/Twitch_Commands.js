@@ -9,6 +9,9 @@ const fortunes = require('./fortunes');
 
 //Command Imports
 const playCommands = require('./music/play');
+const mathCommands = require('./math/math');
+const rouletteCommands = require('./roulette/roulette');
+const pokemonCommands = require('./pokemon/pokemon');
 
 function RNG(num) {
   return Math.floor(Math.random() * num);
@@ -30,22 +33,20 @@ module.exports = {
         bot.say(channel, fortunes[Math.floor(Math.random() * fortunes.length)]);
         break;
       case "roulette":
-        if(RNG(6) === 4) bot.say(channel, "You died.");
-        else bot.say(channel, "You survived!")
+        rouletteCommands.roulette(channel, message, args, bot);
         break;
       case "play":
         playCommands.play(channel, message, args, bot);
         break;
       case "math":
-        if(!args[1] || !args[2]) return bot.say(channel, "Need 2 numbers for math");
-        if(RNG(3) === 1) return bot.say(channel, `${args[1]} + ${args[2]} = ${(parseInt(args[1], 10) + parseInt(args[2], 10))}`);
-        if(RNG(3) === 2) return bot.say(channel, `${args[1]} * ${args[2]} = ${(parseInt(args[1], 10) * parseInt(args[2], 10))}`);
-        if(RNG(3) === 3) return bot.say(channel, `${args[1]} / ${args[2]} = ${(parseInt(args[1], 10) / parseInt(args[2], 10))}`);
+        mathCommands.randomMath(channel, userstate, message, args, self, bot);
         break;
       case "pokemon":
-        pokemonServices.getPokemon(RNG(400))
-          .then(pokemon => { bot.say(channel, pokemon.data.name) })
-          .catch(err => console.log(err));
+        pokemonCommands.getPokemon(channel, userstate, message, args, bot);
+        break;
+      case "rng":
+        if(args[1] && parseInt(args[1], 10)) return bot.say(channel, RNG(args[1]).toString());
+        return bot.say(channel, RNG(10).toString());
         break;
       case "test":
         // if(!userstate.badges) return bot.say(channel, 'You are not a Mod');

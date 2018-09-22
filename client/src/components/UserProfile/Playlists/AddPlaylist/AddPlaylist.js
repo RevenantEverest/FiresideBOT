@@ -30,13 +30,16 @@ class AddPlaylist extends Component {
       name: this.state.name
     }
     playlistServices.addPlaylist(submitData)
-      .then(results => { this.props.getPlaylists() }).catch(err => console.log(err));
+      .then(results => {
+        this.props.getPlaylists();
+        document.querySelector("#AddPlaylistForm").reset();
+      }).catch(err => console.log(err));
   }
 
   render() {
     return(
       <div className="AddPlaylist">
-        <form onSubmit={this.handleSubmit}>
+        <form id="AddPlaylistForm" onSubmit={this.handleSubmit}>
           <input type="text" name="name" onChange={this.handleChange} />
           <input type="submit" value="Create" />
         </form>

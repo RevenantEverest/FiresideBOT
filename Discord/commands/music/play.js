@@ -3,7 +3,7 @@ const Discord = require('discord.js');
 const YTDL = require('ytdl-core');
 
 const services = require('../services/apiServices');
-const youtubeServices = require('../services/youtubeServices');
+const youtubeServices = require('../../../services/youtubeServices');
 
 const currentSong = require('./queue').currentSong;
 

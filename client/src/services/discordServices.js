@@ -11,6 +11,16 @@ services.getToken = (data) => {
   })
 };
 
+services.getUserInfo = (data) => {
+  return axios({
+    method: 'GET',
+    url: 'https://discordapp.com/api/users/@me',
+    headers: {
+      Authorization: `Bearer ${data}`
+    }
+  });
+};
+
 services.getUserGuilds = (data) => {
   return axios({
     method: 'GET',
@@ -20,5 +30,7 @@ services.getUserGuilds = (data) => {
     }
   })
 };
+
+services.getGuildInfo = (data) => {};
 
 export default services;

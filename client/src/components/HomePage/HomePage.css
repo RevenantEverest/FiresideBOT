@@ -38,3 +38,22 @@
   background-color: black;
   border: solid #dedede;
 }
+
+.Discord-Login {
+  position: relative;
+  top: -800px;
+  left: 1600px;
+  font-family: "Raleway", sans-serif;
+  font-weight: 800;
+  font-size: 24px;
+  padding: .5%;
+  background-color: #7289DA;
+  color: #dedede;
+  border: none;
+  border-radius: 12px;
+}
+
+.Discord-Login:hover {
+  background-color: #4a67cf;
+  color: #f2f2f2;
+}

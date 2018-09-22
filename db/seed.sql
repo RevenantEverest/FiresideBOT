@@ -1,11 +1,7 @@
-INSERT INTO users (username, password) VALUES(
-  'stefischer',
-  '1234'
-);
-
-INSERT INTO user_settings (user_id, prefix) VALUES(
-  1,
-  '?'
+INSERT INTO users (discord_username, discord_id, twitch_username) VALUES(
+  'RevenantEverest',
+  163346982709100546,
+  '#revenanteverest'
 );
 
 INSERT INTO default_commands (status, command, description) VALUES(

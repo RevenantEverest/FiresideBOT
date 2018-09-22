@@ -1,5 +1,5 @@
 const config = require('../.././config/config');
-let PREFIX = '?';
+let PREFIX = '';
 
 //Services Imports
 const apiServices = require('./services/apiServices');
@@ -12,14 +12,10 @@ const play = require('./music/play');
 const queue = require('./music/queue');
 const delSong = require('./music/delSong');
 const poll = require('./poll/poll');
+const pokemonCommands = require('./pokemon/pokemon');
 
 module.exports = {
-  commands(message) {
-
-    if(!message.content.startsWith(PREFIX)) return;
-
-    let args = message.content.substring(PREFIX.length).split(" ");
-
+  commands(message, args) {
     if(!config.servers[message.guild.id]) config.servers[message.guild.id] = {
       queue: {
         titles: [],
@@ -93,9 +89,15 @@ module.exports = {
         break;
 
       case "test":
-        console.log(message.guild.id);
+        console.log(message.user);
         break;
       //Easter Eggs
+      case "pokemon":
+        pokemonCommands.getPokemon(message, args, server);
+        break;
+      case "snakes":
+        pokemonCommands.getSnakes(message, args, server);
+        break;
       default:
         message.channel.send("Not a valid command");
         break;

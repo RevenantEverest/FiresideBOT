@@ -7,13 +7,19 @@ module.exports = {
   findById(id) {
     return db.one('SELECT * FROM users WHERE user_id = $1', id);
   },
+  findByDiscordUsername(username) {
+    return db.one('SELECT * FROM users WHERE discord_username = $1', username);
+  },
+  findByDiscordId(id) {
+    return db.one('SELECT * FROM users WHERE discord_id = $1', id);
+  },
+  findByTwitchUsername(username) {
+    return db.one('SELECT * FROM users WHERE twitch_username = $1', username);
+  },
+  seeIfDiscordIdExists(id) {
+    return db.one('SELECT COUNT(*) FROM users WHERE discord_id = $1', id);
+  },
   save(user) {
-    return db.one('INSERT INTO users (username, password) VALUES ($/username/, $/password/) RETURNING *', user);
-  },
-  findSettings(id) {
-    return db.one('SELECT * FROM user_settings WHERE user_id = $1', id);
-  },
-  updateSettings(settings) {
-    return db.one('UPDATE user_settings SET prefix = $/prefix/ WHERE user_id = $/user_id/ RETURNING *', settings)
+    return db.one('INSERT INTO users (discord_username, twitch_username) VALUES ($/discord_username/, $/twitch_username/) RETURNING *', user);
   }
 }

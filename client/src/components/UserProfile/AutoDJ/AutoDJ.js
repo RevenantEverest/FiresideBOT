@@ -14,11 +14,15 @@ class AutoDJ extends Component {
     super(props);
     this.state = {
       userData: this.props.userData,
-      queue: null
+      queue: null,
+      playPauseClass: 'AutoDJ-PlayPause-Play'
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleNextSong = this.handleNextSong.bind(this);
+    this.handleVolumeChange = this.handleVolumeChange.bind(this);
+    this.handlePlayerStateChange = this.handlePlayerStateChange.bind(this);
+    this._onReady = this._onReady.bind(this);
   }
 
   componentDidMount() {
@@ -44,16 +48,7 @@ class AutoDJ extends Component {
   handleSubmit(e) {
     e.preventDefault();
     songsServices.getPlaylistSongInfo(this.state.chosenPlaylist)
-      .then(songs => {
-        let tempArr = [];
-        for(let i = 0; i < songs.data.data.length; i++) {
-          tempArr.push(songs.data.data[i].link.split("?v=")[1]);
-        }
-        this.setState({
-          chosenPlaylistData: songs.data.data,
-          queue: tempArr
-        });
-      })
+      .then(songs => { this.setState({ queue: songs.data.data }) })
       .catch(err => console.log(err));
   }
 
@@ -75,23 +70,22 @@ class AutoDJ extends Component {
   }
 
   renderSongs() {
-    let counter = 0;
-    let Songs = this.state.chosenPlaylistData.map((el, idx) => {
-      counter++;
+    let counter = -1;
+    let Songs = this.state.queue.map((el, idx) => {
       return(
         <tr key={idx}>
-          <td>{counter}</td>
           <td>{el.title}</td>
           <td>{el.link}</td>
         </tr>
       );
     });
 
+    Songs.splice(0, 1);
+
     return(
       <table>
         <tbody>
           <tr>
-            <th>#</th>
             <th>Title</th>
             <th>Link</th>
           </tr>
@@ -108,10 +102,26 @@ class AutoDJ extends Component {
     let queue = this.state.queue;
     queue.push(queue[0]);
     queue.shift();
-    this.setState({ queue: queue }, () => this.renderIframe())
+    this.setState({ queue: queue }, () => this.renderIframe());
+  }
+
+  handleVolumeChange() {
+
+  }
+
+  handlePlayerStateChange(event) {
+    // if(this.state.playPauseClass === 'AutoDJ-PlayPause-Play') {
+    //   this.setState({ playPauseClass: 'AutoDJ-PlayPause-Pause'});
+    //   console.log(this.state.pauseVideo);
+    // }
+    // else if(this.state.playPauseClass === 'AutoDJ-PlayPause-Pause') {
+    //   this.setState({ playPauseClass: 'AutoDJ-PlayPause-Play'});
+    //   this.state.playVideo();
+    // }
   }
 
   renderIframe() {
+    console.log("Hello");
     let opts = {
       playerVars: {
         autoplay: 1,
@@ -121,28 +131,47 @@ class AutoDJ extends Component {
       }
     }
 
+    let minutes = Math.floor(this.state.queue[0].duration / 60);
+    let seconds = Math.floor(this.state.queue[0].duration - minutes * 60);
+    if(seconds.toString().split("").length === 1) seconds = "0" + seconds;
+
     return(
-      <div className="videoWrapper">
+      <div className="placeholder">
         <div className="NextButton" onClick={this.handleNextSong} />
-        <YouTube
-          videoId={this.state.queue[0]}
-          opts={opts}
-          onReady={this._onReady}
-          onEnd={this.handleNextSong}
-        />
+        <div className={`${this.state.playPauseClass}`} onClick={this.handlePlayerStateChange}/>
+        <h1> Current Song </h1>
+        <div className="videoWrapper">
+          <YouTube
+            id="ytp"
+            videoId={this.state.queue[0].link.split("?v=")[1]}
+            opts={opts}
+            onReady={this._onReady}
+            onEnd={this.handleNextSong}
+            onStateChange={this.handlePlayerStateChange}
+          />
+          <input type="range" max="100" value="14" onChange={this.handleVolumeChange}/>
+        </div>
+        <h4>{this.state.queue[0].title}</h4>
+        <p>Duration: {minutes}:{seconds}</p>
+        <div className="AutoDJ-Link-Icon"/>
+        <p className="Auto-DJ-CurrentSong-Link"><a href={this.state.queue[0].link}>Click Here</a></p>
       </div>
     );
+  }
+
+  test(e) {
+    console.log(e.target);
   }
 
   render() {
     return(
       <div className="AutoDJ">
         <div className="AutoDJ-Contents">
-          {!this.state.chosenPlaylistData && this.state.dataReceived ? this.chosenPlaylistForm() : ''}
+          {!this.state.queue && this.state.dataReceived ? this.chosenPlaylistForm() : ''}
           <div className="videoWrapper-Container">
-            {this.state.chosenPlaylistData ? this.renderIframe() : ''}
+            {this.state.queue ? this.renderIframe() : ''}
           </div>
-          {this.state.chosenPlaylistData ? this.renderSongs() : ''}
+          {this.state.queue ? this.renderSongs() : ''}
         </div>
       </div>
     );

@@ -1,4 +1,5 @@
 const songsDB = require('../models/songsDB');
+const youtubeServices = require('../services/youtubeServices');
 const YTDL = require('ytdl-core');
 
 module.exports = {
@@ -34,18 +35,39 @@ module.exports = {
       .catch(err => next(err));
   },
   addSong(req, res, next) {
-    let songData = {playlist_id: req.body.playlist_id, link: req.body.link, title: ''};
-    YTDL.getInfo(songData.link, (err, info) => {
-      songData.title = info.title;
-      songsDB.save(songData)
-        .then(results => {
-          res.json({
-            message: "Adding Song",
-            data: results
+    let songData = {playlist_id: req.body.playlist_id, link: req.body.link, title: '', duration: ''};
+    if(req.body.link.startsWith("http")) {
+      YTDL.getInfo(songData.link, (err, info) => {
+        songData.title = info.title;
+        songData.duration = info.length_seconds;
+        songsDB.save(songData)
+          .then(results => {
+            res.json({
+              message: "Adding Song",
+              data: results
+            })
           })
+          .catch(err => next(err));
+      })
+    }else {
+      youtubeServices.youtubeSearch(req.body.link)
+        .then(results => {
+          songData.link = `https://www.youtube.com/watch?v=${results.data.items[0].id.videoId}`;
+          songData.title = results.data.items[0].snippet.title;
+          YTDL.getInfo(songData.link, (err, info) => {
+            songData.duration = info.length_seconds;
+            songsDB.save(songData)
+              .then(results => {
+                res.json({
+                  message: "Adding Song",
+                  data: results
+                })
+              })
+              .catch(err => next(err));
+          });
         })
         .catch(err => next(err));
-    })
+    }
   },
   delete(req, res, next) {
     songsDB.destroy(req.params.id)

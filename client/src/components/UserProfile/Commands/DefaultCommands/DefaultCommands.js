@@ -26,19 +26,19 @@ class DefaultCommands extends Component {
   }
 
   renderCommands() {
-    let counter = 0;
-    let DefaultCommands = this.state.commandData.map((el, idx) => {
-      counter++;
-      return(
-        <tr>
-          <td>{counter}</td>
-          <td>{el.command_name}</td>
-          <td>{el.command_description}</td>
-          <td>{el.commands_output}</td>
-          <td><button>&times;</button></td>
-        </tr>
-      );
-    });
+    // let counter = 0;
+    // let DefaultCommands = this.state.commandData.map((el, idx) => {
+    //   counter++;
+    //   return(
+    //     <tr>
+    //       <td>{counter}</td>
+    //       <td>{el.command_name}</td>
+    //       <td>{el.command_description}</td>
+    //       <td>{el.commands_output}</td>
+    //       <td><button>&times;</button></td>
+    //     </tr>
+    //   );
+    // });
 
     return(
       <table className="DefaultCommands-Table">

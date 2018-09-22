@@ -7,6 +7,12 @@ module.exports = {
   findByUserId(id) {
     return db.many('SELECT * FROM custom_commands WHERE user_id = $1', id);
   },
+  findCommand(command) {
+    return db.one('SELECT COUNT($/input/) FROM custom_commands WHERE guild_id = $/guild_id/', command);
+  },
+  getCommandByInput(command) {
+    return db.one('SELECT * FROM custom_commands WHERE input = $/input/ AND guild_id = $/guild_id/', command)
+  },
   saveCommand(command) {
     return db.one(`INSERT INTO custom_commands (user_id, command, output)
     VALUES($/user_id/, $/command/, $/output/)

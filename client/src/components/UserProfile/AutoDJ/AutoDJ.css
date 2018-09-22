@@ -8,10 +8,11 @@
 .AutoDJ-Contents {
   height: auto;
   background-color: #dedede;
+  font-family: "Raleway", sans-serif;
 }
 
 .videoWrapper-Container {
-  width: 360px;
+  width: 420px;
 }
 
 .videoWrapper {
@@ -36,7 +37,41 @@ iframe {
   left: 120%;
   height: 14vh;
   width: 20%;
-  background-image: url(https://www.clker.com/cliparts/e/W/V/j/4/F/icon-next-blue-light-braun-md.png);
+  background-image: url(../../../res/images/NextIcon2.png);
   background-repeat: no-repeat;
   background-size: 100%;
+}
+
+.AutoDJ-PlayPause-Play {
+  position: relative;
+  left: 110%;
+  height: 14vh;
+  width: 20%;
+  background-image: url(../../../res/images/PlayIcon.png);
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+
+.AutoDJ-PlayPause-Pause {
+  position: relative;
+  left: 110%;
+  height: 14vh;
+  width: 20%;
+  background-image: url(../../../res/images/PauseIcon.png);
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+
+.AutoDJ-Link-Icon {
+  display: inline-block;
+  height: 4vh;
+  width: 8%;
+  background-image: url(../../../res/images/LinkIcon.png);
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+
+.AutoDJ-CurrentSong-Link {
+  text-decoration: underline;
+  color: cyan;
 }
