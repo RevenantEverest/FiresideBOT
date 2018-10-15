@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './AddPlaylist.css';
 
 //Services Imports
-import userPlaylistServices from '../../../services/userPlaylistServices';
+import userPlaylistServices from '../../../services/UserServices/userPlaylistServices';
 
 class AddPlaylist extends Component {
 

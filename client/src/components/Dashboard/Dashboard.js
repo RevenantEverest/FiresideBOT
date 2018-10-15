@@ -4,7 +4,7 @@ import './Dashboard.css';
 
 //Services Imports
 import discordServices from '../../services/discordServices';
-import guildServices from '../../services/guildServices';
+import guildServices from '../../services/GuildServices/guildServices';
 
 class Dashboard extends Component {
 
@@ -96,9 +96,7 @@ class Dashboard extends Component {
       <div className="Dashboard">
         <div className="Dashboard-Contents">
           {this.state.dataReceived ? this.renderGuilds() : <div className="loading" id="Dashboard" />}
-          {this.state.manageGuildRedirect ? <Redirect to={`/user/dashboard/server/${this.state.manageGuildId}`}/> : ''}
-          {/* {this._isMounted ? this.getUserGuilds() : ''} */}
-          {/* {console.log(this._isMounted)} */}
+          {this.state.manageGuildRedirect ? <Redirect to={`/dashboard/server/${this.state.manageGuildId}`}/> : ''}
         </div>
       </div>
     );

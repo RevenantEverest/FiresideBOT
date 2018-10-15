@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './ManageServer.css';
 
 //Services Imports
-import guildServices from '../../services/guildServices';
+import guildServices from '../../services/GuildServices/guildServices';
 
 //Component Imports
 import EditPrefix from './EditPrefix/EditPrefix';

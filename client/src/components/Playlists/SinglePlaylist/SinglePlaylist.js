@@ -6,7 +6,7 @@ import './SinglePlaylist.css';
 import AddSong from './AddSong/AddSong';
 
 //Services Imports
-import userSongsServices from '../../../services/userSongsServices';
+import userSongsServices from '../../../services/UserServices/userSongsServices';
 
 class SinglePlaylist extends Component {
 

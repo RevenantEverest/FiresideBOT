@@ -3,7 +3,7 @@ import { Redirect, Link } from 'react-router-dom';
 import './Playlists.css';
 
 //Services Imports
-import userPlaylistServices from '../../services/userPlaylistServices';
+import userPlaylistServices from '../../services/UserServices/userPlaylistServices';
 
 //Component Imports
 import AddPlaylist from './AddPlaylist/AddPlaylist';

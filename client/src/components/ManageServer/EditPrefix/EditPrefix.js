@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './EditPrefix.css';
 
 //Services Imports
-import guildServices from '../../../services/guildServices';
+import guildServices from '../../../services/GuildServices/guildServices';
 
 class EditPrefix extends Component {
 

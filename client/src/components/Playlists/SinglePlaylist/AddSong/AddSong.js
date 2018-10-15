@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './AddSong.css';
 
 //Services Imports
-import userSongsServices from '../../../../services/userSongsServices';
+import userSongsServices from '../../../../services/UserServices/userSongsServices';
 
 class AddSong extends Component {
 

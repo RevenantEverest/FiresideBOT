@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import './AutoDJ.css';
 
 //Services Imports
-import userPlaylistServices from '../../services/userPlaylistServices';
-import userSongsServices from '../../services/userSongsServices';
+import userPlaylistServices from '../../services/UserServices/userPlaylistServices';
+import userSongsServices from '../../services/UserServices/userSongsServices';
 import queueServices from '../../services/queueServices';
 
 //Component Imports
