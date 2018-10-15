@@ -3,7 +3,7 @@ const YTDL = require('ytdl-core');
 const youtubeServices = require('../services/youtubeServices');
 const queueDB = require('../../../models/queueDB');
 const autodjDB = require('../../../models/autodjDB');
-const usersDB = require('../../../models/usersDB');
+const usersDB = require('../../../models/UserModels/usersDB');
 
 function getSongInfo(link) {
   let request = {};
@@ -66,7 +66,6 @@ module.exports = {
     }
   },
   discordQueue(server, channel, message, args, bot) {
-    // console.log();
     if(!server || !Object.keys(server))
       return bot.say(channel, "No current Discord Queue");
     if(args[1].startsWith('http')) {

@@ -1,6 +1,6 @@
 const express = require('express');
 const guildRouter = express.Router();
-const guildsController = require('../controllers/guildsController');
+const guildsController = require('../../controllers/GuildControllers/guildsController');
 
 guildRouter.route('/')
 .get(guildsController.index)

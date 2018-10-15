@@ -1,4 +1,4 @@
-const usersDB = require('../models/usersDB');
+const usersDB = require('../../models/UserModels/usersDB');
 
 module.exports = {
   index(req, res, next) {
@@ -9,7 +9,7 @@ module.exports = {
           data: users
         })
       })
-      .catch(err => { console.log("Failed at Users Index"); next(); });
+      .catch(err => { console.log("Failed at Users Index"); next(err); });
   },
   getOne(req, res, next) {
     usersDB.findById(req.params.id)
@@ -19,7 +19,7 @@ module.exports = {
           data: user
         })
       })
-      .catch(err => { console.log("Failed at Users Get One"); next(); });
+      .catch(err => { console.log("Failed at Users Get One"); next(err); });
   },
   //Get By Discord Username
   getByDiscordUsername(req, res, next) {
@@ -30,7 +30,7 @@ module.exports = {
           data: user
         })
       })
-      .catch(err => { console.log("Failed at Users Get By Discord Username"); next(); });
+      .catch(err => { console.log("Failed at Users Get By Discord Username"); next(err); });
   },
   //Get By Discord ID
   getByDiscordId(req, res, next) {
@@ -41,7 +41,7 @@ module.exports = {
           data: user
         })
       })
-      .catch(err => { console.log("Failed at Users Get By Discord Id"); next(); });
+      .catch(err => { console.log("Failed at Users Get By Discord Id"); next(err); });
   },
   //Get By Twitch Username
   getByTwitchUsername(req, res, next) {
@@ -52,7 +52,7 @@ module.exports = {
           data: user
         })
       })
-      .catch(err => { console.log("Failed at Users Get By Twitch Username"); next(); });
+      .catch(err => { console.log("Failed at Users Get By Twitch Username"); next(err); });
   },
   create(req, res, next) {
     usersDB.save(req.body)
@@ -62,6 +62,6 @@ module.exports = {
           data: user
         })
       })
-      .catch(err => { console.log("Failed at Users Create"); next(); });
+      .catch(err => { console.log("Failed at Users Create"); next(err); });
   }
 };

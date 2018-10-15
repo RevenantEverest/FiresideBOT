@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './AddSong.css';
 
 //Services Imports
-import songsServices from '../../../../services/songsServices';
+import userSongsServices from '../../../../services/userSongsServices';
 
 class AddSong extends Component {
 
@@ -29,7 +29,7 @@ class AddSong extends Component {
       playlist_id: this.props.playlistData.playlist_id,
       link: this.state.link
     }
-    songsServices.addSong(songData)
+    userSongsServices.addSong(songData)
       .then(results => {
         this.props.getSongs();
         document.querySelector("#AddSongForm").reset();

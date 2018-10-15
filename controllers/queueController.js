@@ -6,14 +6,14 @@ module.exports = {
       .then(results => {
         res.json({ message: "Getting all queued songs", data: results });
       })
-      .catch(err => { console.log("Failed at Queue Index"); next(); });
+      .catch(err => { console.log("Failed at Queue Index"); next(err); });
   },
   getOne(req, res, next) {
     queueDB.findById(req.params.id)
       .then(queue => {
         res.json({ message: "Getting queued song", data: queue });
       })
-      .catch(err => { console.log("Failed at Queue Get One"); next(); });
+      .catch(err => { console.log("Failed at Queue Get One"); next(err); });
   },
   getByChannel(req, res, next) {
     queueDB.checkForChannelQueue(req.params.channel)
@@ -30,20 +30,20 @@ module.exports = {
           })
         }
       })
-      .catch(err => { console.log("Failed at Queue Get By Channel"); next(); });
+      .catch(err => { console.log("Failed at Queue Get By Channel"); next(err); });
   },
   create(req, res, next) {
     queueDB.save(req.body)
       .then(queue => {
         res.json({ message: "Adding to queue", data: queue });
       })
-      .catch(err => { console.log("Failed at Queue Create"); next(); });
+      .catch(err => { console.log("Failed at Queue Create"); next(err); });
   },
   delete(req, res, next) {
     queueDB.destroy(req.params.id)
       .then(queue => {
 
       })
-      .catch(err => { console.log("Failed at Queue Delete"); next(); });
+      .catch(err => { console.log("Failed at Queue Delete"); next(err); });
   }
 }

@@ -6,7 +6,7 @@ import './SinglePlaylist.css';
 import AddSong from './AddSong/AddSong';
 
 //Services Imports
-import songsServices from '../../../services/songsServices';
+import userSongsServices from '../../../services/userSongsServices';
 
 class SinglePlaylist extends Component {
 
@@ -24,7 +24,7 @@ class SinglePlaylist extends Component {
   }
 
   getSongs() {
-    songsServices.getPlaylistSongInfo(this.state.playlistData.playlist_id)
+    userSongsServices.getPlaylistSongInfo(this.state.playlistData.playlist_id)
       .then(songs => {
         this.setState({ songData: songs.data.data, songDataRecieved: true });
       })
@@ -32,7 +32,7 @@ class SinglePlaylist extends Component {
   }
 
   deleteSong(el) {
-    songsServices.deleteSong(el.song_id)
+    userSongsServices.deleteSong(el.song_id)
       .then(results => { this.getSongs(); }).catch(err => console.log(err));
   }
 

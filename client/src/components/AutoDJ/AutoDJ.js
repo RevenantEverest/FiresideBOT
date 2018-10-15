@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import './AutoDJ.css';
 
 //Services Imports
-import playlistServices from '../../services/playlistServices';
-import songsServices from '../../services/songsServices';
+import userPlaylistServices from '../../services/userPlaylistServices';
+import userSongsServices from '../../services/userSongsServices';
 import queueServices from '../../services/queueServices';
 
 //Component Imports
@@ -29,7 +29,7 @@ class AutoDJ extends Component {
   }
 
   getPlaylists() {
-    playlistServices.getUserPlaylists(this.state.userData.user_id)
+    userPlaylistServices.getUserPlaylists(this.state.userData.user_id)
       .then(playlists => {
         this.setState({ playlistData: playlists.data.data, chosenPlaylist: playlists.data.data[0].playlist_id, dataReceived: true });
       })
@@ -46,7 +46,7 @@ class AutoDJ extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    songsServices.getPlaylistSongInfo(this.state.chosenPlaylist)
+    userSongsServices.getPlaylistSongInfo(this.state.chosenPlaylist)
       .then(songs => {
         queueServices.getChannelQueue(this.state.userData.twitch_username.split("#")[1])
           .then(queue => {

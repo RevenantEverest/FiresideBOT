@@ -86,9 +86,9 @@ module.exports = {
           message.channel.send("No playlist name provided.");
           return;
         }
-        services.getPlaylist(args[1])
+        services.getUserPlaylist(args[1])
           .then(playlist => {
-            services.getSongs(playlist.data.data.playlist_id)
+            services.getUserSongs(playlist.data.data.playlist_id)
               .then(songs => {
                 for(let i = 0; i < songs.data.data.length; i++) {
                   server.queue.titles.push(songs.data.data[i].title);
@@ -96,8 +96,8 @@ module.exports = {
                 }
                 message.channel.send(`Adding playlist ${playlist.data.data.name} to the queue.`);
                 if(!message.guild.voiceConnection) message.member.voiceChannel.join().then((connection) => {
-                      playSong(connection, message);
-                    })
+                  playSong(connection, message);
+                })
               })
               .catch(err => console.log(err));
           })

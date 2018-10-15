@@ -22,6 +22,6 @@ module.exports = {
           }, 2000)
         })
       })
-      .catch(err => { console.log("Failed at Links"); next(); });
+      .catch(err => { console.log("Failed at Links"); next(err); });
   }
 }

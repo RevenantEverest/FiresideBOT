@@ -1,8 +1,8 @@
 const express = require('express');
 const loginRouter = express.Router();
-const discordServices = require('../../services/discordServices');
-const usersDB = require('../../models/usersDB');
-const autodjDB = require('../../models/autodjDB');
+const discordServices = require('../services/discordServices');
+const usersDB = require('../models/UserModels/usersDB');
+const autodjDB = require('../models/autodjDB');
 
 loginRouter.route('/discord/token')
   .post((req, res, next) => {

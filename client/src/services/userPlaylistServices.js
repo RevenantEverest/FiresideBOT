@@ -6,13 +6,13 @@ services.getPlaylists = (data) => {
 };
 
 services.getUserPlaylists = (data) => {
-  return axios.get(`/playlists/user/${data}`);
+  return axios.get(`/user/playlists/user/${data}`);
 };
 
 services.addPlaylist = (data) => {
   return axios({
     method: 'POST',
-    url: '/playlists',
+    url: '/user/playlists',
     data: {
       user_id: data.user_id,
       name: data.name
@@ -23,7 +23,7 @@ services.addPlaylist = (data) => {
 services.deletePlaylist = (data) => {
   return axios({
     method: 'DELETE',
-    url: `/playlists/delete/${data}`
+    url: `/user/playlists/delete/${data}`
   });
 }
 

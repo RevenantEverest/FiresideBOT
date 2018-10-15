@@ -1,58 +1,58 @@
-const playlistsDB = require('../models/playlistsDB');
+const userPlaylistsDB = require('../../models/UserModels/userPlaylistsDB');
 
 module.exports = {
   index(req, res, next) {
-    playlistsDB.findAll()
+    userPlaylistsDB.findAll()
       .then(playlists => {
         res.json({
           message: "Getting Playlists",
           data: playlists
         })
       })
-      .catch(err => { console.log("Failed at Playlist Index"); next(); });
+      .catch(err => { console.log("Failed at Playlist Index"); next(err); });
   },
   getOne(req, res, next) {
-    playlistsDB.findOne(req.params.id)
+    userPlaylistsDB.findOne(req.params.id)
       .then(playlist => {
         res.json({
           message: "Getting playlist by user id",
           data: playlist
         })
       })
-      .catch(err => { console.log("Failed at Playlist Get One"); next(); });
+      .catch(err => { console.log("Failed at Playlist Get One"); next(err); });
   },
   getByUserId(req, res, next) {
-    playlistsDB.findByUserId(req.params.id)
+    userPlaylistsDB.findByUserId(req.params.id)
       .then(playlists => {
         res.json({
           message: "Getting playlist by user id",
           data: playlists
         })
       })
-      .catch(err => { console.log("Failed at Playlist Get By User Id"); next(); });
+      .catch(err => { console.log("Failed at Playlist Get By User Id"); next(err); });
   },
   getByPlaylistName(req, res, next) {
-    playlistsDB.findByPlaylistName(req.params.playlist_name)
+    userPlaylistsDB.findByPlaylistName(req.params.playlist_name)
       .then(playlist => {
         res.json({
           message: "Getting Playlist By Name",
           data: playlist
         })
       })
-      .catch(err => { console.log("Failed at Playlist Get By Playlist Name"); next(); });
+      .catch(err => { console.log("Failed at Playlist Get By Playlist Name"); next(err); });
   },
   create(req, res, next) {
-    playlistsDB.save(req.body)
+    userPlaylistsDB.save(req.body)
       .then(playlist => {
         res.json({
           message: "Saving Playlist",
           data: playlist
         })
       })
-      .catch(err => { console.log("Failed at Playlist Create"); next(); });
+      .catch(err => { console.log("Failed at Playlist Create"); next(err); });
   },
   destroy(req, res, next) {
-    playlistsDB.delete(req.params.id)
-      .then().catch(err => { console.log("Failed at Playlist Destroy"); next(); });
+    userPlaylistsDB.delete(req.params.id)
+      .then().catch(err => { console.log("Failed at Playlist Destroy"); next(err); });
   }
 };

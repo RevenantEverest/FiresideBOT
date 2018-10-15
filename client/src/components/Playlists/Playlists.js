@@ -3,7 +3,7 @@ import { Redirect, Link } from 'react-router-dom';
 import './Playlists.css';
 
 //Services Imports
-import playlistServices from '../../services/playlistServices';
+import userPlaylistServices from '../../services/userPlaylistServices';
 
 //Component Imports
 import AddPlaylist from './AddPlaylist/AddPlaylist';
@@ -24,7 +24,7 @@ class Playlists extends Component {
   }
 
   getPlaylists() {
-    playlistServices.getUserPlaylists(this.props.userData.user_id)
+    userPlaylistServices.getUserPlaylists(this.props.userData.user_id)
       .then(playlists => {
         if(playlists.data.data.length >= 1) {
           this.setState({ playlistData: playlists.data.data, dataRecieved: true });
@@ -34,7 +34,7 @@ class Playlists extends Component {
   }
 
   deletePlaylist(el) {
-    playlistServices.deletePlaylist(el.playlist_id)
+    userPlaylistServices.deletePlaylist(el.playlist_id)
       .then(this.getPlaylists()).catch(err => console.log(err));
   }
 
