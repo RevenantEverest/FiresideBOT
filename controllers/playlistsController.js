@@ -9,7 +9,7 @@ module.exports = {
           data: playlists
         })
       })
-      .catch(err => next(err));
+      .catch(err => { console.log("Failed at Playlist Index"); next(); });
   },
   getOne(req, res, next) {
     playlistsDB.findOne(req.params.id)
@@ -19,7 +19,7 @@ module.exports = {
           data: playlist
         })
       })
-      .catch(err => next(err));
+      .catch(err => { console.log("Failed at Playlist Get One"); next(); });
   },
   getByUserId(req, res, next) {
     playlistsDB.findByUserId(req.params.id)
@@ -29,7 +29,7 @@ module.exports = {
           data: playlists
         })
       })
-      .catch(err => next(err));
+      .catch(err => { console.log("Failed at Playlist Get By User Id"); next(); });
   },
   getByPlaylistName(req, res, next) {
     playlistsDB.findByPlaylistName(req.params.playlist_name)
@@ -39,7 +39,7 @@ module.exports = {
           data: playlist
         })
       })
-      .catch(err => next(err));
+      .catch(err => { console.log("Failed at Playlist Get By Playlist Name"); next(); });
   },
   create(req, res, next) {
     playlistsDB.save(req.body)
@@ -49,10 +49,10 @@ module.exports = {
           data: playlist
         })
       })
-      .catch(err => next(err));
+      .catch(err => { console.log("Failed at Playlist Create"); next(); });
   },
   destroy(req, res, next) {
     playlistsDB.delete(req.params.id)
-      .then().catch(err => next(err));
+      .then().catch(err => { console.log("Failed at Playlist Destroy"); next(); });
   }
 };

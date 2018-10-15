@@ -9,7 +9,7 @@ module.exports = {
           data: users
         })
       })
-      .catch(err => next(err));
+      .catch(err => { console.log("Failed at Users Index"); next(); });
   },
   getOne(req, res, next) {
     usersDB.findById(req.params.id)
@@ -19,7 +19,7 @@ module.exports = {
           data: user
         })
       })
-      .catch(err => next(err));
+      .catch(err => { console.log("Failed at Users Get One"); next(); });
   },
   //Get By Discord Username
   getByDiscordUsername(req, res, next) {
@@ -30,7 +30,7 @@ module.exports = {
           data: user
         })
       })
-      .catch(err => next(err));
+      .catch(err => { console.log("Failed at Users Get By Discord Username"); next(); });
   },
   //Get By Discord ID
   getByDiscordId(req, res, next) {
@@ -41,7 +41,7 @@ module.exports = {
           data: user
         })
       })
-      .catch(err => next(err));
+      .catch(err => { console.log("Failed at Users Get By Discord Id"); next(); });
   },
   //Get By Twitch Username
   getByTwitchUsername(req, res, next) {
@@ -52,7 +52,7 @@ module.exports = {
           data: user
         })
       })
-      .catch(err => next(err));
+      .catch(err => { console.log("Failed at Users Get By Twitch Username"); next(); });
   },
   create(req, res, next) {
     usersDB.save(req.body)
@@ -62,26 +62,6 @@ module.exports = {
           data: user
         })
       })
-      .catch(err => next(err));
+      .catch(err => { console.log("Failed at Users Create"); next(); });
   }
-  // getUserSettings(req, res, next) {
-  //   usersDB.findSettings(req.params.id)
-  //     .then(settings => {
-  //       res.json({
-  //         message: "Getting user settings",
-  //         data: settings
-  //       })
-  //     })
-  //     .catch(err => next(err));
-  // },
-  // updateUserSettings(req, res, next) {
-  //   usersDB.updateSettings(req.body)
-  //     .then(settings => {
-  //       res.json({
-  //         message: "Updating User Settings",
-  //         data: settings
-  //       })
-  //     })
-  //     .catch(err => next(err));
-  // }
 };

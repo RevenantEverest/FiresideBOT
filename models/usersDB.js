@@ -20,6 +20,6 @@ module.exports = {
     return db.one('SELECT COUNT(*) FROM users WHERE discord_id = $1', id);
   },
   save(user) {
-    return db.one('INSERT INTO users (discord_username, twitch_username) VALUES ($/discord_username/, $/twitch_username/) RETURNING *', user);
+    return db.one('INSERT INTO users (discord_username, discord_id, twitch_username) VALUES ($/discord_username/, $/discord_id/, $/twitch_username/) RETURNING *', user);
   }
 }

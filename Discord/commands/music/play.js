@@ -12,9 +12,10 @@ function playSong(connection, message) {
   let server = config.servers[message.guild.id];
   let embedLink = server.queue.links[0];
 
-  server.dispatcher = connection.playStream(YTDL(server.queue.links[0], {filter: 'audioonly'}));
+  server.dispatcher = connection.playStream(YTDL(server.queue.links[0], {filter: 'audioonly', quality: 'highestaudio'}));
 
   YTDL.getInfo(embedLink.toString(), (err, info) => {
+    if(err) return message.channel.send("YTDL Get Info error.");
     if(info.title === undefined) {
       message.channel.send(`Can't read title of undefined`)
     }else {
@@ -38,16 +39,11 @@ function playSong(connection, message) {
     if(server.queue.links[0] && message.guild.voiceConnection)
       playSong(connection, message);
     else {
+      server.queue.links = [];
+      server.queue.titles = [];
+      currentSong[0] = '';
       connection.disconnect();
       message.channel.send('Queue concluded.');
-
-      if(server.queue.links[0]) {
-        for(let i = 0; i < server.queue.links.length; i++) {
-          server.queue.titles.shift();
-          server.queue.links.shift();
-          currentSong[0] = '';
-        }
-      }
     }
   });
 };

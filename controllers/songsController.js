@@ -11,7 +11,7 @@ module.exports = {
           data: songs
         })
       })
-      .catch(err =>  next(err));
+      .catch(err =>  { console.log("Failed at Songs Index"); next(); });
   },
   getByPlaylistId(req, res, next) {
     songsDB.findByPlaylistId(req.params.id)
@@ -22,7 +22,7 @@ module.exports = {
           data: songs
         })
       })
-      .catch(err => next(err));
+      .catch(err => { console.log("Failed at Songs Get By Playlist Id"); next(); });
   },
   getOne(req, res, next) {
     songsDB.findOne(req.params.id)
@@ -32,7 +32,7 @@ module.exports = {
           data: song
         })
       })
-      .catch(err => next(err));
+      .catch(err => { console.log("Failed at Songs Get One"); next(); });
   },
   addSong(req, res, next) {
     let songData = {playlist_id: req.body.playlist_id, link: req.body.link, title: '', duration: ''};
@@ -47,7 +47,6 @@ module.exports = {
               data: results
             })
           })
-          .catch(err => next(err));
       })
     }else {
       youtubeServices.youtubeSearch(req.body.link)
@@ -63,10 +62,9 @@ module.exports = {
                   data: results
                 })
               })
-              .catch(err => next(err));
           });
         })
-        .catch(err => next(err));
+        .catch(err => { console.log("Failed at Songs Add Song"); next(); });
     }
   },
   delete(req, res, next) {
@@ -76,6 +74,6 @@ module.exports = {
           message: "Song Deleted"
         })
       })
-      .catch(err => next(err));
+      .catch(err => { console.log("Failed at Songs Delete"); next(); });
   }
 };

@@ -3,11 +3,11 @@ const usersController = require('../controllers/usersController');
 const usersRouter = express.Router();
 
 usersRouter.route('/')
-  .get(usersController.index)
-  .post(usersController.create)
+.get(usersController.index)
+.post(usersController.create)
 
 usersRouter.route('/info/:id')
-  .get(usersController.getOne)
+.get(usersController.getOne)
 
 // usersRouter.route('/settings/:id')
 //   .get(usersController.getUserSettings)

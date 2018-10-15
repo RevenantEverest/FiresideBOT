@@ -21,6 +21,8 @@ const songsRouter = require('./routes/songRoutes');
 const customCommandsRouter = require('./routes/customCommandRoutes');
 const loginRouter = require('./routes/login/loginRoutes');
 const guildRouter = require('./routes/guildRoutes');
+const queueRouter = require('./routes/queueRoutes');
+const autodjRouter = require('./routes/autodjRoutes');
 
 //Middleware
 app.use(logger('dev'));
@@ -34,12 +36,14 @@ app.use("/songs", songsRouter);
 app.use("/commands/custom", customCommandsRouter);
 app.use("/login", loginRouter);
 app.use("/guilds", guildRouter);
+app.use("/queue", queueRouter);
+app.use("/autodj", autodjRouter);
 
 //Default Routes
 app.use("/", (req, res) => {
   res.json({
     message: "Fireside API"
-  })
+  });
 });
 
 app.listen(PORT, () => {

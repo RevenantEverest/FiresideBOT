@@ -3,6 +3,7 @@ const PREFIX = '?';
 
 //Services Imports
 const pokemonServices = require('./services/pokemonServices');
+const queueDB = require('../.././models/queueDB');
 
 //Component Imports
 const fortunes = require('./fortunes');
@@ -49,10 +50,17 @@ module.exports = {
         return bot.say(channel, RNG(10).toString());
         break;
       case "test":
+        // console.log(userstate);
         // if(!userstate.badges) return bot.say(channel, 'You are not a Mod');
         // if(userstate.badges.subscriber === '0') return bot.say(channel, 'You are not a Mod, but you are a subscriber!');
         // if(userstate.badges.moderator === '1' || userstate.badges.broadcaster === '1') return bot.say(channel, "You are Mod");
-        console.log(userstate);
+        // console.log(userstate);
+        // console.log(channel);
+        queueDB.findByChannel(channel)
+        .then(results => {
+          console.log(results);
+        })
+        .catch(err => console.log(err));
         break;
       default:
         break;

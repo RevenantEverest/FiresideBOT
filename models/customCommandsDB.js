@@ -22,7 +22,7 @@ module.exports = {
     return db.one(`UPDATE custom_commands
     SET
     command = $/command/,
-    output = $//,
+    output = $/output/,
     WHERE command_id = $/command_id/
     RETURNING *`, command);
   },

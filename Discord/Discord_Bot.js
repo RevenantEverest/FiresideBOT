@@ -36,7 +36,7 @@ Discord_Bot.on("guildDelete", (guild) => {
 // Called Message Is Sent In Guild
 Discord_Bot.on("message", (message) => {
   if(message.author.equals(Discord_Bot.user)) return;
-  console.log(message.author.id);
+  // console.log(message.author.id);
   guildsDB.findPrefix(message.guild.id)
     .then(prefix => {
       PREFIX = prefix.prefix;

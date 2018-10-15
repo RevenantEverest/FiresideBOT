@@ -62,7 +62,7 @@ class HomePage extends Component {
         <div className="Logo" />
         <h1 className="Text-Logo">Fireside BOT</h1>
         <button className="Discord-Login" onClick={(e) => this.handleDiscordLogin()}>Login With Discord</button>
-        {this.state.dataRecieved ? <Redirect to="/user/dashboard" /> : ''}
+        {this.state.dataRecieved ? <Redirect to="/dashboard" /> : ''}
       </div>
     );
   }

@@ -10,9 +10,12 @@ const fortunes = require('./fortunes');
 //Command Imports
 const play = require('./music/play');
 const queue = require('./music/queue');
+const promote = require('./music/promote');
 const delSong = require('./music/delSong');
+const clear = require('./music/clear');
 const poll = require('./poll/poll');
 const pokemonCommands = require('./pokemon/pokemon');
+const rustPasta = require('./copyPasta/rustPasta');
 
 module.exports = {
   commands(message, args) {
@@ -84,12 +87,18 @@ module.exports = {
       case "playlist":
         play.play(message, args, server);
         break;
+      case "promote":
+        promote.promote(message, args, server);
+          break;
       case "delsong":
         delSong.delsong(message, args, server);
         break;
+      case "clear":
+        clear.clear(message, args, server);
+        break;
 
       case "test":
-        console.log(message.user);
+        console.log("message.guild.id");
         break;
       //Easter Eggs
       case "pokemon":
@@ -97,6 +106,9 @@ module.exports = {
         break;
       case "snakes":
         pokemonCommands.getSnakes(message, args, server);
+        break;
+      case "rustpasta":
+        rustPasta.randomPasta(message, args, server);
         break;
       default:
         message.channel.send("Not a valid command");

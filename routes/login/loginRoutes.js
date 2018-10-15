@@ -2,6 +2,7 @@ const express = require('express');
 const loginRouter = express.Router();
 const discordServices = require('../../services/discordServices');
 const usersDB = require('../../models/usersDB');
+const autodjDB = require('../../models/autodjDB');
 
 loginRouter.route('/discord/token')
   .post((req, res, next) => {
@@ -11,11 +12,10 @@ loginRouter.route('/discord/token')
           .then(discord_user => {
             let Discord_Username = discord_user.data.username;
             let Discord_ID = discord_user.data.id;
-            usersDB.seeIfDiscordIdExists(Discord_ID)
+            usersDB.seeIfDiscordIdExists(parseInt(Discord_ID, 10))
               .then(user => {
-                console.log(user.count === '1');
                 if(user.count === '1') {
-                  usersDB.findByDiscordId(Discord_ID)
+                  usersDB.findByDiscordId(parseInt(Discord_ID, 10))
                     .then(returningUser => {
                       res.json({
                         message: 'User Authenticated',
@@ -32,10 +32,15 @@ loginRouter.route('/discord/token')
                 }else if(user.count === '0') {
                   usersDB.save({
                     discord_username: Discord_Username,
-                    discord_id: Discord_ID,
+                    discord_id: parseInt(Discord_ID, 10),
                     twitch_username: 'not connected'
                   })
                   .then(savedUser => {
+                    autodjDB.save({
+                      user_id: savedUser.user_id,
+                      redirect: 'f',
+                      guild_id: 0
+                    });
                     res.json({
                       message: 'User Authenticated',
                       data: {
@@ -61,7 +66,7 @@ loginRouter.route('/discord/user/:token')
   .get((req, res, next) => {
     discordServices.getUserInfo(req.params.token)
       .then(results => {
-        usersDB.findByDiscordId(results.data.id)
+        usersDB.findByDiscordId(parseInt(results.data.id, 10))
           .then(user => {
             res.json({
               message: 'Getting User By Discord Id',
