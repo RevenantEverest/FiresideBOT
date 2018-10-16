@@ -15,7 +15,12 @@ import HomePage from './components/HomePage/HomePage';
 import Dashboard from './components/Dashboard/Dashboard';
 import ManageServer from './components/ManageServer/ManageServer';
 import Playlists from './components/Playlists/Playlists';
-import SinglePlaylist from './components/Playlists/SinglePlaylist/SinglePlaylist';
+import UserPlaylists from './components/Playlists/UserPlaylists/UserPlaylists';
+import GuildPlaylists from './components/Playlists/GuildPlaylists/GuildPlaylists';
+import ViewGuildPlaylists from './components/Playlists/GuildPlaylists/ViewGuildPlaylists/ViewGuildPlaylists';
+import EditGuildPlaylists from './components/Playlists/GuildPlaylists/EditGuildPlaylists/EditGuildPlaylists';
+import UserSinglePlaylist from './components/Playlists/UserPlaylists/UserSinglePlaylist/UserSinglePlaylist';
+import GuildSinglePlaylist from './components/Playlists/GuildPlaylists/GuildSinglePlaylist/GuildSinglePlaylist';
 import AutoDJ from './components/AutoDJ/AutoDJ';
 import DefaultCommands from './components/Commands/DefaultCommands/DefaultCommands';
 import CustomCommands from './components/Commands/CustomCommands/CustomCommands';
@@ -45,18 +50,25 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <Router className="App">
+      <div className="App App-Router-Container">
+        <Router className="App App-Router">
           <div className="App">
             <NavBar userData={this.state.userData} />
-            <div className="test">
+            <div className="App-Contents">
               <Route exact path="/" component={ () => (<HomePage getUserData={this.getUserData}/>) } />
               {this.state.userData != null ? <Route exact path="/dashboard" component={() => (<Dashboard userData={this.state.userData}/>) } /> : ''}
               {this.state.userData != null ? <Route path="/dashboard/server/:serverId" component={() => <ManageServer userData={this.state.userData}/>} /> : ''}
               {this.state.userData != null ? <Route path="/commands/default" component={() => (<DefaultCommands userData={this.state.userData}/>) } /> : ''}
               {this.state.userData != null ? <Route path="/commands/custom" component={() => (<CustomCommands userData={this.state.userData}/>) } /> : ''}
-              {this.state.userData != null ? <Route exact path="/playlists" component={() => (<Playlists userData={this.state.userData}/>) } /> : ''}
-              {this.state.userData != null ? <Route path="/playlists/:playlist_name" component={SinglePlaylist} /> : ''}
+
+              {/* Playlists */}
+              {this.state.userData != null ? <Route exact path="/playlists" component={() => (<Playlists userData={this.state.userData} />) } /> : ''}
+              {this.state.userData != null ? <Route exact path="/playlists/personal" component={() => (<UserPlaylists userData={this.state.userData} />) } /> : ''}
+              {this.state.userData != null ? <Route exact path="/playlists/guild" component={() => (<GuildPlaylists userData={this.state.userData} />) } /> : ''}
+              {this.state.userData != null ? <Route exact path="/playlists/view/guild" component={() => (<ViewGuildPlaylists userData={this.state.userData} />) } /> : ''}
+              {this.state.userData != null ? <Route exact path="/playlists/edit/guild" component={() => (<EditGuildPlaylists userData={this.state.userData} />) } /> : ''}
+              {this.state.userData != null ? <Route path="/playlists/personal/:playlist_name" component={UserSinglePlaylist} /> : ''}
+              {this.state.userData != null ? <Route path="/playlists/guild/:playlist_name" component={GuildSinglePlaylist} /> : ''}
               {this.state.userData != null ? <Route path="/autodj" component={ () => (<AutoDJ userData={this.state.userData}/>) } /> : ''}
             </div>
           </div>

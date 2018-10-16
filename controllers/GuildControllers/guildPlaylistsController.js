@@ -5,27 +5,27 @@ module.exports = {
     guildPlaylistDB.findAll()
       .then(playlists => {
         res.json({
-          message: "Getting Playlists",
+          message: "Getting Guild Playlists",
           data: playlists
         })
       })
-      .catch(err => { console.log("Failed at Playlist Index"); next(err); });
+      .catch(err => { console.log("Failed at Guild Playlist Index"); next(err); });
   },
   getOne(req, res, next) {
     guildPlaylistDB.findOne(req.params.id)
       .then(playlist => {
         res.json({
-          message: "Getting playlist by user id",
+          message: "Getting playlist by playlist id",
           data: playlist
         })
       })
       .catch(err => { console.log("Failed at Playlist Get One"); next(err); });
   },
-  getByUserId(req, res, next) {
+  getByGuildId(req, res, next) {
     guildPlaylistDB.findByGuildId(req.params.id)
       .then(playlists => {
         res.json({
-          message: "Getting playlist by user id",
+          message: "Getting playlist by guild id",
           data: playlists
         })
       })
@@ -35,7 +35,7 @@ module.exports = {
     guildPlaylistDB.findByPlaylistName(req.params.playlist_name)
       .then(playlist => {
         res.json({
-          message: "Getting Playlist By Name",
+          message: "Getting Guild Playlist By Name",
           data: playlist
         })
       })

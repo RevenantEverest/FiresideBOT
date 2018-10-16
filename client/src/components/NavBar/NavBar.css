@@ -58,7 +58,7 @@
   font-weight: 800;
 }
 
-.NavBar-Dropdown-Content:hover { color: red; }
+.NavBar-Dropdown-Content:hover { color: orange; }
 
 .NavBar-Contents:hover .NavBar-Dropdown { display: block; }
 

@@ -2,80 +2,36 @@ import React, { Component } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import './Playlists.css';
 
-//Services Imports
-import userPlaylistServices from '../../services/UserServices/userPlaylistServices';
-
 //Component Imports
-import AddPlaylist from './AddPlaylist/AddPlaylist';
+import UserPlaylists from './UserPlaylists/UserPlaylists';
+import GuildPlaylists from './GuildPlaylists/GuildPlaylists';
 
 class Playlists extends Component {
 
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
-      userData: this.props.userData
+      userPlaylistRedirect: false,
+      guildPlaylistRedirect: false
     }
-    this.getPlaylists = this.getPlaylists.bind(this);
   }
 
-  componentDidMount() {
-    this.getPlaylists();
-    console.log(this.state.userData);
-  }
-
-  getPlaylists() {
-    userPlaylistServices.getUserPlaylists(this.props.userData.user_id)
-      .then(playlists => {
-        if(playlists.data.data.length >= 1) {
-          this.setState({ playlistData: playlists.data.data, dataRecieved: true });
-        }
-      })
-      .catch(err => console.log(err));
-  }
-
-  deletePlaylist(el) {
-    userPlaylistServices.deletePlaylist(el.playlist_id)
-      .then(this.getPlaylists()).catch(err => console.log(err));
-  }
-
-  choosePlaylist(el) {
-    this.props.choosePlaylist(el);
-    this.setState({ playlistRedirect: true });
-  }
-
-  renderPlaylists() {
-    let Playlists = this.state.playlistData.map((el, idx) => {
-      return(
-        <div className="PlaylistDisplay" key={idx}>
-          <Link to={{
-            pathname: `/playlists/${el.name}`,
-            state: {
-              userData: this.props.userData,
-              playlistData: el
-            }
-          }}>
-            {el.name}
-          </Link>
-          <button onClick={(e) => this.deletePlaylist(el) }>Delete</button>
-        </div>
-      );
-    });
-
-    return(
-      <div className="PlaylistsContainer">
-        {Playlists}
-      </div>
-    );
-  }
+  handleUserPlaylistRedirect() { this.setState({ userPlaylistRedirect: true }); }
+  handleGuildPlaylistRedirect () { this.setState({ guildPlaylistRedirect: true }); }
 
   render() {
     return(
       <div className="Playlists">
         <div className="Playlists-Contents">
-          {this.state.dataRecieved ? this.renderPlaylists() : <div className="loading" id="Playlists" />}
-          <AddPlaylist userData={this.props.userData} getPlaylists={this.getPlaylists} />
-          {this.state.playlistRedirect ? <Redirect to="/playlists/single" /> : ''}
+          <div className="UserPlaylist-Option" onClick={(e) => this.handleUserPlaylistRedirect()}>
+            <h1 className="UserPlaylist-Option-Text">Personal Playlists</h1>
+          </div>
+          <div className="GuildPlaylist-Option" onClick={(e) => this.handleGuildPlaylistRedirect()}>
+            <h1 className="GuildPlaylist-Option-Text">Guild Playlists</h1>
+          </div>
         </div>
+        {this.state.userPlaylistRedirect ? <Redirect to="/playlists/personal" /> : ''}
+        {this.state.guildPlaylistRedirect ? <Redirect to="/playlists/guild" /> : ''}
       </div>
     );
   }

@@ -41,6 +41,13 @@ module.exports = {
       })
       .catch(err => { console.log("Failed at Playlist Get By Playlist Name"); next(err); });
   },
+  getByDiscordIdAndPlaylistName(req, res, next) {
+    userPlaylistsDB.findByDiscordIdAndPlaylistName(req.params.id, req.params.name)
+      .then(playlist => {
+        res.json({ message: "Getting by Discord Id and Playlist Name", data: playlist });
+      })
+      .catch(err => next(err));
+  },
   create(req, res, next) {
     userPlaylistsDB.save(req.body)
       .then(playlist => {

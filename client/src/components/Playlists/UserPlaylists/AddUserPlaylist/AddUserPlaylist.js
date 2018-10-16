@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import './AddPlaylist.css';
+import './AddUserPlaylist.css';
 
 //Services Imports
-import userPlaylistServices from '../../../services/UserServices/userPlaylistServices';
+import userPlaylistServices from '../../../../services/UserServices/userPlaylistServices';
 
-class AddPlaylist extends Component {
+class AddUserPlaylist extends Component {
 
   constructor(props) {
     super(props);
@@ -38,8 +38,8 @@ class AddPlaylist extends Component {
 
   render() {
     return(
-      <div className="AddPlaylist">
-        <form id="AddPlaylistForm" onSubmit={this.handleSubmit}>
+      <div className="AddUserPlaylist">
+        <form id="AddUserPlaylistForm" onSubmit={this.handleSubmit}>
           <input type="text" name="name" onChange={this.handleChange} />
           <input type="submit" value="Create" />
         </form>
@@ -48,4 +48,4 @@ class AddPlaylist extends Component {
   }
 };
 
-export default AddPlaylist;
+export default AddUserPlaylist;

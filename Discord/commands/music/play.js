@@ -3,6 +3,7 @@ const Discord = require('discord.js');
 const YTDL = require('ytdl-core');
 
 const services = require('../services/apiServices');
+const userPlaylistsDB = require('../../../models/UserModels/userPlaylistsDB');
 const youtubeServices = require('../../../services/youtubeServices');
 
 const currentSong = require('./queue').currentSong;
@@ -86,19 +87,20 @@ module.exports = {
           message.channel.send("No playlist name provided.");
           return;
         }
-        services.getUserPlaylist(args[1])
+
+        // TODO: Handle Query Result Error 0
+        userPlaylistsDB.findByDiscordIdAndPlaylistName({ discord_id: parseInt(message.author.id, 10), name: args[1] })
           .then(playlist => {
-            services.getUserSongs(playlist.data.data.playlist_id)
+            services.getUserSongs(playlist.playlist_id)
               .then(songs => {
                 for(let i = 0; i < songs.data.data.length; i++) {
                   server.queue.titles.push(songs.data.data[i].title);
                   server.queue.links.push(songs.data.data[i].link);
                 }
-                message.channel.send(`Adding playlist ${playlist.data.data.name} to the queue.`);
+                message.channel.send(`Adding playlist ${playlist.name} to the queue.`);
                 if(!message.guild.voiceConnection) message.member.voiceChannel.join().then((connection) => {
                   playSong(connection, message);
-                })
-              })
+                })                })
               .catch(err => console.log(err));
           })
           .catch(err => console.log(err));

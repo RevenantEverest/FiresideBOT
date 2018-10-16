@@ -13,6 +13,10 @@ module.exports = {
   findByPlaylistName(playlistName) {
     return db.one(`SELECT * FROM user_playlists WHERE name = $1`, playlistName);
   },
+  findByDiscordIdAndPlaylistName(playlist) {
+    return db.one(`SELECT * FROM users JOIN user_playlists
+      ON user_playlists.user_id = users.user_id WHERE users.discord_id = $/discord_id/ AND user_playlists.name = $/name/`, playlist)
+  },
   save(playlist) {
     return db.one('INSERT INTO user_playlists (user_id, name) VALUES($/user_id/, $/name/) RETURNING *', playlist);
   },

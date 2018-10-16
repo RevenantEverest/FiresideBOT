@@ -1,0 +1,12 @@
+#EditGuildPlaylists {
+  display: inline-block;
+  height: 99%;
+  width: 88%;
+  background-color: #dedede;
+}
+
+.EditGuildPlaylists-Contents {
+  display: inline-block;
+  height: auto;
+  background-color: #dedede;
+}

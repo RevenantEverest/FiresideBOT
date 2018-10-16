@@ -1,11 +1,11 @@
-.Playlists {
+#GuildPlaylists {
   display: inline-block;
   height: 99%;
   width: 88%;
   background-color: #dedede;
 }
 
-.Playlists-Contents {
+.GuildPlaylists-Contents {
   position: relative;
   display: inline-block;
   top: 40%;
@@ -14,7 +14,7 @@
   background-color: #dedede;
 }
 
-.UserPlaylist-Option {
+.ViewGuildPlaylists-Option {
   position: relative;
   float: left;
   left: 20%;
@@ -28,11 +28,11 @@
   text-align: center;
   outline: solid rgba(0,0,0,0.05);
 }
-.UserPlaylist-Option:hover { outline: solid orange; cursor: pointer; }
-.UserPlaylist-Option:hover .UserPlaylist-Option-Text { color: orange; }
-.UserPlaylist-Option-Text { display: inline-block; transition: .5s; }
+.ViewGuildPlaylists-Option:hover { outline: solid orange; cursor: pointer; }
+.ViewGuildPlaylists-Option:hover .ViewGuildPlaylists-Option-Text { color: orange; }
+.ViewGuildPlaylists-Option-Text { display: inline-block; transition: .5s; }
 
-.GuildPlaylist-Option {
+.EditGuildPlaylists-Option {
   position: relative;
   float: right;
   right: 20%;
@@ -46,6 +46,6 @@
   text-align: center;
   outline: solid rgba(0,0,0,0.05);
 }
-.GuildPlaylist-Option:hover { outline: solid orange; cursor: pointer; }
-.GuildPlaylist-Option:hover .GuildPlaylist-Option-Text { color: orange; }
-.GuildPlaylist-Option-Text { display: inline-block; transition: .5s; }
+.EditGuildPlaylists-Option:hover { outline: solid orange; cursor: pointer; }
+.EditGuildPlaylists-Option:hover .EditGuildPlaylists-Option-Text { color: orange; }
+.EditGuildPlaylists-Option-Text { display: inline-block; transition: .5s; }
