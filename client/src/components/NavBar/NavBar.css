@@ -3,7 +3,7 @@
   background-color: #1a1a1a;
   height: 100%;
   width: 12%;
-  color: #dedede;
+  color: rgba(255,255,255,0.5);
   display: inline-block;
   margin: 0;
   vertical-align: top;
@@ -37,15 +37,16 @@
 }
 
 .NavBar-Contents {
-  text-align: center;
   font-family: "Cocogoose", sans-serif;
-  padding: 20px;
+  padding: 6px;
+  padding-left: 20%;
   font-size: 14px;
 }
 
 .NavBar-Contents:hover {
-  color: #999999;
+  color: white;
   cursor: pointer;
+  background-color: #262626;
 }
 
 .NavBar-Dropdown {
@@ -60,7 +61,11 @@
 
 .NavBar-Dropdown-Content:hover { color: orange; }
 
-.NavBar-Contents:hover .NavBar-Dropdown { display: block; }
+/* .NavBar-Contents:hover .NavBar-Dropdown { display: block; } */
 
-.DashboardIcon, .MagicIcon, .MusicIcon, .InfoIcon, .CommentsIcon, .ChartIcon { display: inline-block; position: relative; right: 5%; }
+.DashboardIcon, .MagicIcon, .MusicIcon, .InfoIcon, .CommentsIcon, .ChartIcon, .AwardIcon,
+.BoltIcon, .CrownIcon
+{ display: inline-block; position: relative; right: 5%; }
+.AngleIcon-Command { display: inline-block; position: relative; left: 20%; }
+.AngleIcon-Music { display: inline-block; position: relative; left: 45%; }
 .NavBar-Contents-Text { display: inline-block; }

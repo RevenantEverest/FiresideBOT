@@ -3,7 +3,8 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLink, faClock, faVolumeUp, faVolumeDown, faVolumeOff, faMusic, faTachometerAlt,
-         faMagic, faArrowCircleLeft, faBook, faInfoCircle, faComments, faChartLine } from '@fortawesome/free-solid-svg-icons';
+         faMagic, faArrowCircleLeft, faBook, faInfoCircle, faComments, faChartLine, faAngleLeft,
+         faAngleDown, faBolt, faCrown, faAward} from '@fortawesome/free-solid-svg-icons';
 import './App.css';
 
 //Services Imports
@@ -15,6 +16,9 @@ import HomePage from './components/HomePage/HomePage';
 import Dashboard from './components/Dashboard/Dashboard';
 import ManageServer from './components/ManageServer/ManageServer';
 import Analytics from './components/Analytics/Analytics';
+import Regulars from './components/Regulars/Regulars';
+import Ranks from './components/Ranks/Ranks';
+import Moderation from './components/Moderation/Moderation';
 import HelpDocs from './components/HelpDocs/HelpDocs';
 import SupportForum from './components/SupportForum/SupportForum';
 
@@ -30,7 +34,8 @@ import DefaultCommands from './components/Commands/DefaultCommands/DefaultComman
 import CustomCommands from './components/Commands/CustomCommands/CustomCommands';
 
 library.add(faLink, faClock, faVolumeUp, faVolumeDown, faVolumeOff, faMusic, faTachometerAlt, faMagic);
-library.add(faArrowCircleLeft, faBook, faInfoCircle, faComments, faChartLine);
+library.add(faArrowCircleLeft, faBook, faInfoCircle, faComments, faChartLine, faAngleLeft, faAngleDown);
+library.add(faBolt, faCrown, faAward);
 
 class App extends Component {
 
@@ -65,6 +70,9 @@ class App extends Component {
               {this.state.userData != null ? <Route exact path="/commands/default" component={() => (<DefaultCommands userData={this.state.userData}/>) } /> : ''}
               {this.state.userData != null ? <Route exact path="/commands/custom" component={() => (<CustomCommands userData={this.state.userData}/>) } /> : ''}
               {this.state.userData != null ? <Route exact path="/analytics" component={() => (<Analytics userData={this.state.userData}/>) } /> : ''}
+              {this.state.userData != null ? <Route exact path="/regulars" component={() => (<Regulars userData={this.state.userData}/>) } /> : ''}
+              {this.state.userData != null ? <Route exact path="/ranks" component={() => (<Ranks userData={this.state.userData}/>) } /> : ''}
+              {this.state.userData != null ? <Route exact path="/moderation" component={() => (<Moderation userData={this.state.userData}/>) } /> : ''}
               {this.state.userData != null ? <Route exact path="/help" component={() => (<HelpDocs userData={this.state.userData}/>) } /> : ''}
               {this.state.userData != null ? <Route exact path="/support" component={() => (<SupportForum userData={this.state.userData}/>) } /> : ''}
 
