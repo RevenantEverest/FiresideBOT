@@ -3,6 +3,7 @@ import './AddSong.css';
 
 //Services Imports
 import userSongsServices from '../../../../services/UserServices/userSongsServices';
+import guildSongsServices from '../../../../services/GuildServices/guildSongsServices';
 
 class AddSong extends Component {
 
@@ -29,12 +30,21 @@ class AddSong extends Component {
       playlist_id: this.props.playlistData.playlist_id,
       link: this.state.link
     }
-    userSongsServices.addSong(songData)
-      .then(results => {
-        this.props.getSongs();
-        document.querySelector("#AddSongForm").reset();
-      })
-      .catch(err =>  console.log(err));
+    if(window.location.pathname.split("/")[2] === "personal") {
+      userSongsServices.addSong(songData)
+        .then(results => {
+          this.props.getSongs(this.props.playlistData);
+          document.querySelector("#AddSongForm").reset();
+        })
+        .catch(err =>  console.log(err));
+    }else if(window.location.pathname.split("/")[2] === "guild") {
+      guildSongsServices.addSong(songData)
+        .then(results => {
+          this.props.getSongs(this.props.playlistData);
+          document.querySelector("#AddSongForm").reset();
+        })
+        .catch(err =>  console.log(err));
+    }
   }
 
   render() {

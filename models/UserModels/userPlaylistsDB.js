@@ -5,16 +5,16 @@ module.exports = {
     return db.many('SELECT * FROM user_playlists');
   },
   findOne(id) {
-    return db.one('SELECT * FROM user_playlists WHERE playlist_id = $1', id);
+    return db.oneOrNone('SELECT * FROM user_playlists WHERE playlist_id = $1', id);
   },
   findByUserId(id)  {
     return db.many('SELECT * FROM user_playlists WHERE user_id = $1', id);
   },
   findByPlaylistName(playlistName) {
-    return db.one(`SELECT * FROM user_playlists WHERE name = $1`, playlistName);
+    return db.oneOrNone(`SELECT * FROM user_playlists WHERE name = $1`, playlistName);
   },
   findByDiscordIdAndPlaylistName(playlist) {
-    return db.one(`SELECT * FROM users JOIN user_playlists
+    return db.oneOrNone(`SELECT * FROM users JOIN user_playlists
       ON user_playlists.user_id = users.user_id WHERE users.discord_id = $/discord_id/ AND user_playlists.name = $/name/`, playlist)
   },
   save(playlist) {

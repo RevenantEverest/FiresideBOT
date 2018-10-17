@@ -10,8 +10,8 @@ import AddGuildPlaylist from './AddGuildPlaylist/AddGuildPlaylist';
 
 class EditGuildPlaylists extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
 
     }
@@ -22,27 +22,13 @@ class EditGuildPlaylists extends Component {
   }
 
   async getUserGuilds() {
-    discordServices.getUserGuilds(window.localStorage.access_token)
-      .then(guilds => {
-        let tempArr = [];
-        let playlistData = [];
-        let guildsPromises = [];
-        for(let i = 0; i < guilds.data.length; i++) {
-          if(guilds.data[i].permissions >= 2146958591) {
-            tempArr.push(guilds.data[i]);
-            guildsPromises.push(guildPlaylistServices.getPlaylistByGuildId(guilds.data[i].id));
-          }
-        }
-        Promise.all(guildsPromises).then(results => {
-          let ResultsMap = results.map((el, idx) => {
-            return el.data.data[0];
-          })
-          console.log(ResultsMap);
-          this.setState({ playlistData: ResultsMap, guildData: tempArr, dataReceived: true });
-        })
-        .catch(err => console.log(err));
-      })
-      .catch(err => console.log(err));
+    let tempArr = [];
+    for(let i = 0; i < this.props.guilds.length; i++) {
+      if(this.props.guilds[i].permissions >= 2146958591) {
+        tempArr.push(this.props.guilds[i]);
+      }
+    }
+    this.setState({ guildData: tempArr, dataReceived: true });
   }
 
   renderPlaylists() {
@@ -66,7 +52,8 @@ class EditGuildPlaylists extends Component {
     return(
       <div id="EditGuildPlaylists">
         <div className="EditGuildPlaylists-Contents">
-          {this.state.dataReceived ? this.renderPlaylists() : ''}
+          {/* {this.state.dataReceived ? this.renderPlaylists() : ''} */}
+          <h3>Add New Guild Playlist: </h3>
           {this.state.dataReceived ? <AddGuildPlaylist guildData={this.state.guildData} /> : ''}
         </div>
       </div>

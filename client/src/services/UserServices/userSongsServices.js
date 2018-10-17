@@ -21,12 +21,6 @@ services.addSong = (data) => {
 };
 
 services.deleteSong = (data) => {
-  return axios({
-    method: 'DELETE',
-    url: `/user/songs/song_id/${data}`,
-    data: {
-      song_id: data
-    }
-  })
+  return axios.delete(`/user/songs/song_id/${data}`)
 }
 export default services;

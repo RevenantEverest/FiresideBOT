@@ -47,7 +47,7 @@ class UserPlaylists extends Component {
       return(
         <div className="PlaylistDisplay" key={idx}>
           <Link to={{
-            pathname: `/playlists/${el.name}`,
+            pathname: `/playlists/personal/${el.name}`,
             state: {
               userData: this.props.userData,
               playlistData: el

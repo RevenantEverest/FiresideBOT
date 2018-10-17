@@ -1,4 +1,7 @@
 const guildPlaylistDB = require('../../models/GuildModels/guildPlaylistsDB');
+const pgp = require('pg-promise')();
+const QRE = pgp.errors.QueryResultError;
+const qrec = pgp.errors.queryResultErrorCode;
 
 module.exports = {
   index(req, res, next) {
@@ -29,7 +32,17 @@ module.exports = {
           data: playlists
         })
       })
-      .catch(err => { console.log("Failed at Playlist Get By Guild Id"); next(err); });
+      .catch(err => {
+        if(err instanceof QRE && err.code === qrec.noData) {
+          res.json({
+            message: "No Guild Playlist Found",
+            QRE: 0
+          })
+        } else {
+          console.log("Failed at Playlist Get By Guild Id");
+          next(err);
+        }
+      });
   },
   getByPlaylistName(req, res, next) {
     guildPlaylistDB.findByPlaylistName(req.params.playlist_name)

@@ -8,7 +8,7 @@
 .GuildPlaylists-Contents {
   position: relative;
   display: inline-block;
-  top: 40%;
+  /* top: 40%; */
   height: auto;
   width: 99.5%;
   background-color: #dedede;

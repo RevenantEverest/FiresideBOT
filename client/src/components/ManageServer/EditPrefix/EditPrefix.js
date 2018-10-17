@@ -56,6 +56,7 @@ class EditPrefix extends Component {
   render() {
     return(
       <div className="EditPrefix">
+        <h3>Edit Prefix: </h3>
         {this.state.dataReceived ? this.renderPrefixForm() : <div className="loading" id="EditPrefix"/>}
       </div>
     );

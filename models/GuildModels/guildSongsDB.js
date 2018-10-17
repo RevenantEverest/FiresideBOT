@@ -5,7 +5,7 @@ module.exports = {
     return db.many('SELECT * FROM guild_songs');
   },
   findOne(id) {
-    return db.one('SELECT * FROM guild_songs WHERE song_id = $1', id);
+    return db.oneOrNone('SELECT * FROM guild_songs WHERE song_id = $1', id);
   },
   findByPlaylistId(id) {
     return db.many(`SELECT * FROM guild_songs WHERE playlist_id = $1`, id);

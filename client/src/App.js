@@ -19,8 +19,7 @@ import UserPlaylists from './components/Playlists/UserPlaylists/UserPlaylists';
 import GuildPlaylists from './components/Playlists/GuildPlaylists/GuildPlaylists';
 import ViewGuildPlaylists from './components/Playlists/GuildPlaylists/ViewGuildPlaylists/ViewGuildPlaylists';
 import EditGuildPlaylists from './components/Playlists/GuildPlaylists/EditGuildPlaylists/EditGuildPlaylists';
-import UserSinglePlaylist from './components/Playlists/UserPlaylists/UserSinglePlaylist/UserSinglePlaylist';
-import GuildSinglePlaylist from './components/Playlists/GuildPlaylists/GuildSinglePlaylist/GuildSinglePlaylist';
+import SinglePlaylist from './components/Playlists/SinglePlaylist/SinglePlaylist';
 import AutoDJ from './components/AutoDJ/AutoDJ';
 import DefaultCommands from './components/Commands/DefaultCommands/DefaultCommands';
 import CustomCommands from './components/Commands/CustomCommands/CustomCommands';
@@ -67,8 +66,8 @@ class App extends Component {
               {this.state.userData != null ? <Route exact path="/playlists/guild" component={() => (<GuildPlaylists userData={this.state.userData} />) } /> : ''}
               {this.state.userData != null ? <Route exact path="/playlists/view/guild" component={() => (<ViewGuildPlaylists userData={this.state.userData} />) } /> : ''}
               {this.state.userData != null ? <Route exact path="/playlists/edit/guild" component={() => (<EditGuildPlaylists userData={this.state.userData} />) } /> : ''}
-              {this.state.userData != null ? <Route path="/playlists/personal/:playlist_name" component={UserSinglePlaylist} /> : ''}
-              {this.state.userData != null ? <Route path="/playlists/guild/:playlist_name" component={GuildSinglePlaylist} /> : ''}
+              {this.state.userData != null ? <Route path="/playlists/personal/:playlist_name" component={SinglePlaylist} /> : ''}
+              {this.state.userData != null ? <Route path="/playlists/guild/:playlist_name" component={SinglePlaylist} /> : ''}
               {this.state.userData != null ? <Route path="/autodj" component={ () => (<AutoDJ userData={this.state.userData}/>) } /> : ''}
             </div>
           </div>

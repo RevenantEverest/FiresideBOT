@@ -13,7 +13,7 @@ class ManageServer extends Component {
     super(props);
     this.state = {
       userData: this.props.userData,
-      guild_id: window.location.pathname.split("/")[4]
+      guild_id: window.location.pathname.split("/")[3]
     }
   }
 
