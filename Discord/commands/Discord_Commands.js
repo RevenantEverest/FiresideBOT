@@ -7,14 +7,22 @@ const apiServices = require('./services/apiServices');
 //Component Imports
 const fortunes = require('./fortunes');
 
-//Command Imports
+/* ======== Command Imports ======== */
+
+//Music Commands
 const play = require('./music/play');
+const playNext = require('./music/playNext');
+const playlist = require('./music/playlist');
+const serverPlaylist = require('./music/serverPlaylist');
 const queue = require('./music/queue');
 const promote = require('./music/promote');
 const delSong = require('./music/delSong');
 const clear = require('./music/clear');
+
+//Poll Commands
 const poll = require('./poll/poll');
 const pokemonCommands = require('./pokemon/pokemon');
+
 const rustPasta = require('./copyPasta/rustPasta');
 
 module.exports = {
@@ -69,7 +77,7 @@ module.exports = {
         play.play(message, args, server);
         break;
       case "playnext":
-        play.play(message, args, server);
+        playNext.playNext(message, args, server);
         break;
       case "queue":
         message.channel.send(queue.queue(message, args, server));
@@ -77,21 +85,24 @@ module.exports = {
       case "currentsong":
         message.channel.send(queue.showCurrentSong(message, args, server));
         break;
-      case "skip":
-        if(server.dispatcher)
-          server.dispatcher.end();
-        break;
-      case "stop":
-        if(message.guild.voiceConnection) message.guild.voiceConnection.disconnect();
-        break;
       case "playlist":
-        play.play(message, args, server);
+        playlist.playlist(message, args, server);
+        break;
+      case "serverplaylist":
+        serverPlaylist.serverPlaylist(message, args, server);
         break;
       case "promote":
         promote.promote(message, args, server);
           break;
       case "delsong":
         delSong.delsong(message, args, server);
+        break;
+      case "skip":
+        if(server.dispatcher)
+          server.dispatcher.end();
+        break;
+      case "stop":
+        if(message.guild.voiceConnection) message.guild.voiceConnection.disconnect();
         break;
       case "clear":
         clear.clear(message, args, server);

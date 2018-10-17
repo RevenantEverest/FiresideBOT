@@ -13,6 +13,9 @@ module.exports = {
   findByPlaylistName(playlistName) {
     return db.oneOrNone(`SELECT * FROM guild_playlists WHERE name = $1`, playlistName);
   },
+  findByGuildIdAndPlaylistName(data) {
+    return db.oneOrNone('SELECT * FROM guild_playlists WHERE guild_id = $/guild_id/ AND name = $/name/', data);
+  },
   save(playlist) {
     return db.one('INSERT INTO guild_playlists (guild_id, guild_name, name) VALUES($/guild_id/, $/guild_name/, $/name/) RETURNING *', playlist);
   },
