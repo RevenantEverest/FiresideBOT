@@ -1,0 +1,12 @@
+#HelpDocs {
+  display: inline-block;
+  height: 99%;
+  width: 88%;
+  background-color: #dedede;
+}
+
+.HelpDocs-Contents {
+  display: inline-block;
+  height: auto;
+  background-color: #dedede;
+}

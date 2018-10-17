@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLink, faClock, faVolumeUp, faVolumeDown, faVolumeOff, faMusic, faTachometerAlt,
-         faMagic, faArrowCircleLeft } from '@fortawesome/free-solid-svg-icons';
+         faMagic, faArrowCircleLeft, faBook, faInfoCircle, faComments, faChartLine } from '@fortawesome/free-solid-svg-icons';
 import './App.css';
 
 //Services Imports
@@ -14,18 +14,23 @@ import NavBar from './components/NavBar/NavBar';
 import HomePage from './components/HomePage/HomePage';
 import Dashboard from './components/Dashboard/Dashboard';
 import ManageServer from './components/ManageServer/ManageServer';
+import Analytics from './components/Analytics/Analytics';
+import HelpDocs from './components/HelpDocs/HelpDocs';
+import SupportForum from './components/SupportForum/SupportForum';
+
 import Playlists from './components/Playlists/Playlists';
 import UserPlaylists from './components/Playlists/UserPlaylists/UserPlaylists';
 import GuildPlaylists from './components/Playlists/GuildPlaylists/GuildPlaylists';
 import ViewGuildPlaylists from './components/Playlists/GuildPlaylists/ViewGuildPlaylists/ViewGuildPlaylists';
 import EditGuildPlaylists from './components/Playlists/GuildPlaylists/EditGuildPlaylists/EditGuildPlaylists';
 import SinglePlaylist from './components/Playlists/SinglePlaylist/SinglePlaylist';
+
 import AutoDJ from './components/AutoDJ/AutoDJ';
 import DefaultCommands from './components/Commands/DefaultCommands/DefaultCommands';
 import CustomCommands from './components/Commands/CustomCommands/CustomCommands';
 
 library.add(faLink, faClock, faVolumeUp, faVolumeDown, faVolumeOff, faMusic, faTachometerAlt, faMagic);
-library.add(faArrowCircleLeft);
+library.add(faArrowCircleLeft, faBook, faInfoCircle, faComments, faChartLine);
 
 class App extends Component {
 
@@ -56,9 +61,12 @@ class App extends Component {
             <div className="App-Contents">
               <Route exact path="/" component={ () => (<HomePage getUserData={this.getUserData}/>) } />
               {this.state.userData != null ? <Route exact path="/dashboard" component={() => (<Dashboard userData={this.state.userData}/>) } /> : ''}
-              {this.state.userData != null ? <Route path="/dashboard/server/:serverId" component={() => <ManageServer userData={this.state.userData}/>} /> : ''}
-              {this.state.userData != null ? <Route path="/commands/default" component={() => (<DefaultCommands userData={this.state.userData}/>) } /> : ''}
-              {this.state.userData != null ? <Route path="/commands/custom" component={() => (<CustomCommands userData={this.state.userData}/>) } /> : ''}
+              {this.state.userData != null ? <Route exact path="/dashboard/server/:serverId" component={() => <ManageServer userData={this.state.userData}/>} /> : ''}
+              {this.state.userData != null ? <Route exact path="/commands/default" component={() => (<DefaultCommands userData={this.state.userData}/>) } /> : ''}
+              {this.state.userData != null ? <Route exact path="/commands/custom" component={() => (<CustomCommands userData={this.state.userData}/>) } /> : ''}
+              {this.state.userData != null ? <Route exact path="/analytics" component={() => (<Analytics userData={this.state.userData}/>) } /> : ''}
+              {this.state.userData != null ? <Route exact path="/help" component={() => (<HelpDocs userData={this.state.userData}/>) } /> : ''}
+              {this.state.userData != null ? <Route exact path="/support" component={() => (<SupportForum userData={this.state.userData}/>) } /> : ''}
 
               {/* Playlists */}
               {this.state.userData != null ? <Route exact path="/playlists" component={() => (<Playlists userData={this.state.userData} />) } /> : ''}

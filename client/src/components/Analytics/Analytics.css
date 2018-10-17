@@ -1,0 +1,12 @@
+#Analytics {
+  display: inline-block;
+  height: 99%;
+  width: 88%;
+  background-color: #dedede;
+}
+
+.Analytics-Contents {
+  display: inline-block;
+  height: auto;
+  background-color: #dedede;
+}

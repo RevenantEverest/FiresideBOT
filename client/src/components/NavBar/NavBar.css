@@ -62,5 +62,5 @@
 
 .NavBar-Contents:hover .NavBar-Dropdown { display: block; }
 
-.DashboardIcon, .MagicIcon, .MusicIcon { display: inline-block; position: relative; right: 5%; }
+.DashboardIcon, .MagicIcon, .MusicIcon, .InfoIcon, .CommentsIcon, .ChartIcon { display: inline-block; position: relative; right: 5%; }
 .NavBar-Contents-Text { display: inline-block; }

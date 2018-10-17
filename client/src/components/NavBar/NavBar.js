@@ -20,11 +20,13 @@ class NavBar extends Component {
           <Link to="/"><h1 className="NavBar-Logo-Text">FiresideBOT</h1></Link>
         </div>
 
+        {/* Dashboard */}
         <div className="NavBar-Contents NavBar-Dashboard">
           <FontAwesomeIcon className="NavBar-Contents-Text DashboardIcon" icon="tachometer-alt" />
           <Link to="/dashboard" className="NavBar-Contents-Text NavBar-Dashboard-Text"><h4>Dashboard</h4></Link>
         </div>
 
+        {/* Commands */}
         <div className="NavBar-Contents NavBar-Commands">
           <FontAwesomeIcon className="NavBar-Contents-Text MagicIcon" icon="magic" />
           <h4 className="NavBar-Contents-Text NavBar-Commands-Text">Commands</h4>
@@ -34,6 +36,13 @@ class NavBar extends Component {
           </div>
         </div>
 
+        {/* Analytics */}
+        <div className="NavBar-Contents NavBar-Analytics">
+          <FontAwesomeIcon className="NavBar-Contents-Text ChartIcon" icon="chart-line" />
+          <Link to="analytics"><h4 className="NavBar-Contents-Text NavBar-Analytics-Text">Analytics</h4></Link>
+        </div>
+
+        {/* Music */}
         <div className="NavBar-Contents NavBar-Playlists">
           <FontAwesomeIcon className="NavBar-Contents-Text MusicIcon" icon="music" />
           <h4 className="NavBar-Contents-Text NavBar-Playlists-Text">Music</h4>
@@ -43,6 +52,17 @@ class NavBar extends Component {
           </div>
         </div>
 
+        {/* Help Docs */}
+        <div className="NavBar-Contents NavBar-Help">
+          <FontAwesomeIcon className="NavBar-Contents-Text InfoIcon" icon="info-circle" />
+          <Link to="help"><h4 className="NavBar-Contents-Text NavBar-Help-Text">Help</h4></Link>
+        </div>
+
+        {/* Support Forum */}
+        <div className="NavBar-Contents NavBar-Support">
+          <FontAwesomeIcon className="NavBar-Contents-Text CommentsIcon" icon="comments" />
+          <Link to="support"><h4 className="NavBar-Contents-Text NavBar-Support-Text">Support</h4></Link>
+        </div>
       </div>
     );
   }
