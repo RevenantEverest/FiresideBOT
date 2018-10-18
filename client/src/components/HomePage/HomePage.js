@@ -4,7 +4,6 @@ import './HomePage.css';
 
 //services Imports
 import discordServices from '../../services/discordServices';
-import loginServices from '../../services/loginServices';
 
 import key from '../../key.js';
 

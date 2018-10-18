@@ -1,0 +1,60 @@
+#HelpNavBar {
+  position: sticky;
+  background-color: #1a1a1a;
+  height: 100%;
+  width: 15%;
+  color: rgba(255,255,255,0.5);
+  display: inline-block;
+  margin: 0;
+  vertical-align: top;
+}
+
+.HelpNavBar-Logo-Container {
+  background-color: #333333;
+  padding: 6px;
+  color: #dedede;
+}
+
+.HelpNavBar-Logo-Container:hover { cursor: pointer; }
+
+.HelpNavBar-Logo {
+  height: 50px;
+  margin-left: 5%;
+  margin-top: 5%;
+  display: inline-block;
+}
+
+.HelpNavBar-Logo-Text {
+  position: relative;
+  display: inline-block;
+  margin-left: 5%;
+  top: -10px;
+}
+
+.HelpNavBar-Logo-SubText {
+  position: relative;
+  float: right;
+  top: -40px;
+  right: 20px;
+}
+
+.HelpNavBar-Contents {
+  display: block;
+  margin-left: 12%;
+  margin-top: 20%;
+}
+
+.HelpNavBar-Contents-Header-Text {
+  font-family: "Raleway", sans-serif;
+  font-size: 15px;
+}
+
+.HelpNavBar-Contents-Sub-Text {
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+}
+
+.HelpNavBar-Contents-Header-Text:hover, .HelpNavBar-Contents-Sub-Text:hover {
+  color: white;
+  cursor: pointer;
+}

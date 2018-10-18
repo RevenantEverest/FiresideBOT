@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import './EditGuildPlaylists.css';
 
-//Services Imports
-import discordServices from '../../../../services/discordServices';
-import guildPlaylistServices from '../../../../services/GuildServices/guildPlaylistServices';
-
 //Component Imports
 import AddGuildPlaylist from './AddGuildPlaylist/AddGuildPlaylist';
 

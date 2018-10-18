@@ -50,7 +50,7 @@ class YouTubePlayer extends Component {
 
     if(volumeSlider.value > 50)
       this.setState({ volumeIcon: 'volume-up' });
-    else if(volumeSlider.value < 50 && volumeSlider.value != 0)
+    else if(volumeSlider.value < 50 && volumeSlider.value !== 0)
       this.setState({ volumeIcon: 'volume-down' });
     else if(volumeSlider.value === 0)
       this.setState({ volumeIcon: 'volume-off' });
@@ -59,7 +59,7 @@ class YouTubePlayer extends Component {
 
       if(volumeSlider.value > 50)
         this.setState({ volumeIcon: 'volume-up' });
-      else if(volumeSlider.value < 50 && volumeSlider.value != 0)
+      else if(volumeSlider.value < 50 && volumeSlider.value !== 0)
         this.setState({ volumeIcon: 'volume-down' });
       else if(volumeSlider.value === 0)
         this.setState({ volumeIcon: 'volume-off' });
@@ -68,7 +68,7 @@ class YouTubePlayer extends Component {
     }
 
     function updateCurrentTime(state) {
-      if(window.location.pathname != '/autodj') return;
+      if(window.location.pathname !== '/autodj') return;
       let currentTime = {};
       let display = document.querySelector('.YTP-CurrentTime-Text');
       let slider = document.querySelector('.YTP-CurrentTimeSlider');

@@ -1,11 +1,11 @@
-#HelpDocs {
+#ControlPanelDocs {
   display: inline-block;
   height: 99%;
   width: 100%;
   background-color: #dedede;
 }
 
-.HelpDocs-Contents {
+.ControlPanelDocs-Contents {
   display: inline-block;
   height: auto;
   background-color: #dedede;

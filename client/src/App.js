@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLink, faClock, faVolumeUp, faVolumeDown, faVolumeOff, faMusic, faTachometerAlt,
          faMagic, faArrowCircleLeft, faBook, faInfoCircle, faComments, faChartLine, faAngleLeft,
          faAngleDown, faBolt, faCrown, faAward} from '@fortawesome/free-solid-svg-icons';
@@ -73,7 +72,7 @@ class App extends Component {
               {this.state.userData != null ? <Route exact path="/regulars" component={() => (<Regulars userData={this.state.userData}/>) } /> : ''}
               {this.state.userData != null ? <Route exact path="/ranks" component={() => (<Ranks userData={this.state.userData}/>) } /> : ''}
               {this.state.userData != null ? <Route exact path="/moderation" component={() => (<Moderation userData={this.state.userData}/>) } /> : ''}
-              {this.state.userData != null ? <Route exact path="/help" component={() => (<HelpDocs userData={this.state.userData}/>) } /> : ''}
+              {this.state.userData != null ? <Route path="/help" component={() => (<HelpDocs userData={this.state.userData}/>) } /> : ''}
               {this.state.userData != null ? <Route exact path="/support" component={() => (<SupportForum userData={this.state.userData}/>) } /> : ''}
 
               {/* Playlists */}

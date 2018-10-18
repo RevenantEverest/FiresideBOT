@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import './AddGuildPlaylist.css';
 
 //Services Imports
-import discordServices from '../../../../../services/discordServices';
 import guildPlaylistServices from '../../../../../services/GuildServices/guildPlaylistServices';
 
 class AddGuildPlaylist extends Component {
@@ -17,25 +16,6 @@ class AddGuildPlaylist extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-
-  // componentDidMount() {
-  //   this._isMounted = true;
-  //   this.getUserGuilds();
-  // }
-  //
-  // componentWillUnmount() { this._isMounted = false; }
-  //
-  // getUserGuilds() {
-  //   discordServices.getUserGuilds(window.localStorage.access_token)
-  //     .then(guilds => {
-  //       let tempArr = [];
-  //       for(let i = 0; i < guilds.data.length; i++) {
-  //         if(guilds.data[i].permissions >= 2146958591) tempArr.push(guilds.data[i]);
-  //       }
-  //       if(this._isMounted) this.setState({ guilds: tempArr, dataReceived: true });
-  //     })
-  //     .catch(err => console.log(err));
-  // }
 
   handleViewGuildPlaylists() { this.setState({ viewGuildPlaylistsRedirect: true }); }
   handleEditGuildPlaylists() { this.setState({ editGuildPlaylistsRedirect: true }); }

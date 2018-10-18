@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
-import { Redirect, Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import './Playlists.css';
-
-//Component Imports
-import UserPlaylists from './UserPlaylists/UserPlaylists';
-import GuildPlaylists from './GuildPlaylists/GuildPlaylists';
 
 class Playlists extends Component {
 
