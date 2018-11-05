@@ -3,6 +3,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 import './NavBar.css';
 
+//Image Imports
+import Logo from '../../res/images/Logo.png';
+
 class NavBar extends Component {
 
   constructor(props) {
@@ -48,7 +51,7 @@ class NavBar extends Component {
     return(
       <div className="NavBar">
         <div className="NavBar-Logo-Container">
-          <div className="NavBar-Logo-Image" />
+          <img className="NavBar-Logo-Image" src={Logo} alt="" />
           <Link to="/"><h1 className="NavBar-Logo-Text">FiresideBOT</h1></Link>
         </div>
 
@@ -88,7 +91,7 @@ class NavBar extends Component {
         </Link>
 
         {/* Ranks */}
-        <Link to={{ pathname: "ranks" }}>
+        <Link to={{ pathname: "/ranks" }}>
           <div className="NavBar-Contents NavBar-Ranks">
             <FontAwesomeIcon className="NavBar-Contents-Text AwardIcon" icon="award" />
             <h4 className="NavBar-Contents-Text NavBar-Ranks-Text">Ranks</h4>
@@ -96,7 +99,7 @@ class NavBar extends Component {
         </Link>
 
         {/* Moderation */}
-        <Link to={{ pathname: "Moderation" }}>
+        <Link to={{ pathname: "/moderation" }}>
           <div className="NavBar-Contents NavBar-Moderation">
             <FontAwesomeIcon className="NavBar-Contents-Text BoltIcon" icon="bolt" />
             <h4 className="NavBar-Contents-Text NavBar-Moderation-Text">Moderation</h4>

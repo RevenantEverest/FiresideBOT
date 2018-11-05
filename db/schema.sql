@@ -9,6 +9,8 @@ DROP TABLE IF EXISTS user_songs;
 DROP TABLE IF EXISTS autodj;
 DROP TABLE IF EXISTS default_commands;
 DROP TABLE IF EXISTS custom_commands;
+DROP TABLE IF EXISTS twitch_banned_words;
+DROP TABLE IF EXISTS regulars;
 
 CREATE TABLE users (
   user_id SERIAL PRIMARY KEY,
@@ -84,4 +86,16 @@ CREATE TABLE custom_commands (
   user_id BIGINT,
   command VARCHAR(255),
   output VARCHAR(255)
+);
+
+CREATE TABLE twitch_banned_words (
+  banned_word_id SERIAL PRIMARY KEY,
+  channel VARCHAR(255),
+  banned_word VARCHAR(255)
+);
+
+CREATE TABLE regulars (
+  regular_id SERIAL PRIMARY KEY,
+  channel VARCHAR(255),
+  regular_username VARCHAR(255)
 );

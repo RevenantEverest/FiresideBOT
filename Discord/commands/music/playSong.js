@@ -2,7 +2,7 @@ const config = require('../../../config/config');
 const Discord = require('discord.js');
 const YTDL = require('ytdl-core');
 
-const currentSong = require('./queue').currentSong;
+const volume = require('./volume');
 
 module.exports = {
   playSong(connection, message) {
@@ -10,8 +10,9 @@ module.exports = {
     let server = config.servers[message.guild.id];
     let embedLink = server.queue.links[0];
 
+    if(server.queue.isPlaying === false) server.queue.isPlaying = true;
     server.dispatcher = connection.playStream(YTDL(server.queue.links[0], {filter: 'audioonly', quality: 'highestaudio'}));
-
+    volume.setVolume(message, (['', server.volume]), server);
     YTDL.getInfo(embedLink.toString(), (err, info) => {
       if(err) return message.channel.send("YTDL Get Info error.");
       if(info.title === undefined) {
@@ -29,8 +30,9 @@ module.exports = {
         )
       }
     });
+    server.queue.currentSongEmbed[0] = currentSongEmbed;
+    server.queue.currentSongInfo = {title: server.queue.titles[0], link: server.queue.links[0]}
     server.queue.titles.shift();
-    currentSong[0] = currentSongEmbed;
     server.queue.links.shift();
 
     server.dispatcher.on("end", () => {
@@ -39,8 +41,10 @@ module.exports = {
       else {
         server.queue.links = [];
         server.queue.titles = [];
-        currentSong[0] = '';
+        server.queue.currentSongEmbed[0] = '';
+        server.queue.currentSongInfo = {};
         connection.disconnect();
+        server.queue.isPlaying = false;
         message.channel.send('Queue concluded.');
       }
     });

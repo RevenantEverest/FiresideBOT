@@ -16,6 +16,7 @@ class ViewGuildPlaylists extends Component {
     this.state = {
 
     }
+    this.getUserGuilds = this.getUserGuilds.bind(this);
   }
 
   componentDidMount() {
@@ -78,7 +79,7 @@ class ViewGuildPlaylists extends Component {
         <div className="ViewGuildPlaylists-Contents">
           <h1>Guild Playlists</h1>
           {this.state.dataReceived ? this.renderPlaylists() : ''}
-          {this.state.dataReceived ? <EditGuildPlaylists userData={this.props.userData} guilds={this.state.guildData} /> : ''}
+          {this.state.dataReceived ? <EditGuildPlaylists userData={this.props.userData} guilds={this.state.guildData} getUserGuilds={this.getUserGuilds} /> : ''}
         </div>
       </div>
     );

@@ -50,7 +50,7 @@ class AddSong extends Component {
   render() {
     return(
       <div className="AddSong">
-        <form id="AddSongForm" onSubmit={this.handleSubmit}>
+        <form id="AddSongForm" onSubmit={this.handleSubmit} autoComplete="off">
           <input type="text" name="link" placeholder="YouTube Link" onChange={this.handleChange} />
           <input type="submit" value="Add" />
         </form>

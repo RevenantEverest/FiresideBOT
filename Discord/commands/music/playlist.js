@@ -14,7 +14,7 @@ module.exports = {
     }
 
     // TODO: Handle Query Result Error 0
-    userPlaylistsDB.findByDiscordIdAndPlaylistName({ discord_id: message.author.id, name: args[1] })
+    userPlaylistsDB.findByDiscordIdAndPlaylistName({ discord_id: parseInt(message.author.id, 10), name: args[1] })
       .then(playlist => {
         userSongsDB.findByPlaylistId(playlist.playlist_id)
           .then(songs => {

@@ -27,6 +27,8 @@ const loginRouter = require('./routes/loginRoutes');
 const guildRouter = require('./routes/GuildRoutes/guildRoutes');
 const queueRouter = require('./routes/queueRoutes');
 const autodjRouter = require('./routes/autodjRoutes');
+const TBW_Router = require('./routes/TBW_Routes');
+const regularsRouter = require('./routes/regularsRoutes');
 
 /* Middleware */
 app.use(logger('dev'));
@@ -46,6 +48,8 @@ app.use("/login", loginRouter);
 app.use("/guilds", guildRouter);
 app.use("/queue", queueRouter);
 app.use("/autodj", autodjRouter);
+app.use("/TBW", TBW_Router);
+app.use("/regulars", regularsRouter);
 
 /* Default Routes */
 app.use("/", (req, res) => {

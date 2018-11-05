@@ -50,7 +50,7 @@ class EditGuildPlaylists extends Component {
         <div className="EditGuildPlaylists-Contents">
           {/* {this.state.dataReceived ? this.renderPlaylists() : ''} */}
           <h3>Add New Guild Playlist: </h3>
-          {this.state.dataReceived ? <AddGuildPlaylist guildData={this.state.guildData} /> : ''}
+          {this.state.dataReceived ? <AddGuildPlaylist guildData={this.state.guildData} getUserGuilds={this.props.getUserGuilds} /> : ''}
         </div>
       </div>
     );

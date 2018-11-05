@@ -39,7 +39,7 @@ class AddUserPlaylist extends Component {
   render() {
     return(
       <div className="AddUserPlaylist">
-        <form id="AddUserPlaylistForm" onSubmit={this.handleSubmit}>
+        <form id="AddUserPlaylistForm" onSubmit={this.handleSubmit} autoComplete="off">
           <input type="text" name="name" onChange={this.handleChange} />
           <input type="submit" value="Create" />
         </form>

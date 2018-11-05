@@ -10,3 +10,12 @@
   height: auto;
   background-color: #dedede;
 }
+
+.Regulars-Tbody
+.Regulars-Table
+.Regulars-TableRow
+.Regulars-TH { text-align: left; }
+.Regulars-TD
+
+.Regulars-TH-Counter { text-align: center; }
+.Regulars-TD-Counter { text-align:center; }

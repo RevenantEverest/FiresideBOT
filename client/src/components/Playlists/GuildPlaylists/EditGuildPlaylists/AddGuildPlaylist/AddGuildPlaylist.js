@@ -38,7 +38,10 @@ class AddGuildPlaylist extends Component {
       name: this.state.name
     }
     guildPlaylistServices.addGuildPlaylist(data)
-      .then()
+      .then(results => {
+        this.props.getUserGuilds();
+        document.querySelector('#AddGuildPlaylist-Form').reset();
+      })
       .catch(err => console.log(err));
   }
 
@@ -50,7 +53,7 @@ class AddGuildPlaylist extends Component {
     });
 
     return(
-      <form onSubmit={this.handleSubmit}>
+      <form id='AddGuildPlaylist-Form' onSubmit={this.handleSubmit} autoComplete="off">
         <input type="text" name="name" onChange={this.handleChange} />
         <select name="guildId" onChange={this.handleChange}>
           <option>Select A Server</option>

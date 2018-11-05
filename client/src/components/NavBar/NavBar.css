@@ -13,15 +13,14 @@
   position: relative;
   background-color: #333333;
   color: #dedede;
-  font-family: "Risa", sans-serif;
-  font-size: 24px;
+  font-family: sans-serif;
+  font-size: 12px;
+  padding: 12px;
 }
 
 .NavBar-Logo-Image {
-  position: relative;
   height: 5vh;
   width: 15%;
-  top: 10px;
   margin-left: 3%;
   margin-right: 5%;
   background-image: url(../../res/images/Logo.png);
@@ -32,7 +31,7 @@
 
 .NavBar-Logo-Text {
   position: relative;
-  top: -2px;
+  top: -8px;
   display: inline;
 }
 
@@ -40,7 +39,7 @@
   font-family: "Cocogoose", sans-serif;
   padding: 6px;
   padding-left: 20%;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .NavBar-Contents:hover {

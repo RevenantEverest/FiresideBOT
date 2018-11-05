@@ -14,10 +14,13 @@ module.exports = {
     }
 
     // TODO: Handle Query Result Error 0
+    console.log(message.guild.id);
     guildPlaylistsDB.findByGuildIdAndPlaylistName({ guild_id: message.guild.id, name: args[1] })
       .then(playlist => {
+        console.log(playlist);
         guildSongsDB.findByPlaylistId(playlist.playlist_id)
           .then(songs => {
+            console.log(songs);
             for(let i = 0; i < songs.length; i++) {
               server.queue.titles.push(songs[i].title);
               server.queue.links.push(songs[i].link);

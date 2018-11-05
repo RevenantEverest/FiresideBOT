@@ -11,6 +11,7 @@ const fortunes = require('./fortunes');
 
 //Music Commands
 const play = require('./music/play');
+const pauseResume = require('./music/pauseResume');
 const playNext = require('./music/playNext');
 const playlist = require('./music/playlist');
 const serverPlaylist = require('./music/serverPlaylist');
@@ -18,6 +19,7 @@ const queue = require('./music/queue');
 const promote = require('./music/promote');
 const delSong = require('./music/delSong');
 const clear = require('./music/clear');
+const volume = require('./music/volume');
 
 //Poll Commands
 const poll = require('./poll/poll');
@@ -29,9 +31,13 @@ module.exports = {
   commands(message, args) {
     if(!config.servers[message.guild.id]) config.servers[message.guild.id] = {
       queue: {
+        isPlaying: false,
         titles: [],
-        links: []
-      }
+        links: [],
+        currentSongInfo: {},
+        currentSongEmbed: []
+      },
+      volume: '100'
     };
 
     let server = config.servers[message.guild.id];
@@ -76,6 +82,12 @@ module.exports = {
       case "play":
         play.play(message, args, server);
         break;
+      case "pause":
+        pauseResume.handlePause(message, args, server);
+        break;
+      case "resume":
+        pauseResume.handleResume(message, args, server);
+        break;
       case "playnext":
         playNext.playNext(message, args, server);
         break;
@@ -106,6 +118,9 @@ module.exports = {
         break;
       case "clear":
         clear.clear(message, args, server);
+        break;
+      case "volume":
+        volume.setVolume(message, args, server);
         break;
 
       case "test":
