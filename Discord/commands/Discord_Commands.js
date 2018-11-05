@@ -27,6 +27,8 @@ const pokemonCommands = require('./pokemon/pokemon');
 
 const rustPasta = require('./copyPasta/rustPasta');
 
+const help = require('./help/help');
+
 module.exports = {
   commands(message, args) {
     if(!config.servers[message.guild.id]) config.servers[message.guild.id] = {
@@ -35,7 +37,8 @@ module.exports = {
         titles: [],
         links: [],
         currentSongInfo: {},
-        currentSongEmbed: []
+        currentSongEmbed: [],
+        requestedBy: []
       },
       volume: '100'
     };
@@ -124,7 +127,11 @@ module.exports = {
         break;
 
       case "test":
-        console.log("message.guild.id");
+        console.log(message.author.username);
+        break;
+
+      case "help":
+        help.sendHelp(message, args, server);
         break;
       //Easter Eggs
       case "pokemon":

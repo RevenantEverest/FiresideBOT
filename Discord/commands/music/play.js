@@ -20,6 +20,7 @@ module.exports = {
         .then(results => {
           server.queue.titles.push(results.data.items[0].snippet.title);
           server.queue.links.push(`https://www.youtube.com/watch?v=${results.data.items[0].id.videoId}`);
+          server.queue.requestedBy.push(message.author.username)
           message.channel.send(`${results.data.items[0].snippet.title} was added to the queue.`)
           if(!message.guild.voiceConnection) message.member.voiceChannel.join().then((connection) => {
             playSong.playSong(connection, message);

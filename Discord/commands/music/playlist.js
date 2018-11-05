@@ -21,6 +21,7 @@ module.exports = {
             for(let i = 0; i < songs.length; i++) {
               server.queue.titles.push(songs[i].title);
               server.queue.links.push(songs[i].link);
+              server.queue.requestedBy.push(message.author.username);
             }
             message.channel.send(`Adding playlist ${playlist.name} to the queue.`);
             if(!message.guild.voiceConnection) message.member.voiceChannel.join().then((connection) => {
