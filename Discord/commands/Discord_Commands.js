@@ -34,11 +34,9 @@ module.exports = {
     if(!config.servers[message.guild.id]) config.servers[message.guild.id] = {
       queue: {
         isPlaying: false,
-        titles: [],
-        links: [],
+        queueInfo: [],
         currentSongInfo: {},
         currentSongEmbed: [],
-        requestedBy: []
       },
       volume: '100'
     };
@@ -126,9 +124,9 @@ module.exports = {
         volume.setVolume(message, args, server);
         break;
 
-      case "test":
-        console.log(message.author.username);
-        break;
+      // case "test":
+      //   console.log(message.author.username);
+      //   break;
 
       case "help":
         help.sendHelp(message, args, server);

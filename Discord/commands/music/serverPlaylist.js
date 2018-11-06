@@ -22,8 +22,7 @@ module.exports = {
           .then(songs => {
             console.log(songs);
             for(let i = 0; i < songs.length; i++) {
-              server.queue.titles.push(songs[i].title);
-              server.queue.links.push(songs[i].link);
+              server.queue.queueInfo.push({ title: songs[i].title, link: songs[i].link, requestedBy: message.author.username });
             }
             message.channel.send(`Adding server playlist ${playlist.name} to the queue.`);
             if(!message.guild.voiceConnection) message.member.voiceChannel.join().then((connection) => {

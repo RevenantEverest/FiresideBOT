@@ -1,8 +1,6 @@
 module.exports = {
   clear(message, args, server) {
-    console.log(server);
-    server.queue.titles = [];
-    server.queue.links = [];
+    server.queue.queueInfo = [];
     message.channel.send("Queue Cleared.");
   }
 }

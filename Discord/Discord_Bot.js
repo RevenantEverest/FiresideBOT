@@ -35,6 +35,7 @@ Discord_Bot.on("guildDelete", (guild) => {
 
 // Called Message Is Sent In Guild
 Discord_Bot.on("message", (message) => {
+  // message.guild.leave();
   if(message.author.equals(Discord_Bot.user)) return;
   if(message.channel.type === 'dm') return;
   if(message.channel.type === 'text')

@@ -17,6 +17,6 @@ module.exports = {
       username: 'FiresideBOT',
       password: process.env.TWITCH_KEY
     },
-    channels: ['RevenantEverest', 'thizzpill707', 'kinotheproducer']
+    channels: ['RevenantEverest']
   }
 }

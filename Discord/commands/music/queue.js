@@ -5,9 +5,11 @@ const YTDL = require('ytdl-core');
 module.exports = {
   queue(message, args, server) {
     let queueEmbed = new Discord.RichEmbed();
-    if(server.queue.titles.length >= 1) {
-      for(let i = 0; i < server.queue.titles.length; i++) {
-        queueEmbed.addField((i + 1 + ". ") + server.queue.titles[i], `Link: [Click Me](${server.queue.links[i]}) \nRequested By: ${server.queue.requestedBy[i]}`);
+    queueEmbed.setTitle('**QUEUE**');
+    if(server.queue.queueInfo.length >= 1) {
+      for(let i = 0; i < server.queue.queueInfo.length; i++) {
+        let des = `Link: [Click Me](${server.queue.queueInfo[i].link}) \nRequested By: ${server.queue.queueInfo[i].requestedBy}`
+        queueEmbed.addField((i + 1 + ". ") + server.queue.queueInfo[i].title, des);
       }
       queueEmbed
       .setColor(0x0ccff)
