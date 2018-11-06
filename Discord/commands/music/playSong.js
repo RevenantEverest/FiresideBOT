@@ -20,8 +20,7 @@ module.exports = {
       }else {
         let minutes = Math.floor(info.length_seconds / 60);
         let seconds = Math.floor(info.length_seconds - minutes * 60);
-
-        console.log(server.queue);
+        
         currentSongEmbed
           .addField(info.title, info.author.name)
           .addField('Link', `[Click Me](${embedLink}) \nRequested By: ${server.queue.requestedBy[0]}`)
