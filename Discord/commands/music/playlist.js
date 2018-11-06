@@ -1,3 +1,4 @@
+const config = require('../../../config/config');
 const userPlaylistsDB = require('../../../models/UserModels/userPlaylistsDB');
 const userSongsDB = require('../../../models/UserModels/userSongsDB');
 const playSong = require('./playSong');
@@ -10,8 +11,27 @@ module.exports = {
       return;
     }
     if(!args[1]) {
-      message.channel.send("No playlist name provided.");
-      return;
+      userPlaylistsDB.findByDiscordId(parseInt(message.author.id, 10))
+        .then(playlists => {
+          let playlistEmbed = new config.Discord.RichEmbed();
+          let playlistPromises = [];
+          playlistEmbed
+            .setTitle(`**Available Playlists For ${message.author.username}**`)
+            .addBlankField()
+            .setThumbnail('https://i.imgur.com/OpSJJxe.png')
+            .setColor(0xff3399);
+          for(let i = 0; i < playlists.length; i++) {
+            playlistPromises.push(userSongsDB.findByPlaylistId(playlists[i].playlist_id));
+          }
+          Promise.all(playlistPromises).then(songs => {
+            for(let i = 0; i < playlists.length; i++) {
+              if(i > 20) return; // Adheres to 25 field limit for Rich Embeds
+              playlistEmbed.addField(`${i + 1}. ${playlists[i].name}`, `${songs[i].length} Songs`)
+            }
+            return message.channel.send(playlistEmbed);
+          })
+        })
+        .catch(err => console.log(err));
     }
 
     // TODO: Handle Query Result Error 0

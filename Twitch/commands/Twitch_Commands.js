@@ -37,7 +37,7 @@ module.exports = {
         rouletteCommands.roulette(channel, message, args, bot);
         break;
       case "play":
-        playCommands.play(channel, message, args, bot);
+        playCommands.play(channel, userstate, message, args, bot);
         break;
       case "math":
         mathCommands.randomMath(channel, userstate, message, args, self, bot);

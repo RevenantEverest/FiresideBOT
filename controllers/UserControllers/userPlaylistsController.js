@@ -48,6 +48,16 @@ module.exports = {
       })
       .catch(err => next(err));
   },
+  getByDiscordId(req, res, next) {
+    userPlaylistsDB.findByDiscordId(req.params.id)
+      .then(playlists => {
+        res.json({ message: "Getting playlists by Discord ID", data: playlists });
+      })
+      .catch(err => {
+        //Handle QRE 0
+        next(err);
+      })
+  },
   create(req, res, next) {
     userPlaylistsDB.save(req.body)
       .then(playlist => {

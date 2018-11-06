@@ -15,7 +15,10 @@ module.exports = {
   },
   findByDiscordIdAndPlaylistName(playlist) {
     return db.oneOrNone(`SELECT * FROM users JOIN user_playlists
-      ON user_playlists.user_id = users.user_id WHERE users.discord_id = $/discord_id/ AND user_playlists.name = $/name/`, playlist)
+      ON user_playlists.user_id = users.user_id WHERE users.discord_id = $/discord_id/ AND user_playlists.name = $/name/`, playlist);
+  },
+  findByDiscordId(id) {
+    return db.many(`SELECT * FROM users JOIN user_playlists ON user_playlists.user_id = users.user_id WHERE users.discord_id = $1`, id);
   },
   save(playlist) {
     return db.one('INSERT INTO user_playlists (user_id, name) VALUES($/user_id/, $/name/) RETURNING *', playlist);
