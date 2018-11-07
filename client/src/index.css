@@ -8,6 +8,10 @@
   font-family: 'Cocogoose';
   src: url(./res/fonts/Cocogoose.ttf);
 }
+@font-face {
+  font-family: 'NexaRustSlab';
+  src: url(./res/fonts/NexaRustSlab.otf);
+}
 
 body, html {
   max-height: 100%;

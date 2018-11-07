@@ -1,0 +1,27 @@
+#AddUserPlaylist {
+  height: 15vh;
+  width: 130%;
+}
+
+.AddUserPlaylist-Contents {
+  margin: 2% 0 0 4%;
+}
+
+.CanSubmit  {
+
+}
+
+.CannotSubmit { border-color: red; }
+.CanSubmit-Green:focus { border-color: #00ff00; }
+
+.AUP-CannotSubmit-Text {
+  position: relative;
+  top: 10px;
+  background-color: red;
+  color: white;
+  padding: .5% 0 .5% 0;
+  width: 400px;
+  text-align: center;
+  font-family: "Roboto", sans-serif;
+  font-weight: 800;
+}

@@ -4,6 +4,7 @@ import './UserPlaylists.css';
 
 //Services Imports
 import userPlaylistServices from '../../../services/UserServices/userPlaylistServices';
+import userSongsServices from '../../../services/UserServices/userSongsServices';
 
 //Component Imports
 import AddPlaylist from './AddUserPlaylist/AddUserPlaylist';
@@ -26,14 +27,30 @@ class UserPlaylists extends Component {
     userPlaylistServices.getUserPlaylists(this.props.userData.user_id)
       .then(playlists => {
         if(playlists.data.data.length >= 1) {
-          this.setState({ playlistData: playlists.data.data, dataRecieved: true });
+          let songPromises = [];
+          for(let i = 0; i < playlists.data.data.length; i++) {
+            songPromises.push(userSongsServices.getPlaylistSongInfo(playlists.data.data[i].playlist_id));
+          }
+          Promise.all(songPromises).then(results => {
+            let ResultsFilter = results.map(el => {
+              return el.data.data;
+            });
+            let playlistData = [];
+            for(let i = 0; i < playlists.data.data.length; i++) {
+              let length = ResultsFilter[i].length
+              if(ResultsFilter[i].length === undefined)
+                length = 0;
+              playlistData.push({playlistInfo: playlists.data.data[i], songs: length})
+            }
+            this.setState({ playlistData: playlistData, dataRecieved: true }, () => { console.log(this.state.playlistData); });
+          })
         }
       })
       .catch(err => console.log(err));
   }
 
   deletePlaylist(el) {
-    userPlaylistServices.deletePlaylist(el.playlist_id)
+    userPlaylistServices.deletePlaylist(el.playlistInfo.playlist_id)
       .then(this.getPlaylists()).catch(err => console.log(err));
   }
 
@@ -43,19 +60,27 @@ class UserPlaylists extends Component {
   }
 
   renderPlaylists() {
+    let counter = 0;
+    let playlistDisplayColor = '';
     let Playlists = this.state.playlistData.map((el, idx) => {
+      counter++;
+      if(counter % 2 === 0)
+        playlistDisplayColor = 'PD-white';
+      else if(counter % 2 === 1)
+        playlistDisplayColor = 'PD-grey';
       return(
-        <div className="PlaylistDisplay" key={idx}>
-          <Link to={{
-            pathname: `/playlists/personal/${el.name}`,
+        <div className={`PlaylistDisplay ${playlistDisplayColor}`} key={idx}>
+          <Link className="UserPlaylists-PlaylistName" to={{
+            pathname: `/playlists/personal/${el.playlistInfo.name}`,
             state: {
               userData: this.props.userData,
-              playlistData: el
+              playlistData: el.playlistInfo
             }
           }}>
-            {el.name}
+            {el.playlistInfo.name}
           </Link>
-          <button onClick={(e) => this.deletePlaylist(el) }>Delete</button>
+          <p className="UserPlaylists-SongAmount">{el.songs} Songs</p>
+          <button className="UserPlaylists-Delete" onClick={(e) => this.deletePlaylist(el) }>Delete</button>
         </div>
       );
     });
@@ -71,10 +96,17 @@ class UserPlaylists extends Component {
     return(
       <div id="UserPlaylists">
         <div className="UserPlaylists-Contents">
+          <div className="UserPlaylists-Header">
+            <h1 className="UserPlaylists-HeaderText">Personal Playlists</h1>
+            <p className="UserPlaylists-HeaderSubText">
+              HOME / playlists /
+              <p className="UserPlaylists-HeaderSubText-Main">personal</p>
+            </p>
+          </div>
           {this.state.dataRecieved ? this.renderPlaylists() : <div className="loading" id="Playlists" />}
-          <AddPlaylist userData={this.props.userData} getPlaylists={this.getPlaylists} />
           {this.state.playlistRedirect ? <Redirect to="/playlists/single" /> : ''}
         </div>
+        <AddPlaylist userData={this.props.userData} getPlaylists={this.getPlaylists} />
       </div>
     );
   }

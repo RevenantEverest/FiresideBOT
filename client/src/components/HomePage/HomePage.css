@@ -1,59 +1,100 @@
 .HomePage {
   height: 100vh;
+  width: 110%;
   background-color: #1a1a1a;
-}
 
-.Logo {
-  position: relative;
-  height: 27vh;
-  width: 10%;
-  background-image: url(../../res/images/Logo.png);
   background-repeat: no-repeat;
-  background-size: 100%;
-  margin-left: 44%;
-  top: 25%;
-  margin-bottom: 12%;
 }
 
+.HomePage-Contents {
+  height: auto;
+}
+
+.HomePage-Box1 {
+  background-image: url(../../res/images/CampfireBG.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+}
+.HomePage-Box1-Vignette {
+  height: 100vh;
+  background: rgba(0,0,0,0.3);
+}
+.HomePage-Box1-Contents {
+  position: relative;
+  top: 20%;
+  left: 5%;
+  width: 45%;
+}
+.Logo {
+  display: inline-block;
+  height: 150px;
+  margin-right: 1%;
+}
 .Text-Logo {
   position: relative;
+  top: -25px;
+  display: inline-block;
   color: #dedede;
-  font-family: "Risa", sans-serif;
-  font-size: 200px;
-  margin-left: 30%;
+  font-family: "NexaRustSlab";
+  font-size: 100px;
 }
-
-.HomePage-Playlists {
-  position: relative;
-  left: 46%;
-  top: -100px;
-  font-weight: 800;
-  font-size: 30px;
-  padding: .5%;
-  transition: .5s;
-}
-
-.HomePage-Playlists:hover {
-  color: cyan;
-  background-color: black;
-  border: solid #dedede;
-}
-
 .Discord-Login {
   position: relative;
-  top: -800px;
-  left: 1600px;
-  font-family: "Raleway", sans-serif;
-  font-weight: 800;
-  font-size: 24px;
-  padding: .5%;
-  background-color: #7289DA;
-  color: #dedede;
+  display: inline-block;
+  float: right;
+  top: -80px;
+  right: 30px;
+  font-size: 20px;
+  transition: .3s;
+  background-color: #738adb;
   border: none;
-  border-radius: 12px;
+  padding: 1%;
+  color: #dedede;
+  width: 25%;
+}
+.Discord-Login:hover { background-color: purple; }
+.HomePage-DiscordIcon { color: white; font-size: 30px; margin-right: 5%; }
+.HomePage-ServerList {
+  color: #dedede;
+  position: relative;
+  top: -90px;
+  left: 135px;
+  font-weight: 400;
 }
 
-.Discord-Login:hover {
-  background-color: #4a67cf;
-  color: #f2f2f2;
+/* Box 2 */
+
+.HomePage-Box2 {
+  position: relative;
+  height: 100vh;
+  width: 91%;
+  background: white;
+  text-align: center;
 }
+
+.HomePage-Features-Header-Text {
+  display: inline-block;
+  width: 25%;
+  font-size: 80px;
+  font-family: "Raleway", sans-serif;
+  font-weight: 400;
+  border-bottom: solid orange 4px;
+  color: orange;
+}
+
+.HomePage-Features {
+  position: relative;
+  top: 5%;
+  width: 60%;
+  left: 20%;
+  right: 20%;
+}
+
+.HomePage-Music, .HomePage-Ranks, .HomePage-Analytics, .HomePage-Moderation {
+  display: inline-block;
+  width: 30%;
+  margin: 0 6% 6% 6%;
+}
+
+.HomePage-MusicIcon, .HomePage-RankIcon, .HomePage-AnalyticsIcon, .HomePage-ModerationIcon { font-size: 70px; color: orange; }

@@ -1,6 +1,10 @@
 import axios from 'axios';
 const services = {};
 
+services.getGuilds = (data) => {
+  return axios.get(`/guilds`);
+}
+
 services.checkForGuild = (data) => {
   return axios.get(`/guilds/check/${data}`);
 };

@@ -4,6 +4,10 @@ const userSongsDB = require('../../../models/UserModels/userSongsDB');
 const playSong = require('./playSong');
 const flags = require('../flags/flags');
 
+const pgp = require('pg-promise')();
+const QRE = pgp.errors.QueryResultError;
+const qrec = pgp.errors.queryResultErrorCode;
+
 module.exports = {
   playlist(message, args, server) {
     if(!message.member.voiceChannel) {
@@ -31,7 +35,12 @@ module.exports = {
             return message.channel.send(playlistEmbed);
           })
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+          if(err instanceof QRE && err.code === qrec.noData) {
+            message.channel.send('No playlist available by that name');
+          }
+          else console.log(err);
+        });
     }
 
     // TODO: Handle Query Result Error 0
@@ -39,6 +48,7 @@ module.exports = {
     if(args[1] === "-s") playlistName = args[2];
     userPlaylistsDB.findByDiscordIdAndPlaylistName({ discord_id: parseInt(message.author.id, 10), name: playlistName })
       .then(playlist => {
+        if(!playlist) return message.channel.send('No playlist found by that name');
         userSongsDB.findByPlaylistId(playlist.playlist_id)
           .then(songs => {
             for(let i = 0; i < songs.length; i++) {
@@ -55,8 +65,18 @@ module.exports = {
               playSong.playSong(connection, message);
             })
           })
-          .catch(err => console.log(err));
+          .catch(err => {
+            if(err instanceof QRE && err.code === qrec.noData) {
+              message.channel.send(`No songs found in playlist ${playlist.name}`);
+            }
+            else console.log(err);
+          });
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        if(err instanceof QRE && err.code === qrec.noData) {
+          message.channel.send('No playlist found by that name');
+        }
+        else console.log(err);
+      })
   }
 }

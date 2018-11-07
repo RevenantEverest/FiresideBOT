@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './HomePage.css';
+
+//Image Imports
+import Logo from '../../res/images/Logo.png'
 
 //services Imports
 import discordServices from '../../services/discordServices';
+import guildServices from '../../services/GuildServices/guildServices';
 
 import key from '../../key.js';
 
@@ -21,6 +26,7 @@ class HomePage extends Component {
   componentDidMount() {
     document.querySelector('.NavBar').style.display = "none";
     this.getToken();
+    this.getGuilds();
   }
 
   getToken() {
@@ -41,6 +47,13 @@ class HomePage extends Component {
                       // }
   }
 
+  getGuilds() {
+    guildServices.getGuilds()
+      .then(guilds => {
+        this.setState({ guilds: guilds.data.data.length, guildDataRecieved: true });
+      })
+  }
+
   userDataPromise(userData) {
     return new Promise((resolve, reject) => {
       this.props.getUserData(userData);
@@ -58,10 +71,44 @@ class HomePage extends Component {
   render() {
     return(
       <div className="HomePage">
-        <div className="Logo" />
-        <h1 className="Text-Logo">Fireside BOT</h1>
-        <button className="Discord-Login" onClick={(e) => this.handleDiscordLogin()}>Login With Discord</button>
-        {this.state.dataRecieved ? <Redirect to="/dashboard" /> : ''}
+        <div className="HomePage-Contents">
+          <div className="HomePage-Box1">
+            <div className="HomePage-Box1-Vignette">
+              <div className="HomePage-Box1-Contents">
+                <img className="Logo" src={Logo} alt=""/>
+                <h1 className="Text-Logo">FiresideBOT</h1>
+                <button className="Discord-Login" onClick={(e) => this.handleDiscordLogin()}>
+                <FontAwesomeIcon className="HomePage-DiscordIcon" icon={['fab', 'discord']} />
+                  Login With Discord
+                </button>
+                {this.state.guildDataRecieved ? <h2 className="HomePage-ServerList">Operating In {this.state.guilds} Discord Servers!</h2>: ''}
+                {this.state.dataRecieved ? <Redirect to="/dashboard" /> : ''}
+              </div>
+            </div>
+          </div>
+
+          <div className="HomePage-Box2">
+            <h1 className="HomePage-Features-Header-Text">Features</h1>
+            <div className="HomePage-Features">
+              <div className="HomePage-Music">
+                <FontAwesomeIcon className="HomePage-MusicIcon" icon="music" />
+                <p>Curabitur nulla nulla, scelerisque sit amet facilisis at, vestibulum sed elit. Etiam dapibus purus quis placerat placerat. Vestibulum eget massa in felis semper sagittis. Duis congue nulla condimentum tempus molestie. Vivamus risus augue, tempus at ullamcorper id, varius ullamcorper ante. Donec finibus nec lectus eu tincidunt. Sed pellentesque neque et lacinia aliquet.</p>
+              </div>
+              <div className="HomePage-Ranks">
+                <FontAwesomeIcon className="HomePage-RankIcon" icon="crown" />
+                <p>Curabitur nulla nulla, scelerisque sit amet facilisis at, vestibulum sed elit. Etiam dapibus purus quis placerat placerat. Vestibulum eget massa in felis semper sagittis. Duis congue nulla condimentum tempus molestie. Vivamus risus augue, tempus at ullamcorper id, varius ullamcorper ante. Donec finibus nec lectus eu tincidunt. Sed pellentesque neque et lacinia aliquet.</p>
+              </div>
+              <div className="HomePage-Analytics">
+                <FontAwesomeIcon className="HomePage-AnalyticsIcon" icon="chart-line" />
+                <p>Curabitur nulla nulla, scelerisque sit amet facilisis at, vestibulum sed elit. Etiam dapibus purus quis placerat placerat. Vestibulum eget massa in felis semper sagittis. Duis congue nulla condimentum tempus molestie. Vivamus risus augue, tempus at ullamcorper id, varius ullamcorper ante. Donec finibus nec lectus eu tincidunt. Sed pellentesque neque et lacinia aliquet.</p>
+              </div>
+              <div className="HomePage-Moderation">
+                <FontAwesomeIcon className="HomePage-ModerationIcon" icon="bolt" />
+                <p>Curabitur nulla nulla, scelerisque sit amet facilisis at, vestibulum sed elit. Etiam dapibus purus quis placerat placerat. Vestibulum eget massa in felis semper sagittis. Duis congue nulla condimentum tempus molestie. Vivamus risus augue, tempus at ullamcorper id, varius ullamcorper ante. Donec finibus nec lectus eu tincidunt. Sed pellentesque neque et lacinia aliquet.</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

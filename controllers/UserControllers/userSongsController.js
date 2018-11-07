@@ -2,6 +2,10 @@ const userSongsDB = require('../../models/UserModels/userSongsDB');
 const youtubeServices = require('../../services/youtubeServices');
 const YTDL = require('ytdl-core');
 
+const pgp = require('pg-promise')();
+const QRE = pgp.errors.QueryResultError;
+const qrec = pgp.errors.queryResultErrorCode;
+
 module.exports = {
   index(req, res, next) {
     userSongsDB.findAll()
@@ -22,7 +26,15 @@ module.exports = {
           data: songs
         })
       })
-      .catch(err => { console.log("Failed at Songs Get By Playlist Id"); next(err); });
+      .catch(err => {
+        if(err instanceof QRE && err.code === qrec.noData) {
+          res.json({
+            message: "No Regulars Found",
+            data: {}
+          })
+        }
+        else next(err);
+      });
   },
   getOne(req, res, next) {
     userSongsDB.findOne(req.params.id)

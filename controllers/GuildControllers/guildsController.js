@@ -2,7 +2,7 @@ const guildsDB = require('../../models/GuildModels/guildsDB');
 
 module.exports = {
   index(req, res, next) {
-    guildDB.findAll()
+    guildsDB.findAll()
       .then(guilds => {
         res.json({ message: 'Getting all bot guilds', data: guilds });
       })

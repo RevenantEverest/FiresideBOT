@@ -9,4 +9,39 @@
   display: inline-block;
   height: auto;
   background-color: #dedede;
+  margin: 0% 0 0 5%;
+}
+
+.UserPlaylists-Header {
+  margin-bottom: 20%;
+}
+
+.UserPlaylists-HeaderSubText, .UserPlaylists-HeaderSubText-Main { display: inline; }
+
+.PlaylistDisplay {
+  padding: 5%;
+  width: 550%;
+  font-family: "Roboto", sans-serif;
+  font-weight: 800;
+  font-size: 20px;
+}
+
+.PD-grey { background: #b3b3b3; }
+
+.PD-white { background: #dedede }
+
+.UserPlaylists-PlaylistName {
+  display: block;
+}
+
+.UserPlaylists-SongAmount {
+  font-weight: 400;
+  font-size: 14px;
+  display: inline-block;
+}
+
+.UserPlaylists-Delete {
+  position: relative;
+  float: right;
+  top: 15px;
 }
