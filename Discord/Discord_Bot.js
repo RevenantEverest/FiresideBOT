@@ -3,6 +3,7 @@ const Discord_Bot = new config.Discord.Client();
 const Discord_Commands = require('./commands/Discord_Commands');
 const guildsDB = require('../models/GuildModels/guildsDB');
 const customCommandsDB = require('../models/customCommandsDB');
+const currency = require('./commands/currency/currency');
 let PREFIX = '';
 
 // Called When Bot Starts
@@ -38,6 +39,7 @@ Discord_Bot.on("message", (message) => {
   // message.guild.leave();
   if(message.author.equals(Discord_Bot.user)) return;
   if(message.channel.type === 'dm') return;
+  currency.handleCurrency(message);
   if(message.channel.type === 'text')
     guildsDB.findPrefix(message.guild.id)
       .then(prefix => {

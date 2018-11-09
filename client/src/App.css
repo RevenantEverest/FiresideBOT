@@ -7,3 +7,8 @@
 }
 
 .App-Contents {  display: inline; }
+.loading {
+  background-image: url(./res/images/Loading.gif);
+  background-repeat: no-repeat;
+  background-size: 100%;
+}

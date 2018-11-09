@@ -63,7 +63,7 @@
 /* .NavBar-Contents:hover .NavBar-Dropdown { display: block; } */
 
 .DashboardIcon, .MagicIcon, .MusicIcon, .InfoIcon, .CommentsIcon, .ChartIcon, .AwardIcon,
-.BoltIcon, .CrownIcon
+.BoltIcon, .CrownIcon, .CoinsIcon
 { display: inline-block; position: relative; right: 5%; }
 .AngleIcon-Command { display: inline-block; position: relative; left: 20%; }
 .AngleIcon-Music { display: inline-block; position: relative; left: 45%; }

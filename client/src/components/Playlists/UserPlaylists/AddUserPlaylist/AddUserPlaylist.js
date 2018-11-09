@@ -50,6 +50,7 @@ class AddUserPlaylist extends Component {
     return(
       <div id="AddUserPlaylist">
         <div className="AddUserPlaylist-Contents">
+          <h1 className="AddUserPlaylist-Header">Add Playlist: </h1>
           <form id="AddUserPlaylistForm" onSubmit={this.handleSubmit} autoComplete="off">
             <input className={`${this.state.nameInput}`} type="text" name="name" onChange={this.handleChange} />
             <input type="submit" value="Create" />

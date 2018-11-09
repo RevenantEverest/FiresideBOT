@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faLink, faClock, faVolumeUp, faVolumeDown, faVolumeOff, faMusic, faTachometerAlt,
          faMagic, faArrowCircleLeft, faBook, faInfoCircle, faComments, faChartLine, faAngleLeft,
-         faAngleDown, faBolt, faCrown, faAward} from '@fortawesome/free-solid-svg-icons';
+         faAngleDown, faBolt, faCrown, faAward, faCoins} from '@fortawesome/free-solid-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import './App.css';
 
@@ -18,6 +18,7 @@ import ManageServer from './components/ManageServer/ManageServer';
 import Analytics from './components/Analytics/Analytics';
 import Regulars from './components/Regulars/Regulars';
 import Ranks from './components/Ranks/Ranks';
+import CurrencySystem from './components/CurrencySystem/CurrencySystem';
 import Moderation from './components/Moderation/Moderation';
 import HelpDocs from './components/HelpDocs/HelpDocs';
 import SupportForum from './components/SupportForum/SupportForum';
@@ -35,7 +36,7 @@ import CustomCommands from './components/Commands/CustomCommands/CustomCommands'
 
 library.add(faLink, faClock, faVolumeUp, faVolumeDown, faVolumeOff, faMusic, faTachometerAlt, faMagic);
 library.add(faArrowCircleLeft, faBook, faInfoCircle, faComments, faChartLine, faAngleLeft, faAngleDown);
-library.add(faBolt, faCrown, faAward);
+library.add(faBolt, faCrown, faAward, faCoins);
 library.add(fab)
 
 class App extends Component {
@@ -73,6 +74,7 @@ class App extends Component {
               {this.state.userData != null ? <Route exact path="/analytics" component={() => (<Analytics userData={this.state.userData}/>) } /> : ''}
               {this.state.userData != null ? <Route exact path="/regulars" component={() => (<Regulars userData={this.state.userData}/>) } /> : ''}
               {this.state.userData != null ? <Route exact path="/ranks" component={() => (<Ranks userData={this.state.userData}/>) } /> : ''}
+              {this.state.userData != null ? <Route exact path="/currency" component={() => (<CurrencySystem userData={this.state.userData} />) } /> : ''}
               {this.state.userData != null ? <Route exact path="/moderation" component={() => (<Moderation userData={this.state.userData}/>) } /> : ''}
               {this.state.userData != null ? <Route path="/help" component={() => (<HelpDocs userData={this.state.userData}/>) } /> : ''}
               {this.state.userData != null ? <Route exact path="/support" component={() => (<SupportForum userData={this.state.userData}/>) } /> : ''}

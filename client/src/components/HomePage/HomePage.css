@@ -56,6 +56,7 @@
 .Discord-Login:hover { background-color: purple; }
 .HomePage-DiscordIcon { color: white; font-size: 30px; margin-right: 5%; }
 .HomePage-ServerList {
+  display: inline-block;
   color: #dedede;
   position: relative;
   top: -90px;

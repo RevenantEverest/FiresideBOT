@@ -69,19 +69,19 @@ class UserPlaylists extends Component {
       else if(counter % 2 === 1)
         playlistDisplayColor = 'PD-grey';
       return(
-        <div className={`PlaylistDisplay ${playlistDisplayColor}`} key={idx}>
-          <Link className="UserPlaylists-PlaylistName" to={{
-            pathname: `/playlists/personal/${el.playlistInfo.name}`,
-            state: {
-              userData: this.props.userData,
-              playlistData: el.playlistInfo
-            }
-          }}>
-            {el.playlistInfo.name}
-          </Link>
-          <p className="UserPlaylists-SongAmount">{el.songs} Songs</p>
-          <button className="UserPlaylists-Delete" onClick={(e) => this.deletePlaylist(el) }>Delete</button>
-        </div>
+        <Link className=''key={idx} to={{
+          pathname: `/playlists/personal/${el.playlistInfo.name}`,
+          state: {
+            userData: this.props.userData,
+            playlistData: el.playlistInfo
+          }
+        }}>
+          <div className={`PlaylistDisplay ${playlistDisplayColor}`}>
+            <h1 className="UserPlaylists-PlaylistName">{el.playlistInfo.name}</h1>
+            <p className="UserPlaylists-SongAmount">{el.songs} Songs</p>
+            <button className="UserPlaylists-Delete" onClick={(e) => this.deletePlaylist(el) }>Delete</button>
+          </div>
+        </Link>
       );
     });
 
@@ -100,10 +100,10 @@ class UserPlaylists extends Component {
             <h1 className="UserPlaylists-HeaderText">Personal Playlists</h1>
             <p className="UserPlaylists-HeaderSubText">
               HOME / playlists /
-              <p className="UserPlaylists-HeaderSubText-Main">personal</p>
+              <p className="UserPlaylists-HeaderSubText-Main"> personal</p>
             </p>
           </div>
-          {this.state.dataRecieved ? this.renderPlaylists() : <div className="loading" id="Playlists" />}
+          {this.state.dataRecieved ? this.renderPlaylists() : <div className="loading" id="LoadingUserPlaylists" />}
           {this.state.playlistRedirect ? <Redirect to="/playlists/single" /> : ''}
         </div>
         <AddPlaylist userData={this.props.userData} getPlaylists={this.getPlaylists} />

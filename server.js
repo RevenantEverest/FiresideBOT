@@ -29,6 +29,7 @@ const queueRouter = require('./routes/queueRoutes');
 const autodjRouter = require('./routes/autodjRoutes');
 const TBW_Router = require('./routes/TBW_Routes');
 const regularsRouter = require('./routes/regularsRoutes');
+const discordCurrencyRouter = require('./routes/discordCurrencyRoutes');
 
 /* Middleware */
 app.use(logger('dev'));
@@ -50,6 +51,7 @@ app.use("/queue", queueRouter);
 app.use("/autodj", autodjRouter);
 app.use("/TBW", TBW_Router);
 app.use("/regulars", regularsRouter);
+app.use("/currency/discord", discordCurrencyRouter);
 
 /* Default Routes */
 app.use("/", (req, res) => {

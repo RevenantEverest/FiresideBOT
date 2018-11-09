@@ -25,13 +25,15 @@
   font-weight: 800;
   font-size: 20px;
 }
+.PlaylistDisplay:hover { cursor: pointer; }
+.PlaylistDisplay:hover .UserPlaylists-PlaylistName { text-decoration: underline; }
 
 .PD-grey { background: #b3b3b3; }
-
 .PD-white { background: #dedede }
 
 .UserPlaylists-PlaylistName {
   display: block;
+  font-size: 20px;
 }
 
 .UserPlaylists-SongAmount {
@@ -44,4 +46,11 @@
   position: relative;
   float: right;
   top: 15px;
+}
+
+#LoadingUserPlaylists {
+  height: 12vh;
+  width: 50%;
+  margin: 0 auto;
+  position: relative;
 }

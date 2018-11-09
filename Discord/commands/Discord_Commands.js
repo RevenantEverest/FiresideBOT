@@ -25,6 +25,10 @@ const volume = require('./music/volume');
 const poll = require('./poll/poll');
 const pokemonCommands = require('./pokemon/pokemon');
 
+//Currency Commands
+const checkCurrency = require('./currency/checkCurrency');
+const giveCurrency = require('./currency/giveCurrency');
+
 const rustPasta = require('./copyPasta/rustPasta');
 
 const help = require('./help/help');
@@ -124,9 +128,17 @@ module.exports = {
         volume.setVolume(message, args, server);
         break;
 
-      // case "test":
-      //   console.log(message.author.username);
-      //   break;
+      //Currency Commands
+      case "currency":
+        checkCurrency.checkCurrency(message, args, server);
+        break;
+      case "give":
+        giveCurrency.giveCurrency(message, args, server);
+        break;
+
+      case "test":
+        console.log(message.mentions.users.array()[0].username);
+        break;
 
       case "help":
         help.sendHelp(message, args, server);

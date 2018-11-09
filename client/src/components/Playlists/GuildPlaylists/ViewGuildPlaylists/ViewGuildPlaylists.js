@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 import './ViewGuildPlaylists.css';
 
@@ -14,7 +15,7 @@ class ViewGuildPlaylists extends Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      dropDownAngle: 'angle-left'
     }
     this.getUserGuilds = this.getUserGuilds.bind(this);
   }
@@ -34,12 +35,11 @@ class ViewGuildPlaylists extends Component {
         }
         this.setState({ guildData: guilds.data, guildPermissionData: tempArr });
         Promise.all(guildsPromises).then(results => {
-          let ResultsFilter = results.filter(el => {
-            return el.data.data;
-          });
+          let ResultsFilter = results.filter(el => { return el.data.data; });
+          let GuildDataFilter = guilds.data.map((el, idx) => { return {name: el.name, id: el.id}; });
           let ResultsMap = ResultsFilter.map((el, idx) => {
-            return el.data.data[0];
-          })
+            return {guild_name: el.data.data[0].guild_name, playlists: el.data.data};
+          });
           this.setState({ playlistData: ResultsMap, dataReceived: true });
         })
         .catch(err => console.log(err));
@@ -47,27 +47,55 @@ class ViewGuildPlaylists extends Component {
       .catch(err => console.log(err));
   }
 
+  handleDropdowns(idx) {
+    // if(this.state.dropDownAngle === 'angle-left') {
+    //   this.setState({ dropDownAngle: 'angle-down' });
+    //   document.querySelector(`.VGP-Dropdown-${idx}`).style.display = "block";
+    // }else if(this.state.dropDownAngle === 'angle-down') {
+    //   this.setState({ dropDownAngle: 'angle-left' });
+    //   document.querySelector(`.VGP-Dropdown-${idx}`).style.display = "none";
+    // }
+  }
+
   renderPlaylists() {
+    let counter = 0;
+    let colorDisplay = '';
     let Guilds = this.state.playlistData.map((el, idx) => {
+      counter++;
+      if(counter % 2 === 0) colorDisplay = 'VGP-White';
+      else if(counter % 2 === 1) colorDisplay = 'VGP-Grey';
+      let playlistCounter = 0;
+      let playlists = el.playlists.map((PEL, index) => {
+        playlistCounter++;
+        return(
+          <div className="VGP-Playlists">
+            <Link className="VGP-Playlists-Link" key={index} to={{
+              pathname: `/playlists/guild/${PEL.name}`,
+              state: {
+                userData: this.props.userData,
+                playlistData: PEL,
+                guildPermissionData: this.state.guildPermissionData
+              }
+            }}>
+              <h1 className="VGP-PlaylistName">{playlistCounter}. {PEL.name}</h1>
+              <p className="VGP-PlaylistSongsCount">12 Songs</p>
+            </Link>
+          </div>
+        );
+      })
       return(
-        <div key={idx}>
-          <h2>{el.guild_name}</h2>
-          <Link to={{
-            pathname: `/playlists/guild/${el.name}`,
-            state: {
-              userData: this.props.userData,
-              playlistData: el,
-              guildPermissionData: this.state.guildPermissionData
-            }
-          }}>
-            {el.name}
-          </Link>
+        <div className={`VGP-ServerDisplay ${colorDisplay} ${this.state.dropDownAngle}`} onClick={(e) => this.handleDropdowns(idx)} key={idx}>
+          <h2 className="VGP-GuildName">{el.guild_name}</h2>
+          {/*<FontAwesomeIcon className={`VGP-ServerAngle ServerAngle-${idx}`} icon={this.state.dropDownAngle} />*/}
+          <div className={`VGP-Server-Dropdown VGP-Dropdown-${idx}`}>
+            {playlists}
+          </div>
         </div>
       );
     });
 
     return(
-      <div>
+      <div className="VGP-PlaylistRender">
         {Guilds}
       </div>
     );
@@ -77,8 +105,12 @@ class ViewGuildPlaylists extends Component {
     return(
       <div id="ViewGuildPlaylists">
         <div className="ViewGuildPlaylists-Contents">
-          <h1>Guild Playlists</h1>
-          {this.state.dataReceived ? this.renderPlaylists() : ''}
+          <div className="ViewGuildPlaylists-Header">
+            <h1 className="ViewGuildPlaylists-Header-Text">Guild Playlists</h1>
+            <p className="ViewGuildPlaylists-SubHeader">HOME / playlists /</p>
+            <p className="ViewGuildPlaylists-SubHeader-Main"> guild</p>
+          </div>
+          {this.state.dataReceived ? this.renderPlaylists() : <div className="loading" id="LoadingGuildPlaylists" />}
           {this.state.dataReceived ? <EditGuildPlaylists userData={this.props.userData} guilds={this.state.guildData} getUserGuilds={this.getUserGuilds} /> : ''}
         </div>
       </div>

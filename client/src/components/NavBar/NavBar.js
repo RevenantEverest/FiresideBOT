@@ -98,6 +98,14 @@ class NavBar extends Component {
           </div>
         </Link>
 
+        {/* Currency */}
+        <Link to={{ pathname: "/currency" }}>
+          <div className="NavBar-Contents NavBar-Currency">
+            <FontAwesomeIcon className="NavBar-Contents-Text CoinsIcon" icon="coins" />
+            <h4 className="NavBar-Contents-Text NavBar-Ranks-Text">Currency</h4>
+          </div>
+        </Link>
+
         {/* Moderation */}
         <Link to={{ pathname: "/moderation" }}>
           <div className="NavBar-Contents NavBar-Moderation">

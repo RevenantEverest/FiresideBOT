@@ -11,6 +11,8 @@ DROP TABLE IF EXISTS default_commands;
 DROP TABLE IF EXISTS custom_commands;
 DROP TABLE IF EXISTS twitch_banned_words;
 DROP TABLE IF EXISTS regulars;
+DROP TABLE IF EXISTS discord_currency;
+DROP TABLE IF EXISTS twitch_currency;
 
 CREATE TABLE users (
   user_id SERIAL PRIMARY KEY,
@@ -98,4 +100,18 @@ CREATE TABLE regulars (
   regular_id SERIAL PRIMARY KEY,
   channel VARCHAR(255),
   regular_username VARCHAR(255)
+);
+
+CREATE TABLE discord_currency (
+  id SERIAL PRIMARY KEY,
+  discord_id BIGINT,
+  guild_id BIGINT,
+  currency BIGINT
+);
+
+CREATE TABLE currency_settings (
+  id SERIAL PRIMARY KEY,
+  guild_id BIGINT,
+  currency_name VARCHAR(255),
+  currency_increase_rate INT
 );

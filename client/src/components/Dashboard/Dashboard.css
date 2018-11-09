@@ -9,3 +9,11 @@
   height: auto;
   background-color: #dedede;
 }
+
+#LoadingDashboard {
+  height: 16vh;
+  width: 12%;
+  margin: 0 auto;
+  position: relative;
+  top: 300px;
+}
