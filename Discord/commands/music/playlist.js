@@ -3,6 +3,7 @@ const userPlaylistsDB = require('../../../models/UserModels/userPlaylistsDB');
 const userSongsDB = require('../../../models/UserModels/userSongsDB');
 const playSong = require('./playSong');
 const flags = require('../flags/flags');
+const myPlaylists = require('./myPlaylists');
 
 const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
@@ -14,41 +15,13 @@ module.exports = {
       message.channel.send("You must be in a voice channel");
       return;
     }
-    if(!args[1]) {
-      userPlaylistsDB.findByDiscordId(parseInt(message.author.id, 10))
-        .then(playlists => {
-          let playlistEmbed = new config.Discord.RichEmbed();
-          let playlistPromises = [];
-          playlistEmbed
-            .setTitle(`**Available Playlists For ${message.author.username}**`)
-            .addBlankField()
-            .setThumbnail('https://i.imgur.com/OpSJJxe.png')
-            .setColor(0xff3399);
-          for(let i = 0; i < playlists.length; i++) {
-            playlistPromises.push(userSongsDB.findByPlaylistId(playlists[i].playlist_id));
-          }
-          Promise.all(playlistPromises).then(songs => {
-            for(let i = 0; i < playlists.length; i++) {
-              if(i > 20) return; // Adheres to 25 field limit for Rich Embeds
-              playlistEmbed.addField(`${i + 1}. ${playlists[i].name}`, `${songs[i].length} Songs`)
-            }
-            return message.channel.send(playlistEmbed);
-          })
-        })
-        .catch(err => {
-          if(err instanceof QRE && err.code === qrec.noData) {
-            message.channel.send('No playlist available by that name');
-          }
-          else console.log(err);
-        });
-    }
+    if(!args[1]) return myPlaylists.findMyPlaylists(message, args, server);
 
-    // TODO: Handle Query Result Error 0
     let playlistName = args[1];
     if(args[1] === "-s") playlistName = args[2];
-    userPlaylistsDB.findByDiscordIdAndPlaylistName({ discord_id: parseInt(message.author.id, 10), name: playlistName })
+    userPlaylistsDB.findByDiscordIdAndPlaylistName({ discord_id: message.author.id, name: playlistName })
       .then(playlist => {
-        if(!playlist) return message.channel.send('No playlist found by that name');
+        if(!playlist) return message.channel.send('No playlist found by that name ey');
         userSongsDB.findByPlaylistId(playlist.playlist_id)
           .then(songs => {
             for(let i = 0; i < songs.length; i++) {

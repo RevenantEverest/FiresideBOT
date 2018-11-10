@@ -52,6 +52,7 @@ class SinglePlaylist extends Component {
 
   renderSongs() {
     let counter = 0;
+    if(!Array.isArray(this.state.songData)) return;
     let Songs = this.state.songData.map((el, idx) => {
       counter++;
       return(

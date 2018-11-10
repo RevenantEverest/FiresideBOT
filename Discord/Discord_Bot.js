@@ -4,6 +4,10 @@ const Discord_Commands = require('./commands/Discord_Commands');
 const guildsDB = require('../models/GuildModels/guildsDB');
 const customCommandsDB = require('../models/customCommandsDB');
 const currency = require('./commands/currency/currency');
+const discordCurrencyDB = require('../models/discordCurrencyDB');
+const pgp = require('pg-promise')();
+const QRE = pgp.errors.QueryResultError;
+const qrec = pgp.errors.queryResultErrorCode;
 let PREFIX = '';
 
 // Called When Bot Starts
@@ -17,12 +21,44 @@ Discord_Bot.on("guildCreate", (guild) => {
     .then(() => {
       guildsDB.ifSettingsExist(guild.id)
         .then(settings => {
-          if(settings.count === "1") return;
+          if(settings.count === "1") {
+            discordCurrencyDB.findCurrencySettings(guild.id)
+              .then()
+              .catch(err => {
+                if(err instanceof QRE && err.code === qrec.noData) {
+                  discordCurrencyDB.saveDefaultSettings({
+                    guild_id: guild.id,
+                    currency_name: 'Kindling',
+                    currency_increase_rate: 10
+                  })
+                  .catch(err => console.log(err));
+                }
+                else console.log(err);
+              });
+          }
           else if(settings.count === "0") {
             guildsDB.saveDefaultSettings({
               guild_id: guild.id,
               prefix: '?'
-            }).then()
+            })
+            .then(() => {
+              discordCurrencyDB.findCurrencySettings(guild.id)
+                .then()
+                .catch(err => {
+                  if(err instanceof QRE && err.code === qrec.noData) {
+                    discordCurrencyDB.saveDefaultSettings({
+                      guild_id: guild.id,
+                      currency_name: 'Kindling',
+                      currency_increase_rate: 10
+                    })
+                    .catch(err => console.log(err));
+                  }
+                  else console.log(err);
+                })
+            })
+            .catch(err => {
+              console.log(err);
+            })
           }
         })
     }).catch(err => console.log(err));

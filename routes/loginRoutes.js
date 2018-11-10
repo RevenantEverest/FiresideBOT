@@ -12,10 +12,10 @@ loginRouter.route('/discord/token')
           .then(discord_user => {
             let Discord_Username = discord_user.data.username;
             let Discord_ID = discord_user.data.id;
-            usersDB.seeIfDiscordIdExists(parseInt(Discord_ID, 10))
+            usersDB.seeIfDiscordIdExists(Discord_ID)
               .then(user => {
                 if(user.count === '1') {
-                  usersDB.findByDiscordId(parseInt(Discord_ID, 10))
+                  usersDB.findByDiscordId(Discord_ID)
                     .then(returningUser => {
                       res.json({
                         message: 'User Authenticated',
@@ -32,7 +32,7 @@ loginRouter.route('/discord/token')
                 }else if(user.count === '0') {
                   usersDB.save({
                     discord_username: Discord_Username,
-                    discord_id: parseInt(Discord_ID, 10),
+                    discord_id: Discord_ID,
                     twitch_username: 'not connected'
                   })
                   .then(savedUser => {
@@ -66,7 +66,7 @@ loginRouter.route('/discord/user/:token')
   .get((req, res, next) => {
     discordServices.getUserInfo(req.params.token)
       .then(results => {
-        usersDB.findByDiscordId(parseInt(results.data.id, 10))
+        usersDB.findByDiscordId(results.data.id)
           .then(user => {
             res.json({
               message: 'Getting User By Discord Id',

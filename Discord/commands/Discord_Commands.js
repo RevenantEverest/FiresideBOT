@@ -14,6 +14,7 @@ const play = require('./music/play');
 const pauseResume = require('./music/pauseResume');
 const playNext = require('./music/playNext');
 const playlist = require('./music/playlist');
+const myPlaylists = require('./music/myPlaylists');
 const serverPlaylist = require('./music/serverPlaylist');
 const queue = require('./music/queue');
 const promote = require('./music/promote');
@@ -105,6 +106,9 @@ module.exports = {
       case "playlist":
         playlist.playlist(message, args, server);
         break;
+      case "myplaylists":
+        myPlaylists.findMyPlaylists(message, args, server);
+        break;
       case "serverplaylist":
         serverPlaylist.serverPlaylist(message, args, server);
         break;
@@ -129,7 +133,7 @@ module.exports = {
         break;
 
       //Currency Commands
-      case "currency":
+      case "balance":
         checkCurrency.checkCurrency(message, args, server);
         break;
       case "give":

@@ -13,22 +13,23 @@ DROP TABLE IF EXISTS twitch_banned_words;
 DROP TABLE IF EXISTS regulars;
 DROP TABLE IF EXISTS discord_currency;
 DROP TABLE IF EXISTS twitch_currency;
+DROP TABLE IF EXISTS currency_settings;
 
 CREATE TABLE users (
   user_id SERIAL PRIMARY KEY,
   discord_username VARCHAR(255),
-  discord_id BIGINT,
+  discord_id VARCHAR(255),
   twitch_username VARCHAR(255)
 );
 
 CREATE TABLE guild_settings (
-  guild_id BIGINT,
+  guild_id VARCHAR(255),
   prefix VARCHAR(10)
 );
 
 CREATE TABLE bot_guilds (
   guild_name VARCHAR(255),
-  guild_id BIGINT
+  guild_id VARCHAR(255)
 );
 
 CREATE TABLE user_playlists (
@@ -47,7 +48,7 @@ CREATE TABLE user_songs (
 
 CREATE TABLE guild_playlists (
   playlist_id SERIAL PRIMARY KEY,
-  guild_id BIGINT,
+  guild_id VARCHAR(255),
   guild_name VARCHAR(255),
   name VARCHAR(255)
 );
@@ -104,14 +105,21 @@ CREATE TABLE regulars (
 
 CREATE TABLE discord_currency (
   id SERIAL PRIMARY KEY,
-  discord_id BIGINT,
-  guild_id BIGINT,
+  discord_id VARCHAR(255),
+  guild_id VARCHAR(255),
+  currency BIGINT
+);
+
+CREATE TABLE twitch_currency (
+  id SERIAL PRIMARY KEY,
+  twitch_username VARCHAR(255),
+  channel VARCHAR(255),
   currency BIGINT
 );
 
 CREATE TABLE currency_settings (
   id SERIAL PRIMARY KEY,
-  guild_id BIGINT,
+  guild_id VARCHAR(255),
   currency_name VARCHAR(255),
   currency_increase_rate INT
 );

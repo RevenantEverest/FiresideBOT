@@ -22,14 +22,14 @@ module.exports = {
       .then(songs => {
         if(songs.length < 1) return;
         res.json({
-          message: "FInding songs by playlist",
+          message: "Finding songs by playlist",
           data: songs
         })
       })
       .catch(err => {
         if(err instanceof QRE && err.code === qrec.noData) {
           res.json({
-            message: "No Regulars Found",
+            message: "No Songs Found",
             data: {}
           })
         }
