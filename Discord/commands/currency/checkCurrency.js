@@ -1,5 +1,6 @@
 const config = require('../../../config/config');
 const discordCurrencyDB = require('../../../models/discordCurrencyDB');
+const currencyDB = require('../../../models/currencyDB');
 const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
 const qrec = pgp.errors.queryResultErrorCode;
@@ -11,12 +12,12 @@ module.exports = {
 
     let discord_id = message.author.id;
     let guild_id = message.guild.id;
-    discordCurrencyDB.findCurrencySettings(guild_id)
+    currencyDB.findCurrencySettings(guild_id)
       .then(settings => {
         discordCurrencyDB.findByDiscordIdAndGuildId({ discord_id: discord_id, guild_id: guild_id })
           .then(results => {
             currencyEmbed
-            .addField("**Bank Records For: **", `${message.author.username}`, true)
+            .addField("Bank Records For:", `${message.author.username}`, true)
             .addField("Server: ", `${message.guild.name}`, true)
             .addBlankField()
             .addField(`${settings.currency_name}:`, `${results.currency}`)

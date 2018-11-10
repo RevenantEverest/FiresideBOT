@@ -4,7 +4,7 @@ const Discord_Commands = require('./commands/Discord_Commands');
 const guildsDB = require('../models/GuildModels/guildsDB');
 const customCommandsDB = require('../models/customCommandsDB');
 const currency = require('./commands/currency/currency');
-const discordCurrencyDB = require('../models/discordCurrencyDB');
+const currencyDB = require('../models/currencyDB');
 const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
 const qrec = pgp.errors.queryResultErrorCode;
@@ -22,11 +22,11 @@ Discord_Bot.on("guildCreate", (guild) => {
       guildsDB.ifSettingsExist(guild.id)
         .then(settings => {
           if(settings.count === "1") {
-            discordCurrencyDB.findCurrencySettings(guild.id)
+            currencyDB.findCurrencySettings(guild.id)
               .then()
               .catch(err => {
                 if(err instanceof QRE && err.code === qrec.noData) {
-                  discordCurrencyDB.saveDefaultSettings({
+                  currencyDB.saveDefaultSettings({
                     guild_id: guild.id,
                     currency_name: 'Kindling',
                     currency_increase_rate: 10
@@ -42,11 +42,11 @@ Discord_Bot.on("guildCreate", (guild) => {
               prefix: '?'
             })
             .then(() => {
-              discordCurrencyDB.findCurrencySettings(guild.id)
+              currencyDB.findCurrencySettings(guild.id)
                 .then()
                 .catch(err => {
                   if(err instanceof QRE && err.code === qrec.noData) {
-                    discordCurrencyDB.saveDefaultSettings({
+                    currencyDB.saveDefaultSettings({
                       guild_id: guild.id,
                       currency_name: 'Kindling',
                       currency_increase_rate: 10
