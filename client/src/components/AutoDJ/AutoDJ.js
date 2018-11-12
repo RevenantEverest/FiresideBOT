@@ -59,6 +59,7 @@ class AutoDJ extends Component {
   }
 
   pollQueue() {
+    if(this.state.userData.twitch_username === 'not connected') return;
     if(window.location.pathname !== '/autodj') return;
     queueServices.getChannelQueue(this.state.userData.twitch_username.split("#")[1])
       .then(queue => {

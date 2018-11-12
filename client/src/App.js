@@ -19,6 +19,7 @@ import Analytics from './components/Analytics/Analytics';
 import Regulars from './components/Regulars/Regulars';
 import Ranks from './components/Ranks/Ranks';
 import CurrencySystem from './components/CurrencySystem/CurrencySystem';
+import ManageGuildCurrency from './components/CurrencySystem/ManageGuildCurrency/ManageGuildCurrency';
 import Moderation from './components/Moderation/Moderation';
 import HelpDocs from './components/HelpDocs/HelpDocs';
 import SupportForum from './components/SupportForum/SupportForum';
@@ -75,6 +76,7 @@ class App extends Component {
               {this.state.userData != null ? <Route exact path="/regulars" component={() => (<Regulars userData={this.state.userData}/>) } /> : ''}
               {this.state.userData != null ? <Route exact path="/ranks" component={() => (<Ranks userData={this.state.userData}/>) } /> : ''}
               {this.state.userData != null ? <Route exact path="/currency" component={() => (<CurrencySystem userData={this.state.userData} />) } /> : ''}
+              {this.state.userData != null ? <Route path="/currency/manage/:guild_id" component={() => (<ManageGuildCurrency userData={this.state.userData} />) } /> : ''}
               {this.state.userData != null ? <Route exact path="/moderation" component={() => (<Moderation userData={this.state.userData}/>) } /> : ''}
               {this.state.userData != null ? <Route path="/help" component={() => (<HelpDocs userData={this.state.userData}/>) } /> : ''}
               {this.state.userData != null ? <Route exact path="/support" component={() => (<SupportForum userData={this.state.userData}/>) } /> : ''}

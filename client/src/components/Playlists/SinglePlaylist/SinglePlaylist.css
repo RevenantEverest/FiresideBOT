@@ -2,19 +2,23 @@
   display: inline-block;
   height: 100%;
   width: 88%;
-  background-color: #dedede;
+  background-color: black;
+  color: #999999;
 }
 
 .SinglePlaylist-Content {
   height: auto;
   margin-top: 2%;
   margin-left: 2%;
-  background-color: #dedede;
+  background-color: black;
   padding: 1% .1% 1% 1%;
   border-radius: 24px;
 }
 
-.SinglePlaylist-Table-Container {}
+.SinglePlaylist-Table-Container {
+  overflow-y: auto;
+  height: 80%;
+}
 
 .SinglePlaylist-TableRow-title { width: 35%; }
 .SinglePlaylist-TableRow-counter { width: 5%; text-align: center; }

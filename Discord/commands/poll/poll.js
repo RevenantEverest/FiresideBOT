@@ -25,9 +25,11 @@ module.exports = {
     if(!server.poll.pollname) return message.channel.send("No poll currently active.");
 
     let pollEmbed = new config.Discord.RichEmbed();
-    pollEmbed.setColor(0xffcc00);
-    pollEmbed.setThumbnail('https://i.imgur.com/UPcLsZx.png');
-    pollEmbed.setTitle(`Poll Question: "${server.poll.pollname}"`);
+    pollEmbed
+    .setColor(0xffcc00)
+    .setThumbnail('https://i.imgur.com/UPcLsZx.png')
+    .setTitle(`Poll Question: "${server.poll.pollname}"`)
+    .addBlankField()
     for(let i = 0; i < server.poll.answers.questions.length; i++) {
       let counter = 0;
       for(let x = 0; x < server.poll.answers.votes.length; x++) {
@@ -58,7 +60,7 @@ module.exports = {
   },
   deletePoll(message, args, server) {
     if(!server.poll.pollname) return message.channel.send("No poll currently active.");
-    
+
     let pollName = server.poll.pollname;
     server.poll = {};
     message.channel.send(`Poll "${pollName}" has ended.`);

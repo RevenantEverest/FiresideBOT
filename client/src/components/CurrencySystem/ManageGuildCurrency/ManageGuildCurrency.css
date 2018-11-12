@@ -1,0 +1,12 @@
+#ManageGuildCurrency {
+  display: inline-block;
+  height: 99%;
+  width: 88%;
+  background-color: #dedede;
+}
+
+.ManageGuildCurrency-Contents {
+  display: inline-block;
+  height: auto;
+  background-color: #dedede;
+}

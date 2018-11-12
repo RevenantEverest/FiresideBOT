@@ -2,28 +2,111 @@ const pokemonServices = require('../services/pokemonServices');
 const config = require('../../../config/config');
 const Discord = config.Discord;
 
-const snakeImages = [
-  'http://ichef.bbci.co.uk/wwfeatures/wm/live/1280_640/images/live/p0/3t/t5/p03tt5gr.jpg',
-  'https://animals.sandiegozoo.org/sites/default/files/2016-10/animals_hero_snakes.jpg',
-  'http://www.bilkulonline.com/wp-content/uploads/2018/08/snakes-in-yard.jpg',
-  'https://www.popsci.com/sites/popsci.com/files/styles/1000_1x_/public/custom-touts/2015/03/green-snake-care-smc-flickr-cc-by-2-teaser.jpg?itok=fkPGrlcw',
-  'https://www.unilad.co.uk/wp-content/uploads/2016/01/snake-featured-2.jpg'
-];
-
 module.exports = {
   getPokemon(message, args, server) {
-    let RNG = Math.floor(Math.random() * 400);
+    if(!args[1] || args[1] === "-i" && !args[2]) return this.getRandomPokemon(message, args, server);
+    if(args[1]) return this.getSpecificPokemon(message, args, server);
+  },
+  getRandomPokemon(message, args, server) {
+    let RNG = Math.floor(Math.random() * 802);
+    let pokemonEmbed = new config.Discord.RichEmbed();
+
     pokemonServices.getPokemon(RNG)
       .then(pokemon => {
-        let name = pokemon.data.name;
-        let sprite = new Discord.Attachment(pokemon.data.sprites.front_default);
+        let name = pokemon.data.name.charAt(0).toUpperCase() + pokemon.data.name.replace(pokemon.data.name.charAt(0), "");
+        // let sprite = new Discord.Attachment(pokemon.data.sprites.front_default);
+        let sprite = pokemon.data.sprites.front_default;
+        let types = '';
+        for(let i = 0; i < pokemon.data.types.length; i++) {
+          types += pokemon.data.types[i].type.name.charAt(0).toUpperCase() + pokemon.data.types[i].type.name.replace(pokemon.data.types[i].type.name.charAt(0), "") + " ";
+        }
+        pokemonEmbed
+        .setColor(0xffff00)
+        .setThumbnail(sprite)
+        .setTitle(`# ${pokemon.data.id}`)
+        .addField("**Name :**", name, true)
 
-        message.channel.send(sprite);
+        if(args[1] === "-i") {
+          pokemonServices.getPokemonSpecies(RNG)
+            .then(species => {
+              let arr = [];
+              for(let i = 0; i < species.data.flavor_text_entries.length; i++) {
+                if(species.data.flavor_text_entries[i].language.name === 'en' && arr.length < 1) {
+                  arr.push(species.data.flavor_text_entries[i].flavor_text)
+                }
+              }
+              pokemonEmbed
+              .addField("**Description :**", arr)
+              .addBlankField()
+              .addField("**Type :**", types, true)
+              .addField("**Weight :**", `${pokemon.data.weight} kg`, true)
+              .addField("**Height :**", `${pokemon.data.height} m`, true)
+              if(species.data.evolves_from_species !== null) {
+                let evolvesFrom = species.data.evolves_from_species.name.charAt(0).toUpperCase() + species.data.evolves_from_species.name.replace(species.data.evolves_from_species.name.charAt(0), "")
+                // .addField("Evolves From:", evolvesFrom)
+              }
+
+              message.channel.send(pokemonEmbed);
+            })
+            .catch(err => console.log(err));
+        }else {
+          message.channel.send(pokemonEmbed);
+        }
       })
       .catch(err => console.log(err));
   },
-  getSnakes(message, args, server) {
-    let snake = new Discord.Attachment(snakeImages[Math.floor(Math.random() * snakeImages.length)]);
-    message.channel.send(snake);
+  getSpecificPokemon(message, args, server) {
+    let search = args[1].toLowerCase();
+    if(args[1] === "-i") search = args[2].toLowerCase();
+    let pokemonEmbed = new config.Discord.RichEmbed();
+
+    pokemonServices.getPokemon(search)
+      .then(pokemon => {
+        let name = pokemon.data.name.charAt(0).toUpperCase() + pokemon.data.name.replace(pokemon.data.name.charAt(0), "");
+        // let sprite = new Discord.Attachment(pokemon.data.sprites.front_default);
+        let sprite = pokemon.data.sprites.front_default;
+        let types = '';
+        for(let i = 0; i < pokemon.data.types.length; i++) {
+          types += pokemon.data.types[i].type.name.charAt(0).toUpperCase() + pokemon.data.types[i].type.name.replace(pokemon.data.types[i].type.name.charAt(0), "") + " ";
+        }
+        pokemonEmbed
+        .setColor(0xffff00)
+        .setThumbnail(sprite)
+        .setTitle(`# ${pokemon.data.id}`)
+        .addField("**Name :**", name, true)
+
+        if(args[1] === "-i" || args[2] === "-i") {
+          pokemonServices.getPokemonSpecies(search)
+            .then(species => {
+              let arr = [];
+              for(let i = 0; i < species.data.flavor_text_entries.length; i++) {
+                if(species.data.flavor_text_entries[i].language.name === 'en' && arr.length < 1) {
+                  arr.push(species.data.flavor_text_entries[i].flavor_text)
+                }
+              }
+              pokemonEmbed
+              .addField("**Description :**", arr)
+              .addBlankField()
+              .addField("**Type :**", types, true)
+              .addField("**Weight :**", `${pokemon.data.weight} kg`, true)
+              .addField("**Height :**", `${pokemon.data.height} m`, true)
+              if(species.data.evolves_from_species !== null) {
+                let evolvesFrom = species.data.evolves_from_species.name.charAt(0).toUpperCase() + species.data.evolves_from_species.name.replace(species.data.evolves_from_species.name.charAt(0), "")
+                // .addField("Evolves From:", evolvesFrom)
+              }
+
+              message.channel.send(pokemonEmbed);
+            })
+            .catch(err => console.log(err));
+        }else {
+          message.channel.send(pokemonEmbed);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        if(err.response.status === 404) {
+          message.channel.send("No Pokemon found by that name or ID")
+        }
+      });
   }
 }

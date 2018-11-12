@@ -8,6 +8,7 @@ module.exports = {
     queueEmbed.setTitle('**QUEUE**');
     if(server.queue.queueInfo.length >= 1) {
       for(let i = 0; i < server.queue.queueInfo.length; i++) {
+        if(i >= 18) continue;
         let des = `Link: [Click Me](${server.queue.queueInfo[i].link}) \nRequested By: ${server.queue.queueInfo[i].requestedBy}`
         queueEmbed.addField((i + 1 + ". ") + server.queue.queueInfo[i].title, des);
       }

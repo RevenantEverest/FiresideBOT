@@ -12,6 +12,7 @@ let PREFIX = '';
 
 // Called When Bot Starts
 Discord_Bot.on("ready", () => {
+    Discord_Bot.user.setActivity("The Campfire | ?help", {type: "WATCHING"});
 });
 
 
@@ -84,7 +85,7 @@ Discord_Bot.on("message", (message) => {
 
         let args = message.content.substring(PREFIX.length).split(" ");
 
-        Discord_Commands.commands(message, args);
+        Discord_Commands.commands(PREFIX, message, args, Discord_Bot);
       })
       .catch(err => console.log(err));
 });
