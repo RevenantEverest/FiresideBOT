@@ -1,5 +1,5 @@
 # FiresideBOT
-![alt text](https://i.imgur.com/efYsW7T.png =100x)
+![alt text](https://i.imgur.com/efYsW7T.png)
 A Discord bot written with Node.js
 
 ## Music Commands
