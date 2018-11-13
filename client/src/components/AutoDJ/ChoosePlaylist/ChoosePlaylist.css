@@ -1,0 +1,49 @@
+#ChoosePlaylist {
+
+}
+
+.ChoosePlaylist-Contents {
+
+}
+
+.ChoosePlaylist-Playlist {
+  margin: 22% 20% 20% 44.5%;
+  display:inline-block;
+}
+
+.ChoosePlaylist-PlaylistSelect-Container {
+  position: relative;
+  left: 12%; right: 0;
+  top: 0; bottom: 0;
+  margin: auto;
+  background-color: white;
+  /* width: 400px;
+  height: 60px; */
+  display:inline-block;
+  overflow: auto;
+}
+
+.ChoosePlaylist-PlaylistSelect {
+  padding: 5%;
+  width: 75%;
+  font-family: "Cocogoose", sans-serif;
+  border: none;
+}
+
+.ChoosePlaylist-PlaylistSubmit {
+  position: relative;
+  padding: 2% 2% 2% 4%;
+  border: none;
+  top: 4px;
+  border-left: solid #9a9a9a9a;
+  font-family: "Raleway", sans-serif;
+  font-weight: 800;
+  font-size: 20px;
+  left: 2%;
+  background-color: white;
+  transition: .5s;
+}
+
+.ChoosePlaylist-PlaylistSubmit:hover { color: orange; }
+.ChoosePlaylist-PlaylistSubmit:focus { outline: none; }
+.ChoosePlaylist-PlaylistSubmit:active { color: red; }

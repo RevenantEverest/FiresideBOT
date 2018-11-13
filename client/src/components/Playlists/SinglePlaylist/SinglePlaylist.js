@@ -20,6 +20,7 @@ class SinglePlaylist extends Component {
   }
 
   componentDidMount() {
+    console.log(this.props.location);
     this.getSongs();
   }
 

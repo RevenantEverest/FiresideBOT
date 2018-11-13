@@ -19,8 +19,8 @@
 }
 
 .NavBar-Logo-Image {
-  height: 5vh;
-  width: 15%;
+  height: 3vh;
+  width: 10%;
   margin-left: 3%;
   margin-right: 5%;
   background-image: url(../../res/images/Logo.png);
@@ -31,8 +31,10 @@
 
 .NavBar-Logo-Text {
   position: relative;
-  top: -8px;
+  top: -3px;
   display: inline;
+  font-family: "NexaRustSlab";
+  font-size: 20px;
 }
 
 .NavBar-Contents {

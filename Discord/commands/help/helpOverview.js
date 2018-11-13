@@ -1,3 +1,8 @@
+const c_Help = [
+  {name: "Navigation", value: "Use the reactions to navigate the help categories"},
+  {name: "Legend", value: "`<param>` is a required param and `[param]` is an optional param"}
+];
+
 const c_Music = [
   {name: "Play <Search>", value: "Plays request"},
   {name: "Pause", value: "Pauses music"},
@@ -22,9 +27,10 @@ const c_Currency = [
 
 const c_Fun = [
   {name: "Pokemon [Name / Numer]", value: "Displays a random or specific Pokemon"},
-  {name: "8ball <Question>"}
+  {name: "8ball <Question>", value: "Returns a Yes or No style response"}
 ];
 const help = [
+  {title: "Welcome to FiresideBOT Help", fields: c_Help},
   {title: "Music", fields: c_Music},
   {title: "Currency", fields: c_Currency},
   {title: "Fun", fields: c_Fun}

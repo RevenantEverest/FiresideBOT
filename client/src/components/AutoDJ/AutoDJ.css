@@ -36,48 +36,4 @@
 .AutoDJ-TableRow-Action { text-align: center; }
 .TableHeightFix { height: 10vh; }
 
-/**/
-.AutoDJ-Playlist {
-  margin: 22% 20% 20% 44.5%;
-  display:inline-block;
-}
-
-.AutoDJ-PlaylistSelect-Container {
-  position: absolute;
-  left: 12%; right: 0;
-  top: 0; bottom: 0;
-  margin: auto;
-  background-color: white;
-  width: 400px;
-  height: 60px;
-  display:inline-block;
-  overflow: auto;
-}
-
-.AutoDJ-PlaylistSelect {
-  padding: 5%;
-  width: 75%;
-  font-family: "Cocogoose", sans-serif;
-  border: none;
-}
-
 .AutoDJ-PlaylistSelect:focus { outline: solid orange; }
-
-.AutoDJ-PlaylistSubmit {
-  position: relative;
-  padding: 2% 2% 2% 4%;
-  border: none;
-  top: 4px;
-  border-left: solid #9a9a9a9a;
-  font-family: "Raleway", sans-serif;
-  font-weight: 800;
-  font-size: 20px;
-  left: 2%;
-  background-color: white;
-  transition: .5s;
-}
-
-.AutoDJ-PlaylistSubmit:hover { color: orange; }
-.AutoDJ-PlaylistSubmit:focus { outline: none; }
-.AutoDJ-PlaylistSubmit:active { color: red; }
-/**/

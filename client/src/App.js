@@ -32,6 +32,7 @@ import EditGuildPlaylists from './components/Playlists/GuildPlaylists/EditGuildP
 import SinglePlaylist from './components/Playlists/SinglePlaylist/SinglePlaylist';
 
 import AutoDJ from './components/AutoDJ/AutoDJ';
+import ChoosePlaylist from './components/AutoDJ/ChoosePlaylist/ChoosePlaylist';
 import DefaultCommands from './components/Commands/DefaultCommands/DefaultCommands';
 import CustomCommands from './components/Commands/CustomCommands/CustomCommands';
 
@@ -89,7 +90,8 @@ class App extends Component {
               {this.state.userData != null ? <Route exact path="/playlists/edit/guild" component={() => (<EditGuildPlaylists userData={this.state.userData} />) } /> : ''}
               {this.state.userData != null ? <Route path="/playlists/personal/:playlist_name" component={SinglePlaylist} /> : ''}
               {this.state.userData != null ? <Route path="/playlists/guild/:playlist_name" component={SinglePlaylist} /> : ''}
-              {this.state.userData != null ? <Route path="/autodj" component={ () => (<AutoDJ userData={this.state.userData}/>) } /> : ''}
+              {this.state.userData != null ? <Route exact path="/chooseplaylist" component={ () => (<ChoosePlaylist userData={this.state.userData}/>) } /> : ''}
+              {this.state.userData != null ? <Route path="/autodj" component={AutoDJ} /> : ''}
             </div>
           </div>
         </Router>

@@ -120,7 +120,7 @@ class NavBar extends Component {
           <h4 className="NavBar-Contents-Text NavBar-Music-Text">Music</h4>
           <FontAwesomeIcon className="NavBar-Contents-Text AngleIcon-Music" icon={this.state.musicAngleIcon} />
           <div className="NavBar-Dropdown NavBar-Dropdown-Music">
-            <Link to="/autodj" className="NavBar-Dropdown-Content"><p>AutoDJ</p></Link>
+            <Link to="/chooseplaylist" className="NavBar-Dropdown-Content"><p>AutoDJ</p></Link>
             <Link to="/playlists" className="NavBar-Dropdown-Content"><p>Playlists</p></Link>
           </div>
         </div>

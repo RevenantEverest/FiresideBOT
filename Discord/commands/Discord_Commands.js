@@ -77,7 +77,7 @@ module.exports = {
       case "pause": pauseResume.handlePause(message, args, server); break;
       case "resume": pauseResume.handleResume(message, args, server); break;
       case "playnext": playNext.playNext(message, args, server); break;
-      case "queue": message.channel.send(queue.queue(message, args, server)); break;
+      case "queue": queue.queue(message, args, server, self); break;
       case "np": message.channel.send(queue.showCurrentSong(message, args, server)); break;
       case "playlist": playlist.playlist(message, args, server); break;
       case "serverplaylist": serverPlaylist.serverPlaylist(message, args, server); break;
