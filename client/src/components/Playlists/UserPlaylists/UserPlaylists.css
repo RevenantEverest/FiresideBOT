@@ -2,13 +2,14 @@
   display: inline-block;
   height: 99%;
   width: 88%;
-  background-color: #dedede;
+  background-color: #1a1a1a;
+  color: #cccccc;
 }
 
 .UserPlaylists-Contents {
   display: inline-block;
   height: auto;
-  background-color: #dedede;
+  background-color: #1a1a1a;
   margin: 0% 0 0 5%;
 }
 
@@ -28,8 +29,8 @@
 .PlaylistDisplay:hover { cursor: pointer; }
 .PlaylistDisplay:hover .UserPlaylists-PlaylistName { text-decoration: underline; }
 
-.PD-grey { background: #b3b3b3; }
-.PD-white { background: #dedede }
+.PD-grey { background: #333333; }
+.PD-white { background: #1a1a1a; }
 
 .UserPlaylists-PlaylistName {
   display: block;

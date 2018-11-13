@@ -27,8 +27,6 @@ import SupportForum from './components/SupportForum/SupportForum';
 import Playlists from './components/Playlists/Playlists';
 import UserPlaylists from './components/Playlists/UserPlaylists/UserPlaylists';
 import GuildPlaylists from './components/Playlists/GuildPlaylists/GuildPlaylists';
-import ViewGuildPlaylists from './components/Playlists/GuildPlaylists/ViewGuildPlaylists/ViewGuildPlaylists';
-import EditGuildPlaylists from './components/Playlists/GuildPlaylists/EditGuildPlaylists/EditGuildPlaylists';
 import SinglePlaylist from './components/Playlists/SinglePlaylist/SinglePlaylist';
 
 import AutoDJ from './components/AutoDJ/AutoDJ';
@@ -86,8 +84,6 @@ class App extends Component {
               {this.state.userData != null ? <Route exact path="/playlists" component={() => (<Playlists userData={this.state.userData} />) } /> : ''}
               {this.state.userData != null ? <Route exact path="/playlists/personal" component={() => (<UserPlaylists userData={this.state.userData} />) } /> : ''}
               {this.state.userData != null ? <Route exact path="/playlists/guild" component={() => (<GuildPlaylists userData={this.state.userData} />) } /> : ''}
-              {this.state.userData != null ? <Route exact path="/playlists/view/guild" component={() => (<ViewGuildPlaylists userData={this.state.userData} />) } /> : ''}
-              {this.state.userData != null ? <Route exact path="/playlists/edit/guild" component={() => (<EditGuildPlaylists userData={this.state.userData} />) } /> : ''}
               {this.state.userData != null ? <Route path="/playlists/personal/:playlist_name" component={SinglePlaylist} /> : ''}
               {this.state.userData != null ? <Route path="/playlists/guild/:playlist_name" component={SinglePlaylist} /> : ''}
               {this.state.userData != null ? <Route exact path="/chooseplaylist" component={ () => (<ChoosePlaylist userData={this.state.userData}/>) } /> : ''}

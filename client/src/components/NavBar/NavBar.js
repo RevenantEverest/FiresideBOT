@@ -28,7 +28,7 @@ class NavBar extends Component {
     else if(this.state.musicAngleIcon === 'angle-down') {
       this.setState({ musicAngleIcon: 'angle-left' });
       dropdown.style.display = "none";
-      el.style.backgroundColor = "#1a1a1a";
+      el.style.backgroundColor = "#0d0d0d";
     }
   }
 
@@ -43,7 +43,7 @@ class NavBar extends Component {
     else if(this.state.commandAngleIcon === 'angle-down') {
       this.setState({ commandAngleIcon: 'angle-left' });
       dropdown.style.display = "none";
-      el.style.backgroundColor = "#1a1a1a";
+      el.style.backgroundColor = "#0d0d0d";
     }
   }
 

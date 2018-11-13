@@ -2,16 +2,14 @@
   display: inline-block;
   height: 99%;;
   width: 88%;
-  background-color: black;
+  background-color: #1a1a1a;
   color: #cccccc;
-  /* background-image: url(../../res/images/CampfireBG.jpg);
-  background-repeat: no-repeat;
-  background-size: cover; */
 }
 
 .Dashboard-Contents {
   height: auto;
-  background-color: black;
+  background-color: #1a1a1a;
+  margin-left: 5%;
 }
 
 #LoadingDashboard {

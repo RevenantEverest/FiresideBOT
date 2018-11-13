@@ -60,7 +60,7 @@ class SinglePlaylist extends Component {
           <tr className="SinglePlaylist-TableRow" key={idx}>
             <td className="SinglePlaylist-TableRow-counter">{counter}</td>
             <td className="SinglePlaylist-TableRow-title">{el.title}</td>
-            <td className="SinglePlaylist-TableRow-link"><a href={el.link}>{el.link}</a></td>
+            <td className="SinglePlaylist-TableRow-link"><a href={el.link}>Link</a></td>
             <td className="SinglePlaylist-TableRow-action">
               <button className="SinglePlaylist-ActionButton" onClick={(e) => this.deleteSong(el)}>&times;</button>
             </td>

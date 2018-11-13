@@ -7,7 +7,7 @@
   margin: 1%;
   font-size: 40px;
   display: inline-block;
-  color: #ff6600;
+  /* color: #ff6600; */
 }
 
 .YTP-Back-Text {
@@ -33,7 +33,7 @@ iframe {
   width: 100%
 }
 
-.YTP-Controls-Container { background-color: #cccccc; margin-top: 2%; }
+.YTP-Controls-Container { background-color: #333333; margin-top: 2%; }
 
 .YTP-Controls {
   width: 380%;
@@ -100,7 +100,7 @@ iframe {
   appearance: none;
   overflow: hidden;
   width: 80%;
-  border: solid #cccccc;
+  border: solid #333333;
 }
 .YTP-VolumeSlider::-webkit-slider-thumb {
   appearance: none;
@@ -127,7 +127,8 @@ iframe {
 .YTP-VolumeSlider::-ms-ticks-after { display: none; }
 .YTP-VolumeSlider::-ms-ticks-before { display: none; }
 .YTP-VolumeSlider::-ms-track {
-  background: #ddd;
+  /* background: #ddd; */
+  background: #1a1a1a;
   color: transparent;
   height: 40px;
   border: none;
@@ -147,7 +148,7 @@ iframe {
   margin-left: 4%;
   appearance: none;
   overflow: hidden;
-  border: solid #cccccc;
+  border: solid #1a1a1a;
   display: inline-block;
 }
 .YTP-CurrentTimeSlider::-webkit-slider-thumb {
@@ -184,7 +185,7 @@ iframe {
 .YTP-CurrentTimeSlider::-ms-tooltip { display: none; }
 /*======== END ========*/
 
-.CurrentSongHeader { margin-top: 12%; color: #333333; font-size: 20px; }
+.CurrentSongHeader { margin-top: 12%; color: #cccccc; font-size: 20px; }
 
 .YTP-Duration-Container { position: relative; top: -2vh; }
 .ClockIcon { display: inline-block; }
@@ -201,5 +202,5 @@ iframe {
   left: .5%;
   display: inline-block;
   text-decoration: underline;
-  color: blue;
+  color: cyan;
 }

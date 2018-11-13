@@ -23,7 +23,6 @@ class AutoDJ extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.location);
     this.getSongs(this.props.location.state.playlistId);
   }
 
@@ -72,7 +71,7 @@ class AutoDJ extends Component {
       return(
         <tr className={`AutoDJ-Queue-Requests AutoDJ-Queue-Tr ${queueClass}`} key={idx}>
           <td className="AutoDJ-Queue-Td">{el.title}</td>
-          <td className="AutoDJ-Queue-Td">{el.link}</td>
+          <td className="AutoDJ-Queue-Td"><a href={el.link}>Click Me</a></td>
           <td className="AutoDJ-Queue-Td AutoDJ-TableRow-Action">
             <button className="AutoDJ-RequestDelete" onClick={(e) => this.deleteRequest(el)}>&times;</button>
           </td>
@@ -87,7 +86,7 @@ class AutoDJ extends Component {
       return(
         <tr className={`AutoDJ-Queue-Songs AutoDJ-Queue-Tr ${queueClass}`} key={idx}>
           <td className="AutoDJ-Queue-Td">{el.title}</td>
-          <td className="AutoDJ-Queue-Td">{el.link}</td>
+          <td className="AutoDJ-Queue-Td"><a href={el.link}>Click Me</a></td>
           <td className="AutoDJ-Queue-Td"></td>
         </tr>
       );

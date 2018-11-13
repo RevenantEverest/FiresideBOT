@@ -47,12 +47,10 @@ class ChoosePlaylist extends Component {
       <div className="ChoosePlaylist-Playlist">
         <h2 className="ChoosePlaylist-ChoosePlaylist-Header">Choose A Playlist</h2>
         <div className="ChoosePlaylist-PlaylistSelect-Container">
-          {/*<form className="ChoosePlaylist-Form" onSubmit={this.handleSubmit}/>*/}
-          {/*<input className="ChoosePlaylist-PlaylistSubmit" type="submit" value="Select" />*/}
           <select className="ChoosePlaylist-PlaylistSelect" name="chosenPlaylist" onChange={this.handleChange}>
             {Playlists}
           </select>
-          <Link className=''to={{
+          <Link className="ChoosePlaylist-PlaylistSubmit" to={{
             pathname: `/autodj`,
             state: {
               userData: this.props.userData,

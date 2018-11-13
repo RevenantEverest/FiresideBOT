@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './AddGuildPlaylist.css';
 
 //Services Imports
-import guildPlaylistServices from '../../../../../services/GuildServices/guildPlaylistServices';
+import guildPlaylistServices from '../../../../services/GuildServices/guildPlaylistServices';
 
 class AddGuildPlaylist extends Component {
 
@@ -17,9 +17,6 @@ class AddGuildPlaylist extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleViewGuildPlaylists() { this.setState({ viewGuildPlaylistsRedirect: true }); }
-  handleEditGuildPlaylists() { this.setState({ editGuildPlaylistsRedirect: true }); }
-
   handleChange(e) {
     let name = e.target.name;
     let value = e.target.value;
@@ -29,8 +26,8 @@ class AddGuildPlaylist extends Component {
   handleSubmit(e) {
     e.preventDefault();
     let guildName = '';
-    for(let i = 0; i < this.props.guildData.length; i++) {
-      if(this.state.guildId === this.props.guildData[i].id) guildName = this.props.guildData[i].name;
+    for(let i = 0; i < this.props.guildAdmin.length; i++) {
+      if(this.state.guildId === this.props.guildAdmin[i].id) guildName = this.props.guildAdmin[i].name;
     }
     let data = {
       guild_id: this.state.guildId,
@@ -46,7 +43,7 @@ class AddGuildPlaylist extends Component {
   }
 
   renderAddPlaylistForm() {
-    let Guilds = this.props.guildData.map((el, idx) => {
+    let Guilds = this.props.guildAdmin.map((el, idx) => {
       return(
         <option value={el.id} key={idx}>{el.name}</option>
       );

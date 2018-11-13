@@ -196,7 +196,7 @@ class YouTubePlayer extends Component {
         </div>
         <div className="YTP-Link-Container">
           <FontAwesomeIcon className="LinkIcon" icon="link" />
-          <p className="YTP-CurrentSong-Link"><a href={queuedSong.link}>{queuedSong.link}</a></p>
+          <p className="YTP-CurrentSong-Link"><a href={queuedSong.link}>Click Me</a></p>
         </div>
       </div>
     );

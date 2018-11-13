@@ -1,51 +1,71 @@
-#GuildPlaylists {
+#ViewGuildPlaylists {
   display: inline-block;
   height: 99%;
   width: 88%;
-  background-color: #dedede;
+  background-color: #1a1a1a;
+  color: #cccccc;
 }
 
-.GuildPlaylists-Contents {
-  position: relative;
+.ViewGuildPlaylists-Contents {
   display: inline-block;
-  /* top: 40%; */
   height: auto;
-  width: 99.5%;
-  background-color: #dedede;
+  background-color: inherit;
+  margin-left: 5%;
 }
 
-.ViewGuildPlaylists-Option {
-  position: relative;
-  float: left;
-  left: 20%;
-  width: 20%;
-  margin-right: 2%;
+.ViewGuildPlaylists-Header { margin-bottom: 20%; }
+.ViewGuildPlaylists-SubHeader, .ViewGuildPlaylists-SubHeader-Main {
+  display: inline;
+}
+
+.VGP-PlaylistRender { margin-bottom: 25%; }
+.VGP-ServerDisplay {
+  padding: 5%;
+  width: 400%;
+  font-family: sans-serif;
+  font-weight: 800;
+  font-size: 20px;
+}
+.VGP-ServerDisplay:hover { cursor: pointer; }
+.VGP-Grey { background: #333333; }
+.VGP-White { background: #1a1a1a; }
+.VGP-GuildName {
   display: inline-block;
-  background: white;
-  padding: .5% 4% .5% 4%;
-  font-size: 14px;
-  font-family: "Cocogoose", sans-serif;
-  text-align: center;
-  outline: solid rgba(0,0,0,0.05);
+  font-size: 25px;
 }
-.ViewGuildPlaylists-Option:hover { outline: solid orange; cursor: pointer; }
-.ViewGuildPlaylists-Option:hover .ViewGuildPlaylists-Option-Text { color: orange; }
-.ViewGuildPlaylists-Option-Text { display: inline-block; transition: .5s; }
-
-.EditGuildPlaylists-Option {
-  position: relative;
+.VGP-ServerAngle {
+  display: inline-block;
   float: right;
-  right: 20%;
-  width: 20%;
-  margin-left: 2%;
-  display: inline-block;
-  background: white;
-  padding: .5% 4% .5% 4%;
-  font-size: 14px;
-  font-family: "Cocogoose", sans-serif;
-  text-align: center;
-  outline: solid rgba(0,0,0,0.05);
+  position: relative;
+  top: 35px;
+  right: 50px;
 }
-.EditGuildPlaylists-Option:hover { outline: solid orange; cursor: pointer; }
-.EditGuildPlaylists-Option:hover .EditGuildPlaylists-Option-Text { color: orange; }
-.EditGuildPlaylists-Option-Text { display: inline-block; transition: .5s; }
+.VGP-Server-Dropdown {
+  position: relative;
+  left: 5%;
+  display: block;
+  font-size: 10px;
+  font-family: sans-serif;
+  font-weight: 400;
+}
+.VGP-Playlists {
+  width: 50%;
+  display: block;
+}
+.VGP-Playlists-Link:hover .VGP-PlaylistName { text-decoration: underline; }
+.VGP-PlaylistName {
+  display: inline-block;
+}
+.VGP-PlaylistSongsCount {
+  font-size: 16px;
+  display: inline-block;
+  margin-left: 2%;
+}
+
+#LoadingGuildPlaylists {
+  height: 20vh;
+  width: 90%;
+  margin: 0 auto;
+  position: relative;
+  top: 200px;
+}

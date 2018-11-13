@@ -2,12 +2,13 @@
   display: inline-block;
   height: 99%;
   width: 88%;
-  background-color: #dedede;
+  background-color: #1a1a1a;
+  color: #cccccc;
 }
 
 .AutoDJ-Contents {
   height: auto;
-  background-color: #dedede;
+  background-color: #1a1a1a;
   font-family: "Raleway", sans-serif;
 }
 
@@ -18,13 +19,13 @@
   border-radius: 50%;
 }
 
-.QueueHeader { margin-left: 2%; font-size: 20px; color: #333333; }
+.QueueHeader { margin-left: 2%; font-size: 20px; color: #cccccc; }
 
 .AutoDJ-Queue-Table, .AutoDJ-Queue-Tbody, .AutoDJ-Queue-Tr, .AutoDJ-Queue-Th, .AutoDJ-Queue-Td {}
 .AutoDJ-Queue-Table { margin-left: 2%; }
 
 .AutoDJ-Queue-Th {
-  background-color: #1a1a1a;
+  background-color: #333333;
   color: #dedede;
   font-size: 20px;
   padding: .5%;
@@ -32,7 +33,7 @@
 
 .AutoDJ-Queue-Td { padding: .5%; }
 
-.AutoDJ-Queue-Grey { background-color: #b3b3b3; }
+.AutoDJ-Queue-Grey { background-color: #262626; }
 .AutoDJ-TableRow-Action { text-align: center; }
 .TableHeightFix { height: 10vh; }
 
