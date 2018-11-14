@@ -9,7 +9,15 @@
 .AutoDJ-Contents {
   height: auto;
   background-color: #1a1a1a;
-  font-family: "Raleway", sans-serif;
+  /* font-family: "Raleway", sans-serif; */
+}
+
+.AutoDJ-Header { margin-bottom: 5%; margin-left: 5%; }
+.AutoDJ-Header-SubText, .AutoDJ-Header-SubText-Main {
+  display: inline;
+}
+.AutoDJ-Header-SubText-Main {
+  font-weight: 800;
 }
 
 .AutoDJ-RequestDelete {

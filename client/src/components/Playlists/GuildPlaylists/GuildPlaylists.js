@@ -95,7 +95,7 @@ class GuildPlaylists extends Component {
           <div className="ViewGuildPlaylists-Header">
             <h1 className="ViewGuildPlaylists-Header-Text">Guild Playlists</h1>
             <p className="ViewGuildPlaylists-SubHeader">HOME / playlists /</p>
-            <p className="ViewGuildPlaylists-SubHeader-Main"> guild</p>
+            <p className="ViewGuildPlaylists-SubHeader-Main"> Guild</p>
           </div>
           {this.state.dataReceived ? this.renderPlaylists() : <div className="loading" id="LoadingGuildPlaylists" />}
           {this.state.dataReceived ? <AddGuildPlaylist userData={this.props.userData} guildData={this.state.guildData} guildAdmin={this.state.guildPermissionData} getUserGuilds={this.getUserGuilds} /> : ''}

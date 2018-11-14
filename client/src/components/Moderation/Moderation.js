@@ -7,7 +7,11 @@ class Moderation extends Component {
     return(
       <div id="Moderation">
         <div className="Moderation-Contents">
-          <h1>Moderation</h1>
+          <div className="Moderation-Header">
+            <h1 className="Moderation-Header-Text">Moderation</h1>
+            <p className="Moderation-Header-SubText">HOME / </p>
+            <p className="Moderation-Header-SubText-Main"> Moderation</p>
+          </div>
         </div>
       </div>
     );

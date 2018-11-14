@@ -43,6 +43,11 @@ class ManageServer extends Component {
     return(
       <div className="ManageServer">
         <div className="ManageServer-Contents">
+          <div className="ManageServer-Header">
+            <h1 className="ManageServer-Header-Text">Manage Server</h1>
+            <p className="ManageServer-Header-SubText">HOME / </p>
+            <p className="ManageServer-Header-SubText-Main"> Manage Server</p>
+          </div>
           {this.state.guildData ? this.renderGuildManage() : <div className="loading" id="ManageServer" />}
         </div>
       </div>

@@ -74,7 +74,11 @@ class Regulars extends Component {
     return(
       <div id="Regulars">
         <div className="Regulars-Contents">
-          <h1>Regulars</h1>
+          <div className="Regulars-Header">
+            <h1 className="Regulars-Header-Text">Regulars</h1>
+            <p className="Regulars-Header-SubText">HOME / </p>
+            <p className="Regulars-Header-SubText-Main"> Regulars</p>
+          </div>
           {this.state.dataRecieved ? this.renderRegulars() : ''}
           {this.state.userData.twitch_username === 'not connected' ? '' : <AddRegular userData={this.state.userData} renderRegulars={this.renderRegulars} />}
         </div>

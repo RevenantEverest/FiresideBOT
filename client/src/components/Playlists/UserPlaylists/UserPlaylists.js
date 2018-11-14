@@ -100,7 +100,7 @@ class UserPlaylists extends Component {
             <h1 className="UserPlaylists-HeaderText">Personal Playlists</h1>
             <p className="UserPlaylists-HeaderSubText">
               HOME / playlists /
-              <p className="UserPlaylists-HeaderSubText-Main"> personal</p>
+              <p className="UserPlaylists-HeaderSubText-Main"> Personal</p>
             </p>
           </div>
           {this.state.dataRecieved ? this.renderPlaylists() : <div className="loading" id="LoadingUserPlaylists" />}

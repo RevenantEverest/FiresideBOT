@@ -2,11 +2,20 @@
   display: inline-block;
   height: 99%;
   width: 88%;
-  background-color: #dedede;
+  background-color: #1a1a1a;
+  color: #cccccc;
 }
 
 .Moderation-Contents {
   display: inline-block;
   height: auto;
-  background-color: #dedede;
+  background-color: inherit;
+  margin-left: 5%;
 }
+
+.Moderation-Header {
+  margin-bottom: 20%;
+}
+
+.Moderation-Header-SubText, .Moderation-Header-SubText-Main { display: inline; }
+.Moderation-Header-SubText-Main { font-weight: 800; }

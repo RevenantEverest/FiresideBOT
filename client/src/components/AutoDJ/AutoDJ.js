@@ -129,6 +129,11 @@ class AutoDJ extends Component {
     return(
       <div className="AutoDJ">
         <div className="AutoDJ-Contents">
+          <div className="AutoDJ-Header">
+            <h1 className="AutoDJ-Header-Text">AutoDJ</h1>
+            <p className="AutoDJ-Header-SubText">HOME / </p>
+            <p className="AutoDJ-Header-SubText-Main">AutoDJ</p>
+          </div>
           {this.state.queue ? this.renderSongs() : ''}
           <div className="TableHeightFix" />
         </div>

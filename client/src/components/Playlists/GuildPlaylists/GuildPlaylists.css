@@ -17,6 +17,7 @@
 .ViewGuildPlaylists-SubHeader, .ViewGuildPlaylists-SubHeader-Main {
   display: inline;
 }
+.ViewGuildPlaylists-SubHeader-Main { font-weight: 800; }
 
 .VGP-PlaylistRender { margin-bottom: 25%; }
 .VGP-ServerDisplay {

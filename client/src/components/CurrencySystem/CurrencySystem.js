@@ -59,6 +59,11 @@ class CurrencySystem extends Component {
     return(
       <div id="CurrencySystem">
         <div className="CurrencySystem-Contents">
+          <div className="CurrencySystem-Header">
+            <h1 className="CurrencySystem-Header-Text">Currency Manager</h1>
+            <p className="CurrencySystem-Header-SubText">HOME / </p>
+            <p className="CurrencySystem-Header-SubText-Main">Currency</p>
+          </div>
           <h1>Currency System</h1>
           {this.state.guildDataRecieved ? this.renderChooseGuildForm() : <div className="loading" id="LoadingCurrencySystem" />}
           {this.state.manageGuildRedirect ? <Redirect to={`/currency/manage/${this.state.manageGuildCurrencyId}`} /> : ''}

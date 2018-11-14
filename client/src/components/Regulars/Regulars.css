@@ -2,14 +2,23 @@
   display: inline-block;
   height: 99%;
   width: 88%;
-  background-color: #dedede;
+  background-color: #1a1a1a;
+  color: #cccccc;
 }
 
 .Regulars-Contents {
   display: inline-block;
   height: auto;
-  background-color: #dedede;
+  background-color: inherit;
+  margin-left: 5%;
 }
+
+.Regulars-Header {
+  margin-bottom: 20%;
+}
+
+.Regulars-Header-SubText, .Regulars-Header-SubText-Main { display: inline; }
+.Regulars-Header-SubText-Main { font-weight: 800; }
 
 .Regulars-Tbody
 .Regulars-Table

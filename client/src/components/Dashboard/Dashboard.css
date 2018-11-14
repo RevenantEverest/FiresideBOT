@@ -19,3 +19,10 @@
   position: relative;
   top: 300px;
 }
+
+.Dashboard-Header {
+  margin-bottom: 5%;
+}
+
+.Dashboard-Header-SubText, .Dashboard-Header-SubText-Main { display: inline; }
+.Dashboard-Header-SubText-Main { font-weight: 800; }

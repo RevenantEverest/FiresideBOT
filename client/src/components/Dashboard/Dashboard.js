@@ -95,6 +95,11 @@ class Dashboard extends Component {
     return(
       <div className="Dashboard">
         <div className="Dashboard-Contents">
+          <div className="Dashboard-Header">
+            <h1 className="Dashboard-Header-Text">Dashboard</h1>
+            <p className="Dashboard-Header-SubText">HOME / </p>
+            <p className="Dashboard-Header-SubText-Main">Dashboard</p>
+          </div>
           {this.state.dataReceived ? this.renderGuilds() : <div className="loading" id="LoadingDashboard" />}
           {this.state.manageGuildRedirect ? <Redirect to={`/dashboard/server/${this.state.manageGuildId}`}/> : ''}
         </div>

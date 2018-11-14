@@ -7,7 +7,11 @@ class Analytics extends Component {
     return(
       <div id="Analytics">
         <div className="Analytics-Contents">
-          <h1>Analytics</h1>
+        <div className="Analytics-Header">
+          <h1 className="Analytics-Header-Text">Analytics</h1>
+          <p className="Analytics-Header-SubText">HOME / </p>
+          <p className="Analytics-Header-SubText-Main">Analytics</p>
+        </div>
         </div>
       </div>
     );

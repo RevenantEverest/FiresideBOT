@@ -10,3 +10,14 @@
   height: auto;
   background-color: #1a1a1a;
 }
+
+.ManageServer-Header {
+  margin-bottom: 20%;
+}
+
+.CurrencySystem-Header {
+  margin-bottom: 20%;
+}
+
+.CurrencySystem-Header-SubText, .CurrencySystem-Header-SubText-Main { display: inline; }
+.CurrencySystem-Header-SubText-Main { font-weight: 800; }

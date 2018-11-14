@@ -18,6 +18,7 @@
 }
 
 .UserPlaylists-HeaderSubText, .UserPlaylists-HeaderSubText-Main { display: inline; }
+.UserPlaylists-HeaderSubText-Main { font-weight: 800; }
 
 .PlaylistDisplay {
   padding: 5%;

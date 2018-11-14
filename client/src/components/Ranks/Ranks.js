@@ -7,7 +7,11 @@ class Ranks extends Component {
     return(
       <div id="Ranks">
         <div className="Ranks-Contents">
-          <h1>Ranks</h1>
+          <div className="Ranks-Header">
+            <h1 className="Ranks-Header-Text">Ranks</h1>
+            <p className="Ranks-Header-SubText">HOME / </p>
+            <p className="Ranks-Header-SubText-Main"> Ranks</p>
+          </div>
         </div>
       </div>
     );
