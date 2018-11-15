@@ -20,7 +20,7 @@ module.exports = {
       r_collector.on('collect', (reaction, user) => {
         if(reaction.users.array()[reaction.users.array().length - 1].id === self.user.id) return;
         if(reaction.emoji.name === "⏪") {
-          if(currentHelpIndex === 0) returnreaction.remove(reaction.users.array()[reaction.users.array().length - 1].id);
+          if(currentHelpIndex === 0) return reaction.remove(reaction.users.array()[reaction.users.array().length - 1].id);
           currentHelpIndex--;
           let backEmbed = new config.Discord.RichEmbed();
           backEmbed.setTitle(`**${c_Help[currentHelpIndex].title}**`).addBlankField().setColor(0xcc00ff);

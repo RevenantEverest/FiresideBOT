@@ -9,27 +9,26 @@
 .SinglePlaylist-Content {
   height: auto;
   margin-top: 2%;
-  margin-left: 2%;
+  margin-left: 5%;
   background-color: black;
   padding: 1% .1% 1% 1%;
   border-radius: 24px;
 }
 
-.SinglePlaylist-Table-Container {
-  overflow-y: auto;
-  height: 80%;
+.SinglePlaylist-Header {
+  margin-bottom: 2%;
 }
 
-.SinglePlaylist-TableRow-title { width: 35%; }
-.SinglePlaylist-TableRow-counter { width: 5%; text-align: center; }
-.SinglePlaylist-TableRow-title, .SinglePlaylist-TableRow-link, .SinglePlaylist-TableRow-counter {
-  padding: 5px;
+.SinglePlaylist-Header-SubText, .SinglePlaylist-Header-SubText-Main { display: inline; }
+.SinglePlaylist-Header-SubText-Main { font-weight: 800; }
+
+/* .SinglePlaylist-Table-Container {
+  width: 50%;
+} */
+
+.SinglePlaylst-Songs {
+  padding: 1%;
 }
 
-.SinglePlaylist-TableRow-action { text-align: center; }
-.SinglePlaylist-ActionButton {
-  border-radius: 50%;
-  background-color: red;
-  color: #dedede;
-}
-.SinglePlaylist-ActionButton:hover { cursor: pointer; background-color: #990000; }
+.SinglePlaylist-Grey { background: #333333; }
+.SinglePlaylist-White { background: #1a1a1a; }

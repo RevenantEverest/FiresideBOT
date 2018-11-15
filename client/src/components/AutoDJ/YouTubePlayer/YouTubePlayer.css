@@ -7,7 +7,6 @@
   margin: 1%;
   font-size: 40px;
   display: inline-block;
-  /* color: #ff6600; */
 }
 
 .YTP-Back-Text {
@@ -33,13 +32,12 @@ iframe {
   width: 100%
 }
 
-.YTP-Controls-Container { background-color: #333333; margin-top: 2%; }
+.YTP-Controls-Container { background-color: #333333; }
 
 .YTP-Controls {
   width: 380%;
   margin-left: 2%;
   display: inline-block;
-  margin-top: 1%;
 }
 
 .YTP-VideoInfo { margin-left: 2%; }

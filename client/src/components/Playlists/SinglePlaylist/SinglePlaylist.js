@@ -53,33 +53,28 @@ class SinglePlaylist extends Component {
 
   renderSongs() {
     let counter = 0;
+    let color = '';
     if(!Array.isArray(this.state.songData)) return;
     let Songs = this.state.songData.map((el, idx) => {
       counter++;
+      let minutes = Math.floor(el.duration / 60);;
+      let seconds = Math.floor(el.duration - minutes * 60);
+      if(counter % 2 === 1) color = "SinglePlaylist-Grey";
+      else if(counter % 2 === 0) color = 'SinglePlaylist-White';
       return(
-          <tr className="SinglePlaylist-TableRow" key={idx}>
-            <td className="SinglePlaylist-TableRow-counter">{counter}</td>
-            <td className="SinglePlaylist-TableRow-title">{el.title}</td>
-            <td className="SinglePlaylist-TableRow-link"><a href={el.link}>Link</a></td>
-            <td className="SinglePlaylist-TableRow-action">
-              <button className="SinglePlaylist-ActionButton" onClick={(e) => this.deleteSong(el)}>&times;</button>
-            </td>
-          </tr>
+          <div className={`SinglePlaylst-Songs ${color}`}>
+            <h3 className="SinglePlaylist-SongTitle">{counter}. {el.title}</h3>
+            <p className="SinglePlaylst-SongArtist">Artist: RevenantEverest</p>
+            <p className="SinglePlaylist-SongDuration">Duration: {minutes}:{seconds}</p>
+            <p className="SinglePlaylist-SongLink"><a href={el.link}>Click Me</a></p>
+          </div>
       );
     });
 
     return(
-        <table className="SinglePlaylist-SongTable">
-          <tbody className="SinglePlaylist-Tbody">
-            <tr className="SinglePlaylist-TableRow">
-              <th className="SinglePlaylist-TableRow-counter">#</th>
-              <th className="SinglePlaylist-TableRow-title">TITLE</th>
-              <th className="SinglePlaylist-TableRow-link">LINK</th>
-              <th className="SinglePlaylist-TableRow-action">ACTION</th>
-            </tr>
-            {Songs}
-          </tbody>
-        </table>
+        <div className="SinglePlaylist-Songs-Container">
+          {Songs}
+        </div>
     );
   }
 
@@ -95,13 +90,20 @@ class SinglePlaylist extends Component {
   render() {
     return(
       <div id="SinglePlaylist">
-        {window.location.pathname.split("/")[2] === "personal" ? <h1>{this.state.playlistData.name}</h1> : ''}
-        {window.location.pathname.split("/")[2] === "guild" ? <h1>{this.state.playlistData.guild_name}: {this.state.playlistData.name}</h1> : ''}
-        <div className="SinglePlaylist-Table-Container">
-          {this.state.songDataRecieved ? this.renderSongs() : <div className="loading" id="SinglePlaylist" />}
+        <div className="SinglePlaylist-Contents">
+          <div className="SinglePlaylist-Header">
+            <h1 className="SinglePlaylist-Header-Text">Currency Manager</h1>
+            <p className="SinglePlaylist-Header-SubText">
+              HOME / {window.location.pathname.split("/")[2] === "personal" ? "personal" : "guild" } /
+            </p>
+            <p className="SinglePlaylist-Header-SubText-Main"> {this.state.playlistData.name}</p>
+          </div>
+          {window.location.pathname.split("/")[2] === "guild" ? this.checkForPermissions() : ''}
+          {window.location.pathname.split("/")[2] === "personal" ? <AddSong userData={this.state.userData} playlistData={this.state.playlistData} getSongs={this.getSongs} /> : ''}
+          <div className="SinglePlaylist-Table-Container">
+            {this.state.songDataRecieved ? this.renderSongs() : <div className="loading" id="SinglePlaylist" />}
+          </div>
         </div>
-        {window.location.pathname.split("/")[2] === "guild" ? this.checkForPermissions() : ''}
-        {window.location.pathname.split("/")[2] === "personal" ? <AddSong userData={this.state.userData} playlistData={this.state.playlistData} getSongs={this.getSongs} /> : ''}
       </div>
     );
   }

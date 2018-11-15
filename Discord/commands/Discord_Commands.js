@@ -24,7 +24,6 @@ const volume = require('./music/volume');
 
 //Poll Commands
 const poll = require('./poll/poll');
-const pokemonCommands = require('./pokemon/pokemon');
 
 //Currency Commands
 const checkCurrency = require('./currency/checkCurrency');
@@ -33,10 +32,10 @@ const giveCurrency = require('./currency/giveCurrency');
 //Gamble Commands
 const pokemonBattle = require('./currency/gamble/pokemonBattle');
 
-//Other
+//Fun
 const dice = require('./dice/dice');
-
-const rustPasta = require('./copyPasta/rustPasta');
+const pokemonCommands = require('./pokemon/pokemon');
+const campfire = require('./fireside/campfire');
 
 const help = require('./help/sendHelp');
 
@@ -106,6 +105,7 @@ module.exports = {
 
       //Easter Eggs
       case "pokemon": pokemonCommands.getPokemon(message, args, server); break;
+      case "campfire": campfire.craftCampfire(message, args, server); break;
 
       default:
         message.channel.send("Not a valid command");
