@@ -9,14 +9,8 @@ module.exports = {
     if(!args[1]) return message.channel.send("Please specifiy a song to delete.");
 
     let index = parseInt(args[1], 10) - 1;
-    if(isNaN(index)) {
-      message.channel.send("Please specify a numeric value.");
-      return;
-    }
-    if(!server.queue.queueInfo[index].link) {
-      message.channel.send(`Song doesn't exist in queue.`);
-      return;
-    }
+    if(isNaN(index)) return message.channel.send("Please specify a numeric value.");
+    if(!server.queue.queueInfo[index]) return message.channel.send(`Song doesn't exist in queue.`);
     let removedSong = server.queue.queueInfo[index].title;
     server.queue.queueInfo.splice(index, 1);
     message.channel.send(`${removedSong} has been removed from the queue.`);

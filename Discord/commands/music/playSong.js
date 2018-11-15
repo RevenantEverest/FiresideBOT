@@ -9,6 +9,7 @@ module.exports = {
     let currentSongEmbed = new Discord.RichEmbed();
     let server = config.servers[message.guild.id];
     let embedLink = server.queue.queueInfo[0].link;
+    if(server.queue.isPaused === true) server.queue.isPaused = false;
 
     if(server.queue.isPlaying === false) server.queue.isPlaying = true;
     server.dispatcher = connection.playStream(YTDL(server.queue.queueInfo[0].link, {filter: 'audioonly', quality: 'highestaudio'}));

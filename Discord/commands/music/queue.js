@@ -36,6 +36,7 @@ module.exports = {
     }
   },
   showCurrentSong(message, args, server) {
-    return server.queue.currentSongEmbed[0];
+    if(server.queue.isPlaying === false) return message.channel.send("No song currently playing");
+    else return message.channel.send(server.queue.currentSongEmbed[0]);
   }
 }

@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import './CustomCommands.css';
 
+//Image Imports
+import NTSH from '../../../res/images/NTSH.gif';
+
 //Component Imports
-import AddCommand from './AddCommand/AddCommand';
+// import AddCommand from './AddCommand/AddCommand';
 
 //Services Import
 import commandServices from '../../../services/commandServices';
@@ -62,8 +65,10 @@ class CustomCommands extends Component {
     return(
       <div className="CustomCommands">
         <div className="CustomCommands-Contents">
-          <AddCommand userData={this.state.userData} getCommands={this.getCommands} />
-          {this.state.dataRecieved ? this.renderCommands() : <div className="loading" id="CustomCommands" />}
+          <h1>UNDER CONSTRUCTION: Nothing to see here</h1>
+          <img className="NTSH" src={NTSH} alt="" />
+          {/*<AddCommand userData={this.state.userData} getCommands={this.getCommands} />*/}
+          {/*this.state.dataRecieved ? this.renderCommands() : <div className="loading" id="CustomCommands" />*/}
         </div>
       </div>
     );

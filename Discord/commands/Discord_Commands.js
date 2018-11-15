@@ -21,6 +21,7 @@ const promote = require('./music/promote');
 const delSong = require('./music/delSong');
 const clear = require('./music/clear');
 const volume = require('./music/volume');
+const stop = require('./music/stop');
 
 //Poll Commands
 const poll = require('./poll/poll');
@@ -44,6 +45,7 @@ module.exports = {
     if(!config.servers[message.guild.id]) config.servers[message.guild.id] = {
       queue: {
         isPlaying: false,
+        isPaused: false,
         queueInfo: [],
         currentSongInfo: {},
         currentSongEmbed: [],
@@ -77,7 +79,7 @@ module.exports = {
       case "resume": pauseResume.handleResume(message, args, server); break;
       case "playnext": playNext.playNext(message, args, server); break;
       case "queue": queue.queue(message, args, server, self); break;
-      case "np": message.channel.send(queue.showCurrentSong(message, args, server)); break;
+      case "np": queue.showCurrentSong(message, args, server); break;
       case "playlist": playlist.playlist(message, args, server); break;
       case "serverplaylist": serverPlaylist.serverPlaylist(message, args, server); break;
       case "promote": promote.promote(message, args, server); break;
@@ -86,9 +88,7 @@ module.exports = {
         if(server.dispatcher)
           server.dispatcher.end();
         break;
-      case "stop":
-        if(message.guild.voiceConnection) message.guild.voiceConnection.disconnect();
-        break;
+      case "stop": stop.stop(message, args, server); break;
       case "clear": clear.clear(message, args, server); break;
       case "volume": volume.setVolume(message, args, server); break;
 
@@ -97,7 +97,7 @@ module.exports = {
       case "give": giveCurrency.giveCurrency(message, args, server); break;
 
       //Gamble Commands
-      case "battle": pokemonBattle.challenge(PREFIX, message, args, server); break;
+      // case "battle": pokemonBattle.challenge(PREFIX, message, args, server); break;
 
       //Other
       case "help": help.sendHelp(PREFIX, message, args, server, self); break;

@@ -2,6 +2,10 @@ const config = require('../../../config/config');
 const userPlaylistsDB = require('../../../models/UserModels/userPlaylistsDB');
 const userSongsDB = require('../../../models/UserModels/userSongsDB');
 
+const pgp = require('pg-promise')();
+const QRE = pgp.errors.QueryResultError;
+const qrec = pgp.errors.queryResultErrorCode;
+
 module.exports = {
   findMyPlaylists(message, args, server) {
     userPlaylistsDB.findByDiscordId(message.author.id)

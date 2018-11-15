@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import './Regulars.css';
 
+//Image Imports
+import NTSH from '../../res/images/NTSH.gif';
+
 //Services Imports
 import regularsServices from '../../services/regularsServices';
 
@@ -81,6 +84,9 @@ class Regulars extends Component {
           </div>
           {this.state.dataRecieved ? this.renderRegulars() : ''}
           {this.state.userData.twitch_username === 'not connected' ? '' : <AddRegular userData={this.state.userData} renderRegulars={this.renderRegulars} />}
+          <h3>UNDER CONSTRUCTION:</h3>
+          <p>Nothing to see here :)</p>
+          <img className="NTSH" src={NTSH} alt="" />
         </div>
       </div>
     );

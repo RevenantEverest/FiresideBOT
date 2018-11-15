@@ -21,7 +21,7 @@ module.exports = {
     if(args[1] === "-s") playlistName = args[2];
     userPlaylistsDB.findByDiscordIdAndPlaylistName({ discord_id: message.author.id, name: playlistName })
       .then(playlist => {
-        if(!playlist) return message.channel.send('No playlist found by that name ey');
+        if(!playlist) return message.channel.send('No playlist found by that name');
         userSongsDB.findByPlaylistId(playlist.playlist_id)
           .then(songs => {
             for(let i = 0; i < songs.length; i++) {

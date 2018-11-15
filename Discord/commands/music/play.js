@@ -22,6 +22,7 @@ module.exports = {
       for(let i = 1; i < args.length; i++ ) { songRequest += (args[i] + ' '); }
       youtubeServices.youtubeSearch(songRequest)
         .then(results => {
+          if(results.data.items[0] === undefined) return message.channel.send("An error has occured");
           let queueInfo = {
             title: results.data.items[0].snippet.title,
             link: `https://www.youtube.com/watch?v=${results.data.items[0].id.videoId}`,
