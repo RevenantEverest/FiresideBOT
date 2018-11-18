@@ -1,6 +1,6 @@
 .Dashboard {
   display: inline-block;
-  height: 99%;;
+  height: 99%;
   width: 88%;
   background-color: #1a1a1a;
   color: #cccccc;
@@ -8,7 +8,7 @@
 
 .Dashboard-Contents {
   height: auto;
-  background-color: #1a1a1a;
+  background-color: inherit;
   margin-left: 5%;
 }
 
@@ -26,3 +26,34 @@
 
 .Dashboard-Header-SubText, .Dashboard-Header-SubText-Main { display: inline; }
 .Dashboard-Header-SubText-Main { font-weight: 800; }
+
+.Dashboard-DiscordGuilds-Header {
+  position: relative;
+  top: -25px;
+  display: inline;
+  margin-right: 5%;
+}
+
+.Dashboard-DiscordGuilds {
+  display: inline-block;
+}
+
+.Dashboard-Select-Container {
+  margin: auto;
+  background-color: #333333;
+  width: 300px;
+  height: 50px;
+  display:inline-block;
+  overflow: hidden;
+}
+
+.Dashboard-GuildSelect {
+  padding: 5%;
+  width: 95%;
+  font-family: "Cocogoose", sans-serif;
+  border: none;
+  background-color: inherit;
+  color: #cccccc;
+}
+
+.Dashboard-GuildSelect:focus { outline: orange; }

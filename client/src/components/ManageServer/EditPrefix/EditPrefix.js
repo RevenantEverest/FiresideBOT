@@ -44,19 +44,21 @@ class EditPrefix extends Component {
   }
 
   renderPrefixForm() {
-    console.log("No Form");
     return(
-      <form onSubmit={this.handleSubmit}>
-        <input type="text" name="prefix" placeholder={this.state.guildSettings.prefix} onChange={this.handleChange}/>
-        <input type="submit" value="Submit" />
-      </form>
+      <div>
+        <form id="EditPrefixForm" onSubmit={this.handleSubmit}>
+          <input className="EditPrefix-Prefix" type="text" name="prefix" placeholder={this.state.guildSettings.prefix} onChange={this.handleChange}/>
+          <input className="EditPrefix-Submit" type="submit" value="Update" />
+        </form>
+        <p className="EditPrefix-Prefix-Desc">Default prefix is "?"</p>
+      </div>
     );
   }
 
   render() {
     return(
-      <div className="EditPrefix">
-        <h3>Edit Prefix: </h3>
+      <div id="EditPrefix">
+        <h4>Edit Prefix: </h4>
         {this.state.dataReceived ? this.renderPrefixForm() : <div className="loading" id="EditPrefix"/>}
       </div>
     );

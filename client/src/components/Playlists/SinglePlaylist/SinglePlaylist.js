@@ -100,7 +100,7 @@ class SinglePlaylist extends Component {
           </div>
           {window.location.pathname.split("/")[2] === "guild" ? this.checkForPermissions() : ''}
           {window.location.pathname.split("/")[2] === "personal" ? <AddSong userData={this.state.userData} playlistData={this.state.playlistData} getSongs={this.getSongs} /> : ''}
-          <div className="SinglePlaylist-Table-Container">
+          <div className="SinglePlaylist-Songs-Container">
             {this.state.songDataRecieved ? this.renderSongs() : <div className="loading" id="SinglePlaylist" />}
           </div>
         </div>

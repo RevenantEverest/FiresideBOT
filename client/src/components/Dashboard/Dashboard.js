@@ -82,11 +82,13 @@ class Dashboard extends Component {
     });
     return(
       <div className="Dashboard-DiscordGuilds">
-        <h4>Manage Discord Server: </h4>
-        <select onChange={this.handleChange}>
-          <option>Select A Server: </option>
-          {Guilds}
-        </select>
+        <h4 className="Dashboard-DiscordGuilds-Header">Manage Discord Server: </h4>
+        <div className="Dashboard-Select-Container">
+          <select className="Dashboard-GuildSelect" onChange={this.handleChange}>
+            <option>Select A Server: </option>
+            {Guilds}
+          </select>
+        </div>
       </div>
     );
   }

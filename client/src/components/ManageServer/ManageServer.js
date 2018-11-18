@@ -6,6 +6,7 @@ import guildServices from '../../services/GuildServices/guildServices';
 
 //Component Imports
 import EditPrefix from './EditPrefix/EditPrefix';
+import ManageGuildCurrency from '../CurrencySystem/ManageGuildCurrency/ManageGuildCurrency';
 
 class ManageServer extends Component {
 
@@ -29,26 +30,17 @@ class ManageServer extends Component {
       .catch(err => console.log(err));
   }
 
-  renderGuildManage() {
-    console.log("Help Me");
-    return(
-      <div className="">
-        <h1>Managing: {this.state.guildData.guild_name}</h1>
-        <EditPrefix guildData={this.state.guildData} />
-      </div>
-    );
-  }
-
   render() {
     return(
       <div className="ManageServer">
         <div className="ManageServer-Contents">
           <div className="ManageServer-Header">
             <h1 className="ManageServer-Header-Text">Manage Server</h1>
-            <p className="ManageServer-Header-SubText">HOME / </p>
-            <p className="ManageServer-Header-SubText-Main"> Manage Server</p>
+            <p className="ManageServer-Header-SubText">HOME / ManageServer /</p>
+            <p className="ManageServer-Header-SubText-Main"> {this.state.guildData ? this.state.guildData.guild_name : ''}</p>
           </div>
-          {this.state.guildData ? this.renderGuildManage() : <div className="loading" id="ManageServer" />}
+          {this.state.guildData ? <EditPrefix guildData={this.state.guildData} /> : <div className="loading" id="ManageServer" />}
+          {this.state.guildData ? <ManageGuildCurrency guildData={this.state.guildData} /> : <div className="loading" id="ManageServer" />}
         </div>
       </div>
     );

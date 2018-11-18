@@ -48,10 +48,15 @@ class CurrencySystem extends Component {
     });
 
     return(
-        <select onChange={this.handleChange}>
-          <option>Select A Server: </option>
-          {AdminGuilds}
-        </select>
+        <div className="CurrencySystem-DiscordGuilds">
+          <h4 className="CurrencySystem-DiscordGuilds-Header">Manage A Discord Server: </h4>
+          <div className="CurrencySystem-Select-Container">
+            <select className="CurrencySystem-GuildSelect" onChange={this.handleChange}>
+              <option>Select A Server: </option>
+              {AdminGuilds}
+            </select>
+          </div>
+        </div>
     );
   }
 
@@ -64,7 +69,6 @@ class CurrencySystem extends Component {
             <p className="CurrencySystem-Header-SubText">HOME / </p>
             <p className="CurrencySystem-Header-SubText-Main">Currency</p>
           </div>
-          <h1>Currency System</h1>
           {this.state.guildDataRecieved ? this.renderChooseGuildForm() : <div className="loading" id="LoadingCurrencySystem" />}
           {this.state.manageGuildRedirect ? <Redirect to={`/currency/manage/${this.state.manageGuildCurrencyId}`} /> : ''}
         </div>

@@ -28,6 +28,9 @@ module.exports = {
               let queueInfo = {
                 title: songs[i].title,
                 link: songs[i].link,
+                author: songs[i].author,
+                duration: songs[i].duration,
+                thumbnail: songs[i].thumbnail_url,
                 requestedBy: message.author.username
               }
               server.queue.queueInfo.push(queueInfo);

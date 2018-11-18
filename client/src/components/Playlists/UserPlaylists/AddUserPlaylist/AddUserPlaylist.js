@@ -50,10 +50,10 @@ class AddUserPlaylist extends Component {
     return(
       <div id="AddUserPlaylist">
         <div className="AddUserPlaylist-Contents">
-          <h1 className="AddUserPlaylist-Header">Add Playlist: </h1>
+          <h4 className="AddUserPlaylist-Header">Add Playlist: </h4>
           <form id="AddUserPlaylistForm" onSubmit={this.handleSubmit} autoComplete="off">
             <input className={`${this.state.nameInput}`} type="text" name="name" onChange={this.handleChange} />
-            <input type="submit" value="Create" />
+            <input className="AddUserPlaylist-Submit" type="submit" value="Create" />
           </form>
           {this.state.nameInput === 'CannotSubmit' ? <div className="AUP-CannotSubmit-Text">Playlist name cannot contain any white space</div> : ''}
         </div>

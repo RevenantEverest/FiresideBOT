@@ -7,9 +7,27 @@
   margin: 2% 0 0 4%;
 }
 
-.CanSubmit  {
+.AddUserPlaylist-Header { display: inline; }
+#AddUserPlaylistForm { display: inline; }
 
+.AddUserPlaylist-Submit {
+  position: relative;
+  padding: 0 0 0 .5%;
+  border: none;
+  top: 4px;
+  border-left: solid #9a9a9a9a;
+  font-family: "Raleway", sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  left: .5%;
+  transition: .5s;
+  background-color: inherit;
+  color: #cccccc;
 }
+
+.AddUserPlaylist-Submit:hover { color: orange; border-left: solid orange; }
+.AddUserPlaylist-Submit:focus { outline: none; }
+.AddUserPlaylist-Submit:active { color: red; }
 
 .CannotSubmit { border-color: red; }
 .CanSubmit-Green:focus { border-color: #00ff00; }

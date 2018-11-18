@@ -1,3 +1,23 @@
 #AddSong {
   margin-bottom: 2%;
 }
+
+.AddSong-Submit {
+  display: inline;
+  position: relative;
+  padding: 0 0 0 .5%;
+  border: none;
+  top: 4px;
+  border-left: solid #9a9a9a9a;
+  font-family: "Raleway", sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  left: .5%;
+  transition: .5s;
+  background-color: inherit;
+  color: #cccccc;
+}
+
+.AddSong-Submit:hover { color: orange; border-left: solid orange; }
+.AddSong-Submit:focus { outline: none; }
+.AddSong-Submit:active { color: red; }

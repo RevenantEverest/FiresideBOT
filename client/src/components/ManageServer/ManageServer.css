@@ -9,15 +9,12 @@
 .ManageServer-Contents {
   height: auto;
   background-color: #1a1a1a;
+  margin-left: 5%;
 }
 
 .ManageServer-Header {
-  margin-bottom: 20%;
+  margin-bottom: 5%;
 }
 
-.CurrencySystem-Header {
-  margin-bottom: 20%;
-}
-
-.CurrencySystem-Header-SubText, .CurrencySystem-Header-SubText-Main { display: inline; }
-.CurrencySystem-Header-SubText-Main { font-weight: 800; }
+.ManageServer-Header-SubText, .ManageServer-Header-SubText-Main { display: inline; }
+.ManageServer-Header-SubText-Main { font-weight: 800; }

@@ -49,20 +49,18 @@ class ManageGuildCurrency extends Component {
 
   renderSettings() {
     return(
-      <form onSubmit={this.handleSubmit}>
-        <input type="text" name="currency_name" placeholder={`Currency Name: ${this.state.settings.currency_name}`} onChange={this.handleChange} />
-        <input
-          id="currency_increase_rate-slider"
-          type="range"
-          name="currency_increase_rate"
-          min="0" max="500"
-          onChange={this.handleChange}
-        />
-        <input type="text" name="currency_increase_rate" onChange={this.handleChange}
-          value={`${this.state.currency_increase_rate ? this.state.currency_increase_rate : this.state.settings.currency_increase_rate}`}
-        />
-        <input type="submit" value="Update" />
-      </form>
+      <div>
+        <form id="ManageGuildCurrencyForm" onSubmit={this.handleSubmit}>
+          <label className="MGC-CurrencyName-Label">Currency Name </label>
+          <label className="MGC-CurrencyIncreaseRate-Label">Increase Rate </label>
+          <br />
+          <input className="MGC-CurrencyName" type="text" name="currency_name" placeholder={`${this.state.settings.currency_name}`} onChange={this.handleChange} />
+          <input className="MGC-CurrencyIncreaseRate" type="text" name="currency_increase_rate" onChange={this.handleChange} value={`${ this.state.settings.currency_increase_rate}`} />
+          <input className="MGC-Submit" type="submit" value="Update" />
+        </form>
+        <p className="MGC-CurrencyName-Desc">A name for your servers currency (ie. Souls) </p>
+        <p className="MGC-CurrencyIncreaseRate-Desc">Currency increase per message sent </p>
+      </div>
     );
   }
 
@@ -70,6 +68,7 @@ class ManageGuildCurrency extends Component {
     return(
       <div id="ManageGuildCurrency">
         <div className="ManageGuildCurrency-Contents">
+          <h4 className="ManageGuildCurrency-Header">Currency Settings:</h4>
           {this.state.settingsRecieved ? this.renderSettings() : <div className="loading" id="LoadingManageGuildCurrency" />}
         </div>
       </div>

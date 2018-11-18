@@ -52,7 +52,7 @@ class AddSong extends Component {
       <div id="AddSong">
         <form id="AddSongForm" onSubmit={this.handleSubmit} autoComplete="off">
           <input type="text" name="link" placeholder="YouTube Link" onChange={this.handleChange} />
-          <input type="submit" value="Add" />
+          <input className="AddSong-Submit" type="submit" value="Add" />
         </form>
       </div>
     );

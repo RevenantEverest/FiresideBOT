@@ -1,6 +1,6 @@
 #UserPlaylists {
   display: inline-block;
-  height: 99%;
+  min-height: 99%;
   width: 88%;
   background-color: #1a1a1a;
   color: #cccccc;
@@ -8,7 +8,7 @@
 
 .UserPlaylists-Contents {
   display: inline-block;
-  height: auto;
+  max-height: auto;
   background-color: #1a1a1a;
   margin: 0% 0 0 5%;
 }

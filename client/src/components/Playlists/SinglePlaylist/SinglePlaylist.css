@@ -1,18 +1,15 @@
 #SinglePlaylist {
   display: inline-block;
-  height: 100%;
+  min-height: 100%;
   width: 88%;
   background-color: #1a1a1a;
   color: #cccccc;
 }
 
-.SinglePlaylist-Content {
+.SinglePlaylist-Contents {
   height: auto;
-  margin-top: 2%;
   margin-left: 5%;
-  background-color: black;
-  padding: 1% .1% 1% 1%;
-  border-radius: 24px;
+  background-color: inherit;
 }
 
 .SinglePlaylist-Header {
@@ -22,9 +19,9 @@
 .SinglePlaylist-Header-SubText, .SinglePlaylist-Header-SubText-Main { display: inline; }
 .SinglePlaylist-Header-SubText-Main { font-weight: 800; }
 
-/* .SinglePlaylist-Table-Container {
-  width: 50%;
-} */
+.SinglePlaylist-Songs-Container {
+  width: 95%;
+}
 
 .SinglePlaylst-Songs {
   padding: 1%;
