@@ -4,9 +4,10 @@ import './Playlists.css';
 
 class Playlists extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
+      userData: this.props.userData,
       userPlaylistRedirect: false,
       guildPlaylistRedirect: false
     }
@@ -28,6 +29,7 @@ class Playlists extends Component {
         </div>
         {this.state.userPlaylistRedirect ? <Redirect to="/playlists/personal" /> : ''}
         {this.state.guildPlaylistRedirect ? <Redirect to="/playlists/guild" /> : ''}
+        {!this.state.userData ? <Redirect to="/" /> : ''}
       </div>
     );
   }

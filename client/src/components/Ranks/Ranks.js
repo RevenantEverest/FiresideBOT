@@ -1,10 +1,18 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import './Ranks.css';
 
 //Image Imports
 import NTSH from '../../res/images/NTSH.gif';
 
 class Ranks extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      userData: this.props.userData
+    }
+  }
 
   render() {
     return(
@@ -19,6 +27,7 @@ class Ranks extends Component {
           <p>Nothing to see here :)</p>
           <img className="NTSH" src={NTSH} alt="" />
         </div>
+        {!this.state.userData ? <Redirect to="/" /> : ''}
       </div>
     );
   }

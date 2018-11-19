@@ -2,7 +2,7 @@
   position: relative;
   float: right;
   top: 20px;
-  width: 20%;
+  width: 25%;
   /* border: solid black; */
 }
 
@@ -55,3 +55,25 @@ input:checked + .slider:before {
 
 .slider.round { border-radius: 34px; }
 .slider.round:before { border-radius: 50%; }
+
+.AutoDJ-Redirect-Select-Container {
+  position: relative;
+  top: 20px;
+  margin: 0 2% 0 6%;
+  background-color: #333333;
+  width: 300px;
+  height: 50px;
+  display:inline-block;
+  overflow: hidden;
+}
+
+.AutoDJ-Redirect-Select {
+  padding: 5%;
+  width: 95%;
+  font-family: "Cocogoose", sans-serif;
+  border: none;
+  background-color: inherit;
+  color: #cccccc;
+}
+
+.AutoDJ-Redirect-GuildSelect:focus { outline: orange; }

@@ -35,17 +35,17 @@ module.exports = {
       .catch(err => { console.log("Failed at Songs Get One"); next(err); });
   },
   addSong(req, res, next) {
-    let songData = {playlist_id: req.body.playlist_id, link: req.body.link, title: '', duration: ''};
-    if(req.body.link.startsWith("http")) {
+    let songData = {};
+    if(req.body.link.includes('https://youtube.com') || req.body.link.includes("https://www.youtube.com") || req.body.link.includes('http://youtube.com')) {
       YTDL.getInfo(songData.link, (err, info) => {
         songData.title = info.title;
+        songData.link = req.body.link;
         songData.duration = info.length_seconds;
-        guildSongsDB.save(songData)
-          .then(results => {
-            res.json({
-              message: "Adding Song",
-              data: results
-            })
+        songData.author = info.author.name;
+        songData.thumbnail_url = info.thumbnail_url;
+
+        guildSongsDB.save(songData).then(results => {
+            res.json({message: "Adding Song", data: results});
           })
       })
     }else {
@@ -55,12 +55,11 @@ module.exports = {
           songData.title = results.data.items[0].snippet.title;
           YTDL.getInfo(songData.link, (err, info) => {
             songData.duration = info.length_seconds;
-            guildSongsDB.save(songData)
-              .then(results => {
-                res.json({
-                  message: "Adding Song",
-                  data: results
-                })
+            songData.author = info.author.name;
+            songData.thumbnail_url = info.thumbnail_url;
+
+            guildSongsDB.save(songData).then(results => {
+                res.json({message: "Adding Song", data: results});
               })
           });
         })

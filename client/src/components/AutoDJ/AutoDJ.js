@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import './AutoDJ.css';
 
 //Services Imports
@@ -137,6 +138,7 @@ class AutoDJ extends Component {
           {this.state.queue ? this.renderSongs() : ''}
           <div className="TableHeightFix" />
         </div>
+        {!this.state.userData ? <Redirect to="/" /> : ''}
       </div>
     );
   }

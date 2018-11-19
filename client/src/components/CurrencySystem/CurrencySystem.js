@@ -71,6 +71,7 @@ class CurrencySystem extends Component {
           </div>
           {this.state.guildDataRecieved ? this.renderChooseGuildForm() : <div className="loading" id="LoadingCurrencySystem" />}
           {this.state.manageGuildRedirect ? <Redirect to={`/currency/manage/${this.state.manageGuildCurrencyId}`} /> : ''}
+          {!this.state.userData ? <Redirect to="/" /> : ''}
         </div>
       </div>
     );

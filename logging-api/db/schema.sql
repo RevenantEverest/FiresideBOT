@@ -1,0 +1,7 @@
+DROP TABLE IF EXISTS logs;
+
+CREATE TABLE command_logs(
+  id SERIAL PRIMARY KEY,
+  command VARCHAR(255),
+  args VARCHAR(255)
+);

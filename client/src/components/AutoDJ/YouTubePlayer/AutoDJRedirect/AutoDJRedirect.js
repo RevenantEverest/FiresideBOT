@@ -97,10 +97,12 @@ class AutoDJRedirect extends Component {
       checkbox.checked = true;
 
     return(
-      <select className="AutoDJRedirect-Select" name="guild_id" onChange={this.handleChange}>
-        <option>Select a Server</option>
-        {Guilds}
-      </select>
+      <div className="AutoDJ-Redirect-Select-Container">
+        <select className="AutoDJ-Redirect-Select" name="guild_id" onChange={this.handleChange}>
+          <option>Select a Server</option>
+          {Guilds}
+        </select>
+      </div>
     );
   }
 

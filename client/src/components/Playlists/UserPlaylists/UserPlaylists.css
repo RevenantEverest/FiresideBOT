@@ -48,7 +48,17 @@
   position: relative;
   float: right;
   top: 15px;
+  border: none;
+  height: 30px;
+  width: 30px;
+  text-align: center;
+  transition: .5s;
+  border-radius: 50%
 }
+.UserPlaylists-DeleteIcon { transition: .5s; }
+
+.UserPlaylists-Delete:hover { background: red; }
+.UserPlaylists-Delete:hover .UserPlaylists-DeleteIcon { color: #dedede; }
 
 #LoadingUserPlaylists {
   height: 12vh;

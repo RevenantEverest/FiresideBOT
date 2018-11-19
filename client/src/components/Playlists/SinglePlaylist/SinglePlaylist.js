@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './SinglePlaylist.css';
 
 //Component Imports
@@ -64,9 +65,12 @@ class SinglePlaylist extends Component {
       return(
           <div className={`SinglePlaylst-Songs ${color}`}>
             <h3 className="SinglePlaylist-SongTitle">{counter}. {el.title}</h3>
-            <p className="SinglePlaylst-SongArtist">Artist: RevenantEverest</p>
+            <p className="SinglePlaylst-SongArtist">Artist: {el.author}</p>
             <p className="SinglePlaylist-SongDuration">Duration: {minutes}:{seconds}</p>
             <p className="SinglePlaylist-SongLink"><a href={el.link}>Click Me</a></p>
+            <button className="SinglePlaylist-Delete" onClick={(e) => this.deleteSong(el)}>
+              <FontAwesomeIcon className="SinglePlaylist-DeleteIcon" icon="trash-alt" />
+            </button>
           </div>
       );
     });
@@ -92,9 +96,9 @@ class SinglePlaylist extends Component {
       <div id="SinglePlaylist">
         <div className="SinglePlaylist-Contents">
           <div className="SinglePlaylist-Header">
-            <h1 className="SinglePlaylist-Header-Text">Currency Manager</h1>
+            <h1 className="SinglePlaylist-Header-Text">{this.state.playlistData.name}</h1>
             <p className="SinglePlaylist-Header-SubText">
-              HOME / {window.location.pathname.split("/")[2] === "personal" ? "personal" : "guild" } /
+              HOME / playlists / {window.location.pathname.split("/")[2] === "personal" ? "personal" : "guild" } /
             </p>
             <p className="SinglePlaylist-Header-SubText-Main"> {this.state.playlistData.name}</p>
           </div>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import './ChoosePlaylist.css';
 
 //Services Imports
@@ -69,6 +69,7 @@ class ChoosePlaylist extends Component {
       <div id="ChoosePlaylist">
         <div className="ChoosePlaylist-Contents">
           {this.state.dataReceived ? this.chosenPlaylistForm() : ''}
+          {!this.state.userData ? <Redirect to="/" /> : ''}
         </div>
       </div>
     );

@@ -11,8 +11,10 @@ module.exports = {
     return db.many(`SELECT * FROM user_songs WHERE playlist_id = $1`, id);
   },
   save(song) {
-    return db.one(`INSERT INTO user_songs (playlist_id, title, link, duration)
-    VALUES ($/playlist_id/, $/title/, $/link/, $/duration/) RETURNING *`, song);
+    return db.one(`INSERT INTO user_songs (playlist_id, title, link, duration, author, thumbnail_url)
+    VALUES
+    ($/playlist_id/, $/title/, $/link/, $/duration/, $/author/, $/thumbnail_url/)
+    RETURNING *`, song);
   },
   destroy(id) {
     return db.none('DELETE FROM user_songs WHERE song_id = $1', id);

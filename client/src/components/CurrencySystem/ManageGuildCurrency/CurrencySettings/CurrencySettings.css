@@ -1,0 +1,87 @@
+#CurrencySettings {
+  display: inline-block;
+  height: 99%;
+  width: 88%;
+  background-color: #1a1a1a;
+  color: #cccccc;
+}
+
+.CurrencySettings-Contents {
+  display: inline-block;
+  height: auto;
+  background-color: #1a1a1a;
+}
+
+#CurrencySettingsForm {
+  display: block;
+  width: 600px;
+}
+
+.CurrencySettings-CurrencyName-Label {
+  display: inline-block;
+  font-size: 12px;
+}
+
+.CurrencySettings-CurrencyIncreaseRate-Label {
+  display: inline-block;
+  margin-left: 34%;
+  font-size: 12px;
+}
+
+.CurrencySettings-CurrencyName-Desc {
+  display: inline-block;
+  width: 220px;
+  font-size: 14px;
+}
+
+.CurrencySettings-CurrencyIncreaseRate-Desc {
+  display: inline-block;
+  width: 200px;
+  font-size: 14px;
+  margin-left: 11%;
+}
+
+.CurrencySettings-CurrencyName {
+  display: inline-block;
+  margin: 4% 0 2% 0;
+  border: none;
+  border-bottom: solid #cccccc;
+  background: inherit;
+  color: #cccccc;
+  font-size: 16px;
+}
+
+.CurrencySettings-CurrencyIncreaseRate {
+  display: inline-block;
+  width: 200px;
+  margin: 4% 0 4% 0;
+  border: none;
+  border-bottom: solid #cccccc;
+  background: inherit;
+  color: #cccccc;
+  font-size: 16px;
+  margin-left: 15%;
+}
+
+.CurrencySettings-Submit {
+  display: inline;
+  position: relative;
+  padding: 0 0 0 .5%;
+  border: none;
+  top: 4px;
+  margin-left: 5%;
+  border-left: solid #9a9a9a9a;
+  font-family: "Raleway", sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  left: .5%;
+  transition: .5s;
+  background-color: inherit;
+  color: #cccccc;
+}
+
+.CurrencySettings-Submit:hover { color: orange; border-left: solid orange; }
+.CurrencySettings-Submit:focus { outline: none; }
+.CurrencySettings-Submit:active { color: red; }
+
+#LoadingCurrencySettings {}

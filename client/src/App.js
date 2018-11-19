@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faLink, faClock, faVolumeUp, faVolumeDown, faVolumeOff, faMusic, faTachometerAlt,
          faMagic, faArrowCircleLeft, faBook, faInfoCircle, faComments, faChartLine, faAngleLeft,
-         faAngleDown, faBolt, faCrown, faAward, faCoins} from '@fortawesome/free-solid-svg-icons';
+         faAngleDown, faBolt, faCrown, faAward, faCoins, faTrashAlt} from '@fortawesome/free-solid-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import './App.css';
 
@@ -34,9 +34,11 @@ import ChoosePlaylist from './components/AutoDJ/ChoosePlaylist/ChoosePlaylist';
 import DefaultCommands from './components/Commands/DefaultCommands/DefaultCommands';
 import CustomCommands from './components/Commands/CustomCommands/CustomCommands';
 
+import PageNotFound from './components/PageNotFound/PageNotFound';
+
 library.add(faLink, faClock, faVolumeUp, faVolumeDown, faVolumeOff, faMusic, faTachometerAlt, faMagic);
 library.add(faArrowCircleLeft, faBook, faInfoCircle, faComments, faChartLine, faAngleLeft, faAngleDown);
-library.add(faBolt, faCrown, faAward, faCoins);
+library.add(faBolt, faCrown, faAward, faCoins, faTrashAlt);
 library.add(fab)
 
 class App extends Component {
@@ -66,6 +68,7 @@ class App extends Component {
           <div className="App">
             <NavBar userData={this.state.userData} />
             <div className="App-Contents">
+
               <Route exact path="/" component={ () => (<HomePage getUserData={this.getUserData}/>) } />
               {this.state.userData != null ? <Route exact path="/dashboard" component={() => (<Dashboard userData={this.state.userData}/>) } /> : ''}
               {this.state.userData != null ? <Route exact path="/dashboard/server/:serverId" component={() => <ManageServer userData={this.state.userData}/>} /> : ''}
@@ -88,6 +91,8 @@ class App extends Component {
               {this.state.userData != null ? <Route path="/playlists/guild/:playlist_name" component={SinglePlaylist} /> : ''}
               {this.state.userData != null ? <Route exact path="/chooseplaylist" component={ () => (<ChoosePlaylist userData={this.state.userData}/>) } /> : ''}
               {this.state.userData != null ? <Route path="/autodj" component={AutoDJ} /> : ''}
+              {/*<Route component={PageNotFound} />*/}
+
             </div>
           </div>
         </Router>

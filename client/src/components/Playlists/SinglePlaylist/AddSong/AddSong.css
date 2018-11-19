@@ -2,6 +2,31 @@
   margin-bottom: 2%;
 }
 
+.AddSong-NameInput-Label {
+  display: inline-block;
+  font-size: 12px;
+  margin-bottom: 12px;
+}
+
+.AddSong-NameInput {
+  border: none;
+  border-bottom: solid #cccccc;
+  width: 280px;
+  background-color: inherit;
+  display: inline-block;
+  color: #cccccc;
+  font-size: 16px;
+}
+
+.AddSong-NameInput:focus { text-decoration: none; outline: none; }
+
+.AddSong-NameInput-Desc {
+  display: inline-block;
+  width: 250px;
+  font-size: 12px;
+  margin-top: 12px;
+}
+
 .AddSong-Submit {
   display: inline;
   position: relative;
@@ -12,7 +37,7 @@
   font-family: "Raleway", sans-serif;
   font-weight: 400;
   font-size: 20px;
-  left: .5%;
+  left: 1%;
   transition: .5s;
   background-color: inherit;
   color: #cccccc;

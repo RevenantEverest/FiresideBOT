@@ -36,6 +36,7 @@ iframe {
 
 .YTP-Controls {
   width: 380%;
+  margin-top: 1%;
   margin-left: 2%;
   display: inline-block;
 }

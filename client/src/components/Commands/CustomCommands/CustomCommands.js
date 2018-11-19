@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import './CustomCommands.css';
 
 //Image Imports
@@ -69,6 +70,7 @@ class CustomCommands extends Component {
           <img className="NTSH" src={NTSH} alt="" />
           {/*<AddCommand userData={this.state.userData} getCommands={this.getCommands} />*/}
           {/*this.state.dataRecieved ? this.renderCommands() : <div className="loading" id="CustomCommands" />*/}
+          {!this.state.userData ? <Redirect to="/" /> : ''}
         </div>
       </div>
     );

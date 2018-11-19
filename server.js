@@ -63,9 +63,9 @@ app.use("/", (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Listening on port ${PORT}`);
+  console.log(`Fireside API: Listening on port ${PORT}`);
 });
 
 /* Bot Logins */
-Twitch_Bot.connect();
+// Twitch_Bot.connect();
 Discord_Bot.login(config.Discord_Key);

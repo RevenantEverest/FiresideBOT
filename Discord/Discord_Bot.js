@@ -13,6 +13,7 @@ let PREFIX = '';
 // Called When Bot Starts
 Discord_Bot.on("ready", () => {
     Discord_Bot.user.setActivity("The Campfire | ?help", {type: "WATCHING"});
+    console.log("Discord-Connection Ready");
 });
 
 

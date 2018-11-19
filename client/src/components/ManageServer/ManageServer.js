@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import './ManageServer.css';
 
 //Services Imports
@@ -6,7 +7,7 @@ import guildServices from '../../services/GuildServices/guildServices';
 
 //Component Imports
 import EditPrefix from './EditPrefix/EditPrefix';
-import ManageGuildCurrency from '../CurrencySystem/ManageGuildCurrency/ManageGuildCurrency';
+import CurrencySettings from '../CurrencySystem/ManageGuildCurrency/CurrencySettings/CurrencySettings';
 
 class ManageServer extends Component {
 
@@ -40,7 +41,8 @@ class ManageServer extends Component {
             <p className="ManageServer-Header-SubText-Main"> {this.state.guildData ? this.state.guildData.guild_name : ''}</p>
           </div>
           {this.state.guildData ? <EditPrefix guildData={this.state.guildData} /> : <div className="loading" id="ManageServer" />}
-          {this.state.guildData ? <ManageGuildCurrency guildData={this.state.guildData} /> : <div className="loading" id="ManageServer" />}
+          {this.state.guildData ? <CurrencySettings guildData={this.state.guildData} /> : <div className="loading" id="ManageServer" />}
+          {!this.state.userData ? <Redirect to="/" /> : ''}
         </div>
       </div>
     );

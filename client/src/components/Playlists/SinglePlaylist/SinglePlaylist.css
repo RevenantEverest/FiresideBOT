@@ -29,3 +29,19 @@
 
 .SinglePlaylist-Grey { background: #333333; }
 .SinglePlaylist-White { background: #1a1a1a; }
+
+.SinglePlaylist-Delete {
+  position: relative;
+  float: right;
+  top: -35px;
+  border: none;
+  height: 30px;
+  width: 30px;
+  text-align: center;
+  transition: .5s;
+  border-radius: 50%
+}
+.SinglePlaylist-DeleteIcon { transition: .5s; }
+
+.SinglePlaylist-Delete:hover { background: red; }
+.SinglePlaylist-Delete:hover .SinglePlaylist-DeleteIcon { color: #dedede; }

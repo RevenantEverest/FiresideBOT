@@ -10,80 +10,12 @@
   display: inline-block;
   height: auto;
   background-color: #1a1a1a;
-}
-
-.ManageGuildCurrency-Header {}
-
-#ManageGuildCurrencyForm {
-  display: block;
-  width: 600px;
-}
-
-.MGC-CurrencyName-Label {
-  display: inline-block;
-  font-size: 12px;
-}
-
-.MGC-CurrencyIncreaseRate-Label {
-  display: inline-block;
-  margin-left: 34%;
-  font-size: 12px;
-}
-
-.MGC-CurrencyName-Desc {
-  display: inline-block;
-  width: 220px;
-  font-size: 14px;
-}
-
-.MGC-CurrencyIncreaseRate-Desc {
-  display: inline-block;
-  width: 200px;
-  font-size: 14px;
-  margin-left: 11%;
-}
-
-.MGC-CurrencyName {
-  display: inline-block;
-  margin: 4% 0 2% 0;
-  border: none;
-  border-bottom: solid #cccccc;
-  background: inherit;
-  color: #cccccc;
-  font-size: 16px;
-}
-
-.MGC-CurrencyIncreaseRate {
-  display: inline-block;
-  width: 200px;
-  margin: 4% 0 4% 0;
-  border: none;
-  border-bottom: solid #cccccc;
-  background: inherit;
-  color: #cccccc;
-  font-size: 16px;
-  margin-left: 15%;
-}
-
-.MGC-Submit {
-  display: inline;
-  position: relative;
-  padding: 0 0 0 .5%;
-  border: none;
-  top: 4px;
   margin-left: 5%;
-  border-left: solid #9a9a9a9a;
-  font-family: "Raleway", sans-serif;
-  font-weight: 400;
-  font-size: 20px;
-  left: .5%;
-  transition: .5s;
-  background-color: inherit;
-  color: #cccccc;
 }
 
-.MGC-Submit:hover { color: orange; border-left: solid orange; }
-.MGC-Submit:focus { outline: none; }
-.MGC-Submit:active { color: red; }
+.ManageGuildCurrency-Header {
+  margin-bottom: 20%;
+}
 
-#LoadingManageGuildCurrency {}
+.ManageGuildCurrency-Header-SubText, .ManageGuildCurrency-Header-SubText-Main { display: inline; }
+.ManageGuildCurrency-Header-SubText-Main { font-weight: 800; }

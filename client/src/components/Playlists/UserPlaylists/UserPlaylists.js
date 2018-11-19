@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './UserPlaylists.css';
 
 //Services Imports
@@ -69,19 +70,21 @@ class UserPlaylists extends Component {
       else if(counter % 2 === 1)
         playlistDisplayColor = 'PD-grey';
       return(
-        <Link className=''key={idx} to={{
-          pathname: `/playlists/personal/${el.playlistInfo.name}`,
-          state: {
-            userData: this.props.userData,
-            playlistData: el.playlistInfo
-          }
-        }}>
-          <div className={`PlaylistDisplay ${playlistDisplayColor}`}>
+        <div className={`PlaylistDisplay ${playlistDisplayColor}`}>
+          <Link className=''key={idx} to={{
+            pathname: `/playlists/personal/${el.playlistInfo.name}`,
+            state: {
+              userData: this.props.userData,
+              playlistData: el.playlistInfo
+            }
+          }}>
             <h1 className="UserPlaylists-PlaylistName">{el.playlistInfo.name}</h1>
-            <p className="UserPlaylists-SongAmount">{el.songs} Songs</p>
-            <button className="UserPlaylists-Delete" onClick={(e) => this.deletePlaylist(el) }>Delete</button>
-          </div>
-        </Link>
+          </Link>
+          <p className="UserPlaylists-SongAmount">{el.songs} Songs</p>
+          <button className="UserPlaylists-Delete" onClick={(e) => this.deletePlaylist(el) }>
+            <FontAwesomeIcon className="UserPlaylists-DeleteIcon" icon="trash-alt" />
+          </button>
+        </div>
       );
     });
 
@@ -98,10 +101,8 @@ class UserPlaylists extends Component {
         <div className="UserPlaylists-Contents">
           <div className="UserPlaylists-Header">
             <h1 className="UserPlaylists-HeaderText">Personal Playlists</h1>
-            <p className="UserPlaylists-HeaderSubText">
-              HOME / playlists /
-              <p className="UserPlaylists-HeaderSubText-Main"> Personal</p>
-            </p>
+            <p className="UserPlaylists-HeaderSubText">HOME / playlists /</p>
+            <p className="UserPlaylists-HeaderSubText-Main"> Personal</p>
           </div>
           {this.state.dataRecieved ? this.renderPlaylists() : <div className="loading" id="LoadingUserPlaylists" />}
           {this.state.playlistRedirect ? <Redirect to="/playlists/single" /> : ''}

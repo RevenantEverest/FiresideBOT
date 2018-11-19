@@ -16,6 +16,10 @@ class AddSong extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
+  componentDidMount() {
+    console.log(this.props.playlistData.playlist_id);
+  }
+
   handleChange(e) {
     let name = e.target.name;
     let value = e.target.value;
@@ -26,6 +30,7 @@ class AddSong extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
+    document.querySelector("#AddSongForm").reset();
     let songData = {
       playlist_id: this.props.playlistData.playlist_id,
       link: this.state.link
@@ -34,14 +39,12 @@ class AddSong extends Component {
       userSongsServices.addSong(songData)
         .then(results => {
           this.props.getSongs(this.props.playlistData);
-          document.querySelector("#AddSongForm").reset();
         })
         .catch(err =>  console.log(err));
     }else if(window.location.pathname.split("/")[2] === "guild") {
       guildSongsServices.addSong(songData)
         .then(results => {
           this.props.getSongs(this.props.playlistData);
-          document.querySelector("#AddSongForm").reset();
         })
         .catch(err =>  console.log(err));
     }
@@ -51,8 +54,12 @@ class AddSong extends Component {
     return(
       <div id="AddSong">
         <form id="AddSongForm" onSubmit={this.handleSubmit} autoComplete="off">
-          <input type="text" name="link" placeholder="YouTube Link" onChange={this.handleChange} />
+          <label className="AddSong-NameInput-Label">Add Song: </label>
+          <br />
+          <input className="AddSong-NameInput" type="text" name="link" onChange={this.handleChange} />
           <input className="AddSong-Submit" type="submit" value="Add" />
+          <br />
+          <label className="AddSong-NameInput-Desc">Use a YouTube search or link to add a song.</label>
         </form>
       </div>
     );

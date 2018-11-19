@@ -104,6 +104,7 @@ class Dashboard extends Component {
           </div>
           {this.state.dataReceived ? this.renderGuilds() : <div className="loading" id="LoadingDashboard" />}
           {this.state.manageGuildRedirect ? <Redirect to={`/dashboard/server/${this.state.manageGuildId}`}/> : ''}
+          {!this.state.userData ? <Redirect to="/" /> : ''}
         </div>
       </div>
     );

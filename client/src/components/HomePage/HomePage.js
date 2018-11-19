@@ -18,6 +18,7 @@ class HomePage extends Component {
     super(props);
     this.state = {
       userData: this.props.userData,
+      isLoggedIn: false,
       apiData: null,
       dataRecieved: false
     }
@@ -65,7 +66,8 @@ class HomePage extends Component {
   }
 
   handleDiscordLogin() {
-    window.location.href = `https://discordapp.com/api/oauth2/authorize?client_id=${key.CLIENT_ID}&response_type=code&scope=guilds%20identify%20connections%20email%20messages.read&state=helloWorld&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2F`
+    if(window.localStorage.access_token) this.setState({ isLoggedIn: true });
+    else window.location.href = `https://discordapp.com/api/oauth2/authorize?client_id=${key.CLIENT_ID}&response_type=code&scope=guilds%20identify%20connections%20email%20messages.read&state=helloWorld&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2F`
   }
 
   render() {
@@ -83,6 +85,7 @@ class HomePage extends Component {
                 </button>
                 {this.state.guildDataRecieved ? <h2 className="HomePage-ServerList">Operating In {this.state.guilds} Discord Servers!</h2>: ''}
                 {this.state.dataRecieved ? <Redirect to="/dashboard" /> : ''}
+                {this.state.isLoggedIn ? <Redirect to="/dashboard" /> : ''}
               </div>
             </div>
           </div>

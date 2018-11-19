@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import './Regulars.css';
 
 //Image Imports
@@ -88,6 +89,7 @@ class Regulars extends Component {
           <p>Nothing to see here :)</p>
           <img className="NTSH" src={NTSH} alt="" />
         </div>
+        {!this.state.userData ? <Redirect to="/" /> : ''}
       </div>
     );
   }
