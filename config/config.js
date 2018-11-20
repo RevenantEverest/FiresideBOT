@@ -2,6 +2,7 @@ module.exports = {
   Discord: require('discord.js'),
   TMI: require('tmi.js'),
   servers: {},
+  Discord_Users_Count: 0,
   Discord_Key: process.env.DISCORD_KEY,
   Twitch_Key: process.env.TWITCH_KEY,
   Google_Key: process.env.GOOGLE_KEY,

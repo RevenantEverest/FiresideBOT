@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import AnimatedNumber from 'react-animated-number';
 import './HomePage.css';
 
 //Image Imports
@@ -8,7 +9,7 @@ import Logo from '../../res/images/Logo.png'
 
 //services Imports
 import discordServices from '../../services/discordServices';
-import guildServices from '../../services/GuildServices/guildServices';
+import botInfoServices from '../../services/botInfoServices';
 
 import key from '../../key.js';
 
@@ -27,7 +28,7 @@ class HomePage extends Component {
   componentDidMount() {
     document.querySelector('.NavBar').style.display = "none";
     this.getToken();
-    this.getGuilds();
+    this.getDiscordBotUsers();
   }
 
   getToken() {
@@ -48,10 +49,10 @@ class HomePage extends Component {
                       // }
   }
 
-  getGuilds() {
-    guildServices.getGuilds()
-      .then(guilds => {
-        this.setState({ guilds: guilds.data.data.length, guildDataRecieved: true });
+  getDiscordBotUsers() {
+    botInfoServices.getDiscordUserSize()
+      .then(users => {
+        this.setState({ usersCount: users.data.data, botInfoDataRecieved: true });
       })
   }
 
@@ -70,6 +71,25 @@ class HomePage extends Component {
     else window.location.href = `https://discordapp.com/api/oauth2/authorize?client_id=${key.CLIENT_ID}&response_type=code&scope=guilds%20identify%20connections%20email%20messages.read&state=helloWorld&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2F`
   }
 
+  renderUserCount() {
+    return(
+      <div className="HomePage-ServerList-Container">
+        <AnimatedNumber
+            className="HomePage-ServerList"
+            component="span"
+            style={{
+              transition: '0.1s ease out',
+              transitionProperty: 'background-color, color, opacity'
+            }}
+            stepPrecision={0}
+            duration={1000}
+            value={this.state.usersCount}
+            formatValue={n => 'Serving ' + n.toLocaleString('en') + ' Users'}
+          />
+      </div>
+    );
+  }
+
   render() {
     return(
       <div className="HomePage">
@@ -80,10 +100,10 @@ class HomePage extends Component {
                 <img className="Logo" src={Logo} alt=""/>
                 <h1 className="Text-Logo">FiresideBOT</h1>
                 <button className="Discord-Login" onClick={(e) => this.handleDiscordLogin()}>
-                <FontAwesomeIcon className="HomePage-DiscordIcon" icon={['fab', 'discord']} />
-                  Login With Discord
+                  <FontAwesomeIcon className="HomePage-DiscordIcon" icon={['fab', 'discord']} />
+                  <p className="Discord-Login-Text">Login With Discord</p>
                 </button>
-                {this.state.guildDataRecieved ? <h2 className="HomePage-ServerList">Operating In {this.state.guilds} Discord Servers!</h2>: ''}
+                {this.state.botInfoDataRecieved ? this.renderUserCount() : ''}
                 {this.state.dataRecieved ? <Redirect to="/dashboard" /> : ''}
                 {this.state.isLoggedIn ? <Redirect to="/dashboard" /> : ''}
               </div>
@@ -95,19 +115,27 @@ class HomePage extends Component {
             <div className="HomePage-Features">
               <div className="HomePage-Music">
                 <FontAwesomeIcon className="HomePage-MusicIcon" icon="music" />
-                <p>Curabitur nulla nulla, scelerisque sit amet facilisis at, vestibulum sed elit. Etiam dapibus purus quis placerat placerat. Vestibulum eget massa in felis semper sagittis. Duis congue nulla condimentum tempus molestie. Vivamus risus augue, tempus at ullamcorper id, varius ullamcorper ante. Donec finibus nec lectus eu tincidunt. Sed pellentesque neque et lacinia aliquet.</p>
+                <p className="HomePage-Music-Text HomePage-Features-Text">
+                  Not your average music features. We offer you the ability to not only request songs but to create and request your own playlists. Have full control over your music by pausing when you like, changing serverwide volume and more!
+                </p>
               </div>
-              <div className="HomePage-Ranks">
-                <FontAwesomeIcon className="HomePage-RankIcon" icon="crown" />
-                <p>Curabitur nulla nulla, scelerisque sit amet facilisis at, vestibulum sed elit. Etiam dapibus purus quis placerat placerat. Vestibulum eget massa in felis semper sagittis. Duis congue nulla condimentum tempus molestie. Vivamus risus augue, tempus at ullamcorper id, varius ullamcorper ante. Donec finibus nec lectus eu tincidunt. Sed pellentesque neque et lacinia aliquet.</p>
+              <div className="HomePage-Headphones">
+                <FontAwesomeIcon className="HomePage-HeadphonesIcon" icon="headphones" />
+                <p className="HomePage-Headphones-Text HomePage-Features-Text">
+                  Enjoy a handsfree listening experience with our Auto DJ system. AutoDJ allows you to play your created playlists just like a live stream. Take full control of your experience by adjusting volume, and seeking to specific points in your music.
+                </p>
               </div>
-              <div className="HomePage-Analytics">
-                <FontAwesomeIcon className="HomePage-AnalyticsIcon" icon="chart-line" />
-                <p>Curabitur nulla nulla, scelerisque sit amet facilisis at, vestibulum sed elit. Etiam dapibus purus quis placerat placerat. Vestibulum eget massa in felis semper sagittis. Duis congue nulla condimentum tempus molestie. Vivamus risus augue, tempus at ullamcorper id, varius ullamcorper ante. Donec finibus nec lectus eu tincidunt. Sed pellentesque neque et lacinia aliquet.</p>
+              <div className="HomePage-Currency">
+                <FontAwesomeIcon className="HomePage-CoinsIcon" icon="coins" />
+                <p className="HomePage-Currency-Text HomePage-Features-Text">
+                  Fully customizable server currency system. Customize your currency name, and adjust increase rate. Allow your server memebers to gain and trade points based on how active they are.
+                </p>
               </div>
-              <div className="HomePage-Moderation">
-                <FontAwesomeIcon className="HomePage-ModerationIcon" icon="bolt" />
-                <p>Curabitur nulla nulla, scelerisque sit amet facilisis at, vestibulum sed elit. Etiam dapibus purus quis placerat placerat. Vestibulum eget massa in felis semper sagittis. Duis congue nulla condimentum tempus molestie. Vivamus risus augue, tempus at ullamcorper id, varius ullamcorper ante. Donec finibus nec lectus eu tincidunt. Sed pellentesque neque et lacinia aliquet.</p>
+              <div className="HomePage-BoxOpen">
+                <FontAwesomeIcon className="HomePage-BoxOpenIcon" icon="box-open" />
+                <p className="HomePage-BoxOpen-Text HomePage-Features-Text">
+                  Enjoy our other fun commands. Display or get info about Pokemon, ask FiresideBOT a question with 8ball, or listen to a soothing campfire!
+                </p>
               </div>
             </div>
           </div>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import './ManageServer.css';
 
 //Services Imports
@@ -37,11 +37,12 @@ class ManageServer extends Component {
         <div className="ManageServer-Contents">
           <div className="ManageServer-Header">
             <h1 className="ManageServer-Header-Text">Manage Server</h1>
-            <p className="ManageServer-Header-SubText">HOME / ManageServer /</p>
+            <Link to="/dashboard"><p className="ManageServer-Header-SubText">HOME / </p></Link>
+            <Link to="/dashboard"><p className="ManageServer-Header-SubText"> ManageServer /</p></Link>
             <p className="ManageServer-Header-SubText-Main"> {this.state.guildData ? this.state.guildData.guild_name : ''}</p>
           </div>
-          {this.state.guildData ? <EditPrefix guildData={this.state.guildData} /> : <div className="loading" id="ManageServer" />}
-          {this.state.guildData ? <CurrencySettings guildData={this.state.guildData} /> : <div className="loading" id="ManageServer" />}
+          {this.state.guildData ? <EditPrefix guildData={this.state.guildData} /> : <div className="loading" id="LoadingManageServer" />}
+          {this.state.guildData ? <CurrencySettings guildData={this.state.guildData} /> : <div className="loading" id="LoadingManageServer" />}
           {!this.state.userData ? <Redirect to="/" /> : ''}
         </div>
       </div>

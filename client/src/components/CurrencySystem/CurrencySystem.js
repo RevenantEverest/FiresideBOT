@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import './CurrencySystem.css';
 
 //Services Imports
-// import currencyServices from '../../services/currencyServices';
 import discordServices from '../../services/discordServices';
 
 class CurrencySystem extends Component {
@@ -66,7 +65,7 @@ class CurrencySystem extends Component {
         <div className="CurrencySystem-Contents">
           <div className="CurrencySystem-Header">
             <h1 className="CurrencySystem-Header-Text">Currency Manager</h1>
-            <p className="CurrencySystem-Header-SubText">HOME / </p>
+            <Link to="/dashboard"><p className="CurrencySystem-Header-SubText">HOME / </p></Link>
             <p className="CurrencySystem-Header-SubText-Main">Currency</p>
           </div>
           {this.state.guildDataRecieved ? this.renderChooseGuildForm() : <div className="loading" id="LoadingCurrencySystem" />}

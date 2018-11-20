@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import './Analytics.css';
 
 //Image Imports
@@ -20,7 +20,7 @@ class Analytics extends Component {
         <div className="Analytics-Contents">
           <div className="Analytics-Header">
             <h1 className="Analytics-Header-Text">Analytics</h1>
-            <p className="Analytics-Header-SubText">HOME / </p>
+            <Link to="/dashboard"><p className="Analytics-Header-SubText">HOME / </p></Link>
             <p className="Analytics-Header-SubText-Main">Analytics</p>
           </div>
           <h3>UNDER CONSTRUCTION:</h3>

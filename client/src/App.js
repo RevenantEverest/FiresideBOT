@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faLink, faClock, faVolumeUp, faVolumeDown, faVolumeOff, faMusic, faTachometerAlt,
          faMagic, faArrowCircleLeft, faBook, faInfoCircle, faComments, faChartLine, faAngleLeft,
-         faAngleDown, faBolt, faCrown, faAward, faCoins, faTrashAlt} from '@fortawesome/free-solid-svg-icons';
+         faAngleDown, faBolt, faCrown, faAward, faCoins, faTrashAlt, faHeadphones, faBoxOpen} from '@fortawesome/free-solid-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import './App.css';
 
@@ -38,7 +38,7 @@ import PageNotFound from './components/PageNotFound/PageNotFound';
 
 library.add(faLink, faClock, faVolumeUp, faVolumeDown, faVolumeOff, faMusic, faTachometerAlt, faMagic);
 library.add(faArrowCircleLeft, faBook, faInfoCircle, faComments, faChartLine, faAngleLeft, faAngleDown);
-library.add(faBolt, faCrown, faAward, faCoins, faTrashAlt);
+library.add(faBolt, faCrown, faAward, faCoins, faTrashAlt, faHeadphones, faBoxOpen);
 library.add(fab)
 
 class App extends Component {

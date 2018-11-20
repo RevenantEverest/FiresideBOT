@@ -32,6 +32,8 @@ const regularsRouter = require('./routes/regularsRoutes');
 const discordCurrencyRouter = require('./routes/discordCurrencyRoutes');
 const currencyRouter = require('./routes/currencyRoutes');
 
+const Discord_Bot_InfoRouter = require('./routes/Discord_Bot_InfoRoutes');
+
 /* Middleware */
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -55,6 +57,8 @@ app.use("/regulars", regularsRouter);
 app.use("/currency/discord", discordCurrencyRouter);
 app.use("/currency/settings", currencyRouter);
 
+app.use("/discord/bot/info", Discord_Bot_InfoRouter);
+
 /* Default Routes */
 app.use("/", (req, res) => {
   res.json({
@@ -67,5 +71,5 @@ app.listen(PORT, () => {
 });
 
 /* Bot Logins */
-// Twitch_Bot.connect();
+Twitch_Bot.connect();
 Discord_Bot.login(config.Discord_Key);

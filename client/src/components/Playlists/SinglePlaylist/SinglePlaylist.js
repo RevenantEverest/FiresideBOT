@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './SinglePlaylist.css';
 
@@ -21,7 +22,10 @@ class SinglePlaylist extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.location);
+    if(window.location.pathname.split("/")[2] === "personal")
+      this.setState({ linkTo: 'personal' });
+    else if(window.location.pathname.split("/")[2] === "guild")
+      this.setState({ linkTo: 'guild'});
     this.getSongs();
   }
 
@@ -97,9 +101,11 @@ class SinglePlaylist extends Component {
         <div className="SinglePlaylist-Contents">
           <div className="SinglePlaylist-Header">
             <h1 className="SinglePlaylist-Header-Text">{this.state.playlistData.name}</h1>
-            <p className="SinglePlaylist-Header-SubText">
-              HOME / playlists / {window.location.pathname.split("/")[2] === "personal" ? "personal" : "guild" } /
-            </p>
+            <Link to="/dashboard"><p className="SinglePlaylist-Header-SubText">HOME / </p></Link>
+            <Link to="/playlists"><p className="SinglePlaylist-Header-SubText"> Playlists / </p></Link>
+            <Link to={`/playlists/${this.state.linkTo}`}>
+              <p className="SinglePlaylist-Header-SubText">{window.location.pathname.split("/")[2] === "personal" ? "Personal" : "Guild" } /</p>
+            </Link>
             <p className="SinglePlaylist-Header-SubText-Main"> {this.state.playlistData.name}</p>
           </div>
           {window.location.pathname.split("/")[2] === "guild" ? this.checkForPermissions() : ''}

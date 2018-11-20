@@ -30,6 +30,7 @@ class UserPlaylists extends Component {
         if(playlists.data.data.length >= 1) {
           let songPromises = [];
           for(let i = 0; i < playlists.data.data.length; i++) {
+            if(!playlists.data.data[i].playlist_id) continue;
             songPromises.push(userSongsServices.getPlaylistSongInfo(playlists.data.data[i].playlist_id));
           }
           Promise.all(songPromises).then(results => {
@@ -38,14 +39,14 @@ class UserPlaylists extends Component {
             });
             let playlistData = [];
             for(let i = 0; i < playlists.data.data.length; i++) {
-              let length = ResultsFilter[i].length
-              if(ResultsFilter[i].length === undefined)
-                length = 0;
+              let length = 0;
+              if(ResultsFilter[i] !== undefined)
+                length = ResultsFilter[i].length;
               playlistData.push({playlistInfo: playlists.data.data[i], songs: length})
             }
-            this.setState({ playlistData: playlistData, dataRecieved: true }, () => { console.log(this.state.playlistData); });
+            this.setState({ playlistData: playlistData, dataRecieved: true });
           })
-        }
+        }else this.setState({ playlistData: playlists.data.data, dataRecieved: true });
       })
       .catch(err => console.log(err));
   }
@@ -63,6 +64,7 @@ class UserPlaylists extends Component {
   renderPlaylists() {
     let counter = 0;
     let playlistDisplayColor = '';
+    if(this.state.playlistData.length < 1) return;
     let Playlists = this.state.playlistData.map((el, idx) => {
       counter++;
       if(counter % 2 === 0)
@@ -101,7 +103,8 @@ class UserPlaylists extends Component {
         <div className="UserPlaylists-Contents">
           <div className="UserPlaylists-Header">
             <h1 className="UserPlaylists-HeaderText">Personal Playlists</h1>
-            <p className="UserPlaylists-HeaderSubText">HOME / playlists /</p>
+            <Link to="/dashboard"><p className="UserPlaylists-HeaderSubText">HOME / </p></Link>
+            <Link to="/playlists"><p className="UserPlaylists-HeaderSubText"> Playlists /</p></Link>
             <p className="UserPlaylists-HeaderSubText-Main"> Personal</p>
           </div>
           {this.state.dataRecieved ? this.renderPlaylists() : <div className="loading" id="LoadingUserPlaylists" />}

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import './Ranks.css';
 
 //Image Imports
@@ -20,7 +20,7 @@ class Ranks extends Component {
         <div className="Ranks-Contents">
           <div className="Ranks-Header">
             <h1 className="Ranks-Header-Text">Ranks</h1>
-            <p className="Ranks-Header-SubText">HOME / </p>
+            <Link to="/dashboard"><p className="Ranks-Header-SubText">HOME / </p></Link>
             <p className="Ranks-Header-SubText-Main"> Ranks</p>
           </div>
           <h3>UNDER CONSTRUCTION:</h3>

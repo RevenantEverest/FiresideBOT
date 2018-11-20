@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import './SupportForum.css';
 
 //Image Imports
@@ -12,7 +13,7 @@ class SupportForum extends Component {
         <div className="SupportForum-Contents">
           <div className="SupportForum-Header">
             <h1 className="SupportForum-Header-Text">Support Forum</h1>
-            <p className="SupportForum-Header-SubText">HOME / </p>
+            <Link to="/dashboard"><p className="SupportForum-Header-SubText">HOME / </p></Link>
             <p className="SupportForum-Header-SubText-Main"> SupportForum</p>
           </div>
           <h3>Support Forum is under construction but you can get support from our <a className="SF-DiscordLink" href="https://discord.gg/pES5dxZ">Discord</a></h3>

@@ -22,7 +22,8 @@ class ChoosePlaylist extends Component {
   getPlaylists() {
     userPlaylistServices.getUserPlaylists(this.state.userData.user_id)
       .then(playlists => {
-        this.setState({ playlistData: playlists.data.data, chosenPlaylist: playlists.data.data[0].playlist_id, dataReceived: true });
+        if(playlists.data.data.length < 1) this.setState({ playlistData: playlists.data.data, dataReceived: true });
+        else this.setState({ playlistData: playlists.data.data, chosenPlaylist: playlists.data.data[0].playlist_id, dataReceived: true });
       })
       .catch(err => console.log(err));
   }
@@ -42,7 +43,6 @@ class ChoosePlaylist extends Component {
       );
     });
 
-    console.log(this.state.chosenPlaylist);
     return(
       <div className="ChoosePlaylist-Playlist">
         <h2 className="ChoosePlaylist-ChoosePlaylist-Header">Choose A Playlist</h2>
@@ -57,8 +57,22 @@ class ChoosePlaylist extends Component {
               playlistId: this.state.chosenPlaylist
             }
           }}>
-          Submit
+            Submit
           </Link>
+        </div>
+      </div>
+    );
+  }
+
+  handleNoPlaylists() {
+    return(
+      <div className="ChoosePlaylist-Playlist">
+        <h2 className="ChoosePlaylist-ChoosePlaylist-Header">Choose A Playlist</h2>
+        <div className="ChoosePlaylist-PlaylistSelect-Container">
+          <select className="ChoosePlaylist-PlaylistSelect" name="chosenPlaylist" onChange={this.handleChange}>
+            <option className="ChoosePlaylist-PlaylistOption">No Playlists Available</option>
+          </select>
+          <Link to="/playlists" className="ChoosePlaylist-PlaylistSubmit">Submit</Link>
         </div>
       </div>
     );
@@ -68,7 +82,8 @@ class ChoosePlaylist extends Component {
     return(
       <div id="ChoosePlaylist">
         <div className="ChoosePlaylist-Contents">
-          {this.state.dataReceived ? this.chosenPlaylistForm() : ''}
+          {this.state.dataReceived && this.state.playlistData.length >= 1 ? this.chosenPlaylistForm() : ''}
+          {this.state.dataReceived && this.state.playlistData.length < 1 ? this.handleNoPlaylists() : ''}
           {!this.state.userData ? <Redirect to="/" /> : ''}
         </div>
       </div>

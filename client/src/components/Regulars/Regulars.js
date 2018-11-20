@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import './Regulars.css';
 
 //Image Imports
@@ -80,7 +80,7 @@ class Regulars extends Component {
         <div className="Regulars-Contents">
           <div className="Regulars-Header">
             <h1 className="Regulars-Header-Text">Regulars</h1>
-            <p className="Regulars-Header-SubText">HOME / </p>
+            <Link to="/dashboard"><p className="Regulars-Header-SubText">HOME / </p></Link>
             <p className="Regulars-Header-SubText-Main"> Regulars</p>
           </div>
           {this.state.dataRecieved ? this.renderRegulars() : ''}

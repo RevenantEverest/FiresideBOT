@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import './AutoDJ.css';
 
 //Services Imports
@@ -15,7 +15,7 @@ class AutoDJ extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userData: this.props.location.state.userData,
+      userData: null,
       queue: null
     }
     this.updateQueue = this.updateQueue.bind(this);
@@ -24,12 +24,16 @@ class AutoDJ extends Component {
   }
 
   componentDidMount() {
-    this.getSongs(this.props.location.state.playlistId);
+    if(this.props.location.state !== undefined) {
+      this.setState({ userData: this.props.location.state.userData });
+      this.getSongs(this.props.location.state.playlistId);
+    }
   }
 
   getSongs(playlist) {
     userSongsServices.getPlaylistSongInfo(playlist)
       .then(songs => {
+        if(songs.data.data.length < 1) return this.setState({ noSongs: true });
         queueServices.getChannelQueue(this.state.userData.twitch_username.split("#")[1])
           .then(queue => {
             if(queue.data.data.count)
@@ -122,6 +126,13 @@ class AutoDJ extends Component {
     );
   }
 
+  renderNoSongs() {
+    return(
+      <div>
+      </div>
+    );
+  }
+
   updateRequestQueue(requestQueue) { this.setState({ requestQueue: requestQueue }); }
   updateQueue(queue) { this.setState({ queue: queue }); }
   deleteQueue() { this.setState({ queue: null }); }
@@ -132,13 +143,14 @@ class AutoDJ extends Component {
         <div className="AutoDJ-Contents">
           <div className="AutoDJ-Header">
             <h1 className="AutoDJ-Header-Text">AutoDJ</h1>
-            <p className="AutoDJ-Header-SubText">HOME / </p>
+            <Link to="/dashboard"><p className="AutoDJ-Header-SubText">HOME / </p></Link>
             <p className="AutoDJ-Header-SubText-Main">AutoDJ</p>
           </div>
+          {this.state.noSongs ? this.renderNoSongs() : ''}
           {this.state.queue ? this.renderSongs() : ''}
           <div className="TableHeightFix" />
         </div>
-        {!this.state.userData ? <Redirect to="/" /> : ''}
+        {/*!this.state.userData ? <Redirect to="/" /> : ''*/}
       </div>
     );
   }

@@ -65,14 +65,14 @@ class GuildPlaylists extends Component {
                 guildPermissionData: this.state.guildPermissionData
               }
             }}>
-              <h1 className="VGP-PlaylistName">{playlistCounter}. {PEL.name}</h1>
+              <h1 className="VGP-PlaylistName">{PEL.name}</h1>
               <p className="VGP-PlaylistSongsCount">12 Songs</p>
             </Link>
           </div>
         );
       })
       return(
-        <div className={`VGP-ServerDisplay ${colorDisplay} ${this.state.dropDownAngle}`} onClick={(e) => this.handleDropdowns(idx)} key={idx}>
+        <div className={`VGP-ServerDisplay ${colorDisplay} ${this.state.dropDownAngle}`} key={idx}>
           <h2 className="VGP-GuildName">{el.guild_name}</h2>
           <div className={`VGP-Server-Dropdown VGP-Dropdown-${idx}`}>
             {playlists}
@@ -94,7 +94,8 @@ class GuildPlaylists extends Component {
         <div className="ViewGuildPlaylists-Contents">
           <div className="ViewGuildPlaylists-Header">
             <h1 className="ViewGuildPlaylists-Header-Text">Guild Playlists</h1>
-            <p className="ViewGuildPlaylists-SubHeader">HOME / playlists /</p>
+            <Link to="/dashboard"><p className="ViewGuildPlaylists-SubHeader">HOME / </p></Link>
+            <Link to="/playlists"><p className="ViewGuildPlaylists-SubHeader"> Playlists /</p></Link>
             <p className="ViewGuildPlaylists-SubHeader-Main"> Guild</p>
           </div>
           {this.state.dataReceived ? this.renderPlaylists() : <div className="loading" id="LoadingGuildPlaylists" />}

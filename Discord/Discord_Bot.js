@@ -14,6 +14,9 @@ let PREFIX = '';
 Discord_Bot.on("ready", () => {
     Discord_Bot.user.setActivity("The Campfire | ?help", {type: "WATCHING"});
     console.log("Discord-Connection Ready");
+    setInterval(() => {
+      config.Discord_Users_Count = Discord_Bot.users.size;
+    }, 5000);
 });
 
 
@@ -74,7 +77,6 @@ Discord_Bot.on("guildDelete", (guild) => {
 
 // Called Message Is Sent In Guild
 Discord_Bot.on("message", (message) => {
-  // message.guild.leave();
   if(message.author.equals(Discord_Bot.user)) return;
   if(message.channel.type === 'dm') return;
   currency.handleCurrency(message);

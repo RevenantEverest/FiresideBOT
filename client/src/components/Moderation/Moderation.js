@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import './Moderation.css';
 
 //Image Imports
@@ -20,7 +20,7 @@ class Moderation extends Component {
         <div className="Moderation-Contents">
           <div className="Moderation-Header">
             <h1 className="Moderation-Header-Text">Moderation</h1>
-            <p className="Moderation-Header-SubText">HOME / </p>
+            <Link to="/dashboard"><p className="Moderation-Header-SubText">HOME / </p></Link>
             <p className="Moderation-Header-SubText-Main"> Moderation</p>
           </div>
           <h3>UNDER CONSTRUCTION:</h3>
