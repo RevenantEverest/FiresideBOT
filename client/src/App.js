@@ -80,7 +80,6 @@ class App extends Component {
               {this.state.userData != null ? <Route exact path="/currency" component={() => (<CurrencySystem userData={this.state.userData} />) } /> : ''}
               {this.state.userData != null ? <Route path="/currency/manage/:guild_id" component={() => (<ManageGuildCurrency userData={this.state.userData} />) } /> : ''}
               {this.state.userData != null ? <Route exact path="/moderation" component={() => (<Moderation userData={this.state.userData}/>) } /> : ''}
-              {this.state.userData != null ? <Route path="/help" component={() => (<HelpDocs userData={this.state.userData}/>) } /> : ''}
               {this.state.userData != null ? <Route exact path="/support" component={() => (<SupportForum userData={this.state.userData}/>) } /> : ''}
 
               {/* Playlists */}
@@ -93,6 +92,7 @@ class App extends Component {
               {this.state.userData != null ? <Route path="/autodj" component={AutoDJ} /> : ''}
               {/*<Route component={PageNotFound} />*/}
 
+              <Route path="/help" component={() => (<HelpDocs userData={this.state.userData}/>) } />
             </div>
           </div>
         </Router>

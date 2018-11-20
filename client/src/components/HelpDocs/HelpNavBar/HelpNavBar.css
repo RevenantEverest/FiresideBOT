@@ -1,6 +1,6 @@
 #HelpNavBar {
   position: sticky;
-  background-color: #1a1a1a;
+  background-color: #0d0d0d;
   height: 100%;
   width: 15%;
   color: rgba(255,255,255,0.5);
@@ -8,6 +8,14 @@
   margin: 0;
   vertical-align: top;
 }
+
+.HelpNavBar-Contents {
+  overflow-y: scroll;
+  height: 78vh;
+}
+
+.HelpNavBar-Contents::-webkit-scrollbar { background: #0d0d0d; }
+.HelpNavBar-Contents::-webkit-scrollbar-thumb { background: #262626; }
 
 .HelpNavBar-Logo-Container {
   background-color: #333333;
