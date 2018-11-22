@@ -1,0 +1,11 @@
+#C_Pause { margin-bottom: 10%; }
+.C_Pause-Header { display: inline; font-size: 30px; }
+.C_Pause-Header:hover { color: orange; }
+.C_Pause-SubHeader {
+  display: inline;
+  font-weight: 400;
+  font-size: 18px;
+}
+
+.C_Pause-SubHeader-Param {font-size: 14px;}
+#Pause-Image { border-radius: 16px; }

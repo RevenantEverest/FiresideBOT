@@ -1,0 +1,15 @@
+#MusicCommands {
+
+}
+
+.MusicCommands-Contents {
+
+}
+
+.MusicCommands-Header{
+  display: inline-block;
+  font-size: 50px;
+  padding-bottom: 10px;
+  border-bottom: solid 6px #cccccc;
+  margin-bottom: 8%;
+}

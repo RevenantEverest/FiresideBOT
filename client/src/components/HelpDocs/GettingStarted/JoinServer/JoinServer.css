@@ -1,0 +1,18 @@
+.JoinServer-SubHeader {
+  display: inline;
+}
+
+#InviteLink {
+  display: inline;
+  color: orange;
+}
+
+.InviteLink:hover { color: red; }
+
+.JoinServer-DI-Text {
+  margin-top: 5%;
+}
+
+.JoinServer-DI-Image {
+  border-radius: 12px;
+}

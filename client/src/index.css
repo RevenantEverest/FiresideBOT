@@ -38,7 +38,7 @@ table {
   display: table;
   table-layout: auto;
   position: sticky;
-  width: 80vw;
+  /* width: 80vw; */
 }
 
 table, tbody, tr, th, td {

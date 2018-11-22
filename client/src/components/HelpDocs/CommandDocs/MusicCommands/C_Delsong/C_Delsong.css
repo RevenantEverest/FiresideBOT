@@ -1,0 +1,11 @@
+#C_Delsong { margin-bottom: 10%; }
+.C_Delsong-Header { display: inline; font-size: 30px; }
+.C_Delsong-Header:hover { color: orange; }
+.C_Delsong-SubHeader {
+  display: inline;
+  font-weight: 400;
+  font-size: 18px;
+}
+
+.C_Delsong-SubHeader-Param {font-size: 14px;}
+#Delsong-Image { border-radius: 16px; }

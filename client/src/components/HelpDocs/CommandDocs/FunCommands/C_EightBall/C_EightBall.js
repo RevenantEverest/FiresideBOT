@@ -1,15 +1,21 @@
 import React, { Component } from 'react';
+import './C_EightBall.css';
 
-class extends Component {
+//Image Imports
+import EightBallImage from '../../../../../res/images/HelpDocsImages/EightBall.png';
+
+class C_EightBall extends Component {
 
   render() {
     return(
-      <div id="">
-        <div className="">
+      <div id="C_EightBall">
+        <div className="C_EightBall-Contents">
+        <h4>Eight Ball</h4>
+        <img className="CommandImage" src={EightBallImage} alt="" />
         </div>
       </div>
     );
   }
 };
 
-export default ;
+export default C_EightBall;

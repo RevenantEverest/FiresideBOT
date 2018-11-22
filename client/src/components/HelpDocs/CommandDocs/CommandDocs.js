@@ -3,6 +3,8 @@ import './CommandDocs.css';
 
 //Component Imports
 import MusicCommands from './MusicCommands/MusicCommands';
+import CurrencyCommands from './CurrencyCommands/CurrencyCommands';
+import FunCommands from './FunCommands/FunCommands';
 
 class CommandDocs extends Component {
 
@@ -12,8 +14,16 @@ class CommandDocs extends Component {
         <div className="CommandDocs-Contents">
           <h1>Commands</h1>
           <div className="Music">
-            <h3>Music</h3>
+            <h4>Music</h4>
             <MusicCommands />
+          </div>
+          <div className="CurrencyCommands">
+            <h4>Currency Commands</h4>
+            <CurrencyCommands />
+          </div>
+          <div className="FunCommands">
+            <h4>Fun Commands</h4>
+            <FunCommands />
           </div>
 
           <div className="">

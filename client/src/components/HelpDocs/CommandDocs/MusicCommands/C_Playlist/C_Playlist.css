@@ -1,0 +1,48 @@
+#C_Playlist { margin-bottom: 10%; }
+.C_Playlist-Header { display: inline; font-size: 30px; }
+.C_Playlist-Header:hover { color: orange; }
+.C_Playlist-SubHeader {
+  display: inline;
+  font-weight: 400;
+  font-size: 18px;
+}
+
+.C_Playlist-SubHeader-Param {font-size: 14px;}
+#Playlist-ImageA { border-radius: 16px; display: block; margin-bottom: 1%; }
+#Playlist-ImageB { border-radius: 16px; display: block; width: 500px; margin-bottom: 1%; }
+#Playlist-ImageC { border-radius: 16px; display: block; margin-bottom: 4%; }
+
+.C_Playlist-Table {
+  width: 40%;
+  border: solid #cccccc;
+  border-collapse: collapse;
+  text-align: center;
+  margin-bottom: 10%;
+}
+
+.C_Playlist-TR-Header {
+  font-weight: 800;
+  font-size: 20px;
+  text-align: center;
+  background-color: #cccccc;
+  color: black;
+  width: 80px;
+  border: solid #cccccc;
+}
+
+.C_Playlist-TH-Flag {
+  padding: 5px;
+  width: 30px;
+  border: solid #cccccc;
+}
+.C_Playlist-TH-Description {
+  width: 10px;
+  border: solid #cccccc;
+}
+.C_Playlist-TR {
+  border: solid #cccccc;
+}
+.C_Playlist-TD {
+  padding: 15px;
+  border: solid #cccccc;
+}

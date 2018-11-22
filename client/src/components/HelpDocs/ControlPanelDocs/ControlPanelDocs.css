@@ -1,12 +1,13 @@
 #ControlPanelDocs {
+  position: relative;
   display: inline-block;
   height: 99%;
   width: 100%;
-  background-color: #dedede;
+  background-color: #1a1a1a;
 }
 
 .ControlPanelDocs-Contents {
   display: inline-block;
   height: auto;
-  background-color: #dedede;
+  background-color: inherit;
 }

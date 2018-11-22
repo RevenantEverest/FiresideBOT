@@ -1,25 +1,37 @@
 #HelpNavBar {
-  position: sticky;
   background-color: #0d0d0d;
-  height: 100%;
-  width: 15%;
+  min-height: 100vh;
+  /* max-height: 100%; */
+  width: 15vw;
   color: rgba(255,255,255,0.5);
   display: inline-block;
-  margin: 0;
   vertical-align: top;
+  position: fixed;
+}
+
+.HelpNavBar-Contents-Container {
+  height: 100vh;
+  width: 15vw;
+  background: inherit;
 }
 
 .HelpNavBar-Contents {
-  overflow-y: scroll;
+  position: fixed;
   height: 78vh;
+  width: 12vw;
+  top: -25%;
+  left: -10%;
+  overflow-y: scroll;
 }
 
 .HelpNavBar-Contents::-webkit-scrollbar { background: #0d0d0d; }
 .HelpNavBar-Contents::-webkit-scrollbar-thumb { background: #262626; }
 
 .HelpNavBar-Logo-Container {
+  position: fixed;
   background-color: #333333;
-  padding: 6px;
+  height: 12vh;
+  width: 15vw;
   color: #dedede;
 }
 
@@ -28,7 +40,7 @@
 .HelpNavBar-Logo {
   height: 50px;
   margin-left: 5%;
-  margin-top: 5%;
+  margin-top: 6%;
   display: inline-block;
 }
 
@@ -54,7 +66,8 @@
 
 .HelpNavBar-Contents-Header-Text {
   font-family: "Raleway", sans-serif;
-  font-size: 15px;
+  font-size: 16px;
+  font-weight: 800;
 }
 
 .HelpNavBar-Contents-Sub-Text {
@@ -65,4 +78,8 @@
 .HelpNavBar-Contents-Header-Text:hover, .HelpNavBar-Contents-Sub-Text:hover {
   color: white;
   cursor: pointer;
+}
+
+.HelpNavBar-CommandCategory-Header {
+  font-size: 16px;
 }
