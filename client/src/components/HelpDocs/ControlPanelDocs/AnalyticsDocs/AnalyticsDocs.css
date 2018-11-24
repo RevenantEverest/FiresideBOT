@@ -1,0 +1,10 @@
+.AnalyticsDocs-Header { font-size: 30px; }
+.AnalyticsDocs-Header:hover { color: orange; }
+.AnalyticsDocs-SubHeader { font-size: 14px; }
+.AnalyticsDocs-Desc { margin-top: 6%; }
+
+.AnalyticsDocs-Images {
+  border-radius: 16px;
+  border: solid #cccccc;
+  margin-top: 1%;
+}

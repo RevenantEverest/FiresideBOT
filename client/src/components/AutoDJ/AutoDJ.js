@@ -76,7 +76,7 @@ class AutoDJ extends Component {
       return(
         <tr className={`AutoDJ-Queue-Requests AutoDJ-Queue-Tr ${queueClass}`} key={idx}>
           <td className="AutoDJ-Queue-Td">{el.title}</td>
-          <td className="AutoDJ-Queue-Td"><a href={el.link}>Click Me</a></td>
+          <td className="AutoDJ-Queue-Td">{el.author}</td>
           <td className="AutoDJ-Queue-Td AutoDJ-TableRow-Action">
             <button className="AutoDJ-RequestDelete" onClick={(e) => this.deleteRequest(el)}>&times;</button>
           </td>
@@ -90,8 +90,8 @@ class AutoDJ extends Component {
       else if(counter % 2 === 1) queueClass = '';
       return(
         <tr className={`AutoDJ-Queue-Songs AutoDJ-Queue-Tr ${queueClass}`} key={idx}>
-          <td className="AutoDJ-Queue-Td">{el.title}</td>
-          <td className="AutoDJ-Queue-Td"><a href={el.link}>Click Me</a></td>
+          <td className="AutoDJ-Queue-Td AutoDJ-Queue-Td-Title">{el.title}</td>
+          <td className="AutoDJ-Queue-Td AutoDJ-Queue-Td-Author">{el.author}</td>
           <td className="AutoDJ-Queue-Td"></td>
         </tr>
       );
@@ -114,9 +114,9 @@ class AutoDJ extends Component {
         <table className="AutoDJ-Queue-Table">
           <tbody className="AutoDJ-Queue-Tbody">
             <tr className="AutoDJ-Queue-Headers AutoDJ-Queue-Tr">
-              <th className="AutoDJ-Queue-Th">Title</th>
-              <th className="AutoDJ-Queue-Th">Link</th>
-              <th className="AutoDJ-Queue-Th">Action</th>
+              <th className="AutoDJ-Queue-Th AutoDJ-Queue-Th-Title">Title</th>
+              <th className="AutoDJ-Queue-Th AutoDJ-Queue-Th-Author">Author</th>
+              <th className="AutoDJ-Queue-Th AutoDJ-Queue-Th-Action">Action</th>
             </tr>
             {RequestQueue}
             {Songs}

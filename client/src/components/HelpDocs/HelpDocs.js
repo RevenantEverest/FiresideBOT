@@ -13,6 +13,7 @@ import JoinServer from './GettingStarted/JoinServer/JoinServer';
 
 import AnalyticsDocs from './ControlPanelDocs/AnalyticsDocs/AnalyticsDocs';
 import AutoDJDocs from './ControlPanelDocs/AutoDJDocs/AutoDJDocs';
+import CurrencyDocs from './ControlPanelDocs/CurrencyDocs/CurrencyDocs';
 import CustomCommandDocs from './ControlPanelDocs/CustomCommandDocs/CustomCommandDocs';
 import DashboardDocs from './ControlPanelDocs/DashboardDocs/DashboardDocs';
 import GuildPlaylistDocs from './ControlPanelDocs/GuildPlaylistDocs/GuildPlaylistDocs';
@@ -68,13 +69,14 @@ class HelpDocs extends Component {
           {/* Control Panel */}
           <Route exact path="/help/controlpanel/analytics" component={AnalyticsDocs} />
           <Route exact path="/help/controlpanel/autodj" component={AutoDJDocs} />
+          <Route exact path="/help/controlpanel/currency" component={CurrencyDocs} />
           <Route exact path="/help/controlpanel/customcommands" component={CustomCommandDocs} />
           <Route exact path="/help/controlpanel/dashboard" component={DashboardDocs} />
           <Route exact path="/help/controlpanel/guildplaylists" component={GuildPlaylistDocs} />
           <Route exact path="/help/controlpanel/moderation" component={ModerationDocs} />
-          <Route exact path="/help/controlpanel/personalplaylist" component={PersonalPlaylistDocs} />
-          <Route exact path="/help/controlpanel/rank" component={RankDocs} />
-          <Route exact path="/help/controlpanel/regular" component={RegularDocs} />
+          <Route exact path="/help/controlpanel/personalplaylists" component={PersonalPlaylistDocs} />
+          <Route exact path="/help/controlpanel/ranks" component={RankDocs} />
+          <Route exact path="/help/controlpanel/regulars" component={RegularDocs} />
 
           {/* Sub Categories */}
           <Route exact path="/help/commands/music" component={MusicCommands} />

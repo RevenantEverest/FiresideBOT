@@ -12,17 +12,21 @@ class CommandDocs extends Component {
     return(
       <div id="CommandDocs">
         <div className="CommandDocs-Contents">
-          <h1>Commands</h1>
-          <div className="Music">
-            <h4>Music</h4>
+          <h1 className="CommandDocs-Header">Commands</h1>
+          <p className="CommandDocs-SubHeader">
+            <a id="CommandDocs-QuickNav-Music" href="#MusicCommands">Music Commands</a>
+             ||
+            <a id="CommandDocs-QuickNav-Currency" href="#CurrencyCommands">Currency Commands</a>
+             ||
+            <a id="CommandDocs-QuickNav-Fun" href="#FunCommands">Fun Commands</a>
+          </p>
+          <div id="MusicCommands">
             <MusicCommands />
           </div>
-          <div className="CurrencyCommands">
-            <h4>Currency Commands</h4>
+          <div id="CurrencyCommands">
             <CurrencyCommands />
           </div>
-          <div className="FunCommands">
-            <h4>Fun Commands</h4>
+          <div id="FunCommands">
             <FunCommands />
           </div>
 

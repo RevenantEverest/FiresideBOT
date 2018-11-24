@@ -29,8 +29,7 @@
 
 .QueueHeader { margin-left: 2%; font-size: 20px; color: #cccccc; }
 
-.AutoDJ-Queue-Table, .AutoDJ-Queue-Tbody, .AutoDJ-Queue-Tr, .AutoDJ-Queue-Th, .AutoDJ-Queue-Td {}
-.AutoDJ-Queue-Table { margin-left: 2%; }
+.AutoDJ-Queue-Table { margin-left: 2%; width: 95%; }
 
 .AutoDJ-Queue-Th {
   background-color: #333333;
@@ -43,6 +42,15 @@
 
 .AutoDJ-Queue-Grey { background-color: #262626; }
 .AutoDJ-TableRow-Action { text-align: center; }
+
+.AutoDJ-Queue-Th-Title {}
+.AutoDJ-Queue-Th-Author {}
+.AutoDJ-Queue-Th-Action {}
+
+.AutoDJ-Queue-Td-Title {}
+.AutoDJ-Queue-Td-Author {}
+.AutoDJ-Queue-Td-Action {}
+
 .TableHeightFix { height: 10vh; }
 
 .AutoDJ-PlaylistSelect:focus { outline: solid orange; }

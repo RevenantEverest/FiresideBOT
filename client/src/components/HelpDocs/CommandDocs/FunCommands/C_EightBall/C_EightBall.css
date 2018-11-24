@@ -1,0 +1,11 @@
+#C_EightBall { margin-bottom: 10%; }
+.C_EightBall-Header { display: inline; font-size: 30px; }
+.C_EightBall-Header:hover { color: orange; }
+.C_EightBall-SubHeader {
+  display: inline;
+  font-weight: 400;
+  font-size: 18px;
+}
+
+.C_EightBall-SubHeader-Param {font-size: 14px;}
+#EightBall-ImageA { border-radius: 16px; }

@@ -98,6 +98,17 @@ class NavBar extends Component {
           </div>
         </Link>
 
+        {/* Music */}
+        <div className="NavBar-Contents NavBar-Music" onClick={(e) => this.handleMusicAngle()}>
+          <FontAwesomeIcon className="NavBar-Contents-Text MusicIcon" icon="music" />
+          <h4 className="NavBar-Contents-Text NavBar-Music-Text">Music</h4>
+          <FontAwesomeIcon className="NavBar-Contents-Text AngleIcon-Music" icon={this.state.musicAngleIcon} />
+          <div className="NavBar-Dropdown NavBar-Dropdown-Music">
+            <Link to="/chooseplaylist" className="NavBar-Dropdown-Content"><p>AutoDJ</p></Link>
+            <Link to="/playlists" className="NavBar-Dropdown-Content"><p>Playlists</p></Link>
+          </div>
+        </div>
+
         {/* Currency */}
         <Link to={{ pathname: "/currency" }}>
           <div className="NavBar-Contents NavBar-Currency">
@@ -113,17 +124,6 @@ class NavBar extends Component {
             <h4 className="NavBar-Contents-Text NavBar-Moderation-Text">Moderation</h4>
           </div>
         </Link>
-
-        {/* Music */}
-        <div className="NavBar-Contents NavBar-Music" onClick={(e) => this.handleMusicAngle()}>
-          <FontAwesomeIcon className="NavBar-Contents-Text MusicIcon" icon="music" />
-          <h4 className="NavBar-Contents-Text NavBar-Music-Text">Music</h4>
-          <FontAwesomeIcon className="NavBar-Contents-Text AngleIcon-Music" icon={this.state.musicAngleIcon} />
-          <div className="NavBar-Dropdown NavBar-Dropdown-Music">
-            <Link to="/chooseplaylist" className="NavBar-Dropdown-Content"><p>AutoDJ</p></Link>
-            <Link to="/playlists" className="NavBar-Dropdown-Content"><p>Playlists</p></Link>
-          </div>
-        </div>
 
         {/* Help Docs */}
         <Link to={{ pathname: "/help" }}>

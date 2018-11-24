@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import './AnalyticsDocs.css';
 
 class AnalyticsDocs extends Component {
@@ -7,7 +8,10 @@ class AnalyticsDocs extends Component {
     return(
       <div id="AnalyticsDocs">
         <div className="AnalyticsDocs-Contents">
-          <h3>Analytics</h3>
+          <Link to="/help/controlpanel/analytics"><h3 className="AnalyticsDocs-Header">Analytics</h3></Link>
+          <p className="AnalyticsDocs-SubHeader">Analytics provides stats for your Twitch channel or your Discord Server</p>
+          <br />
+          <p className="HelpDocs-UnderContruction">Analytics are currently under construction and will be released at a later date</p>
         </div>
       </div>
     );

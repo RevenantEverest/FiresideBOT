@@ -4,6 +4,7 @@ import './ControlPanelDocs.css';
 //Component Imports
 import AnalyticsDocs from './AnalyticsDocs/AnalyticsDocs';
 import AutoDJDocs from './AutoDJDocs/AutoDJDocs';
+import CurrencyDocs from './CurrencyDocs/CurrencyDocs';
 import CustomCommandDocs from './CustomCommandDocs/CustomCommandDocs';
 import DashboardDocs from './DashboardDocs/DashboardDocs';
 import GuildPlaylistDocs from './GuildPlaylistDocs/GuildPlaylistDocs';
@@ -22,9 +23,11 @@ class ControlPanelDocs extends Component {
     return(
       <div id="ControlPanelDocs">
         <div className="ControlPanelDocs-Contents">
-          <h1>Control Panel</h1>
+          <h1 className="ControlPanelDocs-Header">Control Panel</h1>
+          <p className="ControlPanelDocs-SubHeader"></p>
           <AnalyticsDocs />
           <AutoDJDocs />
+          <CurrencyDocs />
           <CustomCommandDocs />
           <DashboardDocs />
           <GuildPlaylistDocs />

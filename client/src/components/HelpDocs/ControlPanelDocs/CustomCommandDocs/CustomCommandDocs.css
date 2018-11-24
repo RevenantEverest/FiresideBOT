@@ -1,0 +1,10 @@
+.CustomCommandDocs-Header { font-size: 30px; }
+.CustomCommandDocs-Header:hover { color: orange; }
+.CustomCommandDocs-SubHeader { font-size: 14px; }
+.CustomCommandDocs-Desc { margin-top: 6%; }
+
+.CustomCommandDocs-Images {
+  border-radius: 16px;
+  border: solid #cccccc;
+  margin-top: 1%;
+}

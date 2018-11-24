@@ -11,3 +11,11 @@
   height: auto;
   background-color: inherit;
 }
+
+.ControlPanelDocs-Header {
+  font-size: 50px;
+}
+
+.ControlPanelDocs-SubHeader {
+  margin-bottom: 10%;
+}

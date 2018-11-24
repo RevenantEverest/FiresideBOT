@@ -27,9 +27,9 @@ class HelpNavBar extends Component {
             <Link to="/help/controlpanel"><p className="HelpNavBar-Contents-Header-Text">CONTROL PANEL</p></Link>
             <Link to="/help/controlpanel/analytics"><p className="HelpNavBar-Contents-Sub-Text">Analytics</p></Link>
             <Link to="/help/controlpanel/autodj"><p className="HelpNavBar-Contents-Sub-Text">AutoDJ</p></Link>
+            <Link to="/help/controlpanel/currency"><p className="HelpNavBar-Contents-Sub-Text">Currency System</p></Link>
             <Link to="/help/controlpanel/customcommands"><p className="HelpNavBar-Contents-Sub-Text">Custom Commands</p></Link>
             <Link to="/help/controlpanel/dashboard"><p className="HelpNavBar-Contents-Sub-Text">Dashboard</p></Link>
-            <Link to="/help/controlpanel/defaultcommands"><p className="HelpNavBar-Contents-Sub-Text">Default Commands</p></Link>
             <Link to="/help/controlpanel/guildplaylists"><p className="HelpNavBar-Contents-Sub-Text">Guild Playlists</p></Link>
             <Link to="/help/controlpanel/moderation"><p className="HelpNavBar-Contents-Sub-Text">Moderation</p></Link>
             <Link to="/help/controlpanel/personalplaylists"><p className="HelpNavBar-Contents-Sub-Text">Personal Playlists</p></Link>
@@ -59,7 +59,6 @@ class HelpNavBar extends Component {
             <br />
             <Link to="/help/commands/fun"><p className="HelpNavBar-Contents-Header-Text">FUN COMMANDS</p></Link>
 
-            <Link to="/help/commands/help"><p className="HelpNavBar-Contents-Sub-Text">Help</p></Link>
             <Link to="/help/commands/pokemon"><p className="HelpNavBar-Contents-Sub-Text">Pokemon</p></Link>
             <Link to="/help/commands/8ball"><p className="HelpNavBar-Contents-Sub-Text">8ball</p></Link>
           </div>

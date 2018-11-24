@@ -19,7 +19,7 @@ class C_Playlist extends Component {
           <br />
           <br />
           <p className="C_Playlist-Desc">Add an entire playlist to the queue. Playlists can be made on our website.</p>
-          <Link className="C_Playlist-LearnMore" to="/help/controlpanel/personalplaylists">Learn More</Link>
+          <Link id="C_Playlist-LearnMore" to="/help/controlpanel/personalplaylists"> Learn More</Link>
           <br />
           <br />
           <img id="Playlist-ImageA" className="CommandImage" src={PlaylistImage} alt="" />

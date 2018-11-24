@@ -1,0 +1,11 @@
+#C_Give { margin-bottom: 10%; }
+.C_Give-Header { display: inline; font-size: 30px; }
+.C_Give-Header:hover { color: orange; }
+.C_Give-SubHeader {
+  display: inline;
+  font-weight: 400;
+  font-size: 18px;
+}
+
+.C_Give-SubHeader-Param {font-size: 14px;}
+#Give-ImageA { border-radius: 16px; }

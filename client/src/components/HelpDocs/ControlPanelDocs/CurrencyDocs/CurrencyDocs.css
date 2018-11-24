@@ -1,0 +1,12 @@
+.CurrencyDocs-Header { font-size: 30px; }
+.CurrencyDocs-Header:hover { color: orange; }
+.CurrencyDocs-SubHeader { font-size: 14px; }
+.CurrencyDocs-Desc { margin-top: 6%; }
+
+.CurrencyDocs-Images {
+  border-radius: 16px;
+  border: solid #cccccc;
+  margin-top: 1%;
+}
+#Currency-ImageA {}
+#Currency-ImageB { margin-bottom: 10%; }

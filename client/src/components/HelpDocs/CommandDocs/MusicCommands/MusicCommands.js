@@ -18,11 +18,19 @@ import Volume from './C_Volume/C_Volume';
 
 class MusicCommands extends Component {
 
+  _BracketA = '<';
+  _BracketB = '>';
+
   render() {
     return(
-      <div id="MusicCommands">
+      <div id="MusicCommandDocs">
         <div className="MusicCommands-Contents">
-          <h3 className="MusicCommands-Header">Music Commands</h3>
+          <h1 className="MusicCommands-Header">Music Commands</h1>
+          <br />
+          <p className="MusicCommands-SubHeader MusicCommands-SubHeader-ParamA">{this._BracketA}param{this._BracketB}</p>
+          <p className="MusicCommands-SubHeader">indicated a required parameter while </p>
+          <p className="MusicCommands-SubHeader MusicCommands-SubHeader-ParamB">[param]</p>
+          <p className="MusicCommands-SubHeader"> indicates an optional parameter</p>
           <Clear />
           <Delsong />
           <NP />

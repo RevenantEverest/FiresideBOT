@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import './C_Balance.css';
 
 //Image Imports
@@ -10,7 +11,11 @@ class C_Balance extends Component {
     return(
       <div id="C_Balance">
         <div className="C_Balance">
-        <h3>Balance</h3>
+        <Link to="/help/commands/balance"><h3 className="C_Balance-Header">Balance</h3></Link>
+        <p className="C_Balance-SubHeader-Param">Displays your current points aquired for that server</p>
+        <br />
+        <br />
+        <p className="C_Balance-Desc">The currency embed shows the name of the currency, the server its for and your username.</p>
         <img className="CommandImage" src={BalanceImage} alt="" />
         </div>
       </div>

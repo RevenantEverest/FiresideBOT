@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import './CustomCommandDocs.css';
 
 class CustomCommandDocs extends Component {
@@ -7,7 +8,10 @@ class CustomCommandDocs extends Component {
     return(
       <div id="CustomCommandDocs">
         <div className="CustomCommandDocs-Contents">
-          <h3>Custom Commands</h3>
+          <Link to="/help/controlpanel/customcommands"><h3 className="CustomCommandDocs-Header">Custom Commands</h3></Link>
+          <p className="CustomCommandDocs-SubHeader">Create your own commands for your Twitch or Discord Server chat</p>
+          <br />
+          <p className="HelpDocs-UnderContruction">Custom Commands are currently under construction and will be released at a later date</p>
         </div>
       </div>
     );

@@ -1,15 +1,4 @@
-#MusicCommands {
-
-}
-
-.MusicCommands-Contents {
-
-}
-
-.MusicCommands-Header{
-  display: inline-block;
-  font-size: 50px;
-  padding-bottom: 10px;
-  border-bottom: solid 6px #cccccc;
-  margin-bottom: 8%;
-}
+.MusicCommands-Header{ display: inline; font-size: 40px; }
+.MusicCommands-SubHeader { font-size: 16px; margin-bottom: 10%; display: inline-block; }
+.MusicCommands-SubHeader-ParamA { color: orange; display: inline-block; margin-right: .5%; }
+.MusicCommands-SubHeader-ParamB { color: orange; display: inline-block; margin: 0 .5% 0 .5%; }

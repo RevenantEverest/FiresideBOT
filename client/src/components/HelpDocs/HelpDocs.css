@@ -18,3 +18,8 @@
 .CommandImage {
   border-radius: 32px;
 }
+
+.HelpDocs-UnderContruction {
+  font-weight: 800;
+  margin-bottom: 10%;
+}

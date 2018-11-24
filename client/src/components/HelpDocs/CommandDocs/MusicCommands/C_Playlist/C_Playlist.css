@@ -8,6 +8,9 @@
 }
 
 .C_Playlist-SubHeader-Param {font-size: 14px;}
+.C_Playlist-Desc { display: inline; }
+#C_Playlist-LearnMore { display: inline; color: orange; }
+#C_Playlist-LearnMore:hover { text-decoration: underline; }
 #Playlist-ImageA { border-radius: 16px; display: block; margin-bottom: 1%; }
 #Playlist-ImageB { border-radius: 16px; display: block; width: 500px; margin-bottom: 1%; }
 #Playlist-ImageC { border-radius: 16px; display: block; margin-bottom: 4%; }
