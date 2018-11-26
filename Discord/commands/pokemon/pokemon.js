@@ -2,6 +2,8 @@ const pokemonServices = require('../services/pokemonServices');
 const config = require('../../../config/config');
 const Discord = config.Discord;
 
+const logger = require('../log');
+
 module.exports = {
   getPokemon(message, args, server) {
     if(!args[1] || args[1] === "-i" && !args[2]) return this.getRandomPokemon(message, args, server);
@@ -48,12 +50,18 @@ module.exports = {
 
               message.channel.send(pokemonEmbed);
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+              //Error Logger
+              logger.commandErrorLogger(message, args, err.response.status.toString(), "Failed at Get Pokemon Species");
+            });
         }else {
           message.channel.send(pokemonEmbed);
         }
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        //Error Logger
+        logger.commandErrorLogger(message, args, err.response.status.toString(), "Failed at Get Pokemon");
+      });
   },
   getSpecificPokemon(message, args, server) {
     let search = args[1].toLowerCase();
@@ -97,7 +105,10 @@ module.exports = {
 
               message.channel.send(pokemonEmbed);
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+              //Error Logger
+              logger.commandErrorLogger(message, args, err, "Failed at Get Pokemon Species (Specific)");
+            });
         }else {
           message.channel.send(pokemonEmbed);
         }
@@ -106,6 +117,9 @@ module.exports = {
         console.log(err);
         if(err.response.status === 404) {
           message.channel.send("No Pokemon found by that name or ID")
+        }else {
+          //Error Logger
+          logger.commandErrorLogger(message, args, err.response.status.toString(), "Failed at Get Pokemon (Specific)");
         }
       });
   }

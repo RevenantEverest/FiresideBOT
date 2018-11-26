@@ -5,6 +5,8 @@ const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
 const qrec = pgp.errors.queryResultErrorCode;
 
+const logger = require('../log');
+
 module.exports = {
   checkCurrency(message, args, server) {
     let currencyEmbed = new config.Discord.RichEmbed();
@@ -42,12 +44,14 @@ module.exports = {
               })
             }
             else {
-              console.log(err);
+              //Error Logger
+              logger.commandErrorLogger(message, args, err, 'Failed at Find By Discord ID and Guild ID')
             }
           });
       })
       .catch(err => {
-        console.log(err);
+        //Error Logger
+        logger.commandErrorLogger(message, args, err, 'Failed at Find Currency Settings');
       })
   }
 };

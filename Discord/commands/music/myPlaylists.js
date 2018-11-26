@@ -6,6 +6,8 @@ const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
 const qrec = pgp.errors.queryResultErrorCode;
 
+const logger = require('../log');
+
 module.exports = {
   findMyPlaylists(message, args, server) {
     userPlaylistsDB.findByDiscordId(message.author.id)
@@ -30,14 +32,14 @@ module.exports = {
         .catch(err => {
           if(err instanceof QRE && err.code === qrec.noData) {
           }
-          else console.log(err);
+          else logger.commandErrorLogger(message, args, err, "Failed at Find By Playlist ID"); // Error Logger
         })
       })
       .catch(err => {
         if(err instanceof QRE && err.code === qrec.noData) {
           message.channel.send('No playlists available.');
         }
-        else console.log(err);
+        else logger.commandErrorLogger(message, args, err, "Failed at Find By Discord ID"); // Error Logger
       });
   }
 }
