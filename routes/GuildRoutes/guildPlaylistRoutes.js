@@ -1,5 +1,5 @@
 const express = require('express');
-const guildPlaylistsController = require('../../controllers/GuildCOntrollers/guildPlaylistsController');
+const guildPlaylistsController = require('../../controllers/GuildControllers/guildPlaylistsController');
 const guildPlaylistsRouter = express.Router();
 
 guildPlaylistsRouter.route("/")
