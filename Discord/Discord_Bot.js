@@ -2,6 +2,7 @@ const config = require('../config/config');
 const Discord_Bot = new config.Discord.Client();
 const Discord_Commands = require('./commands/Discord_Commands');
 const guildsController = require('./controllers/guildsController');
+const guildsDB = require('../models/GuildModels/guildsDB');
 const currency = require('./commands/currency/currency');
 let PREFIX = '';
 

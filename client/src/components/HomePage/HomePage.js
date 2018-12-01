@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect, Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import FiresideRedirect from '../../redirect';
 import AnimatedNumber from 'react-animated-number';
@@ -94,7 +94,7 @@ class HomePage extends Component {
     if(window.localStorage.access_token) {
       return(
         <a
-          href={`https://discordapp.com/api/oauth2/authorize?client_id=441338104545017878&redirect_uri=${FiresideRedirect}&response_type=code&scope=guilds%20identify%20guilds.join%20email%20messages.read`}
+          href={`https://discordapp.com/api/oauth2/authorize?client_id=${key.CLIENT_ID}&redirect_uri=${FiresideRedirect}&response_type=code&scope=guilds%20identify%20guilds.join%20email%20messages.read`}
           className="Discord-Login">
           <FontAwesomeIcon className="HomePage-DiscordIcon" icon={['fab', 'discord']} />
           <p className="Discord-Login-Text">Login With Discord</p>
