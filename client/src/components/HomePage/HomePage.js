@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import FiresideRedirect from '../../redirect';
 import AnimatedNumber from 'react-animated-number';
 import './HomePage.css';
 
@@ -68,7 +69,6 @@ class HomePage extends Component {
 
   handleDiscordLogin() {
     if(window.localStorage.access_token) this.setState({ isLoggedIn: true });
-    else window.location.href = `https://discordapp.com/api/oauth2/authorize?client_id=${key.CLIENT_ID}&response_type=code&scope=guilds%20identify%20connections%20email%20messages.read&state=helloWorld&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2F`
   }
 
   renderUserCount() {
@@ -90,6 +90,26 @@ class HomePage extends Component {
     );
   }
 
+  renderDiscordLogin() {
+    if(window.localStorage.access_token) {
+      return(
+        <a
+          href={`https://discordapp.com/api/oauth2/authorize?client_id=441338104545017878&redirect_uri=${FiresideRedirect}&response_type=code&scope=guilds%20identify%20guilds.join%20email%20messages.read`}
+          className="Discord-Login">
+          <FontAwesomeIcon className="HomePage-DiscordIcon" icon={['fab', 'discord']} />
+          <p className="Discord-Login-Text">Login With Discord</p>
+        </a>
+      )
+    } else {
+      return(
+        <button className="Discord-Login" onClick={(e) => this.handleDiscordLogin()}>
+          <FontAwesomeIcon className="HomePage-DiscordIcon" icon={['fab', 'discord']} />
+          <p className="Discord-Login-Text">Login With Discord</p>
+        </button>
+      )
+    }
+  }
+
   render() {
     return(
       <div className="HomePage">
@@ -99,10 +119,7 @@ class HomePage extends Component {
               <div className="HomePage-Box1-Contents">
                 <img className="Logo" src={Logo} alt=""/>
                 <h1 className="Text-Logo">FiresideBOT</h1>
-                <button className="Discord-Login" onClick={(e) => this.handleDiscordLogin()}>
-                  <FontAwesomeIcon className="HomePage-DiscordIcon" icon={['fab', 'discord']} />
-                  <p className="Discord-Login-Text">Login With Discord</p>
-                </button>
+                {this.renderDiscordLogin()}
                 {this.state.botInfoDataRecieved ? this.renderUserCount() : ''}
                 {this.state.dataRecieved ? <Redirect to="/dashboard" /> : ''}
                 {this.state.isLoggedIn ? <Redirect to="/dashboard" /> : ''}

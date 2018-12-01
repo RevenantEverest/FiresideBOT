@@ -16,9 +16,6 @@ module.exports = {
   findByTwitchUsername(username) {
     return db.one('SELECT * FROM users WHERE twitch_username = $1', username);
   },
-  seeIfDiscordIdExists(id) {
-    return db.one('SELECT COUNT(*) FROM users WHERE discord_id = $1', id);
-  },
   save(user) {
     return db.one('INSERT INTO users (discord_username, discord_id, twitch_username) VALUES ($/discord_username/, $/discord_id/, $/twitch_username/) RETURNING *', user);
   }

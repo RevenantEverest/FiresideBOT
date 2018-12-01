@@ -1,4 +1,5 @@
 import axios from 'axios';
+import apiConfig from '../apiConfig';
 const services = {};
 
 services.getRegulars = (data) => {
@@ -6,13 +7,13 @@ services.getRegulars = (data) => {
 };
 
 services.getRegularsByChannel = (data) => {
-  return axios.get(`/regulars/channel/${data}`);
+  return axios.get(`${apiConfig}/regulars/channel/${data}`);
 };
 
 services.addRegular = (data) => {
   return axios({
     method: 'POST',
-    url: '/regulars',
+    url: `${apiConfig}/regulars`,
     data: {
       channel: data.channel,
       regular_username: data.regular_username
@@ -21,7 +22,7 @@ services.addRegular = (data) => {
 };
 
 services.deleteRegular = (data) => {
-  return axios.delete(`/regulars/regular_id/${data}`);
+  return axios.delete(`${apiConfig}/regulars/regular_id/${data}`);
 };
 
 export default services;

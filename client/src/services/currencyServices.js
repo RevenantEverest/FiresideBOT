@@ -1,16 +1,17 @@
 import axios from 'axios';
+import apiConfig from '../apiConfig';
 const services = {};
 
 /* General Currency Settings */
 
 services.getSettings = (data) => {
-  return axios.get(`/currency/settings/guild_id/${data}`);
+  return axios.get(`${apiConfig}/currency/settings/guild_id/${data}`);
 };
 
 services.updateSettings = (data) => {
   return axios({
     method: 'PUT',
-    url: '/currency/settings',
+    url: `${apiConfig}/currency/settings`,
     data: {
       guild_id: data.guild_id,
       currency_name: data.currency_name,
@@ -22,7 +23,7 @@ services.updateSettings = (data) => {
 /* Discord Currency Routes */
 
 services.getByGuildId = (data) => {
-  axios.get(`/currency/discord/guild_id/${data}`);
+  axios.get(`${apiConfig}/currency/discord/guild_id/${data}`);
 };
 
 export default services;

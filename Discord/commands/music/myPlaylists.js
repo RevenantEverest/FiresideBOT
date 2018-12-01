@@ -6,7 +6,7 @@ const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
 const qrec = pgp.errors.queryResultErrorCode;
 
-const logger = require('../log');
+const logger = require('../logger');
 
 module.exports = {
   findMyPlaylists(message, args, server) {

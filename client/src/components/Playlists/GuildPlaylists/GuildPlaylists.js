@@ -52,9 +52,7 @@ class GuildPlaylists extends Component {
       counter++;
       if(counter % 2 === 0) colorDisplay = 'VGP-White';
       else if(counter % 2 === 1) colorDisplay = 'VGP-Grey';
-      let playlistCounter = 0;
       let playlists = el.playlists.map((PEL, index) => {
-        playlistCounter++;
         return(
           <div className="VGP-Playlists">
             <Link className="VGP-Playlists-Link" key={index} to={{

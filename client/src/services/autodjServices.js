@@ -1,4 +1,5 @@
 import axios from 'axios';
+import apiConfig from '../apiConfig';
 const services = {};
 
 services.getRedirectSettings = (data) => {
@@ -8,7 +9,7 @@ services.getRedirectSettings = (data) => {
 services.updateRedirectSettings = (data) => {
 return axios({
     method: 'PUT',
-    url: '/autodj/redirect',
+    url: `${apiConfig}/autodj/redirect`,
     data: {
       redirect: data.redirect,
       user_id: data.user_id
@@ -19,7 +20,7 @@ return axios({
 services.updateGuildRedirectSettings = (data) => {
 return axios({
     method: 'PUT',
-    url: '/autodj/guild_id',
+    url: `${apiConfig}/autodj/guild_id`,
     data: {
       guild_id: data.guild_id,
       user_id: data.user_id

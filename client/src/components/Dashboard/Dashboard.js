@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import FiresideRedirect from '../../redirect';
 import './Dashboard.css';
 
 //Services Imports
@@ -64,7 +65,7 @@ class Dashboard extends Component {
           for(let i = 0; i < this.state.discordGuilds.length; i++) {
             if(value === this.state.discordGuilds[i].id) return this.setState({ chosenGuild: this.state.discordGuilds[i] }, () => {
               console.log(this.state.chosenGuild);
-              window.location = `https://discordapp.com/api/oauth2/authorize?client_id=441338104545017878&response_type=code&guild_id=${this.state.chosenGuild.id}&permissions=2146958583&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fdashboard&scope=bot`
+              window.location = `https://discordapp.com/api/oauth2/authorize?client_id=441338104545017878&response_type=code&guild_id=${this.state.chosenGuild.id}&permissions=2146958583&redirect_uri=http%3A%2F%2Fwww.firesidebot.com%2Fdashboard&scope=bot`
             })
           }
         }

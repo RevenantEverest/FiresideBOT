@@ -38,7 +38,7 @@ const campfire = require('./fireside/campfire');
 const help = require('./help/sendHelp');
 
 //Command Logger
-const log = require('./log');
+const log = require('./logger');
 
 module.exports = {
   commands(PREFIX, message, args, self) {
@@ -57,142 +57,117 @@ module.exports = {
     let errorEmbed = new config.Discord.RichEmbed();
     errorEmbed.setColor(0xff0000).addField("Error", "An Error has occured and has been logged");
 
-    switch (args[0].toLowerCase()) {
+    try {
+      logger.command
+      switch (args[0].toLowerCase()) {
 
-      case "ping":
-        log.logCommand(message, args, ''); //Command Logger
-        return message.channel.send("pong");
-        break;
-
-      case "8ball":
-        if(args[1]) message.channel.send(fortunes[Math.floor(Math.random() * fortunes.length)]);
-        else message.channel.send("Ask a question.");
-        log.logCommand(message, args, ''); //Command Logger
-        break;
-
-      case "dice":
-        dice.rollDice(message, args, server);
-        log.logCommand(message, args, ''); //Command Logger
-        break;
-
-      // //Poll Commands
-      // case "newpoll":
-      //   poll.pollname(message, args, server);
-      //   log.logCommand(message, args, ''); //Command Logger
-      //   break;
-      // case "pollanswer":
-      //   poll.pollanswer(message, args, server);
-      //   log.logCommand(message, args, ''); //Command Logger
-      //   break;
-      // case "sendpoll":
-      //   poll.sendPoll(message, args, server);
-      //   log.logCommand(message, args, ''); //Command Logger
-      //   break;
-      // case "vote":
-      //   poll.vote(message, args, server);
-      //   log.logCommand(message, args, ''); //Command Logger
-      //   break;
-      // case "delpoll":
-      //   poll.deletePoll(message, args, server);
-      //   log.logCommand(message, args, ''); //Command Logger
-      //   break;
-
-      //Music Commands
-      case "play":
-        try {
-          play.play(message, args, server);
-          log.logCommand(message, args, ''); //Command Logger
-        }catch(err) {
-          message.channel.send()
-        }
-        break;
-      case "pause":
-        pauseResume.handlePause(message, args, server);
-        log.logCommand(message, args, ''); //Command Logger
-        break;
-      case "resume":
-        pauseResume.handleResume(message, args, server);
-        log.logCommand(message, args, ''); //Command Logger
-        break;
-      case "playnext":
-        playNext.playNext(message, args, server);
-        log.logCommand(message, args, ''); //Command Logger
-        break;
-      case "queue":
-        queue.queue(message, args, server, self);
-        log.logCommand(message, args, ''); //Command Logger
-        break;
-      case "np":
-        queue.showCurrentSong(message, args, server);
-        log.logCommand(message, args, ''); //Command Logger
-        break;
-      case "playlist":
-        playlist.playlist(message, args, server);
-        log.logCommand(message, args, ''); //Command Logger
-        break;
-      case "serverplaylist":
-        serverPlaylist.serverPlaylist(message, args, server);
-        log.logCommand(message, args, ''); //Command Logger
-        break;
-      case "promote":
-        promote.promote(message, args, server);
-        log.logCommand(message, args, ''); //Command Logger
-        break;
-      case "delsong":
-        delSong.delsong(message, args, server);
-        log.logCommand(message, args, ''); //Command Logger
-        break;
-      case "skip":
-        if(server.dispatcher)
-          server.dispatcher.end();
-        log.logCommand(message, args, ''); //Command Logger
-        break;
-      case "stop":
-        stop.stop(message, args, server);
-        log.logCommand(message, args, ''); //Command Logger
-        break;
-      case "clear":
-        clear.clear(message, args, server);
-        log.logCommand(message, args, ''); //Command Logger
-        break;
-      case "volume":
-        volume.setVolume(message, args, server);
-        log.logCommand(message, args, ''); //Command Logger
-        break;
-
-      //Currency Commands
-      case "balance":
-        checkCurrency.checkCurrency(message, args, server);
-        log.logCommand(message, args, ''); //Command Logger
-        break;
-      case "give":
-        giveCurrency.giveCurrency(message, args, server);
-        log.logCommand(message, args, ''); //Command Logger
-        break;
-
-      //Gamble Commands
-      // case "battle": pokemonBattle.challenge(PREFIX, message, args, server); break;
-
-      //Other
-      case "help":
-        help.sendHelp(PREFIX, message, args, server, self);
-        log.logCommand(message, args, ''); //Command Logger
-        break;
-      case "accept": return; break;
-
-      //Easter Eggs
-      case "pokemon":
-        pokemonCommands.getPokemon(message, args, server);
-        log.logCommand(message, args, ''); //Command Logger
-        break;
-      case "campfire":
-        campfire.craftCampfire(message, args, server);
-        log.logCommand(message, args, ''); //Command Logger
-        break;
-
-      default:
-        message.channel.send("Not a valid command");
-        break;
+        case "ping":
+          return message.channel.send("pong");
+          break;
+  
+        case "8ball":
+          if(args[1]) message.channel.send(fortunes[Math.floor(Math.random() * fortunes.length)]);
+          else message.channel.send("Ask a question.");
+          break;
+  
+        case "dice":
+          dice.rollDice(message, args, server);
+          break;
+  
+        //Poll Commands
+        case "newpoll":
+          poll.pollname(message, args, server);
+          break;
+        case "pollanswer":
+            poll.pollanswer(message, args, server);
+          break;
+        case "sendpoll":
+            poll.vote(message, args, server);
+            break;
+        case "vote":
+            poll.vote(message, args, server);
+          break;
+        case "delpoll":
+            poll.deletePoll(message, args, server);
+          break;
+  
+        //Music Commands
+        case "play":
+            play.play(message, args, server);
+          break;
+        case "pause":
+          pauseResume.handlePause(message, args, server);
+          break;
+        case "resume":
+          pauseResume.handleResume(message, args, server);
+          break;
+        case "playnext":
+          playNext.playNext(message, args, server);
+          break;
+        case "queue":
+          queue.queue(message, args, server, self);
+          break;
+        case "np":
+          queue.showCurrentSong(message, args, server);
+          break;
+        case "playlist":
+          playlist.playlist(message, args, server);
+          break;
+        case "serverplaylist":
+          serverPlaylist.serverPlaylist(message, args, server);
+          break;
+        case "promote":
+          promote.promote(message, args, server);
+          break;
+        case "delsong":
+          delSong.delsong(message, args, server);
+          break;
+        case "skip":
+          if(server.dispatcher)
+            server.dispatcher.end();
+          break;
+        case "stop":
+          stop.stop(message, args, server);
+          break;
+        case "clear":
+          clear.clear(message, args, server);
+          break;
+        case "volume":
+          volume.setVolume(message, args, server);
+          break;
+  
+        //Currency Commands
+        case "balance":
+          checkCurrency.checkCurrency(message, args, server);
+          break;
+        case "give":
+          giveCurrency.giveCurrency(message, args, server);
+          break;
+  
+        //Gamble Commands
+        // case "battle": pokemonBattle.challenge(PREFIX, message, args, server); break;
+  
+        //Other
+        case "help":
+          help.sendHelp(PREFIX, message, args, server, self);
+          break;
+        case "accept": return; break;
+  
+        //Easter Eggs
+        case "pokemon":
+          pokemonCommands.getPokemon(message, args, server);
+          break;
+        case "campfire":
+          campfire.craftCampfire(message, args, server);
+          break;
+  
+        default:
+          message.channel.send("Not a valid command");
+          break;
+      }
+    }
+    catch(err) {
+      message.channel.send(errorEmbed);
     }
   }
 }

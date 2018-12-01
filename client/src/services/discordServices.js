@@ -1,10 +1,11 @@
 import axios from 'axios';
+import apiConfig from '../apiConfig';
 const services = {};
 
 services.getToken = (data) => {
   return axios({
     method: 'POST',
-    url: '/login/discord/token',
+    url: `${apiConfig}/login/discord/token`,
     data: {
       code: data
     }

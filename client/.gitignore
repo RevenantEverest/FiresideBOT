@@ -21,3 +21,6 @@ yarn-debug.log*
 yarn-error.log*
 
 key.js
+apiConfig.js
+redirect.js
+redirect-dev.js

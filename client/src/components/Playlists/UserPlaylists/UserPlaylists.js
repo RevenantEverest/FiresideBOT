@@ -72,8 +72,8 @@ class UserPlaylists extends Component {
       else if(counter % 2 === 1)
         playlistDisplayColor = 'PD-grey';
       return(
-        <div className={`PlaylistDisplay ${playlistDisplayColor}`}>
-          <Link className=''key={idx} to={{
+        <div className={`PlaylistDisplay ${playlistDisplayColor}`} key={idx}>
+          <Link className='' to={{
             pathname: `/playlists/personal/${el.playlistInfo.name}`,
             state: {
               userData: this.props.userData,

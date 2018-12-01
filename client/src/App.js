@@ -34,7 +34,7 @@ import ChoosePlaylist from './components/AutoDJ/ChoosePlaylist/ChoosePlaylist';
 import DefaultCommands from './components/Commands/DefaultCommands/DefaultCommands';
 import CustomCommands from './components/Commands/CustomCommands/CustomCommands';
 
-import PageNotFound from './components/PageNotFound/PageNotFound';
+//import PageNotFound from './components/PageNotFound/PageNotFound';
 
 library.add(faLink, faClock, faVolumeUp, faVolumeDown, faVolumeOff, faMusic, faTachometerAlt, faMagic);
 library.add(faArrowCircleLeft, faBook, faInfoCircle, faComments, faChartLine, faAngleLeft, faAngleDown);
@@ -90,7 +90,6 @@ class App extends Component {
               {this.state.userData != null ? <Route path="/playlists/guild/:playlist_name" component={SinglePlaylist} /> : ''}
               {this.state.userData != null ? <Route exact path="/chooseplaylist" component={ () => (<ChoosePlaylist userData={this.state.userData}/>) } /> : ''}
               {this.state.userData != null ? <Route path="/autodj" component={AutoDJ} /> : ''}
-              {/*<Route component={PageNotFound} />*/}
 
               <Route path="/help" component={() => (<HelpDocs userData={this.state.userData}/>) } />
             </div>

@@ -2,7 +2,7 @@ const pokemonServices = require('../services/pokemonServices');
 const config = require('../../../config/config');
 const Discord = config.Discord;
 
-const logger = require('../log');
+const logger = require('../logger');
 
 module.exports = {
   getPokemon(message, args, server) {

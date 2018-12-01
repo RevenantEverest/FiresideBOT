@@ -1,79 +1,21 @@
 const config = require('../config/config');
 const Discord_Bot = new config.Discord.Client();
 const Discord_Commands = require('./commands/Discord_Commands');
-const guildsDB = require('../models/GuildModels/guildsDB');
-const customCommandsDB = require('../models/customCommandsDB');
+const guildsController = require('./controllers/guildsController');
 const currency = require('./commands/currency/currency');
-const currencyDB = require('../models/currencyDB');
-const pgp = require('pg-promise')();
-const QRE = pgp.errors.QueryResultError;
-const qrec = pgp.errors.queryResultErrorCode;
 let PREFIX = '';
 
 // Called When Bot Starts
 Discord_Bot.on("ready", () => {
     Discord_Bot.user.setActivity("The Campfire | ?help", {type: "WATCHING"});
-    console.log("Discord-Connection Ready");
-    setInterval(() => {
-      config.Discord_Users_Count = Discord_Bot.users.size;
-    }, 5000);
+    setInterval(() => { config.Discord_Users_Count = Discord_Bot.users.size; }, 5000);
 });
-
 
 // Called When Bot Joins Guild
-Discord_Bot.on("guildCreate", (guild) => {
-  guildsDB.save({ guild_name: guild.name, guild_id: guild.id })
-    .then(() => {
-      guildsDB.ifSettingsExist(guild.id)
-        .then(settings => {
-          if(settings.count === "1") {
-            currencyDB.findCurrencySettings(guild.id)
-              .then()
-              .catch(err => {
-                if(err instanceof QRE && err.code === qrec.noData) {
-                  currencyDB.saveDefaultSettings({
-                    guild_id: guild.id,
-                    currency_name: 'Kindling',
-                    currency_increase_rate: 10
-                  })
-                  .catch(err => console.log(err));
-                }
-                else console.log(err);
-              });
-          }
-          else if(settings.count === "0") {
-            guildsDB.saveDefaultSettings({
-              guild_id: guild.id,
-              prefix: '?'
-            })
-            .then(() => {
-              currencyDB.findCurrencySettings(guild.id)
-                .then()
-                .catch(err => {
-                  if(err instanceof QRE && err.code === qrec.noData) {
-                    currencyDB.saveDefaultSettings({
-                      guild_id: guild.id,
-                      currency_name: 'Kindling',
-                      currency_increase_rate: 10
-                    })
-                    .catch(err => console.log(err));
-                  }
-                  else console.log(err);
-                })
-            })
-            .catch(err => {
-              console.log(err);
-            })
-          }
-        })
-    }).catch(err => console.log(err));
-});
+Discord_Bot.on("guildCreate", (guild) => guildsController.saveGuild(guild));
 
 // Called When Bot Get Removed
-Discord_Bot.on("guildDelete", (guild) => {
-  guildsDB.destroy(guild.id)
-    .then().catch(err => console.log(err));
-});
+Discord_Bot.on("guildDelete", (guild) => guildsController.removeGuild(guild));
 
 // Called Message Is Sent In Guild
 Discord_Bot.on("message", (message) => {

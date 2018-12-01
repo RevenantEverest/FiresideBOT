@@ -25,7 +25,7 @@ module.exports = {
     return db.one('SELECT prefix FROM guild_settings WHERE guild_id = $1', id);
   },
   ifSettingsExist(id) {
-    return db.one('SELECT COUNT(*) FROM guild_settings WHERE guild_id = $1', id);
+    return db.one('SELECT * FROM guild_settings WHERE guild_id = $1', id);
   },
   saveDefaultSettings(settings) {
     return db.one(`INSERT INTO guild_settings (guild_id, prefix)

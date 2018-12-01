@@ -1,4 +1,5 @@
 import axios from 'axios';
+import apiConfig from '../apiConfig';
 const services = {};
 
 services.getBannedWords = (data) => {
@@ -6,13 +7,13 @@ services.getBannedWords = (data) => {
 };
 
 services.getBannedWordsByChannel = (data) => {
-  return axios.get(`/TBW/channel/${data}`);
+  return axios.get(`${apiConfig}/TBW/channel/${data}`);
 };
 
 services.addBannedWords = (data) => {
   return axios({
     method: 'POST',
-    url: '/TBW',
+    url: `${apiConfig}/TBW`,
     data: {
       channel: data.channel,
       banned_word: data.banned_word
@@ -21,7 +22,7 @@ services.addBannedWords = (data) => {
 };
 
 services.removeBannedWords = (data) => {
-  return axios.delete(`/TBW/TBW_id/${data}`)
+  return axios.delete(`${apiConfig}/TBW/TBW_id/${data}`)
 };
 
 export default services;

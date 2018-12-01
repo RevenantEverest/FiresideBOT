@@ -1,18 +1,19 @@
 import axios from 'axios';
+import apiConfig from '../../apiConfig';
 const services = {};
 
 services.getPlaylists = (data) => {
-  return axios.get('/playlists')
+  return axios.get(`${apiConfig}/playlists`)
 };
 
 services.getUserPlaylists = (data) => {
-  return axios.get(`/user/playlists/user/${data}`);
+  return axios.get(`${apiConfig}/user/playlists/user/${data}`);
 };
 
 services.addPlaylist = (data) => {
   return axios({
     method: 'POST',
-    url: '/user/playlists',
+    url: `${apiConfig}/user/playlists`,
     data: {
       user_id: data.user_id,
       name: data.name
@@ -23,7 +24,7 @@ services.addPlaylist = (data) => {
 services.deletePlaylist = (data) => {
   return axios({
     method: 'DELETE',
-    url: `/user/playlists/delete/${data}`
+    url: `${apiConfig}/user/playlists/delete/${data}`
   });
 }
 
