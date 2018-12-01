@@ -38,7 +38,7 @@ const campfire = require('./fireside/campfire');
 const help = require('./help/sendHelp');
 
 //Command Logger
-const log = require('./logger');
+const logger = require('./logger');
 
 module.exports = {
   commands(PREFIX, message, args, self) {
@@ -58,7 +58,7 @@ module.exports = {
     errorEmbed.setColor(0xff0000).addField("Error", "An Error has occured and has been logged");
 
     try {
-      logger.command
+      logger.logCommand(message, args, '');
       switch (args[0].toLowerCase()) {
 
         case "ping":
@@ -167,6 +167,7 @@ module.exports = {
       }
     }
     catch(err) {
+      logger.logError(message, args, err, '');
       message.channel.send(errorEmbed);
     }
   }
