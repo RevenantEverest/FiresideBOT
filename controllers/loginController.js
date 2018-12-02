@@ -58,7 +58,7 @@ services.checkForUser = (discordUser, res) => {
     .then(user => services.sendToken(user, res))
     .catch(err => {
       if(err instanceof QRE && err.code === qrec.noData)
-        this.saveUser(discordUser, res);
+        services.saveUser(discordUser, res);
       else console.log(err);
       //Log Error
     })
