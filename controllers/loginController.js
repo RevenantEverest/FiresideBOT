@@ -1,6 +1,7 @@
 const discordServices = require('../services/discordServices');
 const usersDB = require('../models/UserModels/usersDB');
 const tokenDB = require('../models/tokenDB');
+const autodjDB = require('../models/autodjDB');
 const logger = require('../services/logger');
 
 const pgp = require('pg-promise')();
