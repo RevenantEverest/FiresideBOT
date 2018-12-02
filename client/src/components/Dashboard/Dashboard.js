@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import FiresideRedirect from '../../redirect';
-import key from '../../key';
 import './Dashboard.css';
 
 //Services Imports
 import discordServices from '../../services/discordServices';
 import guildServices from '../../services/GuildServices/guildServices';
+
+const redirect = 'http%3A%2F%2Fwww.firesidebot.com%2F';
+// const redirect = 'http%3A%2F%2Flocalhost%3A3000%2F';
+const CLIENT_ID = '441338104545017878';
 
 class Dashboard extends Component {
 
@@ -39,18 +41,15 @@ class Dashboard extends Component {
         manageGuildRedirect: true
       })
     }
-    if(!window.localStorage.access_token) return;
-    if(this._isMounted) {
-      discordServices.getUserGuilds(window.localStorage.access_token)
-        .then(results => {
-          let tempArr = [];
-          for(let i = 0; i < results.data.length; i++) {
-            if(results.data[i].permissions >= 2146958591) tempArr.push(results.data[i]);
-          }
-          if(this._isMounted) this.setState({ discordGuilds: tempArr, chosenGuild: tempArr[0], dataReceived: true });
-        })
-        .catch(err => console.log(err));
-    }
+    discordServices.getUserGuilds(this.state.userData.discord_id)
+      .then(results => {
+         let tempArr = [];
+        for(let i = 0; i < results.data.data.length; i++) {
+           if(results.data.data[i].permissions >= 2146958591) tempArr.push(results.data.data[i]);
+        }
+        if(this._isMounted) this.setState({ discordGuilds: tempArr, chosenGuild: tempArr[0], dataReceived: true });
+      })
+      .catch(err => console.log(err));
   }
 
   handleChange(e) {
@@ -66,7 +65,7 @@ class Dashboard extends Component {
           for(let i = 0; i < this.state.discordGuilds.length; i++) {
             if(value === this.state.discordGuilds[i].id) return this.setState({ chosenGuild: this.state.discordGuilds[i] }, () => {
               console.log(this.state.chosenGuild);
-              window.location = `https://discordapp.com/api/oauth2/authorize?client_id=${key.CLIENT_ID}&response_type=code&guild_id=${this.state.chosenGuild.id}&permissions=2146958583&redirect_uri=${FiresideRedirect}%2Fdashboard&scope=bot`
+              window.location.replace(`https://discordapp.com/api/oauth2/authorize?client_id=${CLIENT_ID}&response_type=code&guild_id=${this.state.chosenGuild.id}&permissions=2146958583&redirect_uri=${redirect}%2Fdashboard&scope=bot`);
             })
           }
         }

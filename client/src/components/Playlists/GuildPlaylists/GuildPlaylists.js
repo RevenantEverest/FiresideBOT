@@ -24,15 +24,15 @@ class GuildPlaylists extends Component {
   }
 
   async getUserGuilds() {
-    discordServices.getUserGuilds(window.localStorage.access_token)
+    discordServices.getUserGuilds(this.props.userData.discord_id)
       .then(guilds => {
         let tempArr = [];
         let guildsPromises = [];
-        for(let i = 0; i < guilds.data.length; i++) {
-          if(guilds.data[i].permissions >= 2146958591) tempArr.push(guilds.data[i]);
-          guildsPromises.push(guildPlaylistServices.getPlaylistByGuildId(guilds.data[i].id));
+        for(let i = 0; i < guilds.data.data.length; i++) {
+          if(guilds.data.data[i].permissions >= 2146958591) tempArr.push(guilds.data.data[i]);
+          guildsPromises.push(guildPlaylistServices.getPlaylistByGuildId(guilds.data.data[i].id));
         }
-        this.setState({ guildData: guilds.data, guildPermissionData: tempArr });
+        this.setState({ guildData: guilds.data.data, guildPermissionData: tempArr });
         Promise.all(guildsPromises).then(results => {
           let ResultsFilter = results.filter(el => { return el.data.data; });
           let ResultsMap = ResultsFilter.map((el, idx) => {

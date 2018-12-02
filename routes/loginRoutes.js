@@ -3,6 +3,6 @@ const loginController = require('../controllers/loginController');
 const loginRouter = express.Router();
 
 loginRouter.route("/discord/token")
-.post(loginController.handleToken)
+.post(loginController.handleLogin)
 
 module.exports = loginRouter;

@@ -21,9 +21,9 @@ class AutoDJRedirect extends Component {
   }
 
   getUserGuilds() {
-    discordServices.getUserGuilds(window.localStorage.access_token)
+    discordServices.getUserGuilds(this.props.userData.discord_id)
       .then(guilds => {
-        this.setState({ userGuilds: guilds.data, dataReceived: true });
+        this.setState({ userGuilds: guilds.data.data, dataReceived: true });
       })
       .catch(err => console.log(err));
   }

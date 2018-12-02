@@ -2,34 +2,16 @@ import axios from 'axios';
 import apiConfig from '../apiConfig';
 const services = {};
 
-services.getToken = (data) => {
-  return axios({
-    method: 'POST',
-    url: `${apiConfig}/login/discord/token`,
-    data: {
-      code: data
-    }
-  })
+services.getDiscordUserSize = (data) => {
+  return axios.get(`${apiConfig}/discord/bot/users/size`);
 };
 
 services.getUserInfo = (data) => {
-  return axios({
-    method: 'GET',
-    url: 'https://discordapp.com/api/users/@me',
-    headers: {
-      Authorization: `Bearer ${data}`
-    }
-  });
+  return axios.get(`${apiConfig}/discord/user/info/${data}`);
 };
 
 services.getUserGuilds = (data) => {
-  return axios({
-    method: 'GET',
-    url: 'https://discordapp.com/api/users/@me/guilds',
-    headers: {
-      Authorization: `Bearer ${data}`
-    }
-  })
+  return axios.get(`${apiConfig}/discord/guilds/${data}`);
 };
 
 services.getGuildInfo = (data) => {};

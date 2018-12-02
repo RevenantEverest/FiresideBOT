@@ -20,13 +20,13 @@ class CurrencySystem extends Component {
   }
 
   getGuilds() {
-    discordServices.getUserGuilds(window.localStorage.access_token)
+    discordServices.getUserGuilds(this.props.userData.discord_id)
       .then(guilds => {
         let tempArr = [];
-        for(let i = 0; i < guilds.data.length; i++) {
-          if(guilds.data[i].permissions >= 2146958591) tempArr.push(guilds.data[i]);
+        for(let i = 0; i < guilds.data.data.length; i++) {
+          if(guilds.data.data[i].permissions >= 2146958591) tempArr.push(guilds.data.data[i]);
         }
-        this.setState({ guildData: guilds.data, adminGuildData: tempArr, guildDataRecieved: true });
+        this.setState({ guildData: guilds.data.data, adminGuildData: tempArr, guildDataRecieved: true });
       })
       .catch(err => console.log(err));
   }

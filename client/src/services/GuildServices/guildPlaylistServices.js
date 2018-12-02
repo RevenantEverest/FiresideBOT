@@ -15,7 +15,7 @@ services.addGuildPlaylist = (data) => {
 };
 
 services.getPlaylistByGuildId = (data) => {
-  return axios.get(`/guild/playlists/guild/${data}`);
+  return axios.get(`${apiConfig}/guild/playlists/guild/${data}`);
 }
 
 export default services;

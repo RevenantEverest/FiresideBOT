@@ -9,13 +9,13 @@ module.exports = {
     },
     save(token) {
         return db.one(`INSERT INTO tokens (discord_id, token, refresh_token, expires_in)
-        VALUES ($/discord_id/, $/token/, $/refresh_token/, $/expires_in/)
+        VALUES ($/discord_id/, $/access_token/, $/refresh_token/, $/expires_in/)
         RETURNING *`, token);
     },
     update(token) {
         return db.one(`UPDATE tokens 
         SET
-        token = $/token/,
+        token = $/access_token/,
         refresh_token = $/refresh_token/,
         expires_in = $/expures_in/
         WHERE discord_id = $/discord_id/

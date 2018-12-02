@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import FiresideRedirect from '../../redirect';
 import AnimatedNumber from 'react-animated-number';
 import './HomePage.css';
 
@@ -10,11 +9,15 @@ import Logo from '../../res/images/Logo.png'
 
 //services Imports
 import discordServices from '../../services/discordServices';
-import botInfoServices from '../../services/botInfoServices';
+import loginServies from '../../services/loginServices';
 
-import key from '../../key.js';
+const redirect = 'http%3A%2F%2Fwww.firesidebot.com%2F';
+// const redirect = 'http%3A%2F%2Flocalhost%3A3000%2F';
+const CLIENT_ID = '441338104545017878';
 
 class HomePage extends Component {
+
+  DiscordRedirect = `https://discordapp.com/api/oauth2/authorize?client_id=${CLIENT_ID}&redirect_uri=${redirect}&response_type=code&scope=guilds%20identify%20guilds.join%20email%20messages.read`;
 
   constructor(props) {
     super(props);
@@ -35,23 +38,15 @@ class HomePage extends Component {
   getToken() {
     if(window.location.search) {
       let code = window.location.search.split("code=")[1];
-      discordServices.getToken(code)
+      loginServies.handleLogin(code)
         .then(results => {
-          window.localStorage.setItem('access_token', results.data.data.access_token);
           this.setState({ dataRecieved: true }, () => this.props.getUserData(results.data.data.userData));
         }).catch(err => console.log(err));
-    }
-                      // else if(window.localStorage.access_token) {
-                      //   loginServices.getUserData(window.localStorage.access_token)
-                      //     .then(user => {
-    //Revisit later   //       this.userDataPromise(user.data.data);
-                      //     })
-                      //     .catch(err => console.log(err));
-                      // }
+    }else return;
   }
 
   getDiscordBotUsers() {
-    botInfoServices.getDiscordUserSize()
+    discordServices.getDiscordUserSize()
       .then(users => {
         this.setState({ usersCount: users.data.data, botInfoDataRecieved: true });
       })
@@ -93,20 +88,18 @@ class HomePage extends Component {
   renderDiscordLogin() {
     if(window.localStorage.access_token) {
       return(
-        <a
-          href={`https://discordapp.com/api/oauth2/authorize?client_id=${key.CLIENT_ID}&redirect_uri=${FiresideRedirect}&response_type=code&scope=guilds%20identify%20guilds.join%20email%20messages.read`}
-          className="Discord-Login">
-          <FontAwesomeIcon className="HomePage-DiscordIcon" icon={['fab', 'discord']} />
-          <p className="Discord-Login-Text">Login With Discord</p>
+        <a className="Discord-Login" href={`${this.DiscordRedirect}`}>
+            <FontAwesomeIcon className="HomePage-DiscordIcon" icon={['fab', 'discord']} />
+            <p className="Discord-Login-Text">Login With Discord</p>
         </a>
-      )
-    } else {
+      );
+    }else {
       return(
         <button className="Discord-Login" onClick={(e) => this.handleDiscordLogin()}>
-          <FontAwesomeIcon className="HomePage-DiscordIcon" icon={['fab', 'discord']} />
-          <p className="Discord-Login-Text">Login With Discord</p>
+            <FontAwesomeIcon className="HomePage-DiscordIcon" icon={['fab', 'discord']} />
+            <p className="Discord-Login-Text">Login With Discord</p>
         </button>
-      )
+      );
     }
   }
 
