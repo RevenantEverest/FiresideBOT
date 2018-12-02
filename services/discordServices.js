@@ -8,7 +8,7 @@ services.getToken = (data) => {
   const creds = btoa(`${process.env.DISCORD_CLIENT_ID}:${process.env.DISCORD_CLIENT_SECRET}`);
   return axios({
     method: 'POST',
-    url: `https://discordapp.com/api/oauth2/token?grant_type=authorization_code&code=${code}&redirect_uri=http://localhost:3000/`,
+    url: `https://discordapp.com/api/oauth2/token?grant_type=authorization_code&code=${code}&redirect_uri=http://www.firesidebot.com/`,
     headers: {
       Authorization: `Basic ${creds}`,
     },

@@ -62,10 +62,6 @@ class HomePage extends Component {
     });
   }
 
-  handleDiscordLogin() {
-    if(window.localStorage.access_token) this.setState({ isLoggedIn: true });
-  }
-
   renderUserCount() {
     return(
       <div className="HomePage-ServerList-Container">
@@ -86,21 +82,12 @@ class HomePage extends Component {
   }
 
   renderDiscordLogin() {
-    if(window.localStorage.access_token) {
-      return(
-        <a className="Discord-Login" href={`${this.DiscordRedirect}`}>
-            <FontAwesomeIcon className="HomePage-DiscordIcon" icon={['fab', 'discord']} />
-            <p className="Discord-Login-Text">Login With Discord</p>
-        </a>
-      );
-    }else {
-      return(
-        <button className="Discord-Login" onClick={(e) => this.handleDiscordLogin()}>
-            <FontAwesomeIcon className="HomePage-DiscordIcon" icon={['fab', 'discord']} />
-            <p className="Discord-Login-Text">Login With Discord</p>
-        </button>
-      );
-    }
+    return(
+      <a className="Discord-Login" href={`${this.DiscordRedirect}`}>
+        <FontAwesomeIcon className="HomePage-DiscordIcon" icon={['fab', 'discord']} />
+        <p className="Discord-Login-Text">Login With Discord</p>
+       </a>
+    );
   }
 
   render() {
