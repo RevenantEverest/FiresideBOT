@@ -39,7 +39,7 @@
   font-family: "NexaRustSlab";
   font-size: 100px;
 }
-.Discord-Login {
+#Discord-Login {
   position: relative;
   display: inline-block;
   float: right;
@@ -56,7 +56,7 @@
   text-align: center;
 }
 
-.Discord-Login:hover { background-color: purple; }
+#Discord-Login:hover { background-color: purple; }
 .HomePage-DiscordIcon {
   color: white;
   font-size: 30px;
