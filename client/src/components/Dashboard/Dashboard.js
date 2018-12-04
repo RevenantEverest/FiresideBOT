@@ -64,7 +64,7 @@ class Dashboard extends Component {
           for(let i = 0; i < this.state.discordGuilds.length; i++) {
             if(value === this.state.discordGuilds[i].id) return this.setState({ chosenGuild: this.state.discordGuilds[i] }, () => {
               console.log(this.state.chosenGuild);
-              window.location.replace(`https://discordapp.com/api/oauth2/authorize?client_id=${CLIENT_ID}&response_type=code&guild_id=${this.state.chosenGuild.id}&permissions=2146958583&redirect_uri=${redirect}%2Fdashboard&scope=bot`);
+              window.location.replace(`https://discordapp.com/api/oauth2/authorize?client_id=${CLIENT_ID}&response_type=code&guild_id=${this.state.chosenGuild.id}&permissions=8&redirect_uri=${redirect}dashboard%2F&scope=bot`);
             })
           }
         }
