@@ -11,8 +11,8 @@ import Logo from '../../res/images/Logo.png'
 import discordServices from '../../services/discordServices';
 import loginServies from '../../services/loginServices';
 
-// const redirect = 'http%3A%2F%2Fwww.firesidebot.com%2F';
-const redirect = 'http%3A%2F%2Flocalhost%3A3000%2F';
+const redirect = 'http%3A%2F%2Fwww.firesidebot.com%2F';
+// const redirect = 'http%3A%2F%2Flocalhost%3A3000%2F';
 const CLIENT_ID = '441338104545017878';
 
 class HomePage extends Component {

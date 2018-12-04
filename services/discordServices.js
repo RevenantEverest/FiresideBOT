@@ -2,8 +2,8 @@ const axios = require('axios');
 const fetch = require('node-fetch');
 const btoa = require('btoa');
 const services = {};
-// const redirect = 'http://www.firesidebot.com/';
-const redirect = 'http://localhost:3000/';
+const redirect = 'http://www.firesidebot.com/';
+// const redirect = 'http://localhost:3000/';
 
 services.getToken = (data) => {
   const code = data;
