@@ -19,7 +19,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "deploy": "aws s3 cp --recursive ./build s3://firesidebot.com",
+    "deploy": "aws s3 cp --recursive ./build s3://www.firesidebot.com",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },

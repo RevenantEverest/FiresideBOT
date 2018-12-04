@@ -1,64 +1,27 @@
 # FiresideBOT
-![alt text](https://i.imgur.com/efYsW7T.png)
 A Discord bot written with Node.js
 
-## Music Commands
+## [Commands](https://tinyurl.com/y7pkffx9)
 
-##### Play <Search>
-Plays request
+`<param>` indicates a required parameter while `[param]` indicates an optional parameter. 
 
-##### Pause
-Pauses music
+- [Clear](https://tinyurl.com/yc4k2vz4)
+- [Delsong](https://tinyurl.com/y9stw6ul) <param>
+- [NP](https://tinyurl.com/y93d7jeq)
+- [Pause](https://tinyurl.com/ybq4wl3q)
+- [Play](https://tinyurl.com/y8w43xpj) <param>
+- [Playlist](https://tinyurl.com/ydhck75h) [param]
+- [PlayNext](https://tinyurl.com/yd8n4g4n) <param>
+- [Promote](https://tinyurl.com/y7ne9pve) <param>
+- [Queue](https://tinyurl.com/y742u4qz)
+- [Resume](https://tinyurl.com/y8437ljt)
+- [Skip](https://tinyurl.com/yceagd2o)
+- [Stop](https://tinyurl.com/y79b727g)
+- [Volume](https://tinyurl.com/y9d75ogh) [param]
 
-##### Resume
-Resumes music
+- [Balance](https://tinyurl.com/ydbrjb28) 
+- [Give](https://tinyurl.com/ycumo8j8) <param>
 
-##### Volume [Desired Volume]
-Displays current volume or sets volume
+- [Pokemon](https://tinyurl.com/ybnujs39) [param]
+- [8Ball](https://tinyurl.com/yajq3tr9) <param>
 
-##### Skip
-Skips to next song in queue
-
-##### Stop
-Stops and clears queue
-
-##### PlayNext <Search>
-Requests a song to play next in queue
-
-##### Playlist [Playlist Name]
-Displays available playlists or requests your Playlist to the queue
-
-##### Queue
-Displays the current queue
-
-##### Delsong <Queue Value>
-Deletes a song from the queue
-
-##### Promote <Queue Value>
-Promotes a song to next in queue
-
-##### NP
-Displays the current song
-
-##### Clear
-Clears the current queue
-
-
-## Currency Commands
-
-##### Balance
-Displays current balance for Server
-
-##### Give <Desired Recipient> <Amount>
-
-
-## Fun Commands
-
-##### Pokemon [Name / Number]
-Displays a random or specific Pokemon
-
-##### 8ball <Question>
-Returns an yes or no style answer
-
-##### Dice [Number]
-Returns a random number between 1 and 6 or 1 and your desired value

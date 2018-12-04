@@ -45,3 +45,18 @@
 
 .SinglePlaylist-Delete:hover { background: red; }
 .SinglePlaylist-Delete:hover .SinglePlaylist-DeleteIcon { color: #dedede; }
+
+.DurationExceeded {
+  z-index: 1;
+  position: absolute;
+  top: 80px;
+  left: 1370px;
+  display: inline-block;
+  height: 15%;
+  width: 25%;
+}
+
+.DE-Icon { display: inline; color: red; font-size: 40px; }
+.DE-Header-Text { display: inline; margin-left: 4%; }
+
+.DE-Contents { margin-left: 13%; }

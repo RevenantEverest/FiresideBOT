@@ -1,6 +1,6 @@
 const config = require('../config/config');
 const discordServices = require('../services/discordServices');
-const tokenDB = require('../models/tokenDB');
+const discord_tokenDB = require('../models/discord_tokenDB');
 
 // const pgp = require('pg-promise')();
 // const QRE = pgp.errors.QueryResultError;
@@ -8,7 +8,7 @@ const tokenDB = require('../models/tokenDB');
 
 module.exports = {
     getGuilds(req, res, next) {
-        tokenDB.findByDiscordId(req.params.id)
+        discord_tokenDB.findByDiscordId(req.params.id)
             .then(results => {
                 discordServices.getUserGuilds(results.token)
                     .then(guilds => {
@@ -28,7 +28,7 @@ module.exports = {
             })
     },
     getUserInfo(req, res, next) {
-        tokenDB.findByDiscordId(req.params.id)
+        discord_tokenDB.findByDiscordId(req.params.id)
             .then(results => {
                 discordServices.getUserInfo(results.token)
                 .then(info => {

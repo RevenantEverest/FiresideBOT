@@ -42,7 +42,7 @@ class CurrencySystem extends Component {
   renderChooseGuildForm() {
     let AdminGuilds = this.state.adminGuildData.map((el, idx) => {
       return(
-        <option name="guild_id" value={el.id}>{el.name}</option>
+        <option name="guild_id" value={el.id} key={idx}>{el.name}</option>
       );
     });
 

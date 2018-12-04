@@ -54,8 +54,8 @@ class GuildPlaylists extends Component {
       else if(counter % 2 === 1) colorDisplay = 'VGP-Grey';
       let playlists = el.playlists.map((PEL, index) => {
         return(
-          <div className="VGP-Playlists">
-            <Link className="VGP-Playlists-Link" key={index} to={{
+          <div className="VGP-Playlists" key={index}>
+            <Link className="VGP-Playlists-Link" to={{
               pathname: `/playlists/guild/${PEL.name}`,
               state: {
                 userData: this.props.userData,

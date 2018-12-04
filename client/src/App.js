@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faLink, faClock, faVolumeUp, faVolumeDown, faVolumeOff, faMusic, faTachometerAlt,
          faMagic, faArrowCircleLeft, faBook, faInfoCircle, faComments, faChartLine, faAngleLeft,
-         faAngleDown, faBolt, faCrown, faAward, faCoins, faTrashAlt, faHeadphones, faBoxOpen} from '@fortawesome/free-solid-svg-icons';
+         faAngleDown, faBolt, faCrown, faAward, faCoins, faTrashAlt, faHeadphones, faBoxOpen, faExclamationCircle} from '@fortawesome/free-solid-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import './App.css';
 
@@ -38,7 +38,7 @@ import CustomCommands from './components/Commands/CustomCommands/CustomCommands'
 
 library.add(faLink, faClock, faVolumeUp, faVolumeDown, faVolumeOff, faMusic, faTachometerAlt, faMagic);
 library.add(faArrowCircleLeft, faBook, faInfoCircle, faComments, faChartLine, faAngleLeft, faAngleDown);
-library.add(faBolt, faCrown, faAward, faCoins, faTrashAlt, faHeadphones, faBoxOpen);
+library.add(faBolt, faCrown, faAward, faCoins, faTrashAlt, faHeadphones, faBoxOpen, faExclamationCircle);
 library.add(fab)
 
 class App extends Component {
@@ -52,8 +52,8 @@ class App extends Component {
   }
 
   componentDidMount() {
-    if(window.localStorage.access_token) {
-      loginServices.getUserData(window.localStorage.access_token)
+    if(window.localStorage.id) {
+      loginServices.getUserData(window.localStorage.id)
         .then(results => this.setState({ userData: results.data.data }))
         .catch(err => console.log(err));
     }
@@ -68,6 +68,8 @@ class App extends Component {
           <div className="App">
             <NavBar userData={this.state.userData} />
             <div className="App-Contents">
+              
+              {console.log("You're not suppose to be here, go back to where its safe :)")}
 
               <Route exact path="/" component={ () => (<HomePage getUserData={this.getUserData}/>) } />
               {this.state.userData != null ? <Route exact path="/dashboard" component={() => (<Dashboard userData={this.state.userData}/>) } /> : ''}

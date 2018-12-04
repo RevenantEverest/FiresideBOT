@@ -6,8 +6,8 @@ import './Dashboard.css';
 import discordServices from '../../services/discordServices';
 import guildServices from '../../services/GuildServices/guildServices';
 
-const redirect = 'http%3A%2F%2Fwww.firesidebot.com%2F';
-// const redirect = 'http%3A%2F%2Flocalhost%3A3000%2F';
+// const redirect = 'http%3A%2F%2Fwww.firesidebot.com%2F';
+const redirect = 'http%3A%2F%2Flocalhost%3A3000%2F';
 const CLIENT_ID = '441338104545017878';
 
 class Dashboard extends Component {
@@ -27,7 +27,6 @@ class Dashboard extends Component {
     document.querySelector('.NavBar').style.display = "inline-block";
     this._isMounted = true;
     this.getUserGuilds();
-    console.log(this._isMounted);
   }
 
   componentWillUnmount() {

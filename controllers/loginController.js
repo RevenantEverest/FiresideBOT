@@ -1,6 +1,6 @@
 const discordServices = require('../services/discordServices');
 const usersDB = require('../models/UserModels/usersDB');
-const tokenDB = require('../models/tokenDB');
+const discord_tokenDB = require('../models/discord_tokenDB');
 const autodjDB = require('../models/autodjDB');
 const logger = require('../services/logger');
 
@@ -92,7 +92,7 @@ services.saveAutoDJSettings = (user, res) => {
 };
 
 services.checkForToken = (tokenData, discordUser) => {
-  tokenDB.findByDiscordId(discordUser.id)
+  discord_tokenDB.findByDiscordId(discordUser.id)
     .catch(err => {
       if(err instanceof QRE && err.code === qrec.noData)
         services.storeTokenInfo(tokenData, discordUser);
@@ -102,7 +102,7 @@ services.checkForToken = (tokenData, discordUser) => {
 };
 
 services.storeTokenInfo = (tokenData, discordUser) => {
-  tokenDB.save({ 
+  discord_tokenDB.save({ 
     discord_id: discordUser.id,
     access_token: tokenData.access_token, 
     refresh_token: tokenData.refresh_token,
@@ -115,7 +115,7 @@ services.storeTokenInfo = (tokenData, discordUser) => {
 };
 
 services.sendToken = (user, res) => {
-  tokenDB.findByDiscordId(user.discord_id)
+  discord_tokenDB.findByDiscordId(user.discord_id)
     .then(tokenData => {
       res.json({
         message: "Sending Token",
@@ -128,6 +128,17 @@ services.sendToken = (user, res) => {
     .catch(err => {
       //Log Error
       console.log(err);
+    })
+};
+
+services.getUserByDiscordId = (req, res, next) => {
+  usersDB.findByDiscordId(req.params.id)
+    .then(user => {
+      res.json({ message: "Getting User", data: user });
+    })
+    .catch(err => {
+      //Log Error
+      next(err);
     })
 };
 
