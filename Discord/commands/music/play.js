@@ -29,6 +29,7 @@ function youtubeSearch(message, args, server, songRequest) {
       if(results.data.items[0] === undefined) return message.channel.send("An error has occured");
       YTDL.getInfo(`https://www.youtube.com/watch?v=${results.data.items[0].id.videoId}`, (err, info) => {
         if(err) message.channel.send('YTDL Get Info error');
+        if(info === undefined) return message.channel.send("An Error has occured, sorry for the inconvenience.")
         server.queue.queueInfo.push({
           title: results.data.items[0].snippet.title,
           link: `https://www.youtube.com/watch?v=${results.data.items[0].id.videoId}`,
