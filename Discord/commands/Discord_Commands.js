@@ -151,7 +151,7 @@ module.exports = {
         case "help":
           help.sendHelp(PREFIX, message, args, server, self);
           break;
-        case "accept": return; break;
+        case "accept": return;
   
         //Easter Eggs
         case "pokemon":
