@@ -1,11 +1,4 @@
-const config = require('../../../config/config');
-const Discord = require('discord.js');
-const YTDL = require('ytdl-core');
-
-const currentPlaylist = require('./queue').currentPlaylist;
-
-module.exports = {
-  delsong(message, args, server) {
+module.exports.run = async (PREFIX, message, args, server, bot) => {
     if(!args[1]) return message.channel.send("Please specifiy a song to delete.");
 
     let index = parseInt(args[1], 10) - 1;
@@ -14,5 +7,11 @@ module.exports = {
     let removedSong = server.queue.queueInfo[index].title;
     server.queue.queueInfo.splice(index, 1);
     message.channel.send(`${removedSong} has been removed from the queue.`);
-  }
-}
+};
+
+module.exports.config = {
+    name: 'delsong',
+    aliases: ['ds'],
+    category: ['music', 'Music'],
+    desc: ''
+};

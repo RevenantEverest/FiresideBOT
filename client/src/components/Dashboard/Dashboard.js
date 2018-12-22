@@ -6,9 +6,7 @@ import './Dashboard.css';
 import discordServices from '../../services/discordServices';
 import guildServices from '../../services/GuildServices/guildServices';
 
-const redirect = 'http%3A%2F%2Fwww.firesidebot.com%2F';
-// const redirect = 'http%3A%2F%2Flocalhost%3A3000%2F';
-const CLIENT_ID = '441338104545017878';
+import env from '../../env';
 
 class Dashboard extends Component {
 
@@ -64,7 +62,7 @@ class Dashboard extends Component {
           for(let i = 0; i < this.state.discordGuilds.length; i++) {
             if(value === this.state.discordGuilds[i].id) return this.setState({ chosenGuild: this.state.discordGuilds[i] }, () => {
               console.log(this.state.chosenGuild);
-              window.location.replace(`https://discordapp.com/api/oauth2/authorize?client_id=${CLIENT_ID}&response_type=code&guild_id=${this.state.chosenGuild.id}&permissions=8&redirect_uri=${redirect}dashboard%2F&scope=bot`);
+              window.location.replace(`https://discordapp.com/api/oauth2/authorize?client_id=${env.CLIENT_ID}&response_type=code&guild_id=${this.state.chosenGuild.id}&permissions=8&redirect_uri=${env.REDIRECT}dashboard%2F&scope=bot`);
             })
           }
         }

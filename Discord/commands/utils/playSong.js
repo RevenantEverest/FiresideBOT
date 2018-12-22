@@ -2,7 +2,7 @@ const config = require('../../../config/config');
 const Discord = require('discord.js');
 const YTDL = require('ytdl-core');
 
-const volume = require('./volume');
+const volume = require('../volume');
 
 module.exports = {
   playSong(connection, message) {
@@ -14,7 +14,7 @@ module.exports = {
     if(server.queue.isPlaying === false) server.queue.isPlaying = true;
 
     server.dispatcher = connection.playStream(YTDL(request.link, {filter: 'audioonly', quality: 'highestaudio'}));
-    volume.setVolume(message, (['', server.volume]), server);
+    volume.run('', message, (['', server.volume]), server, '');
 
     let minutes = Math.floor(request.duration / 60);
     let seconds = Math.floor(request.duration - minutes * 60);

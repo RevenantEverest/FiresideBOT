@@ -28,26 +28,27 @@ module.exports = {
             .then(() => this.currencySettingsCheck(guild))
             .catch(err => {
                 //Log Error
-                console.log(err);
+                console.log("Hello", err);
             });
     },
     currencySettingsCheck(guild) {
-        currencyDB.findCurrencySettings()
+        currencyDB.findCurrencySettings(guild.id)
             .catch(err => {
-                if(err instanceof QRE && err.code === qrec.noData)
+                if(err instanceof QRE && err.code === qrec.noData) {
                     this.saveDefaultCurrencySettings(guild)
-                else console.log(err);
+                }
+                else console.log("Hello World => ", err);
             });
     },
     saveDefaultCurrencySettings(guild) {
         currencyDB.saveDefaultSettings({
-            guild_id: guild.id, 
-            currency_name: 'Kindling', 
-            currency_increase_rate: 10 
+            guild_id: guild.id,
+            currency_name: 'Kindling',
+            currency_increase_rate: 10
         })
             .catch(err => {
                 //Log Error
-                console.log(err);
+                console.log("SaveDefaultCurrencySettings");
             });
     },
     removeGuild(guild) {

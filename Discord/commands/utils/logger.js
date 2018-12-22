@@ -1,4 +1,4 @@
-const loggerServices = require('./services/loggerServices');
+const loggerServices = require('../services/loggerServices');
 let d = new Date();
 let date = d;
 

@@ -1,10 +1,6 @@
-const config = require('../../../config/config');
 const Discord = require('discord.js');
-const YTDL = require('ytdl-core');
 
-// TODO: If queue exceeds 20 songs, display reaction based pages
-module.exports = {
-  queue(message, args, server, self) {
+module.exports.run = async (PREFIX, message, args, server, bot) => {
     let queueEmbed = new Discord.RichEmbed();
     queueEmbed.setTitle('**QUEUE**');
     if(server.queue.queueInfo.length >= 1) {
@@ -34,9 +30,11 @@ module.exports = {
     }else {
       message.channel.send("No other songs in queue");
     }
-  },
-  showCurrentSong(message, args, server) {
-    if(server.queue.isPlaying === false) return message.channel.send("No song currently playing");
-    else return message.channel.send(server.queue.currentSongEmbed[0]);
-  }
-}
+};
+
+module.exports.config = {
+    name: 'queue',
+    aliases: ['q'],
+    category: ['music', 'Music'],
+    desc: ''
+};
