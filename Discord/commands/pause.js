@@ -4,13 +4,15 @@ module.exports.run = async (PREFIX, message, args, server, bot) => {
     if(server.queue.isPlaying === true && server.queue.isPaused === false) {
       server.queue.isPaused = true;
       server.dispatcher.pause();
-      message.channel.send('Pausing ' + "`" + `${server.queue.currentSongInfo.title}` + "`");
+      message.channel.send('Pausing: ' + "`" + `${server.queue.currentSongInfo.title}` + "`");
     }
 };
 
 module.exports.config = {
     name: 'pause',
+    d_name: 'Pause',
     aliases: [],
+    params: { required: false, optional: false, params: '' },
     category: ['music', 'Music'],
-    desc: ''
+    desc: 'Pauses music'
 };

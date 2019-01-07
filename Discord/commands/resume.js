@@ -10,7 +10,9 @@ module.exports.run = async (PREFIX, message, args, server, bot) => {
 
 module.exports.config = {
     name: 'resume',
-    aliases: [],
+    d_name: 'Resume',
+    aliases: ['unpause'],
+    params: { required: false, optional: false, params: '' },
     category: ['music', 'Music'],
-    desc: ''
+    desc: 'Resumes any previously paused music'
 };

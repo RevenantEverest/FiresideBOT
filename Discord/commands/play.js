@@ -66,7 +66,9 @@ module.exports.run = async (PREFIX, message, args, server, bot) => {
 
 module.exports.config = {
     name: 'play',
+    d_name: 'Play',
     aliases: [],
+    params: { required: true, optional: false, params: 'YouTube Link or Search Request' },
     category: ['music', 'Music'],
-    desc: ''
+    desc: 'Plays request'
 }

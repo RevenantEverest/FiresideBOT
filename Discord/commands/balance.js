@@ -50,7 +50,9 @@ module.exports.run = async (PREFIX, message, args, server, bot) => {
 
 module.exports.config = {
     name: 'balance',
-    aliases: [],
+    d_name: 'Balance',
+    aliases: ['bal'],
+    params: { required: false, optional: false, params: '' },
     category: ['economy', 'Economy'],
-    desc: ''
+    desc: 'Displays currenct balance for Server'
 };

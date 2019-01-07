@@ -4,8 +4,10 @@ module.exports.run = async (PREFIX, message, args, server, bot) => {
 };
 
 module.exports.config = {
-    name: '',
+    name: 'clear',
+    d_name: 'Clear',
     aliases: [],
-    category: [],
-    desc: ''
+    params: { required: false, optional: false, params: '' },
+    category: ['music', 'Music'],
+    desc: 'Clears the current queue'
 };

@@ -6,7 +6,9 @@ module.exports.run = async (PREFIX, message, args, server, bot) => {
 
 module.exports.config = {
     name: 'roll',
-    aliases: [],
+    d_name: 'Roll',
+    aliases: ['dice'],
+    params: { required: false, optional: true, params: 'Number' },
     category: ['fun', 'Fun'],
-    desc: ''
+    desc: 'Rolls any number sided dice (Default is 6)'
 };

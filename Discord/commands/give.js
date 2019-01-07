@@ -60,7 +60,9 @@ module.exports.run = async (PREFIX, message, args, server, bot) => {
 
 module.exports.config = {
     name: 'give',
+    d_name: 'Give',
     aliases: [],
+    params: { required: true, optional: false, params: 'Mention / Amount' },
     category: ['economy', 'Economy'],
-    desc: ''
+    desc: 'Gives a currency amount to desired recipient, from your balance'
 };

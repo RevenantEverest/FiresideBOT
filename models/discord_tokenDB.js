@@ -23,5 +23,8 @@ module.exports = {
         expires_in = $/expures_in/
         WHERE discord_id = $/discord_id/
         RETURNING *`, token);
+    },
+    deleteToken(id) {
+        return db.none('DELETE FROM discord_tokens WHERE discord_id = $1', id);
     }
 }

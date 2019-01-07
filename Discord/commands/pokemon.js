@@ -54,7 +54,9 @@ module.exports.run = async (PREFIX, message, args, server, bot) => {
 
 module.exports.config = {
     name: 'pokemon',
+    d_name: 'Pokemon',
     aliases: [],
+    params: { required: false, optional: true, params: 'ID or Name' },
     category: ['fun', 'Fun'],
-    desc: ''
+    desc: 'Displays a random or specific Pokemon'
 };

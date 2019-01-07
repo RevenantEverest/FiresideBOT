@@ -16,4 +16,8 @@ services.getUserData = (data) => {
   return axios.get(`${apiConfig}/login/discord/user/${data}`);
 };
 
+services.logout = (data) => {
+  return axios.delete(`${apiConfig}/login/discord/logout/${data}`);
+};
+
 export default services;

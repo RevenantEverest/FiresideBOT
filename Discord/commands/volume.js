@@ -23,8 +23,10 @@ module.exports.run = async (PREFIX, message, args, server, bot) => {
 };
 
 module.exports.config = {
-    name: "volume",
+    name: 'volume',
+    d_name: 'Volume',
     aliases: [],
-    category: ["music", "Music"],
-    desc: ""
-}
+    params: { required: false, optional: true, params: 'Number' },
+    category: ['music', 'Music'],
+    desc: 'Displays current volume or sets volume'
+};

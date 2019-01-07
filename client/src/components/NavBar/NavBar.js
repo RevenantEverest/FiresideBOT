@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import './NavBar.css';
+
+//Services Imports
+import loginServices from '../../services/loginServices';
 
 //Image Imports
 import Logo from '../../res/images/Logo.png';
@@ -11,7 +14,6 @@ class NavBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userData: this.props.userData,
       musicAngleIcon: 'angle-left',
       commandAngleIcon: 'angle-left'
     }
@@ -45,6 +47,15 @@ class NavBar extends Component {
       dropdown.style.display = "none";
       el.style.backgroundColor = "#0d0d0d";
     }
+  }
+
+  logout() {
+    loginServices.logout(window.localStorage.id)
+      .then(() => {
+        window.localStorage.clear();
+        this.setState({ homePageRedirect: true });
+      })
+      .catch(err => console.error(err));
   }
 
   render() {
@@ -140,6 +151,13 @@ class NavBar extends Component {
             <h4 className="NavBar-Contents-Text NavBar-Support-Text">Support</h4>
           </div>
         </Link>
+
+        <div className="NavBar-Contents NavBar-Logout" onClick={() => this.logout()}>
+          <FontAwesomeIcon className="NavBar-Contents-Text SignOutIcon" icon="sign-out-alt" />
+          <h4 className="NavBar-Contents-Text NavBar-Support-Text">Logout</h4>
+        </div>
+
+        {this.state.homePageRedirect ? <Redirect to="/" /> : ''}
       </div>
     );
   }

@@ -5,7 +5,9 @@ module.exports.run = async (PREFIX, message, args, server, bot) => {
 
 module.exports.config = {
     name: 'np',
+    d_name: 'NP',
     aliases: ['currentsong', 'nowplaying', 'cs'],
+    params: { required: false, optional: false, params: '' },
     category: ['music', 'Music'],
-    desc: ''
+    desc: 'Displays the Current Song'
 };

@@ -25,7 +25,7 @@ services.handleLogin = (req, res, next) => {
     services.handleToken(req.body.code, res);
   }catch(err) {
     //Log Error
-    console.log("Failing Here");
+    next(err);
   }
 };
 
@@ -127,7 +127,7 @@ services.sendToken = (user, res) => {
     })
     .catch(err => {
       //Log Error
-      console.log(err);
+      console.error(err);
     })
 };
 
@@ -140,6 +140,14 @@ services.getUserByDiscordId = (req, res, next) => {
       //Log Error
       next(err);
     })
+};
+
+services.handleLogout = (req, res, next) => {
+  discord_tokenDB.deleteToken(req.params.id)
+    .then(() => {
+      res.status(200);
+    })
+    .catch(err => next(err));
 };
 
 module.exports = services;

@@ -16,6 +16,24 @@ services.getToken = (data) => {
   })
 };
 
+services.refresh_token = (refresh_token) => {
+  return axios({
+    method: 'POST',
+    url: 'https://discordapp.com/api/oauth2/token',
+    data: {
+      client_id: process.env.DISCORD_CLIENT_ID,
+      client_secret: process.env.DISCORD_CLIENT_SECRET,
+      grant_type: 'refresh_token',
+      refresh_token: refresh_token,
+      redirect_uri: process.env.DISCORD_BACKEND_REDIRECT,
+      scope: 'guilds identify guilds.join email messages.read'
+    },
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  })
+};
+
 services.getUserInfo = (data) => {
   return axios({
     method: "GET",

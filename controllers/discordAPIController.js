@@ -1,6 +1,15 @@
 const config = require('../config/config');
 const discordServices = require('../services/discordServices');
 const discord_tokenDB = require('../models/discord_tokenDB');
+const services = {};
+
+services.handleRefreshToken = (data, callback) => {
+    discordServices.refresh_token(data.refresh_token)
+        .then(results => {
+            console.log(results.data);
+        })
+        .catch(err => console.log(err));
+};
 
 // const pgp = require('pg-promise')();
 // const QRE = pgp.errors.QueryResultError;
@@ -15,11 +24,8 @@ module.exports = {
                         res.json({message: "Getting User Guilds", data: guilds.data})
                     })
                     .catch(err => {
-                        // if(err.status_code === '401')
-
-                        // else console.log(err); 
-                        //Hanlde 401 error
-                        console.log(err.response.status);
+                        if(err.response.status === 401)
+                            services.handleRefreshToken(results, this.getGuilds);
                     })
             })
             .catch(err => {

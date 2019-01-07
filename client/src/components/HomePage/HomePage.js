@@ -45,7 +45,11 @@ class HomePage extends Component {
   getDiscordBotUsers() {
     discordServices.getDiscordUserSize()
       .then(users => {
-        this.setState({ usersCount: users.data.data, botInfoDataRecieved: true });
+        this.setState({ usersCount: users.data.data, botInfoDataRecieved: true }, () => {
+          setTimeout(() => {
+            this.getDiscordBotUsers()
+          }, 5000);
+        });
       })
   }
 

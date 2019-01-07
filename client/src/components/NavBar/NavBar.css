@@ -63,8 +63,10 @@
 .NavBar-Dropdown-Content:hover { color: orange; }
 
 .DashboardIcon, .MagicIcon, .MusicIcon, .InfoIcon, .CommentsIcon, .ChartIcon, .AwardIcon,
-.BoltIcon, .CrownIcon, .CoinsIcon
+.BoltIcon, .CrownIcon, .CoinsIcon, .SignOutIcon
 { display: inline-block; position: relative; right: 5%; }
 .AngleIcon-Command { display: inline-block; position: relative; left: 20%; }
 .AngleIcon-Music { display: inline-block; position: relative; left: 45%; }
 .NavBar-Contents-Text { display: inline-block; }
+
+.NavBar-Logout { margin-top: 90%; }

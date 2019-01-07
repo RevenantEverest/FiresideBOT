@@ -34,7 +34,9 @@ module.exports.run = async (PREFIX, message, args, server, bot) => {
 
 module.exports.config = {
     name: 'queue',
+    d_name: 'Queue',
     aliases: ['q'],
+    params: { required: false, optional: false, params: '' },
     category: ['music', 'Music'],
-    desc: ''
+    desc: 'Displays the queue'
 };

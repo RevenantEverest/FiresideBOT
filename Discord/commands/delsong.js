@@ -11,7 +11,9 @@ module.exports.run = async (PREFIX, message, args, server, bot) => {
 
 module.exports.config = {
     name: 'delsong',
+    d_name: 'Delsong',
     aliases: ['ds'],
+    params: { required: true, optional: false, params: 'ID' },
     category: ['music', 'Music'],
-    desc: ''
+    desc: 'Deletes a song from the queue'
 };

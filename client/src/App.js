@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faLink, faClock, faVolumeUp, faVolumeDown, faVolumeOff, faMusic, faTachometerAlt,
          faMagic, faArrowCircleLeft, faBook, faInfoCircle, faComments, faChartLine, faAngleLeft,
-         faAngleDown, faBolt, faCrown, faAward, faCoins, faTrashAlt, faHeadphones, faBoxOpen, faExclamationCircle} from '@fortawesome/free-solid-svg-icons';
+         faAngleDown, faBolt, faCrown, faAward, faCoins, faTrashAlt, faHeadphones, faBoxOpen, faExclamationCircle, faSignOutAlt} from '@fortawesome/free-solid-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import './App.css';
 
@@ -34,11 +34,13 @@ import ChoosePlaylist from './components/AutoDJ/ChoosePlaylist/ChoosePlaylist';
 import DefaultCommands from './components/Commands/DefaultCommands/DefaultCommands';
 import CustomCommands from './components/Commands/CustomCommands/CustomCommands';
 
+import Footer from './components/Footer/Footer';
+
 //import PageNotFound from './components/PageNotFound/PageNotFound';
 
 library.add(faLink, faClock, faVolumeUp, faVolumeDown, faVolumeOff, faMusic, faTachometerAlt, faMagic);
 library.add(faArrowCircleLeft, faBook, faInfoCircle, faComments, faChartLine, faAngleLeft, faAngleDown);
-library.add(faBolt, faCrown, faAward, faCoins, faTrashAlt, faHeadphones, faBoxOpen, faExclamationCircle);
+library.add(faBolt, faCrown, faAward, faCoins, faTrashAlt, faHeadphones, faBoxOpen, faExclamationCircle, faSignOutAlt);
 library.add(fab)
 
 class App extends Component {
@@ -72,29 +74,31 @@ class App extends Component {
               {console.log("You're not suppose to be here, go back to where its safe :)")}
 
               <Route exact path="/" component={ () => (<HomePage getUserData={this.getUserData}/>) } />
-              {this.state.userData != null ? <Route exact path="/dashboard" component={() => (<Dashboard userData={this.state.userData}/>) } /> : ''}
-              {this.state.userData != null ? <Route exact path="/dashboard/server/:serverId" component={() => <ManageServer userData={this.state.userData}/>} /> : ''}
-              {this.state.userData != null ? <Route exact path="/commands/default" component={() => (<DefaultCommands userData={this.state.userData}/>) } /> : ''}
-              {this.state.userData != null ? <Route exact path="/commands/custom" component={() => (<CustomCommands userData={this.state.userData}/>) } /> : ''}
-              {this.state.userData != null ? <Route exact path="/analytics" component={() => (<Analytics userData={this.state.userData}/>) } /> : ''}
-              {this.state.userData != null ? <Route exact path="/regulars" component={() => (<Regulars userData={this.state.userData}/>) } /> : ''}
-              {this.state.userData != null ? <Route exact path="/ranks" component={() => (<Ranks userData={this.state.userData}/>) } /> : ''}
-              {this.state.userData != null ? <Route exact path="/currency" component={() => (<CurrencySystem userData={this.state.userData} />) } /> : ''}
-              {this.state.userData != null ? <Route path="/currency/manage/:guild_id" component={() => (<ManageGuildCurrency userData={this.state.userData} />) } /> : ''}
-              {this.state.userData != null ? <Route exact path="/moderation" component={() => (<Moderation userData={this.state.userData}/>) } /> : ''}
-              {this.state.userData != null ? <Route exact path="/support" component={() => (<SupportForum userData={this.state.userData}/>) } /> : ''}
+              {this.state.userData != null ? <Route exact path="/dashboard" component={() => (<Dashboard userData={this.state.userData}/>) } /> : <HomePage getUserData={this.getUserData} />}
+              {this.state.userData != null ? <Route exact path="/dashboard/server/:serverId" component={() => <ManageServer userData={this.state.userData}/>} /> : <HomePage getUserData={this.getUserData} />}
+              {this.state.userData != null ? <Route exact path="/commands/default" component={() => (<DefaultCommands userData={this.state.userData}/>) } /> : <HomePage getUserData={this.getUserData} />}
+              {this.state.userData != null ? <Route exact path="/commands/custom" component={() => (<CustomCommands userData={this.state.userData}/>) } /> : <HomePage getUserData={this.getUserData} />}
+              {this.state.userData != null ? <Route exact path="/analytics" component={() => (<Analytics userData={this.state.userData}/>) } /> : <HomePage getUserData={this.getUserData} />}
+              {this.state.userData != null ? <Route exact path="/regulars" component={() => (<Regulars userData={this.state.userData}/>) } /> : <HomePage getUserData={this.getUserData} />}
+              {this.state.userData != null ? <Route exact path="/ranks" component={() => (<Ranks userData={this.state.userData}/>) } /> : <HomePage getUserData={this.getUserData} />}
+              {this.state.userData != null ? <Route exact path="/currency" component={() => (<CurrencySystem userData={this.state.userData} />) } /> : <HomePage getUserData={this.getUserData} />}
+              {this.state.userData != null ? <Route path="/currency/manage/:guild_id" component={() => (<ManageGuildCurrency userData={this.state.userData} />) } /> : <HomePage getUserData={this.getUserData} />}
+              {this.state.userData != null ? <Route exact path="/moderation" component={() => (<Moderation userData={this.state.userData}/>) } /> : <HomePage getUserData={this.getUserData} />}
+              {this.state.userData != null ? <Route exact path="/support" component={() => (<SupportForum userData={this.state.userData}/>) } /> : <HomePage getUserData={this.getUserData} />}
 
               {/* Playlists */}
-              {this.state.userData != null ? <Route exact path="/playlists" component={() => (<Playlists userData={this.state.userData} />) } /> : ''}
-              {this.state.userData != null ? <Route exact path="/playlists/personal" component={() => (<UserPlaylists userData={this.state.userData} />) } /> : ''}
-              {this.state.userData != null ? <Route exact path="/playlists/guild" component={() => (<GuildPlaylists userData={this.state.userData} />) } /> : ''}
-              {this.state.userData != null ? <Route path="/playlists/personal/:playlist_name" component={SinglePlaylist} /> : ''}
-              {this.state.userData != null ? <Route path="/playlists/guild/:playlist_name" component={SinglePlaylist} /> : ''}
-              {this.state.userData != null ? <Route exact path="/chooseplaylist" component={ () => (<ChoosePlaylist userData={this.state.userData}/>) } /> : ''}
-              {this.state.userData != null ? <Route path="/autodj" component={AutoDJ} /> : ''}
+              {this.state.userData != null ? <Route exact path="/playlists" component={() => (<Playlists userData={this.state.userData} />) } /> : <HomePage getUserData={this.getUserData} />}
+              {this.state.userData != null ? <Route exact path="/playlists/personal" component={() => (<UserPlaylists userData={this.state.userData} />) } /> : <HomePage getUserData={this.getUserData} />}
+              {this.state.userData != null ? <Route exact path="/playlists/guild" component={() => (<GuildPlaylists userData={this.state.userData} />) } /> : <HomePage getUserData={this.getUserData} />}
+              {this.state.userData != null ? <Route path="/playlists/personal/:playlist_name" component={SinglePlaylist} /> : <HomePage getUserData={this.getUserData} />}
+              {this.state.userData != null ? <Route path="/playlists/guild/:playlist_name" component={SinglePlaylist} /> : <HomePage getUserData={this.getUserData} />}
+              {this.state.userData != null ? <Route exact path="/chooseplaylist" component={ () => (<ChoosePlaylist userData={this.state.userData}/>) } /> : <HomePage getUserData={this.getUserData} />}
+              {this.state.userData != null ? <Route path="/autodj" component={AutoDJ} /> : <HomePage getUserData={this.getUserData} />}
 
               <Route path="/help" component={() => (<HelpDocs userData={this.state.userData}/>) } />
+              
             </div>
+            <Footer />
           </div>
         </Router>
       </div>

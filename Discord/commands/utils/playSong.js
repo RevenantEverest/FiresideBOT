@@ -2,7 +2,7 @@ const config = require('../../../config/config');
 const Discord = require('discord.js');
 const YTDL = require('ytdl-core');
 
-const volume = require('../volume');
+const volume = require('../Volume');
 
 module.exports = {
   playSong(connection, message) {

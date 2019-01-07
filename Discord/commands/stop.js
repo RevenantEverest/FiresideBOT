@@ -6,7 +6,9 @@ module.exports.run = async (PREFIX, message, args, server, bot) => {
 
 module.exports.config = {
     name: 'stop',
+    d_name: 'Stop',
     aliases: [],
+    params: { required: false, optional: false, params: '' },
     category: ['music', 'Music'],
-    desc: ''
+    desc: 'Stops and clears the queue'
 };

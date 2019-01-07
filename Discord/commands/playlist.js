@@ -65,7 +65,9 @@ module.exports.run = async (PREFIX, message, args, server, bot) => {
 
 module.exports.config = {
     name: 'playlist',
+    d_name: 'Playlist',
     aliases: [],
+    params: { required: false, optional: true, params: 'Playlist Name' },
     category: ['music', 'Music'],
-    desc: ''
+    desc: 'Displays available playlists or requests your Playlist to the queue'
 };

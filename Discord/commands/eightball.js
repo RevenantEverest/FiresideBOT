@@ -7,7 +7,9 @@ module.exports.run = async (PREFIX, message, args, server, bot) => {
 
 module.exports.config = {
     name: '8ball',
+    d_name: '8Ball',
     aliases: ['eightball', 'fortune'],
+    params: { required: true, optional: false, params: 'Question' },
     category: ['fun', 'Fun'],
-    desc: ''
+    desc: 'Returns a Yes or No style response'
 };
