@@ -16,6 +16,7 @@ import env from '../../env';
 class HomePage extends Component {
 
   DiscordRedirect = `https://discordapp.com/api/oauth2/authorize?client_id=${env.CLIENT_ID}&redirect_uri=${env.REDIRECT}&response_type=code&scope=guilds%20identify%20guilds.join%20email%20messages.read`;
+  _isMounted = false;
 
   constructor(props) {
     super(props);
@@ -28,10 +29,13 @@ class HomePage extends Component {
   }
 
   componentDidMount() {
+    this._isMounted = true;
     document.querySelector('.NavBar').style.display = "none";
     if(window.location.search) this.getToken();
     this.getDiscordBotUsers();
   }
+
+  componentWillUnmount() { this._isMounted = false; }
 
   getToken() {
     let code = window.location.search.split("code=")[1];
@@ -43,6 +47,7 @@ class HomePage extends Component {
   }
 
   getDiscordBotUsers() {
+    if(this._isMounted === false) return;
     discordServices.getDiscordUserSize()
       .then(users => {
         this.setState({ usersCount: users.data.data, botInfoDataRecieved: true }, () => {
@@ -51,16 +56,6 @@ class HomePage extends Component {
           }, 5000);
         });
       })
-  }
-
-  userDataPromise(userData) {
-    return new Promise((resolve, reject) => {
-      this.props.getUserData(userData);
-      setTimeout(() => {
-        this.setState({ dataRecieved: true });
-        resolve("Success!")
-      }, 2000)
-    });
   }
 
   login() {

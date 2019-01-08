@@ -8,7 +8,7 @@ loginRouter.route("/discord/token")
 loginRouter.route("/discord/user/:id")
 .get(loginController.getUserByDiscordId);
 
-loginRouter.route("/discord/logout/:id")
-.delete(loginController.handleLogout);
+loginRouter.route("/discord/logout")
+.post(loginController.handleLogout);
 
 module.exports = loginRouter;

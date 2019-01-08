@@ -18,8 +18,6 @@ module.exports.run = async (PREFIX, message, args, server, bot) => {
     .addBlankField()
     .addField("Resources", '[Website](http://firesidebot.com) | [Support Server](https://discord.gg/TqKHVUa) | [Help Docs](http://firesidebot.com/help)')
 
-    console.log(bot.user)
-
     message.channel.send(infoEmbed);
 };
 

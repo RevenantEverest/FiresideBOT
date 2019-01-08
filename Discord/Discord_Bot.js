@@ -7,6 +7,8 @@ const guildsDB = require('../models/GuildModels/guildsDB');
 let PREFIX = '';
 const fs = require('fs');
 
+const logger = require('./services/loggerServices');
+
 // Called When Bot Starts
 Discord_Bot.on("ready", () => {
     Discord_Bot.user.setActivity("The Campfire | ?help", {type: "WATCHING"});
@@ -59,14 +61,17 @@ Discord_Bot.on("message", async message => {
           currentSongInfo: {},
           currentSongEmbed: [],
         },
-        volume: '100'
+        volume: '50'
       };
       
       let args = message.content.substring(PREFIX.length).split(" ");
       let server = config.servers[message.guild.id];
 
       let commandfile = Discord_Bot.commands.get(args[0].toLowerCase()) || Discord_Bot.commands.get(Discord_Bot.aliases.get(args[0].toLowerCase()));
-      if(commandfile) commandfile.run(PREFIX, message, args, server, Discord_Bot);
+      if(commandfile) {
+        commandfile.run(PREFIX, message, args, server, Discord_Bot);
+        logger.commandLogger({ command: commandfile.config.d_name.toString(), args: args.join(" "), message: '', user_id: message.author.id, guild_id: message.guild.id });
+      }
     })
     .catch(err => console.log(err));
 });

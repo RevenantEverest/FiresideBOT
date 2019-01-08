@@ -67,6 +67,7 @@ class UserPlaylists extends Component {
     if(this.state.playlistData.length < 1) return;
     let Playlists = this.state.playlistData.map((el, idx) => {
       counter++;
+      console.log(el.songs)
       if(counter % 2 === 0)
         playlistDisplayColor = 'PD-white';
       else if(counter % 2 === 1)
@@ -82,7 +83,7 @@ class UserPlaylists extends Component {
           }}>
             <h1 className="UserPlaylists-PlaylistName">{el.playlistInfo.name}</h1>
           </Link>
-          <p className="UserPlaylists-SongAmount">{el.songs} Songs</p>
+          <p className="UserPlaylists-SongAmount">{el.songs === undefined ? 0 : el.songs} Songs</p>
           <button className="UserPlaylists-Delete" onClick={(e) => this.deletePlaylist(el) }>
             <FontAwesomeIcon className="UserPlaylists-DeleteIcon" icon="trash-alt" />
           </button>

@@ -1,5 +1,6 @@
-module.exports.run = async () => {
-
+module.exports.run = async (PREFIX, message, args, server, bot) => {
+    if(server.dispatcher)
+        server.dispatcher.end();
 };
 
 module.exports.config = {

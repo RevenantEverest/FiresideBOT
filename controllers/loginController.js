@@ -143,9 +143,11 @@ services.getUserByDiscordId = (req, res, next) => {
 };
 
 services.handleLogout = (req, res, next) => {
-  discord_tokenDB.deleteToken(req.params.id)
+  discord_tokenDB.deleteToken(req.body.discord_id)
     .then(() => {
-      res.status(200);
+      console.log('Logging out...')
+      res.json({ message: 'Logging out...', data: {isLoggedIn: false} });
+      console.log('Response should be sent')
     })
     .catch(err => next(err));
 };

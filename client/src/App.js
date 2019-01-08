@@ -74,26 +74,26 @@ class App extends Component {
               {console.log("You're not suppose to be here, go back to where its safe :)")}
 
               <Route exact path="/" component={ () => (<HomePage getUserData={this.getUserData}/>) } />
-              {this.state.userData != null ? <Route exact path="/dashboard" component={() => (<Dashboard userData={this.state.userData}/>) } /> : <HomePage getUserData={this.getUserData} />}
-              {this.state.userData != null ? <Route exact path="/dashboard/server/:serverId" component={() => <ManageServer userData={this.state.userData}/>} /> : <HomePage getUserData={this.getUserData} />}
-              {this.state.userData != null ? <Route exact path="/commands/default" component={() => (<DefaultCommands userData={this.state.userData}/>) } /> : <HomePage getUserData={this.getUserData} />}
-              {this.state.userData != null ? <Route exact path="/commands/custom" component={() => (<CustomCommands userData={this.state.userData}/>) } /> : <HomePage getUserData={this.getUserData} />}
-              {this.state.userData != null ? <Route exact path="/analytics" component={() => (<Analytics userData={this.state.userData}/>) } /> : <HomePage getUserData={this.getUserData} />}
-              {this.state.userData != null ? <Route exact path="/regulars" component={() => (<Regulars userData={this.state.userData}/>) } /> : <HomePage getUserData={this.getUserData} />}
-              {this.state.userData != null ? <Route exact path="/ranks" component={() => (<Ranks userData={this.state.userData}/>) } /> : <HomePage getUserData={this.getUserData} />}
-              {this.state.userData != null ? <Route exact path="/currency" component={() => (<CurrencySystem userData={this.state.userData} />) } /> : <HomePage getUserData={this.getUserData} />}
-              {this.state.userData != null ? <Route path="/currency/manage/:guild_id" component={() => (<ManageGuildCurrency userData={this.state.userData} />) } /> : <HomePage getUserData={this.getUserData} />}
-              {this.state.userData != null ? <Route exact path="/moderation" component={() => (<Moderation userData={this.state.userData}/>) } /> : <HomePage getUserData={this.getUserData} />}
-              {this.state.userData != null ? <Route exact path="/support" component={() => (<SupportForum userData={this.state.userData}/>) } /> : <HomePage getUserData={this.getUserData} />}
+              {this.state.userData != null ? <Route exact path="/dashboard" component={() => (<Dashboard userData={this.state.userData}/>) } /> : ''}
+              {this.state.userData != null ? <Route exact path="/dashboard/server/:serverId" component={() => <ManageServer userData={this.state.userData}/>} /> : ''}
+              {this.state.userData != null ? <Route exact path="/commands/default" component={() => (<DefaultCommands userData={this.state.userData}/>) } /> : ''}
+              {this.state.userData != null ? <Route exact path="/commands/custom" component={() => (<CustomCommands userData={this.state.userData}/>) } /> : ''}
+              {this.state.userData != null ? <Route exact path="/analytics" component={() => (<Analytics userData={this.state.userData}/>) } /> : ''}
+              {this.state.userData != null ? <Route exact path="/regulars" component={() => (<Regulars userData={this.state.userData}/>) } /> : ''}
+              {this.state.userData != null ? <Route exact path="/ranks" component={() => (<Ranks userData={this.state.userData}/>) } /> : ''}
+              {this.state.userData != null ? <Route exact path="/currency" component={() => (<CurrencySystem userData={this.state.userData} />) } /> : ''}
+              {this.state.userData != null ? <Route path="/currency/manage/:guild_id" component={() => (<ManageGuildCurrency userData={this.state.userData} />) } /> : ''}
+              {this.state.userData != null ? <Route exact path="/moderation" component={() => (<Moderation userData={this.state.userData}/>) } /> : ''}
+              {this.state.userData != null ? <Route exact path="/support" component={() => (<SupportForum userData={this.state.userData}/>) } /> : ''}
 
               {/* Playlists */}
-              {this.state.userData != null ? <Route exact path="/playlists" component={() => (<Playlists userData={this.state.userData} />) } /> : <HomePage getUserData={this.getUserData} />}
-              {this.state.userData != null ? <Route exact path="/playlists/personal" component={() => (<UserPlaylists userData={this.state.userData} />) } /> : <HomePage getUserData={this.getUserData} />}
-              {this.state.userData != null ? <Route exact path="/playlists/guild" component={() => (<GuildPlaylists userData={this.state.userData} />) } /> : <HomePage getUserData={this.getUserData} />}
-              {this.state.userData != null ? <Route path="/playlists/personal/:playlist_name" component={SinglePlaylist} /> : <HomePage getUserData={this.getUserData} />}
-              {this.state.userData != null ? <Route path="/playlists/guild/:playlist_name" component={SinglePlaylist} /> : <HomePage getUserData={this.getUserData} />}
-              {this.state.userData != null ? <Route exact path="/chooseplaylist" component={ () => (<ChoosePlaylist userData={this.state.userData}/>) } /> : <HomePage getUserData={this.getUserData} />}
-              {this.state.userData != null ? <Route path="/autodj" component={AutoDJ} /> : <HomePage getUserData={this.getUserData} />}
+              {this.state.userData != null ? <Route exact path="/playlists" component={() => (<Playlists userData={this.state.userData} />) } /> : ''}
+              {this.state.userData != null ? <Route exact path="/playlists/personal" component={() => (<UserPlaylists userData={this.state.userData} />) } /> : ''}
+              {this.state.userData != null ? <Route exact path="/playlists/guild" component={() => (<GuildPlaylists userData={this.state.userData} />) } /> : ''}
+              {this.state.userData != null ? <Route path="/playlists/personal/:playlist_name" component={SinglePlaylist} /> : ''}
+              {this.state.userData != null ? <Route path="/playlists/guild/:playlist_name" component={SinglePlaylist} /> : ''}
+              {this.state.userData != null ? <Route exact path="/chooseplaylist" component={ () => (<ChoosePlaylist userData={this.state.userData}/>) } /> : ''}
+              {this.state.userData != null ? <Route path="/autodj" component={AutoDJ} /> : ''}
 
               <Route path="/help" component={() => (<HelpDocs userData={this.state.userData}/>) } />
               

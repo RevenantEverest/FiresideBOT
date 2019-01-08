@@ -6,7 +6,7 @@ function YTDL_GetInfo(message, args, server, songRequest) {
     YTDL.getInfo(songRequest, (err, info) => {
       if(err) return message.channel.send("YTDL Get Info error.");
       if(info.title === undefined) return message.channel.send(`Can't read title of undefined`);
-  
+      if(info.length_seconds >= 3600) return message.channel.send('Requests limited to 1 hour');
       server.queue.queueInfo.push({
         title: info.title,
         link: args[1],
@@ -19,7 +19,12 @@ function YTDL_GetInfo(message, args, server, songRequest) {
       if(!message.guild.voiceConnection) message.member.voiceChannel.join().then((connection) => {
         playSong.playSong(connection, message);
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        if(err.response.status === 400) {
+          message.channel.send('Invalid Search Request');
+          console.log(err)
+        }
+      });
     });
   };
   
@@ -29,7 +34,8 @@ function YTDL_GetInfo(message, args, server, songRequest) {
         if(results.data.items[0] === undefined) return message.channel.send("An error has occured");
         YTDL.getInfo(`https://www.youtube.com/watch?v=${results.data.items[0].id.videoId}`, (err, info) => {
           if(err) message.channel.send('YTDL Get Info error');
-          if(info === undefined) return message.channel.send("An Error has occured, sorry for the inconvenience.")
+          if(info === undefined) return message.channel.send("An Error has occured, sorry for the inconvenience.");
+          if(info.length_seconds >= 3600) return message.channel.send('Requests limited to 1 hour');
           server.queue.queueInfo.push({
             title: results.data.items[0].snippet.title,
             link: `https://www.youtube.com/watch?v=${results.data.items[0].id.videoId}`,
@@ -44,7 +50,12 @@ function YTDL_GetInfo(message, args, server, songRequest) {
           })
         })
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        if(err.response.status === 400) {
+          message.channel.send('Invalid Search Request');
+          console.log(err)
+        }
+      });
   }
 
 module.exports.run = async (PREFIX, message, args, server, bot) => {
