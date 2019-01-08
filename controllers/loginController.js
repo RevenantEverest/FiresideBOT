@@ -41,9 +41,7 @@ services.handleToken = (code, res) => {
 services.getDiscordUserInfo = (tokenData, res) => {
   discordServices.getUserInfo(tokenData.access_token)
     .then(discordUser => {
-      services.checkForUser(discordUser.data, res);
-      services.checkForToken(tokenData, discordUser.data);
-      // services.storeTokenInfo(tokenData, discordUser.data);
+      services.checkForToken(tokenData, discordUser.data, res);
     })
     .catch(err => {
       //Log Error
@@ -91,23 +89,25 @@ services.saveAutoDJSettings = (user, res) => {
     })
 };
 
-services.checkForToken = (tokenData, discordUser) => {
+services.checkForToken = (tokenData, discordUser, res) => {
   discord_tokenDB.findByDiscordId(discordUser.id)
+    .then(() => services.checkForUser(discordUser, res))
     .catch(err => {
       if(err instanceof QRE && err.code === qrec.noData)
-        services.storeTokenInfo(tokenData, discordUser);
+        services.storeTokenInfo(tokenData, discordUser, res);
       else console.log(err);
       //Log Error
     })
 };
 
-services.storeTokenInfo = (tokenData, discordUser) => {
+services.storeTokenInfo = (tokenData, discordUser, res) => {
   discord_tokenDB.save({ 
     discord_id: discordUser.id,
     access_token: tokenData.access_token, 
     refresh_token: tokenData.refresh_token,
     expires_in: tokenData.expires_in
   })
+    .then(() => services.checkForUser(discordUser, res))
     .catch((err) => {
       //Log Error
       console.log(err);

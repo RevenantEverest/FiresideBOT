@@ -8,7 +8,7 @@ class Footer extends Component {
         return(
             <div id="Footer">
                 <div className="Footer-Contents Footer-Contents-Container">
-                    <p className="Footer-Contents">Made with <span role="img">❤️</span> by RevenantEverest </p>
+                    <p className="Footer-Contents">Made by RevenantEverest </p>
                     <br />
                     <div className="Footer-Contents Footer-Links-Container">
                     <Link id="Footer-Contact-Link" className="Footer-Contents Footer-Links" to="/contact">Contact</Link>
