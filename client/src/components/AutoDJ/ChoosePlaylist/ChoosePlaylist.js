@@ -20,7 +20,7 @@ class ChoosePlaylist extends Component {
   }
 
   getPlaylists() {
-    userPlaylistServices.getUserPlaylists(this.state.userData.user_id)
+    userPlaylistServices.getUserPlaylists(this.state.userData.discord_id)
       .then(playlists => {
         if(playlists.data.data.length < 1) this.setState({ playlistData: playlists.data.data, dataReceived: true });
         else this.setState({ playlistData: playlists.data.data, chosenPlaylist: playlists.data.data[0].playlist_id, dataReceived: true });

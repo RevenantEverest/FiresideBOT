@@ -54,8 +54,13 @@ module.exports = {
         res.json({ message: "Getting playlists by Discord ID", data: playlists });
       })
       .catch(err => {
-        //Handle QRE 0
-        next(err);
+        if(err instanceof QRE && err.code === qrec.noData) {
+          res.json({
+            message: "No Playlists Found",
+            data: []
+          })
+        }
+        else next(err);
       })
   },
   create(req, res, next) {

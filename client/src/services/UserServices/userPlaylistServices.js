@@ -7,7 +7,7 @@ services.getPlaylists = (data) => {
 };
 
 services.getUserPlaylists = (data) => {
-  return axios.get(`${apiConfig}/user/playlists/user/${data}`);
+  return axios.get(`${apiConfig}/user/playlists/discord/${data}`);
 };
 
 services.addPlaylist = (data) => {

@@ -25,7 +25,7 @@ class UserPlaylists extends Component {
   }
 
   getPlaylists() {
-    userPlaylistServices.getUserPlaylists(this.props.userData.user_id)
+    userPlaylistServices.getUserPlaylists(this.props.userData.discord_id)
       .then(playlists => {
         if(playlists.data.data.length >= 1) {
           let songPromises = [];

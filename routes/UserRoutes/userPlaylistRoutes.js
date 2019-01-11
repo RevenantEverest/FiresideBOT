@@ -15,6 +15,9 @@ userPlaylistsRouter.route("/delete/:id")
 userPlaylistsRouter.route("/user/:id")
   .get(userPlaylistsController.getByUserId)
 
+userPlaylistsRouter.route("/discord/:id")
+  .get(userPlaylistsController.getByDiscordId)
+
 userPlaylistsRouter.route("/discord_id/:id/playlist_name/:name")
   .get(userPlaylistsController.getByDiscordIdAndPlaylistName)
 
