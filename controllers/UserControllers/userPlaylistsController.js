@@ -19,35 +19,6 @@ module.exports = {
       })
       .catch(err => { console.log("Failed at Playlist Get One"); next(err); });
   },
-  getByUserId(req, res, next) {
-    userPlaylistsDB.findByUserId(req.params.id)
-      .then(playlists => {
-        res.json({message: "Getting playlist by user id", data: playlists});
-      })
-      .catch(err => {
-        if(err instanceof QRE && err.code === qrec.noData) {
-          res.json({
-            message: "No Playlists Found",
-            data: []
-          })
-        }
-        else next(err);
-      });
-  },
-  getByPlaylistName(req, res, next) {
-    userPlaylistsDB.findByPlaylistName(req.params.playlist_name)
-      .then(playlist => {
-        res.json({message: "Getting Playlist By Name", data: playlist});
-      })
-      .catch(err => { console.log("Failed at Playlist Get By Playlist Name"); next(err); });
-  },
-  getByDiscordIdAndPlaylistName(req, res, next) {
-    userPlaylistsDB.findByDiscordIdAndPlaylistName(req.params.id, req.params.name)
-      .then(playlist => {
-        res.json({ message: "Getting by Discord Id and Playlist Name", data: playlist });
-      })
-      .catch(err => next(err));
-  },
   getByDiscordId(req, res, next) {
     userPlaylistsDB.findByDiscordId(req.params.id)
       .then(playlists => {
@@ -62,6 +33,20 @@ module.exports = {
         }
         else next(err);
       })
+  },
+  getByPlaylistName(req, res, next) {
+    userPlaylistsDB.findByPlaylistName(req.params.playlist_name)
+      .then(playlist => {
+        res.json({message: "Getting Playlist By Name", data: playlist});
+      })
+      .catch(err => { console.log("Failed at Playlist Get By Playlist Name"); next(err); });
+  },
+  getByDiscordIdAndPlaylistName(req, res, next) {
+    userPlaylistsDB.findByDiscordIdAndPlaylistName(req.params.id, req.params.name)
+      .then(playlist => {
+        res.json({ message: "Getting by Discord Id and Playlist Name", data: playlist });
+      })
+      .catch(err => next(err));
   },
   create(req, res, next) {
     userPlaylistsDB.save(req.body)

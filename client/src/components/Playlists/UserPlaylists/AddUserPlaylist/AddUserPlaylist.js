@@ -36,7 +36,7 @@ class AddUserPlaylist extends Component {
     e.preventDefault();
     if(this.state.name.split("").includes(" ")) return document.querySelector('#AddUserPlaylistForm').reset();
     let submitData = {
-      user_id: this.props.userData.user_id,
+      discord_id: this.props.userData.discord_id,
       name: this.state.name
     }
     userPlaylistServices.addPlaylist(submitData)

@@ -70,7 +70,7 @@ Discord_Bot.on("message", async message => {
       let commandfile = Discord_Bot.commands.get(args[0].toLowerCase()) || Discord_Bot.commands.get(Discord_Bot.aliases.get(args[0].toLowerCase()));
       if(commandfile) {
         commandfile.run(PREFIX, message, args, server, Discord_Bot);
-        logger.commandLogger({ command: commandfile.config.d_name.toString(), args: args.join(" "), message: '', user_id: message.author.id, guild_id: message.guild.id });
+        // logger.commandLogger({ command: commandfile.config.d_name.toString(), args: args.join(" "), message: '', user_id: message.author.id, guild_id: message.guild.id });
       }
     })
     .catch(err => console.log(err));

@@ -109,8 +109,10 @@ CREATE TABLE user_songs (
   song_id SERIAL PRIMARY KEY,
   playlist_id BIGINT,
   title VARCHAR(255),
+  author VARCHAR(255),
   link VARCHAR(255),
-  duration VARCHAR(255)
+  duration VARCHAR(255),
+  thumbnail_url VARCHAR(255)
 );
 
 CREATE TABLE users (

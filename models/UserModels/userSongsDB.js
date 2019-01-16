@@ -7,6 +7,9 @@ module.exports = {
   findOne(id) {
     return db.oneOrNone('SELECT * FROM user_songs WHERE song_id = $1', id);
   },
+  something(id) {
+    return db.one('SELECT * FROM user_songs JOIN user_playlists ON user_songs.playlist_id = user_playlists.playlist_id WHERE song_id = $1', id);
+  },
   findByPlaylistId(id) {
     return db.many(`SELECT * FROM user_songs WHERE playlist_id = $1`, id);
   },

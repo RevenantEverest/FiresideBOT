@@ -12,9 +12,6 @@ userPlaylistsRouter.route("/playlistName/:playlist_name")
 userPlaylistsRouter.route("/delete/:id")
   .delete(userPlaylistsController.destroy)
 
-userPlaylistsRouter.route("/user/:id")
-  .get(userPlaylistsController.getByUserId)
-
 userPlaylistsRouter.route("/discord/:id")
   .get(userPlaylistsController.getByDiscordId)
 

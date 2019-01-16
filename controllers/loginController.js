@@ -8,15 +8,18 @@ const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
 const qrec = pgp.errors.queryResultErrorCode;
 
-//Add Route for logging in with token
 
-//Move Frontend Discord API calls to backend
-//Handle potential 401 Discord API status codes
-//Double Check Flow
-
-//Check if an access code is in DB
-//Update if nesessary
-//Check if Discord API has a 401 error to use refresh token
+/*
+*  Add Route for logging in with token
+*
+*  Move Frontend Discord API calls to backend
+*  Handle potential 401 Discord API status codes
+*  Double Check Flow
+*
+*  Check if an access code is in DB
+*  Update if nesessary
+*  Check if Discord API has a 401 error to use refresh token
+*/
 
 const services = {};
 
@@ -145,9 +148,7 @@ services.getUserByDiscordId = (req, res, next) => {
 services.handleLogout = (req, res, next) => {
   discord_tokenDB.deleteToken(req.body.discord_id)
     .then(() => {
-      console.log('Logging out...')
       res.json({ message: 'Logging out...', data: {isLoggedIn: false} });
-      console.log('Response should be sent')
     })
     .catch(err => next(err));
 };

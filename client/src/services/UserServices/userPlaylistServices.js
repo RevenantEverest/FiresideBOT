@@ -15,7 +15,7 @@ services.addPlaylist = (data) => {
     method: 'POST',
     url: `${apiConfig}/user/playlists`,
     data: {
-      user_id: data.user_id,
+      discord_id: data.discord_id,
       name: data.name
     }
   });

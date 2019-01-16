@@ -6,6 +6,23 @@ const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
 const qrec = pgp.errors.queryResultErrorCode;
 
+async function getPlaylistSongs(playlists) {
+  let songData = [];
+    for(let i = 0; i < playlists.length; i++) {
+      await userSongsDB.findByPlaylistId(playlists[i].playlist_id)
+              .then(songs => {
+                songData.push(songs);
+              })
+              .catch(err => {
+                if(err instanceof QRE && err.code === qrec.noData) {
+                  songData.push([]);
+                }
+                else console.log(err);
+              })
+    }
+    return songData;
+};
+
 module.exports = {
     findMyPlaylists(message, args, server) {
         userPlaylistsDB.findByDiscordId(message.author.id)
@@ -17,27 +34,22 @@ module.exports = {
               .addBlankField()
               .setThumbnail('https://i.imgur.com/OpSJJxe.png')
               .setColor(0xff3399);
-            for(let i = 0; i < playlists.length; i++) {
-              playlistPromises.push(userSongsDB.findByPlaylistId(playlists[i].playlist_id));
-            }
-            Promise.all(playlistPromises).then(songs => {
+            let songData = [];
+            getPlaylistSongs(playlists).then(songs => {
+              songData = songs;
               for(let i = 0; i < playlists.length; i++) {
-                if(i > 20) return; // Adheres to 25 field limit for Rich Embeds
-                playlistEmbed.addField(`${i + 1}. ${playlists[i].name}`, `${songs[i].length} Songs`)
+                if(i > 20) return;
+                playlistEmbed.addField(`${i + 1}. ${playlists[i].name}`, `${songData[i].length} Songs`)
               }
               return message.channel.send(playlistEmbed);
             })
-            .catch(err => {
-              if(err instanceof QRE && err.code === qrec.noData) {
-              }
-              else logger.commandErrorLogger(message, args, err, "Failed at Find By Playlist ID"); // Error Logger
-            })
+            .catch(err => console.log(err));
           })
           .catch(err => {
             if(err instanceof QRE && err.code === qrec.noData) {
               message.channel.send('No playlists available.');
             }
-            else logger.commandErrorLogger(message, args, err, "Failed at Find By Discord ID"); // Error Logger
+            else console.log(err);
           });
       }
 }

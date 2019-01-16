@@ -17,6 +17,7 @@ function sendHelp(PREFIX, message, args, server, bot, c) {
     await msg.react("⏪");
     await msg.react("⏹");
     await msg.react("⏩");
+    
     const r_collector = new Discord.ReactionCollector(msg, r => r.users.array()[r.users.array().length - 1].id === message.author.id, { time: 60000 });
     r_collector.on('collect', (reaction, user) => {
       if(reaction.users.array()[reaction.users.array().length - 1].id === bot.user.id) return;
