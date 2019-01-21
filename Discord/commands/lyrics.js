@@ -1,12 +1,13 @@
 const Discord = require('discord.js');
 const apiServices = require('../services/apiServices');
+const filter = require('./utils/filter');
 
 /*
-*
-*   If Lyrics data returns a character count over 1024 calls handlePages()
-*
-*   Seperates lyrics into multiple pages
-*
+
+   If Lyrics data returns a character count over 1024 calls handlePages()
+
+   Seperates lyrics into multiple pages
+
 */
 
 function handlePages(message, results, bot) {
@@ -19,14 +20,13 @@ function handlePages(message, results, bot) {
     for(let i = 0; i < results.lyrics.split("").length; i++) {
         counter++;
         tempStr += results.lyrics.split("")[i];
-        if(counter === 1024) {
+        if(counter === 900) {
             tempArr.push(tempStr);
             tempStr = '';
             counter = 0;
         }
     }
     tempArr.push(tempStr);
-    console.log(tempArr.length);
 
     embed
     .setThumbnail(results.album_art)
@@ -37,8 +37,8 @@ function handlePages(message, results, bot) {
     .addField('Album: ', results.album, true)
     .addField('Song: ', results.name, true)
     .addField('Release Year: ', results.album_year, true)
-    .addField('Lyrics: ', `${tempArr[CPI]}`)
-    .setFooter(`Page ${CPI + 1}/${tempArr.length}`)
+    .addField('Lyrics: ', `${tempArr[CPI]} \n\n *Page ${CPI + 1}/${tempArr.length}*`)
+    .setFooter(`Powered By KSoft.Si`, `https://cdn.ksoft.si/images/Logo1024-W.png`)
   
     message.channel.send(embed).then(async (msg) => {
         await msg.react("⏪");
@@ -64,8 +64,8 @@ function handlePages(message, results, bot) {
                 .addField('Album: ', results.album, true)
                 .addField('Song: ', results.name, true)
                 .addField('Release Year: ', results.album_year, true)
-                .addField('Lyrics: ', `${tempArr[CPI]}`)
-                .setFooter(`Page ${CPI + 1}/${tempArr.length}`)
+                .addField('Lyrics: ', `${tempArr[CPI]} \n\n *Page ${CPI + 1}/${tempArr.length}*`)
+                .setFooter(`Powered By KSoft.Si `, `https://cdn.ksoft.si/images/Logo1024-W.png`)
   
                 reaction.message.edit(backEmbed);
                 reaction.remove(reaction.users.array()[reaction.users.array().length - 1].id);
@@ -86,8 +86,8 @@ function handlePages(message, results, bot) {
                 .addField('Album: ', results.album, true)
                 .addField('Song: ', results.name, true)
                 .addField('Release Year: ', results.album_year, true)
-                .addField('Lyrics: ', `${tempArr[CPI]}`)
-                .setFooter(`Page ${CPI + 1}/${tempArr.length}`)
+                .addField('Lyrics: ', `${tempArr[CPI]} \n\n *Page ${CPI + 1}/${tempArr.length}*`)
+                .setFooter(`Powered By KSoft.Si`, `https://cdn.ksoft.si/images/Logo1024-W.png`)
   
                 reaction.message.edit(forwardEmbed);
                 reaction.remove(reaction.users.array()[reaction.users.array().length - 1].id);
@@ -103,9 +103,9 @@ function handlePages(message, results, bot) {
 };
 
 /*
-*
-*    Handles Single Page of Lyrics
-*
+
+    Handles Single Page of Lyrics
+
 */
 
 function handleSinglePage(message, results) {
@@ -120,14 +120,21 @@ function handleSinglePage(message, results) {
         .addField('Song: ', results.name, true)
         .addField('Release Year: ', results.album_year, true)
         .addField('Lyrics: ', '\n' + results.lyrics)
+        .setFooter('Powered By KSoft.Si', `https://cdn.ksoft.si/images/Logo1024-W.png`)
 
         message.channel.send(embed);
 };
 
 module.exports.run = async (PREFIX, message, args, server, bot) => {
     args.splice(0,1);
-    console.log(args);
-    apiServices.getLyrics(args.join(" "))
+    let search = args.join(" ");
+    
+    if(!args[1] && server.queue.isPlaying) search = await filter(server.queue.currentSongInfo.title);
+    else if(!args[1] && !server.queue.isPlaying) return message.channel.send('Please specify a song');
+    
+
+    // Add result for current song
+    apiServices.getLyrics(search)
         .then(results => {
             results = results.data.data[0];
             if(results.lyrics.split("").length >= 1024)
@@ -135,7 +142,11 @@ module.exports.run = async (PREFIX, message, args, server, bot) => {
             else
                 handleSinglePage(message, results);
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+            if(err.response.status === 404)
+                return message.channel.send('Song not found')
+            else console.error(err);
+        });
 };
 
 module.exports.config = {

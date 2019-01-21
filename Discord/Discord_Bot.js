@@ -60,8 +60,13 @@ Discord_Bot.on("message", async message => {
           queueInfo: [],
           currentSongInfo: {},
           currentSongEmbed: [],
-        },
-        volume: '50'
+          genres: [],
+          options: {
+            volume: '50',
+            loop: false,
+            recommendations: false
+          }
+        }
       };
       
       let args = message.content.substring(PREFIX.length).split(" ");

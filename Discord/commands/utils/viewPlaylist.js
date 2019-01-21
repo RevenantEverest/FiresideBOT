@@ -9,7 +9,7 @@ async function handlePages(message, args, server, playlist, songArr, bot) {
     let embed = new Discord.RichEmbed();
     let CPI = 0;
 
-    embed.setTitle(`**${playlist.name}**`).setFooter(`Page ${CPI + 1}/${songArr.length}`).addBlankField().setColor(0xcc00ff);
+    embed.addField(`**${playlist.name}**`, `${message.author.username}`).setFooter(`Page ${CPI + 1}/${songArr.length}`).addBlankField().setColor(0xcc00ff);
 
     let counter = 0;
 
@@ -33,7 +33,7 @@ async function handlePages(message, args, server, playlist, songArr, bot) {
                 if(CPI === 0) return reaction.remove(reaction.users.array()[reaction.users.array().length - 1].id);
                 CPI--;
                 let backEmbed = new Discord.RichEmbed();
-                backEmbed.setTitle(`**${playlist.name}**`).setFooter(`Page ${CPI + 1}/${songArr.length}`).addBlankField().setColor(0xcc00ff);
+                backEmbed.addField(`**${playlist.name}**`, `${message.author.username}`).setFooter(`Page ${CPI + 1}/${songArr.length}`).addBlankField().setColor(0xcc00ff);
 
                 for(let i = 0; i < songArr[CPI].length; i++) {counter++;
                     let minutes = Math.floor(songArr[CPI][i].songs.duration / 60);
@@ -51,7 +51,7 @@ async function handlePages(message, args, server, playlist, songArr, bot) {
 
                 CPI++;
                 let forwardEmbed = new Discord.RichEmbed();
-                forwardEmbed.setTitle(`**${playlist.name}**`).setFooter(`Page ${CPI + 1}/${songArr.length}`).addBlankField().setColor(0xcc00ff);
+                forwardEmbed.addField(`**${playlist.name}**`, `${message.author.username}`).setFooter(`Page ${CPI + 1}/${songArr.length}`).addBlankField().setColor(0xcc00ff);
 
                 for(let i = 0; i < songArr[CPI].length; i++) {counter++;
                     let minutes = Math.floor(songArr[CPI][i].songs.duration / 60);
@@ -77,7 +77,7 @@ module.exports = {
     view(message, args, server, playlist, bot) {
         let embed = new Discord.RichEmbed();
         embed
-            .setTitle(`**${playlist.name}**`)
+            .addField(`**${playlist.name}**`, `${message.author.username}`)
             .addBlankField()
             .setColor(0xff3399)
             .setThumbnail('https://i.imgur.com/OpSJJxe.png')
