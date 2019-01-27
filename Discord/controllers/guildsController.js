@@ -1,3 +1,4 @@
+const Discord = require('discord.js');
 const guildsDB = require('../../models/GuildModels/guildsDB');
 const currencyDB = require('../../models/currencyDB');
 
@@ -5,10 +6,36 @@ const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
 const qrec = pgp.errors.queryResultErrorCode;
 
+function getDate() {
+    let date = new Date();
+    let options = {
+        timezone: 'EST', 
+        weekday: 'long', 
+        day: 'numeric', 
+        month: 'long',
+        hour: 'numeric',
+        minute: 'numeric'
+    };
+    return date.toLocaleString('en-US', options);
+}
+
 module.exports = {
-    saveGuild(guild) {
+    saveGuild(bot, guild) {
         guildsDB.save({ guild_name: guild.name, guild_id: guild.id })
-            .then(() => this.guildSettingsCheck(guild))
+            .then(() => {
+                let embed = new Discord.RichEmbed();
+                this.guildSettingsCheck(guild);
+                embed
+                .setTitle('**New Guild**')
+                .addBlankField()
+                .setColor('#00ff00')
+                .addField('Name:', guild.name, true)
+                .addField('ID:', guild.id, true)
+                .addField('Member Count:', guild.memberCount)
+                .setFooter(`Guild added: ${getDate()}`)
+
+                bot.channels.get('538528459190829064').send(embed)
+            })
             .catch(err => {
                 //Log Error
                 console.log(err);
@@ -51,7 +78,18 @@ module.exports = {
                 console.log("SaveDefaultCurrencySettings");
             });
     },
-    removeGuild(guild) {
+    removeGuild(bot, guild) {
+        let embed = new Discord.RichEmbed();
+        embed
+        .setTitle('**Removed Guild**')
+        .addBlankField()
+        .setColor('#ff0000')
+        .addField('Name:', guild.name, true)
+        .addField('ID:', guild.id, true)
+        .addField('Member Count:', guild.memberCount)
+        .setFooter(`Guild added: ${getDate()}`)
+
+        bot.channels.get('538528459190829064').send(embed);
         guildsDB.destroy(guild.id)
             .catch(err => {
                 //Log Error

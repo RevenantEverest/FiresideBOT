@@ -1,12 +1,17 @@
 const axios = require('axios');
 const services = {};
 
-const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-const weekNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-
 function getDate() {
   let date = new Date();
-  return(`${weekNames[date.getDay()]} ${date.getDate()} ${monthNames[date.getMonth()]} || ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`);
+  let options = {
+      timezone: 'EST', 
+      weekday: 'long', 
+      day: 'numeric', 
+      month: 'long',
+      hour: 'numeric',
+      minute: 'numeric'
+  }
+  return date.toLocaleString('en-US', options)
 }
 
 services.commandLogger = (data) => {
@@ -26,6 +31,7 @@ services.commandLogger = (data) => {
 }
 
 services.commandErrorLogger = (data) => {
+  let currentDate = getDate();
   return axios({
     method: "POST",
     ur: '/error/command',
@@ -39,6 +45,10 @@ services.commandErrorLogger = (data) => {
       log_date: currentDate
     }
   })
+}
+
+services.guildAddLogger = (data) => {
+
 }
 
 module.exports = services;

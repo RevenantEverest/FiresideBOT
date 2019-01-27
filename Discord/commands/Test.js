@@ -1,13 +1,15 @@
-const apiServices = require('../services/apiServices');
 
 module.exports.run = async (PREFIX, message, args, server, bot) => {
-    args.splice(0, 1);
-    apiServices.getSongInfo({track: args.join(" ")})
-        .then(results => {
-            console.log(args.join(" "))
-            console.log(results.data.results.trackmatches.track)
-        })
-        .catch(err => console.error(err));
+    let date = new Date();
+    let options = {
+        timezone: 'EST', 
+        weekday: 'long', 
+        day: 'numeric', 
+        month: 'long',
+        hour: 'numeric',
+        minute: 'numeric'
+    }
+    message.channel.send(date.toLocaleString('en-US', options));
 };
 
 module.exports.config = {

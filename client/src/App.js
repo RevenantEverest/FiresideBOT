@@ -21,7 +21,6 @@ import Ranks from './components/Ranks/Ranks';
 import CurrencySystem from './components/CurrencySystem/CurrencySystem';
 import ManageGuildCurrency from './components/CurrencySystem/ManageGuildCurrency/ManageGuildCurrency';
 import Moderation from './components/Moderation/Moderation';
-import HelpDocs from './components/HelpDocs/HelpDocs';
 import SupportForum from './components/SupportForum/SupportForum';
 
 import Playlists from './components/Playlists/Playlists';
@@ -94,9 +93,6 @@ class App extends Component {
               {this.state.userData != null ? <Route path="/playlists/guild/:playlist_name" component={SinglePlaylist} /> : ''}
               {this.state.userData != null ? <Route exact path="/chooseplaylist" component={ () => (<ChoosePlaylist userData={this.state.userData}/>) } /> : ''}
               {this.state.userData != null ? <Route path="/autodj" component={AutoDJ} /> : ''}
-
-              <Route path="/help" component={() => (<HelpDocs userData={this.state.userData}/>) } />
-              
             </div>
             <Footer />
           </div>

@@ -3,6 +3,7 @@ const Discord_Bot = new config.Discord.Client();
 const guildsController = require('./controllers/guildsController');
 const currencyController = require('./controllers/currencyController');
 const userSizeController = require('./controllers/userSizeController');
+const activityController = require('./controllers/activityController');
 const guildsDB = require('../models/GuildModels/guildsDB');
 let PREFIX = '';
 const fs = require('fs');
@@ -11,17 +12,22 @@ const logger = require('./services/loggerServices');
 
 // Called When Bot Starts
 Discord_Bot.on("ready", () => {
-    Discord_Bot.user.setActivity("The Campfire | ?help", {type: "WATCHING"});
-    setInterval(() => {
-      userSizeController.getUserSize(Discord_Bot)
-    }, 5000);
+    /*
+
+      TODO: Handle a check for removed or added Guilds when Fireside is was offline
+
+    */
+  activityController.handleActivity(Discord_Bot);
+  setInterval(() => {
+    userSizeController.getUserSize(Discord_Bot)
+  }, 5000);
 });
 
 // Called When Bot Joins Guild
-Discord_Bot.on("guildCreate", (guild) => guildsController.saveGuild(guild));
+Discord_Bot.on("guildCreate", (guild) => guildsController.saveGuild(Discord_Bot, guild));
 
 // Called When Bot Get Removed
-Discord_Bot.on("guildDelete", (guild) => guildsController.removeGuild(guild));
+Discord_Bot.on("guildDelete", (guild) => guildsController.removeGuild(Discord_Bot, guild));
 
 Discord_Bot.commands = new config.Discord.Collection();
 Discord_Bot.aliases = new config.Discord.Collection();
@@ -46,7 +52,6 @@ fs.readdir("./Discord/commands/", (err, files) => {
 
 // Called Message Is Sent In Guild
 Discord_Bot.on("message", async message => {
-
   if(message.author.bot || message.channel.type === 'dm') return;
   currencyController.handleCurrency(message);
   guildsDB.findPrefix(message.guild.id)
@@ -81,5 +86,12 @@ Discord_Bot.on("message", async message => {
     .catch(err => console.log(err));
 });
 
-Discord_Bot.ws.on('close', (err) => console.log(err));
+Discord_Bot.on("error", () => {
+  /*
+  
+    TODO: Log Error to Logging API
+
+  */
+});
+
 module.exports = Discord_Bot;
