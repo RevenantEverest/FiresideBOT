@@ -94,6 +94,6 @@ Discord_Bot.on("error", () => {
   */
 });
 
-//Test
+//New Edit
 
 module.exports = Discord_Bot;
