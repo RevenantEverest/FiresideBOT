@@ -11,14 +11,10 @@ function getDate() {
       hour: 'numeric',
       minute: 'numeric'
   }
-  return date.toLocaleString('en-US', options)
-}
-
-services.commandLogger = (data) => {
-  let currentDate = getDate();
+  let currentDate = date.toLocaleString('en-US', options);
   return axios({
     method: 'POST',
-    url: 'http://localhost:3002/log/commands',
+    url: 'http://localhost:3002/command',
     data: {
       command: data.command,
       args: data.args,
@@ -30,25 +26,8 @@ services.commandLogger = (data) => {
   });
 }
 
-services.commandErrorLogger = (data) => {
+services.commandLogger = (data) => {
   let currentDate = getDate();
-  return axios({
-    method: "POST",
-    ur: '/error/command',
-    data: {
-      command: data.command,
-      args: data.args,
-      message: data.message,
-      error: data.error,
-      user_id: data.user_id,
-      guild_id: data.guild_id,
-      log_date: currentDate
-    }
-  })
-}
-
-services.guildAddLogger = (data) => {
-
-}
+};
 
 module.exports = services;
