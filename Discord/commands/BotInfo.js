@@ -16,7 +16,7 @@ module.exports.run = async (PREFIX, message, args, server, bot) => {
     .addField('Commands:', bot.commands.array().length, true)
     .addField('Created:', `${accountCreated[1]} ${accountCreated[2]} ${accountCreated[3]}`, true)
     .addBlankField()
-    .addField("Resources", '[Website](http://firesidebot.com) | [Support Server](https://discord.gg/TqKHVUa) | [Help Docs](http://firesidebot.com/help)')
+    .addField("Resources", '[Website](https://firesidebot.com) | [Support Server](https://discord.gg/TqKHVUa) | [Help Docs](https://help.firesidebot.com)')
 
     message.channel.send(infoEmbed);
 };

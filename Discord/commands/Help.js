@@ -3,7 +3,7 @@ const Discord = require('discord.js');
 function sendHelp(PREFIX, message, args, server, bot, c) {
   let HelpEmbed = new Discord.RichEmbed();
   let CHI = 0;
-  HelpEmbed.setTitle(`**${c[CHI].category}**`).addBlankField().setColor(0xcc00ff);
+  HelpEmbed.setTitle(`**${c[CHI].category}**`).addBlankField().setColor(0xcc00ff).setFooter(`Page ${CHI + 1}/${c.length}`);
   for(let i = 0; i < c[CHI].commands.length; i++) {
     let paramField = '';
     if(c[CHI].commands[i].params.required)
@@ -25,7 +25,7 @@ function sendHelp(PREFIX, message, args, server, bot, c) {
         if(CHI === 0) return reaction.remove(reaction.users.array()[reaction.users.array().length - 1].id);
         CHI--;
         let backEmbed = new Discord.RichEmbed();
-        backEmbed.setTitle(`**${c[CHI].category}**`).addBlankField().setColor(0xcc00ff);
+        backEmbed.setTitle(`**${c[CHI].category}**`).addBlankField().setColor(0xcc00ff).setFooter(`Page ${CHI + 1}/${c.length}`);
         for(let i = 0; i < c[CHI].commands.length; i++) {
           let paramField = '';
           if(c[CHI].commands[i].params.required)
@@ -40,7 +40,7 @@ function sendHelp(PREFIX, message, args, server, bot, c) {
         if(CHI === (c.length - 1)) return reaction.remove(reaction.users.array()[reaction.users.array().length - 1].id);
         CHI++;
         let forwardEmbed = new Discord.RichEmbed();
-        forwardEmbed.setTitle(`**${c[CHI].category}**`).addBlankField().setColor(0xcc00ff);
+        forwardEmbed.setTitle(`**${c[CHI].category}**`).addBlankField().setColor(0xcc00ff).setFooter(`Page ${CHI + 1}/${c.length}`);
         for(let i = 0; i < c[CHI].commands.length; i++) {
           let paramField = '';
           if(c[CHI].commands[i].params.required)
@@ -80,7 +80,7 @@ function helpSpec(PREFIX, message, args, server, bot) {
     .addField('Param Type: ', `${paramInfo.isRequired}`, true)
     .addField('Params: ', paramInfo.param, true)
     .addField('Category: ', `${helpInfo.config.category[1]}`)
-    .addField(`More Info:`, `[Click Here](http://www.firesidebot.com/help/commands/${helpInfo.config.name})`)
+    .addField(`More Info:`, `[Click Here](https://help.firesidebot.com)`)
     message.channel.send(helpEmbed);
 };
 
