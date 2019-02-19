@@ -1,4 +1,4 @@
-const userPlaylistsDB = require('../../models/UserModels/userPlaylistsDB');
+const userPlaylistsDB = require('../../../models/UserModels/userPlaylistsDB');
 
 module.exports.run = async (PREFIX, message, args, server, bot) => {
     if(!args[1]) return message.channel.send('Please enter a name for the new Playlist');

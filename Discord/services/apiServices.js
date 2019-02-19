@@ -27,4 +27,12 @@ services.getWeather = (data) => {
     return axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${data}&APPID=${process.env.WEATHER_API_KEY}`);
 };
 
+services.getTwitchInfo = (data) => {
+    return axios.get(`https://api.twitch.tv/kraken/channels/${data}?client_id=${process.env.TWITCH_CLIENT_ID}`);
+};
+
+services.getTwitchStreamStatus = (data) => {
+    return axios.get(`https://api.twitch.tv/kraken/streams/${data}?client_id=${process.env.TWITCH_CLIENT_ID}`);
+};
+
 module.exports = services;

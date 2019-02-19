@@ -1,10 +1,13 @@
 const Discord = require('discord.js');
+const chalk = require('chalk');
 const guildsDB = require('../../models/GuildModels/guildsDB');
 const currencyDB = require('../../models/currencyDB');
 
 const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
 const qrec = pgp.errors.queryResultErrorCode;
+
+const logger = require('../services/loggerServices');
 
 function getDate() {
     let date = new Date();
@@ -20,6 +23,42 @@ function getDate() {
 }
 
 module.exports = {
+    checkGuilds(bot) {
+        guildsDB.findAll()
+            .then(dbGuilds => {
+                let botGuilds = bot.guilds.array();
+
+                /*  
+                    Iterates through the Guilds in the DB, sees if they exist in the Guild Array given by the Discord API
+
+                    if it exists in the Guild Array but not in the Guild DB
+                */
+                for(let i = 0; i < botGuilds.length; i++) {
+                    if(dbGuilds.map(el => el.guild_id).includes(botGuilds[i].id)) continue;
+                    else {
+                        console.log(chalk.hex('#ff9900')("[LOG]") + " Adding Guild")
+                        let guild = botGuilds[i];
+                        this.saveGuild(bot, {name: guild.name, id: guild.id});
+                    }
+                }
+
+                /*
+                    Iterates through the Guilds Array given by the Discord API, sess if they exist in the Guilds DB
+
+                    if it exists in the Guild DB but not in the Guild Array
+                */
+                for(let i = 0; i < dbGuilds.length; i++) {
+                    if(botGuilds.map(el => el.id).includes(dbGuilds[i].guild_id)) continue; // Checks if the Guild Array element exists in the Guild DB
+                    else {
+                        console.log(chalk.hex('#ff9900')("[LOG]") + " Removing Guild")
+                        let guild = dbGuilds[i];
+                        this.removeGuild(bot, {name: guild.guild_name, id: guild.guild_id});
+                    }
+                }
+                console.log(chalk.hex('#ff9900')("[LOG]") + " Guilds Checked");
+            })
+            .catch(err => console.error(err));
+    },
     saveGuild(bot, guild) {
         guildsDB.save({ guild_name: guild.name, guild_id: guild.id })
             .then(() => {
@@ -34,7 +73,10 @@ module.exports = {
                 .addField('Member Count:', guild.memberCount)
                 .setFooter(`Guild added: ${getDate()}`)
 
-                bot.channels.get('538528459190829064').send(embed)
+                bot.channels.get('538528459190829064').send(embed);
+
+                /* Guild Logger */
+                logger.guildLogger({ guild_id: guild.id, guild_name: guild.name, message: 'Guild Added'});
             })
             .catch(err => {
                 //Log Error
@@ -79,6 +121,7 @@ module.exports = {
             });
     },
     removeGuild(bot, guild) {
+        console.log(guild)
         let embed = new Discord.RichEmbed();
         embed
         .setTitle('**Removed Guild**')
@@ -87,13 +130,14 @@ module.exports = {
         .addField('Name:', guild.name, true)
         .addField('ID:', guild.id, true)
         .addField('Member Count:', guild.memberCount)
-        .setFooter(`Guild added: ${getDate()}`)
+        .setFooter(`Guild removed: ${getDate()}`)
 
         bot.channels.get('538528459190829064').send(embed);
         guildsDB.destroy(guild.id)
+            .then(() => logger.guildLogger({ guild_id: guild.id, guild_name: guild.name, message: 'Guild Removed'})) /* Guild Logger */
             .catch(err => {
                 //Log Error
-                console.log(err);
+                console.error(err);
             });
     }
 }

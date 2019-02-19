@@ -1,4 +1,4 @@
-const userPlaylistsDB = require('../../models/UserModels/userPlaylistsDB');
+const userPlaylistsDB = require('../../../models/UserModels/userPlaylistsDB');
 
 const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;

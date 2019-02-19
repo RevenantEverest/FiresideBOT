@@ -1,6 +1,6 @@
 const YTDL = require('ytdl-core');
-const youtubeServices = require('../../services/youtubeServices');
-const playSong = require('./utils/playSong');
+const youtubeServices = require('../../../services/youtubeServices');
+const playSong = require('../utils/playSong');
 
 function YTDL_GetInfo(message, args, server, songRequest) {
     YTDL.getInfo(songRequest, (err, info) => {

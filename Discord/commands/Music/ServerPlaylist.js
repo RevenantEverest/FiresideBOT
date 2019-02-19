@@ -1,6 +1,6 @@
-const guildPlaylistsDB = require('../../models/GuildModels/guildPlaylistsDB');
-const guildSongsDB = require('../../models/GuildModels/guildSongsDB');
-const playSong = require('./utils/playSong');
+const guildPlaylistsDB = require('../../../models/GuildModels/guildPlaylistsDB');
+const guildSongsDB = require('../../../models/GuildModels/guildSongsDB');
+const playSong = require('../utils/playSong');
 
 module.exports.run = async () => {
     if(!message.member.voiceChannel) {

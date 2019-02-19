@@ -9,6 +9,7 @@ const express = require('express');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const chalk = require('chalk');
 
 const app = express();
 
@@ -49,6 +50,8 @@ app.use("/currency/settings", require('./routes/currencyRoutes'));
 
 app.use("/discord", require('./routes/discordAPIRoutes'));
 
+app.use("/webhook", require('./routes/webhookRoutes'));
+
 /* Default Routes */
 app.use("/", (req, res) => {
   res.json({
@@ -57,12 +60,15 @@ app.use("/", (req, res) => {
 });
 
 /* PROD */
-// http.createServer(app).listen(3001, () => console.log(`[HTTP] Fireside-API: Listening on port 3001`));
+let server = http.createServer(app);
+server.listen(3001, () => console.log(chalk.hex("#00ff00")(`[HTTP]`) +  `Fireside-API: Listening on port 3001`));
 // https.createServer(ss, app).listen(3443, () => console.log(`[HTTPS] Fireside-API: Listening on port 3443`));
 
 /* DEV */
-app.listen(3001, () => console.log(`Fireside API: Listening on port 3001`));
+// app.listen(3001, () => console.log(`Fireside API: Listening on port 3001`));
 
 /* Bot Logins */
 // Twitch_Bot.connect();
 Discord_Bot.login(config.Discord_Key);
+
+module.exports = server;

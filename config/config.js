@@ -1,6 +1,11 @@
 module.exports = {
   Discord: require('discord.js'),
   TMI: require('tmi.js'),
+  tickets: {
+    id: 0,
+    open_tickets: [],
+    closed_tickets: []
+  },
   servers: {},
   Discord_Users_Count: 0,
   Discord_Key: process.env.DISCORD_KEY,

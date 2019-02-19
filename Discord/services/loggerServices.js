@@ -1,7 +1,7 @@
 const axios = require('axios');
 const services = {};
 
-function getDate() {
+services.commandLogger = (data) => {
   let date = new Date();
   let options = {
       timezone: 'EST', 
@@ -11,14 +11,10 @@ function getDate() {
       hour: 'numeric',
       minute: 'numeric'
   }
-  return date.toLocaleString('en-US', options)
-}
-
-services.commandLogger = (data) => {
-  let currentDate = getDate();
+  let currentDate = date.toLocaleString('en-US', options);
   return axios({
     method: 'POST',
-    url: 'http://localhost:3002/log/commands',
+    url: 'http://localhost:3002/command',
     data: {
       command: data.command,
       args: data.args,
@@ -28,27 +24,29 @@ services.commandLogger = (data) => {
       log_date: currentDate
     }
   });
-}
+};
 
-services.commandErrorLogger = (data) => {
-  let currentDate = getDate();
+services.guildLogger = (data) => {
+  let date = new Date();
+  let options = {
+      timezone: 'EST', 
+      weekday: 'long', 
+      day: 'numeric', 
+      month: 'long',
+      hour: 'numeric',
+      minute: 'numeric'
+  }
+  let currentDate = date.toLocaleString('en-US', options);
   return axios({
-    method: "POST",
-    ur: '/error/command',
+    method: 'POST',
+    url: 'http://localhost:3002/guild',
     data: {
-      command: data.command,
-      args: data.args,
-      message: data.message,
-      error: data.error,
-      user_id: data.user_id,
       guild_id: data.guild_id,
-      log_date: currentDate
+      guild_name: data.guild_name,
+      message: data.message,
+      date: currentDate
     }
   })
-}
-
-services.guildAddLogger = (data) => {
-
-}
+};
 
 module.exports = services;

@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const pokemonServices = require('../services/pokemonServices');
+const pokemonServices = require('../../services/pokemonServices');
 
 async function getPokemon(message, args, id) {
     let pokemonPromises = [pokemonServices.getPokemon(id)];

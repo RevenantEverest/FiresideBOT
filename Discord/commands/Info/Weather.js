@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const apiServices = require('../services/apiServices');
+const apiServices = require('../../services/apiServices');
 
 module.exports.run = async (PREFIX, message, args, server, bot) => {
     if(!args[1]) return message.channel.send('Please specify a City name');

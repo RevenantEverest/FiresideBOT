@@ -1,8 +1,8 @@
-const userPlaylistsDB = require('../../models/UserModels/userPlaylistsDB');
-const userSongsDB = require('../../models/UserModels/userSongsDB');
-const playSong = require('./utils/playSong');
-const myPlaylists = require('./utils/myPlaylists');
-const viewPlaylist = require('./utils/viewPlaylist');
+const userPlaylistsDB = require('../../../models/UserModels/userPlaylistsDB');
+const userSongsDB = require('../../../models/UserModels/userSongsDB');
+const playSong = require('../utils/playSong');
+const myPlaylists = require('../utils/myPlaylists');
+const viewPlaylist = require('../utils/viewPlaylist');
 
 const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;

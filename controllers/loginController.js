@@ -2,7 +2,7 @@ const discordServices = require('../services/discordServices');
 const usersDB = require('../models/UserModels/usersDB');
 const discord_tokenDB = require('../models/discord_tokenDB');
 const autodjDB = require('../models/autodjDB');
-const logger = require('../services/logger');
+const logger = require('../services/loggerServices');
 
 const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;

@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
-const apiServices = require('../services/apiServices');
-const filter = require('./utils/filter');
+const apiServices = require('../../services/apiServices');
+const filter = require('../utils/filter');
 
 module.exports.run = async (PREFIX, message, args, server, bot) => {
     args.splice(0, 1);

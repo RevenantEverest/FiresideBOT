@@ -1,4 +1,4 @@
-const fortunes = require('./utils/fortunes');
+const fortunes = require('../utils/fortunes');
 
 module.exports.run = async (PREFIX, message, args, server, bot) => {
     if(args[1]) message.channel.send(fortunes[Math.floor(Math.random() * fortunes.length)]);
