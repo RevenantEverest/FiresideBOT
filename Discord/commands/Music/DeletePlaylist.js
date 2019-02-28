@@ -29,7 +29,8 @@ module.exports.config = {
     name: 'deleteplaylist',
     d_name: 'DeletePlaylist',
     aliases: ['dp', 'delplaylist', 'delplay'],
-    params: { required: true, optional: false, params: 'Name' },
-    category: ['music', 'Music'],
-    desc: 'Deletes a Playlist'
+    params: { required: true, params: 'Name' },
+    category: 'Music',
+    desc: 'Deletes a Playlist',
+    example: 'deleteplaylist Lo-Fi'
 };

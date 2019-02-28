@@ -37,7 +37,8 @@ module.exports.config = {
     name: 'songinfo',
     d_name: 'SongInfo',
     aliases: [],
-    params: { required: true, optional: false, params: 'Song Name' },
-    category: ['info', 'Info'],
-    desc: 'Displays relevant info about a song'
+    params: { required: true, params: 'Song Name' },
+    category: 'Music',
+    desc: 'Displays relevant info about a song',
+    example: 'songinfo Beartooth Clever'
 }

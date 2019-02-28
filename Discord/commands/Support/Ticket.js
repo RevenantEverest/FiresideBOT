@@ -41,6 +41,7 @@ module.exports.config = {
     d_name: 'Ticket',
     aliases: [],
     params: { required: true, params: 'Message' },
-    category: ['dev', 'Dev'],
-    desc: 'Respond to / Close an open Ticket'
+    category: 'Support',
+    desc: 'Respond to / Close an open Ticket',
+    example: 'ticket -r Thank you for your feedback, how can I help you?'
 };

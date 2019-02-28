@@ -19,17 +19,16 @@ function shuffle(arr) {
 }
 
 module.exports.run = async (PREFIX, message, args, server, bot) => {
-  if(!args[1]) return myPlaylists.findMyPlaylists(message, args, server);  
-  if(!message.member.voiceChannel) {
-    message.channel.send("You must be in a voice channel");
-    return;
-  }
+  if(!args[1]) return myPlaylists.findMyPlaylists(message, args, server);
+  
   let playlistName = args[1];
   if(args[1] === "-s" || args[1] === '-i') playlistName = args[2];
   userPlaylistsDB.findByDiscordIdAndPlaylistName({ discord_id: message.author.id, name: playlistName })
     .then(playlist => {
       if(!playlist) return message.channel.send('No playlist found by that name');
       if(args.includes("-i")) return viewPlaylist.view(message, args, server, playlist, bot);
+      if(!message.member.voiceChannel)
+        return message.channel.send("You must be in a voice channel");
 
       userSongsDB.findByPlaylistId(playlist.playlist_id)
         .then(songs => {
@@ -69,7 +68,9 @@ module.exports.config = {
     name: 'playlist',
     d_name: 'Playlist',
     aliases: ['playlists'],
-    params: { required: false, optional: true, params: 'Playlist Name' },
-    category: ['music', 'Music'],
-    desc: 'Displays available playlists or requests your Playlist to the queue'
+    params: { required: false, params: 'Playlist Name' },
+    flags: ['-i', '-s'],
+    category: 'Music',
+    desc: 'Displays available playlists or requests your Playlist to the queue',
+    example: 'playlist Chillstep -s'
 };

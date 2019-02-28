@@ -36,7 +36,7 @@ module.exports.config = {
     name: 'support',
     d_name: 'Support',
     aliases: [],
-    params: {},
-    category: ['support', 'Support'],
-    desc: 'Sends a link to the Support Discord Server'
+    category: 'Support',
+    desc: 'Sends a link to the Support Discord Server',
+    example: 'support'
 }

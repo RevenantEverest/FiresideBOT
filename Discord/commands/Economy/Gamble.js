@@ -63,7 +63,8 @@ module.exports.config = {
     name: 'gamble',
     d_name: 'Gamble',
     aliases: [],
-    params: { required: true, optional: false, params: 'An amount to wager' },
-    category: ['economy', 'Economy'],
-    desc: 'Test your luck and win big'
+    params: { required: true, params: 'An amount to wager' },
+    category: 'Economy',
+    desc: 'Test your luck and win big',
+    example: 'gamble 10'
 };

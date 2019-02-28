@@ -9,7 +9,8 @@ module.exports.config = {
     name: '8ball',
     d_name: '8Ball',
     aliases: ['eightball', 'fortune'],
-    params: { required: true, optional: false, params: 'Question' },
-    category: ['fun', 'Fun'],
-    desc: 'Returns a Yes or No style response'
+    params: { required: true, params: 'Question' },
+    category: 'Fun',
+    desc: 'Returns a Yes or No style response',
+    example: '8ball Am I a good developer?'
 };

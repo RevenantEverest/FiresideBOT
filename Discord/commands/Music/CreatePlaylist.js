@@ -15,7 +15,8 @@ module.exports.config = {
     name: 'createplaylist',
     d_name: 'CreatePlaylist',
     aliases: ['cp'],
-    params: { required: true, optional: false, params: 'Name' },
-    category: ['music', 'Music'],
-    desc: 'Create a playlist'
+    params: { required: true, params: 'Name' },
+    category: 'Music',
+    desc: 'Create a playlist',
+    example: 'createplaylist Lo-Fi'
 }

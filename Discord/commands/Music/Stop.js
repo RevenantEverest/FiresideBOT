@@ -11,7 +11,7 @@ module.exports.config = {
     name: 'stop',
     d_name: 'Stop',
     aliases: [],
-    params: { required: false, optional: false, params: '' },
-    category: ['music', 'Music'],
-    desc: 'Stops and clears the queue'
+    category: 'Music',
+    desc: 'Stops and clears the queue',
+    example: 'stop'
 };

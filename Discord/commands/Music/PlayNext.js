@@ -32,7 +32,8 @@ module.exports.config = {
     name: 'playnext',
     d_name: 'PlayNext',
     aliases: ['pn'],
-    params: { required: true, optional: false, params: 'YouTube link or search' },
-    category: ['music', 'Music'],
-    desc: 'Requests a song to play next in queue'
+    params: { required: true, params: 'YouTube link or search' },
+    category: 'Music',
+    desc: 'Requests a song to play next in queue',
+    example: 'playnext bring me the horizon can you feel my heart'
 };

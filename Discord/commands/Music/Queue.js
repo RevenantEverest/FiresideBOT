@@ -138,7 +138,7 @@ module.exports.config = {
     name: 'queue',
     d_name: 'Queue',
     aliases: ['q'],
-    params: { required: false, optional: false, params: '' },
-    category: ['music', 'Music'],
-    desc: 'Displays the queue'
+    category: 'Music',
+    desc: 'Displays the queue',
+    example: 'queue'
 };

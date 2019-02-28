@@ -25,7 +25,7 @@ module.exports.config = {
     name: 'botinfo',
     d_name: 'BotInfo',
     aliases: ['stats', 'bi'],
-    params: { required: false, optional: false, params: '' },
-    category: ['info', 'Info'],
-    desc: 'Displays relevant Bot info'
+    category: 'Info',
+    desc: 'Displays relevant Bot info',
+    example: 'botinfo'
 };

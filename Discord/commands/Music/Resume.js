@@ -12,7 +12,7 @@ module.exports.config = {
     name: 'resume',
     d_name: 'Resume',
     aliases: ['unpause'],
-    params: { required: false, optional: false, params: '' },
-    category: ['music', 'Music'],
-    desc: 'Resumes any previously paused music'
+    category: 'Music',
+    desc: 'Resumes any previously paused music',
+    example: 'resume'
 };

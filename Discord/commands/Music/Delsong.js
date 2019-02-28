@@ -13,7 +13,8 @@ module.exports.config = {
     name: 'delsong',
     d_name: 'Delsong',
     aliases: ['ds'],
-    params: { required: true, optional: false, params: 'ID' },
-    category: ['music', 'Music'],
-    desc: 'Deletes a song from the queue'
+    params: { required: true, params: 'ID' },
+    category: 'Music',
+    desc: 'Deletes a song from the queue',
+    example: 'delsong 4'
 };

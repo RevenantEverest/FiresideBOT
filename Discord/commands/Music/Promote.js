@@ -11,7 +11,8 @@ module.exports.config = {
     name: 'promote',
     d_name: 'Promote',
     aliases: [],
-    params: { required: true, optional: false, params: 'ID' },
-    category: ['music', 'Music'],
-    desc: 'Promotes a song to next in queue'
+    params: { required: true, params: 'ID' },
+    category: 'Music',
+    desc: 'Promotes a song to next in queue',
+    example: 'promote 7'
 };

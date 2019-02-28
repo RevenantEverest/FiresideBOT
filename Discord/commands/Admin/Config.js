@@ -39,7 +39,7 @@ async function handleConfigPrefix(PREFIX, args, message) {
 /*
     Updates Currency Increase Rate
 */
-async function handleConfigCurrencyName(PREFIX, args, message) {
+async function handleCurrencyName(PREFIX, args, message) {
     args.splice(0, 1);
     args.splice(args.indexOf('-cn'), 1);
     currencyDB.updateCurrencyName({ currency_name: args.join(" "), guild_id: message.guild.id })
@@ -53,7 +53,7 @@ async function handleConfigCurrencyName(PREFIX, args, message) {
 /*
     Updates Currency Increase Rate
 */
-async function handleConfigCurrencyIncreaseRate(PREFIX, args, message) {
+async function handleCurrencyIncreaseRate(PREFIX, args, message) {
     args.splice(0, 1);
     args.splice(args.indexOf('-cir'), 1);
     if(!Number.isInteger(parseInt(args.join(""), 10))) return message.channel.send('Please specify an integer value');
@@ -70,9 +70,9 @@ async function handleConfigCurrencyIncreaseRate(PREFIX, args, message) {
 module.exports.run = async (PREFIX, message, args, server, bot) => {
     if(!args[1]) handleConfigDisplay(PREFIX, args, message);
     if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send(`You don't have permission to use this command`);
-    if(args.includes('-p')) handleConfigPrefix(PREFIX, args, message);
-    if(args.includes('-cn')) handleConfigCurrencyName(PREFIX, args, message);
-    if(args.includes('-cir')) handleConfigCurrencyIncreaseRate(PREFIX, args, message);
+    if(args.includes('-p')) handlePrefix(PREFIX, args, message);
+    if(args.includes('-cn')) handleCurrencyName(PREFIX, args, message);
+    if(args.includes('-cir')) handleCurrencyIncreaseRate(PREFIX, args, message);
 };
 
 module.exports.config = {
@@ -80,6 +80,8 @@ module.exports.config = {
     d_name: 'Config',
     aliases: [],
     params: { required: false, params: '' },
-    category: [],
-    desc: 'Configure FiresideBOT'
+    flags: ['-p', '-cn', '-cir'],
+    category: 'Admin',
+    desc: 'Configure FiresideBOT',
+    example: 'config'
 }

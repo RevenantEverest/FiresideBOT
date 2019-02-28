@@ -19,7 +19,8 @@ module.exports.config = {
     name: 'feedback',
     d_name: 'Feedback',
     aliases: [],
-    params: { required: false, params: `Message you'd like to send as Feedback` },
-    category: ['support', 'Support'],
-    desc: 'Submit feedback to the Fireside Dev Team'
+    params: { required: true, params: `Message you'd like to send as Feedback` },
+    category: 'Support',
+    desc: 'Submit feedback to the Fireside Dev Team',
+    example: `feedback This bot could be better`
 };

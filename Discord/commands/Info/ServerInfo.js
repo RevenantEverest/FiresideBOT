@@ -32,7 +32,7 @@ module.exports.config = {
     name: 'serverinfo',
     d_name: 'ServerInfo',
     aliases: ['si'],
-    params: { required: false, optional: false, params: '' },
-    category: ['info', 'Info'],
-    desc: 'Displays relevant Server Info'
+    category: 'Info',
+    desc: 'Displays relevant Server Info',
+    example: 'serverinfo'
 };

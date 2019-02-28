@@ -52,7 +52,7 @@ module.exports.config = {
     name: 'balance',
     d_name: 'Balance',
     aliases: ['bal'],
-    params: { required: false, optional: false, params: '' },
-    category: ['economy', 'Economy'],
-    desc: 'Displays currenct balance for Server'
+    category: 'Economy',
+    desc: 'Displays currenct balance for Server',
+    example: 'balance'
 };

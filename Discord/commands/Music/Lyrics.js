@@ -154,6 +154,7 @@ module.exports.config = {
     d_name: 'Lyrics',
     aliases: [],
     params: {required: false, params: 'Song name'},
-    category: ['music', 'Music'],
-    desc: 'Displays lyrics for a song along with relevant song info'
+    category: 'Music',
+    desc: 'Displays lyrics for a song along with relevant song info',
+    example: 'lyrics Trust in me Mr Fijiwiji'
 };

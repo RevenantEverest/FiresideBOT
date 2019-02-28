@@ -7,7 +7,7 @@ module.exports.config = {
     name: 'np',
     d_name: 'NP',
     aliases: ['currentsong', 'nowplaying', 'cs'],
-    params: { required: false, optional: false, params: '' },
-    category: ['music', 'Music'],
-    desc: 'Displays the Current Song'
+    category: 'Music',
+    desc: 'Displays the Current Song',
+    example: 'np'
 };

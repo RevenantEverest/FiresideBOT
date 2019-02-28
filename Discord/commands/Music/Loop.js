@@ -19,7 +19,7 @@ module.exports.config = {
     name: 'loop',
     d_name: 'Loop',
     aliases: [],
-    params: {},
-    category: ['music', 'Music'],
-    desc: 'Toggles queue looping'
+    category: 'Music',
+    desc: 'Toggles queue looping',
+    example: 'loop'
 };

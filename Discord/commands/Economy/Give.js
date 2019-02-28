@@ -61,6 +61,7 @@ module.exports.config = {
     d_name: 'Give',
     aliases: [],
     params: { required: true, params: 'Mention / Amount' },
-    category: ['economy', 'Economy'],
-    desc: 'Gives a currency amount to desired recipient, from your balance'
+    category: 'Economy',
+    desc: 'Gives a currency amount to desired recipient, from your balance',
+    example: 'give @YourFavoritePerson 100'
 };

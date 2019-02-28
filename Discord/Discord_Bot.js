@@ -21,7 +21,7 @@ Discord_Bot.commands = new Discord.Collection();
 Discord_Bot.aliases = new Discord.Collection();
 Discord_Bot.config = new Discord.Collection();
 
-const categories = ['Admin', 'Dev', 'Economy', 'Fun', 'Info', 'Music', 'Other', 'Support'];
+const categories = ['Admin', 'Dev', 'Economy', 'Fun', 'GameStats', 'Info', 'Music', 'Other', 'Support'];
 
 /*
     Pulls all files from the command directory

@@ -8,7 +8,7 @@ module.exports.config = {
     name: 'clear',
     d_name: 'Clear',
     aliases: [],
-    params: { required: false, optional: false, params: '' },
-    category: ['music', 'Music'],
-    desc: 'Clears the current queue'
+    category: 'Music',
+    desc: 'Clears the current queue',
+    example: 'clear'
 };

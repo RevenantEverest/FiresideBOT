@@ -82,6 +82,7 @@ module.exports.config = {
     d_name: 'TwitchInfo',
     aliases: ['ti', 'twitch'],
     params: {required: true, params: 'Twitch Username'},
-    category: ['info', 'Info'],
-    desc: 'Displays relevant info about a Twitch User'
+    category: 'Info',
+    desc: 'Displays relevant info about a Twitch User',
+    example: 'twitchinfo RevenantEverest'
 }

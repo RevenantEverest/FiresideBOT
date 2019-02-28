@@ -18,7 +18,7 @@ module.exports.config = {
     name: 'autoplay',
     d_name: 'Autoplay',
     aliases: [],
-    params: {},
-    category: ['music', 'Music'],
-    desc: 'Enables or Disables music recommendations'
+    category: 'Music',
+    desc: 'Enables or Disables music recommendations',
+    example: 'autoplay'
 };

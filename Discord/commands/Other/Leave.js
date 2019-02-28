@@ -32,7 +32,7 @@ module.exports.config = {
     name: 'leave',
     d_name: 'Leave',
     aliases: [],
-    params: {},
-    category: ['other', 'Other'],
-    desc: 'Removes Fireside from your server'
+    category: 'Other',
+    desc: 'Removes Fireside from your server',
+    example: 'leave'
 };

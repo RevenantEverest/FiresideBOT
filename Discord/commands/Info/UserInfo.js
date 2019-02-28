@@ -21,7 +21,7 @@ module.exports.config = {
     name: 'userinfo',
     d_name: 'UserInfo',
     aliases: ['ui'],
-    params: { required: false, optional: false, params: '' },
-    category: ['info', 'Info'],
-    desc: 'Displays relevant User Info'
+    category: 'Info',
+    desc: 'Displays relevant User Info',
+    example: 'userinfo'
 };

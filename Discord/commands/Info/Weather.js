@@ -33,7 +33,8 @@ module.exports.config = {
     name: "weather",
     d_name: "Weather",
     aliases: ["w"],
-    params: { required: true, optional: false, params: "City Name" },
-    category: ['info', 'Info'],
-    desc: "Displays the current weather for the spcified City"
+    params: { required: true, params: "City Name" },
+    category: 'Info',
+    desc: "Displays the current weather for the spcified City",
+    example: 'weather New York'
 };

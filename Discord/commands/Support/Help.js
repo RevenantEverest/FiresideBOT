@@ -1,123 +1,92 @@
 const Discord = require('discord.js');
+const pagination = require('../utils/pagination');
 
-function sendHelp(PREFIX, message, args, server, bot, c) {
-  let HelpEmbed = new Discord.RichEmbed();
-  let CHI = 0;
-  HelpEmbed.setTitle(`**${c[CHI].category}**`).addBlankField().setColor(0xcc00ff).setFooter(`Page ${CHI + 1}/${c.length}`);
-  for(let i = 0; i < c[CHI].commands.length; i++) {
-    let paramField = '';
-    if(c[CHI].commands[i].params.required)
-      paramField = '<Param>';
-    else if(c[CHI].commands[i].params.optional)
-      paramField = '[Param]';
-    HelpEmbed.addField(`${c[CHI].commands[i].d_name} ${paramField}`, c[CHI].commands[i].desc);
-  }
-  let flavor_text = "`<param>` is a required param and `[param]` is an optional param. For more information on a command use `" + PREFIX + "help <command>` ™";
-  message.channel.send(flavor_text, HelpEmbed).then(async (msg) => {
-    await msg.react("⏪");
-    await msg.react("⏹");
-    await msg.react("⏩");
-    
-    const r_collector = new Discord.ReactionCollector(msg, r => r.users.array()[r.users.array().length - 1].id === message.author.id, { time: 60000 });
-    r_collector.on('collect', (reaction, user) => {
-      if(reaction.users.array()[reaction.users.array().length - 1].id === bot.user.id) return;
-      if(reaction.emoji.name === "⏪") {
-        if(CHI === 0) return reaction.remove(reaction.users.array()[reaction.users.array().length - 1].id);
-        CHI--;
-        let backEmbed = new Discord.RichEmbed();
-        backEmbed.setTitle(`**${c[CHI].category}**`).addBlankField().setColor(0xcc00ff).setFooter(`Page ${CHI + 1}/${c.length}`);
-        for(let i = 0; i < c[CHI].commands.length; i++) {
-          let paramField = '';
-          if(c[CHI].commands[i].params.required)
-            paramField = '<Param>';
-          else if(c[CHI].commands[i].params.optional)
-            paramField = '[Param]';
-          backEmbed.addField(`${c[CHI].commands[i].d_name} ${paramField}`, c[CHI].commands[i].desc)
-        }
-        reaction.message.edit(flavor_text, backEmbed);
-        reaction.remove(reaction.users.array()[reaction.users.array().length - 1].id);
-      }else if(reaction.emoji.name === "⏩") {
-        if(CHI === (c.length - 1)) return reaction.remove(reaction.users.array()[reaction.users.array().length - 1].id);
-        CHI++;
-        let forwardEmbed = new Discord.RichEmbed();
-        forwardEmbed.setTitle(`**${c[CHI].category}**`).addBlankField().setColor(0xcc00ff).setFooter(`Page ${CHI + 1}/${c.length}`);
-        for(let i = 0; i < c[CHI].commands.length; i++) {
-          let paramField = '';
-          if(c[CHI].commands[i].params.required)
-            paramField = '<Param>';
-          else if(c[CHI].commands[i].params.optional)
-            paramField = '[Param]';
-          forwardEmbed.addField(`${c[CHI].commands[i].d_name} ${paramField}`, c[CHI].commands[i].desc)
-        }
-        reaction.message.edit(flavor_text, forwardEmbed);
-        reaction.remove(reaction.users.array()[reaction.users.array().length - 1].id);
-      }else if(reaction.emoji.name === "⏹") {
-        r_collector.stop();
-      }
-    });
-    r_collector.on('end', e => {
-      msg.delete();
-    })
-  })
-  .catch(err => console.log(err))
-};
+function helpSpec(PREFIX, message, args, bot, contentArr) {
+    let embed = new Discord.RichEmbed();
+    embed.setColor(0xcc00ff);
 
-function helpSpec(PREFIX, message, args, server, bot) {
-    let helpEmbed = new Discord.RichEmbed();
-    if(!bot.commands.get(args[1].toLowerCase())) return;
-    let helpInfo = bot.commands.get(args[1].toLowerCase());
-    let paramInfo = { isRequired: 'NA', param: 'NA' };
-    if(helpInfo.config.params.required) {
-      paramInfo.isRequired = 'Required';
-      paramInfo.param = helpInfo.config.params.params;
-    }else if(helpInfo.config.params.optional) {
-      paramInfo.isRequired = 'Optional';
-      paramInfo.param = helpInfo.config.params.params;
+    if(contentArr[contentArr.map(e => e.category.toLowerCase()).indexOf(args[1].toLowerCase())]) {
+      let helpInfo = contentArr[contentArr.map(e => e.category.toLowerCase()).indexOf(args[1].toLowerCase())];
+      embed.setTitle(`**${helpInfo.category}**`);
+      helpInfo.fields.forEach(el => embed.addField(`${el.field}`, `${el.value}`, el.inline));
+    } 
+    else if(bot.commands.get(args[1].toLowerCase())) {
+      let helpInfo = bot.commands.get(args[1].toLowerCase()).config;
+
+      embed
+      .addField(`**${helpInfo.d_name}**`, `${helpInfo.desc}`)
+      .addBlankField()
+      
+      if(helpInfo.params)
+        embed
+        .addField('Param Type: ', `${helpInfo.params.required ? 'Required' : 'Optional'}`, true)
+        .addField('Params: ', helpInfo.params.params, true)
+
+      if(helpInfo.flags)
+        embed
+        .addField('Flags:', helpInfo.flags.join(", "), true)
+
+      embed
+      .addField('Category: ', `${helpInfo.category}`, true)
+      .addField('Example:', "`" + PREFIX + helpInfo.example + "`")
+      .addField(`More Info:`, `[Click Here](https://help.firesidebot.com)`)
     }
-    helpEmbed
-    .setColor(0xcc00ff)
-    .addField(`**${helpInfo.config.d_name}**`, `${helpInfo.config.desc}`)
-    .addField('Param Type: ', `${paramInfo.isRequired}`, true)
-    .addField('Params: ', paramInfo.param, true)
-    .addField('Category: ', `${helpInfo.config.category[1]}`)
-    .addField(`More Info:`, `[Click Here](https://help.firesidebot.com)`)
-    message.channel.send(helpEmbed);
+    else
+      return message.channel.send('Invalid Command or Category');
+
+    message.channel.send(embed);
 };
 
 module.exports.run = async (PREFIX, message, args, server, bot) => {
-    let c = [{category: 'Music', commands: []}, {category: 'Economy', commands: []}, {category: 'Fun', commands: []}, {category: 'Info', commands: []}];
-
-    for(let i = 0; i < bot.commands.array().length; i++) {
-      if(bot.commands.array()[i].config.category[1]) {
-        switch(bot.commands.array()[i].config.category[1]) {
-          case "Music":
-            c[0].commands.push(bot.commands.array()[i].config); 
-            break;
-          case "Economy":
-            c[1].commands.push(bot.commands.array()[i].config);
-            break;
-          case "Fun":
-            c[2].commands.push(bot.commands.array()[i].config);
-            break;
-          case "Info":
-            c[3].commands.push(bot.commands.array()[i].config);
-            break;
-          default: break;
-        }
+    let categories = ['Admin', 'Economy', 'Fun', 'GameStats', 'Info', 'Music', 'Other', 'Support'];
+    let contentArr = [
+      {
+        category: `Welcome to the FiresideBOT Help Command`, 
+        fields: [
+          {
+            field: 'How To Use:',
+            value: 'Use the reactions below to move back and forth through the menu\nClicking the ⏹ will delete the help message',
+            inline: false
+          },
+          {
+            field: 'More Info:',
+            value: 'To get more info about a command or category use the help command again with the desired command or category afterwards\n`Example: ' + PREFIX + 'help Music`',
+            inline: false
+          },
+          {
+            field: 'Available Categories:',
+            value: categories.join(", ")
+          }
+        ]
       }
-    }
+    ];  
+    let commands = bot.commands.array();
+
+    categories.forEach(el => contentArr.push({ category: el, fields: [] }));
+
+    commands.forEach(el => {
+      if(el.config.category && contentArr[contentArr.map(e => e.category).indexOf(el.config.category)])
+        contentArr[contentArr.map(e => e.category).indexOf(el.config.category)].fields.push({
+          field: `${el.config.d_name} ${el.config.params ? (el.config.params.required ? '`<param>`' : '`[param]`') : ''}`, 
+          value: (el.config.desc === '' ? '*N/A*' : el.config.desc),
+          inline: false
+        });
+    });
+
+    let flavorText = "`<param>` is a required param and `[param]` is an optional param. For more information on a command use `" + PREFIX + "help <command>` ™";
 
     if(!args[1])
-        sendHelp(PREFIX, message, args, server, bot, c);
+        pagination(message, bot, contentArr, flavorText, 0xcc00ff);
     else 
-        helpSpec(PREFIX, message, args, server, bot);
+        helpSpec(PREFIX, message, args, bot, contentArr);
 };
 
 module.exports.config = {
     name: 'help',
     d_name: 'Help',
     aliases: [],
-    params: { required: false, optional: true, params: 'Category or Command' },
-    category: ['info', 'Info'],
-    desc: 'Displays Help embed'
+    params: { required: false, params: 'Category or Command' },
+    category: 'Support',
+    desc: 'Displays Help embed',
+    example: 'help economy'
 };

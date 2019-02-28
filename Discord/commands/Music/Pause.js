@@ -12,7 +12,7 @@ module.exports.config = {
     name: 'pause',
     d_name: 'Pause',
     aliases: [],
-    params: { required: false, optional: false, params: '' },
-    category: ['music', 'Music'],
-    desc: 'Pauses music'
+    category: 'Music',
+    desc: 'Pauses music',
+    example: 'pause'
 };

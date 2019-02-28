@@ -7,7 +7,7 @@ module.exports.config = {
     name: 'emojis',
     d_name: 'Emojis',
     aliases: [],
-    params: {},
-    category: ['other', 'Other'],
-    desc: ''
+    category: 'Other',
+    desc: 'Displays the servers custom emojis',
+    example: 'emojis'
 };

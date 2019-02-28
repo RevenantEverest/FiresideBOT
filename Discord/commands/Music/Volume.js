@@ -27,7 +27,8 @@ module.exports.config = {
     name: 'volume',
     d_name: 'Volume',
     aliases: ['vol'],
-    params: { required: false, optional: true, params: 'Number' },
-    category: ['music', 'Music'],
-    desc: 'Displays current volume or sets volume'
+    params: { required: false, params: 'Number' },
+    category: 'Music',
+    desc: 'Displays current volume or sets volume',
+    example: 'volume 20'
 };

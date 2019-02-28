@@ -13,17 +13,15 @@ async function updateMessage(invokes, seconds, msg) {
 };
 
 module.exports.run = async (PREFIX, message, args, server, bot) => {
-    // let seconds = 10;
-    // let invokes = 0;
-    // message.channel.send(`${seconds} seconds left`).then(async (msg) => updateMessage(invokes, seconds, msg));
-    console.log(message.content);
-    console.log(/<#?(\d+)>/.exec(args.join(" "))[1])
+    let roles = message.guild.roles.array().map(el => {
+        return {id: el.id, name: el.name};
+    })
+    console.log(roles);
 };
 
 module.exports.config = {
     name: 'test',
     aliases: [],
-    category: ['other', 'Other'],
-    b_desc: '',
+    category: 'Dev',
     desc: ''
 };

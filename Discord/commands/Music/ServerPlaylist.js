@@ -37,7 +37,8 @@ module.exports.config = {
     name: 'serverplaylist',
     d_name: 'ServerPlaylist',
     aliases: [],
-    params: { required: false, optional: true, params: 'Playlist Name' },
-    category: ['music', 'Music'],
-    desc: 'Mmm mmm good'
+    params: { required: false, params: 'Playlist Name' },
+    category: 'Music',
+    desc: 'Mmm mmm good',
+    example: 'serverplaylist MyFavoriteSongs'
 };

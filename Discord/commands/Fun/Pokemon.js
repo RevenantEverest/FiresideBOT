@@ -56,7 +56,9 @@ module.exports.config = {
     name: 'pokemon',
     d_name: 'Pokemon',
     aliases: [],
-    params: { required: false, optional: true, params: 'ID or Name' },
-    category: ['fun', 'Fun'],
-    desc: 'Displays a random or specific Pokemon'
+    params: { required: false, params: 'ID or Name' },
+    flags: ['-i'],
+    category: 'Fun',
+    desc: 'Displays a random or specific Pokemon',
+    example: 'pokemon Manaphy -i'
 };

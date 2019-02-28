@@ -102,7 +102,8 @@ module.exports.config = {
     name: 'addsong',
     d_name: 'AddSong',
     aliases: [],
-    params: { required: true, optional: false, params: 'Song Request' },
-    category: ['music', 'Music'],
-    desc: 'Adds a song to your playlist from'
+    params: { required: true, params: 'Playlist Name and/or Song Request' },
+    category: 'Music',
+    desc: 'Adds a song to your playlist from',
+    example: 'addsong Chillstep Better Now Post Malone'
 }

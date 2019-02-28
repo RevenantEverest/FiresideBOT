@@ -8,7 +8,8 @@ module.exports.config = {
     name: 'roll',
     d_name: 'Roll',
     aliases: ['dice'],
-    params: { required: false, optional: true, params: 'Number' },
-    category: ['fun', 'Fun'],
-    desc: 'Rolls any number sided dice (Default is 6)'
+    params: { required: false, params: 'Number' },
+    category: 'Fun',
+    desc: 'Rolls any number sided dice (Default is 6)',
+    example: 'roll 20'
 };

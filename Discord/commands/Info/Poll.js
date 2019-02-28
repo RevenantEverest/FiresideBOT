@@ -120,6 +120,8 @@ module.exports.config = {
     d_name: 'Poll',
     aliases: [],
     params: { required: true, params: '' },
-    category: ['info', 'Info'],
-    desc: 'Creates a new Poll'
+    flags: ['-q', '-a', '-t'],
+    category: 'Info',
+    desc: 'Creates a new Poll',
+    example: `poll -q How is everyone enjoying FiresideBOT? -a It's amazing -a It's okay -a Developer is bad :eyes: -t 60`
 };

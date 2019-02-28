@@ -47,6 +47,8 @@ module.exports.config = {
     d_name: 'MusicOptions',
     aliases: ['mo'],
     params: { required: false },
-    category: ['music', 'Music'],
-    desc: 'Displays current Music Options'
+    flags: ['-l', '-r'],
+    category: 'Music',
+    desc: 'Displays current Music Options',
+    example: 'musicoptions'
 }
