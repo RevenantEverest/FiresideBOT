@@ -25,7 +25,7 @@ async function handleConfigDisplay(PREFIX, srgs, message) {
         .catch(err => console.error(err));
 };
 
-async function handleConfigPrefix(PREFIX, args, message) {
+async function handlePrefix(PREFIX, args, message) {
     args.splice(0, 1);
     args.splice(args.indexOf('-p'), 1);
     guildsDB.updateSettings({ guild_id: message.guild.id, prefix: args.join("") })

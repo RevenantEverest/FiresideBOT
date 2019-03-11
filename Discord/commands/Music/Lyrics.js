@@ -96,9 +96,6 @@ function handlePages(message, results, bot) {
                 r_collector.stop();
             }
         });
-        r_collector.on('end', e => {
-            msg.delete();
-        })
     })
 };
 

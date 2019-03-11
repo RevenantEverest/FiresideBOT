@@ -13,10 +13,11 @@ async function updateMessage(invokes, seconds, msg) {
 };
 
 module.exports.run = async (PREFIX, message, args, server, bot) => {
-    let roles = message.guild.roles.array().map(el => {
-        return {id: el.id, name: el.name};
-    })
-    console.log(roles);
+    // let roles = message.guild.roles.array().map(el => {
+    //     return {id: el.id, name: el.name};
+    // })
+    // console.log(roles);
+    console.log(message.channel.id)
 };
 
 module.exports.config = {

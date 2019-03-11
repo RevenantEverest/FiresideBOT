@@ -11,7 +11,7 @@ const volume = require('../Music/Volume');
 
 async function getGenre(server) {
   let filterArr = ['official', 'music', 'video', 'lyric', 'lyrics', 'audio', 'monstercat', 'release', 'version', 'HD'];
-  let search = await filter(server.queue.currentSongInfo.title, filterArr);
+  let search = await filter(server.queue.currentSongInfo.title, filterArr, { special: true });
   apiServices.getTrack({ track: search })
     .then(results => {
       if(!results.data.results.trackmatches.track[0]) return;
