@@ -6,7 +6,7 @@ module.exports = {
     open_tickets: [],
     closed_tickets: []
   },
-  servers: {},
+  servers: [],
   Discord_Users_Count: 0,
   Discord_Key: process.env.DISCORD_KEY,
   Twitch_Key: process.env.TWITCH_KEY,
@@ -23,6 +23,6 @@ module.exports = {
       username: 'FiresideBOT',
       password: process.env.TWITCH_KEY
     },
-    channels: ['RevenantEverest', 'Atsuumo']
+    channels: ['RevenantEverest', 'Atsuumo', 'Wookie']
   }
 }

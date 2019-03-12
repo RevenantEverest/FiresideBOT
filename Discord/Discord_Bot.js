@@ -50,10 +50,10 @@ for(let i = 0; i < categories.length; i++) {
 Discord_Bot.on("ready", () => discordEventController.handleOnReady(Discord_Bot));
 
 // Called When Bot Joins Guild
-Discord_Bot.on("guildCreate", (guild) => guildsController.saveGuild(Discord_Bot, guild));
+Discord_Bot.on("guildCreate", (guild) => discordEventController.handleOnGuildCreate(Discord_Bot, guild));
 
 // Called When Bot Get Removed
-Discord_Bot.on("guildDelete", (guild) => guildsController.removeGuild(Discord_Bot, guild));
+Discord_Bot.on("guildDelete", (guild) => discordEventController.handleOnGuildDelete(Discord_Bot, guild));
 
 // Called When Message Is Sent
 Discord_Bot.on("message", async message => discordEventController.handleOnMessage(Discord_Bot, message));

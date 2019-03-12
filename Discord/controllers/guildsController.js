@@ -73,10 +73,8 @@ module.exports = {
                 .addField('Member Count:', guild.memberCount)
                 .setFooter(`Guild added: ${getDate()}`)
 
-                bot.channels.get('538528459190829064').send(embed);
-
-                /* Guild Logger */
-                logger.guildLogger({ guild_id: guild.id, guild_name: guild.name, message: 'Guild Added'});
+                if(guild.name !== 'RevenantEverest' && guild.name !== 'BOT-Testing')
+                    bot.channels.get('538528459190829064').send(embed);
             })
             .catch(err => {
                 //Log Error
@@ -121,7 +119,6 @@ module.exports = {
             });
     },
     removeGuild(bot, guild) {
-        console.log(guild)
         let embed = new Discord.RichEmbed();
         embed
         .setTitle('**Removed Guild**')
@@ -132,9 +129,10 @@ module.exports = {
         .addField('Member Count:', guild.memberCount)
         .setFooter(`Guild removed: ${getDate()}`)
 
-        bot.channels.get('538528459190829064').send(embed);
+        if(guild.name !== 'RevenantEverest' && guild.name !== 'BOT-Testing') 
+            bot.channels.get('538528459190829064').send(embed);
+
         guildsDB.destroy(guild.id)
-            .then(() => logger.guildLogger({ guild_id: guild.id, guild_name: guild.name, message: 'Guild Removed'})) /* Guild Logger */
             .catch(err => {
                 //Log Error
                 console.error(err);

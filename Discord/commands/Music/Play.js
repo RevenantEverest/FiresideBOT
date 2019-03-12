@@ -50,9 +50,9 @@ async function setQueue(message, args, server, {title, link, author, duration, t
   server.queue.queueInfo.push({
     title: title, link: link, author: author, duration: duration, thumbnail: thumbnail, requestedBy: requestedBy
   });
-  message.channel.send("`" + title + "` was added to the queue.");
+  message.channel.send("`" + title + "` was added to the queue. In position " + "`" + server.queue.queueInfo.length + "`");
   if(!message.guild.voiceConnection) message.member.voiceChannel.join().then((connection) => {
-    playSong.playSong(connection, message);
+    playSong.playSong(connection, message, server);
   })
 }
 

@@ -25,12 +25,12 @@ async function youtubeSearch(message, args, songRequest, playlist) {
     })
 }
 
-async function YTDL_GetInfo(message, args, link, { playlist_id, playlist_name }) {
+async function YTDL_GetInfo(message, args, link, { playlist_id, name }) {
   YTDL.getInfo(link, (err, {title, author, length_seconds, thumbnail_url}) => {
     if(err) return message.channel.send("YTDL Get Info error.");
     if(title === undefined) return message.channel.send(`Can't read title of undefined`);
     if(length_seconds >= 600) return message.channel.send('Playlist Songs limited to 10 minutes');
-    saveToPlaylist(message, playlist_name, {
+    saveToPlaylist(message, name, {
       playlist_id: playlist_id, title: title, link: link, author: author.name, duration: length_seconds, thumbnail_url: thumbnail_url
     })
   })
@@ -38,7 +38,7 @@ async function YTDL_GetInfo(message, args, link, { playlist_id, playlist_name })
 
 async function saveToPlaylist(message, playlist_name, data) {
   userSongsDB.save(data) 
-    .then(() => message.channel.send("`" + data.title + "` added to playlist `" + playlist_name + "`"))
+    .then(playlist => message.channel.send("`" + data.title + "` added to playlist `" + playlist_name + "` with ID `" + playlist.song_id + "`"))
     .catch(err => {
       message.channel.send("Error saving to Playlist");
       console.error(err);
@@ -64,14 +64,14 @@ module.exports.run = async (PREFIX, message, args, server, bot) => {
           if(playlist === null) return message.channel.send(`No playlist by that name found`);
           if(server.queue.isPlaying && !args[2]) {
               let info = server.queue.currentSongInfo;
-              saveToPlaylist(message, playlist.playlist_name, {
-                playlist_id: playlist.playlist_id, title: info.title, link: info.link, author: info.author, duration: info.duration, thumbnail_url: info.thumbnail_url 
+              console.log(info);
+              
+              saveToPlaylist(message, playlist.name, {
+                playlist_id: playlist.playlist_id, title: info.title, link: info.link, author: info.author, duration: info.duration, thumbnail_url: info.thumbnail 
               });
           }
           else
             youtubeSearch(message, args, request, playlist);
-          
-          console.log(request);
       })
       .catch(err => {
           if(err instanceof QRE && err.code === qrec.noData)

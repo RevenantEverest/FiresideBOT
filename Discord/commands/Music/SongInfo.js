@@ -4,8 +4,11 @@ const filter = require('../utils/filter');
 
 module.exports.run = async (PREFIX, message, args, server, bot) => {
     args.splice(0, 1);
+    
     let search = args;
-    if(!args[1] && server.queue.isPlaying) search = await filter(server.queue.currentSongInfo.title);
+    let filterArr = ['official', 'music', 'video', 'lyric', 'lyrics', 'audio', 'monstercat', 'release', 'version', 'HD'];
+
+    if(!args[1] && server.queue.isPlaying) search = await filter(server.queue.currentSongInfo.title, filterArr, { special: true });
     if(!args[1] && !server.queue.isPlaying) return message.channel.send('Please specify a song');
 
     let embed = new Discord.RichEmbed();

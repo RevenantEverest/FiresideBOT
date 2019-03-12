@@ -46,7 +46,7 @@ module.exports.run = async (PREFIX, message, args, server, bot) => {
           if(args.includes("-s")) shuffle(server.queue.queueInfo);
           message.channel.send('Adding playlist `' + playlist.name + '` to the queue');
           if(!message.guild.voiceConnection) message.member.voiceChannel.join().then((connection) => {
-             playSong.playSong(connection, message);
+             playSong.playSong(connection, message, server);
           })
         })
         .catch(err => {

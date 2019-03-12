@@ -22,9 +22,4 @@ services.guildLogger = (data) => {
   })
 };
 
-// services.generalLogs = (bot, embed) => {
-//   let embed = new Discord.RichEmbed();
-//   bot.channels.get('543862697742172179').send(embed);
-// };
-
 module.exports = services;

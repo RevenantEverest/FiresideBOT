@@ -93,6 +93,7 @@ function handlePages(message, results, bot) {
                 reaction.remove(reaction.users.array()[reaction.users.array().length - 1].id);
   
             }else if(reaction.emoji.name === "⏹") {
+                msg.clearReactions();
                 r_collector.stop();
             }
         });
@@ -125,9 +126,12 @@ function handleSinglePage(message, results) {
 module.exports.run = async (PREFIX, message, args, server, bot) => {
     args.splice(0,1);
     let search = args.join(" ");
+    const filterArr = ['official', 'music', 'video', 'lyric', 'lyrics', 'audio', 'monstercat', 'release', 'version', 'HD'];
     
-    if(!args[1] && server.queue.isPlaying) search = await filter(server.queue.currentSongInfo.title);
-    else if(!args[1] && !server.queue.isPlaying) return message.channel.send('Please specify a song');
+    if(!args[1] && server.queue.isPlaying) 
+        search = await filter(server.queue.currentSongInfo.title, filterArr, { special: true });
+    else if(!args[1] && !server.queue.isPlaying) 
+        return message.channel.send('Please specify a song');
     
 
     // Add result for current song
