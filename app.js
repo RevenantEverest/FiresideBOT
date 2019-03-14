@@ -53,4 +53,8 @@ let server = http.createServer(app);
 server.listen(3001, () => console.log(chalk.hex("#00ff00")(`[HTTP]`) +  ` Fireside-API: Listening on port 3001`));
 // https.createServer(ss, app).listen(3443, () => console.log(`[HTTPS] Fireside-API: Listening on port 3443`));
 
+const Twitch_Bot = require('./Twitch/Twitch_Bot');
+
+Twitch_Bot.connect();
+
 module.exports = server;

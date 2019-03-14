@@ -1,4 +1,4 @@
-const config = require('../.././config/config');
+
 const PREFIX = '?';
 
 //Services Imports
@@ -40,7 +40,7 @@ module.exports = {
         playCommands.play(channel, userstate, message, args, bot);
         break;
       case "math":
-        mathCommands.randomMath(channel, userstate, message, args, self, bot);
+        mathCommands.math(channel, userstate, message, args, self, bot);
         break;
       case "pokemon":
         pokemonCommands.getPokemon(channel, userstate, message, args, bot);
