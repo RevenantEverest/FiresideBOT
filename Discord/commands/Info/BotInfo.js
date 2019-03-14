@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const config = require('../../../config/config');
 
-module.exports.run = async (PREFIX, message, args, server, bot) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     let infoEmbed = new Discord.RichEmbed();
 
     let accountCreated = bot.user.createdAt.toString().split(" ");

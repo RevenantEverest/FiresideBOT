@@ -4,7 +4,7 @@ const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
 const qrec = pgp.errors.queryResultErrorCode;
 
-module.exports.run = async (PREFIX, message, args, server, bot) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     if(!args[1]) return message.channel.send('Please specify a song ID');
     if(!parseInt(args[1], 10)) return message.channel.send('Please specify a valid numeric ID');
 

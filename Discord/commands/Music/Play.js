@@ -57,10 +57,10 @@ async function setQueue(message, args, server, {title, link, author, duration, t
   })
 }
 
-module.exports.run = async (PREFIX, message, args, server, bot) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     if(!args[1]) return message.channel.send("Please provide a link");
     if(!message.member.voiceChannel) return message.channel.send("You must be in a voice channel");
-    if(config.Discord_Env.updatePending) return message.channel.send("An Update is currently pending, features will resume upon Update")
+    if(options.updatePending) return message.channel.send("An Update is currently pending, features will resume upon Update")
 
     const requestFilter = ['http://', 'https://', '.com', 'watch?v=', 'youtube', 'www.youtube', 'youtu.be', '/'];
     let request = '';

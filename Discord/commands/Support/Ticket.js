@@ -29,7 +29,7 @@ async function closeTicket(message, args, bot) {
     bot.channels.get('542561301302345760').send(`Closed ticket ID:#${ticket.id}`);
 };
 
-module.exports.run = async (PREFIX, message, args, server, bot) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     if(args[1] === '-r')
         respondToTicket(message, args, bot);
     if(args[1] === '-c')

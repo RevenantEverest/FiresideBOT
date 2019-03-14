@@ -28,7 +28,7 @@ async function updateCurrency(message, currency, settings, amountWagered, RNG, w
     })
 }
 
-module.exports.run = async (PREFIX, message, args, server, bot) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     if(!args[1]) return message.channel.send('Please specify an amount to wager');
     if(!Number.isInteger(parseInt(args[1], 10))) return message.channel.send('Please specify an integer value to wager');
 

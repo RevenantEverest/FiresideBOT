@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const config = require('../../../config/config');
 const timeParser = require('../utils/timeParser');
 
-module.exports.run = async (PREFIX, message, args, server, bot) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     if(message.author.id !== "163346982709100546") return;
 
     let embed = new Discord.RichEmbed();

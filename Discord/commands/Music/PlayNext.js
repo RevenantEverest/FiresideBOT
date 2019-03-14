@@ -1,4 +1,4 @@
-module.exports.run = async (PREFIX, message, args, server, bot) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     if(args[1].startsWith('http')) {
         server.queue.links.splice(0, 0, args[1]);
         if(!message.guild.voiceConnection) message.member.voiceChannel.join().then((connection) => {

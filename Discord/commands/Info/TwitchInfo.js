@@ -73,7 +73,7 @@ async function sendTwitchUserInfo(args, message, info) {
     message.channel.send(embed);
 };
 
-module.exports.run = async (PREFIX, message, args, server, bot) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     getTwitchInfo(args, message);
 };
 

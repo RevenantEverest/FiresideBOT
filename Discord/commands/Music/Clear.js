@@ -1,4 +1,4 @@
-module.exports.run = async (PREFIX, message, args, server, bot) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     server.queue.queueInfo = [];
     server.queue.genres = [];
     message.channel.send("Queue Cleared.");

@@ -123,7 +123,7 @@ function handleSinglePage(message, results) {
         message.channel.send(embed);
 };
 
-module.exports.run = async (PREFIX, message, args, server, bot) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     args.splice(0,1);
     let search = args.join(" ");
     const filterArr = ['official', 'music', 'video', 'lyric', 'lyrics', 'audio', 'monstercat', 'release', 'version', 'HD'];

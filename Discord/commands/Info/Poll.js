@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const answerEmotes = ['1️⃣', '2️⃣','3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '🔟'];
 const numberEmotes = ['\u0031', '\u0032', '\u0033', '\u0034', '\u0035', '\u0036', '\u0037', '\u0038', '\u0039', '\u1F51F'];
 
-module.exports.run = async (PREFIX, message, args, server, bot) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     if(!args[1] || !args.includes('-q') || !args.includes('-q') && !args.includes('-a')) 
         return message.channel.send('Please specify a question and at least one answer. \n\n`Example: ?poll -q How is everyone? -a Good -a Alright`');
     if(args.includes('-q') && !args.includes('-a')) return message.channel.send('Please specify at least one question using the `-a` flag');
@@ -11,13 +11,7 @@ module.exports.run = async (PREFIX, message, args, server, bot) => {
 
     let embed = new Discord.RichEmbed();
     let re = /(?<=\s)(-[a-z0-9]+)([^\-]*)?/gi;
-    var poll = {
-        question: "", 
-        answers: [], 
-        options: {
-            time: 300000
-        }
-    };
+    var poll = { question: "", answers: [], options: { time: 300000 } };
     var m = re.exec(args.join(" "));
 
     function strip(string) { return string.replace(/^\s+|\s+$/g, '') };

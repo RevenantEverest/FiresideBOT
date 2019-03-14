@@ -90,17 +90,19 @@ services.handleOnMessage = async (bot, message) => {
                         options: {
                             volume: '50',
                             loop: false,
-                            recommendations: false
+                            recommendations: false,
+                            voteToSkip: false
                         }
                     }
                  });
 
                 let args = message.content.substring(PREFIX.length).split(" ");
                 let server = config.servers[config.servers.map(el => el.id).indexOf(message.guild.id)];
+                let options = config.Discord_Options;
 
                 let commandfile = bot.commands.get(args[0].toLowerCase()) || bot.commands.get(bot.aliases.get(args[0].toLowerCase()));
                 if(commandfile) {
-                    commandfile.run(PREFIX, message, args, server, bot);
+                    commandfile.run(PREFIX, message, args, server, bot, options);
                     // logger.commandLogger({ 
                     //     command: commandfile.config.d_name.toString(), args: args.join(" "), message: '', user_id: message.author.id, guild_id: message.guild.id
                     // });

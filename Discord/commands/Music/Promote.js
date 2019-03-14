@@ -1,4 +1,4 @@
-module.exports.run = async (PREFIX, message, args, server, bot) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     if(!args[1]) return message.channel.send("Please specify a song number to promote.");
     let queueInfo = server.queue.queueInfo[parseInt((args[1] - 1), 10)]
     args[1] = parseInt((args[1] - 1), 10);

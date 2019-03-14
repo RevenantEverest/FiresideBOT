@@ -86,7 +86,7 @@ async function handlePages(message, args, server, songArr, bot) {
   })
 }
 
-module.exports.run = async (PREFIX, message, args, server, bot) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     let queueEmbed = new Discord.RichEmbed();
     queueEmbed.setTitle('**QUEUE**').setColor(0x0ccff);
     if(server.queue.queueInfo.length >= 1) {

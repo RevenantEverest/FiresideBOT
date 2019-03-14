@@ -2,7 +2,7 @@ const guildPlaylistsDB = require('../../../models/GuildModels/guildPlaylistsDB')
 const guildSongsDB = require('../../../models/GuildModels/guildSongsDB');
 const playSong = require('../utils/playSong');
 
-module.exports.run = async () => {
+module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     if(!message.member.voiceChannel) {
         message.channel.send("You must be in a voice channel");
         return;

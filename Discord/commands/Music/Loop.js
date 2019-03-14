@@ -1,18 +1,11 @@
 const Discord = require('discord.js');
 
-module.exports.run = async (PREFIX, message, args, server, bot) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     let embed = new Discord.RichEmbed();
-
-    if(server.queue.options.loop) {
-        server.queue.options.loop = false;
-        embed.addField('**Music Options**', 'Looping is now **off**').setColor(0xcc00ff);
-        message.channel.send(embed);
-    }
-    else if(!server.queue.options.loop) {
-        server.queue.options.loop = true;
-        embed.addField('**Music Options**', 'Looping is now **on**').setColor(0xcc00ff);
-        message.channel.send(embed);
-    }
+    server.queue.options.loop ? server.queue.options.loop = false : server.queue.options.loop = true;
+    
+    embed.addField('**Music Options**', `Autoplay(loop) is now ${server.queue.options.loop ? '**on**' : '**off**'}`)
+    message.channel.send(embed.setColor(0xcc00ff));
 };
 
 module.exports.config = {

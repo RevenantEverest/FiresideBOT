@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const apiServices = require('../../services/apiServices');
 const filter = require('../utils/filter');
 
-module.exports.run = async (PREFIX, message, args, server, bot) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     args.splice(0, 1);
     
     let search = args;

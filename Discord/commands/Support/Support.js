@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const config = require('../../../config/config');
 
-module.exports.run = async (PREFIX, message, args, server, bot) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     if(args.includes('-m')) {
         args.splice(args.indexOf('-m'), 1);
         args.splice(0, 1);

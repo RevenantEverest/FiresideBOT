@@ -37,7 +37,7 @@ function helpSpec(PREFIX, message, args, bot, contentArr) {
     message.channel.send(embed);
 };
 
-module.exports.run = async (PREFIX, message, args, server, bot) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     let categories = ['Admin', 'Economy', 'Fun', 'GameStats', 'Info', 'Music', 'Other', 'Support'];
     let contentArr = [
       {

@@ -1,4 +1,4 @@
-module.exports.run = async (PREFIX, message, args, server, bot) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send(`You don't have permission to use this command`);
     let user_id = /<@!?(\d+)>/.exec(args.join(" "))[1];
     console.log(user_id)

@@ -1,20 +1,13 @@
 module.exports = {
-  tickets: {
-    id: 0,
-    open_tickets: [],
-    closed_tickets: []
-  },
   servers: [],
-  Discord_Env: {
+  Discord_Options: {
+    version: 'v1.3.0',
     updatePending: false
   },
   Discord_Users_Count: 0,
-  Discord_Key: process.env.DISCORD_KEY,
-  Twitch_Key: process.env.TWITCH_KEY,
-  Google_Key: process.env.GOOGLE_KEY,
-  Twitch_Bot_Options: {
+  Twitch_Options: {
     options: {
-      debug: true
+      debug: false
     },
     connection: {
       cluster: 'aws',
@@ -26,4 +19,4 @@ module.exports = {
     },
     channels: ['RevenantEverest', 'Atsuumo', 'Wookie']
   }
-}
+};

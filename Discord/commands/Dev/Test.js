@@ -12,7 +12,7 @@ async function updateMessage(invokes, seconds, msg) {
         }, 1000)
 };
 
-module.exports.run = async (PREFIX, message, args, server, bot) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     // let roles = message.guild.roles.array().map(el => {
     //     return {id: el.id, name: el.name};
     // })

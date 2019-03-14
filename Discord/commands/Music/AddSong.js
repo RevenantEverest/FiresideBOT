@@ -45,7 +45,7 @@ async function saveToPlaylist(message, playlist_name, data) {
     });
 }
 
-module.exports.run = async (PREFIX, message, args, server, bot) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options) => {
   if(!args[1]) return message.channel.send('Please specify a playlist to add to');
   if(!server.queue.isPlaying && !args[1]) return message.channel.send('Please specify a playlist and song to add');
   if(!server.queue.isPlaying && !args[2]) return message.channel.send('Please specify a song to add');

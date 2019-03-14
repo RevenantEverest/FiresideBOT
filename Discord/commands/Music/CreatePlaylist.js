@@ -1,6 +1,6 @@
 const userPlaylistsDB = require('../../../models/UserModels/userPlaylistsDB');
 
-module.exports.run = async (PREFIX, message, args, server, bot) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     if(!args[1]) return message.channel.send('Please enter a name for the new Playlist');
     if(args[2]) return message.channel.send('No white space allowed');
 

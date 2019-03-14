@@ -20,7 +20,7 @@ async function displayEnv(message) {
     message.channel.send(embed);
 }
 
-module.exports.run = async (PREFIX, message, args, server, bot) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     if(message.author.id !== "163346982709100546") return;
     if(!args[1]) displayEnv(message);
     if(args.includes("-up")) updateUpdatePending(message);

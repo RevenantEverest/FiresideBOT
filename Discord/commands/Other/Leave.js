@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 
-module.exports.run = async (PREFIX, message, args, server, bot) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send(`You don't have permission to use this command`);
 
     let embed = new Discord.RichEmbed();

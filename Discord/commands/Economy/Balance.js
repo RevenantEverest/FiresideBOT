@@ -19,7 +19,7 @@ function saveCurrencySettings(settings, message, embed) {
         .catch(err => console.log(err));
 };
 
-module.exports.run = async (PREFIX, message, args, server, bot) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     let currencyEmbed = new Discord.RichEmbed();
     currencyEmbed.setColor(0xff6600);
 

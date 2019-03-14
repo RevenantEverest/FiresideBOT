@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 
-module.exports.run = async (PREFIX, message, args, server, bot) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     if(!args[1]) return message.channel.send('Please write a message to send as feedback');
     let embed = new Discord.RichEmbed();
     args.splice(0, 1);
