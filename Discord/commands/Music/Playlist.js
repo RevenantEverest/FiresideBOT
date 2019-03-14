@@ -1,3 +1,4 @@
+const config = require("../../../config/config");
 const userPlaylistsDB = require('../../../models/UserModels/userPlaylistsDB');
 const userSongsDB = require('../../../models/UserModels/userSongsDB');
 const playSong = require('../utils/playSong');
@@ -23,10 +24,13 @@ module.exports.run = async (PREFIX, message, args, server, bot) => {
   
   let playlistName = args[1];
   if(args[1] === "-s" || args[1] === '-i') playlistName = args[2];
+  
   userPlaylistsDB.findByDiscordIdAndPlaylistName({ discord_id: message.author.id, name: playlistName })
     .then(playlist => {
+
       if(!playlist) return message.channel.send('No playlist found by that name');
       if(args.includes("-i")) return viewPlaylist.view(message, args, server, playlist, bot);
+      if(config.Discord_Env.updatePending) return message.channel.send("An Update is currently pending, features will resume upon Update");
       if(!message.member.voiceChannel)
         return message.channel.send("You must be in a voice channel");
 

@@ -1,17 +1,15 @@
-const server = require('../server');
+const server = require('../app');
 const Discord = require('discord.js');
 const chalk = require('chalk');
 const Discord_Bot = new Discord.Client();
 const DBL = require('dblapi.js');
-const DBL_Options = {
-  statsInterval: 1800000, 
-  webhookPort: 3005, 
-  webhookAuth: 'HelloWorld',
-  webhookPath: '/webhook/dbl'
+const DBL_Options = { 
+  statsInterval: 1800000, webhookPort: 3001, 
+  webhookAuth: process.env.DBL_WEBHOOK_PASSWORD, webhookPath: '/webhook/dbl', 
+  webhookServer: server 
 };
 const DBL_Client = new DBL(process.env.DBL_TOKEN, DBL_Options, Discord_Bot);
 
-const guildsController = require('./controllers/guildsController');
 const discordEventController = require('./controllers/discordEventController');
 const dblEventController = require('./controllers/dblEventController');
 
@@ -56,10 +54,23 @@ Discord_Bot.on("guildCreate", (guild) => discordEventController.handleOnGuildCre
 Discord_Bot.on("guildDelete", (guild) => discordEventController.handleOnGuildDelete(Discord_Bot, guild));
 
 // Called When Message Is Sent
-Discord_Bot.on("message", async message => discordEventController.handleOnMessage(Discord_Bot, message));
+Discord_Bot.on("message", (message) => discordEventController.handleOnMessage(Discord_Bot, message));
+
+// Called When New Guild Member is Added
+Discord_Bot.on("guildMemberAdd", (member) => discordEventController.handleOnMemberAdd(Discord_Bot, member));
+
+// Called When Guild Memeber is Updated
+Discord_Bot.on("guildMemberUpdate", (oldMember, newMember) => discordEventController.handleOnMemberUpdate(Discord_Bot, oldMember, newMember));
+
+// Called When Guild Member Leaves or is Removed
+Discord_Bot.on("guildMemberRemove", (member) => discordEventController.handleOnMemberRemove(Discord_Bot, member));
 
 // Called When An Error Occurs
 Discord_Bot.on("error", err => discordEventController.handleOnError(Discord_Bot, err));
+
+/*
+  DBL Events
+*/
 
 DBL_Client.on('posted', () => {
   console.log(chalk.hex('#ff9900')('[LOG]') +' Server Count Posted');
@@ -70,7 +81,7 @@ DBL_Client.on('error', err => {
 });
 
 DBL_Client.webhook.on('ready', hook => {
-  // console.log('DBL Webhook Ready', hook);
+  console.log(chalk.hex("#00ff00")(`[HTTP]`) +  ` DBL-Webhook: Listening on port ${hook.port}`)
 });
 
 DBL_Client.webhook.on('vote', vote => dblEventController.handleOnVote(Discord_Bot, DBL_Client, vote));

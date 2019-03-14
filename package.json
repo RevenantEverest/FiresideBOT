@@ -21,10 +21,10 @@
     "express": "^4.16.4",
     "method-override": "^3.0.0",
     "morgan": "^1.9.1",
-    "nodemon": "^1.18.7",
+    "nodemon": "^1.18.10",
     "opusscript": "0.0.6",
-    "pg-promise": "^8.5.3",
-    "tmi.js": "^1.2.1",
+    "pg-promise": "^8.6.3",
+    "tmi.js": "^1.4.2",
     "ytdl-core": "^0.20.4"
   }
 }

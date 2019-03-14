@@ -9,7 +9,7 @@ const qrec = pgp.errors.queryResultErrorCode;
 
 const logger = require('../services/loggerServices');
 
-function getDate() {
+async function getDate() {
     let date = new Date();
     let options = {
         timezone: 'EST', 
@@ -73,7 +73,7 @@ module.exports = {
                 .addField('Member Count:', guild.memberCount)
                 .setFooter(`Guild added: ${getDate()}`)
 
-                if(guild.name !== 'RevenantEverest' && guild.name !== 'BOT-Testing')
+                if(guild.name !== 'RevenantEverest' && guild.name !== 'BOT-Testing' && guild.name !== 'Resisting Souls')
                     bot.channels.get('538528459190829064').send(embed);
             })
             .catch(err => {
@@ -129,7 +129,7 @@ module.exports = {
         .addField('Member Count:', guild.memberCount)
         .setFooter(`Guild removed: ${getDate()}`)
 
-        if(guild.name !== 'RevenantEverest' && guild.name !== 'BOT-Testing') 
+        if(guild.name !== 'RevenantEverest' && guild.name !== 'BOT-Testing' && guild.name !== 'Resisting Souls') 
             bot.channels.get('538528459190829064').send(embed);
 
         guildsDB.destroy(guild.id)

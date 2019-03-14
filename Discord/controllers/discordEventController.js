@@ -16,7 +16,9 @@ let PREFIX = '';
 const services = {};
 
 
-
+/*
+    On Ready
+*/
 services.handleOnReady = async (bot) => {
     guildsController.checkGuilds(bot)
     activityController.handleActivity(bot);
@@ -25,6 +27,9 @@ services.handleOnReady = async (bot) => {
     }, 5000);
 };
 
+/*
+    On Guild Create
+*/
 services.handleOnGuildCreate = async (bot, guild) => {
     guildsController.saveGuild(bot, guild);
 
@@ -42,30 +47,26 @@ services.handleOnGuildCreate = async (bot, guild) => {
     )
 
     for(let i = 0; i < channels.length; i++) {
-        if(channels[i].type === 'text') {
-            if(/^.*general.*$/i.test(channels[i].name) && channels[i].type === 'text')
-
-                if(!welcome.general || channels[i].position < welcome.general.position)
-                    welcome.general = channels[i];
-
-            else if(!welcome.channels || channels[i].position < welcome.channels.position)
-                welcome.channels = channels[i];
-        }
+        if(channels[i].type !== 'text') continue;
+        if(/^.*general.*$/i.test(channels[i].name)) {
+            if(!welcome.general || channels[i].position < welcome.general.position)
+                welcome.general = channels[i];
+        }    
+        else if(!welcome.channels || channels[i].position < welcome.channels.position)
+            welcome.channels = channels[i];
     }
 
-    welcome.general ? bot.channels.get(welcome.general.id).send(embed) : bot.channels.get(welcome.channels.id);
-    
-    /* Guild Logger */
-    // logger.guildLogger({ guild_id: guild.id, guild_name: guild.name, message: 'Guild Added'});
+    welcome.general ? bot.channels.get(welcome.general.id).send(embed) : bot.channels.get(welcome.channels.id).send(embed);
 };
 
-services.handleOnGuildDelete = async (bot, guild) => {
-    guildsController.removeGuild(bot, guild);
+/*
+    On Guild Delete
+*/
+services.handleOnGuildDelete = async (bot, guild) => guildsController.removeGuild(bot, guild);
 
-    /* Guild Logger */
-    // logger.guildLogger({ guild_id: guild.id, guild_name: guild.name, message: 'Guild Removed'})
-};
-
+/*
+    On Message
+*/
 services.handleOnMessage = async (bot, message) => {
     if(message.author.bot || message.channel.type === 'dm') return;
         currencyController.handleCurrency(message);
@@ -109,6 +110,37 @@ services.handleOnMessage = async (bot, message) => {
             .catch(err => console.error(err));
 };
 
+/*
+    On Member Add
+*/
+services.handleOnMemberAdd = async (bot, member) => {
+
+};
+
+/*
+    On Member Update
+*/
+services.handleOnMemberUpdate = async (bot, oldMember, newMember) => {
+    let data = {
+        guild_id: oldMember.guild.id,
+        oldMember: { user: oldMember.user, roles: oldMember._roles, nickname: oldMember.nickname },
+        newMember: { user: newMember.user, roles: newMember._roles, nickname: newMember.nickname }
+    };
+    
+
+    // console.log(data);
+};
+
+/*
+    On Member Remove
+*/
+services.handleOnMemberRemove = async (bot, memeber) => {
+
+};
+
+/*
+    On Error
+*/
 services.handleOnError = async (bot, err) => {
 
 };
