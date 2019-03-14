@@ -144,7 +144,12 @@ services.handleOnMemberRemove = async (bot, memeber) => {
     On Error
 */
 services.handleOnError = async (bot, err) => {
+    if(process.env.ENVIRONMENT === "DEV") return;
 
+    let embed = new Discord.RichEmbed();
+    embed.setColor(0xff0000).setTitle("CLIENT ERROR").setFooter(await getDate());
+
+    bot.channels.get("543862697742172179").send(embed);
 };
 
 module.exports = services;

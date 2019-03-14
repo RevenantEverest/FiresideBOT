@@ -5,7 +5,7 @@ async function updateUpdatePending(message) {
     config.Discord_Env.updatePending = true;
 
     message.channel.send("`Update Now Pending`");
-}
+};
 
 async function displayEnv(message) {
     let embed = new Discord.RichEmbed();
@@ -18,7 +18,7 @@ async function displayEnv(message) {
     .addField("Update Pending:", (env.updatePending ? "Yes" : "No"), true)
 
     message.channel.send(embed);
-}
+};
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     if(message.author.id !== "163346982709100546") return;

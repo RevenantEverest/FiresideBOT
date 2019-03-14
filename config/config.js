@@ -2,7 +2,15 @@ module.exports = {
   servers: [],
   Discord_Options: {
     version: 'v1.3.0',
-    updatePending: false
+    updatePending: false,
+    modules: {
+      Admin: true,
+      Economy: true,
+      Fun: true,
+      GameStats: true,
+      Info: true,
+      Music: true
+    }
   },
   Discord_Users_Count: 0,
   Twitch_Options: {
