@@ -52,6 +52,6 @@ module.exports = {
             })
     },
     getBotUserSize(req, res, next) {
-        res.json({message: "Getting Discord Users Count", data: config.Discord_Users_Count});
+        res.json({message: "Getting Discord Users Count", data: config.Discord_Options.users});
     }
 };
