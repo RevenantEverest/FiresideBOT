@@ -1,5 +1,18 @@
 const Discord = require('discord.js');
 
+async function getDate() {
+    let date = new Date();
+    let options = {
+        timezone: 'EST', 
+        weekday: 'long', 
+        day: 'numeric', 
+        month: 'long',
+        hour: 'numeric',
+        minute: 'numeric'
+    };
+    return date.toLocaleString('en-US', options);
+}
+
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     if(!args[1]) return message.channel.send('Please write a message to send as feedback');
     let embed = new Discord.RichEmbed();
@@ -11,6 +24,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     .addField('Username: ', message.author.username, true)
     .addField('ID: ', message.author.id, true)
     .addField('Message: ', args.join(" "))
+    .setFooter(`Message received ${await getDate()}`)
     bot.channels.get('542548055392780313').send(embed);
     message.channel.send('Message sent! Thank you for your Feedback!');
 };

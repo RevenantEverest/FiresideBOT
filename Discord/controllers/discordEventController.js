@@ -4,13 +4,11 @@ const logger = require('../services/loggerServices');
 
 const guildsController = require('./guildsController');
 const currencyController = require('./currencyController');
-const userSizeController = require('./userSizeController');
 const activityController = require('./activityController');
 
 const guildsDB = require('../../models/GuildModels/guildsDB');
 
 const BackUpCommands = require('../commands/BackUpCommands');
-const checkString = require('../commands/utils/checkString');
 
 let PREFIX = '';
 const services = {};
@@ -23,7 +21,8 @@ services.handleOnReady = async (bot) => {
     guildsController.checkGuilds(bot)
     activityController.handleActivity(bot);
     setInterval(() => {
-        userSizeController.getUserSize(bot)
+        config.Discord_Options.users = 0;
+        bot.guilds.array().forEach(el => config.Discord_Options.users += el.memberCount);
     }, 5000);
 };
 
@@ -45,6 +44,7 @@ services.handleOnGuildCreate = async (bot, guild) => {
         `If you're experiencing any issue please use our [Support Server](https://discord.gg/TqKHVUa)\n\n` +
         `And if FiresideBOT isn't meeting your expectations or you want to just leave a kind message you can tell us with the ` + "`?feedback` command"
     )
+    .setTitle('Thank you for adding FiresideBOT')
 
     for(let i = 0; i < channels.length; i++) {
         if(channels[i].type !== 'text') continue;
@@ -94,7 +94,7 @@ services.handleOnMessage = async (bot, message) => {
                             voteToSkip: false
                         }
                     }
-                 });
+                });
 
                 let args = message.content.substring(PREFIX.length).split(" ");
                 let server = config.servers[config.servers.map(el => el.id).indexOf(message.guild.id)];
@@ -103,9 +103,10 @@ services.handleOnMessage = async (bot, message) => {
                 let commandfile = bot.commands.get(args[0].toLowerCase()) || bot.commands.get(bot.aliases.get(args[0].toLowerCase()));
                 if(commandfile) {
                     commandfile.run(PREFIX, message, args, server, bot, options);
-                    // logger.commandLogger({ 
-                    //     command: commandfile.config.d_name.toString(), args: args.join(" "), message: '', user_id: message.author.id, guild_id: message.guild.id
-                    // });
+                    if(process.env.ENVIRONMENT === "DEV") return;
+                    logger.commandLogger({ 
+                        command: commandfile.config.d_name.toString(), args: args.join(" "), message: '', user_id: message.author.id, guild_id: message.guild.id
+                    });
                 }
             
             })

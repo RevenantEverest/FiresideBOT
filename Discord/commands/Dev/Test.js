@@ -18,6 +18,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     // })
     // console.log(roles);
     console.log(message.channel.id)
+    message.channel.send(':Fireside:')
 };
 
 module.exports.config = {

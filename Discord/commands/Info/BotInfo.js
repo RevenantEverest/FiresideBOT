@@ -11,7 +11,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     .setThumbnail(bot.user.avatarURL)
     .addField('**Bot Info**', bot.user.username)
     .addBlankField()
-    .addField('Users:', config.Discord_Users_Count, true)
+    .addField('Users:', config.Discord_Options.users, true)
     .addField('Guilds:', bot.guilds.array().length, true)
     .addField('Commands:', bot.commands.array().length, true)
     .addField('Created:', `${accountCreated[1]} ${accountCreated[2]} ${accountCreated[3]}`, true)

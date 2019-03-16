@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const chalk = require('chalk');
 const guildsDB = require('../../models/GuildModels/guildsDB');
 const currencyDB = require('../../models/currencyDB');
+const utils = require('../commands/utils/utils');
 
 const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
@@ -9,21 +10,8 @@ const qrec = pgp.errors.queryResultErrorCode;
 
 const logger = require('../services/loggerServices');
 
-async function getDate() {
-    let date = new Date();
-    let options = {
-        timezone: 'EST', 
-        weekday: 'long', 
-        day: 'numeric', 
-        month: 'long',
-        hour: 'numeric',
-        minute: 'numeric'
-    };
-    return date.toLocaleString('en-US', options);
-}
-
 module.exports = {
-    checkGuilds(bot) {
+    async checkGuilds(bot) {
         guildsDB.findAll()
             .then(dbGuilds => {
                 let botGuilds = bot.guilds.array();
@@ -59,7 +47,8 @@ module.exports = {
             })
             .catch(err => console.error(err));
     },
-    saveGuild(bot, guild) {
+    async saveGuild(bot, guild) {
+        let date = await utils.getDate();
         guildsDB.save({ guild_name: guild.name, guild_id: guild.id })
             .then(() => {
                 let embed = new Discord.RichEmbed();
@@ -71,7 +60,7 @@ module.exports = {
                 .addField('Name:', guild.name, true)
                 .addField('ID:', guild.id, true)
                 .addField('Member Count:', guild.memberCount)
-                .setFooter(`Guild added: ${getDate()}`)
+                .setFooter(`Guild added: ${date}`)
 
                 if(process.env.ENVIRONMENT !== "DEV")
                     bot.channels.get('538528459190829064').send(embed);
@@ -81,7 +70,7 @@ module.exports = {
                 console.log(err);
             });
     },
-    guildSettingsCheck(guild) {
+    async guildSettingsCheck(guild) {
         guildsDB.ifSettingsExist(guild.id)
             .then(() => this.currencySettingsCheck(guild))
             .catch(err => {
@@ -90,7 +79,7 @@ module.exports = {
                 else console.log(err);
             });
     },
-    saveDefaultGuildSettings(guild) {
+    async saveDefaultGuildSettings(guild) {
         guildsDB.saveDefaultSettings({ guild_id: guild.id, prefix: '?' })
             .then(() => this.currencySettingsCheck(guild))
             .catch(err => {
@@ -98,7 +87,7 @@ module.exports = {
                 console.log("Hello", err);
             });
     },
-    currencySettingsCheck(guild) {
+    async currencySettingsCheck(guild) {
         currencyDB.findCurrencySettings(guild.id)
             .catch(err => {
                 if(err instanceof QRE && err.code === qrec.noData) {
@@ -107,7 +96,7 @@ module.exports = {
                 else console.log("Hello World => ", err);
             });
     },
-    saveDefaultCurrencySettings(guild) {
+    async saveDefaultCurrencySettings(guild) {
         currencyDB.saveDefaultSettings({
             guild_id: guild.id,
             currency_name: 'Kindling',
@@ -118,9 +107,8 @@ module.exports = {
                 console.log("SaveDefaultCurrencySettings");
             });
     },
-    removeGuild(bot, guild) {
-        
-
+    async removeGuild(bot, guild) {
+        let date = await utils.getDate();
         let embed = new Discord.RichEmbed();
         embed
         .setTitle('**Removed Guild**')
@@ -129,7 +117,7 @@ module.exports = {
         .addField('Name:', guild.name, true)
         .addField('ID:', guild.id, true)
         .addField('Member Count:', guild.memberCount)
-        .setFooter(`Guild removed: ${getDate()}`)
+        .setFooter(`Guild removed: ${date}`)
 
         if(process.env.ENVIRONMENT !== "DEV")
             bot.channels.get('538528459190829064').send(embed);

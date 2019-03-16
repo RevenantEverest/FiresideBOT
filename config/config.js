@@ -2,6 +2,7 @@ module.exports = {
   servers: [],
   Discord_Options: {
     version: 'v1.3.0',
+    users: 0,
     updatePending: false,
     modules: {
       Admin: true,
@@ -12,7 +13,6 @@ module.exports = {
       Music: true
     }
   },
-  Discord_Users_Count: 0,
   Twitch_Options: {
     options: {
       debug: false

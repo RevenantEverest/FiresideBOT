@@ -2,9 +2,7 @@ const userPlaylistsDB = require('../../../models/UserModels/userPlaylistsDB');
 const userSongsDB = require('../../../models/UserModels/userSongsDB');
 const YTDL = require('ytdl-core');
 const youtubeServices = require('../../../services/youtubeServices');
-
-const checkString = require('../utils/checkString');
-const filter = require('../utils/filter');
+const utils = require('../utils/utils');
 
 const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
@@ -57,7 +55,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
   args.splice(1, 1);
   args.splice(0, 1);
 
-  await checkString(args[2], requestFilter) ? request = await filter(args[2], requestFilter, { special: false }) : request = args.join(" ");
+  await utils.checkString(args[2], requestFilter) ? request = await utils.filter(args[2], requestFilter, { special: false }) : request = args.join(" ");
 
   userPlaylistsDB.findByDiscordIdAndPlaylistName({ discord_id: message.author.id, name: playlistSearch })
       .then(playlist => {

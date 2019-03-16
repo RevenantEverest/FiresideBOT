@@ -2,8 +2,7 @@ const config = require('../../../config/config');
 const Discord = require('discord.js');
 const YTDL = require('ytdl-core');
 const handleRecommendations = require('./handleRecommendations');
-const filter = require('./filter');
-const timeParser = require('./timeParser');
+const utils = require('./utils');
 
 const apiServices = require('../../services/apiServices');
 
@@ -13,7 +12,7 @@ const services = {};
 
 async function getGenre(server) {
   let filterArr = ['official', 'music', 'video', 'lyric', 'lyrics', 'audio', 'monstercat', 'release', 'version', 'HD'];
-  let search = await filter(server.queue.currentSongInfo.title, filterArr, { special: true });
+  let search = await utils.filter(server.queue.currentSongInfo.title, filterArr, { special: true });
   apiServices.getTrack({ track: search })
     .then(results => {
       if(!results.data.results.trackmatches.track[0]) return;
@@ -46,7 +45,7 @@ services.playSong = async (connection, message, server) => {
     .addField(request.title, request.author)
     .addField('Link', `[Click Me](${request.link}) \nRequested By: ${request.requestedBy}`)
     .setThumbnail(request.thumbnail)
-    .setFooter(`Length: ${await timeParser(request.duration)}`)
+    .setFooter(`Length: ${await utils.timeParser(request.duration)}`)
     .setColor(0x0be289)
   message.channel.send(currentSongEmbed);
 

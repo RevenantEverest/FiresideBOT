@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const config = require('../../../config/config');
-const timeParser = require('../utils/timeParser');
+const utils = require('../utils/utils');
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     if(message.author.id !== "163346982709100546") return;
@@ -18,7 +18,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
 
     embed
     .addField("In Progress:", queuesInProgress, true)
-    .addField("Overall Length: ", await timeParser(queueLengthInSeconds), true)
+    .addField("Overall Length: ", await utils.timeParser(queueLengthInSeconds), true)
     .addField("Songs In Queue:", queueSongAmount)
 
     message.channel.send(embed);

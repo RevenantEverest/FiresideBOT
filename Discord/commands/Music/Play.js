@@ -2,8 +2,7 @@ const config = require('../../../config/config');
 const YTDL = require('ytdl-core');
 const youtubeServices = require('../../../services/youtubeServices');
 const playSong = require('../utils/playSong');
-const checkString = require('../utils/checkString');
-const filter = require('../utils/filter');
+const utils = require('../utils/utils');
 
 
 /*
@@ -66,7 +65,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     let request = '';
     args.splice(0, 1);
 
-    await checkString(args[0], requestFilter) ? request = await filter(args[0], requestFilter, { special: false }) : request = args.join(" ");
+    await utils.checkString(args[0], requestFilter) ? request = await utils.filter(args[0], requestFilter, { special: false }) : request = args.join(" ");
 
     youtubeSearch(message, args, server, request);
 };

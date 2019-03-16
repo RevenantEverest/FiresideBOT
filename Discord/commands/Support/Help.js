@@ -41,21 +41,21 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     let categories = ['Admin', 'Economy', 'Fun', 'GameStats', 'Info', 'Music', 'Other', 'Support'];
     let contentArr = [
       {
-        category: `Welcome to the FiresideBOT Help Command`, 
+        category: `Welcome to the FiresideBOT Help Command`,
         fields: [
           {
+            field: 'Available Categories:',
+            value: categories.join(" **|** ")
+          },
+          {
             field: 'How To Use:',
-            value: 'Use the reactions below to move back and forth through the menu\nClicking the ⏹ will delete the help message',
-            inline: false
+            value: 'Use the reactions below to move back and forth through the menu',
+            inline: true
           },
           {
             field: 'More Info:',
             value: 'To get more info about a command or category use the help command again with the desired command or category afterwards\n`Example: ' + PREFIX + 'help Music`',
-            inline: false
-          },
-          {
-            field: 'Available Categories:',
-            value: categories.join(", ")
+            inline: true
           }
         ]
       }

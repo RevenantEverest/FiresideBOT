@@ -1,7 +1,7 @@
 const apiServices = require('../../services/apiServices');
 const youtubeServices = require('../../../services/youtubeServices');
 const YTDL = require('ytdl-core');
-const mode = require('./mode');
+const utils = require('./utils');
 const playSong = require('./playSong');
 
 /*
@@ -45,7 +45,7 @@ async function youtubeSearch(message, server, songRequest, resolve, reject) {
 }
 
 module.exports = async (message, server, resolve, reject) => {
-    let genre = mode(server.queue.genres);
+    let genre = utils.mode(server.queue.genres);
     apiServices.getSongsByGenre(genre)
         .then(results => {
             let RNG = Math.floor(Math.random() * results.data.tracks.track.length);
