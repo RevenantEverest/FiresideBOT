@@ -57,10 +57,11 @@ CREATE TABLE discord_tickets (
 CREATE TABLE discord_closed_tickets (
   ticket_id BIGINT,
   discord_id VARCHAR(255),
-  initial_message VARCHAR(255),
+  initial_message VARCHAR(1024),
   ticket_date VARCHAR(255),
   close_date VARCHAR(255),
-  closed_by VARCHAR(255)
+  closed_by VARCHAR(255),
+  reason VARCHAR(1024)
 );
 
 CREATE TABLE discord_tokens (

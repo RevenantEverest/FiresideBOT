@@ -116,8 +116,15 @@ async function respondToTicket(bot, args, message) {
 async function closeTicket(bot, args, message) {
     let ticket = await getTicket(parseInt(args[2], 10), bot, message);
     if(!ticket) return message.channel.send("Ticket not found");
+    let reason = 'No Reason Given';
+    if(args[3]) {
+        args.splice(2, 1);
+        args.splice(1, 1);
+        args.splice(0, 1);
+        reason = args.join(" ");
+    }
 
-    ticketsController.closeTicket(bot, message, ticket);
+    ticketsController.closeTicket(bot, message, ticket, reason);
 };
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
@@ -126,18 +133,20 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     */
    
     if(!args[1]) return displayOpenTickets(bot, args, message);
-    if(!args[2]) return displayTicket(bot, args, message);
+    if(!args[2] && args[1] !== "-ct") return displayTicket(bot, args, message);
     if(!Number.isInteger(parseInt(args[2], 10)) && args[1] !== "-ct") return message.channel.send("Please specify a Ticket ID");
 
+    if(args[1] === "-ct") displayClosedTickets(bot, args, message);
     if(args[1] === "-r") respondToTicket(bot, args, message);
     if(args[1] === "-c") closeTicket(bot, args, message);
-    if(args[1] === "-ct") displayClosedTickets(bot, args, message);
+    else if(Number.isInteger(parseInt(args[1], 10))) displayTicket(bot, args, message);
+    
 };
 
 module.exports.config = {
     name: 'ticket',
     d_name: 'Ticket',
-    aliases: [],
+    aliases: ['tickets'],
     params: { required: true, params: 'Message' },
     category: 'Dev',
     desc: 'Respond to / Close an open Ticket',

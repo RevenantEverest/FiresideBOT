@@ -23,7 +23,7 @@
     "morgan": "^1.9.1",
     "nodemon": "^1.18.10",
     "opusscript": "0.0.6",
-    "pg-promise": "^8.6.3",
+    "pg-promise": "^8.6.4",
     "tmi.js": "^1.4.2",
     "ytdl-core": "^0.20.4"
   }

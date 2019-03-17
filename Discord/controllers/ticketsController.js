@@ -16,7 +16,8 @@ module.exports = {
         */
        discordTicketsDB.findByDiscordId(message.author.id)
         .then(ticket => {
-            console.log(ticket)
+            if(message.content.split("").length > 1000) 
+                return message.author.send('Please limit your message to 1024 characters or less');
             this.userResponse(bot, message, ticket);
         })
         .catch(err => {
@@ -64,7 +65,7 @@ module.exports = {
         bot.channels.get('542561301302345760').send(embed);
         message.author.send('Message received')
     },
-    async closeTicket(bot, message, ticket) {
+    async closeTicket(bot, message, ticket, reason) {
         discordTicketsDB.delete(ticket.id).catch(err => console.error(err));
         let data = {
             ticket_id: ticket.id, 
@@ -72,7 +73,8 @@ module.exports = {
             initial_message: ticket.initial_message, 
             ticket_date: ticket.ticket_date,
             close_date: await utils.getDate(),
-            closed_by: message.author.id
+            closed_by: message.author.id,
+            reason: reason
         };
         discordClosedTicketsDB.save(data)
             .then(closedTicket => {
@@ -81,12 +83,14 @@ module.exports = {
 
                 userEmbed
                 .setColor(0xff0000)
-                .addField(`Ticket Closed`, 'A member from our support team has closed your Ticket.\nIf this was a mistake, please send us another message')
-                .setFooter(`ID: ${ticket.id} Closed On: ${data.close_date}`)
+                .addField(`Ticket Closed`, `ID: ${ticket.id}\n\nA member from our support team has closed your Ticket.\nIf this was a mistake, please send us another message`)
+                .addField('Reason:', data.reason)
+                .setFooter(`Closed On: ${data.close_date} by ${bot.users.get(data.closed_by).username}`)
 
                 serverEmbed
                 .setColor(0xff0000)
                 .addField('Ticket Closed', `ID: ${ticket.id}`)
+                .addField('Reason:', reason)
                 .setFooter(`Closed by ${message.author.username} on ${data.close_date}`)
 
                 bot.users.get(ticket.discord_id).send(userEmbed);
