@@ -15,7 +15,7 @@ function updateRecipientCurrency(r_Currency, settings, amountGiven, message) {
     let updatedCurrency = parseInt(r_Currency.currency, 10) + amountGiven;
     discordCurrencyDB.update({ currency: updatedCurrency, discord_id: r_Currency.discord_id, guild_id: message.guild.id })
     .then(() => {
-        message.channel.send(`${message.author.username} gave ${message.mentions.users.array()[0].username} ${amountGiven} ${settings.currency_name}`);
+        message.channel.send(`**${message.author.username}** gave **${message.mentions.users.array()[0].username}**, **${amountGiven} ${settings.currency_name}**`);
     })
     .catch(err => console.error(err));
 };
@@ -26,12 +26,13 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     if(!Number.isInteger(parseInt(args[2], 10))) return message.channel.send('Please specify an integer value to give');
     if(!message.content.split(" ")[1].startsWith('<@')) return message.channel.send('Please specify a valid recipient');
     if(parseInt(args[2], 10)< 1) return message.channel.send('Please specify an amount to give of at least 1 or higher');
-    
-    console.log(message.content);
+
     let discord_id = message.author.id;
     let guild_id = message.guild.id;
     let amountGiven = Math.floor(parseInt(args[2], 10));
     let recipient_id = /<@!?(\d+)>/.exec(args.join(" "))[1];
+
+    if(discord_id === recipient_id) return message.channel.send(`You can't give money to yourself`);
 
     let currencyPromises = [
         discordCurrencyDB.findByDiscordIdAndGuildId({ discord_id: discord_id, guild_id: guild_id }),
@@ -40,11 +41,10 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
 
     currencyDB.findCurrencySettings(message.guild.id)
         .then(settings => {
-            console.log("Settings Recieved")
             Promise.all(currencyPromises).then(currencyData => {
-                let u_Currency = currencyData[0];
-                let r_Currency = currencyData[1];
-                updateUserCurrency(u_Currency, r_Currency, settings, amountGiven, message);
+                if(currencyData[0].currency < amountGiven) return message.channel.send('Insufficient Funds...');
+
+                updateUserCurrency(currencyData[0], currencyData[1], settings, amountGiven, message);
             })
             .catch(err => {
                 if(err instanceof QRE && err.code === qrec.noData) {

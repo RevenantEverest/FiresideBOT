@@ -4,7 +4,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     if(server.queue.isPlaying === true && server.queue.isPaused === true) {
       server.queue.isPaused = false;
       server.dispatcher.resume();
-      message.channel.send('Resuming ' + "`" + `${server.queue.currentSongInfo.title}` + "`");
+      message.channel.send(`Resuming **${server.queue.currentSongInfo.title}**`);
     }
 };
 

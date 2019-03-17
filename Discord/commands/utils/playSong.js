@@ -35,7 +35,7 @@ services.playSong = async (connection, message, server) => {
   if(server.queue.isPaused === true) server.queue.isPaused = false;
   if(server.queue.isPlaying === false) server.queue.isPlaying = true;
 
-  server.dispatcher = connection.playStream(YTDL(request.link, {filter: 'audioonly', quality: 'highestaudio'}));
+  server.dispatcher = connection.playStream(YTDL(request.link, {filter: 'audioonly', quality: 'highestaudio', highWaterMark: 1<<25}));
   volume.run('', message, (['', server.queue.options.volume]), server, '');
 
   if(!request) return;

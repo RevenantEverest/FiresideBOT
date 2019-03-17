@@ -11,7 +11,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
             if(playlist === null) return message.channel.send('No playlist by that name found')
             userPlaylistsDB.delete(playlist.playlist_id)
                 .then(() => {
-                    message.channel.send('Playlist `' + playlist.name + '` has been deleted')
+                    message.channel.send(`Playlist **${playlist.name}** has been deleted`)
                 })
                 .catch(err => {
                     console.error(err);

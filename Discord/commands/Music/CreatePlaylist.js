@@ -6,7 +6,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
 
     userPlaylistsDB.save({ discord_id: message.author.id, name: args[1].toString() })
         .then(savedPlaylist => {
-            message.channel.send('New playlist ' + '`' + savedPlaylist.name + '` created!');
+            message.channel.send(`New playlist **${savedPlaylist.name}** created`);
         })
         .catch(err => console.log(err));
 };

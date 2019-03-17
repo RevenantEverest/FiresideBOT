@@ -19,7 +19,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
               requestedBy: message.author.username
             }
             server.queue.queueInfo.splice(0, 0, queueInfo)
-            message.channel.send(`${results.data.items[0].snippet.title} was added to the queue.`)
+            message.channel.send(`**${results.data.items[0].snippet.title}** was added next in queue.`)
             if(!message.guild.voiceConnection) message.member.voiceChannel.join().then((connection) => {
               playSong.playSong(connection, message);
             })

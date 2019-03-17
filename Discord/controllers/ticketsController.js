@@ -16,7 +16,8 @@ module.exports = {
         */
        discordTicketsDB.findByDiscordId(message.author.id)
         .then(ticket => {
-            
+            console.log(ticket)
+            this.userResponse(bot, message, ticket);
         })
         .catch(err => {
             if(err instanceof QRE && err.code === qrec.noData)
@@ -31,7 +32,7 @@ module.exports = {
                 let serverEmbed = new Discord.RichEmbed();
                 responseEmbed
                 .setColor(0x00ff00)
-                .addField("Ticket Received", 'A memeber from out support team will be with your shortly')
+                .addField("Ticket Received", 'A member from out support team will be with your shortly')
                 .setFooter(`ID: ${ticket.id}`)
 
                 serverEmbed
@@ -47,6 +48,21 @@ module.exports = {
                 bot.channels.get('542561301302345760').send(serverEmbed);
             })
             .catch(err => console.error(err));
+    },
+    async userResponse(bot, message, ticket) {
+        let embed = new Discord.RichEmbed();
+
+        embed
+        .setColor(0xffff4d)
+        .addField('Response', `ID: ${ticket.id}`)
+        .addBlankField()
+        .addField('User:', message.author.username, true)
+        .addField('Discord ID:', message.author.id, true)
+        .addField('Message:', message.content)
+        .setFooter(`Received ${await utils.getDate()}`)
+
+        bot.channels.get('542561301302345760').send(embed);
+        message.author.send('Message received')
     },
     async closeTicket(bot, message, ticket) {
         discordTicketsDB.delete(ticket.id).catch(err => console.error(err));
@@ -65,8 +81,8 @@ module.exports = {
 
                 userEmbed
                 .setColor(0xff0000)
-                .addField(`Ticket Closed`, 'A memeber from out support team has closed your Ticket.\nIf this was a mistake, please send us another message')
-                .setFooter(`ID: ${ticket.id}`)
+                .addField(`Ticket Closed`, 'A member from our support team has closed your Ticket.\nIf this was a mistake, please send us another message')
+                .setFooter(`ID: ${ticket.id} Closed On: ${data.close_date}`)
 
                 serverEmbed
                 .setColor(0xff0000)

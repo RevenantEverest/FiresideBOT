@@ -8,7 +8,7 @@ function isInteger(n) {
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     if(!message.member.voiceChannel) return message.channel.send('Please join a voice channel');
-    if(!args[1]) return message.channel.send(`Current Volume: ${server.queue.options.volume}`);
+    if(!args[1]) return message.channel.send(`Current Volume: **${server.queue.options.volume}**`);
     if(!isInteger(parseInt(args[1], 10))) return message.channel.send("Invalid integer value.");
     if(parseInt(args[1], 10) > 100 || parseInt(args[1], 10) <= 0) return message.channel.send("Please select a volume between 1 and 100.");
     server.queue.options.volume = args[1];
@@ -20,7 +20,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
       }
     }
     if(args[0] === '') return;
-    message.channel.send(`Volume set to: ${args[1]}`);
+    message.channel.send(`Volume set to: **${args[1]}**`);
 };
 
 module.exports.config = {

@@ -9,18 +9,17 @@ async function updateCurrency(message, currency, settings, amountWagered, RNG, w
     if(winner) newAmount = parseInt(currency.currency, 10) + (amountWagered * 2);
     if(!winner) newAmount = currency.currency - amountWagered;
 
-    console.log(currency.currency, amountWagered, newAmount);
     discordCurrencyDB.update({ currency: newAmount, discord_id: message.author.id, guild_id: message.guild.id })
     .then(() => {
         if(winner)
             message.channel.send(
-                "`" + message.author.username + "` rolled a `" + RNG + "` and won `" + (amountWagered * 2) + 
-                " " + settings.currency_name + "` and now has `" + newAmount + " " + settings.currency_name +"`"
+                `**${message.author.username}** rolled a **${RNG}** and won **${(amountWagered * 2)}** ` + 
+                `**${settings.currency_name}** and now has **${newAmount} ${settings.currency_name}**`
             );
         else if(!winner)
             message.channel.send(
-                "`" + message.author.username + "` rolled a `" + RNG + "` and lost `" + amountWagered + 
-                " " + settings.currency_name + "` and now has `" + newAmount + " " + settings.currency_name +"`"
+                `**${message.author.username}** rolled a **${RNG}** and lost **${amountWagered}** ` + 
+                `**${settings.currency_name}** and now has **${newAmount} ${settings.currency_name}**`
             );
     })
     .catch(err => {

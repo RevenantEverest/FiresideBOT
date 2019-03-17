@@ -4,7 +4,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     args[1] = parseInt((args[1] - 1), 10);
     server.queue.queueInfo.splice(args[1], 1);
     server.queue.queueInfo.splice(0, 0, queueInfo);
-    message.channel.send(`${queueInfo.title} was promoted to next in queue.`);
+    message.channel.send(`**${queueInfo.title}** was promoted to next in queue.`);
 };
 
 module.exports.config = {

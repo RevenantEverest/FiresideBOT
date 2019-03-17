@@ -1,4 +1,4 @@
-const config = require('../../../config/config');
+const Discord = require('discord.js');
 const userPlaylistsDB = require('../../../models/UserModels/userPlaylistsDB');
 const userSongsDB = require('../../../models/UserModels/userSongsDB');
 
@@ -27,7 +27,7 @@ module.exports = {
     findMyPlaylists(message, args, server) {
         userPlaylistsDB.findByDiscordId(message.author.id)
           .then(playlists => {
-            let playlistEmbed = new config.Discord.RichEmbed();
+            let playlistEmbed = new Discord.RichEmbed();
             let playlistPromises = [];
             playlistEmbed
               .setTitle(`**Available Playlists For ${message.author.username}**`)

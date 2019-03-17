@@ -36,7 +36,7 @@ async function YTDL_GetInfo(message, args, link, { playlist_id, name }) {
 
 async function saveToPlaylist(message, playlist_name, data) {
   userSongsDB.save(data) 
-    .then(playlist => message.channel.send("`" + data.title + "` added to playlist `" + playlist_name + "` with ID `" + playlist.song_id + "`"))
+    .then(playlist => message.channel.send(`**${data.title}** added to playlist **${playlist_name}** with ID **${playlist.song_id}**`))
     .catch(err => {
       message.channel.send("Error saving to Playlist");
       console.error(err);
@@ -62,7 +62,6 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
           if(playlist === null) return message.channel.send(`No playlist by that name found`);
           if(server.queue.isPlaying && !args[2]) {
               let info = server.queue.currentSongInfo;
-              console.log(info);
               
               saveToPlaylist(message, playlist.name, {
                 playlist_id: playlist.playlist_id, title: info.title, link: info.link, author: info.author, duration: info.duration, thumbnail_url: info.thumbnail 
@@ -86,4 +85,4 @@ module.exports.config = {
     category: 'Music',
     desc: 'Adds a song to your playlist from',
     example: 'addsong Chillstep Better Now Post Malone'
-}
+};

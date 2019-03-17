@@ -13,7 +13,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
             if(results.discord_id !== message.author.id) return message.channel.send('Invalid ID provided');
             else {
                 userSongsDB.destroy(results.song_id)
-                    .then(() => message.channel.send('`' + results.title + '` has been removed from playlist `' + results.name + '`'))
+                    .then(() => message.channel.send(`**${results.title}** has been removed from **${results.name}**`))
                     .catch(err => console.error(err));
             }
         })
