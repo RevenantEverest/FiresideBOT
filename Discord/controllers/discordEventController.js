@@ -5,6 +5,7 @@ const logger = require('../services/loggerServices');
 const guildsController = require('./guildsController');
 const currencyController = require('./currencyController');
 const activityController = require('./activityController');
+const ticketsController = require('./ticketsController');
 
 const guildsDB = require('../../models/GuildModels/guildsDB');
 
@@ -68,49 +69,50 @@ services.handleOnGuildDelete = async (bot, guild) => guildsController.removeGuil
     On Message
 */
 services.handleOnMessage = async (bot, message) => {
-    if(message.author.bot || message.channel.type === 'dm') return;
-        currencyController.handleCurrency(message);
+    if(message.author.bot) return;
+    if(message.channel.type === "dm") return ticketsController.handleTicket(bot, message);
+    currencyController.handleCurrency(message);
         
-        guildsDB.findPrefix(message.guild.id)
-            .then(prefix => {
-                PREFIX = prefix.prefix;
+    guildsDB.findPrefix(message.guild.id)
+        .then(prefix => {
+            PREFIX = prefix.prefix;
 
-                BackUpCommands(PREFIX, message);
+            BackUpCommands(PREFIX, message);
 
-                if(!message.content.startsWith(PREFIX)) return;
-                if(!config.servers.map(el => el.id).includes(message.guild.id)) config.servers.push({ 
-                    id: message.guild.id,
-                    queue: {
-                        isPlaying: false,
-                        isPaused: false,
-                        queueInfo: [],
-                        currentSongInfo: {},
-                        currentSongEmbed: [],
-                        genres: [],
-                        options: {
-                            volume: '50',
-                            loop: false,
-                            recommendations: false,
-                            voteToSkip: false
-                        }
+            if(!message.content.startsWith(PREFIX)) return;
+            if(!config.servers.map(el => el.id).includes(message.guild.id)) config.servers.push({ 
+                id: message.guild.id,
+                queue: {
+                    isPlaying: false,
+                    isPaused: false,
+                    queueInfo: [],
+                    currentSongInfo: {},
+                    currentSongEmbed: [],
+                    genres: [],
+                    options: {
+                        volume: '50',
+                        loop: false,
+                        recommendations: false,
+                        voteToSkip: false
                     }
-                });
-
-                let args = message.content.substring(PREFIX.length).split(" ");
-                let server = config.servers[config.servers.map(el => el.id).indexOf(message.guild.id)];
-                let options = config.Discord_Options;
-
-                let commandfile = bot.commands.get(args[0].toLowerCase()) || bot.commands.get(bot.aliases.get(args[0].toLowerCase()));
-                if(commandfile) {
-                    commandfile.run(PREFIX, message, args, server, bot, options);
-                    if(process.env.ENVIRONMENT === "DEV") return;
-                    logger.commandLogger({ 
-                        command: commandfile.config.d_name.toString(), args: args.join(" "), message: '', user_id: message.author.id, guild_id: message.guild.id
-                    });
                 }
+            });
+
+            let args = message.content.substring(PREFIX.length).split(" ");
+            let server = config.servers[config.servers.map(el => el.id).indexOf(message.guild.id)];
+            let options = config.Discord_Options;
+
+            let commandfile = bot.commands.get(args[0].toLowerCase()) || bot.commands.get(bot.aliases.get(args[0].toLowerCase()));
+            if(commandfile) {
+                commandfile.run(PREFIX, message, args, server, bot, options);
+                if(process.env.ENVIRONMENT === "DEV") return;
+                logger.commandLogger({ 
+                    command: commandfile.config.d_name.toString(), args: args.join(" "), message: '', user_id: message.author.id, guild_id: message.guild.id
+                });
+            }
             
-            })
-            .catch(err => console.error(err));
+        })
+        .catch(err => console.error(err));
 };
 
 /*

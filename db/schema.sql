@@ -43,6 +43,26 @@ CREATE TABLE discord_currency (
   currency BIGINT
 );
 
+--
+-- Currently Working on Tickets
+-- 
+
+CREATE TABLE discord_tickets (
+  id SERIAL PRIMARY KEY,
+  discord_id VARCHAR(255),
+  initial_message VARCHAR(1024),
+  ticket_date VARCHAR(255)
+);
+
+CREATE TABLE discord_closed_tickets (
+  ticket_id BIGINT,
+  discord_id VARCHAR(255),
+  initial_message VARCHAR(255),
+  ticket_date VARCHAR(255),
+  close_date VARCHAR(255),
+  closed_by VARCHAR(255)
+);
+
 CREATE TABLE discord_tokens (
   id SERIAL PRIMARY KEY,
   discord_id VARCHAR(255),
