@@ -76,27 +76,27 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
                 let Comp_Stats = data.competitiveStats.games;
                 let Comp_Awards = data.competitiveStats.awards;
                 let compAwards = `**Awards**
-                Cards: ${Comp_Awards.cards}
-                Medals: ${Comp_Awards.medals}
-                Bronze Medals: ${Comp_Awards.medalsBronze}
-                Silver Medals: ${Comp_Awards.medalsSilver}
-                Gold Medals: ${Comp_Awards.medalsGold}\n\n`;
+                Cards: ${Comp_Awards.cards.toLocaleString()}
+                Medals: ${Comp_Awards.medals.toLocaleString()}
+                Bronze Medals: ${Comp_Awards.medalsBronze.toLocaleString()}
+                Silver Medals: ${Comp_Awards.medalsSilver.toLocaleString()}
+                Gold Medals: ${Comp_Awards.medalsGold.toLocaleString()}\n\n`;
                 let genComp = `**General**
-                Games Played: ${Comp_Stats.played}
-                Games Won: ${Comp_Stats.won}`;
+                Games Played: ${Comp_Stats.played.toLocaleString()}
+                Games Won: ${Comp_Stats.won.toLocaleString()}`;
                 embed.addField('Competitive Stats:', compAwards + genComp, true)
 
                 let QP_Stats = data.quickPlayStats.games;
                 let QP_Awards = data.quickPlayStats.awards;
                 let quickPlayAwards = `**Awards**
-                Cards: ${QP_Awards.cards}
-                Medals: ${QP_Awards.medals}
-                Bronze Medals: ${QP_Awards.medalsBronze}
-                Silver Medals: ${QP_Awards.medalsSilver}
-                Gold Medals: ${QP_Awards.medalsGold}\n\n`;
+                Cards: ${QP_Awards.cards.toLocaleString()}
+                Medals: ${QP_Awards.medals.toLocaleString()}
+                Bronze Medals: ${QP_Awards.medalsBronze.toLocaleString()}
+                Silver Medals: ${QP_Awards.medalsSilver.toLocaleString()}
+                Gold Medals: ${QP_Awards.medalsGold.toLocaleString()}\n\n`;
                 let genQP = `**General**
-                Games Played: ${QP_Stats.played}
-                Games Won: ${QP_Stats.won}`;
+                Games Played: ${QP_Stats.played.toLocaleString()}
+                Games Won: ${QP_Stats.won.toLocaleString()}`;
 
                 embed.addField('Quick Play Stats:', quickPlayAwards + genQP, true);
             }

@@ -12,7 +12,7 @@ function saveCurrencySettings(settings, message, embed) {
             .addField("Bank Records For:", `${message.author.username}`, true)
             .addField("Server: ", `${message.guild.name}`, true)
             .addBlankField()
-            .addField(`${settings.currency_name}:`, `${userCurrency.currency}`)
+            .addField(`${settings.currency_name}:`, parseInt(userCurrency.currency, 10).toLocaleString())
             .setThumbnail('https://i.imgur.com/PzZmx1l.png')
             message.channel.send(embed);
         })
@@ -34,7 +34,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
                     .addField("Bank Records For:", `${message.author.username}`, true)
                     .addField("Server: ", `${message.guild.name}`, true)
                     .addBlankField()
-                    .addField(`${settings.currency_name}:`, `${userCurrency.currency}`)
+                    .addField(`${settings.currency_name}:`, parseInt(userCurrency.currency, 10).toLocaleString())
                     .setThumbnail('https://i.imgur.com/PzZmx1l.png')
                     message.channel.send(currencyEmbed);
                 })

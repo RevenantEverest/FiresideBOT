@@ -13,13 +13,13 @@ async function updateCurrency(message, currency, settings, amountWagered, RNG, w
     .then(() => {
         if(winner)
             message.channel.send(
-                `**${message.author.username}** rolled a **${RNG}** and won **${(amountWagered * 2)}** ` + 
-                `**${settings.currency_name}** and now has **${newAmount} ${settings.currency_name}**`
+                `**${message.author.username}** rolled a **${RNG}** and won **${(amountWagered * 2).toLocaleString()}** ` + 
+                `**${settings.currency_name}** and now has **${newAmount.toLocaleString()} ${settings.currency_name}**`
             );
         else if(!winner)
             message.channel.send(
-                `**${message.author.username}** rolled a **${RNG}** and lost **${amountWagered}** ` + 
-                `**${settings.currency_name}** and now has **${newAmount} ${settings.currency_name}**`
+                `**${message.author.username}** rolled a **${RNG}** and lost **${amountWagered.toLocaleString()}** ` + 
+                `**${settings.currency_name}** and now has **${newAmount.toLocaleString()} ${settings.currency_name}**`
             );
     })
     .catch(err => {

@@ -15,7 +15,7 @@ function updateRecipientCurrency(r_Currency, settings, amountGiven, message) {
     let updatedCurrency = parseInt(r_Currency.currency, 10) + amountGiven;
     discordCurrencyDB.update({ currency: updatedCurrency, discord_id: r_Currency.discord_id, guild_id: message.guild.id })
     .then(() => {
-        message.channel.send(`**${message.author.username}** gave **${message.mentions.users.array()[0].username}**, **${amountGiven} ${settings.currency_name}**`);
+        message.channel.send(`**${message.author.username}** gave **${message.mentions.users.array()[0].username}**, **${amountGiven.toLocaleString()} ${settings.currency_name}**`);
     })
     .catch(err => console.error(err));
 };

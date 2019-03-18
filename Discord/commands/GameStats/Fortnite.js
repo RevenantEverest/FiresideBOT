@@ -39,17 +39,17 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
             .setThumbnail('https://pbs.twimg.com/profile_images/1017458813199372289/QtGv1tyn_400x400.jpg')
             .addField('**Fortnite Stats**', username)
             .addBlankField()
-            .addField('Wins:', lifeStats[8].value, true)
+            .addField('Wins:', lifeStats[8].value.toLocaleString(), true)
             .addField('Win Percentage:', lifeStats[9].value, true)
-            .addField('Kills:', lifeStats[10].value, true)
+            .addField('Kills:', lifeStats[10].value.toLocaleString(), true)
             .addField('K/D:', lifeStats[11].value, true)
-            .addField('Matches:', lifeStats[7].value, true)
-            .addField('Score:', lifeStats[6].value, true)
+            .addField('Matches:', parseInt(lifeStats[7].value, 10).toLocaleString(), true)
+            .addField('Score:', lifeStats[6].value.toLocaleString(), true)
 
             let placements = '';
-            placements += `**${lifeStats[1].key.replace("s", "")}:** ${lifeStats[1].value}\n`;
-            placements += `**${lifeStats[0].key.replace("s", "")}:** ${lifeStats[1].value}\n`;
-            placements += `**${lifeStats[3].key.replace("s", "")}:** ${lifeStats[1].value}\n`;
+            placements += `**${lifeStats[1].key.replace("s", "")}:** ${lifeStats[1].value.toLocaleString()}\n`;
+            placements += `**${lifeStats[0].key.replace("s", "")}:** ${lifeStats[1].value.toLocaleString()}\n`;
+            placements += `**${lifeStats[3].key.replace("s", "")}:** ${lifeStats[1].value.toLocaleString()}\n`;
 
             embed.addField('Placements:', placements).setFooter('Powered By TRN', 'https://fortnitetracker.com/Images/General/logo.png');
             message.channel.send(embed);

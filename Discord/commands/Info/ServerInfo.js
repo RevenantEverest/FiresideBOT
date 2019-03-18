@@ -20,10 +20,10 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     .addBlankField()
     .addField("Owner:", message.guild.owner, true)
     .addField("Region:", message.guild.region, true)
-    .addField("Members:", message.guild.memberCount, true)
-    .addField("Roles:", message.guild.roles.array().length, true)
-    .addField("Text Channels:", tc_Count, true)
-    .addField("Voice Channels:", vc_Count, true)
+    .addField("Members:", message.guild.memberCount.toLocaleString(), true)
+    .addField("Roles:", message.guild.roles.array().length.toLocaleString(), true)
+    .addField("Text Channels:", tc_Count.toLocaleString(), true)
+    .addField("Voice Channels:", vc_Count.toLocaleString(), true)
     
     message.channel.send(infoEmbed);
 };

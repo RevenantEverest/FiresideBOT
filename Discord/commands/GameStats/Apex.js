@@ -38,7 +38,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
             .addBlankField()
             .addField('Level:', generalStats.value, true)
             .addField('Last Legend:', characterStats.metadata.legend_name, true)
-            .addField(`${characterStats.metadata.legend_name} Kills:`, characterStats.stats[0].value)
+            .addField(`${characterStats.metadata.legend_name} Kills:`, characterStats.stats[0].value.toLocaleString())
             .setFooter('Powered By TRN', 'https://fortnitetracker.com/Images/General/logo.png')
             message.channel.send(embed);
         })

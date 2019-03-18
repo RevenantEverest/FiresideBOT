@@ -61,8 +61,8 @@ async function sendTwitchUserInfo(args, message, info) {
         // .addField()
     }else if(!info.isStreaming) {
         embed
-        .addField('Total Views:', info.totalViews, true)
-        .addField('Followers: ', info.followers, true)
+        .addField('Total Views:', info.totalViews.toLocaleString(), true)
+        .addField('Followers: ', info.followers.toLocaleString(), true)
     }
 
     embed
