@@ -1,0 +1,57 @@
+#ChoosePlaylist {
+  display: inline-block;
+  height: 99%;
+  width: 88%;
+  background-color: #1a1a1a;
+  color: #cccccc;
+}
+
+.ChoosePlaylist-Contents {
+  height: auto;
+  background-color: #1a1a1a;
+}
+
+.ChoosePlaylist-Playlist {
+  margin: 22% 20% 20% 44.5%;
+  display:inline-block;
+}
+
+.ChoosePlaylist-PlaylistSelect-Container {
+  position: relative;
+  left: -25%; right: 0;
+  top: 0; bottom: 0;
+  margin: auto;
+  background-color: #333333;
+  width: 450px;
+  height: 60px;
+  display:inline-block;
+  overflow: hidden;
+}
+
+.ChoosePlaylist-PlaylistSelect {
+  padding: 5%;
+  width: 75%;
+  font-family: "Cocogoose", sans-serif;
+  border: none;
+  background-color: inherit;
+  color: #cccccc;
+}
+
+.ChoosePlaylist-PlaylistSubmit {
+  position: relative;
+  padding: 2% 2% 2% 4%;
+  border: none;
+  top: 4px;
+  border-left: solid #9a9a9a9a;
+  font-family: "Raleway", sans-serif;
+  font-weight: 800;
+  font-size: 20px;
+  left: 2%;
+  transition: .5s;
+  background-color: inherit;
+}
+
+.ChoosePlaylist-PlaylistSubmit:hover { color: orange; }
+.ChoosePlaylist-PlaylistSubmit:focus { outline: none; }
+.ChoosePlaylist-PlaylistSelect:focus { outline: orange; }
+.ChoosePlaylist-PlaylistSubmit:active { color: red; }

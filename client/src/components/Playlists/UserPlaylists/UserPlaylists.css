@@ -1,0 +1,68 @@
+#UserPlaylists {
+  display: inline-block;
+  min-height: 99%;
+  width: 88%;
+  background-color: #1a1a1a;
+  color: #cccccc;
+}
+
+.UserPlaylists-Contents {
+  display: inline-block;
+  max-height: auto;
+  background-color: #1a1a1a;
+  margin: 0% 0 0 5%;
+}
+
+.UserPlaylists-Header {
+  margin-bottom: 20%;
+}
+
+.UserPlaylists-HeaderSubText, .UserPlaylists-HeaderSubText-Main { display: inline; }
+.UserPlaylists-HeaderSubText-Main { font-weight: 800; }
+
+.PlaylistDisplay {
+  padding: 5%;
+  width: 550%;
+  font-family: "Roboto", sans-serif;
+  font-weight: 800;
+  font-size: 20px;
+}
+.PlaylistDisplay:hover { cursor: pointer; }
+.PlaylistDisplay:hover .UserPlaylists-PlaylistName { text-decoration: underline; }
+
+.PD-grey { background: #333333; }
+.PD-white { background: #1a1a1a; }
+
+.UserPlaylists-PlaylistName {
+  display: block;
+  font-size: 20px;
+}
+
+.UserPlaylists-SongAmount {
+  font-weight: 400;
+  font-size: 14px;
+  display: inline-block;
+}
+
+.UserPlaylists-Delete {
+  position: relative;
+  float: right;
+  top: 15px;
+  border: none;
+  height: 30px;
+  width: 30px;
+  text-align: center;
+  transition: .5s;
+  border-radius: 50%
+}
+.UserPlaylists-DeleteIcon { transition: .5s; }
+
+.UserPlaylists-Delete:hover { background: red; }
+.UserPlaylists-Delete:hover .UserPlaylists-DeleteIcon { color: #dedede; }
+
+#LoadingUserPlaylists {
+  height: 12vh;
+  width: 50%;
+  margin: 0 auto;
+  position: relative;
+}

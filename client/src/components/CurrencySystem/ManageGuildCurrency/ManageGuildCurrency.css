@@ -1,0 +1,21 @@
+#ManageGuildCurrency {
+  display: inline-block;
+  height: 99%;
+  width: 88%;
+  background-color: #1a1a1a;
+  color: #cccccc;
+}
+
+.ManageGuildCurrency-Contents {
+  display: inline-block;
+  height: auto;
+  background-color: #1a1a1a;
+  margin-left: 5%;
+}
+
+.ManageGuildCurrency-Header {
+  margin-bottom: 20%;
+}
+
+.ManageGuildCurrency-Header-SubText, .ManageGuildCurrency-Header-SubText-Main { display: inline; }
+.ManageGuildCurrency-Header-SubText-Main { font-weight: 800; }

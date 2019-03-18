@@ -1,0 +1,30 @@
+#Regulars {
+  display: inline-block;
+  height: 99%;
+  width: 88%;
+  background-color: #1a1a1a;
+  color: #cccccc;
+}
+
+.Regulars-Contents {
+  display: inline-block;
+  height: auto;
+  background-color: inherit;
+  margin-left: 5%;
+}
+
+.Regulars-Header {
+  margin-bottom: 20%;
+}
+
+.Regulars-Header-SubText, .Regulars-Header-SubText-Main { display: inline; }
+.Regulars-Header-SubText-Main { font-weight: 800; }
+
+.Regulars-Tbody
+.Regulars-Table
+.Regulars-TableRow
+.Regulars-TH { text-align: left; }
+.Regulars-TD
+
+.Regulars-TH-Counter { text-align: center; }
+.Regulars-TD-Counter { text-align:center; }

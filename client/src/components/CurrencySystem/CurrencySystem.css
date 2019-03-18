@@ -1,0 +1,52 @@
+#CurrencySystem {
+  display: inline-block;
+  height: 99%;
+  width: 88%;
+  background-color: #1a1a1a;
+  color: #cccccc;
+}
+
+.CurrencySystem-Contents {
+  display: inline-block;
+  height: auto;
+  background-color: #1a1a1a;
+  margin-left: 5%;
+}
+
+.CurrencySystem-Header {
+  margin-bottom: 20%;
+}
+
+.CurrencySystem-Header-SubText, .CurrencySystem-Header-SubText-Main { display: inline; }
+.CurrencySystem-Header-SubText-Main { font-weight: 800; }
+
+.CurrencySystem-DiscordGuilds-Header {
+  position: relative;
+  top: -25px;
+  display: inline;
+  margin-right: 5%;
+}
+
+.CurrencySystem-DiscordGuilds {
+  display: inline-block;
+}
+
+.CurrencySystem-Select-Container {
+  margin: 0 auto;
+  background-color: #333333;
+  width: 300px;
+  height: 50px;
+  display:inline-block;
+  overflow: hidden;
+}
+
+.CurrencySystem-GuildSelect {
+  padding: 5%;
+  width: 95%;
+  font-family: "Cocogoose", sans-serif;
+  border: none;
+  background-color: inherit;
+  color: #cccccc;
+}
+
+.CurrencySystem-GuildSelect:focus { outline: orange; }

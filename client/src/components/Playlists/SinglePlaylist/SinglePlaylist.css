@@ -1,0 +1,62 @@
+#SinglePlaylist {
+  display: inline-block;
+  min-height: 100%;
+  width: 88%;
+  background-color: #1a1a1a;
+  color: #cccccc;
+}
+
+.SinglePlaylist-Contents {
+  height: auto;
+  margin-left: 5%;
+  background-color: inherit;
+}
+
+.SinglePlaylist-Header {
+  margin-bottom: 2%;
+}
+
+.SinglePlaylist-Header-SubText, .SinglePlaylist-Header-SubText-Main { display: inline; }
+.SinglePlaylist-Header-SubText-Main { font-weight: 800; }
+
+.SinglePlaylist-Songs-Container {
+  width: 95%;
+}
+
+.SinglePlaylst-Songs {
+  padding: 1%;
+}
+
+.SinglePlaylist-Grey { background: #333333; }
+.SinglePlaylist-White { background: #1a1a1a; }
+
+.SinglePlaylist-Delete {
+  position: relative;
+  float: right;
+  top: -35px;
+  border: none;
+  height: 30px;
+  width: 30px;
+  text-align: center;
+  transition: .5s;
+  border-radius: 50%
+}
+.SinglePlaylist-DeleteIcon { transition: .5s; }
+
+.SinglePlaylist-Delete:hover { background: red; }
+.SinglePlaylist-Delete:hover .SinglePlaylist-DeleteIcon { color: #dedede; }
+
+.DurationExceeded {
+  z-index: 1;
+  position: absolute;
+  top: 80px;
+  left: 1370px;
+  display: inline-block;
+  height: 15%;
+  width: 25%;
+}
+
+.DE-Icon { display: inline; color: red; font-size: 40px; }
+.DE-Header-Text { display: inline; margin-left: 4%; }
+
+.DE-Contents { margin-left: 13%; }

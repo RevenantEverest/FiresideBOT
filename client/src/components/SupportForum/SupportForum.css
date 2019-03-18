@@ -1,0 +1,24 @@
+#SupportForum {
+  display: inline-block;
+  height: 99%;
+  width: 88%;
+  background-color: #1a1a1a;
+  color: #cccccc;
+}
+
+.SupportForum-Contents {
+  display: inline-block;
+  height: auto;
+  background-color: inherit;
+  margin-left: 5%;
+}
+
+.SupportForum-Header {
+  margin-bottom: 20%;
+}
+
+.SupportForum-Header-SubText, .SupportForum-Header-SubText-Main { display: inline; }
+.SupportForum-Header-SubText-Main { font-weight: 800; }
+
+.SF-DiscordLink { color: cyan; }
+.SF-DiscordLink:hover { color: cyan; text-decoration: underline ;}

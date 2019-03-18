@@ -1,0 +1,39 @@
+#EditPrefix {
+  padding: 0 5% 5% 0;
+}
+
+.EditPrefix-Prefix {
+  border: none;
+  border-bottom: solid #cccccc;
+  background: inherit;
+  color: #cccccc;
+  font-size: 18px;
+  width: 200px;
+}
+
+.EditPrefix-Prefix-Desc {
+  display: inline-block;
+  width: 220px;
+  font-size: 14px;
+}
+
+.EditPrefix-Submit {
+  display: inline;
+  position: relative;
+  padding: 0 0 0 .5%;
+  border: none;
+  top: 4px;
+  margin-left: 1%;
+  border-left: solid #9a9a9a9a;
+  font-family: "Raleway", sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  left: .5%;
+  transition: .5s;
+  background-color: inherit;
+  color: #cccccc;
+}
+
+.EditPrefix-Submit:hover { color: orange; border-left: solid orange; }
+.EditPrefix-Submit:focus { outline: none; }
+.EditPrefix-Submit:active { color: red; }

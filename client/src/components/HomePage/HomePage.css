@@ -1,0 +1,139 @@
+.HomePage {
+  height: 100vh;
+  width: 110%;
+  background-color: #1a1a1a;
+
+  background-repeat: no-repeat;
+}
+
+.HomePage-Contents {
+  height: auto;
+}
+
+.HomePage-Box1 {
+  background-image: url(../../res/images/CampfireBG.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+}
+.HomePage-Box1-Vignette {
+  height: 100vh;
+  background: rgba(0,0,0,0.3);
+}
+.HomePage-Box1-Contents {
+  position: relative;
+  top: 20%;
+  left: 5%;
+  width: 45%;
+}
+.Logo {
+  display: inline-block;
+  height: 150px;
+  margin-right: 1%;
+}
+.Text-Logo {
+  position: relative;
+  top: -25px;
+  display: inline-block;
+  color: #dedede;
+  font-family: "NexaRustSlab";
+  font-size: 100px;
+}
+#Discord-Login {
+  position: relative;
+  float: right;
+  top: -80px;
+  right: 30px;
+  font-size: 20px;
+  transition: .3s;
+  background-color: #738adb;
+  border: none;
+  padding: 1%;
+  color: #dedede;
+  width: 25%;
+  border-radius: 16px;
+  text-align: center;
+}
+
+#Discord-Login:hover { background-color: purple; }
+.HomePage-DiscordIcon {
+  color: white;
+  font-size: 30px;
+  margin-right: 5%;
+  display: inline;
+}
+
+.Discord-Login-Text {
+  position: relative;
+  top: -2px;
+  display: inline;
+}
+
+.HomePage-ServerList-Container {
+  float: right;
+  background-color: #ec6500;
+  padding: 1.2%;
+  display: inline-block;
+  position: relative;
+  top: -80px;
+  right: 50px;
+  border-radius: 16px;
+}
+
+.HomePage-ServerList {
+  display: inline-block;
+  color: #dedede;
+  font-size: 25px;
+  font-weight: 400;
+}
+
+/* Box 2 */
+
+.HomePage-Box2 {
+  position: relative;
+  height: 100vh;
+  width: 91%;
+  background: #1a1a1a;
+  text-align: center;
+}
+
+.HomePage-Features-Header-Text {
+  display: inline-block;
+  width: 30%;
+  font-size: 80px;
+  font-family: "Raleway", sans-serif;
+  font-weight: 800;
+  /* border-bottom: solid #ec6500 6px; */
+  color: #ec6500;
+  margin-bottom: 5%;
+}
+
+.HomePage-Features {
+  position: relative;
+  top: 5%;
+  width: 60%;
+  left: 20%;
+  right: 20%;
+}
+
+.HomePage-Music, .HomePage-Currency, .HomePage-Headphones, .HomePage-BoxOpen {
+  display: inline-block;
+  height: 25vh;
+  width: 35%;
+  margin: 0 6% 6% 6%;
+  position: relative;
+}
+
+.HomePage-MusicIcon, .HomePage-CoinsIcon, .HomePage-HeadphonesIcon, .HomePage-BoxOpenIcon
+{
+  font-size: 70px;
+  color: #ec6500;
+  position: relative;
+  margin-bottom: 5%;
+}
+
+.HomePage-Features-Text {
+  color: #cccccc;
+  font-size: 18px;
+  word-spacing: 1px;
+}

@@ -1,0 +1,19 @@
+#PageNotFound {
+  height: 100vh;
+  background: black;
+  overflow: hidden;
+}
+
+.PageNotFound-Contents {
+  height: auto;
+  background: inherit;
+}
+
+.PageNotFound-Text {
+  position: relative;
+  display: inline-block;
+  color: #dedede;
+  font-family: "NexaRustSlab";
+  font-size: 80px;
+  margin: 20% 0 0 25%;
+}

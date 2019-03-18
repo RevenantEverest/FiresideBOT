@@ -1,0 +1,13 @@
+.CustomCommands {
+  display: inline-block;
+  height: 99%;
+  width: 88%;
+  background-color: #dedede;
+}
+
+.CustomCommands-Contents {
+  margin-top: 5%;
+  margin-left: 3%;
+  height: auto;
+  background-color: #dedede;
+}

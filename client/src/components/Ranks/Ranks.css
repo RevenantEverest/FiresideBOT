@@ -1,0 +1,21 @@
+#Ranks {
+  display: inline-block;
+  height: 99%;
+  width: 88%;
+  background-color: #1a1a1a;
+  color: #cccccc;
+}
+
+.Ranks-Contents {
+  display: inline-block;
+  height: auto;
+  background-color: inherit;
+  margin-left: 5%;
+}
+
+.Ranks-Header {
+  margin-bottom: 20%;
+}
+
+.Ranks-Header-SubText, .Ranks-Header-SubText-Main { display: inline; }
+.Ranks-Header-SubText-Main { font-weight: 800; }
