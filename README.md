@@ -1,6 +1,8 @@
 # FiresideBOT
 A Music, Economy & Admin Discord Bot written in Node.js  
 
+##### Current Version: v1.3.0
+
 [HelpDocs](help.firesidebot.com) || [Invite](https://discordapp.com/oauth2/authorize?client_id=441338104545017878&response_type=code&permissions=8&scope=bot) || [Online Control Panel](firesidebot.com)
 
 ---
