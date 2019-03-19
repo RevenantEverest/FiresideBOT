@@ -11,11 +11,15 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
 
     let queuesInProgress = config.servers.map(el => el.queue.isPlaying).length;
     let queueLengthInSeconds = 0;
-    [].concat.apply([], config.servers.map(el => el.queue.queueInfo)).map(el => el.duration).forEach(el => {
-        queueLengthInSeconds += parseInt(el, 10);
-    });
-    let queueSongAmount = [].concat.apply([], config.servers.map(el => el.queue.queueInfo)).length;
+    let queueSongAmount = 0;
+    if(queuesInProgress > 1) {
+        [].concat.apply([], config.servers.map(el => el.queue.queueInfo)).map(el => el.duration).forEach(el => {
+            queueLengthInSeconds += parseInt(el, 10);
+        });
 
+        queueSongAmount = [].concat.apply([], config.servers.map(el => el.queue.queueInfo)).length;
+    }
+    
     embed
     .addField("In Progress:", queuesInProgress, true)
     .addField("Overall Length: ", await utils.timeParser(queueLengthInSeconds), true)
