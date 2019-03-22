@@ -1,14 +1,18 @@
 const Discord = require('discord.js');
+const utils = require('../utils/utils');
 
 async function handlePages(message, args, server, songArr, bot) {
   let embed = new Discord.RichEmbed();
+  let queueLengthInSeconds = 0;
+  server.queue.queueInfo.forEach(el => {
+    queueLengthInSeconds += parseInt(el.duration, 10);
+  });
+  let queueLength = await utils.timeParser(queueLengthInSeconds);
   let CPI = 0;
 
-  embed.setTitle(`**Queue**`).setFooter(`Page ${CPI + 1}/${songArr.length}`).setColor(0xcc00ff);
+  embed.setTitle(`**QUEUE** (${queueLength})`).addBlankField().setFooter(`Page ${CPI + 1}/${songArr.length}`).setColor(0xcc00ff);
 
-  let counter = 0;
-
-  for(let i = 0; i < songArr[CPI].length; i++) {counter++;
+  for(let i = 0; i < songArr[CPI].length; i++) {
       let minutes = Math.floor(songArr[CPI][i].songs.duration / 60);
       let seconds = Math.floor(songArr[CPI][i].songs.duration - minutes * 60);
       embed.addField(`**${songArr[CPI][i].index}. ${songArr[CPI][i].songs.title}**`, `Author: ${songArr[CPI][i].songs.author} \n Duration: ${minutes}:${seconds}`);
@@ -34,9 +38,9 @@ async function handlePages(message, args, server, songArr, bot) {
               if(CPI === 0) return reaction.remove(reaction.users.array()[reaction.users.array().length - 1].id);
               CPI--;
               let backEmbed = new Discord.RichEmbed();
-              backEmbed.setTitle(`**Queue**`).setFooter(`Page ${CPI + 1}/${songArr.length}`).setColor(0x0ccff);
+              backEmbed.addField(`**Queue**`, `Overall Length: ${queueLength}`).addBlankField().setFooter(`Page ${CPI + 1}/${songArr.length}`).setColor(0x0ccff);
 
-              for(let i = 0; i < songArr[CPI].length; i++) {counter++;
+              for(let i = 0; i < songArr[CPI].length; i++) {
                   let minutes = Math.floor(songArr[CPI][i].songs.duration / 60);
                   let seconds = Math.floor(songArr[CPI][i].songs.duration - minutes * 60);
                   backEmbed.addField(`**${songArr[CPI][i].index}. ${songArr[CPI][i].songs.title}**`, `Author: ${songArr[CPI][i].songs.author} \n Duration: ${minutes}:${seconds}`);
@@ -58,9 +62,9 @@ async function handlePages(message, args, server, songArr, bot) {
 
               CPI++;
               let forwardEmbed = new Discord.RichEmbed();
-              forwardEmbed.setTitle(`**Queue**`).setFooter(`Page ${CPI + 1}/${songArr.length}`).setColor(0x0ccff);
+              forwardEmbed.addField(`**Queue**`, `Overall Length: ${queueLength}`).addBlankField().setFooter(`Page ${CPI + 1}/${songArr.length}`).setColor(0x0ccff);
 
-              for(let i = 0; i < songArr[CPI].length; i++) {counter++;
+              for(let i = 0; i < songArr[CPI].length; i++) {
                   let minutes = Math.floor(songArr[CPI][i].songs.duration / 60);
                   let seconds = Math.floor(songArr[CPI][i].songs.duration - minutes * 60);
                   forwardEmbed.addField(`**${songArr[CPI][i].index}. ${songArr[CPI][i].songs.title}**`, `Author: ${songArr[CPI][i].songs.author} \n Duration: ${minutes}:${seconds}`);
@@ -88,7 +92,12 @@ async function handlePages(message, args, server, songArr, bot) {
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     let queueEmbed = new Discord.RichEmbed();
-    queueEmbed.setTitle('**QUEUE**').setColor(0x0ccff);
+    let queueLengthInSeconds = 0;
+    server.queue.queueInfo.forEach(el => {
+      queueLengthInSeconds += parseInt(el.duration, 10);
+    });
+    let queueLength = await utils.timeParser(queueLengthInSeconds);
+    queueEmbed.setTitle(`**QUEUE** (${queueLength})`).setColor(0x0ccff);
     if(server.queue.queueInfo.length >= 1) {
       if(server.queue.queueInfo.length >= 20) {
         let counter = 0;

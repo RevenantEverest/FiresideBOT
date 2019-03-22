@@ -1,4 +1,20 @@
 module.exports = {
+    fortunes: [
+        "Yes",
+        "No",
+        "Maybe",
+        "Fuck You",
+        "If you believe hard enough",
+        "Try asking again",
+        "Kill Yourself",
+        "Sure",
+        "Fair Enough",
+        "Please stop",
+        "Incorrect",
+        "You got it",
+        "Mhm",
+        "這都是中文的。當然"
+    ],
     async checkString(str, arr) {
         const re = new RegExp(`\\b(?:${arr.join("|")})\\b|[^a-z0-9 ]`, "gi");
         return re.test(str);
@@ -7,7 +23,6 @@ module.exports = {
         if(options.special) re = new RegExp(`\\b(?:${arr.join("|")})\\b|[^a-z0-9 ]`, "gi");
         else re = new RegExp(`\\b(?:${arr.join("|")})\\b`, "gi");
 
-        // const extraBetterSearch = str.replace(re, '').replace(/ +/g, " ");
         return str.replace(re, '').replace(/ +/g, " ").trim();
     },
     async mode(arr) {

@@ -1,4 +1,3 @@
-const config = require('../../../config/config');
 const Discord = require('discord.js');
 const YTDL = require('ytdl-core');
 const handleRecommendations = require('./handleRecommendations');
@@ -34,11 +33,14 @@ services.playSong = async (connection, message, server) => {
 
   if(server.queue.isPaused === true) server.queue.isPaused = false;
   if(server.queue.isPlaying === false) server.queue.isPlaying = true;
+  if(!request) return;
 
+  /*
+    Creates the dispatcher object from the Discord connection object.playStream
+    Then sets the volume according to the servers saved volume
+  */
   server.dispatcher = connection.playStream(YTDL(request.link, {filter: 'audioonly', quality: 'highestaudio', highWaterMark: 1<<25}));
   volume.run('', message, (['', server.queue.options.volume]), server, '');
-
-  if(!request) return;
 
   currentSongEmbed
     .setTitle('**CURRENT SONG**')
@@ -50,17 +52,16 @@ services.playSong = async (connection, message, server) => {
   message.channel.send(currentSongEmbed);
 
   server.queue.currentSongEmbed = currentSongEmbed;
-  server.queue.currentSongInfo = server.queue.queueInfo[0];
+  server.queue.currentSongInfo = request;
 
-  if(server.queue.options.loop)
-    server.queue.queueInfo.push(server.queue.queueInfo[0]);
+  if(server.queue.options.loop) server.queue.queueInfo.push(request);
 
   server.queue.queueInfo.shift();
 
   getGenre(server);
 
   server.dispatcher.on("end", () => {
-    if(server.queue.queueInfo[0] && message.guild.voiceConnection)
+    if(server.queue.queueInfo[0] && message.guild.voiceConnection) 
       services.playSong(connection, message, server);
     else {
       if(server.queue.options.recommendations) {

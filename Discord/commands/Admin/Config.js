@@ -68,8 +68,8 @@ async function handleCurrencyIncreaseRate(PREFIX, args, message) {
 };
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
-    if(!args[1]) handleConfigDisplay(PREFIX, args, message);
     if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send(`You don't have permission to use this command`);
+    if(!args[1]) handleConfigDisplay(PREFIX, args, message);
     if(args.includes('-p')) handlePrefix(PREFIX, args, message);
     if(args.includes('-cn')) handleCurrencyName(PREFIX, args, message);
     if(args.includes('-cir')) handleCurrencyIncreaseRate(PREFIX, args, message);

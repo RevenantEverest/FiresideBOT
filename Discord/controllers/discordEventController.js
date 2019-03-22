@@ -1,6 +1,8 @@
 const config = require('../../config/config');
 const Discord = require('discord.js');
+const chalk = require('chalk');
 const logger = require('../services/loggerServices');
+const utils = require('../commands/utils/utils');
 
 const guildsController = require('./guildsController');
 const currencyController = require('./currencyController');
@@ -25,6 +27,13 @@ services.handleOnReady = async (bot) => {
         config.Discord_Options.users = 0;
         bot.guilds.array().forEach(el => config.Discord_Options.users += el.memberCount);
     }, 5000);
+
+    if(process.env.ENVIRONMENT === "DEV") return console.log(chalk.hex('#00ff00')('[LOG]') +'  FiresideBOT Ready');
+
+    let embed = new Discord.RichEmbed();
+    embed.setColor(0xff9900).setTitle("Starting up...").setFooter(await utils.getDate());
+
+    bot.channels.get("543862697742172179").send(embed);
 };
 
 /*
@@ -40,12 +49,11 @@ services.handleOnGuildCreate = async (bot, guild) => {
     embed
     .setColor(0x00ff00)
     .addField(
-        'Thank you for adding FiresideBOT', 
+        'Thank you for adding FiresideBOT <:Fireside:538307773008445440>', 
         'Learn what you can do with `?help` command\n\n' +
         `If you're experiencing any issue please use our [Support Server](https://discord.gg/TqKHVUa)\n\n` +
         `And if FiresideBOT isn't meeting your expectations or you want to just leave a kind message you can tell us with the ` + "`?feedback` command"
-    )
-    .setTitle('Thank you for adding FiresideBOT')
+    );
 
     for(let i = 0; i < channels.length; i++) {
         if(channels[i].type !== 'text') continue;
@@ -147,10 +155,10 @@ services.handleOnMemberRemove = async (bot, memeber) => {
     On Error
 */
 services.handleOnError = async (bot, err) => {
-    if(process.env.ENVIRONMENT === "DEV") return;
+    if(process.env.ENVIRONMENT === "DEV") return console.log(chalk.hex('#ff0000')('[ERROR]') +' CLIENT ERROR', err);
 
     let embed = new Discord.RichEmbed();
-    embed.setColor(0xff0000).setTitle("CLIENT ERROR").setFooter(await getDate());
+    embed.setColor(0xff0000).setTitle("CLIENT ERROR").setFooter(await utils.getDate());
 
     bot.channels.get("543862697742172179").send(embed);
 };

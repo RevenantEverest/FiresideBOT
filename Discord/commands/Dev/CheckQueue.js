@@ -18,11 +18,12 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
         });
 
         queueSongAmount = [].concat.apply([], config.servers.map(el => el.queue.queueInfo)).length;
+        queueLengthInSeconds = await utils.timeParser(queueLengthInSeconds);
     }
     
     embed
     .addField("In Progress:", queuesInProgress, true)
-    .addField("Overall Length: ", await utils.timeParser(queueLengthInSeconds), true)
+    .addField("Overall Length: ", queueLengthInSeconds, true)
     .addField("Songs In Queue:", queueSongAmount)
 
     message.channel.send(embed);

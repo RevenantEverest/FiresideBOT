@@ -2,9 +2,8 @@ const Discord = require('discord.js');
 const config = require('../../../config/config');
 
 async function updateUpdatePending(message, options) {
-    options.updatePending = true;
-
-    message.channel.send("`Update Now Pending`");
+    options.updatePending ? options.updatePending = false : options.updatePending = true; 
+    message.channel.send((options.updatePending ? "`Update Now Pending`" : "`Updating No Longer Pending`"));
 };
 
 async function displayEnv(message, options) {
