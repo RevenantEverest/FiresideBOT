@@ -1,5 +1,5 @@
 const apiServices = require('../../services/apiServices');
-const youtubeServices = require('../../../services/youtubeServices');
+const youtubeServices = require('../../services/youtubeServices');
 const YTDL = require('ytdl-core');
 const utils = require('./utils');
 const playSong = require('./playSong');

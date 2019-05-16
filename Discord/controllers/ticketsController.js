@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const utils = require('../commands/utils/utils');
-const discordTicketsDB = require('../../models/discordTicketsDB');
-const discordClosedTicketsDB = require('../../models/discordClosedTicketsDB');
+const discordTicketsDB = require('../models/discordTicketsDB');
+const discordClosedTicketsDB = require('../models/discordClosedTicketsDB');
 
 const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;

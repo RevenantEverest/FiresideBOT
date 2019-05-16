@@ -5,7 +5,10 @@ const services = {};
 const colors = [0xffcc00, 0x00ff00, 0xff0066, 0xcc66ff, 0x1affff, 0x009900, 0xcc6699, 0xff6600];
 
 services.handleOnReady = async (bot, hook) => {
-    console.log(chalk.hex("#00ff00")(`[HTTP]`) +  ` DBL-Webhook: Listening on port ${hook.port}`)
+    if(process.env.ENVIRONMENT === "DEV")
+        return console.log(chalk.hex("#00ff00")(`[HTTP]`) +  ` DBL-Webhook: Listening on port ${hook.port}`);
+    
+
 };
 
 services.handleOnPosted = async (bot) => {
@@ -18,7 +21,7 @@ services.handleOnPosted = async (bot) => {
 };
 
 services.handleOnVote = async (bot, dbl, vote) => {
-    // if(process.env.ENVIRONMENT === "DEV") return;
+    if(process.env.ENVIRONMENT === "DEV") return console.log("Vote Received");
 
     let voteEmbed = new Discord.RichEmbed();
     let logEmbed = new Discord.RichEmbed();

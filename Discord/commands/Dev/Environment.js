@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const config = require('../../../config/config');
+const config = require('../../config/config');
 
 async function updateUpdatePending(message, options) {
     options.updatePending ? options.updatePending = false : options.updatePending = true; 

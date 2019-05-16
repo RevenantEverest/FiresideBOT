@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const config = require('../../../config/config');
+const config = require('../../config/config');
 const utils = require('../utils/utils');
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
@@ -9,10 +9,10 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     
     embed.setTitle('Queues In Progress').setColor(0x33ccff).addBlankField()
 
-    let queuesInProgress = config.servers.map(el => el.queue.isPlaying).length;
+    let queuesInProgress = config.servers.filter(el => el.queue.isPlaying).length;
     let queueLengthInSeconds = 0;
     let queueSongAmount = 0;
-    if(queuesInProgress > 1) {
+    if(queuesInProgress >= 1) {
         [].concat.apply([], config.servers.map(el => el.queue.queueInfo)).map(el => el.duration).forEach(el => {
             queueLengthInSeconds += parseInt(el, 10);
         });

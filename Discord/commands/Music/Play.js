@@ -1,6 +1,6 @@
-const config = require('../../../config/config');
+const config = require('../../config/config');
 const YTDL = require('ytdl-core');
-const youtubeServices = require('../../../services/youtubeServices');
+const youtubeServices = require('../../services/youtubeServices');
 const playSong = require('../utils/playSong');
 const utils = require('../utils/utils');
 
@@ -73,7 +73,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
 module.exports.config = {
     name: 'play',
     d_name: 'Play',
-    aliases: [],
+    aliases: ['p'],
     params: { required: true, params: 'YouTube Link or Search Request' },
     category: 'Music',
     desc: 'Plays request',

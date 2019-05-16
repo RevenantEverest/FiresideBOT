@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const chalk = require('chalk');
-const guildsDB = require('../../models/GuildModels/guildsDB');
-const currencyDB = require('../../models/currencyDB');
+const guildsDB = require('../models/GuildModels/guildsDB');
+const currencyDB = require('../models/currencyDB');
 const utils = require('../commands/utils/utils');
 
 const pgp = require('pg-promise')();

@@ -1,4 +1,4 @@
-const config = require('../../config/config');
+const config = require('../config/config');
 
 async function setBotActivity(bot) {
     const activities = [

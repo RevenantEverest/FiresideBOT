@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const utils = require('../utils/utils');
-const discordTicketsDB = require('../../../models/discordTicketsDB');
-const discordClosedTicketsDB = require('../../../models/discordClosedTicketsDB');
+const discordTicketsDB = require('../../models/discordTicketsDB');
+const discordClosedTicketsDB = require('../../models/discordClosedTicketsDB');
 const ticketsController = require('../../controllers/ticketsController');
 
 const pgp = require('pg-promise')();

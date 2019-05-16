@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
-const guildsDB = require('../../../models/GuildModels/guildsDB');
-const currencyDB = require('../../../models/currencyDB');
+const guildsDB = require('../../models/GuildModels/guildsDB');
+const currencyDB = require('../../models/currencyDB');
 
 /*
     Currency Settings

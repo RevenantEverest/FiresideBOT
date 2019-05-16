@@ -1,4 +1,4 @@
-const config = require('../../config/config');
+const config = require('../config/config');
 const Discord = require('discord.js');
 const chalk = require('chalk');
 const logger = require('../services/loggerServices');
@@ -9,7 +9,7 @@ const currencyController = require('./currencyController');
 const activityController = require('./activityController');
 const ticketsController = require('./ticketsController');
 
-const guildsDB = require('../../models/GuildModels/guildsDB');
+const guildsDB = require('../models/GuildModels/guildsDB');
 
 const BackUpCommands = require('../commands/BackUpCommands');
 

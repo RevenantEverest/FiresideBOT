@@ -1,7 +1,7 @@
-const userPlaylistsDB = require('../../../models/UserModels/userPlaylistsDB');
-const userSongsDB = require('../../../models/UserModels/userSongsDB');
+const userPlaylistsDB = require('../../models/UserModels/userPlaylistsDB');
+const userSongsDB = require('../../models/UserModels/userSongsDB');
 const YTDL = require('ytdl-core');
-const youtubeServices = require('../../../services/youtubeServices');
+const youtubeServices = require('../../services/youtubeServices');
 const utils = require('../utils/utils');
 
 const pgp = require('pg-promise')();

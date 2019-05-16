@@ -5,7 +5,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
 module.exports.config = {
     name: 'ping',
     d_name: 'Ping',
-    aliases: ['p'],
+    aliases: [],
     category: 'Other',
-    desc: 'Pong :eyes:'
-}
+    desc: 'Pong'
+};

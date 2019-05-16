@@ -1,5 +1,5 @@
-const currencyDB = require('../../models/currencyDB');
-const discordCurrencyDB = require('../../models/discordCurrencyDB');
+const currencyDB = require('../models/currencyDB');
+const discordCurrencyDB = require('../models/discordCurrencyDB');
 
 const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;

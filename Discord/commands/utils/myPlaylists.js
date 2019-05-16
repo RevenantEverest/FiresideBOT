@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
-const userPlaylistsDB = require('../../../models/UserModels/userPlaylistsDB');
-const userSongsDB = require('../../../models/UserModels/userSongsDB');
+const userPlaylistsDB = require('../../models/UserModels/userPlaylistsDB');
+const userSongsDB = require('../../models/UserModels/userSongsDB');
+const utils = require('./utils');
 
 const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
@@ -24,22 +25,30 @@ async function getPlaylistSongs(playlists) {
 };
 
 module.exports = {
-    findMyPlaylists(message, args, server) {
+    async findMyPlaylists(message, args, server) {
         userPlaylistsDB.findByDiscordId(message.author.id)
           .then(playlists => {
             let playlistEmbed = new Discord.RichEmbed();
             let playlistPromises = [];
-            playlistEmbed
-              .setTitle(`**Available Playlists For ${message.author.username}**`)
+            let songData = [];
+            getPlaylistSongs(playlists).then(async songs => {
+              songData = songs;
+              let totalLength = 0;
+              [].concat.apply([], songData).forEach(el => totalLength += parseInt(el.duration, 10));
+              totalLength = await utils.timeParser(totalLength);
+
+              playlistEmbed
+              .setTitle(`Available Playlists For **${message.author.username}** (${totalLength})`)
               .addBlankField()
               .setThumbnail('https://i.imgur.com/OpSJJxe.png')
               .setColor(0xff3399);
-            let songData = [];
-            getPlaylistSongs(playlists).then(songs => {
-              songData = songs;
+
               for(let i = 0; i < playlists.length; i++) {
                 if(i > 20) return;
-                playlistEmbed.addField(`${i + 1}. ${playlists[i].name}`, `${songData[i].length} Songs`)
+                let overallLength = 0;
+                songData[i].forEach(el => overallLength += parseInt(el.duration, 10));
+                overallLength = await utils.timeParser(overallLength);
+                playlistEmbed.addField(`${i + 1}. ${playlists[i].name} (${overallLength})`, `${songData[i].length} Songs`)
               }
               return message.channel.send(playlistEmbed);
             })
