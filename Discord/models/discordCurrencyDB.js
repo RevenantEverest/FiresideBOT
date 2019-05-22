@@ -29,6 +29,6 @@ module.exports = {
       RETURNING *`, currency);
   },
   delete(id) {
-    return db.none('DELETE FROM discord_currency WHERE id = $1', id);
+    return db.none('DELETE FROM discord_currency WHERE discord_id = $1', id);
   }
 };

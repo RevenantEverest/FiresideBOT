@@ -32,5 +32,9 @@ module.exports = {
                     })
             })
             .catch(err => console.error(err));
+    },
+    removeCurrencyRecord(bot, member) {
+        discordCurrencyDB.delete(member.id)
+        .catch(err => console.error(err));
     }
 }

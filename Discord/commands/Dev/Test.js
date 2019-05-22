@@ -13,12 +13,9 @@ async function updateMessage(invokes, seconds, msg) {
 };
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
-    // let roles = message.guild.roles.array().map(el => {
-    //     return {id: el.id, name: el.name};
-    // })
-    // console.log(roles);
-    console.log(message.channel.id)
-    message.channel.send(':Fireside:')
+    console.log(args);
+    //<@&>
+    message.channel.send("Hello @everyone")
 };
 
 module.exports.config = {

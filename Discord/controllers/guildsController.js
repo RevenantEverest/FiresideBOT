@@ -26,7 +26,7 @@ module.exports = {
                     else {
                         console.log(chalk.hex('#ff9900')("[LOG]") + " Adding Guild")
                         let guild = botGuilds[i];
-                        this.saveGuild(bot, {name: guild.name, id: guild.id});
+                        this.saveGuild(bot, {name: guild.name, id: guild.id, memberCount: bot.guilds.get(guild.id).memberCount});
                     }
                 }
 

@@ -20,7 +20,9 @@ const services = {};
 /*
     On Ready
 */
-services.handleOnReady = async (bot) => {
+services.handleOnReady = async (bot, getCommands) => {
+
+    getCommands();
     guildsController.checkGuilds(bot)
     activityController.handleActivity(bot);
     setInterval(() => {
@@ -148,7 +150,7 @@ services.handleOnMemberUpdate = async (bot, oldMember, newMember) => {
     On Member Remove
 */
 services.handleOnMemberRemove = async (bot, memeber) => {
-
+    currencyController.removeCurrency(bot, member);
 };
 
 /*

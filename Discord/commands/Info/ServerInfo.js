@@ -24,6 +24,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     .addField("Roles:", message.guild.roles.array().length.toLocaleString(), true)
     .addField("Text Channels:", tc_Count.toLocaleString(), true)
     .addField("Voice Channels:", vc_Count.toLocaleString(), true)
+    .setFooter(`ID: ${message.guild.id}`)
     
     message.channel.send(infoEmbed);
 };

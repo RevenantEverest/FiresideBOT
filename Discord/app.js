@@ -8,6 +8,7 @@ const cors = require('cors');
 const chalk = require('chalk');
 
 const app = express();
+const PORT = process.env.PORT || 3005;
 
 /* Middleware */
 app.use(logger('dev'));
@@ -18,14 +19,15 @@ app.set('trust proxy', true);
 app.set('trust proxy', 'loopback');
 
 /* Routes */
-
+app.use("/status", require("./routes/statusCheckerRoutes"));
+app.use("/commands", require("./routes/commandRoutes"));
 
 /* Default Routes */
 app.use("/", (req, res) => res.json({ message: "FiresideBOT" }));
 
 /* PROD */
 let server = http.createServer(app);
-server.listen(3001, () => console.log(chalk.hex("#00ff00")(`[HTTP]`) +  ` FiresideBOT: Listening on port 3001`));
+server.listen(PORT, () => console.log(chalk.hex("#00ff00")(`[HTTP]`) +  ` FiresideBOT: Listening on port ${PORT}`));
 
 // const Twitch_Bot = require('./Twitch/Twitch_Bot');
 

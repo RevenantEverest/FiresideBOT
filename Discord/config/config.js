@@ -13,6 +13,7 @@ module.exports = {
       Music: true
     }
   },
+  Discord_Commands : [],
   Twitch_Options: {
     options: {
       debug: false
