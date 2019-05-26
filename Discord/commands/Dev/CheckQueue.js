@@ -32,5 +32,6 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
 module.exports.config = {
     name: 'checkqueue',
     d_name: 'CheckQueue',
-    aliases: []
+    aliases: [],
+    category: "Dev"
 };

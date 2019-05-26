@@ -1,0 +1,29 @@
+.Alias-Table {
+    width: 15%;
+    border: solid #cccccc;
+    border-collapse: collapse;
+    margin-bottom: 10%;
+    text-align: left;
+  }
+  
+  .Alias-TR-Header {
+    font-weight: 800;
+    font-size: 20px;
+    background-color: #cccccc;
+    color: black;
+    width: 80px;
+    border: solid #cccccc;
+  }
+  
+  .Alias-TH {
+    padding: 5px;
+    width: 30px;
+    border: solid #cccccc;
+  }
+  .Alias-TR {
+    border: solid #cccccc;
+  }
+  .Alias-TD {
+    padding: 15px;
+    border: solid #cccccc;
+  }

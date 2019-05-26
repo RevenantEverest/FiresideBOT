@@ -72,4 +72,16 @@ services.getOverwatchStats = ({ platform, region, battletag }) => {
     return axios.get(`https://ow-api.com/v1/stats/${platform}/${region}/${battletag}/profile`);
 };
 
+//Rainbow6 API
+
+services.getRainbowSixStats = ({ username, platform, type }) => {
+    return axios({
+        method: "GET",
+        url: `https://api2.r6stats.com/public-api/stats/${username}/${platform}/${type}`,
+        headers: {
+            'Authorization': 'Bearer ' + process.env.R6STATS_KEY
+        }
+    })
+}
+
 module.exports = services;

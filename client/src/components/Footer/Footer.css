@@ -1,26 +1,38 @@
 #Footer {
+    background: #060606;
     text-align: center;
-    color: #cccccc;
-    height: 5%;
-    font-family: sans-serif;
-    /* border: solid red; */
+    width: 100%;
+    height: 24vh;
+    z-index: 0;
+    /* position: ; */
+    bottom: 0;
 }
 
-.Footer-Contents-Container {
-    width: 80%;
+#Footer-Container {
+    padding: 1vh;
 }
 
-.Footer-Contents {
+.Footer-Icon {
+    font-size: 3vh;
     display: inline-block;
-    padding: 0 6px 4px 6px;
-    font-weight: 600;
-    /* border: solid green; */
+    margin: 1.5% 1.5% 0 1.5%;
 }
 
-.Footer-Links-Container {
-    margin-left: 1%;
+.Footer-Col {
+    margin-bottom: 2%;
 }
 
-.Footer-Links { transition: .3s; }
+.Footer-Col > p {
+    display: inline;
+}
 
-.Footer-Links:hover { color: orange; }
+.Footer-DBL {
+    margin: 1%;
+}
+
+.Footer-Fireside {
+    color: orange;
+    display: inline;
+}
+
+#Footer-DBL-Link { color: orange }

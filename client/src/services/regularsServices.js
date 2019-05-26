@@ -1,28 +1,28 @@
 import axios from 'axios';
-import apiConfig from '../apiConfig';
+import env from '../env';
 const services = {};
 
 services.getRegulars = (data) => {
-  return axios.get('/regulars');
+    return axios.get('/regulars');
 };
-
+  
 services.getRegularsByChannel = (data) => {
-  return axios.get(`${apiConfig}/regulars/channel/${data}`);
+    return axios.get(`${env.API}/regulars/channel/${data}`);
 };
-
+  
 services.addRegular = (data) => {
-  return axios({
-    method: 'POST',
-    url: `${apiConfig}/regulars`,
-    data: {
-      channel: data.channel,
-      regular_username: data.regular_username
-    }
-  });
+    return axios({
+      method: 'POST',
+      url: `${env.API}/regulars`,
+      data: {
+        channel: data.channel,
+        regular_username: data.regular_username
+      }
+    });
 };
-
+  
 services.deleteRegular = (data) => {
-  return axios.delete(`${apiConfig}/regulars/regular_id/${data}`);
+    return axios.delete(`${env.API}/regulars/regular_id/${data}`);
 };
 
 export default services;

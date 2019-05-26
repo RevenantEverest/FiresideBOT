@@ -1,0 +1,14 @@
+#Autoplay { margin-bottom: 10%; }
+.Autoplay-Header { display: inline; font-size: 30px; }
+.Autoplay-Header:hover { color: orange; }
+.Autoplay-SubHeader {
+  display: inline;
+  font-weight: 400;
+  font-size: 18px;
+}
+
+.Autoplay-Desc > a { color: orange; }
+.Autoplay-Desc > a:hover { text-decoration: underline; }
+
+.Autoplay-SubHeader-Param {font-size: 14px;}
+#Autoplay-Image { border-radius: 16px; }

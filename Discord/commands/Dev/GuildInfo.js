@@ -25,5 +25,6 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
 module.exports.config = {
     name: "guildinfo",
     d_name: "GuildInfo",
-    aliases: ['gi']
+    aliases: ['gi'],
+    category: "Dev"
 };

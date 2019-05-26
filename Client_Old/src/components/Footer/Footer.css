@@ -1,0 +1,26 @@
+#Footer {
+    text-align: center;
+    color: #cccccc;
+    height: 5%;
+    font-family: sans-serif;
+    /* border: solid red; */
+}
+
+.Footer-Contents-Container {
+    width: 80%;
+}
+
+.Footer-Contents {
+    display: inline-block;
+    padding: 0 6px 4px 6px;
+    font-weight: 600;
+    /* border: solid green; */
+}
+
+.Footer-Links-Container {
+    margin-left: 1%;
+}
+
+.Footer-Links { transition: .3s; }
+
+.Footer-Links:hover { color: orange; }

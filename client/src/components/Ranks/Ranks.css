@@ -1,21 +1,48 @@
 #Ranks {
-  display: inline-block;
-  height: 99%;
-  width: 88%;
-  background-color: #1a1a1a;
-  color: #cccccc;
+    height: auto;
+    width: 100%;
+    background: #151515;
+};
+
+#Ranks-ContainerMain {
+    height: 75vh;
+    background: transparent;
 }
 
-.Ranks-Contents {
-  display: inline-block;
-  height: auto;
-  background-color: inherit;
-  margin-left: 5%;
+.Ranks-Container {
+    margin-top: 20px;
+    /* margin-left: 25px; */
 }
 
-.Ranks-Header {
-  margin-bottom: 20%;
+.Ranks-Breadcrumb {
+    background: red !important;
+    padding: 0;
 }
 
-.Ranks-Header-SubText, .Ranks-Header-SubText-Main { display: inline; }
-.Ranks-Header-SubText-Main { font-weight: 800; }
+#Ranks-Table {
+    background: #151515;
+    color: #cccccc;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 5%;
+}
+
+.Ranks-TH {
+    color: #cccccc !important;
+    font-weight: 800;
+}
+
+.Ranks-SettingsButton {
+    font-size: 14px;
+    width: 120px;
+    padding: 8px;
+    background: orange !important;
+}
+
+.Ranks-TD-Username {
+    font-weight: 600;
+}
+
+.Ranks-TD-Rank {
+    font-weight: 400;
+}

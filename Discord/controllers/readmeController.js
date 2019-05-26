@@ -4,13 +4,12 @@ const chalk = require('chalk');
 
 module.exports = {
     write() {
-        const categories = ['Admin', 'Dev', 'Economy', 'Fun', 'GameStats', 'Info', 'Music', 'Other', 'Support'];
+        const categories = ['Admin', 'Economy', 'Fun', 'GameStats', 'Info', 'Music', 'Other', 'Support'];
         let readme_value = '';
 
         categories.forEach((category, idx) => {
             let readme_commands = '';
-            let command_category = config.Discord_Commands.filter(commands => commands.category === category);
-            command_category.forEach(el => {
+            config.Discord_Commands.filter(commands => commands.category === category).forEach(el => {
                 let param = (el.params ? (el.params.required ? ("`" + "<param>" + "`") : ("`" + "[param]" + "`")) : '');
                 let flags = '';
                 let aliases = '';
@@ -31,12 +30,8 @@ module.exports = {
             `--- \n\n`;
         });
 
-        let tableOfContents = '';
-
-        categories.forEach(el => {
-            tableOfContents += 
-            `[${el}](#${el}) \n\n`;
-        })
+        let toc_commands = '';
+        categories.forEach(el => toc_commands += `[${el}](#${el}), `);
 
         let README = 
         
@@ -47,7 +42,10 @@ module.exports = {
         `client_id=441338104545017878&response_type=code&permissions=8&scope=bot) || [Online Control Panel](firesidebot.com)  \n\n` +
         `---  \n\n` +
         `## Table of Contents  \n\n` +
-        `${tableOfContents}` +
+        `| Category                 | Subcategory\n` +
+        `| -------------            |:-------------\n` +
+        `| [Commands](#Commands)    | ${toc_commands}\n` +
+        `\n` +
         `---  \n\n` +
         `# Features  \n\n` +
         `---  \n\n` +

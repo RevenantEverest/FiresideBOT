@@ -2,6 +2,7 @@ const apiServices = require('../../services/apiServices');
 const twitchtrackerDB = require('../../models/twitchTrackerDB');
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+    if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send(`You don't have permission to use this command`);
     let channel_id = null;
     let role_id = null;
     if(!args[1]) return message.channel.send('Please Specify a Twitch User, tag a Text Channel and tag a role');

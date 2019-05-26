@@ -1,0 +1,17 @@
+#RemoveSong { margin-bottom: 10%; }
+.RemoveSong-Header { display: inline; font-size: 30px; }
+.RemoveSong-Header:hover { color: orange; }
+.RemoveSong-SubHeader {
+  display: inline;
+  font-weight: 400;
+  font-size: 18px;
+}
+
+.RemoveSong-Desc { display: inline; }
+.RemoveSong-Desc-Highlight { color: orange; }
+
+.RemoveSong-Desc > a { color: orange; }
+.RemoveSong-Desc > a:hover { text-decoration: underline; }
+
+.RemoveSong-SubHeader-Param {font-size: 14px;}
+#RemoveSong-Image { border-radius: 16px; }

@@ -1,0 +1,44 @@
+#UserPlaylists {
+    height: auto;
+    width: 100%;
+    background: #151515;
+};
+
+#UserPlaylists-ContainerMain {
+    background: transparent;
+}
+
+#UserPlaylists-Container {
+    margin-top: 50px;
+}
+
+.UserPlaylists-Card {
+    background: #363636;
+    color: #cccccc;
+}
+
+.UserPlaylists-View-Button {
+    background: inherit !important;
+    border: solid #f5f5f5f5;
+    font-size: 10px;
+    font-weight: 600;
+    margin-top: 25px;
+    margin-left: 0;
+    transition: .5s;
+    padding: 10px 15px 10px 15px;
+}
+
+.UserPlaylists-View-Button:hover {
+    border: solid orange;
+    color: orange !important;
+}
+
+.UserPlaylists-Trash {
+    float: right;
+    transition: .5s;
+    margin-top: 35px;
+}
+
+.UserPlaylists-Trash:hover {
+    color: orange;
+}

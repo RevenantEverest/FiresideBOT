@@ -1,0 +1,18 @@
+.AutoDJDocs-Header { font-size: 30px; }
+.AutoDJDocs-Header:hover { color: orange; }
+.AutoDJDocs-SubHeader { font-size: 14px; }
+.AutoDJDocs-Desc { margin-top: 6%; }
+
+.AutoDJDocs-Images {
+  border-radius: 16px;
+  border: solid #cccccc;
+  margin-top: 1%;
+}
+#AutoDJDocs-ImageA {}
+#AutoDJDocs-ImageB { width: 60%; }
+#AutoDJDocs-ImageC { width: 80%; }
+#AutoDJDocs-ImageD {}
+#AutoDJDocs-ImageE {
+  width: 80%;
+  margin-bottom: 10%;
+}

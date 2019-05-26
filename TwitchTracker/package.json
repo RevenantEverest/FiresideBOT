@@ -1,0 +1,33 @@
+{
+  "name": "fireside-twitchtracker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server-TwitchTracker.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server-twitchtracker.js"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "^1.19.0",
+    "chalk": "^2.4.2",
+    "cors": "^2.8.5",
+    "discord.js": "^11.5.0",
+    "dotenv": "^8.0.0",
+    "express": "^4.17.0",
+    "morgan": "^1.9.1",
+    "nodemon": "^1.19.0",
+    "pg-promise": "^8.7.2"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RevenantEverest/Fireside-TwitchTracker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RevenantEverest/Fireside-TwitchTracker/issues"
+  },
+  "homepage": "https://github.com/RevenantEverest/Fireside-TwitchTracker#readme"
+}

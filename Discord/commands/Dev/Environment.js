@@ -28,5 +28,6 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
 module.exports.config = {
     name: 'environment',
     d_name: 'Environment',
-    aliases: ['env']
+    aliases: ['env'],
+    category: "Dev"
 };

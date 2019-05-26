@@ -1,24 +1,9 @@
 import axios from 'axios';
-import apiConfig from '../apiConfig';
+import env from '../env';
 const services = {};
 
-services.getDefaultCommands = (data) => {
- return axios.get(`${apiConfig}/commands/default`)
+services.getDefaultCommands = () => {
+  return axios.get(`${env.COMMAND_API}/commands`);
 };
 
-services.getCustomCommands = (data) => {
-  return axios.get(`${apiConfig}/commands/custom/user/${data}`);
-};
-
-services.addCommand = (data) => {
-  return axios({
-    method: 'POST',
-    url: `${apiConfig}/commands/custom`,
-    data: {
-      user_id: data.user_id,
-      command: data.command,
-      output: data.output
-    }
-  })
-}
 export default services;

@@ -131,7 +131,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     /*
         Only allow users with the support role in FiresideBOT to respond to and manipulate tickets
     */
-   
+    if(message.author.id !== "163346982709100546") return;
     if(!args[1]) return displayOpenTickets(bot, args, message);
     if(!args[2] && args[1] !== "-ct") return displayTicket(bot, args, message);
     if(!Number.isInteger(parseInt(args[2], 10)) && args[1] !== "-ct") return message.channel.send("Please specify a Ticket ID");

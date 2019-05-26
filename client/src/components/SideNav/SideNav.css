@@ -1,0 +1,103 @@
+#SideNav {
+    height: 100vh;
+    background-color: #0d0d0d;
+    font-size: 16px;
+    font-family: sans-serif;
+    z-index: 1;
+}
+
+#SideNav-Brand {
+    height: 65px;
+    background: black;
+}
+
+#SideNav-Brand:hover { cursor: pointer; }
+
+#SideNav-Logo-Container {
+    height: 74px;
+    padding: 12px 10px 12px 40px;
+    background: black;
+}
+#SideNav-Logo-Container:hover { cursor: pointer; }
+
+#SideNav-Logo {
+    position: relative;
+    width: 30px;
+    display: inline-block;
+}
+
+#SideNav-LogoText {
+    display: inline;
+    font-family: 'NexaRustSlab', sans-serif;
+    font-size: 20px; 
+    position: relative;
+    top: 8px;
+    left: 2%;
+}
+
+.SideNav-Text { display: inline; }
+
+.SideNav-Element { 
+    height: 60px;
+}
+.SideNav-Element:hover { background: #3d3d3d !important; }
+
+.SideNav-Element-Content {
+    padding: 20px 20px 20px 70px !important;
+    font-weight: 600;
+    font-size: .9rem !important;
+}
+
+.NavDropdown {
+    z-index: 0;
+    background: inherit;
+}
+
+.dropdown-menu { transform: none !important; position: static !important; z-index: 0; float: none; }
+
+.SideNav-Icon { font-size: 14px; }
+
+.SideNav-Dropdown {
+    padding: 20px 20px 20px 70px !important;
+    font-weight: 600;
+    font-size: .9rem !important;
+    width: 100%;
+    transition: .1s;
+}
+
+.SideNav-Dropdown:hover { 
+    cursor: pointer; 
+    background: #f5f5f5;
+    border-radius: 2px;
+}
+.SideNav-Dropdown:hover .SideNav-Dropdown-Toggle { 
+    color: #363636;
+}
+
+.SideNav-Dropdown:hover .SideNav-Dropdown-Item {
+    color: #666666;
+}
+
+.SideNav-Dropdown-Item:hover {
+    color: black !important;
+}
+
+.SideNav-Dropdown-Icon {
+    margin-right: 15%;
+}
+
+.SideNav-Dropdown-Menu {
+    margin-top: 35px;
+    margin-left: -140px;
+    background: inherit;
+    color: #cccccc !important;
+    width: 500px;
+    margin-bottom: -20px;
+    border: none;
+}
+
+.SideNav-Dropdown-Item {
+    color: #cccccc;
+    font-weight: 600;
+    padding: 8px 0 8px 90px;
+}

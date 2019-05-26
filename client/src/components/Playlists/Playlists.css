@@ -1,50 +1,37 @@
-.Playlists {
-  display: inline-block;
-  height: 99%;
-  width: 88%;
-  background-color: #1a1a1a;
-  color: #cccccc;
+#Playlists {
+    height: 75vh;
+    width: 100%;
+    background: #151515;
+};
+
+#Playlists-ContainerMain {
+    background: transparent;
 }
 
-.Playlists-Contents {
-  position: relative;
-  display: inline-block;
-  top: 40%;
-  height: auto;
-  width: 99.5%;
-  background-color: #1a1a1a;
+.Playlists-Container {
+    margin-top: 280px;
 }
 
-.UserPlaylist-Option {
-  position: relative;
-  float: left;
-  left: 20%;
-  width: 20%;
-  margin-right: 2%;
-  display: inline-block;
-  background: #333333;
-  padding: .5% 4% .5% 4%;
-  font-size: 14px;
-  font-family: "Cocogoose", sans-serif;
-  text-align: center;
+#Playlists-MyPlaylists, #Playlists-GuildPlaylists {
+    background: #363636 !important;
+    border: solid #363636;
+    font-weight: 600;
+    text-align: center;
+    padding: 20px 80px 20px 80px;
+    
+    border-radius: 2px;
+    transition: .5s;
 }
-.UserPlaylist-Option:hover { outline: solid orange; cursor: pointer; }
-.UserPlaylist-Option:hover .UserPlaylist-Option-Text { color: orange; }
-.UserPlaylist-Option-Text { display: inline-block; transition: .5s; }
 
-.GuildPlaylist-Option {
-  position: relative;
-  float: right;
-  right: 20%;
-  width: 20%;
-  margin-left: 2%;
-  display: inline-block;
-  background: #333333;
-  padding: .5% 4% .5% 4%;
-  font-size: 14px;
-  font-family: "Cocogoose", sans-serif;
-  text-align: center;
+#Playlists-MyPlaylists:hover, #Playlists-GuildPlaylists:hover {
+    border: medium solid orange;
+    color: orange;
 }
-.GuildPlaylist-Option:hover { outline: solid orange; cursor: pointer; }
-.GuildPlaylist-Option:hover .GuildPlaylist-Option-Text { color: orange; }
-.GuildPlaylist-Option-Text { display: inline-block; transition: .5s; }
+
+#Playlists-MyPlaylists {
+
+}
+
+#Playlists-GuildPlaylists {
+
+}

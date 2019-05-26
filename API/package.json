@@ -1,0 +1,34 @@
+{
+  "name": "fireside-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server-api.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server-api.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RevenantEverest/Fireside-API.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RevenantEverest/Fireside-API/issues"
+  },
+  "homepage": "https://github.com/RevenantEverest/Fireside-API#readme",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "^1.19.0",
+    "btoa": "^1.2.1",
+    "chalk": "^2.4.2",
+    "cors": "^2.8.5",
+    "discord.js": "^11.5.0",
+    "dotenv": "^8.0.0",
+    "express": "^4.16.4",
+    "morgan": "^1.9.1",
+    "nodemon": "^1.19.0",
+    "pg-promise": "^8.7.2",
+    "ytdl-core": "^0.29.2"
+  }
+}

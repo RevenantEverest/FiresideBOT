@@ -1,36 +1,34 @@
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
 import './Analytics.css';
 
-//Image Imports
-import NTSH from '../../res/images/NTSH.gif';
+import { Container, Row, Col } from 'react-bootstrap';
 
 class Analytics extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      userData: this.props.userData
+    constructor(props) {
+        super(props);
+        this.state = {
+            userData: this.props.userData,
+            manageServer: this.props.manageServer
+        }
     }
-  }
 
-  render() {
-    return(
-      <div id="Analytics">
-        <div className="Analytics-Contents">
-          <div className="Analytics-Header">
-            <h1 className="Analytics-Header-Text">Analytics</h1>
-            <Link to="/dashboard"><p className="Analytics-Header-SubText">HOME / </p></Link>
-            <p className="Analytics-Header-SubText-Main">Analytics</p>
-          </div>
-          <h3>UNDER CONSTRUCTION:</h3>
-          <p>Nothing to see here :)</p>
-          <img className="NTSH" src={NTSH} alt="" />
-        </div>
-        {!this.state.userData ? <Redirect to="/" /> : ''}
-      </div>
-    );
-  }
+    componentDidMount() {
+        console.log(this.props.manageServer)
+    }
+
+    render() {
+        return(
+            <div id="Analytics">
+                <Container>
+                    <Row>
+                        <Col>
+                        </Col>
+                    </Row>
+                </Container>
+            </div>
+        );
+    }
 };
 
 export default Analytics;

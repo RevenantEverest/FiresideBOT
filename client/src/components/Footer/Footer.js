@@ -1,23 +1,56 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import './Footer.css';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Container, Row, Col } from 'react-bootstrap';
 
 class Footer extends Component {
 
     render() {
         return(
             <div id="Footer">
-                <div className="Footer-Contents Footer-Contents-Container">
-                    <p className="Footer-Contents">Made by RevenantEverest </p>
-                    <br />
-                    <div className="Footer-Contents Footer-Links-Container">
-                    <Link id="Footer-Contact-Link" className="Footer-Contents Footer-Links" to="/contact">Contact</Link>
-                    <p className="Footer-Contents"> || </p>
-                    <Link id="Footer-SupportForum-Link" className="Footer-Contents Footer-Links" to="/supportforums">Support Forum</Link>
-                    <p className="Footer-Contents"> || </p>
-                    <Link id="Footer-Help-Link" className="Footer-Contents Footer-Links" to="/help">Help</Link>
-                    </div>
-                </div>
+                <Container id="Footer-Container">
+                    <Row>
+                        <Col className="Footer-Col">
+                            <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/TqKHVUa">
+                                <FontAwesomeIcon className="Footer-Icon" icon={['fab', 'discord']} />
+                            </a>
+                            <a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/RevenantEeverest/">
+                            <FontAwesomeIcon className="Footer-Icon" icon={['fab', 'facebook']} />
+                            </a>
+                            <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/RevenantEverest">
+                            <FontAwesomeIcon className="Footer-Icon" icon={['fab', 'twitter']} />
+                            </a>
+                            <a target="_blank" rel="noopener noreferrer" href="https://github.com/RevenantEverest/FiresideBOT">
+                            <FontAwesomeIcon className="Footer-Icon" icon={['fab', 'github']} />
+                            </a>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col className="Footer-Col">
+                            <p>Enjoying</p><p className="Footer-Fireside"> FiresideBOT</p><p>? Give us a vote over at </p>
+                            <a id="Footer-DBL-Link" target="_blank" rel="noopener noreferrer" href="https://discordbots.org/bot/441338104545017878"> DBL</a> 
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col className="Footer-Col">
+                            <a className="Footer-DBL" href="https://discordbots.org/bot/441338104545017878" >
+                            <img src="https://discordbots.org/api/widget/status/441338104545017878.svg?noavatar=true" alt="FiresideBOT" />
+                            </a>
+                            <a className="Footer-DBL" href="https://discordbots.org/bot/441338104545017878" >
+                            <img src="https://discordbots.org/api/widget/servers/441338104545017878.svg?noavatar=true" alt="FiresideBOT" />
+                            </a>
+                            <a className="Footer-DBL" href="https://discordbots.org/bot/441338104545017878" >
+                            <img src="https://discordbots.org/api/widget/upvotes/441338104545017878.svg?noavatar=true" alt="FiresideBOT" />
+                            </a>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <p>©2019 FiresideBOT</p>
+                        </Col>
+                    </Row>
+                </Container>
             </div>
         );
     }

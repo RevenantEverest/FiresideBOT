@@ -1,59 +1,38 @@
-.Dashboard {
-  display: inline-block;
-  height: 99%;
-  width: 88%;
-  background-color: #1a1a1a;
-  color: #cccccc;
+#Dashboard {
+    height: 73vh;
+    width: 100%;
+    background: #151515;
+};
+
+#Dashboard-ContainerMain {
+
 }
 
-.Dashboard-Contents {
-  height: auto;
-  background-color: inherit;
-  margin-left: 5%;
+.Dashboard-Container {
+    margin-top: 20px;
+    margin-left: 10px;
 }
 
-#LoadingDashboard {
-  height: 16vh;
-  width: 12%;
-  margin: 0 auto;
-  position: relative;
-  top: 300px;
+.Dashboard-Breadcrumb {
+    background: red !important;
+    padding: 0;
 }
 
-.Dashboard-Header {
-  margin-bottom: 5%;
+.Dashboard-Card {
+    background: #363636;
+    color: #cccccc;
 }
 
-.Dashboard-Header-SubText, .Dashboard-Header-SubText-Main { display: inline; }
-.Dashboard-Header-SubText-Main { font-weight: 800; }
-
-.Dashboard-DiscordGuilds-Header {
-  position: relative;
-  top: -25px;
-  display: inline;
-  margin-right: 5%;
+#Dashboard-AAG-Button, #Dashboard-WN-Button {
+    background: inherit !important;
+    border: solid #f5f5f5f5;
+    font-weight: 600;
+    margin-top: 25px;
+    margin-left: 0;
+    transition: .5s;
 }
 
-.Dashboard-DiscordGuilds {
-  display: inline-block;
+#Dashboard-AAG-Button:hover, #Dashboard-WN-Button:hover {
+    border: solid orange;
+    color: orange !important;
 }
-
-.Dashboard-Select-Container {
-  margin: auto;
-  background-color: #333333;
-  width: 300px;
-  height: 50px;
-  display:inline-block;
-  overflow: hidden;
-}
-
-.Dashboard-GuildSelect {
-  padding: 5%;
-  width: 95%;
-  font-family: "Cocogoose", sans-serif;
-  border: none;
-  background-color: inherit;
-  color: #cccccc;
-}
-
-.Dashboard-GuildSelect:focus { outline: orange; }

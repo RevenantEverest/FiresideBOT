@@ -14,6 +14,7 @@ async function deleteTracker(message, tracker) {
 }
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+    if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send(`You don't have permission to use this command`);
     if(!args[1]) return message.channel.send("Please specify a flag and a Tracker ID");
     if(!args.includes("-t")) return message.channel.send("Please use a flag to define which tracker you'd like to remove");
     

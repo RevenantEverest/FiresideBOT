@@ -8,23 +8,9 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 
 ## Table of Contents  
 
-[Admin](#Admin) 
-
-[Dev](#Dev) 
-
-[Economy](#Economy) 
-
-[Fun](#Fun) 
-
-[GameStats](#GameStats) 
-
-[Info](#Info) 
-
-[Music](#Music) 
-
-[Other](#Other) 
-
-[Support](#Support) 
+| Category                 | Subcategory
+| -------------            |:-------------
+| [Commands](#Commands)    | [Admin](#Admin), [Economy](#Economy), [Fun](#Fun), [GameStats](#GameStats), [Info](#Info), [Music](#Music), [Other](#Other), [Support](#Support), 
 
 ---  
 
@@ -73,25 +59,6 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Aliases**: `tt` `ttracker`   
 **Params**: Twitch Username / #Channel Tag / @Role Tag  
 **Example**: `?twitchtracker RevenantEverest #bot-commands`  
-
-  
-
---- 
-
-<a id="Dev"></a>  
-
-#### Dev  
-
-- [undefined](https://help.firesidebot.com/commands/test)   
-**Desc**:   
-**Aliases**:   
-**Example**: `?undefined`  
-
-- [Ticket](https://help.firesidebot.com/commands/ticket) `<param>`  
-**Desc**: Respond to / Close an open Ticket  
-**Aliases**: `tickets`   
-**Params**: Message  
-**Example**: `?ticket -r Thank you for your feedback, how can I help you?`  
 
   
 
@@ -170,6 +137,12 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Aliases**: `ow`   
 **Params**: Region, Platform, Battletag  
 **Example**: `?overwatch pc us Revenant#11470`  
+
+- [RainbowSix](https://help.firesidebot.com/commands/rainbowsix) `<param>`  
+**Desc**: Displays relevant stats for your most recent Apex Legend  
+**Aliases**: `r6` `rainbowsix` `rainbowsix`   
+**Params**: Username, Platform  
+**Example**: `?apex RevenantEverest uplay`  
 
   
 

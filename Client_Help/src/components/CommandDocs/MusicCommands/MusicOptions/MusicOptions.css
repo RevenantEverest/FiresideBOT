@@ -1,0 +1,23 @@
+#MusicOptions { margin-bottom: 10%; }
+.MusicOptions-Header { display: inline; font-size: 30px; }
+.MusicOptions-Header:hover { color: orange; }
+.MusicOptions-SubHeader {
+  display: inline;
+  font-weight: 400;
+  font-size: 18px;
+}
+
+.MusicOptions-Desc { display: inline; }
+.MusicOptions-Desc-Rec { color: orange; }
+.MusicOptions-Desc-Loop { color: orange;  }
+.MusicOptions-Desc-Flag { color: orange; }
+
+.MusicOptions-Desc > a { color: orange; }
+.MusicOptions-Desc > a:hover { text-decoration: underline; }
+
+.MusicOptions-SubHeader-Param {font-size: 14px;}
+#MusicOptions-Image { border-radius: 16px; }
+
+#MusicOptions-ImageA { border-radius: 16px; display: block; margin-bottom: 1%; }
+#MusicOptions-ImageB { border-radius: 16px; display: block; margin-bottom: 1%; }
+#MusicOptions-ImageC { border-radius: 16px; display: block; margin-bottom: 4%; }

@@ -1,0 +1,11 @@
+#Roll { margin-bottom: 10%; }
+.Roll-Header { display: inline; font-size: 30px; }
+.Roll-Header:hover { color: orange; }
+.Roll-SubHeader {
+  display: inline;
+  font-weight: 400;
+  font-size: 18px;
+}
+
+.Roll-SubHeader-Param {font-size: 14px;}
+#Roll-ImageA { border-radius: 16px; }

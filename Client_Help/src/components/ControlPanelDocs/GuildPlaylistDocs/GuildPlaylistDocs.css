@@ -1,0 +1,15 @@
+.GuildPlaylistDocs-Header { font-size: 30px; }
+.GuildPlaylistDocs-Header:hover { color: orange; }
+.GuildPlaylistDocs-SubHeader { font-size: 14px; display: inline; margin-bottom: 6%; }
+.GuildPlaylistDocs-Desc { margin-top: 6%; display: inline-block; }
+
+.GuildPlaylistDocs-Desc-PersonalPlaylists-Link { margin-left: .5%; text-decoration: underline; }
+.GuildPlaylistDocs-Desc-PersonalPlaylists-Link:hover { color: orange; }
+
+.GuildPlaylistDocs-Images {
+  border-radius: 16px;
+  border: solid #cccccc;
+  margin-top: 1%;
+}
+#GuildPlaylist-ImageA { width: 60%; }
+#GuildPlaylist-ImageB { width: 80%; margin-bottom: 10%; }
