@@ -77,7 +77,7 @@ class UserPlaylists extends Component {
     renderPlaylists() {
         let Playlists = this.state.playlistData.map((el, idx) => {
             return(
-                <Col key={idx}>
+                <Col key={idx} style={{ paddingLeft: "0", paddingRight: "0" }}>
                 <Card className="UserPlaylists-Card" style={{ width: '18rem', margin: "20px" }}>
                 <Card.Header>
                 <FontAwesomeIcon className="FontAwesomeIcon" icon="headphones-alt" style={{ marginTop: "4px" }} />
@@ -96,9 +96,9 @@ class UserPlaylists extends Component {
                     <Link to={{
                         pathname: `/playlists/user/${el.playlist_name}`,
                         state: {
-                        userData: this.props.userData,
-                        manageServer: this.props.manageServer,
-                        playlistData: el
+                            userData: this.props.userData,
+                            manageServer: this.props.manageServer,
+                            playlistData: el
                         }
                     }}>
                     <Button className="UserPlaylists-View-Button">View Playlist</Button>
@@ -143,7 +143,7 @@ class UserPlaylists extends Component {
                     <Row className="Component-Content justify-content-md-end">
                         {this.state.dataReceived ? this.renderAddPlaylist() : <Spinner animation="border" role="status"><span className="sr-only">Loading...</span></Spinner>}
                     </Row>
-                    <Row className="Component-Content">
+                    <Row className="Component-Content" style={{ marginBottom: "40px", marginLeft: "0", marginRight: "0" }}>
                         {this.state.dataReceived ? this.renderPlaylists() : <Spinner animation="border" role="status"><span className="sr-only">Loading...</span></Spinner>}
                     </Row>    
                     </Container>

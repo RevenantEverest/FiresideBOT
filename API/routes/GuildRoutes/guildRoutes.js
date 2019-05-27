@@ -6,18 +6,10 @@ guildRouter.route('/')
 .get(guildsController.index)
 .post(guildsController.create)
 
-guildRouter.route('/check/:id')
-.get(guildsController.checkIfExists)
-.delete(guildsController.delete)
+guildRouter.route("/check/:id")
+.get(guildsController.checkForGuild)
 
 guildRouter.route('/info/:id')
 .get(guildsController.getOne)
-
-guildRouter.route('/settings')
-.post(guildsController.setDefaultSettings)
-.put(guildsController.updateSettings)
-
-guildRouter.route('/settings/:id')
-.get(guildsController.getSettings)
 
 module.exports = guildRouter;

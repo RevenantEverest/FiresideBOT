@@ -58,13 +58,6 @@ class SideNav extends Component {
                     </Menu.List.Item>
 
                     <Menu.List.Item className="SideNav-Element">
-                        <Link className="SideNav-Element-Content" to="/regulars">
-                            <FontAwesomeIcon className="FontAwesomeIcon" icon="crown" />
-                            Regulars
-                        </Link>
-                    </Menu.List.Item>
-
-                    <Menu.List.Item className="SideNav-Element">
                         <Link className="SideNav-Element-Content" to="/ranks">
                             <FontAwesomeIcon className="FontAwesomeIcon" icon="award" />
                             Ranks
@@ -103,6 +96,13 @@ class SideNav extends Component {
                         <Link className="SideNav-Element-Content" to="/moderation">
                             <FontAwesomeIcon className="FontAwesomeIcon" icon="bolt" />
                             Moderation
+                        </Link>
+                    </Menu.List.Item>
+
+                    <Menu.List.Item className="SideNav-Element">
+                        <Link className="SideNav-Element-Content" to="/trackers">
+                            <FontAwesomeIcon className="FontAwesomeIcon" icon="crosshairs" />
+                            Trackers
                         </Link>
                     </Menu.List.Item>
 

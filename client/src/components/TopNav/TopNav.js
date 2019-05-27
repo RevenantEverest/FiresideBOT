@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import './TopNav.css';
 
 import env from '../../env';
@@ -8,6 +9,7 @@ import { Navbar, Dropdown, Image } from 'react-bootstrap';
 //Services Imports
 import discordServices from '../../services/discordServices';
 import guildServices from '../../services/GuildServices/guildServices';
+import loginServices from '../../services/loginServices';
 
 class TopNav extends Component {
 
@@ -48,12 +50,20 @@ class TopNav extends Component {
     handleChange(el) {
         guildServices.checkForGuild(el.id)
         .then(results => {
-            if(results.data.data) return this.getGuildInfo(el.id);
-            else if(!results.data.data)
+            if(results.data.data.guild) return this.getGuildInfo(el.id);
+            else if(!results.data.data.guild)
                 this.setState({ chosenGuild: el }, () => {
                     window.location.replace(`https://discordapp.com/api/oauth2/authorize?client_id=${env.CLIENT_ID}&response_type=code&guild_id=${this.state.chosenGuild.id}&permissions=8&redirect_uri=${env.REDIRECT}dashboard%2F&scope=bot`);
-                    console.log("[GUILD] ", this.state.chosenGuild)
                 });
+        })
+        .catch(err => console.error(err));
+    }
+
+    handleLogout() {
+        loginServices.logout(this.state.userData.discord_id)
+        .then(() => {
+            window.localStorage.clear();
+            this.setState({ logoutRedirect: true });
         })
         .catch(err => console.error(err));
     }
@@ -63,7 +73,6 @@ class TopNav extends Component {
             .then(results => {
                 let guild = { id: results.data.data.guild_id, name: results.data.data.guild_name };
                 this.setState({ chosenGuild: guild }, () => {
-                    console.log("[GUILD] ", this.state.chosenGuild)
                     this.props.getManageServer({ id: results.data.data.guild_id, name: results.data.data.guild_name });
                 })
             })
@@ -104,12 +113,23 @@ class TopNav extends Component {
                 {this.state.dataReceived ? this.renderGuilds() : ''}
                 <Navbar.Toggle />
                 <Navbar.Collapse className="justify-content-end">
-                    <Navbar.Text style={{ color: "#cccccc", width: "250px" }}>
-                    <FontAwesomeIcon className="FontAwesomeIcon" icon="user" />
-                    <p style={{ color: "#cccccc", fontWeight: "600", display: "inline" }}>{this.props.userData.discord_username}</p>
-                    </Navbar.Text>
+                    <Dropdown className="TopNav-UserDropdown">
+                    <Dropdown.Toggle as="div" id="dropdown-basic" className="TopNav-UserDropdown-Toggle">
+                        <Navbar.Text style={{ color: "#cccccc", width: "160px" }}>
+                        <FontAwesomeIcon className="FontAwesomeIcon" icon="user" />
+                        <p style={{ color: "#cccccc", fontWeight: "600", display: "inline" }}>{this.props.userData.discord_username}</p>
+                        </Navbar.Text>
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu className="TopNav-UserDropdown-Menu">
+                        <Dropdown.Item as="div" className="TopNav-UserDropdown-Item" onClick={() => this.handleLogout()}>
+                            <FontAwesomeIcon className="FontAwesomeIcon" icon="sign-out-alt" />
+                            Logout
+                        </Dropdown.Item>
+                    </Dropdown.Menu>
+                    </Dropdown>
                 </Navbar.Collapse>
                 </Navbar>
+                {this.state.logoutRedirect ? <Redirect to="/" /> : ''}
             </div>
         );
     }

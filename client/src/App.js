@@ -7,7 +7,7 @@ import {
     faGlobeAmericas, faTachometerAlt, faMagic, faChartLine, 
     faCoins, faInfoCircle, faCrown, faComments, faMusic, faAward, faBolt,
     faSignOutAlt, faCode, faCog, faCogs, faUserAstronaut,
-    faTrashAlt, faNewspaper, faBullhorn, faCompactDisc, faClock, faHeadphonesAlt, faArrowAltCircleRight, faTimes
+    faTrashAlt, faNewspaper, faBullhorn, faCompactDisc, faClock, faHeadphonesAlt, faArrowAltCircleRight, faTimes, faCrosshairs
 } from '@fortawesome/free-solid-svg-icons';
 
 import { fab } from '@fortawesome/free-brands-svg-icons';
@@ -17,6 +17,7 @@ import HomePage from './components/HomePage/HomePage';
 import Dashboard from './components/Dashboard/Dashboard';
 import DefaultCommands from './components/DefaultCommands/DefaultCommands';
 import Analytics from './components/Analytics/Analytics';
+import Ranks from './components/Ranks/Ranks';
 import Playlists from './components/Playlists/Playlists';
 import SinglePlaylist from './components/SinglePlaylist/SinglePlaylist';
 import UserPlaylists from './components/UserPlaylists/UserPlaylists';
@@ -40,6 +41,7 @@ library.add(faEnvelope, faUser, faArrowCircleRight, faPhone, faGlobeAmericas);
 library.add(faTachometerAlt, faMagic, faChartLine, faCrown, faCoins, faInfoCircle, faComments, faMusic, faAward, faBolt, faSignOutAlt);
 library.add(faCode, faCog, faCogs, faUserAstronaut);
 library.add(faTrashAlt, faNewspaper, faBullhorn, faCompactDisc, faClock, faHeadphonesAlt, faArrowAltCircleRight, faTimes);
+library.add(faCrosshairs)
 
 class App extends Component {
 
@@ -110,6 +112,7 @@ class App extends Component {
                         <Route exact path="/dashboard" component={() => (<Dashboard userData={this.state.userData} manageServer={this.state.manageServer} /> )} />
                         <Route exact path="/commands/default" component={() => (<DefaultCommands userData={this.state.userData} manageServer={this.state.manageServer} /> )} />
                         <Route exact path="/analytics" component={() => (<Analytics userData={this.state.userData} manageServer={this.state.manageServer} /> )} />
+                        <Route exact path="/ranks" component={() => (<Ranks userData={this.state.userData} manageServer={this.state.manageServer} /> )} />
                         <Route exact path="/playlists" component={() => (<Playlists userData={this.state.userData} manageServer={this.state.manageServer} /> )} />
                         <Route exact path="/playlists/guild" component={() => (<GuildPlaylists userData={this.state.userData} manageServer={this.state.manageServer} /> )} />
                         <Route exact path="/playlists/user" component={() => (<UserPlaylists userData={this.state.userData} manageServer={this.state.manageServer} /> )} />

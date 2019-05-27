@@ -17,7 +17,7 @@ services.getGuildInfo = (data) => {
   /* ======== SETTINGS ======== */
   
 services.getGuildSettings = (data) => {
-    return axios.get(`${env.API}/guilds/settings/${data}`);
+    return axios.get(`${env.API}/guilds/settings/guild_id/${data}`);
 };
   
 services.updateSettings = (data) => {

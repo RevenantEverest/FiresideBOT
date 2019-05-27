@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import './Ranks.css';
 
-import { Container, Row, Col, Button, Spinner } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Container, Row, Col, Table, Button, Spinner } from 'react-bootstrap';
 
 //Services Imports
 import rankServices from '../../services/rankServices';
@@ -33,6 +34,8 @@ class Ranks extends Component {
         .catch(err => console.error(err));
     }
 
+    handleSettingsRedirect = () => this.setState({ settingsRedirect: true });
+
     renderRanks() {
         let Ranks = this.state.rankData.map((el, idx) => {
             return(
@@ -59,6 +62,15 @@ class Ranks extends Component {
                 {Ranks}
             </tbody>
             </Table>
+        );
+    }
+
+    renderSettingsButton() {
+        return(
+            <Button className="Ranks-SettingsButton " onClick={() => this.handleSettingsRedirect()}>
+                <FontAwesomeIcon icon="cog" style={{ marginRight: "2%" }}/>
+                Settings
+            </Button>
         );
     }
 

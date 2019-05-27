@@ -6,20 +6,12 @@ const qrec = pgp.errors.queryResultErrorCode;
 module.exports = {
   getByGuildId(req, res, next) {
     currencyDB.findCurrencySettings(req.params.id)
-      .then(settings => {
-        res.json({ message: "Getting Currency Settings", data: settings });
-      })
-      .catch(err => {
-        next(err);
-      })
+    .then(settings => res.json({ message: "Getting Currency Settings", data: settings }))
+    .catch(err => next(err));
   },
   update(req, res, next) {
     currencyDB.updateCurrencySettings(req.body)
-      .then(settings => {
-        res.json({ message: "Updating Currency Settings", data: settings });
-      })
-      .catch(err => {
-        next(err);
-      })
+    .then(settings => res.json({ message: "Updating Currency Settings", data: settings }))
+    .catch(err => next(err))
   }
 }

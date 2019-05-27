@@ -31,7 +31,9 @@ app.set('trust proxy', 'loopback');
 
 /* Routes */
 app.use("/users", require('./routes/UserRoutes/userRoutes'));
+app.use("/guilds", require('./routes/GuildRoutes/guildRoutes'));
 
+app.use("/guilds/settings", require('./routes/GuildRoutes/guildSettingsRoutes'));
 app.use("/guild/playlists", require('./routes/GuildRoutes/guildPlaylistRoutes'));
 app.use("/guild/songs", require('./routes/GuildRoutes/guildSongRoutes'));
 app.use("/user/playlists", require('./routes/UserRoutes/userPlaylistRoutes'));
@@ -39,11 +41,9 @@ app.use("/user/songs", require('./routes/UserRoutes/userSongRoutes'));
 
 app.use("/commands/custom", require('./routes/customCommandRoutes'));
 app.use("/login", require('./routes/loginRoutes'));
-app.use("/guilds", require('./routes/GuildRoutes/guildRoutes'));
 app.use("/queue", require('./routes/queueRoutes'));
 app.use("/autodj", require('./routes/autodjRoutes'));
 app.use("/TBW", require('./routes/TBW_Routes'));
-app.use("/regulars", require('./routes/regularsRoutes'));
 app.use("/currency/discord", require('./routes/discordCurrencyRoutes'));
 app.use("/currency/settings", require('./routes/currencyRoutes'));
 app.use("/tracker/twitch", require('./routes/twitchTrackerRoutes'));

@@ -49,3 +49,23 @@
 .TopNav-Dropdown-Item:hover .TopNav-Dropdown-Item-Span {
     color: #363636 !important;
 }
+
+.TopNav-UserDropdown {
+    margin-right: 40px;
+    padding: 10px 0 15px 0;
+}
+
+.TopNav-UserDropdown:hover { cursor: pointer; }
+
+.TopNav-UserDropdown-Menu {
+    background: #363636;
+}
+
+.TopNav-UserDropdown-Item {
+    color: #cccccc;
+    font-weight: 600;
+}
+
+.TopNav-UserDropdown-Icon {
+    color: #cccccc !important;
+}

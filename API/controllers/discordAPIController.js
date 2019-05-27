@@ -18,42 +18,30 @@ services.handleRefreshToken = (data, callback) => {
 module.exports = {
     getGuilds(req, res, next) {
         discord_tokenDB.findByDiscordId(req.params.id)
-            .then(results => {
-                discordServices.getUserGuilds(results.token)
-                    .then(guilds => {
-                        res.json({message: "Getting User Guilds", data: guilds.data})
-                    })
-                    .catch(err => {
-                        console.error(err);
-                        // if(err.response.status === 401)
-                        //     services.handleRefreshToken(results, this.getGuilds);
-                    })
-            })
+        .then(results => {
+            discordServices.getUserGuilds(results.token)
+            .then(guilds => res.json({message: "Getting User Guilds", data: guilds.data}))
             .catch(err => {
-                next(err);
-                //Log Error
-            })
+                console.error(err);
+                // if(err.response.status === 401)
+                //     services.handleRefreshToken(results, this.getGuilds);
+            });
+        })
+        .catch(err => next(err));
     },
     getUserInfo(req, res, next) {
+        // Log Error
+        //Potentially Handle No Access Token
+        //Handle 401 Response
         discord_tokenDB.findByDiscordId(req.params.id)
-            .then(results => {
-                discordServices.getUserInfo(results.token)
-                .then(info => {
-                    res.json({ message: "Getting Discord User Info", data: info.data });
-                })
-                .catch(err => {
-                    //Handle 401 Response
-                    console.log(err.response.status);
-                })
-            })
-            .catch(err => {
-                next(err);
-                // Log Error
-                //Potentially Handle No Access Token
-            })
+        .then(results => {
+            discordServices.getUserInfo(results.token)
+            .then(info => res.json({ message: "Getting Discord User Info", data: info.data }))
+            .catch(err => console.log(err.response.status));
+        })
+        .catch(err => next(err));
     },
     getBotUserSize(req, res, next) {
-        // res.json({message: "Getting Discord Users Count", data: config.Discord_Options.users});
-        res.json({message: "Getting Discord Users Count", data: config.info.userCount});
+        res.json({ message: "Getting Discord Users Count", data: config.info.userCount });
     }
 };

@@ -17,10 +17,6 @@ class NavBar extends Component {
         }
     }
 
-    componentDidMount() {
-        console.log(this.props.userData)
-    }
-
     renderLoggedIn() { return(<Navbar.Text style={{ color: '#cccccc' }}>Signed in as: {this.state.userData.discord_username}</Navbar.Text>); }
 
     handleLogin() {

@@ -9,12 +9,8 @@ module.exports = {
         db.findAll()
         .then(trackers => res.json({ message: "Getting Trackers", data: trackers }))
         .catch(err => {
-            if(err instanceof QRE && err.code === qrec.noData) {
-                res.json({
-                    message: "No Trackers Found",
-                    data: [{}]
-                })
-            }
+            if(err instanceof QRE && err.code === qrec.noData)
+                res.json({ message: "No Trackers Found", data: [{}] });
             else next(err);
         })
     },
@@ -22,12 +18,8 @@ module.exports = {
         db.findById(req.params.id)
         .then(tracker => res.json({ message: "Getting Tracker", data: tracker }))
         .catch(err => {
-            if(err instanceof QRE && err.code === qrec.noData) {
-                res.json({
-                    message: "No Tracker Found",
-                    data: {}
-                })
-            }
+            if(err instanceof QRE && err.code === qrec.noData)
+                res.json({ message: "No Tracker Found", data: {} });
             else next(err);
         })
     },
@@ -35,12 +27,8 @@ module.exports = {
         db.findByGuildId(req.params.id)
         .then(trackers => res.json({ message: "Getting Trackers by Guild Id", data: trackers }))
         .catch(err => {
-            if(err instanceof QRE && err.code === qrec.noData) {
-                res.json({
-                    message: "No Trackers Found",
-                    data: [{}]
-                })
-            }
+            if(err instanceof QRE && err.code === qrec.noData)
+                res.json({ message: "No Trackers Found", data: [{}] });
             else next(err);
         })
     },
