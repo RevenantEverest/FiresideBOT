@@ -38,6 +38,10 @@ a:visited, a:hover, a:focus, a:active {
   color: inherit;
 }
 
+table.table a {
+  color: inherit;
+}
+
 body::-webkit-scrollbar { background: #0d0d0d; }
 body::-webkit-scrollbar-thumb { background: #262626; }
 
@@ -48,10 +52,18 @@ body::-webkit-scrollbar-thumb { background: #262626; }
 }
 .Component-Breadcrumb {
   display: inline;
+  transition: .3s;
 }
+
+.Component-Breadcrumb:hover {
+  color: orange;
+  cursor: pointer;
+}
+
 .Component-Breadcrumb-Main {
   font-weight: 600;
 }
+
 .Component-Content {
   margin-top: 25px;
 }

@@ -1,5 +1,4 @@
 #EconomySettings {
-    height: 75vh;
     background: #151515;
     width: 100%;
 }
@@ -10,7 +9,7 @@
 }
 
 #EconomySettings-Form {
-    width: 80vw;
+    width: 40vw;
 }
 
 #EconomySettings-CurrencyName, #EconomySettings-CurrencyIncreaseRate {

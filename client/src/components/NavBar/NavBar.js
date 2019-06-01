@@ -17,7 +17,19 @@ class NavBar extends Component {
         }
     }
 
-    renderLoggedIn() { return(<Navbar.Text style={{ color: '#cccccc' }}>Signed in as: {this.state.userData.discord_username}</Navbar.Text>); }
+    componentDidMount() {
+        console.log(this.state.isLoggedIn)
+    }
+
+    renderLoggedIn() { 
+        return(
+            <Button 
+            className="NavBar-Login" 
+            onClick={() => this.setState({ dashboardRedirect: true }, () => this.props.updateDisplay(true))}>
+            Go To Dashboard
+            </Button>
+        ); 
+    }
 
     handleLogin() {
         this.setState({ loginRedirect: true }, () => {
@@ -48,7 +60,7 @@ class NavBar extends Component {
                 </Nav>
                 <Navbar.Collapse className="justify-content-end">
                     {this.state.isLoggedIn ? this.renderLoggedIn() : <Button as="a" className="NavBar-Login" href={`${this.DiscordRedirect}`}>Login With Discord</Button>}
-                    {this.state.loginRedirect ? <Redirect to="dashboard" /> : ''}
+                    {this.state.dashboardRedirect ? <Redirect to="/dashboard" /> : ''}
                 </Navbar.Collapse>
             </Navbar>
         );

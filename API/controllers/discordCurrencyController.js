@@ -32,7 +32,9 @@ module.exports = {
           avatarURL = Discord_Bot.guilds.get(req.params.id).members.get(el.discord_id).user.avatar;
         }
         currencyData.push({ 
-          id: el.id, currency: el.currency, discord_username: discord_username, discord_id: el.discord_id, guild_id: el.guild_id, avatarUrl: avatarURL
+          id: el.id, currency: parseInt(el.currency, 10).toLocaleString(), 
+          discord_username: discord_username, discord_id: el.discord_id, 
+          guild_id: el.guild_id, avatarUrl: avatarURL
         })
       })
       res.json({ message: 'Getting Discord Currency By Guild Id', data: currencyData });

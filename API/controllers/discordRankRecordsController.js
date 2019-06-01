@@ -1,3 +1,4 @@
+const Discord_Bot = require('../Discord_Bot');
 const db = require('../models/discordRankRecordsDB');
 
 const pgp = require('pg-promise')();
@@ -23,7 +24,23 @@ module.exports = {
     },
     getByGuildId(req, res, next) {
         db.findByGuildId(req.params.id)
-        .then(records => res.json({ message: "Getting All Discord Rank Records", data: records }))
+        .then(records => {
+            let recordsData = [];
+            records.forEach(el => {
+                let discord_username = null;
+                let avatarURL = null;
+                if(Discord_Bot.guilds.get(req.params.id).members.get(el.discord_id) !== undefined) {
+                    discord_username = Discord_Bot.guilds.get(req.params.id).members.get(el.discord_id).user.username;
+                    avatarURL = Discord_Bot.guilds.get(req.params.id).members.get(el.discord_id).user.avatar;
+                }
+                recordsData.push({ 
+                    id: el.id, xp: el.xp, 
+                    discord_username: discord_username, discord_id: el.discord_id, 
+                    guild_id: el.guild_id, avatarUrl: avatarURL
+                })
+            })
+            res.json({ message: 'Getting Records By Guild Id', data: recordsData });
+        })
         .catch(err => {
             if(err instanceof QRE && err.code === qrec.noData) res.json({ message: "No Records Found", data: [{}] });
             else next(err);

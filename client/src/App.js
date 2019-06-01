@@ -7,7 +7,7 @@ import {
     faGlobeAmericas, faTachometerAlt, faMagic, faChartLine, 
     faCoins, faInfoCircle, faCrown, faComments, faMusic, faAward, faBolt,
     faSignOutAlt, faCode, faCog, faCogs, faUserAstronaut,
-    faTrashAlt, faNewspaper, faBullhorn, faCompactDisc, faClock, faHeadphonesAlt, faArrowAltCircleRight, faTimes, faCrosshairs
+    faTrashAlt, faNewspaper, faBullhorn, faCompactDisc, faClock, faHeadphonesAlt, faArrowAltCircleRight, faTimes, faCrosshairs, faEdit, faLink
 } from '@fortawesome/free-solid-svg-icons';
 
 import { fab } from '@fortawesome/free-brands-svg-icons';
@@ -18,12 +18,15 @@ import Dashboard from './components/Dashboard/Dashboard';
 import DefaultCommands from './components/DefaultCommands/DefaultCommands';
 import Analytics from './components/Analytics/Analytics';
 import Ranks from './components/Ranks/Ranks';
+import RankTiers from './components/RankTiers/RankTiers';
+import RankSettings from './components/RankSettings/RankSettings';
 import Playlists from './components/Playlists/Playlists';
 import SinglePlaylist from './components/SinglePlaylist/SinglePlaylist';
 import UserPlaylists from './components/UserPlaylists/UserPlaylists';
 import GuildPlaylists from './components/GuildPlaylists/GuildPlaylists';
 import Economy from './components/Economy/Economy';
 import EconomySettings from './components/EconomySettings/EconomySettings';
+import Trackers from './components/Trackers/Trackers';
 import Settings from './components/Settings/Settings';
 import NavBar from './components/NavBar/NavBar';
 import SideNav from './components/SideNav/SideNav';
@@ -41,7 +44,7 @@ library.add(faEnvelope, faUser, faArrowCircleRight, faPhone, faGlobeAmericas);
 library.add(faTachometerAlt, faMagic, faChartLine, faCrown, faCoins, faInfoCircle, faComments, faMusic, faAward, faBolt, faSignOutAlt);
 library.add(faCode, faCog, faCogs, faUserAstronaut);
 library.add(faTrashAlt, faNewspaper, faBullhorn, faCompactDisc, faClock, faHeadphonesAlt, faArrowAltCircleRight, faTimes);
-library.add(faCrosshairs)
+library.add(faCrosshairs, faEdit, faLink);
 
 class App extends Component {
 
@@ -59,6 +62,8 @@ class App extends Component {
         this.updateDisplay = this.updateDisplay.bind(this);
         this.getUserData = this.getUserData.bind(this);
         this.getManageServer = this.getManageServer.bind(this);
+        this.handleLogout = this.handleLogout.bind(this);
+        this.componentDidMount = this.componentDidMount.bind(this);
     }
 
     componentDidMount() {
@@ -66,9 +71,7 @@ class App extends Component {
         if(window.location.pathname === "/" && !window.localStorage.id) this.updateDisplay(false);
         if(window.localStorage.id && !this.state.isLoggedIn) {
             loginServices.getUserData(window.localStorage.id)
-              .then(results => this.setState({ userData: results.data.data, isLoggedIn: true }, () => {
-                  this.updateDisplay(true);
-              }))
+              .then(results => this.setState({ userData: results.data.data, isLoggedIn: true }, () => this.renderHomePage()))
               .catch(err => console.log(err));
         }
     }
@@ -78,18 +81,19 @@ class App extends Component {
     getUserData = (user) => this.setState({ userData: user, isLoggedIn: true }, () => this.updateDisplay(true));
     getManageServer = (server) => this.setState({ manageServer: server }, () => this.componentDidMount());
     updateDisplay = (display) => this.setState({ displayApp: display });
+    handleLogout = () => this.setState({ isLoggedIn: false });
 
     renderHomePage() {
         return(
             <Container fluid style={{ marginLeft: '0', marginRight: '0', paddingLeft: '0', paddingRight: '0' }}>
             <Row>
                 <Col>
-                    <NavBar isLoggedIn={this.state.isLoggedIn} userData={this.state.userData} updateDisplay={this.updateDisplay} />
+                <NavBar isLoggedIn={this.state.isLoggedIn} userData={this.state.userData} updateDisplay={this.updateDisplay} />
                 </Col>
             </Row>
             <Row>
                 <Col style={{ paddingLeft: "0", paddingRight: "0"}}>
-                    <Route exact path="/" component={() => (<HomePage userData={this.state.userData} isLoggedIn={this.state.isLoggedIn} getUserData={this.getUserData} />)} />
+                <Route exact path="/" component={() => (<HomePage userData={this.state.userData} isLoggedIn={this.state.isLoggedIn} getUserData={this.getUserData} />)} />
                 </Col>
             </Row>
             </Container>
@@ -106,13 +110,21 @@ class App extends Component {
                 <Col  style={{ paddingLeft: "0", paddingRight: "0"}}>
                     <Container fluid style={{ marginLeft: '0', marginRight: '0', paddingLeft: '0', paddingRight: '0' }}>
                     <Row>
-                        <TopNav userData={this.state.userData} getManageServer={this.getManageServer} manageServer={this.state.manageServer} />
+                        <TopNav 
+                        userData={this.state.userData} 
+                        getManageServer={this.getManageServer} 
+                        manageServer={this.state.manageServer} 
+                        componentDidMount={this.componentDidMount}
+                        handleLogout={this.handleLogout}
+                        />
                     </Row>
                     <Row>
                         <Route exact path="/dashboard" component={() => (<Dashboard userData={this.state.userData} manageServer={this.state.manageServer} /> )} />
                         <Route exact path="/commands/default" component={() => (<DefaultCommands userData={this.state.userData} manageServer={this.state.manageServer} /> )} />
                         <Route exact path="/analytics" component={() => (<Analytics userData={this.state.userData} manageServer={this.state.manageServer} /> )} />
                         <Route exact path="/ranks" component={() => (<Ranks userData={this.state.userData} manageServer={this.state.manageServer} /> )} />
+                        <Route exact path="/ranks/tiers" component={() => (<RankTiers userData={this.state.userData} manageServer={this.state.manageServer} /> )} />
+                        <Route exact path="/ranks/settings" component={() => (<RankSettings userData={this.state.userData} manageServer={this.state.manageServer} /> )} />
                         <Route exact path="/playlists" component={() => (<Playlists userData={this.state.userData} manageServer={this.state.manageServer} /> )} />
                         <Route exact path="/playlists/guild" component={() => (<GuildPlaylists userData={this.state.userData} manageServer={this.state.manageServer} /> )} />
                         <Route exact path="/playlists/user" component={() => (<UserPlaylists userData={this.state.userData} manageServer={this.state.manageServer} /> )} />
@@ -120,6 +132,7 @@ class App extends Component {
                         <Route path="/playlists/user/:playlist_name" component={SinglePlaylist} />
                         <Route exact path="/economy" component={() => (<Economy userData={this.state.userData} manageServer={this.state.manageServer} /> )} />
                         <Route exact path="/economy/settings" component={() => (<EconomySettings userData={this.state.userData} manageServer={this.state.manageServer} /> )} />
+                        <Route exact path="/trackers" component={() => (<Trackers userData={this.state.userData} manageServer={this.state.manageServer} /> )} />
                         <Route exact path="/settings" component={() => (<Settings userData={this.state.userData} manageServer={this.state.manageServer} /> )} />
                     </Row>
                     <Row>
@@ -137,9 +150,8 @@ class App extends Component {
             <div id="App">
                 <Router>
                     <div className="App_Contents">
-                        {this.state.displayApp ? this.renderApp() : this.renderHomePage()}
-                        {!this.state.isLoggedIn && window.location.pathname !== "/" ? <Redirect to="/" /> : ''}
-                        {this.state.isLoggedIn && window.location.pathname !== "/dashboard" ? <Redirect to="/dashboard" /> : ''}
+                        {!this.state.isLoggedIn ? (window.location.pathname !== "/" && !window.location.search ? <Redirect to="/" /> : this.renderHomePage()) : ''}
+                        {this.state.isLoggedIn ? (window.location.pathname !== "/" ? this.renderApp() : this.renderHomePage() ) : ''}
                     </div>
                 </Router>
             </div>

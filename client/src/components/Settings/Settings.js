@@ -7,6 +7,7 @@ import { Container, Row, Col, Spinner } from 'react-bootstrap';
 //Component Imports
 import GuildSettings from '../GuildSettings/GuildSettings';
 import EconomySettings from '../EconomySettings/EconomySettings';
+import RankSettings from '../RankSettings/RankSettings';
 
 class Settings extends Component {
 
@@ -43,6 +44,11 @@ class Settings extends Component {
                     <Row>
                         <Col>
                         {this.state.manageServer ? <EconomySettings userData={this.state.userData} manageServer={this.state.manageServer} /> : ''}
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                        {this.state.manageServer ? <RankSettings userData={this.state.userData} manageServer={this.state.manageServer} /> : ''}
                         </Col>
                     </Row>
                     </Container>

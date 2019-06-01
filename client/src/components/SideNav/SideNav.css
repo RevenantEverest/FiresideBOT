@@ -101,3 +101,7 @@
     font-weight: 600;
     padding: 8px 0 8px 90px;
 }
+
+.SideNav-Dropdown-Item-Commands {
+    margin-left: -30px;
+}

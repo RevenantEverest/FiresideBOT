@@ -46,7 +46,7 @@ app.use("/autodj", require('./routes/autodjRoutes'));
 app.use("/TBW", require('./routes/TBW_Routes'));
 app.use("/currency/discord", require('./routes/discordCurrencyRoutes'));
 app.use("/currency/settings", require('./routes/currencyRoutes'));
-app.use("/tracker/twitch", require('./routes/twitchTrackerRoutes'));
+app.use("/trackers/twitch", require('./routes/twitchTrackerRoutes'));
 app.use("/ranks/tiers", require('./routes/discordRankRoutes'));
 app.use("/ranks/settings", require('./routes/discordRankSettingsRoutes'));
 app.use("/ranks/records", require('./routes/discordRankRecordRoutes'));

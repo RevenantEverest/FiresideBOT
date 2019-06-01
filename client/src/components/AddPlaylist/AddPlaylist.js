@@ -56,7 +56,7 @@ class AddPlaylist extends Component {
             <Col lg={4}>
                 <Alert variant="danger" style={{ marginTop: "25px" }}>
                 {this.state.failureReason}
-                <FontAwesomeIcon className="FontAwesomeIcon AddPlaylist-Alert-Close" icon="times" onClick={() => this.setState({ formSuccess: false })} />
+                <FontAwesomeIcon className="FontAwesomeIcon AddPlaylist-Alert-Close" icon="times" onClick={() => this.setState({ formFailure: false })} />
                 </Alert>    
             </Col>
         );

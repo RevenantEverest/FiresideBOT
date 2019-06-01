@@ -20,8 +20,7 @@ services.addRank = (data) => {
         url: `${env.API}/ranks/tiers`,
         data: {
             guild_id: data.guild_id,
-            rank_name: data.rank_name,
-            rank_number: data.rank_number
+            rank_name: data.rank_name
         }
     });
 };
@@ -36,7 +35,7 @@ services.updateRank = (data) => {
             rank_name: data.rank_name,
             rank_number: data.rank_number
         }
-    })
+    });
 };
 
 services.updateRankSettings = (data) => {
@@ -48,7 +47,7 @@ services.updateRankSettings = (data) => {
             general_increase_rate: data.general_increase_rate,
             channel_id: data.channel.id
         }
-    })
+    });
 };
 
 services.deleteRank = (data) => {

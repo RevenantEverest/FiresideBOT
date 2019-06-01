@@ -44,7 +44,6 @@ class Economy extends Component {
     handleSettingsRedirect = () => this.setState({ settingsRedirect: true });
 
     renderCurrency() {
-        console.log(this.state.currencyData)
         let Currency = this.state.currencyData.map((el, idx) => {
             return(
                 <tr key={idx}>

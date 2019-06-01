@@ -8,6 +8,7 @@ const guildsController = require('./guildsController');
 const currencyController = require('./currencyController');
 const activityController = require('./activityController');
 const ticketsController = require('./ticketsController');
+const ranksController = require('./ranksController');
 
 const guildsDB = require('../models/GuildModels/guildsDB');
 
@@ -82,6 +83,7 @@ services.handleOnMessage = async (bot, message) => {
     if(message.author.bot) return;
     if(message.channel.type === "dm") return ticketsController.handleTicket(bot, message);
     currencyController.handleCurrency(message);
+    ranksController.handleXP(bot, message);
         
     guildsDB.findPrefix(message.guild.id)
         .then(prefix => {

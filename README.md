@@ -2,7 +2,7 @@
 A Music, Economy, & Admin Discord Bot written in Node.js  
 
 ###### Current Version: v1.4.0  
-[HelpDocs](help.firesidebot.com) || [Invite](https://discordapp.com/oauth2/authorize?client_id=441338104545017878&response_type=code&permissions=8&scope=bot) || [Online Control Panel](firesidebot.com)  
+[HelpDocs](help.firesidebot.com) || [Invite](https://discordapp.com/oauth2/authorize?client_id=441338104545017878&response_type=code&permissions=8&scope=bot) || [Online Control Panel](https://firesidebot.com)  
 
 ---  
 
@@ -10,7 +10,7 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 
 | Category                 | Subcategory
 | -------------            |:-------------
-| [Commands](#Commands)    | [Admin](#Admin), [Economy](#Economy), [Fun](#Fun), [GameStats](#GameStats), [Info](#Info), [Music](#Music), [Other](#Other), [Support](#Support), 
+| [Commands](#Commands)    | [Admin](#Admin), [Config](#Config), [Economy](#Economy), [Fun](#Fun), [GameStats](#GameStats), [Info](#Info), [Music](#Music), [Other](#Other), [Support](#Support), 
 
 ---  
 
@@ -27,6 +27,12 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 
 #### Admin  
 
+- [AddRank](https://help.firesidebot.com/commands/addrank) `<param>`  
+**Desc**: Creates a new Rank Tier  
+**Aliases**: `ar`   
+**Params**: Rank Name  
+**Example**: `?addrank NewRank`  
+
 - [Ban](https://help.firesidebot.com/commands/ban) `<param>`  
 **Desc**: Bans a user  
 **Aliases**:   
@@ -34,18 +40,23 @@ A Music, Economy, & Admin Discord Bot written in Node.js
  Optional Param  
 **Example**: `?ban @RevenantEverest 5 His memes are low tier`  
 
-- [Config](https://help.firesidebot.com/commands/config) `[param]`  
-**Desc**: Configure FiresideBOT  
-**Aliases**:   
-**Params**:   
-**Flags**: `-p` `-cn` `-cir`   
-**Example**: `?config`  
+- [EditRank](https://help.firesidebot.com/commands/editrank) `<param>`  
+**Desc**: Change a ranks name  
+**Aliases**: `er`   
+**Params**: Rank ID and new Rank name  
+**Example**: `?editrank 92 NewRankName`  
 
 - [Purge](https://help.firesidebot.com/commands/purge) `[param]`  
 **Desc**: Bulk delete messages  
 **Aliases**:   
 **Params**: @Tag / Amount  
 **Example**: `?purge @RevenantEverest 20`  
+
+- [RemoveRank](https://help.firesidebot.com/commands/removerank) `<param>`  
+**Desc**: Removes a Rank Tier  
+**Aliases**: `rr`   
+**Params**: Rank ID  
+**Example**: `?removerank 10`  
 
 - [RemoveTracker](https://help.firesidebot.com/commands/removetracker) `<param>`  
 **Desc**: Deletes a Tracker  
@@ -59,6 +70,55 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Aliases**: `tt` `ttracker`   
 **Params**: Twitch Username / #Channel Tag / @Role Tag  
 **Example**: `?twitchtracker RevenantEverest #bot-commands`  
+
+  
+
+--- 
+
+<a id="Config"></a>  
+
+#### Config  
+
+- [Config](https://help.firesidebot.com/commands/config)   
+**Desc**: Configure FiresideBOT  
+**Aliases**:   
+**Example**: `?config`  
+
+- [EditCurrencyName](https://help.firesidebot.com/commands/editcurrencyname) `<param>`  
+**Desc**: Update server currency name  
+**Aliases**: `ecn`   
+**Params**: Name  
+**Example**: `?editcurrencyname Souls`  
+
+- [EditCurrencyRate](https://help.firesidebot.com/commands/editcurrencyrate) `<param>`  
+**Desc**: Update server currency rate  
+**Aliases**: `ecr` `ecir`   
+**Params**: Number  
+**Example**: `?editcurrencyrate 20`  
+
+- [EditPrefix](https://help.firesidebot.com/commands/editprefix) `<param>`  
+**Desc**: Change prefix  
+**Aliases**: `ep`   
+**Params**: Desired Prefix  
+**Example**: `?editprefix`  
+
+- [EditRankChannel](https://help.firesidebot.com/commands/editrankchannel) `<param>`  
+**Desc**: Update the channel Level Ups are posted in  
+**Aliases**: `ercp`   
+**Params**: #Channel Tag  
+**Example**: `?editrank #bot-commands`  
+
+- [EditRankComplexity](https://help.firesidebot.com/commands/editrankcomplexity) `<param>`  
+**Desc**: Update server rank complexity  
+**Aliases**: `erc`   
+**Params**: Number  
+**Example**: `?editrankcomplexity 10`  
+
+- [EditRankrate](https://help.firesidebot.com/commands/editrankrate) `<param>`  
+**Desc**: Update server rank rate  
+**Aliases**: `err`   
+**Params**: Number  
+**Example**: `?editrankrank 12`  
 
   
 
@@ -157,12 +217,32 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Aliases**: `stats` `bi`   
 **Example**: `?botinfo`  
 
+- [Leaderboard](https://help.firesidebot.com/commands/leaderboard)   
+**Desc**: Displays Rank Leaderboard for server  
+**Aliases**: `lb`   
+**Example**: `?leaderboard`  
+
+- [MyRank](https://help.firesidebot.com/commands/myrank)   
+**Desc**: Displays current Rank and XP  
+**Aliases**: `mr`   
+**Example**: `?myrank`  
+
 - [Poll](https://help.firesidebot.com/commands/poll) `<param>`  
 **Desc**: Creates a new Poll  
 **Aliases**:   
 **Params**:   
 **Flags**: `-q` `-a` `-t`   
 **Example**: `?poll -q How is everyone enjoying FiresideBOT? -a It's amazing -a It's okay -a Developer is bad :eyes: -t 60`  
+
+- [RankInfo](https://help.firesidebot.com/commands/rankinfo)   
+**Desc**: Displays available Rank Tier Info  
+**Aliases**: `ri`   
+**Example**: `?rankinfo MyRank`  
+
+- [Ranks](https://help.firesidebot.com/commands/ranks)   
+**Desc**: Displays all available Rank Tiers  
+**Aliases**: `r`   
+**Example**: `?ranks`  
 
 - [Roles](https://help.firesidebot.com/commands/roles)   
 **Desc**: Displays availale Roles  
@@ -189,6 +269,12 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Desc**: Displays relevant User Info  
 **Aliases**: `ui`   
 **Example**: `?userinfo`  
+
+- [ViewRank](https://help.firesidebot.com/commands/viewrank) `<param>`  
+**Desc**: View a users Rank  
+**Aliases**: `vr`   
+**Params**: @Tag  
+**Example**: `?viewrank @RevenantEverest`  
 
 - [Weather](https://help.firesidebot.com/commands/weather) `<param>`  
 **Desc**: Displays the current weather for the spcified City  
@@ -357,6 +443,11 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Desc**: Pong  
 **Aliases**:   
 **Example**: `?undefined`  
+
+- [Vote](https://help.firesidebot.com/commands/vote)   
+**Desc**: Displays link to Vote for Fireside on DBL  
+**Aliases**:   
+**Example**: `?vote`  
 
   
 

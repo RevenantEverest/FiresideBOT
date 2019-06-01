@@ -16,12 +16,12 @@ services.addSong = (data) => {
       url: `${env.API}/user/songs`,
       data: {
         playlist_id: data.playlist_id,
-        link: data.link
+        request: data.request
       }
     });
 };
   
-services.deleteSong = (data) => {
+services.removeSong = (data) => {
     return axios.delete(`${env.API}/user/songs/song_id/${data}`)
 };
 

@@ -31,12 +31,12 @@ class Dashboard extends Component {
                             At A Glance
                             </Card.Header>
                             <Card.Body>
-                                <Card.Title>Special title treatment</Card.Title>
+                                <Card.Title>Coming Soon!</Card.Title>
                                 <Card.Text>
-                                With supporting text below as a natural lead-in to additional content.
+                                View basic analytics like most used command, most active user, etc.
                                 </Card.Text>
                                 <Link to="/analytics">
-                                <Button id="Dashboard-AAG-Button">See Full Analytics</Button>
+                                <Button id="Dashboard-AAG-Button">See Full Analytics (Coming Soon)</Button>
                                 </Link>
                             </Card.Body>
                             </Card>
@@ -48,9 +48,9 @@ class Dashboard extends Component {
                             What's New
                             </Card.Header>
                             <Card.Body>
-                                <Card.Title>v1.4.0</Card.Title>
+                                <Card.Title>New Update v1.4.0</Card.Title>
                                 <Card.Text>
-                                With supporting text below as a natural lead-in to additional content.
+                                With the release of 1.4.0, comes a whole new Web Client as well as a bunch of other useful commands and features!
                                 </Card.Text>
                                 <a target="_blank" rel="noopener noreferrer" href="https://trello.com/c/LjFEBPNa/5-v140">
                                 <Button id="Dashboard-WN-Button">Learn More</Button>

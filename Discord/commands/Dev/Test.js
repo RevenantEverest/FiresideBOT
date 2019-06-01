@@ -14,14 +14,7 @@ async function updateMessage(invokes, seconds, msg) {
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     if(message.author.id !== "163346982709100546") return;
-    // console.log(args);
-    //<@&>
-    // message.channel.send("Hello @everyone")
-    let embed = new Discord.RichEmbed();
-    embed.setTitle("Hello World", false, message.author.avatarURL)
-    .setAuthor("My Name", message.author.avatarURL)
-    .setThumbnail('https://cdn.r6stats.com/seasons/ranks/platinum-3.svg')
-    message.channel.send(embed)
+    console.log(bot.guilds.get(message.guild.id).roles.array().map(el => { return {name: el.name, id: el.id} }))
 };
 
 module.exports.config = {

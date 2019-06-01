@@ -3,6 +3,9 @@ import './AddRank.css';
 
 import { Container, Row, Col, Button, Form } from 'react-bootstrap';
 
+//Services Imports
+import rankServices from '../../services/rankServices';
+
 class AddRank extends Component {
 
     constructor(props) {
@@ -19,10 +22,10 @@ class AddRank extends Component {
     
     handleSubmit(e) {
         e.preventDefault();
-        rankServices.addRank({ guild_id: this.state.manageServer.id, rank_name: this.state.rank_name, rank_number: this.state.rank_number })
+        rankServices.addRank({ guild_id: this.state.manageServer.id, rank_name: this.state.rank_name })
         .then(rank => {
             document.querySelector('#AddRank-Form').reset();
-            this.props.getRanks();
+            this.props.getRankTiers();
         })
         .catch(err => console.error(err));
     }
@@ -34,14 +37,11 @@ class AddRank extends Component {
                 <Container className="AddRank-Container">
                 <Row>
                     <Col>
-                    <Form id="AddRank-Form" onSubmit={this.handleSubmit} autoComplete="off" fluid>
-                    <Form.Group controlId="formBasicsUsername">
+                    <Form id="AddRank-Form" onSubmit={this.handleSubmit} autoComplete="off">
+                    <Form.Group>
                         <Form.Row>
                         <Col lg={2}>
-                        <Form.Label>Currency Name: </Form.Label>
-                        </Col>
-                        <Col lg={2}>
-                        <Form.Label>Increase Rate: </Form.Label>
+                        <Form.Label>Rank Name: </Form.Label>
                         </Col>
                         </Form.Row>
                         <Form.Row>
@@ -53,17 +53,9 @@ class AddRank extends Component {
                             onChange={this.handleChange}
                             />
                             </Col>
-                            <Col lg={2}>
-                            <Form.Control 
-                            id="AddRank-RankNumber" 
-                            type="text" 
-                            name="rank_number" 
-                            onChange={this.handleChange}
-                            />
-                            </Col>
                             <Col>
                             <Button id="AddRank-SubmitButton" variant="primary" type="submit">
-                            Update
+                            Create
                             </Button>
                             </Col>
                         </Form.Row>
@@ -73,14 +65,9 @@ class AddRank extends Component {
                             Desired name for a rank.
                             </Form.Text>
                             </Col>
-                            <Col lg={2}>
-                            <Form.Text>
-                            Desired rank position.
-                            </Form.Text>
-                            </Col>
                         </Form.Row>
                     </Form.Group>
-                </Form>
+                    </Form>
                     </Col>
                 </Row>
                 </Container>

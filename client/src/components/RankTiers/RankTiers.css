@@ -1,0 +1,39 @@
+#RankTiers {
+    height: auto;
+    background: #151515;
+    width: 100%;
+}
+
+.RankTiers-Container {
+    margin-top: 20px;
+    margin-left: 10px;
+}
+
+.RankTiers-Breadcrumb {
+    padding: 0;
+}
+
+#RankTiers-Table {
+    background: #151515;
+    color: #cccccc;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 5%;
+}
+
+.RankTiers-TH {
+    color: #cccccc !important;
+    font-weight: 800;
+}
+
+.RankTiers-TD-RankNumber {
+    font-weight: 800;
+}
+
+.RankTiers-TD-RankName {
+    font-weight: 600;
+}
+
+.RankTiers-TD-Rank {
+    font-weight: 400;
+}

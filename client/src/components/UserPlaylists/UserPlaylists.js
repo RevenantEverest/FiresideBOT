@@ -136,7 +136,8 @@ class UserPlaylists extends Component {
                     </Row>
                     <Row>
                         <Col>
-                            <Link to="/"><p className="Component-Breadcrumb">Home / playlists </p></Link>
+                            <Link to="/"><p className="Component-Breadcrumb">Home </p></Link>
+                            <Link to="/playlists"><p className="Component-Breadcrumb">/ Playlists </p></Link>
                             <p className="Component-Breadcrumb Component-Breadcrumb-Main">/ User</p>
                         </Col>
                     </Row>

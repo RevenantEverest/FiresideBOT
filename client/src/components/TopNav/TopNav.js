@@ -63,7 +63,10 @@ class TopNav extends Component {
         loginServices.logout(this.state.userData.discord_id)
         .then(() => {
             window.localStorage.clear();
-            this.setState({ logoutRedirect: true });
+            this.setState({ logoutRedirect: true }, () => {
+                this.props.handleLogout();
+                this.props.componentDidMount();
+            });
         })
         .catch(err => console.error(err));
     }

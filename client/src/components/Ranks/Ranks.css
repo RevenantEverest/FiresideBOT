@@ -39,6 +39,21 @@
     background: orange !important;
 }
 
+.Ranks-TiersButton {
+    font-size: 14px;
+    width: 200px;
+    padding: 8px;
+    background: orange !important;
+}
+
+.Ranks-TD-Username-Image {
+    width: 35px;
+    position: relative;
+    margin-right: 20px;
+    margin-top: -8px;
+    top: 3px;
+}
+
 .Ranks-TD-Username {
     font-weight: 600;
 }

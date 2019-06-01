@@ -11,7 +11,7 @@ module.exports = {
         return db.one('SELECT * FROM discord_rank_records WHERE discord_id = $1', id);
     },
     findByGuildId(id) {
-        return db.many('SELECT * FROM discord_rank_records WHERE guild_id = $1', id);
+        return db.many('SELECT * FROM discord_rank_records WHERE guild_id = $1 ORDER BY xp DESC', id);
     },
     save(rank) {
         return db.one(`INSERT INTO discord_rank_records (guild_id, discord_id, rank_name, rank_number, xp)

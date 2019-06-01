@@ -20,6 +20,7 @@ module.exports = {
         return re.test(str);
     },
     async filter(str, arr, options) {
+        let re = null;
         if(options.special) re = new RegExp(`\\b(?:${arr.join("|")})\\b|[^a-z0-9 ]`, "gi");
         else re = new RegExp(`\\b(?:${arr.join("|")})\\b`, "gi");
 
@@ -57,5 +58,12 @@ module.exports = {
         let date = new Date();
         let options = { timezone: 'EST', weekday: 'long', day: 'numeric', month: 'long', hour: 'numeric', minute: 'numeric' };
         return `${date.toLocaleString('en-US', options)} EST`;
+    },
+    async calculateLevel(complexity, exp) {
+        let constA = (complexity / 1.15);
+        let constB = (complexity / -0.25);
+        let constC = (complexity * (complexity + 3));
+        let Level = Math.max( Math.floor( constA * Math.log(exp + constC ) + constB ), 1);
+        return Level;
     }
 };

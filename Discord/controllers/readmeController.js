@@ -4,7 +4,7 @@ const chalk = require('chalk');
 
 module.exports = {
     write() {
-        const categories = ['Admin', 'Economy', 'Fun', 'GameStats', 'Info', 'Music', 'Other', 'Support'];
+        const categories = ['Admin', 'Config', 'Economy', 'Fun', 'GameStats', 'Info', 'Music', 'Other', 'Support'];
         let readme_value = '';
 
         categories.forEach((category, idx) => {
@@ -39,7 +39,7 @@ module.exports = {
         `A Music, Economy, & Admin Discord Bot written in Node.js  \n\n` +
         `###### Current Version: ${config.Discord_Options.version}  \n` +
         `[HelpDocs](help.firesidebot.com) || [Invite](https://discordapp.com/oauth2/authorize?` +
-        `client_id=441338104545017878&response_type=code&permissions=8&scope=bot) || [Online Control Panel](firesidebot.com)  \n\n` +
+        `client_id=441338104545017878&response_type=code&permissions=8&scope=bot) || [Online Control Panel](https://firesidebot.com)  \n\n` +
         `---  \n\n` +
         `## Table of Contents  \n\n` +
         `| Category                 | Subcategory\n` +

@@ -11,6 +11,8 @@ module.exports = {
         return db.one('SELECT * FROM discord_rank_settings WHERE guild_id = $1', id);
     },
     save(settings) {
-        return db.one(`INSERT INTO discord_rank_settings ()`)
+        return db.one(`INSERT INTO discord_rank_settings (guild_id, general_increase_rate, complexity, channel_id)
+        VALUES ($/guild_id/, $/general_increase_rate/. $/complexity/, $/channel_id/)
+        RETURNING *`, settings);
     }
 };

@@ -37,12 +37,12 @@ class SideNav extends Component {
                     </Dropdown.Toggle>
                     <Dropdown.Menu className="SideNav-Dropdown-Menu">
                         <Link to="/commands/default">
-                            <Dropdown.Item as="p" className="SideNav-Dropdown-Item">
+                            <Dropdown.Item as="p" className="SideNav-Dropdown-Item SideNav-Dropdown-Item-Commands">
                                 Default Commands
                             </Dropdown.Item>
                         </Link>
                         <Link to="/commands/custom">
-                            <Dropdown.Item as="p" className="SideNav-Dropdown-Item">
+                            <Dropdown.Item as="p" className="SideNav-Dropdown-Item SideNav-Dropdown-Item-Commands">
                                 Custom Commands
                             </Dropdown.Item>
                         </Link>

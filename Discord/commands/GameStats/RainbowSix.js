@@ -13,7 +13,7 @@ const ranks = [
     {name: "Gold II", image: "https://i.imgur.com/8yQquNH.png"}, {name: "Gold I", image: "https://i.imgur.com/ZLVfWXz.png"},
     {name: "Platinum III", image: "https://i.imgur.com/2HjnYDh.png"}, {name: "Platinum II", image: "https://i.imgur.com/xsuL216.png"},
     {name: "Platinum I", image: "https://i.imgur.com/SbL6wMp.png"}, {name: "Diamond", image: "https://i.imgur.com/pttSbHh.png"},
-]
+];
 
 async function handleGeneric(username, platform, embed, message) {
     console.log("Handle Generic")

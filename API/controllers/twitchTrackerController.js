@@ -1,4 +1,6 @@
+const Discord_Bot = require('../Discord_Bot');
 const db = require('../models/twitchTrackerDB');
+const twitchServices = require('../services/twitchServices');
 
 const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
@@ -33,9 +35,17 @@ module.exports = {
         })
     },
     create(req, res, next) {
-        db.save(req.body)
-        .then(tracker => res.json({ message: "Saving Tracker", data: tracker }))
-        .catch(err => next(err))
+        twitchServices.getTwitchInfo(req.body.streamer)
+        .then(streamer => {
+            db.save({ guild_id: req.body.guild_id, twitch_username: streamer.data.name, channel_id: req.body.channel_id, role_id: req.body.role_id })
+            .then(tracker => res.json({ message: "Tracker Saved", data: tracker }))
+            .catch(err => next(err));
+        })
+        .catch(err => {
+            if(err.response.status === 404)
+                res.json({ error: 'No Twitch User Found' });
+            else next(err);
+        });
     },
     update(req, res, next) {
         db.update(req.body)

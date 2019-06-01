@@ -1,0 +1,42 @@
+#RankSettings {
+    height: 75vh;
+    background: #151515;
+    width: 100%;
+}
+
+#RankSettings-Container {
+    margin-top: 20px;
+    margin-left: 10px;
+}
+
+#RankSettings-Form {
+    width: 40vw;
+}
+
+#RankSettings-GIR {
+    background: inherit;
+    border: none;
+    border-bottom: solid #cccccc;
+    border-radius: 0px;
+}
+
+#RankSettings-Complexity {
+    background: inherit;
+    border: none;
+    border-bottom: solid #cccccc;
+    border-radius: 0px;
+}
+
+#RankSettings-UpdateButton {
+    border:none;
+    border-left: solid #cccccc;
+    background: inherit !important;
+    padding: 5px 8px 5px 8px;
+    font-size: 15px;
+}
+
+#RankSettings-UpdateButton:hover {
+    transition: .5s;
+    color: orange !important;
+    border-left: solid orange;
+}

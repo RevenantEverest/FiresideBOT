@@ -11,9 +11,15 @@ services.getUserInfo = (data) => {
 };
   
 services.getUserGuilds = (data) => {
-    return axios.get(`${env.API}/discord/guilds/${data}`);
+    return axios.get(`${env.API}/discord/user/guilds/${data}`);
 };
   
-services.getGuildInfo = (data) => {};
+services.getGuildChannels = (data) => {
+    return axios.get(`${env.API}/discord/guilds/channels/${data}`);
+};
+
+services.getGuildRoles = (data) => {
+    return axios.get(`${env.API}/discord/guilds/roles/${data}`);
+};
 
 export default services;

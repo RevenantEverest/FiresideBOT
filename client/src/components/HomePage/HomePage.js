@@ -114,7 +114,6 @@ class HomePage extends Component {
                         <Button className="HomePage-AddToDiscord" as="a" target="_blank" rel="noopener noreferrer" href={this._inviteLink}>Add To Discord</Button>
                     </Container>
                     {this.state.tokenRecieved ? <Redirect to="/dashboard" /> : ''}
-                    {this.state.isLoggedIn ? <Redirect to="/dashboard" /> : ''}
                 </Jumbotron>
                 <Offers />
                 <Footer />

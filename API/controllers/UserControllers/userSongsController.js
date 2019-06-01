@@ -30,7 +30,7 @@ async function youtubeSearch(songData, songRequest, res, next) {
     .catch(err => {
       if(err.response.status === 400) {
         res.json({ status: 400, error: 'Invalid Search Request' });
-        console.error(err)
+        next(err)
       }
     });
 };
@@ -40,11 +40,25 @@ async function YTDL_GetInfo(songData, link, res, next) {
     if(err) return res.json({ status: 500, error: "YTDL Get Info error."});
     if(info.title === undefined) return res.json({ status: 404, error: "YTDL_Error" })
     if(info.length_seconds >= 3600) return res.json({ status: 401, error: 'Requests limited to 1 hour'});
-    saveSong({ 
+    checkForDuplicate({ 
       playlist_id: songData.playlist_id, title: info.title, link: link, author: info.author.name, duration: info.length_seconds, thumbnail_url: info.thumbnail_url 
-    });
+    }, res, next);
   });
 };
+
+async function checkForDuplicate(songData, res, next) {
+  userSongsDB.findByPlaylistId(songData.playlist_id)
+  .then(songs => {
+    let ID = songData.link.split("?v=")[1];
+    let duplicate = songs.filter(el => el.link.split("?v=")[1] === ID);
+    duplicate.length >= 1 ? res.json({ error: "Duplicate" }) : saveSong(songData, res, next);
+  })
+  .catch(err => {
+    if(err instanceof QRE && err.code === qrec.noData)
+        saveSong(songData, res, next);
+    else next(err);
+  });
+}
 
 async function saveSong(songData, res, next) {
   userSongsDB.save(songData)
@@ -75,13 +89,12 @@ module.exports = {
     .then(song => res.json({ message: "Getting song", data: song }))
     .catch(err => next(err));
   },
-  addSong(req, res, next) {
+  async addSong(req, res, next) {
     let songData = {};
     let request = '';
     songData.playlist_id = req.body.playlist_id;
 
-    checkString(req.body.request, requestFilter) ? request = filter(req.body.request, requestFilter, { special: false }) : request = req.body.request;
-
+    checkString(req.body.request, requestFilter) ? request = await filter(req.body.request, requestFilter, { special: false }) : request = req.body.request;
     youtubeSearch(songData, request, res, next);
   },
   delete(req, res, next) {

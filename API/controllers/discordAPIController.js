@@ -1,4 +1,5 @@
 const config = require('../config/config');
+const Discord_Bot = require('../Discord_Bot');
 const discordServices = require('../services/discordServices');
 const discord_tokenDB = require('../models/discord_tokenDB');
 const services = {};
@@ -43,5 +44,13 @@ module.exports = {
     },
     getBotUserSize(req, res, next) {
         res.json({ message: "Getting Discord Users Count", data: config.info.userCount });
+    },
+    getGuildTextChannels(req, res, next) {
+        let channels = Discord_Bot.guilds.get(req.params.id).channels.array().filter(el => el.type === "text").map(el => { return { id: el.id, name: el.name } });
+        res.json({ message: "Getting Guild Text Channels", data: channels })
+    },
+    getGuildRoles(req, res, next) {
+        let roles = Discord_Bot.guilds.get(req.params.id).roles.array().map(el => { return {name: el.name, id: el.id} })
+        res.json({ message: "Getting Guild Roles", data: roles });
     }
 };

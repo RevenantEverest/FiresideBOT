@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import './EconomySettings.css';
 
-import { Container, Row, Col, Form, Button, Spinner } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Container, Row, Col, Form, Button, Alert, Spinner } from 'react-bootstrap';
 
 //Services Imports
 import currencyServices from '../../services/currencyServices';
@@ -39,12 +40,22 @@ class EconomySettings extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
+
+        if(this.state.currency_increase_rate)
+        if(!Number.isInteger(parseInt(this.state.currency_increase_rate, 10)))
+        return this.setState({ formFailure: true, failureReason: "Increase Rate must be a number"}, () => setTimeout(() => this.setState({ formFailure: false }), 2000));
+        else if(parseInt(this.state.currency_increase_rate, 10) <= 0)
+        return this.setState({ formFailure: true, failureReason: "Increase Rate must be above 0"}, () => setTimeout(() => this.setState({ formFailure: false }), 2000));
+
         currencyServices.updateSettings({
             guild_id: this.state.manageServer.id, 
             currency_name: (this.state.currency_name ? this.state.currency_name : this.state.settings.currency_name), 
             currency_increase_rate: (this.state.currency_increase_rate ? this.state.currency_increase_rate : this.state.settings.currency_increase_rate) 
         })
-        .then(() => this.getSettings())
+        .then(() => {
+            this.getSettings();
+            this.setState({ formSuccess: true }, () => setTimeout(() => this.setState({ formSuccess: false }), 2000));
+        })
         .catch(err => console.error(err));
     }
 
@@ -53,15 +64,15 @@ class EconomySettings extends Component {
             <Form id="EconomySettings-Form" onSubmit={this.handleSubmit} autoComplete="off" fluid>
                 <Form.Group controlId="formBasicsUsername">
                     <Form.Row>
-                    <Col lg={2}>
+                    <Col lg={3}>
                     <Form.Label>Currency Name: </Form.Label>
                     </Col>
-                    <Col lg={2}>
+                    <Col lg={3}>
                     <Form.Label>Increase Rate: </Form.Label>
                     </Col>
                     </Form.Row>
                     <Form.Row>
-                        <Col lg={2}>
+                        <Col lg={3}>
                         <Form.Control 
                         id="EconomySettings-CurrencyName" 
                         type="text" 
@@ -70,7 +81,7 @@ class EconomySettings extends Component {
                         onChange={this.handleChange}
                         />
                         </Col>
-                        <Col lg={2}>
+                        <Col lg={3}>
                         <Form.Control 
                         id="EconomySettings-CurrencyIncreaseRate" 
                         type="text" 
@@ -79,19 +90,19 @@ class EconomySettings extends Component {
                         onChange={this.handleChange}
                         />
                         </Col>
-                        <Col>
+                        <Col lg={1}>
                         <Button id="EconomySettings-UpdateButton" variant="primary" type="submit">
                         Update
                         </Button>
                         </Col>
                     </Form.Row>
                     <Form.Row>
-                        <Col lg={2}>
+                        <Col lg={3}>
                         <Form.Text>
                         A name for your servers currency (ie. Souls)
                         </Form.Text>
                         </Col>
-                        <Col lg={2}>
+                        <Col lg={3}>
                         <Form.Text>
                         Desired replacement for this filter.
                         </Form.Text>
@@ -112,11 +123,34 @@ class EconomySettings extends Component {
             </Row>
             <Row style={{ marginBottom: "20px;" }}>
                 <Col>
-                    <Link to="/"><p className="Component-Breadcrumb">Home / Economy </p></Link>
+                    <Link to="/"><p className="Component-Breadcrumb">Home </p></Link>
+                    <Link to="/economy"><p className="Component-Breadcrumb">/ Economy </p></Link>
                     <p className="Component-Breadcrumb Component-Breadcrumb-Main">/ Settings</p>
                 </Col>
             </Row>
             </div>
+        );
+    }
+
+    renderSuccess() {
+        return(
+            <Col lg={4}>
+                <Alert variant="success" style={{ marginTop: "25px" }}>
+                Settings Updated!
+                <FontAwesomeIcon className="FontAwesomeIcon AddPlaylist-Alert-Close" icon="times" onClick={() => this.setState({ formSuccess: false })} />
+                </Alert>    
+            </Col>
+        );
+    }
+
+    renderFailure() {
+        return(
+            <Col lg={4}>
+                <Alert variant="danger" style={{ marginTop: "25px" }}>
+                {this.state.failureReason}
+                <FontAwesomeIcon className="FontAwesomeIcon AddPlaylist-Alert-Close" icon="times" onClick={() => this.setState({ formFailure: false })} />
+                </Alert>    
+            </Col>
         );
     }
 
@@ -127,9 +161,11 @@ class EconomySettings extends Component {
                 <Container>
                 {window.location.pathname === "/economy/settings" ? this.renderBreadcrumb() : ''}
                 <Row className="Component-Content" style={{ marginTop: "40px" }}>
-                    <Col>
+                    <Col lg={5}>
                     {this.state.dataReceived ? this.renderSettings() : <Spinner animation="border" role="status"><span className="sr-only">Loading...</span></Spinner>}
                     </Col>
+                    {this.state.formSuccess ? this.renderSuccess() : ''}
+                    {this.state.formFailure ? this.renderFailure() : ''}
                 </Row>
                 </Container>
                 </Container>

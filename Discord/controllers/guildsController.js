@@ -1,12 +1,8 @@
 const Discord = require('discord.js');
 const chalk = require('chalk');
 const guildsDB = require('../models/GuildModels/guildsDB');
-const currencyDB = require('../models/currencyDB');
+const defaultSettingsController = require('./defaultSettingsController');
 const utils = require('../commands/utils/utils');
-
-const pgp = require('pg-promise')();
-const QRE = pgp.errors.QueryResultError;
-const qrec = pgp.errors.queryResultErrorCode;
 
 const logger = require('../services/loggerServices');
 
@@ -51,8 +47,12 @@ module.exports = {
         let date = await utils.getDate();
         guildsDB.save({ guild_name: guild.name, guild_id: guild.id })
             .then(() => {
+
+                defaultSettingsController.guildSettingsCheck(guild);
+                defaultSettingsController.currencySettingsCheck(guild);
+                defaultSettingsController.rankSettingsCheck(guild);
+
                 let embed = new Discord.RichEmbed();
-                this.guildSettingsCheck(guild);
                 embed
                 .setTitle('**New Guild**')
                 .addBlankField()
@@ -68,43 +68,6 @@ module.exports = {
             .catch(err => {
                 //Log Error
                 console.log(err);
-            });
-    },
-    async guildSettingsCheck(guild) {
-        guildsDB.ifSettingsExist(guild.id)
-            .then(() => this.currencySettingsCheck(guild))
-            .catch(err => {
-                if(err instanceof QRE && err.code === qrec.noData)
-                    this.saveDefaultGuildSettings(guild)
-                else console.log(err);
-            });
-    },
-    async saveDefaultGuildSettings(guild) {
-        guildsDB.saveDefaultSettings({ guild_id: guild.id, prefix: '?' })
-            .then(() => this.currencySettingsCheck(guild))
-            .catch(err => {
-                //Log Error
-                console.log("Hello", err);
-            });
-    },
-    async currencySettingsCheck(guild) {
-        currencyDB.findCurrencySettings(guild.id)
-            .catch(err => {
-                if(err instanceof QRE && err.code === qrec.noData) {
-                    this.saveDefaultCurrencySettings(guild)
-                }
-                else console.log("Hello World => ", err);
-            });
-    },
-    async saveDefaultCurrencySettings(guild) {
-        currencyDB.saveDefaultSettings({
-            guild_id: guild.id,
-            currency_name: 'Kindling',
-            currency_increase_rate: 10
-        })
-            .catch(err => {
-                //Log Error
-                console.log("SaveDefaultCurrencySettings");
             });
     },
     async removeGuild(bot, guild) {
