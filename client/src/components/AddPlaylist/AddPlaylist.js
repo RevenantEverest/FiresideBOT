@@ -25,9 +25,11 @@ class AddPlaylist extends Component {
     handleSubmit(e) {
         e.preventDefault();
         if(this.state.name.split("").includes(" "))
-            return this.setState({ formFailure: true, failureReason: "No White Space allowed in playlist names " }, () => setTimeout(() => this.setState({ formFailure: false }), 2000));
+        return this.setState({ formFailure: true, failureReason: "No White Space allowed in playlist names " }, () => setTimeout(() => this.setState({ formFailure: false }), 2000));
         else if(this.state.playlistNames.includes(this.state.name))
-            return this.setState({ formFailure: true, failureReason: "Playlist Already Exists" }, () => setTimeout(() => this.setState({ formFailure: false }), 2000));
+        return this.setState({ formFailure: true, failureReason: "Playlist Already Exists" }, () => setTimeout(() => this.setState({ formFailure: false }), 2000));
+        else if(this.state.playlistNames.length >= 5)
+        return this.setState({ formFailure: true, failureReason: "Playlists Limited to 5" }, () => setTimeout(() => this.setState({ formFailure: false }), 2000));
 
         console.log(this.state.playlistNames, this.state.name, this.state.playlistNames.includes(this.state.name))
         

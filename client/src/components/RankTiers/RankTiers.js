@@ -96,7 +96,7 @@ class RankTiers extends Component {
                 </Row>
                 <Row className=" Component-Content justify-content-md-end">
                     {this.state.dataReceived ? '' : <Spinner animation="border" role="status"><span className="sr-only">Loading...</span></Spinner>}
-                    {this.state.dataReceived ? <AddRank userData={this.state.userData} manageServer={this.state.manageServer} getRankTiers={this.getRankTiers} /> : ''}
+                    {this.state.dataReceived ? <AddRank userData={this.state.userData} manageServer={this.state.manageServer} ranks={this.state.tiers} getRankTiers={this.getRankTiers} /> : ''}
                 </Row>
                 <Row>
                     <Col style={{ paddingLeft: "0", paddingRight: "0" }}>

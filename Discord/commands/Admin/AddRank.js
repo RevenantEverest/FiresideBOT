@@ -20,7 +20,10 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     args.splice(0, 1);
 
     db.findByGuildId(message.guild.id)
-    .then(ranks => saveRank({ guild_id: message.guild.id, rank_name: args.join(" "), rank_number: (ranks.length + 1) }, message))
+    .then(ranks => {
+        if(ranks.length >= 20) return message.channel.send("Ranks limited to 20");
+        saveRank({ guild_id: message.guild.id, rank_name: args.join(" "), rank_number: (ranks.length + 1) }, message);
+    })
     .catch(err => {
         if(err instanceof QRE && err.code === qrec.noData)
             saveRank({ guild_id: message.guild.id, rank_name: args.join(" "), rank_number: 1 }, message)
