@@ -8,7 +8,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
 
     embed
     .setColor(0xff66ff)
-    .setThumbnail(guild.iconURL)
+    .setThumbnail(guild.iconURL ? guild.iconURL : '')
     .setTitle("**Guild Info**")
     .addBlankField()
     .addField("Name:", guild.name, true)

@@ -9,7 +9,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     
     embed.setTitle('Queues In Progress').setColor(0x33ccff).addBlankField()
 
-    let queuesInProgress = config.servers.filter(el => el.queue.isPlaying).length;
+    let queuesInProgress = config.servers.filter(el => el.queue.isPlaying).length || '';
     let queueLengthInSeconds = 0;
     let queueSongAmount = 0;
     if(queuesInProgress >= 1) {

@@ -1,19 +1,14 @@
 const Discord = require('discord.js');
 const chalk = require('chalk');
-const utils = require('../commands/utils/utils');
+const utils = require('../utils/utils');
 const services = {};
 const colors = [0xffcc00, 0x00ff00, 0xff0066, 0xcc66ff, 0x1affff, 0x009900, 0xcc6699, 0xff6600];
 
 services.handleOnReady = async (bot, hook) => {
-    if(process.env.ENVIRONMENT === "DEV")
-        return console.log(chalk.hex("#00ff00")(`[HTTP]`) +  ` DBL-Webhook: Listening on port ${hook.port}`);
-    
-
+    return console.log(chalk.hex("#00ff00")(`[HTTP]`) +  ` DBL-Webhook: Listening on port ${hook.port}`);
 };
 
 services.handleOnPosted = async (bot) => {
-    if(process.env.ENVIRONMENT === "DEV") return console.log(chalk.hex('#ff9900')('[LOG]') +' Server Count Posted');
-
     let embed = new Discord.RichEmbed();
     embed.setColor(0x00ff00).setTitle("Server Count Posted").setFooter(await utils.getDate());
 
@@ -21,8 +16,6 @@ services.handleOnPosted = async (bot) => {
 };
 
 services.handleOnVote = async (bot, dbl, vote) => {
-    if(process.env.ENVIRONMENT === "DEV") return console.log("Vote Received");
-
     let voteEmbed = new Discord.RichEmbed();
     let logEmbed = new Discord.RichEmbed();
 
@@ -40,8 +33,6 @@ services.handleOnVote = async (bot, dbl, vote) => {
 };
 
 services.handleOnError = async (bot, err) => {
-    if(process.env.ENVIRONMENT === "DEV") return console.log(chalk.hex('#ff0000')('[ERROR]') +' DBL ERROR', err);
-
     let embed = new Discord.RichEmbed();
     embed.setColor(0xff0000).setTitle("DBL ERROR").setFooter(await utils.getDate());
 
