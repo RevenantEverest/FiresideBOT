@@ -12,10 +12,6 @@ services.handleRefreshToken = (data, callback) => {
         .catch(err => console.log(err));
 };
 
-// const pgp = require('pg-promise')();
-// const QRE = pgp.errors.QueryResultError;
-// const qrec = pgp.errors.queryResultErrorCode;
-
 module.exports = {
     getGuilds(req, res, next) {
         discord_tokenDB.findByDiscordId(req.params.id)
