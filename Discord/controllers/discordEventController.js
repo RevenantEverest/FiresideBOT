@@ -152,7 +152,7 @@ services.handleOnMemberUpdate = async (bot, oldMember, newMember) => {
     On Member Remove
 */
 services.handleOnMemberRemove = async (bot, member) => {
-    currencyController.removeCurrency(bot, member);
+    currencyController.removeCurrencyRecord(bot, member);
 };
 
 /*
