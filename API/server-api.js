@@ -15,11 +15,13 @@ const app = express();
 const Discord_Bot = require('./Discord_Bot');
 Discord_Bot.login(process.env.DISCORD_KEY);
 
-// const ssl = {
-//   key: fs.readFileSync(process.env.SSL_PRIVKEY),
-//   cert: fs.readFileSync(process.env.SSL_FULLCHAIN),
-//   ca: fs.readFileSync(process.env.SSL_CHAIN)
-// };
+const ssl = null;
+if(process.env.ENVIRONMENT !== "DEV") 
+    ssl = { 
+        key: fs.readFileSync(process.env.SSL_PRIVKEY), 
+        cert: fs.readFileSync(process.env.SSL_FULLCHAIN), 
+        ca: fs.readFileSync(process.env.SSL_CHAIN) 
+    };
 
 /* Middleware */
 app.use(logger('dev'));
@@ -59,4 +61,6 @@ app.use("/", (req, res) => res.json({ message: "Fireside API" }));
 /* PROD */
 let server = http.createServer(app);
 server.listen(3001, () => console.log(chalk.hex("#00ff00")(`[HTTP]`) +  ` Fireside-API: Listening on port 3001`));
-// https.createServer(ss, app).listen(3443, () => console.log(`[HTTPS] Fireside-API: Listening on port 3443`));
+
+if(process.env.ENVIRONMENT !== "DEV")
+    https.createServer(ssl, app).listen(3443, () => console.log(`[HTTPS] Fireside-API: Listening on port 3443`));
