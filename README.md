@@ -46,6 +46,12 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Params**: Rank ID and new Rank name  
 **Example**: `?editrank 92 NewRankName`  
 
+- [AddRank](https://help.firesidebot.com/commands/addrank) `<param>`  
+**Desc**: Creates a new Rank Tier  
+**Aliases**: `ar`   
+**Params**: Rank Name  
+**Example**: `?addrank NewRank`  
+
 - [Purge](https://help.firesidebot.com/commands/purge) `[param]`  
 **Desc**: Bulk delete messages  
 **Aliases**:   

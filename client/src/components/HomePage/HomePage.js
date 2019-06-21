@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './HomePage.css';
+import env from '../../env';
 import { Redirect } from 'react-router-dom';
 import AnimatedNumber from 'react-animated-number';
 import { Jumbotron, Container, Button } from 'react-bootstrap';
@@ -17,7 +18,7 @@ import Logo from '../../res/images/Logo.png';
 
 class HomePage extends Component {
 
-    _inviteLink = "https://discordapp.com/oauth2/authorize?client_id=441338104545017878&permissions=8&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2F&scope=bot"
+    _inviteLink = `https://discordapp.com/oauth2/authorize?client_id=${env.CLIENT_ID}&permissions=8&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2F&scope=bot`
     _isMounted = false;
 
     constructor(props) {

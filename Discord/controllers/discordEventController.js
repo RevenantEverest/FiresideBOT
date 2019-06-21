@@ -131,7 +131,15 @@ services.handleOnMessage = async (bot, message) => {
     On Member Add
 */
 services.handleOnMemberAdd = async (bot, member) => {
+    // console.log(member);
+    // if(member.user.bot) return;
+    let embed = new Discord.RichEmbed();
+    embed
+    .setColor(0x00ff00)
+    .addField(`New Member`, `${member.user.username}#${member.user.discriminator}`)
+    .setFooter(`ID: ${member.user.id}`)
 
+    bot.channels.get("525999326493802508").send(embed);
 };
 
 /*

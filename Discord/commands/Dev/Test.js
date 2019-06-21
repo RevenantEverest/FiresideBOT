@@ -13,8 +13,9 @@ async function updateMessage(invokes, seconds, msg) {
 };
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
-    if(message.author.id !== "163346982709100546") return;
-    console.log(bot.guilds.get(message.guild.id).roles.array().map(el => { return {name: el.name, id: el.id} }))
+    // if(message.author.id !== "163346982709100546") return;
+    // console.log(bot.guilds.get(message.guild.id).roles.array().map(el => { return {name: el.name, id: el.id} }))
+    console.log(message.channel.id)
 };
 
 module.exports.config = {

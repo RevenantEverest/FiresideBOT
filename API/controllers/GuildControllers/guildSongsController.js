@@ -40,8 +40,13 @@ async function YTDL_GetInfo(songData, link, res, next) {
     if(err) return res.json({ status: 500, error: "YTDL Get Info error."});
     if(info.title === undefined) return res.json({ status: 404, error: "YTDL_Error" })
     if(info.length_seconds >= 3600) return res.json({ status: 401, error: 'Requests limited to 1 hour'});
+    let thumbnails = info.player_response.videoDetails.thumbnail.thumbnails;
     saveSong({ 
-      playlist_id: songData.playlist_id, title: info.title, link: link, author: info.author.name, duration: info.length_seconds, thumbnail_url: info.thumbnail_url 
+      playlist_id: songData.playlist_id, 
+      title: info.title, link: link, 
+      author: info.author.name, 
+      duration: info.length_seconds, 
+      thumbnail_url: thumbnails[thumbnails.length - 1].url
     });
   });
 };

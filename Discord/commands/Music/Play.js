@@ -35,8 +35,15 @@ async function YTDL_GetInfo(message, args, server, link) {
     if(err) return message.channel.send("YTDL Get Info error.");
     if(info.title === undefined) return message.channel.send(`Can't read title of undefined`);
     if(info.length_seconds >= 3600) return message.channel.send('Requests limited to 1 hour');
+    console.log(info.player_response.videoDetails.thumbnail.thumbnails);
+    let thumbnails = info.player_response.videoDetails.thumbnail.thumbnails;
     setQueue(message, args, server, { 
-      title: info.title, link: link, author: info.author.name, duration: info.length_seconds, thumbnail: info.thumbnail_url, requestedBy: message.author.username
+      title: info.title, 
+      link: link, 
+      author: info.author.name, 
+      duration: info.length_seconds, 
+      thumbnail: thumbnails[thumbnails.length - 1].url, 
+      requestedBy: message.author.username
     })
   });
 }
