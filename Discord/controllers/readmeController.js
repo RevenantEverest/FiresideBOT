@@ -4,7 +4,7 @@ const chalk = require('chalk');
 
 module.exports = {
     write() {
-        const categories = ['Admin', 'Config', 'Economy', 'Fun', 'GameStats', 'Info', 'Music', 'Other', 'Support'];
+        const categories = ['Admin', 'Config', 'Economy', 'Fun', 'GameStats', 'Info', 'Music', 'Other', 'Playlists', 'Support'];
         let readme_value = '';
 
         categories.forEach((category, idx) => {

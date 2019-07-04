@@ -11,7 +11,6 @@ async function updateRank(rank_name, rank, message) {
 };
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
-    if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send(`You don't have permission to use this command`);
     if(!args[1]) return message.channel.send("Please specify a Rank ID and a new rank name");
     if(!Number.isInteger(parseInt(args[1], 10))) return message.channel.send("Invalid Rank ID");
 

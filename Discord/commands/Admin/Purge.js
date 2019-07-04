@@ -1,9 +1,7 @@
 const Discord = require('discord.js');
 const utils = require('../utils/utils');
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
-    if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send(`You don't have permission to use this command`);
-    
+module.exports.run = async (PREFIX, message, args, server, bot, options) => {    
     let userId = null;
     let messagecount = 10;
     if(/<@!?(\d+)>/.exec(args.join(" "))) userId = /<@!?(\d+)>/.exec(args.join(" "))[1];

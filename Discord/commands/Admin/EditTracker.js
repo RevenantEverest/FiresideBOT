@@ -5,7 +5,6 @@ const QRE = pgp.errors.QueryResultError;
 const qrec = pgp.errors.queryResultErrorCode;
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
-    if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send(`You don't have permission to use this command`);
     const trackerPromises = [
         db.findByGuildId(message.guild.id),
         db.findById(trackerID)

@@ -10,24 +10,30 @@ function helpSpec(PREFIX, message, args, bot, contentArr) {
       embed.setTitle(`**${helpInfo.category}**`);
       helpInfo.fields.forEach(el => embed.addField(`${el.field}`, `${el.value}`, el.inline));
     } 
-    else if(bot.commands.get(args[1].toLowerCase())) {
-      let helpInfo = bot.commands.get(args[1].toLowerCase()).config;
+    else if(bot.commands.get(args[1].toLowerCase()) || bot.commands.get(bot.aliases.get(args[1].toLowerCase()))) {
+      let helpInfo = bot.commands.get(bot.aliases.get(args[1].toLowerCase())) || bot.commands.get(args[1].toLowerCase());
+      
+      // Var redefinition required for aliases to apply 
+      helpInfo = helpInfo.config;
 
       embed
       .addField(`**${helpInfo.d_name}**`, `${helpInfo.desc}`)
       .addBlankField()
+      .addField('Category: ', `${helpInfo.category}`)
       
       if(helpInfo.params)
         embed
         .addField('Param Type: ', `${helpInfo.params.required ? 'Required' : 'Optional'}`, true)
         .addField('Params: ', helpInfo.params.params, true)
 
-      if(helpInfo.flags)
-        embed
-        .addField('Flags:', helpInfo.flags.join(", "), true)
+      if(helpInfo.flags) {
+        let flagText = '';
+        helpInfo.flags.forEach(el => flagText += "`" + el + "` ");
+        embed.addField('Flags:', flagText, true)
+      }
+        
 
       embed
-      .addField('Category: ', `${helpInfo.category}`, true)
       .addField('Example:', "`" + PREFIX + helpInfo.example + "`")
       .addField(`More Info:`, `[Click Here](https://help.firesidebot.com)`)
     }
@@ -38,7 +44,7 @@ function helpSpec(PREFIX, message, args, bot, contentArr) {
 };
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
-    let categories = ['Admin', 'Config', 'Economy', 'Fun', 'GameStats', 'Info', 'Music', 'Other', 'Support'];
+    let categories = ['Admin', 'Config', 'Economy', 'Fun', 'GameStats', 'Info', 'Music', 'Other', 'Playlists', 'Support'];
     let contentArr = [
       {
         category: `Welcome to the FiresideBOT Help Command`,
@@ -76,7 +82,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     let flavorText = "`<param>` is a required param and `[param]` is an optional param. For more information on a command use `" + PREFIX + "help <command>` ™";
 
     if(!args[1])
-        pagination(message, bot, contentArr, flavorText, 0xcc00ff);
+        pagination(message, bot, contentArr, { flavorText: flavorText, color: 0xcc00ff });
     else 
         helpSpec(PREFIX, message, args, bot, contentArr);
 };

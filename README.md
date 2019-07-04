@@ -1,7 +1,7 @@
 # FiresideBOT  
 A Music, Economy, & Admin Discord Bot written in Node.js  
 
-###### Current Version: v1.4.0  
+###### Current Version: v1.5.0  
 [HelpDocs](help.firesidebot.com) || [Invite](https://discordapp.com/oauth2/authorize?client_id=441338104545017878&response_type=code&permissions=8&scope=bot) || [Online Control Panel](https://firesidebot.com)  
 
 ---  
@@ -10,7 +10,7 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 
 | Category                 | Subcategory
 | -------------            |:-------------
-| [Commands](#Commands)    | [Admin](#Admin), [Config](#Config), [Economy](#Economy), [Fun](#Fun), [GameStats](#GameStats), [Info](#Info), [Music](#Music), [Other](#Other), [Support](#Support), 
+| [Commands](#Commands)    | [Admin](#Admin), [Config](#Config), [Economy](#Economy), [Fun](#Fun), [GameStats](#GameStats), [Info](#Info), [Music](#Music), [Other](#Other), [Playlists](#Playlists), [Support](#Support), 
 
 ---  
 
@@ -90,6 +90,11 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Aliases**:   
 **Example**: `?config`  
 
+- [DisableServerLogging](https://help.firesidebot.com/commands/disableserverlogging)   
+**Desc**: Disable Server Logging  
+**Aliases**: `dsl`   
+**Example**: `?disableserverlogging`  
+
 - [EditCurrencyName](https://help.firesidebot.com/commands/editcurrencyname) `<param>`  
 **Desc**: Update server currency name  
 **Aliases**: `ecn`   
@@ -101,6 +106,12 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Aliases**: `ecr` `ecir`   
 **Params**: Number  
 **Example**: `?editcurrencyrate 20`  
+
+- [EditLogChannel](https://help.firesidebot.com/commands/editlogchannel) `<param>`  
+**Desc**: Change where server logs are posted  
+**Aliases**: `elc`   
+**Params**: #Channel Tag  
+**Example**: `?editlogchannel #bot-commands`  
 
 - [EditPrefix](https://help.firesidebot.com/commands/editprefix) `<param>`  
 **Desc**: Change prefix  
@@ -125,6 +136,12 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Aliases**: `err`   
 **Params**: Number  
 **Example**: `?editrankrank 12`  
+
+- [EnableServerLogging](https://help.firesidebot.com/commands/enableserverlogging) `<param>`  
+**Desc**: Enable Server Logging  
+**Aliases**: `esl`   
+**Params**: #Channel Tag  
+**Example**: `?enableserverlogging #bot-commands`  
 
   
 
@@ -296,12 +313,6 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 
 #### Music  
 
-- [AddSong](https://help.firesidebot.com/commands/addsong) `<param>`  
-**Desc**: Adds a song to your playlist from  
-**Aliases**:   
-**Params**: Playlist Name and/or Song Request  
-**Example**: `?addsong Chillstep Better Now Post Malone`  
-
 - [Autoplay](https://help.firesidebot.com/commands/autoplay)   
 **Desc**: Enables or Disables music recommendations  
 **Aliases**:   
@@ -311,18 +322,6 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Desc**: Clears the current queue  
 **Aliases**:   
 **Example**: `?clear`  
-
-- [CreatePlaylist](https://help.firesidebot.com/commands/createplaylist) `<param>`  
-**Desc**: Create a playlist  
-**Aliases**: `cp`   
-**Params**: Name  
-**Example**: `?createplaylist Lo-Fi`  
-
-- [DeletePlaylist](https://help.firesidebot.com/commands/deleteplaylist) `<param>`  
-**Desc**: Deletes a Playlist  
-**Aliases**: `dp` `delplaylist` `delplay`   
-**Params**: Name  
-**Example**: `?deleteplaylist Lo-Fi`  
 
 - [Delsong](https://help.firesidebot.com/commands/delsong) `<param>`  
 **Desc**: Deletes a song from the queue  
@@ -364,13 +363,6 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Params**: YouTube Link or Search Request  
 **Example**: `?play kingdom hearts sanctuary`  
 
-- [Playlist](https://help.firesidebot.com/commands/playlist) `[param]`  
-**Desc**: Displays available playlists or requests your Playlist to the queue  
-**Aliases**: `playlists`   
-**Params**: Playlist Name  
-**Flags**: `-i` `-s`   
-**Example**: `?playlist Chillstep -s`  
-
 - [PlayNext](https://help.firesidebot.com/commands/playnext) `<param>`  
 **Desc**: Requests a song to play next in queue  
 **Aliases**: `pn`   
@@ -388,22 +380,10 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Aliases**: `q`   
 **Example**: `?queue`  
 
-- [RemoveSong](https://help.firesidebot.com/commands/removesong) `<param>`  
-**Desc**: Removes a song from a playlist  
-**Aliases**:   
-**Params**: Name / ID  
-**Example**: `?removesong 189`  
-
 - [Resume](https://help.firesidebot.com/commands/resume)   
 **Desc**: Resumes any previously paused music  
 **Aliases**: `unpause`   
 **Example**: `?resume`  
-
-- [ServerPlaylist](https://help.firesidebot.com/commands/serverplaylist) `[param]`  
-**Desc**: Mmm mmm good  
-**Aliases**:   
-**Params**: Playlist Name  
-**Example**: `?serverplaylist MyFavoriteSongs`  
 
 - [Skip](https://help.firesidebot.com/commands/skip)   
 **Desc**: Skips to next song in queue  
@@ -454,6 +434,72 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Desc**: Displays link to Vote for Fireside on DBL  
 **Aliases**:   
 **Example**: `?vote`  
+
+  
+
+--- 
+
+<a id="Playlists"></a>  
+
+#### Playlists  
+
+- [AddPlaylistRoles](https://help.firesidebot.com/commands/addplaylistroles) `<param>`  
+**Desc**: Roles added to a server playlist, will allow members with that role to add songs to that playlist  
+**Aliases**: `apr`   
+**Params**: Playlist Name & @Role Tag  
+**Example**: `?addplaylistroles Metal @Users`  
+
+- [AddSong](https://help.firesidebot.com/commands/addsong) `<param>`  
+**Desc**: Adds a song to your playlist from  
+**Aliases**:   
+**Params**: Playlist Name and/or Song Request  
+**Flags**: `-s`   
+**Example**: `?addsong Chillstep Better Now Post Malone`  
+
+- [CreatePlaylist](https://help.firesidebot.com/commands/createplaylist) `<param>`  
+**Desc**: Create a playlist  
+**Aliases**: `cp`   
+**Params**: Name  
+**Flags**: `-s`   
+**Example**: `?createplaylist Lo-Fi`  
+
+- [DeletePlaylist](https://help.firesidebot.com/commands/deleteplaylist) `<param>`  
+**Desc**: Deletes a Playlist  
+**Aliases**: `dp` `delplaylist` `delplay`   
+**Params**: Name  
+**Example**: `?deleteplaylist Lo-Fi`  
+
+- [EditPlaylist](https://help.firesidebot.com/commands/editplaylist) `<param>`  
+**Desc**: Change the name of a Playlist  
+**Aliases**: `ep`   
+**Params**: Playlist Name & New Playlist Name  
+**Example**: `?editplaylist Chillstep MyPlaylist`  
+
+- [Playlist](https://help.firesidebot.com/commands/playlist) `[param]`  
+**Desc**: Displays available playlists or requests your Playlist to the queue  
+**Aliases**: `playlists`   
+**Params**: Playlist Name  
+**Flags**: `-i` `-s`   
+**Example**: `?playlist Chillstep -s`  
+
+- [RemovePlaylistRoles](https://help.firesidebot.com/commands/removeplaylistroles) `<param>`  
+**Desc**: Removes roles added to a server playlist, will no longer allow members with that role to add songs to that playlist  
+**Aliases**: `rpr`   
+**Params**: Playlist Name & @Role Tag  
+**Example**: `?removeplaylistroles Metal @Users`  
+
+- [RemoveSong](https://help.firesidebot.com/commands/removesong) `<param>`  
+**Desc**: Removes a song from a playlist  
+**Aliases**:   
+**Params**: Name / ID  
+**Example**: `?removesong 189`  
+
+- [ServerPlaylist](https://help.firesidebot.com/commands/serverplaylist) `[param]`  
+**Desc**: Display or request a server playlist to be added to the queue  
+**Aliases**: `sp`   
+**Params**: Playlist Name  
+**Flags**: `-i` `-s`   
+**Example**: `?serverplaylist MyFavoriteSongs`  
 
   
 

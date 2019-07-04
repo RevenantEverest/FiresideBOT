@@ -29,7 +29,7 @@ module.exports.config = {
     d_name: 'RemoveSong',
     aliases: [],
     params: { required: true, params: 'Name / ID' },
-    category: 'Music',
+    category: 'Playlists',
     desc: 'Removes a song from a playlist',
     example: 'removesong 189'
 };

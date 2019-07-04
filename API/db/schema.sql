@@ -92,8 +92,8 @@ CREATE TABLE discord_rank_settings (
 
 CREATE TABLE guild_playlists (
   playlist_id SERIAL PRIMARY KEY,
+  roles text[],
   guild_id VARCHAR(255),
-  guild_name VARCHAR(255),
   name VARCHAR(255)
 );
 
@@ -106,8 +106,17 @@ CREATE TABLE guild_songs (
   song_id SERIAL PRIMARY KEY,
   playlist_id BIGINT,
   title VARCHAR(255),
+  author VARCHAR(255),
   link VARCHAR(255),
-  duration VARCHAR(255)
+  duration VARCHAR(255),
+  thumbnail_url VARCHAR(255)
+);
+
+CREATE TABLE guild_log_settings (
+  id SERIAL PRIMARY KEY,
+  guild_id VARCHAR(255),
+  enabled BOOLEAN,
+  channel_id VARCHAR(255)
 );
 
 CREATE TABLE regulars (

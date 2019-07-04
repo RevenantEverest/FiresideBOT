@@ -3,12 +3,7 @@ const YTDL = require('ytdl-core');
 const youtubeServices = require('../../services/youtubeServices');
 const playSong = require('../utils/playSong');
 const utils = require('../utils/utils');
-
-
-/*
-  Takes the passed in Song Request and searches for it with YouTube's search API
-  Generates a link and sends it to YTDL_GetInfo to get more request Info
-*/  
+ 
 async function youtubeSearch(message, args, server, songRequest) {
   youtubeServices.youtubeSearch(songRequest)
     .then(results => {
@@ -24,18 +19,11 @@ async function youtubeSearch(message, args, server, songRequest) {
     });
 }
 
-/*
-  Uses the link passed in to grab more info about the request
-  Parses the info and passes it on to SetQueue
-
-  Checks if song length is longer than 1 hour
-*/
 async function YTDL_GetInfo(message, args, server, link) {
   YTDL.getInfo(link, (err, info) => {
     if(err) return message.channel.send("YTDL Get Info error.");
     if(info.title === undefined) return message.channel.send(`Can't read title of undefined`);
     if(info.length_seconds >= 3600) return message.channel.send('Requests limited to 1 hour');
-    console.log(info.player_response.videoDetails.thumbnail.thumbnails);
     let thumbnails = info.player_response.videoDetails.thumbnail.thumbnails;
     setQueue(message, args, server, { 
       title: info.title, 
@@ -48,11 +36,6 @@ async function YTDL_GetInfo(message, args, server, link) {
   });
 }
 
-/* 
-  Adds the song to the server queue 
-  Checks if Fireside is in the channel
-  If not, joins the channel and calls the PlaySong fucntion
-*/
 async function setQueue(message, args, server, {title, link, author, duration, thumbnail, requestedBy}) {
   server.queue.queueInfo.push({
     title: title, link: link, author: author, duration: duration, thumbnail: thumbnail, requestedBy: requestedBy

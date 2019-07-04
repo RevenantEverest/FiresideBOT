@@ -1,145 +1,103 @@
 const Discord = require('discord.js');
 const userSongsDB = require('../../models/UserModels/userSongsDB');
+const guildSongsDB = require('../../models/GuildModels/guildSongsDB');
 const utils = require('./utils');
+const pagination = require('../utils/pagination');
 
 const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
 const qrec = pgp.errors.queryResultErrorCode;
 
-async function handlePages(message, args, server, playlist, songArr, bot) {
-    let embed = new Discord.RichEmbed();
-    let CPI = 0;
-
+async function handlePages(message, bot, playlist, songs, author) {
+    let contentArr = [];
     let overallLength = 0;
-    [].concat.apply([], songArr).map(el => overallLength += parseInt(el.songs.duration, 10))
+    songs.forEach(el => overallLength += parseInt(el.duration, 10));
+    overallLength = await utils.timeParser(overallLength);
+    let fields = [];
+    let counter = 0;
+    for(let i = 0; i < songs.length; i++) {
+        counter++;
+        let duration = await utils.timeParser(songs[i].duration);
+        fields.push({ field: `${i + 1}. ${songs[i].title}`, value: `**Author**: ${songs[i].author}\n**Duration**: ${duration}\n**ID**: ${songs[i].song_id}` });
+        if(counter === 5) {
+            contentArr.push({ 
+                category: `${playlist.name} (${overallLength})`, 
+                author: author, 
+                fields: fields 
+            });
+            counter = 0;
+            fields = [];
+        }
+                    
+        if(i === (songs.length - 1)) {
+            contentArr.push({ 
+                category: `${playlist.name} (${overallLength})`, 
+                author: author, 
+                fields: fields 
+            });
+            pagination(message, bot, contentArr, { thumbnail: 'https://i.imgur.com/OpSJJxe.png', color: 0xcc00ff, author: true });
+        }
+    }                                    
+}
+
+async function handleSingle(message, playlist, songs, author, guildPlaylist) {
+    let embed = new Discord.RichEmbed();
+    let overallLength = 0;
+
+    songs.forEach(el => overallLength += parseInt(el.duration, 10));
     overallLength = await utils.timeParser(overallLength);
 
     embed
-    .addField(`**${playlist.name}** (${overallLength})`, `${message.author.username}`)
-    .setFooter(`Page ${CPI + 1}/${songArr.length}`)
+    .setAuthor(author.text, author.image)
+    .setTitle(`**${playlist.name}** (${overallLength})`)
     .addBlankField()
-    .setColor(0xcc00ff);
+    .setColor(0xff3399)
+    .setThumbnail('https://i.imgur.com/OpSJJxe.png')
 
-    let counter = 0;
-    for(let i = 0; i < songArr[CPI].length; i++) {counter++;
-        embed.addField(`**${songArr[CPI][i].index}. ` +
-            `${songArr[CPI][i].songs.title}**`, 
-            `Author: ${songArr[CPI][i].songs.author} \n Duration: ${await utils.timeParser(songArr[CPI][i].songs.duration)} \n ID: ${songArr[CPI][i].songs.song_id}`
-        );
+    if(guildPlaylist && playlist.roles) {
+        let rolesText = '';
+        playlist.roles.forEach(el => rolesText += `<@&${el}> `);
+        embed.addField('Available Roles:', rolesText).addBlankField();
     }
 
-    message.channel.send(embed).then(async (msg) => {
-        await msg.react("⏪");
-        await msg.react("⏹");
-        await msg.react("⏩");
-
-        const r_collector = new Discord.ReactionCollector(msg, r => r.users.array()[r.users.array().length - 1].id === message.author.id, { time: 60000 });
-        r_collector.on('collect', async (reaction, user) => {
-            if(reaction.users.array()[reaction.users.array().length - 1].id === bot.user.id) return;
-            if(reaction.emoji.name === "⏪") {
-
-                if(CPI === 0) return reaction.remove(reaction.users.array()[reaction.users.array().length - 1].id);
-                CPI--;
-                let backEmbed = new Discord.RichEmbed();
-                backEmbed
-                .addField(`**${playlist.name}** (${overallLength})`, `${message.author.username}`)
-                .setFooter(`Page ${CPI + 1}/${songArr.length}`)
-                .addBlankField()
-                .setColor(0xcc00ff);
-
-                for(let i = 0; i < songArr[CPI].length; i++) {counter++;
-                    backEmbed.addField(`**${songArr[CPI][i].index}. ` +
-                        `${songArr[CPI][i].songs.title}**`, 
-                        `Author: ${songArr[CPI][i].songs.author} \n Duration: ${await utils.timeParser(songArr[CPI][i].songs.duration)} \n ID: ${songArr[CPI][i].songs.song_id}`
-                    );
-                }
-
-                reaction.message.edit(backEmbed);
-                reaction.remove(reaction.users.array()[reaction.users.array().length - 1].id);
-
-            }else if(reaction.emoji.name === "⏩") {
-
-                if(CPI === (songArr.length - 1)) return reaction.remove(reaction.users.array()[reaction.users.array().length - 1].id);
-
-                CPI++;
-                let forwardEmbed = new Discord.RichEmbed();
-                forwardEmbed
-                .addField(`**${playlist.name}** (${overallLength})`, `${message.author.username}`)
-                .setFooter(`Page ${CPI + 1}/${songArr.length}`)
-                .addBlankField()
-                .setColor(0xcc00ff);
-
-                for(let i = 0; i < songArr[CPI].length; i++) {counter++;
-                    forwardEmbed.addField(`**${songArr[CPI][i].index}. ` +
-                        `${songArr[CPI][i].songs.title}**`, 
-                        `Author: ${songArr[CPI][i].songs.author} \n Duration: ${await utils.timeParser(songArr[CPI][i].songs.duration)} \n ID: ${songArr[CPI][i].songs.song_id}`
-                    );
-                }
-
-                reaction.message.edit(forwardEmbed);
-                reaction.remove(reaction.users.array()[reaction.users.array().length - 1].id);
-
-            }else if(reaction.emoji.name === "⏹") {
-                r_collector.stop();
-            }
-        });
-        r_collector.on('end', e => {
-            msg.delete();
-        })
-    })
+    for(let i = 0; i < songs.length; i++) {
+        let duration = await utils.timeParser(songs[i].duration);
+        embed.addField(`**${i + 1}. ${songs[i].title}**`, `**Author**: ${songs[i].author}\n**Duration**: ${duration}\n**ID**: ${songs[i].song_id}`);
+    }
+    message.channel.send(embed);
 }
 
 module.exports = {
-    async view(message, args, server, playlist, bot) {
-
+    async viewUserPlaylist(message, args, server, playlist, bot) {
         userSongsDB.findByPlaylistId(playlist.playlist_id)
-            .then(async songs => {
-                let counter = 0;
-                let temp = [];
-                let songArr = [];
-                if(songs.length >= 20) {
-                    for(let i = 0; i < songs.length; i++) {
-                        counter++;
-                        temp.push({ index: i + 1 ,songs: songs[i]});
-                        if(counter === 20) {
-                            songArr.push(temp);
-                            counter = 0;
-                            temp = [];
-                        }
-                    }
-                    songArr.push(temp);
-                    handlePages(message, args, server, playlist, songArr, bot);
-
-                }else  {
-                    let embed = new Discord.RichEmbed();
-                    let overallLength = 0;
-
-                    songs.forEach(el => overallLength += parseInt(el.duration, 10));
-                    overallLength = await utils.timeParser(overallLength);
-
-                    embed
-                    .addField(`**${playlist.name}** (${overallLength})`, `${message.author.username}`)
-                    .addBlankField()
-                    .setColor(0xff3399)
-                    .setThumbnail('https://i.imgur.com/OpSJJxe.png')
-
-                    let counter = 0;
-                    for(let i = 0; i < songs.length; i++) {
-                        counter++;
-                        embed.addField(`**${counter}. ` + 
-                            `${songs[i].title}**`, 
-                            `Author: ${songs[i].author} \n Duration: ${await utils.timeParser(songs[i].duration)} \n ID: ${songs[i].song_id}`
-                        );
-                    }
-                    message.channel.send(embed);
-                }
-                
-            })
-            .catch(err => {
-                if(err instanceof QRE && err.code === qrec.noData) {
-                    message.channel.send('No songs found in playlist `' + playlist.name + '`');
-                  }
-                  else console.log(err);
-            })
+        .then(songs => {
+            let author = {
+                text: `${message.author.username}#${message.author.discriminator}`,
+                image: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png?size=2048`
+            }
+            if(songs.length >= 20) handlePages(message, bot, playlist, songs, author);
+            else  handleSingle(message, playlist, songs, author);    
+        })
+        .catch(err => {
+            if(err instanceof QRE && err.code === qrec.noData)
+                message.channel.send(`No songs found in playlist **${playlist.name}**`);
+            else console.log(err);
+        })
+    },
+    async viewGuildPlaylist(message, args, server, playlist, bot) {
+        guildSongsDB.findByPlaylistId(playlist.playlist_id)
+        .then(songs => {
+            let author = {
+                text: `${message.guild.name}`,
+                image: `https://cdn.discordapp.com/avatars/${message.guild.id}/${message.guild.icon}.png?size=2048`
+            }
+            if(songs.length >= 20) handlePages(message, bot, playlist, songs, author, true);
+            else handleSingle(message, playlist, songs, author, true);
+        })
+        .catch(err => {
+            if(err instanceof QRE && err.code === qrec.noData)
+                message.channel.send(`No songs found in playlist **${playlist.name}**`);
+            else console.log(err);
+        })
     }
 };

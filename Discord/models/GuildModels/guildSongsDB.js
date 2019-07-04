@@ -18,5 +18,8 @@ module.exports = {
   },
   destroy(id) {
     return db.none('DELETE FROM guild_songs WHERE song_id = $1', id);
+  },
+  deletePlaylistSongs(id) {
+    return db.none('DELETE FROM guild_songs WHERE playlist_id = $1', id);
   }
 };

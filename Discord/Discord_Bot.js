@@ -13,7 +13,7 @@ async function getCommands() {
   Discord_Bot.aliases = new Discord.Collection();
   Discord_Bot.config = new Discord.Collection();
   
-  const categories = ['Admin', 'Dev', 'Config', 'Economy', 'Fun', 'GameStats', 'Info', 'Music', 'Other', 'Support'];
+  const categories = ['Admin', 'Dev', 'Config', 'Economy', 'Fun', 'GameStats', 'Info', 'Music', 'Other', 'Playlists', 'Support'];
   
   /*
       Pulls all files from the command directory
@@ -26,7 +26,6 @@ async function getCommands() {
       if(err) console.error(err);
       let jsfile = files.filter(f => f.split(".").pop() === 'js');
       if(jsfile.length <= 0) return console.error(chalk.hex('#ff9900')("[LOG]") + " Couldn't find Commands");
-      
       jsfile.forEach((f, i) => {
         let pull = require(`.${path}/${f}`);
         Discord_Bot.commands.set(pull.config.name, pull);
@@ -45,28 +44,24 @@ async function getCommands() {
   setTimeout(() => readmeController.write(), 2000);
 }
 
-// Called When Bot Starts
 Discord_Bot.on("ready", () => discordEventController.handleOnReady(Discord_Bot, getCommands));
-
-// Called When Bot Joins Guild
 Discord_Bot.on("guildCreate", (guild) => discordEventController.handleOnGuildCreate(Discord_Bot, guild));
-
-// Called When Bot Get Removed
 Discord_Bot.on("guildDelete", (guild) => discordEventController.handleOnGuildDelete(Discord_Bot, guild));
-
-// Called When Message Is Sent
 Discord_Bot.on("message", (message) => discordEventController.handleOnMessage(Discord_Bot, message));
 
-// Called When New Guild Member is Added
+Discord_Bot.on("roleCreate", (role) => discordEventController.handleOnRoleCreate(Discord_Bot, role));
+Discord_Bot.on("roleUpdate", (oldRole, newRole) => discordEventController.handleOnRoleUpdate(Discord_Bot, oldRole, newRole));
+Discord_Bot.on("roleDelete", (role) => discordEventController.handleOnRoleDelete(Discord_Bot, role));
+
+Discord_Bot.on("emojiCreate", (emoji) => discordEventController.handleOnEmojiCreate(Discord_Bot, emoji));
+Discord_Bot.on("emojiUpdate", (oldEmoji, newEmoji) => discordEventController.handleOnEmojiUpdate(Discord_Bot, oldEmoji, newEmoji));
+Discord_Bot.on("emojiDelete", (emoji) => discordEventController.handleOnEmojiDelete(Discord_Bot, emoji));
+
+Discord_Bot.on("guildUpdate", (oldGuild, newGuild) => discordEventController(Discord_Bot, oldGuild, newGuild));
 Discord_Bot.on("guildMemberAdd", (member) => discordEventController.handleOnMemberAdd(Discord_Bot, member));
-
-// Called When Guild Memeber is Updated
 Discord_Bot.on("guildMemberUpdate", (oldMember, newMember) => discordEventController.handleOnMemberUpdate(Discord_Bot, oldMember, newMember));
-
-// Called When Guild Member Leaves or is Removed
 Discord_Bot.on("guildMemberRemove", (member) => discordEventController.handleOnMemberRemove(Discord_Bot, member));
 
-// Called When An Error Occurs
 Discord_Bot.on("error", (err) => discordEventController.handleOnError(Discord_Bot, err));
 
 module.exports = Discord_Bot;
