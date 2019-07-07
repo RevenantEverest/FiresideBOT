@@ -176,11 +176,33 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 
 #### Fun  
 
+- [CutePics](https://help.firesidebot.com/commands/cutepics)   
+**Desc**: Returns a random Cute Picture  
+**Aliases**: `cutepic`   
+**Example**: `?cutepics`  
+
+- [DadJoke](https://help.firesidebot.com/commands/dadjoke) `[param]`  
+**Desc**: Returns a random Dad Joke either as text or an image  
+**Aliases**:   
+**Params**: Flag  
+**Flags**: `-i`   
+**Example**: `?dadjoke`  
+
 - [8Ball](https://help.firesidebot.com/commands/8ball) `<param>`  
 **Desc**: Returns a Yes or No style response  
 **Aliases**: `eightball` `fortune`   
 **Params**: Question  
 **Example**: `?8ball Am I a good developer?`  
+
+- [Memes](https://help.firesidebot.com/commands/memes)   
+**Desc**: Returns a random Meme  
+**Aliases**: `meme`   
+**Example**: `?memes`  
+
+- [NSFW](https://help.firesidebot.com/commands/nsfw)   
+**Desc**: Returns a random NSFW Picture  
+**Aliases**:   
+**Example**: `?nsfw`  
 
 - [Pokemon](https://help.firesidebot.com/commands/pokemon) `[param]`  
 **Desc**: Displays a random or specific Pokemon  
@@ -428,7 +450,12 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 - [Ping](https://help.firesidebot.com/commands/ping)   
 **Desc**: Pong  
 **Aliases**:   
-**Example**: `?undefined`  
+**Example**: `?ping`  
+
+- [Uptime](https://help.firesidebot.com/commands/uptime)   
+**Desc**: Uptime  
+**Aliases**:   
+**Example**: `?uptime`  
 
 - [Vote](https://help.firesidebot.com/commands/vote)   
 **Desc**: Displays link to Vote for Fireside on DBL  

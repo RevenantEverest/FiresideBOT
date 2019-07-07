@@ -1,4 +1,4 @@
-const apiServices = require('../../services/apiServices');
+const gameStatServices = require('../../services/gameStatServices');
 const Discord = require('discord.js');
 const utils = require('../utils/utils');
 
@@ -17,7 +17,7 @@ const ranks = [
 
 async function handleGeneric(username, platform, embed, message) {
     console.log("Handle Generic")
-    apiServices.getRainbowSixStats({ username: username, platform: platform, type: "generic"})
+    gameStatServices.getRainbowSixStats({ username: username, platform: platform, type: "generic"})
     .then(async stats => {
         stats = stats.data;
         console.log(stats.data);
@@ -72,7 +72,7 @@ async function handleGeneric(username, platform, embed, message) {
 };
 
 async function handleOperators(username, platform, embed, message) {
-    apiServices.getRainbowSixStats({ username: username, platform: platform, type: "operators"})
+    gameStatServices.getRainbowSixStats({ username: username, platform: platform, type: "operators"})
     .then(stats => {
         console.log(stats.data);
     })
@@ -98,7 +98,7 @@ async function handleSeasonal(args, platform, embed, message) {
     }
     else return message.channel.send("Please Specify a valid region");
 
-    apiServices.getRainbowSixStats({ username: args[1], platform: platform, type: "seasonal"})
+    gameStatServices.getRainbowSixStats({ username: args[1], platform: platform, type: "seasonal"})
     .then(stats => {
         let regionData = Object.entries(Object.entries(stats.data.seasons)[0][1].regions)[regionIndex][1][0];
         console.log(ranks[17])

@@ -1,8 +1,8 @@
 const Discord = require('discord.js');
-const apiServices = require('../../services/apiServices');
+const twitchServices = require('../../services/twitchServices');
 
 async function checkStreamStatus(args, message, info) {
-    apiServices.getTwitchStreamStatus(args[1])
+    twitchServices.getTwitchStreamStatus(args[1])
         .then(streamStatus => {
             if(streamStatus.data.stream) {
                 info.isStreaming = true;
@@ -23,7 +23,7 @@ async function checkStreamStatus(args, message, info) {
 };
 
 async function getTwitchInfo(args, message) {
-    apiServices.getTwitchInfo(args[1])
+    twitchServices.getTwitchInfo(args[1])
         .then(results => {
             let info = {
                 display_name: results.data.display_name,

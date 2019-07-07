@@ -12,7 +12,7 @@ async function handlePages(message, bot, playlist, songs, author) {
     let contentArr = [];
     let overallLength = 0;
     songs.forEach(el => overallLength += parseInt(el.duration, 10));
-    overallLength = await utils.timeParser(overallLength);
+    overallLength = await utils.timeParser(overallLength, true);
     let fields = [];
     let counter = 0;
     for(let i = 0; i < songs.length; i++) {

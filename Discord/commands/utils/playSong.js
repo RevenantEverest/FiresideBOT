@@ -3,7 +3,7 @@ const YTDL = require('ytdl-core');
 const handleRecommendations = require('./handleRecommendations');
 const utils = require('./utils');
 
-const apiServices = require('../../services/apiServices');
+const lastfmServices = require('../../services/lastfmServices');
 
 const volume = require('../Music/Volume');
 
@@ -12,10 +12,10 @@ const services = {};
 async function getGenre(server) {
   let filterArr = ['official', 'music', 'video', 'lyric', 'lyrics', 'audio', 'monstercat', 'release', 'version', 'HD'];
   let search = await utils.filter(server.queue.currentSongInfo.title, filterArr, { special: true });
-  apiServices.getTrack({ track: search })
+  lastfmServices.getTrack({ track: search })
     .then(results => {
       if(!results.data.results.trackmatches.track[0]) return;
-      apiServices.getSongInfo({ track: results.data.results.trackmatches.track[0].name, artist: results.data.results.trackmatches.track[0].artist })
+      lastfmServices.getSongInfo({ track: results.data.results.trackmatches.track[0].name, artist: results.data.results.trackmatches.track[0].artist })
         .then(songInfo => {
           if(!songInfo.data.track) return;
           if(songInfo.data.track.toptags.tag[0]) {

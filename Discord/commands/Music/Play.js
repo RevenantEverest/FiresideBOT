@@ -9,6 +9,7 @@ async function youtubeSearch(message, args, server, songRequest) {
     .then(results => {
       if(results.data.items.length < 1) return message.channel.send("No results found");
       let link = `https://www.youtube.com/watch?v=${results.data.items[0].id.videoId}`;
+      console.log(songRequest, results.data.items)
       YTDL_GetInfo(message, args, server, link);
     })
     .catch(err => {
@@ -51,7 +52,8 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     if(!message.member.voiceChannel) return message.channel.send("You must be in a voice channel");
     if(options.updatePending) return message.channel.send("An Update is currently pending, features will resume upon Update")
 
-    const requestFilter = ['http://', 'https://', '.com', 'watch?v=', 'youtube', 'www.youtube', 'youtu.be', '/'];
+    // const requestFilter = ['http://', 'https://', '.com', 'watch?v=', 'youtube', 'www.youtube', 'youtu.be', '/'];
+    const requestFilter = ['http://', 'https://', '\.com', 'watch\?v=', 'youtube', 'www\.youtube', 'youtu\.be', '/'];
     let request = '';
     args.splice(0, 1);
 

@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const apiServices = require('../../services/apiServices');
+const ksoftServices = require('../../services/ksoftServices');
 const utils = require('../utils/utils');
 
 /*
@@ -135,7 +135,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     
 
     // Add result for current song
-    apiServices.getLyrics(search)
+    ksoftServices.getLyrics(search)
         .then(results => {
             results = results.data.data[0];
             if(results.lyrics.split("").length >= 1024)

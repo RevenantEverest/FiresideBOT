@@ -1,4 +1,4 @@
-const apiServices = require('../../services/apiServices');
+const lastfmServices = require('../../services/lastfmServices');
 const youtubeServices = require('../../services/youtubeServices');
 const YTDL = require('ytdl-core');
 const utils = require('./utils');
@@ -46,7 +46,7 @@ async function youtubeSearch(message, server, songRequest, resolve, reject) {
 
 module.exports = async (message, server, resolve, reject) => {
     let genre = utils.mode(server.queue.genres);
-    apiServices.getSongsByGenre(genre)
+    lastfmServices.getSongsByGenre(genre)
         .then(results => {
             let RNG = Math.floor(Math.random() * results.data.tracks.track.length);
             let title = results.data.tracks.track[RNG].name;

@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const apiServices = require('../../services/apiServices');
+const gameStatServices = require('../../services/gameStatServices');
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     if(!args[1]) return message.channel.send('Please specify a BattleTag, Platform, and Region');
@@ -54,7 +54,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     args.splice(regionIndex, 1);
 
     let battletag = args[1].replace("#", "-");
-    apiServices.getOverwatchStats({ platform: platform, battletag: battletag, region: region })
+    gameStatServices.getOverwatchStats({ platform: platform, battletag: battletag, region: region })
         .then(results => {
             if(results.data.error === 'Player not found')
                 return message.channel.send('Player Not Found');

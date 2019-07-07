@@ -1,4 +1,4 @@
-const apiServices = require('../../services/apiServices');
+const twitchServices = require('../../services/twitchServices');
 const twitchtrackerDB = require('../../models/twitchTrackerDB');
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
@@ -18,7 +18,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     if(role_id !== "none") 
         args.splice(args.indexOf((role_id === "@everyone" ? "@everyone" : `<#${role_id}>`), 1));
 
-    apiServices.getTwitchInfo(args[1])
+    twitchServices.getTwitchInfo(args[1])
     .then(streamer => {
         twitchtrackerDB.save({ guild_id: message.guild.id, twitch_username: streamer.data.name, channel_id: channel_id, role_id: role_id })
         .then(tracker => message.channel.send(`Tracker added for **${streamer.data.display_name}** and will be posted in <#${channel_id}>. ID: **${tracker.id}**`))

@@ -38,7 +38,10 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     //     else console.error(err);
     // });
 
-    console.log(message.member._roles);
+    // console.log(message.member._roles);
+    message.channel.send("Test").then(msg => {
+        console.log(message.createdTimestamp);
+    })
 };
 
 module.exports.config = {

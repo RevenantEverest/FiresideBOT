@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const apiServices = require('../../services/apiServices');
+const gameStatServices = require('../../services/gameStatServices');
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     if(!args[1]) 
@@ -26,7 +26,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
 
     args.splice(platformIndex, 1);
 
-    apiServices.getFortniteStats({ platform: platform, profile: args[1] })
+    gameStatServices.getFortniteStats({ platform: platform, profile: args[1] })
         .then(results => {
             if(results.data.error === 'Player Not Found') 
                 return message.channel.send('Player Not Found');

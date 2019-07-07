@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const apiServices = require('../../services/apiServices');
+const gameStatServices = require('../../services/gameStatServices');
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     if(!args[1]) 
@@ -26,7 +26,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
 
     args.splice(platformIndex, 1);
 
-    apiServices.getApexStats({ platform: platform, profile: args[1]  })
+    gameStatServices.getApexStats({ platform: platform, profile: args[1]  })
         .then(results => {
             let embed = new Discord.RichEmbed();
             let generalStats = results.data.data.stats[0];
