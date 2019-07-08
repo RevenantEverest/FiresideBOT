@@ -46,11 +46,12 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Params**: Rank ID and new Rank name  
 **Example**: `?editrank 92 NewRankName`  
 
-- [AddRank](https://help.firesidebot.com/commands/addrank) `<param>`  
-**Desc**: Creates a new Rank Tier  
-**Aliases**: `ar`   
-**Params**: Rank Name  
-**Example**: `?addrank NewRank`  
+- [EditTracker](https://help.firesidebot.com/commands/edittracker) `<param>`  
+**Desc**: Edit an existing tracker  
+**Aliases**: `et`   
+**Params**: Flag / Tracker ID / #Channel-Tag and/or @Role Tag  
+**Flags**: `-t`   
+**Example**: `?edittracker -t 108 #general @everyone`  
 
 - [Purge](https://help.firesidebot.com/commands/purge) `[param]`  
 **Desc**: Bulk delete messages  
@@ -499,7 +500,8 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 - [EditPlaylist](https://help.firesidebot.com/commands/editplaylist) `<param>`  
 **Desc**: Change the name of a Playlist  
 **Aliases**: `ep`   
-**Params**: Playlist Name & New Playlist Name  
+**Params**: Playlist Name & New Playlist Name or `-p` Flag  
+**Flags**: `-s` `-p`   
 **Example**: `?editplaylist Chillstep MyPlaylist`  
 
 - [Playlist](https://help.firesidebot.com/commands/playlist) `[param]`  
@@ -517,7 +519,7 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 
 - [RemoveSong](https://help.firesidebot.com/commands/removesong) `<param>`  
 **Desc**: Removes a song from a playlist  
-**Aliases**:   
+**Aliases**: `rs`   
 **Params**: Name / ID  
 **Example**: `?removesong 189`  
 

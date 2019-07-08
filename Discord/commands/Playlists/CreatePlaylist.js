@@ -24,7 +24,7 @@ async function findUserPlaylists(args, message) {
     .then(playlists => {
         if(playlists.length >= 5) return message.channel.send("Playlists limited to 5");
         if(playlists.includes(args[1].toString())) return message.channel.send("No Duplicate Playlist Names");
-        else savePlaylist(args, message);
+        else saveUserPlaylist(args, message);
     })
     .catch(err => {
         if(err instanceof QRE && err.code === qrec.noData)

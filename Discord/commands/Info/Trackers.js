@@ -14,7 +14,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
         let trackerField = '';
         trackers.forEach((el, idx) => trackerField += 
             `${idx + 1}. ${el.twitch_username} <#${el.channel_id}> ` + 
-            `${el.role_id === "@everyone" ? "@everyone" : (el.role_id === "none" ? '' : `<@&${el.role_id}>`)}` +
+            `${el.role_id === "@everyone" ? "@everyone" : (el.role_id === "none" ? '' : `<@&${el.role_id}>`)} ` +
             `ID: **${el.id}** \n`
         );
         embed.addField("Twitch:", trackerField);

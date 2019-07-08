@@ -5,6 +5,7 @@ const QRE = pgp.errors.QueryResultError;
 const qrec = pgp.errors.queryResultErrorCode;
 
 async function deleteTracker(message, tracker) {
+    if(tracker.guild_id !== message.guild.id) return message.channel.send("Invalid ID");
     twitchTrackerDB.delete(tracker.id)
     .then(() => message.channel.send(`Deleted Tracker for **${tracker.twitch_username}**`))
     .catch(err => {
@@ -18,18 +19,12 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     if(!args.includes("-t")) return message.channel.send("Please use a flag to define which tracker you'd like to remove");
     
     args.splice(args.indexOf("-t"), 1);
-    if(!Number.isInteger(parseInt(args[1]), 10)) return message.channel.send("Invalid ID");
 
-    twitchTrackerDB.findByGuildId(message.guild.id)
-    .then(guildTrackers => {
-        let tracker = guildTrackers.filter(el => el.id === parseInt(args[1], 10));
-        
-        if(tracker.length < 1) return message.channel.send("Invalid ID");
-        else deleteTracker(message, tracker[0]);
-    })
+    twitchTrackerDB.findById(args[1])
+    .then(tracker => deleteTracker(message, tracker))
     .catch(err => {
         if(err instanceof QRE && err.code === qrec.noData)
-            return message.channel.send("No Available Trackers")
+            message.channel.send(`No tracker found`);
         else console.error(err);
     });
 };

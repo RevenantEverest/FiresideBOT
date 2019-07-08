@@ -12,10 +12,9 @@ const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
 const qrec = pgp.errors.queryResultErrorCode;
 
-async function findUserPlaylist(args, message, server, playlistSearch) {
+async function findUserPlaylist(args, message, server, guildPlaylist, playlistSearch, request) {
   userPlaylistsDB.findByDiscordIdAndPlaylistName({ discord_id: message.author.id, name: playlistSearch })
   .then(playlist => {
-    if(playlist === null) return message.channel.send(`No playlist by that name found`);
     if(server.queue.isPlaying && !args[2]) {
         let info = server.queue.currentSongInfo;
               
@@ -23,20 +22,18 @@ async function findUserPlaylist(args, message, server, playlistSearch) {
           playlist_id: playlist.playlist_id, title: info.title, link: info.link, author: info.author, duration: info.duration, thumbnail_url: info.thumbnail 
         });
     }
-    else youtubeSearch(message, args, request, playlist);
+    else youtubeSearch(message, args, request, guildPlaylist, playlist);
   })
   .catch(err => {
     if(err instanceof QRE && err.code === qrec.noData)
         return message.channel.send(`No playlist by that name found`);
-    else console.log(err);
+    else console.error(err);
   });
 }
 
-async function findGuildPlaylist(args, message, server, playlistSearch) {
+async function findGuildPlaylist(args, message, server, guildPlaylist, playlistSearch, request) {
   guildPlaylistsDB.findByGuildIdAndPlaylistName({ guild_id: message.guild.id, name: playlistSearch })
   .then(playlist => {
-    if(playlist === null) return message.channel.send(`No playlist by that name found`);
-
     let hasPermission = false;
     if(playlist.roles) {
       message.member.roles.forEach((el, idx) => {
@@ -48,43 +45,67 @@ async function findGuildPlaylist(args, message, server, playlistSearch) {
     if(server.queue.isPlaying && !args[2]) {
         let info = server.queue.currentSongInfo;
               
-        saveToGuildPlaylist(message, playlist.name, {
-          playlist_id: playlist.playlist_id, title: info.title, link: info.link, author: info.author, duration: info.duration, thumbnail_url: info.thumbnail 
-        });
+        getGuildPlaylistSongs(message, playlist, info);
     }
-    else youtubeSearch(message, args, request, playlist);
+    else youtubeSearch(message, args, request, guildPlaylist, playlist);
   })
   .catch(err => {
     if(err instanceof QRE && err.code === qrec.noData)
         return message.channel.send(`No playlist by that name found`);
-    else console.log(err);
+    else console.error(err);
   });
 }
 
-async function youtubeSearch(message, args, songRequest, playlist) {
-  youtubeServices.youtubeSearch(songRequest)
-  .then(results => {
-    if(results.data.items.length > 1) return message.channel.send("No results found");
-    const link = `https://www.youtube.com/watch?v=${results.data.items[0].id.videoId}`;
-    YTDL_GetInfo(message, args, link, playlist);
+async function getGuildPlaylistSongs(message, playlist, info) {
+  guildSongsDB.findByPlaylistId(playlist.playlist_id)
+  .then(async songs => {
+    let duplicate = await checkForDuplicates(songs, info);
+    if(duplicate) 
+      return message.channel.send(`Song already exists in playlist **${playlist.name}**`);
+    else 
+      saveToGuildPlaylist(message, playlist.name, {
+        playlist_id: playlist.playlist_id, title: info.title, link: info.link, author: info.author, duration: info.duration, thumbnail_url: info.thumbnail 
+      });
   })
   .catch(err => {
-    if(err.response.status === 400) {
-      message.channel.send('Invalid Search Request');
-      console.error(err)
-    }
+    if(err instanceof QRE && err.code === qrec.noData)
+      saveToGuildPlaylist(message, playlist.name, {
+        playlist_id: playlist.playlist_id, title: info.title, link: info.link, author: info.author, duration: info.duration, thumbnail_url: info.thumbnail 
+      });
+    else console.error(err);
   })
 }
 
-async function YTDL_GetInfo(message, args, link, { playlist_id, name }) {
-  YTDL.getInfo(link, (err, {title, author, length_seconds, thumbnail_url}) => {
-    if(err) return message.channel.send("YTDL Get Info error.");
-    if(title === undefined) return message.channel.send(`Can't read title of undefined`);
-    if(length_seconds >= 600) return message.channel.send('Playlist Songs limited to 10 minutes');
-    saveToPlaylist(message, name, {
-      playlist_id: playlist_id, title: title, link: link, author: author.name, duration: length_seconds, thumbnail_url: thumbnail_url
-    })
+async function getUserPlaylistSongs(message, playlist, info) {
+  userSongsDB.findByPlaylistId(playlist.playlist_id)
+  .then(async songs => {
+    let duplicate = await checkForDuplicates(songs, info);
+    if(duplicate) 
+      return message.channel.send(`Song already exists in playlist **${playlist.name}**`);
+    else 
+      saveToUserPlaylist(message, playlist.name, {
+        playlist_id: playlist.playlist_id, title: info.title, link: info.link, author: info.author, duration: info.duration, thumbnail_url: info.thumbnail 
+      });
   })
+  .catch(err => {
+    if(err instanceof QRE && err.code === qrec.noData)
+      saveToUserPlaylist(message, playlist.name, {
+        playlist_id: playlist.playlist_id, title: info.title, link: info.link, author: info.author, duration: info.duration, thumbnail_url: info.thumbnail 
+      });
+    else console.error(err);
+  })
+}
+
+async function checkForDuplicates(songs, info) {
+  let arr = [];
+  await songs.forEach(async el => {
+    let video_id = await utils.filter(el.link, {special: false});
+    arr.push(video_id);
+  });
+  
+  let video_id = await utils.filter(info.link, {special: false});
+  if(arr.includes(video_id)) return true;
+  else return false;
 }
 
 async function saveToUserPlaylist(message, playlist_name, data) {
@@ -105,13 +126,39 @@ async function saveToGuildPlaylist(message, playlist_name, data) {
   });
 }
 
+async function youtubeSearch(message, args, songRequest, guildPlaylist, playlist) {
+  youtubeServices.youtubeSearch(songRequest)
+  .then(results => {
+    if(results.data.items.length > 1) return message.channel.send("No results found");
+    const link = `https://www.youtube.com/watch?v=${results.data.items[0].id.videoId}`;
+    YTDL_GetInfo(message, args, guildPlaylist, link, playlist);
+  })
+  .catch(err => {
+    if(err.response.status === 400) {
+      message.channel.send('Invalid Search Request');
+      console.error(err)
+    }
+  })
+}
+
+async function YTDL_GetInfo(message, args, guildPlaylist, link, playlist) {
+  YTDL.getInfo(link, (err, {title, author, length_seconds, thumbnail_url}) => {
+    if(err) return message.channel.send("YTDL Get Info error.");
+    if(title === undefined) return message.channel.send(`Can't read title of undefined`);
+    if(length_seconds >= 600) return message.channel.send('Playlist Songs limited to 10 minutes');
+    let info = { title: title, link: link, author: author.name, duration: length_seconds, thumbnail_url: thumbnail_url }; 
+    if(guildPlaylist) getGuildPlaylistSongs(message, playlist, info) ;
+    else getUserPlaylistSongs(message, playlist, info);
+  })
+}
+
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
   if(!args[1]) return message.channel.send('Please specify a playlist to add to');
   if(!server.queue.isPlaying && !args[1]) return message.channel.send('Please specify a playlist and song to add');
   if(!server.queue.isPlaying && !args[2]) return message.channel.send('Please specify a song to add');
 
-  const requestFilter = ['http://', 'https://', '.com', 'watch?v=', 'youtube', 'www.youtube', 'youtu.be', '/'];
   let request = '';
+  const requestFilter = ['http://', 'https://', '.com', 'watch?v=', 'youtube', 'www.youtube', 'youtu.be', '/'];
   let playlistSearch = args[1];
   let guildPlaylist = false;
 
@@ -124,10 +171,10 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
   args.splice(1, 1);
   args.splice(0, 1);
 
-  await utils.checkString(args[2], requestFilter) ? request = await utils.filter(args[2], requestFilter, { special: false }) : request = args.join(" ");
+  await utils.checkString(args[2], requestFilter) ? request = await utils.filter(args[2], { special: false }) : request = args.join(" ");
 
-  if(guildPlaylist) findGuildPlaylist(args, message, server, playlistSearch, request);
-  else findUserPlaylist(args, message, server, playlistSearch, request);
+  if(guildPlaylist) findGuildPlaylist(args, message, server, guildPlaylist, playlistSearch, request);
+  else findUserPlaylist(args, message, server, guildPlaylist, playlistSearch, request);
 };
 
 module.exports.config = {
@@ -140,3 +187,6 @@ module.exports.config = {
     desc: 'Adds a song to your playlist from',
     example: 'addsong Chillstep Better Now Post Malone'
 };
+
+// Check For Duplicate for User Playlist
+// Fix Request 

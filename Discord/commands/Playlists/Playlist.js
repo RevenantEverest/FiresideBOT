@@ -37,14 +37,25 @@ async function addToQueue(args, message, server, playlist, songs) {
 }
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
-  if(!args[1]) return myPlaylists.findMyPlaylists(message, args, server);
+  if(!args[1]) return myPlaylists.findMyPlaylists(message, args, message.author.id, bot);
   
-  let playlistName = args[1];
-  if(args[1] === "-s" || args[1] === '-i') playlistName = args[2];
-  
-  userPlaylistsDB.findByDiscordIdAndPlaylistName({ discord_id: message.author.id, name: playlistName })
+  let playlistName = null;
+  let discord_id = null;
+
+  if(/<@?(\d+)>/.exec(args.join(" "))) discord_id = /<@?(\d+)>/.exec(args.join(" "))[1];
+  else if(/<@!?(\d+)>/.exec(args.join(" "))) discord_id = /<@!?(\d+)>/.exec(args.join(" "))[1];
+
+  if(discord_id) {
+    args.splice(args.indexOf(`<@${discord_id}>`), 1);
+    if(!args.includes("-i")) return myPlaylists.findMyPlaylists(message, args, discord_id, bot);
+  }
+
+  playlistName = args[1] === "-s" || args[1] === '-i' ? args[2] : args[1];
+
+  userPlaylistsDB.findByDiscordIdAndPlaylistName({ discord_id: (discord_id ? discord_id : message.author.id), name: playlistName })
     .then(playlist => {
-      if(args.includes("-i")) return viewPlaylist.viewUserPlaylist(message, args, server, playlist, bot);
+      if(discord_id && !playlist.public && discord_id !== message.author.id) return message.channel.send("That users playlist is **Private**");
+      if(args.includes("-i")) return viewPlaylist.viewUserPlaylist(message, (discord_id ? discord_id : message.author.id), playlist, bot);
       if(options.updatePending) return message.channel.send("An Update is currently pending, features will resume upon Update");
       if(!message.member.voiceChannel) return message.channel.send("You must be in a voice channel");
       getSongs(args, message, server, playlist);

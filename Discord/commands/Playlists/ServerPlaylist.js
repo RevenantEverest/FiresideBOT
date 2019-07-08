@@ -35,7 +35,7 @@ async function addToQueue(args, message, server, playlist, songs) {
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
   if(options.updatePending) return message.channel.send("An Update is currently pending, features will resume upon Update");
-  if(!args[1]) return myPlaylists.findServerPlaylists(message, args, server);
+  if(!args[1]) return myPlaylists.findServerPlaylists(message, args, bot);
   
 
   let playlistName = args[1];
@@ -44,9 +44,8 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
 
   guildPlaylistsDB.findByGuildIdAndPlaylistName({ guild_id: message.guild.id, name: playlistName })
   .then(playlist => {
-    if(!args[1]) return myPlaylists.findServerPlaylists(message, args, server);
-    if(!message.member.voiceChannel) return message.channel.send("You must be in a voice channel");
     if(args.includes("-i")) return viewPlaylist.viewGuildPlaylist(message, args, server, playlist, bot);
+    if(!message.member.voiceChannel) return message.channel.send("You must be in a voice channel");
     getSongs(args, message, server, playlist)
   })
   .catch(err => {

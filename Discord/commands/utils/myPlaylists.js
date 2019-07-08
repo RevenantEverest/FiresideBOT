@@ -37,9 +37,10 @@ async function getGuildPlaylistSongs(playlists) {
   return songData;
 }
 
-async function handleEmbed(message, args, playlists, songData) {
+async function handleEmbed(message, args, bot, discord_id, playlists, songData, guildPlaylist) {
   let embed = new Discord.RichEmbed();
   let totalLength = 0;
+  let discordUser = bot.users.get(playlists[0].discord_id);
   [].concat.apply([], songData).forEach(el => totalLength += parseInt(el.duration, 10));
   totalLength = await utils.timeParser(totalLength);
 
@@ -54,10 +55,11 @@ async function handleEmbed(message, args, playlists, songData) {
     .setAuthor(`${message.guild.name}`, `https://cdn.discordapp.com/avatars/${message.guild.id}/${message.guild.icon}.png?size=2048`);
   else
     embed
-    .setAuthor(`${message.author.username}#${message.author.discriminator}`, `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png?size=2048`)
+    .setAuthor(`${discordUser.username}#${discordUser.discriminator}`, `https://cdn.discordapp.com/avatars/${discordUser.id}/${discordUser.avatar}.png?size=2048`)
 
   for(let i = 0; i < playlists.length; i++) {
     if(i > 20) return;
+    if(!guildPlaylist && !playlists[i].public && discord_id !== message.author.id) continue;
     let overallLength = 0;
     songData[i].forEach(el => overallLength += parseInt(el.duration, 10));
     overallLength = await utils.timeParser(overallLength);
@@ -67,11 +69,11 @@ async function handleEmbed(message, args, playlists, songData) {
 }
 
 module.exports = {
-  async findMyPlaylists(message, args, server) {
-    userPlaylistsDB.findByDiscordId(message.author.id)
-    .then(async playlists => {
+  async findMyPlaylists(message, args, discord_id, bot) {
+    userPlaylistsDB.findByDiscordId(discord_id)
+    .then(playlists => {
       getUserPlaylistSongs(playlists)
-      .then(songData => handleEmbed(message, args, playlists, songData))
+      .then(songData => handleEmbed(message, args, bot, discord_id, playlists, songData, false))
       .catch(err => console.error(err));
     })
     .catch(err => {
@@ -80,11 +82,11 @@ module.exports = {
       else console.log(err);
     })    
   },
-  async findServerPlaylists(message, args, server) {
+  async findServerPlaylists(message, args, bot) {;
     guildPlaylistsDB.findByGuildId(message.guild.id)
     .then(playlists => {
       getGuildPlaylistSongs(playlists)
-      .then(songData => handleEmbed(message, args, playlists, songData))
+      .then(songData => handleEmbed(message, args, bot, message.author.id, playlists, songData, true))
       .catch(err => console.error(err));
     })
     .catch(err => {

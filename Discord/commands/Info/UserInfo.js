@@ -13,6 +13,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     .addField('Account Created:', `${accountCreated[1]} ${accountCreated[2]} ${accountCreated[3]}`)
     .addField('Status:', message.author.presence.status, true)
     .addField('Game:', (message.author.presence.game || 'NA'), true)
+    .setFooter(`ID: ${message.author.id}`)
 
     message.channel.send(infoEmbed);
 };

@@ -16,7 +16,7 @@ async function getSettings(bot, message, ranks) {
             saveDefaultSettings(bot, message, ranks);
         else console.error(err);
     })
-}
+};
 
 async function saveDefaultSettings(bot, message, ranks) {
     settingsDB.save({ guild_id: message.guild.id, general_increase_rate: 10, complexity: 2, channel_id: "none" })
@@ -54,6 +54,7 @@ async function checkForLevelUp(bot, message, ranks, settings, record) {
 
     let levelUp = false;
     if(currentLevel < xpUpdate && ranks.length >= xpUpdate) levelUp = true;
+    if(currentLevel > ranks.length) return;
 
     updateRecord(bot, message, ranks, settings, record, levelUp);
 };
