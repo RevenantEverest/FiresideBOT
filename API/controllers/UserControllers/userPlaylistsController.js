@@ -36,7 +36,7 @@ module.exports = {
     .catch(err => next(err));
   },
   create(req, res, next) {
-    userPlaylistsDB.save(req.body)
+    userPlaylistsDB.save({name : req.body.name, discord_id: req.body.name, public: true})
     .then(playlist => res.json({message: "Saving Playlist", data: playlist}))
     .catch(err => next(err));
   },

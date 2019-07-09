@@ -6,7 +6,7 @@ const QRE = pgp.errors.QueryResultError;
 const qrec = pgp.errors.queryResultErrorCode;
 
 async function saveUserPlaylist(args, message) {
-    userPlaylistsDB.save({ discord_id: message.author.id, name: args[1].toString(), public: false })
+    userPlaylistsDB.save({ discord_id: message.author.id, name: args[1].toString(), public: true })
     .then(savedPlaylist => message.channel.send(`New playlist **${savedPlaylist.name}** created`))
     .catch(err => console.log(err));
 }
