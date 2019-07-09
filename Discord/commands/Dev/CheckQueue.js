@@ -30,7 +30,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     embed
     .addField("In Progress:", (queuesInProgress ? queuesInProgress : '0'), true)
     .addField("Overall Length: ", queueLengthInSeconds, true)
-    .addField("Songs In Queue:", queueSongAmount)
+    .addField("Songs In Queue:", (queueSongAmount + queuesInProgress))
 
     message.channel.send(embed);
 };
