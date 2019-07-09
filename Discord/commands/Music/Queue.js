@@ -19,31 +19,25 @@ async function handlePages(message, bot, songs, overallLength, author) {
                   
     if(i === (songs.length - 1)) {
         contentArr.push({ category: `Queue (${overallLength})`, author: author, fields: fields });
-        pagination(message, bot, contentArr, { thumbnail: 'https://i.imgur.com/OpSJJxe.png', color: 0x00ffff });
+        pagination(message, bot, contentArr, { thumbnail: 'https://i.imgur.com/OpSJJxe.png', title: true, color: 0x00ffff });
     }
   }  
 };
 
-async function handleSingle(message, server, overallLength, author) {
+async function handleSingle(message, songs, overallLength, author) {
   let embed = new Discord.RichEmbed();
   
   embed.setTitle(`**QUEUE** (${overallLength})`).setColor(0x00ffff).setAuthor(author.text, author.image);
 
-  server.queue.queueInfo.forEach((el, idx) => {
-    embed.addField(`${(i + 1)}. ${el.title}`, `Link: [Click Me](${el.link})\nRequested By: ${el.requestedBy}`);
+  songs.forEach((el, idx) => {
+    embed.addField(`${(idx + 1)}. ${el.title}`, `Link: [Click Me](${el.link})\nRequested By: ${el.requestedBy}`);
   });
-
-  embed
-  .addBlankField()
-  .addField('**Current Song**', server.queue.currentSongInfo.title)
-  .addField('Link', `[Click Me](${server.queue.currentSongInfo.link})`)
-  .addField('Requested By:', server.queue.currentSongInfo.requestedBy)
 
   message.channel.send(embed);
 };
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
-  if(server.queue.queueInfo.length <= 1) return message.channel.send("No other songs in queue");
+  if(server.queue.queueInfo.length < 1) return message.channel.send("No other songs in queue");
 
   let songs = server.queue.queueInfo;
   let author = { text: message.guild.name, image: message.guild.iconURL };

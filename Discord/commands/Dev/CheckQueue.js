@@ -7,7 +7,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
 
     let embed = new Discord.RichEmbed();
     
-    embed.setTitle('Queues In Progress').setColor(0x33ccff).addBlankField()
+    embed.setTitle('Queues In Progress').addBlankField()
 
     let queuesInProgress = config.servers.filter(el => el.queue.isPlaying).length || '';
     let queueLengthInSeconds = 0;
@@ -17,12 +17,18 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
             queueLengthInSeconds += parseInt(el, 10);
         });
 
+        [].concat.apply([], config.servers.map(el => el.queue.currentSongInfo)).map(el => el.duration).forEach(el => {
+            queueLengthInSeconds += parseInt(el, 10);
+        });
+
         queueSongAmount = [].concat.apply([], config.servers.map(el => el.queue.queueInfo)).length;
         queueLengthInSeconds = await utils.timeParser(queueLengthInSeconds);
     }
+
+    queuesInProgress ? embed.setColor(0x00ff00) : embed.setColor(0xff0000);
     
     embed
-    .addField("In Progress:", queuesInProgress, true)
+    .addField("In Progress:", (queuesInProgress ? queuesInProgress : '0'), true)
     .addField("Overall Length: ", queueLengthInSeconds, true)
     .addField("Songs In Queue:", queueSongAmount)
 
