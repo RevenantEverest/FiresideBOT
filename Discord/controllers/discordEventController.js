@@ -133,7 +133,7 @@ services.handleOnMessage = async (bot, message) => {
                 
                 if(process.env.ENVIRONMENT === "DEV") return;
                 logger.commandLogger({ 
-                    command: commandfile.config.d_name.toString(), args: args.join(" "), message: '', user_id: message.author.id, guild_id: message.guild.id
+                    command: commandfile.config.d_name.toString(), args: args.join(" "), message: '', discord_id: message.author.id, guild_id: message.guild.id
                 });
             }
             

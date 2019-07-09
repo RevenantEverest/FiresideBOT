@@ -82,7 +82,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     let flavorText = "`<param>` is a required param and `[param]` is an optional param. For more information on a command use `" + PREFIX + "help <command>` ™";
 
     if(!args[1])
-        pagination(message, bot, contentArr, { flavorText: flavorText, color: 0xcc00ff });
+        pagination(message, bot, contentArr, { flavorText: flavorText, title: true, color: 0xcc00ff });
     else 
         helpSpec(PREFIX, message, args, bot, contentArr);
 };

@@ -8,7 +8,7 @@ services.commandLogger = (data) => {
   return axios({
     method: 'POST',
     url: 'http://localhost:3002/command',
-    data: { command: data.command, args: data.args, message: data.message, user_id: data.user_id, guild_id: data.guild_id, date: currentDate }
+    data: { command: data.command, args: data.args, message: data.message, discord_id: data.discord_id, guild_id: data.guild_id, date: currentDate }
   });
 };
 
