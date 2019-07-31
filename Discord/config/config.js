@@ -1,7 +1,7 @@
 module.exports = {
   servers: [],
   Discord_Options: {
-    version: 'v1.5.0',
+    version: 'v1.5.1',
     users: 0,
     updatePending: false,
     modules: {
