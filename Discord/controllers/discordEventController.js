@@ -333,6 +333,18 @@ services.handleOnRoleDelete = async (bot, role) => {
     })
 };
 
+services.handleOnEmojiCreate = async (bot, emoji) => {
+
+};
+
+services.handleOnEmojiUpdate = (bot, oldEmoji, newEmoji) => {
+
+};
+
+services.handleOnEmojiDelete = async (bot, emoji) => {
+
+};
+
 /*
     On Error
 */
