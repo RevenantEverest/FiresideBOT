@@ -8,6 +8,7 @@ async function youtubeSearch(message, args, server, songRequest) {
     .then(results => {
       if(results.data.items.length < 1) return message.channel.send("No results found");
       let link = `https://www.youtube.com/watch?v=${results.data.items[0].id.videoId}`;
+      console.log(results.data.items[0].id.videoId)
       YTDL_GetInfo(message, args, server, link);
     })
     .catch(err => {
@@ -18,28 +19,20 @@ async function youtubeSearch(message, args, server, songRequest) {
     });
 }
 
-/*
-  Uses the link passed in to grab more info about the request
-  Parses the info and passes it on to SetQueue
-
-  Checks if song length is longer than 1 hour
-*/
 async function YTDL_GetInfo(message, args, server, link) {
-  YTDL.getInfo(link, (err, info) => {
+  YTDL.getBasicInfo(link, (err, info) => {
     if(err) return message.channel.send("YTDL Get Info error.");
-    if(info.title === undefined) return message.channel.send(`Can't read title of undefined`);
-    if(info.length_seconds >= 3600) return message.channel.send('Requests limited to 1 hour');
+    console.log(info.player_response.videoDetails)
+    if(info.player_response.videoDetails === undefined) return message.channel.send(`Invalid Video Details`);
+    if(info.player_response.videoDetails.lengthSeconds >= 3600) return message.channel.send('Requests limited to 1 hour');
+    info = info.player_response.videoDetails;
+    let thumbnails = info.thumbnail.thumbnails;
     setQueue(message, args, server, { 
-      title: info.title, link: link, author: info.author.name, duration: info.length_seconds, thumbnail: info.thumbnail_url, requestedBy: message.author.username
+      title: info.title, link: link, author: info.author, duration: info.lengthSeconds, thumbnail: thumbnails[thumbnails.length - 1].url, requestedBy: message.author.username
     })
   });
 }
 
-/* 
-  Adds the song to the server queue 
-  Checks if Fireside is in the channel
-  If not, joins the channel and calls the PlaySong fucntion
-*/
 async function setQueue(message, args, server, {title, link, author, duration, thumbnail, requestedBy}) {
   server.queue.queueInfo.splice(0, 0, {
     title: title, link: link, author: author, duration: duration, thumbnail: thumbnail, requestedBy: requestedBy

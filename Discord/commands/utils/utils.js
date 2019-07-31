@@ -45,9 +45,8 @@ module.exports = {
         return maxEl;
     },
     async timeParser(sec, format) {
-        // let d = Math.floor((sec / 3600) * 24);
-        let d = Math.floor(sec / (60 * 60 * 24));
-        let h = Math.floor(sec / 3600);
+        let d = Math.floor(sec / (3600 * 24));
+        let h = Math.floor(sec % (3600 * 24) / 3600);
         let m = Math.floor(sec % 3600 / 60);
         let s = Math.floor(sec % 3600 % 60);
 

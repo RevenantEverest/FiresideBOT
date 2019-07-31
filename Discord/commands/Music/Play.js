@@ -9,6 +9,7 @@ async function youtubeSearch(message, args, server, songRequest) {
     .then(results => {
       if(results.data.items.length < 1) return message.channel.send("No results found");
       let link = `https://www.youtube.com/watch?v=${results.data.items[0].id.videoId}`;
+      console.log(results.data.items[0].id.videoId)
       YTDL_GetInfo(message, args, server, link);
     })
     .catch(err => {
@@ -20,16 +21,18 @@ async function youtubeSearch(message, args, server, songRequest) {
 }
 
 async function YTDL_GetInfo(message, args, server, link) {
-  YTDL.getInfo(link, (err, info) => {
+  YTDL.getBasicInfo(link, (err, info) => {
     if(err) return message.channel.send("YTDL Get Info error.");
-    if(info.title === undefined) return message.channel.send(`Can't read title of undefined`);
-    if(info.length_seconds >= 3600) return message.channel.send('Requests limited to 1 hour');
-    let thumbnails = info.player_response.videoDetails.thumbnail.thumbnails;
+    console.log(info.player_response.videoDetails)
+    if(info.player_response.videoDetails === undefined) return message.channel.send(`Invalid Video Details`);
+    if(info.player_response.videoDetails.lengthSeconds >= 3600) return message.channel.send('Requests limited to 1 hour');
+    info = info.player_response.videoDetails;
+    let thumbnails = info.thumbnail.thumbnails;
     setQueue(message, args, server, { 
       title: info.title, 
       link: link, 
-      author: info.author.name, 
-      duration: info.length_seconds, 
+      author: info.author, 
+      duration: info.lengthSeconds, 
       thumbnail: thumbnails[thumbnails.length - 1].url, 
       requestedBy: message.author.username
     })

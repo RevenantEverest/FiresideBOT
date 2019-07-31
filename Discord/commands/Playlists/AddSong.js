@@ -144,10 +144,11 @@ async function youtubeSearch(message, args, songRequest, guildPlaylist, playlist
 async function YTDL_GetInfo(message, args, guildPlaylist, link, playlist) {
   YTDL.getInfo(link, (err, info) => {
     if(err) return message.channel.send("YTDL Get Info error.");
-    if(info.title === undefined) return message.channel.send(`Can't read title of undefined`);
-    if(info.length_seconds >= 600) return message.channel.send('Playlist Songs limited to 10 minutes');
-    let thumbnails = info.player_response.videoDetails.thumbnail.thumbnails;
-    let songInfo = { title: info.title, link: link, author: info.author.name, duration: info.length_seconds, thumbnail_url: thumbnails[thumbnails.length - 1].url };
+    if(info.player_response.videoDetails.title === undefined) return message.channel.send(`Can't read title of undefined`);
+    if(info.player_response.videoDetails.lengthSeconds >= 600) return message.channel.send('Playlist Songs limited to 10 minutes');
+    let info = info.player_response.videoDetails;
+    let thumbnails = info.thumbnail.thumbnails;
+    let songInfo = { title: info.title, link: link, author: info.author, duration: info.lengthSeconds, thumbnail_url: thumbnails[thumbnails.length - 1].url };
     if(guildPlaylist) getGuildPlaylistSongs(message, playlist, songInfo) ;
     else getUserPlaylistSongs(message, playlist, songInfo);
   });
