@@ -82,14 +82,12 @@ services.handleOnGuildCreate = async (bot, guild) => {
     welcome.general ? bot.channels.get(welcome.general.id).send(embed) : bot.channels.get(welcome.channels.id).send(embed);
 };
 
-/*
-    On Guild Delete
-*/
+services.handleOnGuildUpdate =async (bot, oldGuild, newGuild) => {
+
+};
+
 services.handleOnGuildDelete = async (bot, guild) => guildsController.removeGuild(bot, guild);
 
-/*
-    On Message
-*/
 services.handleOnMessage = async (bot, message) => {
     if(message.author.bot) return;
     if(message.channel.type === "dm") return ticketsController.handleTicket(bot, message);

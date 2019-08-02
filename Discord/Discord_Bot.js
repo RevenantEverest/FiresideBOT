@@ -57,7 +57,7 @@ Discord_Bot.on("emojiCreate", (emoji) => discordEventController.handleOnEmojiCre
 Discord_Bot.on("emojiUpdate", (oldEmoji, newEmoji) => discordEventController.handleOnEmojiUpdate(Discord_Bot, oldEmoji, newEmoji));
 Discord_Bot.on("emojiDelete", (emoji) => discordEventController.handleOnEmojiDelete(Discord_Bot, emoji));
 
-Discord_Bot.on("guildUpdate", (oldGuild, newGuild) => discordEventController(Discord_Bot, oldGuild, newGuild));
+Discord_Bot.on("guildUpdate", (oldGuild, newGuild) => discordEventController.handleGuildUpdate(Discord_Bot, oldGuild, newGuild));
 Discord_Bot.on("guildMemberAdd", (member) => discordEventController.handleOnMemberAdd(Discord_Bot, member));
 Discord_Bot.on("guildMemberUpdate", (oldMember, newMember) => discordEventController.handleOnMemberUpdate(Discord_Bot, oldMember, newMember));
 Discord_Bot.on("guildMemberRemove", (member) => discordEventController.handleOnMemberRemove(Discord_Bot, member));
