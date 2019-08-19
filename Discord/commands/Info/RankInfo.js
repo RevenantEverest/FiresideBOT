@@ -8,6 +8,8 @@ const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
 const qrec = pgp.errors.queryResultErrorCode;
 
+const errorHandler = require('../../controllers/errorHandler');
+
 async function getRank(settings, args, message) {
     ranksDB.findByGuildId(message.guild.id)
     .then(ranks => {
@@ -18,7 +20,7 @@ async function getRank(settings, args, message) {
     .catch(err => {
         if(err instanceof QRE && err.code === qrec.noData)
             message.channel.send("No Ranks Found");
-        else console.error(err);
+        else errorHandler(bot, message, err, "DB Error", "RankInfo");
     })
 }
 
@@ -38,7 +40,7 @@ async function handleRankInfo(settings, rank, message) {
     .catch(err => {
         if(err instanceof QRE && err.code === qrec.noData)
             message.channel.send("No Records Found");
-        else console.error(err);
+        else errorHandler(bot, message, err, "DB Error", "RankInfo");
     })
 };
 
@@ -63,7 +65,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
 
     settingsDB.findByGuildId(message.guild.id)
     .then(settings => getRank(settings, args, message))
-    .catch(err => console.error(err));
+    .catch(err => errorHandler(bot, message, err, "Error Finding Rank Settings", "RankInfo"));
 };
 
 module.exports.config = {

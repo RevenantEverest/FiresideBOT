@@ -5,16 +5,18 @@ const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
 const qrec = pgp.errors.queryResultErrorCode;
 
+const errorHandler = require('../../controllers/errorHandler');
+
 async function saveUserPlaylist(args, message) {
     userPlaylistsDB.save({ discord_id: message.author.id, name: args[1].toString(), public: true })
     .then(savedPlaylist => message.channel.send(`New playlist **${savedPlaylist.name}** created`))
-    .catch(err => console.log(err));
+    .catch(err => errorHandler(bot, message, err, "Error Saving Playlist", "CreatePlaylist"));
 }
 
 async function saveGuildPlaylist(args, message) {
     guildPlaylistsDB.save({ guild_id: message.guild.id, name: args[1].toString() })
     .then(playlist => message.channel.send(`New Server playlist **${playlist.name}** created`))
-    .catch(err => console.error(err));
+    .catch(err => errorHandler(bot, message, err, "Error Saving Playlist", "CreatePlaylist"));
 }
 
 async function findUserPlaylists(args, message) {
@@ -29,7 +31,7 @@ async function findUserPlaylists(args, message) {
     .catch(err => {
         if(err instanceof QRE && err.code === qrec.noData)
             saveUserPlaylist(args, message)
-        else console.error(err);
+        else errorHandler(bot, message, err, "DB Error", "CreatePlaylist");
     })
 }
 
@@ -45,7 +47,7 @@ async function findGuildPlaylists(args, message) {
     .catch(err => {
         if(err instanceof QRE && err.code === qrec.noData)
             saveGuildPlaylist(args, message)
-        else console.error(err);
+        else errorHandler(bot, message, err, "Error Saving Playlist", "CreatePlaylist");
     })
 }
 

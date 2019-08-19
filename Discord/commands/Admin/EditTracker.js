@@ -4,6 +4,8 @@ const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
 const qrec = pgp.errors.queryResultErrorCode;
 
+const errorHandler = require('../../controllers/errorHandler');
+
 async function getTwitchTrackers(message, args, channel_id, role_id) {
     args.splice(args.indexOf("-t"), 1);
     twitchTrackerDB.findById(args[1])
@@ -14,7 +16,7 @@ async function getTwitchTrackers(message, args, channel_id, role_id) {
     .catch(err => {
         if(err instanceof QRE && err.code === qrec.noData)
             message.channel.send(`No Tracker Found`);
-        else console.error(err);
+        else errorHandler(bot, message, err, "DB Error", "EditTracker");
     })
 }
 
@@ -32,7 +34,7 @@ async function updateTracker(message, args, channel_id, role_id, tracker) {
             `${uTracker.role_id !== "none" ? `and will tag <@&${uTracker.role_id}>` : ''}`
         );
     })
-    .catch(err => console.error(err));
+    .catch(err => errorHandler(bot, message, err, "Error Updating Tracker", "EditTracker"));
 }
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {

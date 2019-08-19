@@ -2,6 +2,8 @@ const Discord = require('discord.js');
 const ksoftServices = require('../../services/ksoftServices');
 const utils = require('../utils/utils');
 
+const errorHandler = require('../../controllers/errorHandler');
+
 /*
 
    If Lyrics data returns a character count over 1024 calls handlePages()

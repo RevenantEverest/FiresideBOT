@@ -10,13 +10,15 @@ const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
 const qrec = pgp.errors.queryResultErrorCode;
 
+const errorHandler = require('../../controllers/errorHandler');
+
 async function getSongs(args, message, server, playlist) {
   userSongsDB.findByPlaylistId(playlist.playlist_id)
   .then(songs => addToQueue(args, message, server, playlist, songs))
   .catch(err => {
     if(err instanceof QRE && err.code === qrec.noData)
       message.channel.send('No songs found in playlist `' + playlist.name + '`');
-    else console.log(err);
+    else errorHandler(bot, message, err, "DB Error", "Playlist");
   });
 }
 
@@ -29,9 +31,12 @@ async function addToQueue(args, message, server, playlist, songs) {
 
     if(idx === (songs.length - 1)) {
       message.channel.send(`Adding playlist **${playlist.name}** to the queue`);
-      if(!message.guild.voiceConnection) message.member.voiceChannel.join().then((connection) => {
-        playSong.playSong(connection, message, server);
-      })
+      if(!message.guild.voiceConnection) 
+        message.member.voiceChannel.join()
+        .then((connection) => {
+          playSong.playSong(connection, message, server);
+        })
+        .catch(err => console.error(err));
     }
   })
 }
@@ -63,7 +68,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     .catch(err => {
       if(err instanceof QRE && err.code === qrec.noData)
         message.channel.send('No playlist found by that name');
-      else console.log(err);
+      else errorHandler(bot, message, err, "DB Error", "Playlist");
     })
 };
 

@@ -4,14 +4,13 @@ const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
 const qrec = pgp.errors.queryResultErrorCode;
 
+const errorHandler = require('../../controllers/errorHandler');
+
 async function deleteTracker(message, tracker) {
     if(tracker.guild_id !== message.guild.id) return message.channel.send("Invalid ID");
     twitchTrackerDB.delete(tracker.id)
     .then(() => message.channel.send(`Deleted Tracker for **${tracker.twitch_username}**`))
-    .catch(err => {
-        message.channel.send("Error Deleting Tracker")
-        console.error(err);
-    })
+    .catch(err => errorHandler(bot, message, err, "Error Deleteing Tracker", "RemoveTracker"));
 }
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
@@ -24,8 +23,8 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     .then(tracker => deleteTracker(message, tracker))
     .catch(err => {
         if(err instanceof QRE && err.code === qrec.noData)
-            message.channel.send(`No tracker found`);
-        else console.error(err);
+            message.channel.send(`No Tracker Found`);
+        else errorHandler(bot, message, err, "Error Finding Tracker By ID", "RemoveTracker");
     });
 };
 

@@ -6,6 +6,8 @@ const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
 const qrec = pgp.errors.queryResultErrorCode;
 
+const errorHandler = require('../../controllers/errorHandler');
+
 async function sendEmbed(message, PREFIX, settings, logSettings) {
     let embed = new Discord.RichEmbed();
     embed
@@ -39,10 +41,10 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
         .catch(err => {
             if(err instanceof QRE && err.code === qrec.noData)
                 sendEmbed(message, PREFIX, settings, { enabled: false, channel_id: 'none' });
-            else console.error(err);
+            else errorHandler(bot, message, err, "Error Finding Log Settings", "Config");
         })
     })
-    .catch(err => console.error(err));
+    .catch(err => errorHandler(bot, message, err, "Error Finding Settings", "Config"));
 };
 
 module.exports.config = {

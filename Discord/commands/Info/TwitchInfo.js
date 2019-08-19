@@ -1,6 +1,8 @@
 const Discord = require('discord.js');
 const twitchServices = require('../../services/twitchServices');
 
+const errorHandler = require('../../controllers/errorHandler');
+
 async function checkStreamStatus(args, message, info) {
     twitchServices.getTwitchStreamStatus(args[1])
         .then(streamStatus => {
@@ -18,7 +20,7 @@ async function checkStreamStatus(args, message, info) {
                 sendTwitchUserInfo(args, message, info);
             } 
         })
-        .catch(err => console.error(err));
+        .catch(err => errorHandler(bot, message, err, "Twitch API Error", "TwitchInfo"));
 
 };
 
@@ -41,7 +43,7 @@ async function getTwitchInfo(args, message) {
         .catch(err => {
             if(err.response.status === 404)
                 message.channel.send('No Twitch User Found');
-            else console.error(err);
+            else errorHandler(bot, message, err, "Twitch API Error", "TwitchInfo");
         })
 };
 

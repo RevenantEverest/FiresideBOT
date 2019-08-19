@@ -3,6 +3,8 @@ const youtubeServices = require('../../services/youtubeServices');
 const playSong = require('../utils/playSong');
 const utils = require('../utils/utils');
 
+const errorHandler = require('../../controllers/errorHandler');
+
 async function youtubeSearch(message, args, server, songRequest) {
   youtubeServices.youtubeSearch(songRequest)
     .then(results => {
@@ -12,21 +14,14 @@ async function youtubeSearch(message, args, server, songRequest) {
     })
     .catch(err => {
       if(err.response.status === 400) {
-        message.channel.send('Invalid Search Request');
-        console.error(err)
+        errorHandler(bot, message, err, "Invalid Search Request", "PlayNext")
       }
     });
 }
 
-/*
-  Uses the link passed in to grab more info about the request
-  Parses the info and passes it on to SetQueue
-
-  Checks if song length is longer than 1 hour
-*/
 async function YTDL_GetInfo(message, args, server, link) {
   YTDL.getInfo(link, (err, info) => {
-    if(err) return message.channel.send("YTDL Get Info error.");
+    if(err) return errorHandler(bot, message, err, "YTDL Error", "PlayNext");
     if(info.title === undefined) return message.channel.send(`Can't read title of undefined`);
     if(info.length_seconds >= 3600) return message.channel.send('Requests limited to 1 hour');
     setQueue(message, args, server, { 
@@ -35,19 +30,17 @@ async function YTDL_GetInfo(message, args, server, link) {
   });
 }
 
-/* 
-  Adds the song to the server queue 
-  Checks if Fireside is in the channel
-  If not, joins the channel and calls the PlaySong fucntion
-*/
 async function setQueue(message, args, server, {title, link, author, duration, thumbnail, requestedBy}) {
   server.queue.queueInfo.splice(0, 0, {
     title: title, link: link, author: author, duration: duration, thumbnail: thumbnail, requestedBy: requestedBy
   });
   message.channel.send(`**${title}** was added to the queue. In position **#1**`);
-  if(!message.guild.voiceConnection) message.member.voiceChannel.join().then((connection) => {
-    playSong.playSong(connection, message, server);
-  })
+  if(!message.guild.voiceConnection) 
+    message.member.voiceChannel.join()
+    .then((connection) => {
+      playSong.playSong(connection, message, server);
+    })
+    .catch(err => console.error(err));
 }
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {

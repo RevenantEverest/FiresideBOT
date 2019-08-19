@@ -8,28 +8,30 @@ const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
 const qrec = pgp.errors.queryResultErrorCode;
 
+const errorHandler = require('../../controllers/errorHandler');
+
 async function deleteUserPlaylistSongs(playlist, message) {
     userSongsDB.deletePlaylistSongs(playlist.playlist_id)
     .then(() => message.channel.send(`Playlist **${playlist.name}** has been deleted`))
-    .catch(err => console.error(err));
+    .catch(err => errorHandler(bot, message, err, "Error Deleteing Playlist Songs", "DeletePlaylist"));
 };
 
 async function deleteGuildPlaylistSongs(playlist, message) {
     guildSongsDB.deletePlaylistSongs(playlist.playlist_id)
     .then(() => message.channel.send(`Server Playlist **${playlist.name}** has been deleted`))
-    .catch(err => console.error(err));
+    .catch(err => errorHandler(bot, message, err, "Error Deleteing Playlist Songs", "DeletePlaylist"));
 }
 
 async function deleteUserPlaylist(playlist, message) {
     userPlaylistsDB.delete(playlist.playlist_id)
     .then(() => deleteUserPlaylistSongs(playlist, message))
-    .catch(err => console.error(err))
+    .catch(err => errorHandler(bot, message, err, "Error Deleteing Playlist", "DeletePlaylist"))
 };
 
 async function deleteGuildPlaylist(playlist, message) {
     guildPlaylistsDB.delete(playlist.playlist_id)
     .then(() => deleteGuildPlaylistSongs(playlist, message))
-    .catch(err => console.error(err))
+    .catch(err => errorHandler(bot, message, err, "Error Deleteing Playlist", "DeletePlaylist"))
 }
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
@@ -42,7 +44,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
         .catch(err => {
             if(err instanceof QRE && err.code === qrec.noData) 
                 message.channel.send(`No playlist by that name found`);
-            else console.log(err);
+            else errorHandler(bot, message, err, "DB Error", "DeletePlaylist");
         })
     }
     else {
@@ -51,7 +53,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
         .catch(err => {
             if(err instanceof QRE && err.code === qrec.noData) 
                 message.channel.send(`No playlist by that name found`);
-            else console.log(err);
+            else errorHandler(bot, message, err, "DB Error", "DeletePlaylist");
         })
     } 
 };

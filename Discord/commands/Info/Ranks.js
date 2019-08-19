@@ -5,6 +5,8 @@ const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
 const qrec = pgp.errors.queryResultErrorCode;
 
+const errorHandler = require('../../controllers/errorHandler');
+
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     let embed = new Discord.RichEmbed();
     embed
@@ -22,10 +24,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     })
     .catch(err => {
         if(err instanceof QRE && err.code === qrec.noData) message.channel.send("No Ranks Found");
-        else {
-            message.channel.send("Error Finding Rank Number");
-            console.error(err);
-        };
+        else errorHandler(bot, message, err, "Error Finding Ranks", "Ranks");
     })
     
 };

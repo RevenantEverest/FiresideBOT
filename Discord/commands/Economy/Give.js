@@ -4,11 +4,13 @@ const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
 const qrec = pgp.errors.queryResultErrorCode;
 
+const errorHandler = require('../../controllers/errorHandler');
+
 function updateUserCurrency(u_Currency, r_Currency, settings, amountGiven, message) {
     let updatedCurrency = parseInt(u_Currency.currency, 10) - amountGiven;
     discordCurrencyDB.update({ currency: updatedCurrency, discord_id: u_Currency.discord_id, guild_id: message.guild.id })
     .then(() => updateRecipientCurrency(r_Currency, settings, amountGiven, message))
-    .catch(err => console.error(err));
+    .catch(err => errorHandler(bot, message, err, "Error Updating Currency Record", "Give"));
 };
 
 function updateRecipientCurrency(r_Currency, settings, amountGiven, message) {
@@ -17,7 +19,7 @@ function updateRecipientCurrency(r_Currency, settings, amountGiven, message) {
     .then(() => {
         message.channel.send(`**${message.author.username}** gave **${message.mentions.users.array()[0].username}**, **${amountGiven.toLocaleString()} ${settings.currency_name}**`);
     })
-    .catch(err => console.error(err));
+    .catch(err => errorHandler(bot, message, err, "Error Updating Recipient Record", "Give"))
 };
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
@@ -40,20 +42,19 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     ];
 
     currencyDB.findCurrencySettings(message.guild.id)
-        .then(settings => {
-            Promise.all(currencyPromises).then(currencyData => {
-                if(currencyData[0].currency < amountGiven) return message.channel.send('Insufficient Funds...');
+    .then(settings => {
+        Promise.all(currencyPromises).then(currencyData => {
+            if(currencyData[0].currency < amountGiven) return message.channel.send('Insufficient Funds...');
 
-                updateUserCurrency(currencyData[0], currencyData[1], settings, amountGiven, message);
-            })
-            .catch(err => {
-                if(err instanceof QRE && err.code === qrec.noData) {
-                    message.channel.send("No currency record found.")
-                }
-                else console.error(err);
-            })
+            updateUserCurrency(currencyData[0], currencyData[1], settings, amountGiven, message);
         })
-        .catch(err => console.error(err));
+        .catch(err => {
+            if(err instanceof QRE && err.code === qrec.noData)
+                message.channel.send("No currency record found.");
+            else errorHandler(bot, message, err, "DB Error", "Give");
+        })
+    })
+    .catch(err => errorHandler(bot, message, err, "Error Finding Currency Settings", "Give"));
 };
 
 module.exports.config = {

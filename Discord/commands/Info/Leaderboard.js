@@ -8,14 +8,17 @@ const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
 const qrec = pgp.errors.queryResultErrorCode;
 
+const errorHandler = require('../../controllers/errorHandler');
+
 async function getRanks(bot, message, settings) {
     ranksDB.findByGuildId(message.guild.id)
     .then(ranks => getRecords(bot, message, settings, ranks))
     .catch(err => {
-        if(err instanceof QRE && err.code === qrec.noData) message.channel.send("No Ranks Found");
-        else console.error(err);
+        if(err instanceof QRE && err.code === qrec.noData) 
+            message.channel.send("No Ranks Found");
+        else errorHandler(bot, message, err, "DB Error", "Leaderboards");
     });
-}
+};
 
 async function getRecords(bot, message, settings, ranks) {
     recordsDB.findByGuildId(message.guild.id)
@@ -28,8 +31,9 @@ async function getRecords(bot, message, settings, ranks) {
         sendEmbed(bot, message, settings, ranks, top10);
     })
     .catch(err => {
-        if(err instanceof QRE && err.code === qrec.noData) message.channel.send("No Record Found");
-        else console.error(err);
+        if(err instanceof QRE && err.code === qrec.noData) 
+            message.channel.send("No Record Found");
+        else errorHandler(bot, message, err, "DB Error", "Leaderboards");
     })
 }
 
@@ -61,7 +65,7 @@ async function sendEmbed(bot, message, settings, ranks, records) {
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     settingsDB.findByGuildId(message.guild.id)
     .then(settings => getRanks(bot, message, settings))
-    .catch(err => console.error(err));
+    .catch(err => errorHandler(bot, message, err, "Error Finding Rank Settings", "Leaderboards"));
 };
 
 module.exports.config = {

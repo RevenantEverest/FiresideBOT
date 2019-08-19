@@ -4,6 +4,8 @@ const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
 const qrec = pgp.errors.queryResultErrorCode;
 
+const errorHandler = require('../../controllers/errorHandler');
+
 async function updatePlaylistRoles(message, playlist, role_id) {
     let roles = playlist.roles
     if(playlist.roles) {
@@ -15,7 +17,7 @@ async function updatePlaylistRoles(message, playlist, role_id) {
 
     guildPlaylistsDB.update({ guild_id: message.guild.id, playlist_id: playlist.playlist_id, name: playlist.name, roles: roles })
     .then(() => message.channel.send(`Users with the role <@&${role_id}> can now add songs to Server Playlist **${playlist.name}**`))
-    .catch(err => console.error(err));
+    .catch(err => errorHandler(bot, message, err, "Error Updating Playlist", "AddPlaylistRoles"));
 }
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
@@ -34,7 +36,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     .catch(err => {
         if(err instanceof QRE && err.code === qrec.noData)
             message.channel.send("No Playlist found by that name");
-        else console.error(err);
+        else errorHandler(bot, message, err, "DB Error", "AddPlaylistRoles");
     })
 };
 

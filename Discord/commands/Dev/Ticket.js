@@ -9,69 +9,60 @@ const QRE = pgp.errors.QueryResultError;
 const qrec = pgp.errors.queryResultErrorCode;
 
 async function getTicket(id, bot, message) {
-    return discordTicketsDB.findById(id)
-            .catch(err => {
-                console.error(err);
-            });
+    return discordTicketsDB.findById(id).catch(err => console.error(err));
 };
 
 async function displayOpenTickets(bot, args, message) {
     discordTicketsDB.findAll()
-        .then(tickets => {
-            let embed = new Discord.RichEmbed();
-            let ticketID = '';
-            let mostRecent = null;
+    .then(tickets => {
+        let embed = new Discord.RichEmbed();
+        let ticketID = '';
+        let mostRecent = null;
 
-            tickets.forEach(el => {
-                ticketID += ` ${el.id}\n`;
-                if(!mostRecent || el.id > mostRecent.id) mostRecent = el;
-            });
+        tickets.forEach(el => {
+            ticketID += ` ${el.id}\n`;
+            if(!mostRecent || el.id > mostRecent.id) mostRecent = el;
+        });
 
-            if(ticketID.split("").length > 1000) return;
+        if(ticketID.split("").length > 1000) return;
 
-            embed
-            .setColor(0x00ff00)
-            .setTitle('Open Tickets')
-            .addBlankField()
-            .addField('Amount:', tickets.length, true)
-            .addField('ID:', ticketID, true)
-            .addBlankField()
-            .addField('Most Recent:', `**ID:** ${mostRecent.id}\n**User:** ${bot.users.get(mostRecent.discord_id)}\n**Date Received:** ${mostRecent.ticket_date}`)
+        embed
+        .setColor(0x00ff00)
+        .addField(`**Open Tickets**`, `**Amount:** ${tickets.length}`)
+        .addBlankField()
+        .addField(`Ticket ID's:`, ticketID, true)
+        .addBlankField()
+        .addField('Most Recent:', `**ID:** ${mostRecent.id}\n**User:** ${bot.users.get(mostRecent.discord_id)}\n**Date Received:** ${mostRecent.ticket_date}`)
             
-            message.channel.send(embed);
-        })
-        .catch(err => {
-            if(err instanceof QRE && err.code === qrec.noData)
-                message.channel.send("No open tickets");
-            else console.error(err);
-        })
+        message.channel.send(embed);
+    })
+    .catch(err => {
+        if(err instanceof QRE && err.code === qrec.noData)
+            message.channel.send("No open tickets");
+        else console.error(err);
+    })
 };
 
 async function displayClosedTickets(bot, args, message) {
     discordClosedTicketsDB.findAll()
-        .then(tickets => {
-            let embed = new Discord.RichEmbed();
-            let mostRecent = null;
+    .then(tickets => {
+        let embed = new Discord.RichEmbed();
+        let mostRecent = tickets[tickets.length - 1];
 
-            tickets.forEach(el => {
-                if(!mostRecent || el.id > mostRecent.id) mostRecent = el;
-            });
-
-            embed
-            .setColor(0x00ff00)
-            .setTitle('Closed Tickets')
-            .addField('Amount:', tickets.length, true)
-            .addBlankField()
-            .addField('Most Recent:', `**ID:** ${mostRecent.ticket_id}\n**User:** ${bot.users.get(mostRecent.discord_id)}\n` + 
+        embed
+        .setColor(0x00ff00)
+        .setTitle(`**Closed Tickets**`, `**Amount:** ${tickets.length}`)
+        .addBlankField()
+        .addField('Most Recent:', `**ID:** ${mostRecent.ticket_id}\n**User:** ${bot.users.get(mostRecent.discord_id)}\n` + 
                                       `**Closed By:** ${mostRecent.closed_by}\n**Date Closed:** ${mostRecent.close_date}`)
 
-            message.channel.send(embed);
-        })
-        .catch(err => {
-            if(err instanceof QRE && err.code === qrec.noData)
-                message.channel.send("No closed tickets");
-            else console.error(err);
-        })
+        message.channel.send(embed);
+    })
+    .catch(err => {
+        if(err instanceof QRE && err.code === qrec.noData)
+            message.channel.send("No closed tickets");
+        else console.error(err);
+    });
 };
 
 async function displayTicket(bot, args, message) {

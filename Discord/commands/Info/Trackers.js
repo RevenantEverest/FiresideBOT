@@ -5,6 +5,8 @@ const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
 const qrec = pgp.errors.queryResultErrorCode;
 
+const errorHandler = require('../../controllers/errorHandler');
+
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     let embed = new Discord.RichEmbed();
     embed.setColor(0xff9999).setTitle("Available Trackers")
@@ -23,7 +25,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     .catch(err => {
         if(err instanceof QRE && err.code === qrec.noData)
             return message.channel.send("No Available Trackers")
-        else console.error(err);
+        else errorHandler(bot, message, err, "DB Error", "Trackers");
     })
 };
 

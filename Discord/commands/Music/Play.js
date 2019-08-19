@@ -3,6 +3,8 @@ const YTDL = require('ytdl-core');
 const youtubeServices = require('../../services/youtubeServices');
 const playSong = require('../utils/playSong');
 const utils = require('../utils/utils');
+
+const errorHandler = require('../../controllers/errorHandler');
  
 async function youtubeSearch(message, args, server, songRequest) {
   youtubeServices.youtubeSearch(songRequest)
@@ -12,16 +14,13 @@ async function youtubeSearch(message, args, server, songRequest) {
       YTDL_GetInfo(message, args, server, link);
     })
     .catch(err => {
-      if(err.response.status === 400) {
-        message.channel.send('Invalid Search Request');
-        console.error(err)
-      }
+      if(err.response.status === 400) errorHandler(bot, message, err, "Invalid Search Request", "Play");
     });
 }
 
 async function YTDL_GetInfo(message, args, server, link) {
   YTDL.getInfo(link, (err, info) => {
-    if(err) return message.channel.send("YTDL Get Info error.");
+    if(err) return errorHandler(bot, message, err, "YTDL Error", "Play")
     if(info.title === undefined) return message.channel.send(`Can't read title of undefined`);
     if(info.length_seconds >= 3600) return message.channel.send('Requests limited to 1 hour');
     let thumbnails = info.player_response.videoDetails.thumbnail.thumbnails;
@@ -41,9 +40,12 @@ async function setQueue(message, args, server, {title, link, author, duration, t
     title: title, link: link, author: author, duration: duration, thumbnail: thumbnail, requestedBy: requestedBy
   });
   message.channel.send(`**${title}** was added to the queue. In position **#${server.queue.queueInfo.length}**`);
-  if(!message.guild.voiceConnection) message.member.voiceChannel.join().then((connection) => {
-    playSong.playSong(connection, message, server);
-  })
+  if(!message.guild.voiceConnection) 
+    message.member.voiceChannel.join()
+    .then((connection) => {
+      playSong.playSong(connection, message, server);
+    })
+    .catch(err => console.error(err));
 }
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {

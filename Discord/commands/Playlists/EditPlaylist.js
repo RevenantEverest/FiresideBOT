@@ -5,6 +5,8 @@ const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
 const qrec = pgp.errors.queryResultErrorCode;
 
+const errorHandler = require('../../controllers/errorHandler');
+
 async function findUserPlaylists(args, message, privacy) {
     userPlaylistsDB.findByDiscordId(message.author.id)
     .then(playlists => {
@@ -17,7 +19,7 @@ async function findUserPlaylists(args, message, privacy) {
     .catch(err => {
         if(err instanceof QRE && err.code === qrec.noData)
             return message.channel.send("No Playlist Found");
-        else console.error(err);
+        else errorHandler(bot, message, err, "DB Error", "EditPlaylist");
     })
 }
 
@@ -34,7 +36,7 @@ async function findGuildPlaylists(args, message) {
     .catch(err => {
         if(err instanceof QRE && err.code === qrec.noData)
             return message.channel.send("No Playlist Found");
-        else console.error(err);
+        else errorHandler(bot, message, err, "DB Error", "EditPlaylist");
     })
 }
 
@@ -45,13 +47,13 @@ async function updateUserPlaylist(args, message, playlist, privacy) {
         if(privacy) updateText = `Playlist **${playlist.name}** is now **${uPlaylist.public ? 'Public' : 'Private'}**`
         message.channel.send(updateText);
     })
-    .catch(err => console.error(err));
+    .catch(err => errorHandler(bot, message, err, "Error Updating Playlist", "EditPlaylist"));
 }
 
 async function updateGuildPlaylist(args, message, playlist) {
     guildPlaylistsDB.update({playlist_id: playlist.playlist_id, guild_id: message.guild.id, name: args[2], roles: playlist.roles})
     .then(uPlaylist => message.channel.send(`Playlist **${playlist.name}** changed to **${uPlaylist.name}**`))
-    .catch(err => console.error(err));
+    .catch(err => errorHandler(bot, message, err, "Error Updating Playlist", "EditPlaylist"));
 }
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {

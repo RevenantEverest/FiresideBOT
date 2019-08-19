@@ -12,6 +12,8 @@ const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
 const qrec = pgp.errors.queryResultErrorCode;
 
+const errorHandler = require('../../controllers/errorHandler');
+
 async function findUserPlaylist(args, message, server, guildPlaylist, playlistSearch, request) {
   userPlaylistsDB.findByDiscordIdAndPlaylistName({ discord_id: message.author.id, name: playlistSearch })
   .then(playlist => {
@@ -27,7 +29,7 @@ async function findUserPlaylist(args, message, server, guildPlaylist, playlistSe
   .catch(err => {
     if(err instanceof QRE && err.code === qrec.noData)
         return message.channel.send(`No playlist by that name found`);
-    else console.error(err);
+    else errorHandler(bot, message, err, "DB Error", "AddSong");
   });
 }
 
@@ -52,7 +54,7 @@ async function findGuildPlaylist(args, message, server, guildPlaylist, playlistS
   .catch(err => {
     if(err instanceof QRE && err.code === qrec.noData)
         return message.channel.send(`No playlist by that name found`);
-    else console.error(err);
+    else errorHandler(bot, message, err, "DB Error", "AddSong");
   });
 }
 
@@ -72,7 +74,7 @@ async function getGuildPlaylistSongs(message, playlist, info) {
       saveToGuildPlaylist(message, playlist.name, {
         playlist_id: playlist.playlist_id, title: info.title, link: info.link, author: info.author, duration: info.duration, thumbnail_url: info.thumbnail 
       });
-    else console.error(err);
+    else errorHandler(bot, message, err, "DB Error", "AddSong");
   })
 }
 
@@ -92,7 +94,7 @@ async function getUserPlaylistSongs(message, playlist, info) {
       saveToUserPlaylist(message, playlist.name, {
         playlist_id: playlist.playlist_id, title: info.title, link: info.link, author: info.author, duration: info.duration, thumbnail_url: info.thumbnail 
       });
-    else console.error(err);
+    else errorHandler(bot, message, err, "DB Error", "AddSong");
   })
 }
 
@@ -111,19 +113,13 @@ async function checkForDuplicates(songs, info) {
 async function saveToUserPlaylist(message, playlist_name, data) {
   userSongsDB.save(data) 
   .then(playlist => message.channel.send(`**${data.title}** added to playlist **${playlist_name}** with ID **${playlist.song_id}**`))
-  .catch(err => {
-    message.channel.send("Error saving to Playlist");
-    console.error(err);
-  });
+  .catch(err => errorHandler(bot, message, err, "Error Saving to Playlist", "AddSong"));
 }
 
 async function saveToGuildPlaylist(message, playlist_name, data) {
   guildSongsDB.save(data) 
   .then(playlist => message.channel.send(`**${data.title}** added to playlist **${playlist_name}** with ID **${playlist.song_id}**`))
-  .catch(err => {
-    message.channel.send("Error saving to Playlist");
-    console.error(err);
-  });
+  .catch(err => errorHandler(bot, message, err, "Error Saving to Playlist", "AddSong"));
 }
 
 async function youtubeSearch(message, args, songRequest, guildPlaylist, playlist) {
@@ -134,16 +130,13 @@ async function youtubeSearch(message, args, songRequest, guildPlaylist, playlist
     YTDL_GetInfo(message, args, guildPlaylist, link, playlist);
   })
   .catch(err => {
-    if(err.response.status === 400) {
-      message.channel.send('Invalid Search Request');
-      console.error(err)
-    }
+    if(err.response.status === 400) errorHandler(bot, message, err, "Invalid Search Request", "AddSong");
   })
 }
 
 async function YTDL_GetInfo(message, args, guildPlaylist, link, playlist) {
   YTDL.getInfo(link, (err, info) => {
-    if(err) return message.channel.send("YTDL Get Info error.");
+    if(err) return errorHandler(bot, message, err, "YTDL Error", "AddSong");
     if(info.title === undefined) return message.channel.send(`Can't read title of undefined`);
     if(info.length_seconds >= 600) return message.channel.send('Playlist Songs limited to 10 minutes');
     let thumbnails = info.player_response.videoDetails.thumbnail.thumbnails;
