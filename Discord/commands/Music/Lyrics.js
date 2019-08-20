@@ -4,24 +4,9 @@ const utils = require('../utils/utils');
 
 const errorHandler = require('../../controllers/errorHandler');
 
-function handlePages(message, results, bot) {
+async function handleEmbed(results, tempArr, index) {
     let embed = new Discord.RichEmbed();
-    let CPI = 0;
   
-    let tempArr = [];
-    let tempStr = '';
-    let counter = 0;
-    for(let i = 0; i < results.lyrics.split("").length; i++) {
-        counter++;
-        tempStr += results.lyrics.split("")[i];
-        if(counter === 900) {
-            tempArr.push(tempStr);
-            tempStr = '';
-            counter = 0;
-        }
-    }
-    tempArr.push(tempStr);
-
     embed
     .setThumbnail(results.album_art)
     .setColor(0xff3399)
@@ -31,8 +16,30 @@ function handlePages(message, results, bot) {
     .addField('Album: ', results.album, true)
     .addField('Song: ', results.name, true)
     .addField('Release Year: ', results.album_year, true)
-    .addField('Lyrics: ', `${tempArr[CPI]} \n\n *Page ${CPI + 1}/${tempArr.length}*`)
+    .addField('Lyrics: ', `${tempArr[index]} \n\n *Page ${index + 1}/${tempArr.length}*`)
     .setFooter(`Powered By KSoft.Si`, `https://cdn.ksoft.si/images/Logo1024-W.png`)
+  
+    return embed;
+  };
+
+async function handlePages(message, results, bot) {
+    let index = 0;
+  
+    let tempArr = [];
+    let tempStr = '';
+    let counter = 0;
+    for(let i = 0; i < results.lyrics.split("").length; i++) {
+        counter++;
+        tempStr += results.lyrics.split("")[i];
+        if(counter === 400) {
+            tempArr.push(tempStr);
+            tempStr = '';
+            counter = 0;
+        }
+    }
+    tempArr.push(tempStr);
+
+    let embed = await handleEmbed(results, tempArr, index);
   
     message.channel.send(embed).then(async (msg) => {
         await msg.react("⏪");
@@ -40,57 +47,19 @@ function handlePages(message, results, bot) {
         await msg.react("⏩");
   
         const r_collector = new Discord.ReactionCollector(msg, r => r.users.array()[r.users.array().length - 1].id === message.author.id, { time: 60000 });
-        r_collector.on('collect', (reaction, user) => {
+        r_collector.on('collect', async (reaction, user) => {
             if(reaction.users.array()[reaction.users.array().length - 1].id === bot.user.id) return;
-            if(reaction.emoji.name === "⏪") {
-  
-                if(CPI === 0) return reaction.remove(reaction.users.array()[reaction.users.array().length - 1].id);
+            if(reaction.emoji.name === "⏹") r_collector.stop();
 
-                CPI--;
-                let backEmbed = new Discord.RichEmbed();
+            if(reaction.emoji.name === "⏪") index === 0 ? index = (tempArr.length - 1) : index--;
+            else if(reaction.emoji.name === "⏩") index === (tempArr.length - 1) ? index = 0 : index++;
 
-                backEmbed
-                .setThumbnail(results.album_art)
-                .setColor(0xff3399)
-                .setTitle('**Song Info**')
-                .addBlankField()
-                .addField('Artist: ', results.artist, true)
-                .addField('Album: ', results.album, true)
-                .addField('Song: ', results.name, true)
-                .addField('Release Year: ', results.album_year, true)
-                .addField('Lyrics: ', `${tempArr[CPI]} \n\n *Page ${CPI + 1}/${tempArr.length}*`)
-                .setFooter(`Powered By KSoft.Si `, `https://cdn.ksoft.si/images/Logo1024-W.png`)
-  
-                reaction.message.edit(backEmbed);
-                reaction.remove(reaction.users.array()[reaction.users.array().length - 1].id);
-  
-            }else if(reaction.emoji.name === "⏩") {
-  
-                if(CPI === (tempArr.length - 1)) return reaction.remove(reaction.users.array()[reaction.users.array().length - 1].id);
-  
-                CPI++;
-                let forwardEmbed = new Discord.RichEmbed();
+            embed = await handleEmbed(results, tempArr, index);
 
-                forwardEmbed
-                .setThumbnail(results.album_art)
-                .setColor(0xff3399)
-                .setTitle('**Song Info**')
-                .addBlankField()
-                .addField('Artist: ', results.artist, true)
-                .addField('Album: ', results.album, true)
-                .addField('Song: ', results.name, true)
-                .addField('Release Year: ', results.album_year, true)
-                .addField('Lyrics: ', `${tempArr[CPI]} \n\n *Page ${CPI + 1}/${tempArr.length}*`)
-                .setFooter(`Powered By KSoft.Si`, `https://cdn.ksoft.si/images/Logo1024-W.png`)
-  
-                reaction.message.edit(forwardEmbed);
-                reaction.remove(reaction.users.array()[reaction.users.array().length - 1].id);
-  
-            }else if(reaction.emoji.name === "⏹") {
-                msg.clearReactions();
-                r_collector.stop();
-            }
+            reaction.message.edit(embed);
+            reaction.remove(reaction.users.array()[reaction.users.array().length - 1].id);
         });
+        r_collector.on("end", () => msg.clearReactions());
     })
 };
 
