@@ -42,7 +42,7 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 
 - [DisableCommand](https://help.firesidebot.com/commands/disablecommand) `<param>`  
 **Desc**: Disables a Command  
-**Aliases**:   
+**Aliases**: `disabledcommands` `dc`   
 **Params**: Command Name or Alias  
 **Example**: `?disablecommand play`  
 
@@ -59,9 +59,15 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Flags**: `-t`   
 **Example**: `?edittracker -t 108 #general @everyone`  
 
+- [editWelcomeMessage](https://help.firesidebot.com/commands/editwelcomemessage) `<param>`  
+**Desc**: Edit a welcome message that get's sent to anyone who joins the server (Also enables Welcome Message)  
+**Aliases**: `ewm`   
+**Params**: Message (1024 Character Limit)  
+**Example**: `?editwelcomemessage Thank you for joining my server!`  
+
 - [EnableCommand](https://help.firesidebot.com/commands/enablecommand) `<param>`  
 **Desc**: Enables a Command  
-**Aliases**: ``   
+**Aliases**: `ec`   
 **Params**: Command Name or Alias  
 **Example**: `?enablecommand play`  
 
@@ -84,11 +90,21 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Flags**: `-t`   
 **Example**: `?removetracker -t 53`  
 
+- [RemoveWelcomeMessage](https://help.firesidebot.com/commands/removewelcomemessage)   
+**Desc**: Remove the current Welcome Message (Also disables Welcome Message)  
+**Aliases**: `rwm`   
+**Example**: `?removewelcomemessage`  
+
 - [TwitchTracker](https://help.firesidebot.com/commands/twitchtracker) `<param>`  
 **Desc**: Creates a tracker for a Twitch User that posts when they're live to a text channel  
 **Aliases**: `tt` `ttracker`   
 **Params**: Twitch Username / #Channel Tag / @Role Tag  
 **Example**: `?twitchtracker RevenantEverest #bot-commands`  
+
+- [ViewWelcomeMessage](https://help.firesidebot.com/commands/viewwelcomemessage)   
+**Desc**: Get sent an example of your server's welcome message in a DM  
+**Aliases**: `vwm`   
+**Example**: `?viewwelcomemessage`  
 
   
 

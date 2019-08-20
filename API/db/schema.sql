@@ -131,6 +131,12 @@ CREATE TABLE guild_log_settings (
   channel_id VARCHAR(255)
 );
 
+CREATE TABLE guild_welcome_message (
+  id SERIAL PRIMARY KEY,
+  guild_id VARCHAR(255),
+  message VARCHAR(1024)
+);
+
 CREATE TABLE regulars (
   regular_id SERIAL PRIMARY KEY,
   channel VARCHAR(255),

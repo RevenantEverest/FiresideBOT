@@ -18,14 +18,14 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     if(cmd) {
         db.findByGuildId(message.guild.id)
         .then(dCmd => {
-            dCmd = dCmd.map(el => el.command);
-            if(dCmd.includes(cmd.config.name))
-                enableCommand(bot, message, cmd, dCmd[dCmd.indexOf(cmd.config.name)].id)
+            dCmd_Names = dCmd.map(el => el.command);
+            if(dCmd_Names.includes(cmd.config.name))
+                enableCommand(bot, message, cmd.config, dCmd[dCmd_Names.indexOf(cmd.config.name)].id);
             else return message.channel.send(`**${cmd.config.d_name}** is already enabled`)
         })
         .catch(err => {
             if(err instanceof QRE && err.code === qrec.noData)
-                enableCommand(bot, message, command.config);
+                message.channel.send(`No commands currently disabled`);
             else errorHandler(bot, message, err, "DB Error", "EnableCommand");
         })
     }
@@ -35,7 +35,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
 module.exports.config = {
     name: 'enablecommand',
     d_name: 'EnableCommand',
-    aliases: [''],
+    aliases: ['ec'],
     params: { required: true, params: 'Command Name or Alias' },
     category: 'Admin',
     desc: 'Enables a Command',

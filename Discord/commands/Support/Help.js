@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const pagination = require('../utils/pagination');
+const disabledCommandsDB = require('../../models/disabledCommandsDB');
 
 function helpSpec(PREFIX, message, args, bot, contentArr) {
     let embed = new Discord.RichEmbed();
@@ -13,7 +14,7 @@ function helpSpec(PREFIX, message, args, bot, contentArr) {
     else if(bot.commands.get(args[1].toLowerCase()) || bot.commands.get(bot.aliases.get(args[1].toLowerCase()))) {
       let helpInfo = bot.commands.get(bot.aliases.get(args[1].toLowerCase())) || bot.commands.get(args[1].toLowerCase());
       
-      // Var redefinition required for aliases to apply 
+      // Variable redefinition required for aliases to apply 
       helpInfo = helpInfo.config;
 
       embed
@@ -67,13 +68,19 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
       }
     ];  
     let commands = bot.commands.array();
+    let dCommands = [];
 
+    await disabledCommandsDB.findByGuildId(message.guild.id)
+    .then(commands => dCommands = commands.map(el => el.command))
+    .catch(err => console.error(err));
+
+    console.log(dCommands)
     categories.forEach(el => contentArr.push({ category: el, fields: [] }));
 
     commands.forEach(el => {
       if(el.config.category && contentArr[contentArr.map(e => e.category).indexOf(el.config.category)])
         contentArr[contentArr.map(e => e.category).indexOf(el.config.category)].fields.push({
-          field: `${el.config.d_name} ${el.config.params ? (el.config.params.required ? '`<param>`' : '`[param]`') : ''}`, 
+          field: `${dCommands.includes(el.config.name) ? '❌' : ''} ${el.config.d_name} ${el.config.params ? (el.config.params.required ? '`<param>`' : '`[param]`') : ''}`, 
           value: (el.config.desc === '' ? '*N/A*' : el.config.desc),
           inline: false
         });
