@@ -12,7 +12,7 @@ const qrec = pgp.errors.queryResultErrorCode;
 
 const errorHandler = require('../../controllers/errorHandler');
 
-async function getSongs(args, message, server, playlist) {
+async function getSongs(bot, args, message, server, playlist) {
   userSongsDB.findByPlaylistId(playlist.playlist_id)
   .then(songs => addToQueue(args, message, server, playlist, songs))
   .catch(err => {
@@ -63,12 +63,12 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
       if(args.includes("-i")) return viewPlaylist.viewUserPlaylist(message, (discord_id ? discord_id : message.author.id), playlist, bot);
       if(options.updatePending) return message.channel.send("An Update is currently pending, features will resume upon Update");
       if(!message.member.voiceChannel) return message.channel.send("You must be in a voice channel");
-      getSongs(args, message, server, playlist);
+      getSongs(bot, args, message, server, playlist);
     })
     .catch(err => {
       if(err instanceof QRE && err.code === qrec.noData)
         message.channel.send('No playlist found by that name');
-      else errorHandler(message, err, "DB Error", "Playlist");
+      else errorHandler(bot, message, err, "DB Error", "Playlist");
     })
 };
 

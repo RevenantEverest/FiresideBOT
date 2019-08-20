@@ -7,10 +7,10 @@ const qrec = pgp.errors.queryResultErrorCode;
 
 const errorHandler = require('../../controllers/errorHandler');
 
-async function saveRank(rank, message) {
+async function saveRank(bot, rank, message) {
     db.save(rank)
     .then(rank => message.channel.send(`New Rank **${rank.rank_name}** added with ID: **${rank.id}** in position **${rank.rank_number}**`))
-    .catch(err => errorHandler(message, err, "Error Saving Rank", "AddRank"));
+    .catch(err => errorHandler(bot, message, err, "Error Saving Rank", "AddRank"));
 };
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
@@ -20,12 +20,12 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     db.findByGuildId(message.guild.id)
     .then(ranks => {
         if(ranks.length >= 20) return message.channel.send("Ranks limited to 20");
-        saveRank({ guild_id: message.guild.id, rank_name: args.join(" "), rank_number: (ranks.length + 1) }, message);
+        saveRank(bot, { guild_id: message.guild.id, rank_name: args.join(" "), rank_number: (ranks.length + 1) }, message);
     })
     .catch(err => {
         if(err instanceof QRE && err.code === qrec.noData)
-            saveRank({ guild_id: message.guild.id, rank_name: args.join(" "), rank_number: 1 }, message)
-        else errorHandler(message, err, "Error Finding Rank Number", "AddRak");
+            saveRank(bot, { guild_id: message.guild.id, rank_name: args.join(" "), rank_number: 1 }, message)
+        else errorHandler(bot, message, err, "Error Finding Rank Number", "AddRak");
     });
 };
 

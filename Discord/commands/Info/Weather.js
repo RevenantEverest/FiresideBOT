@@ -25,7 +25,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
         })
         .catch(err => {
             if(err.response.status === 404) message.channel.send('City Not Found')
-            else errorHandler(message, err, "Weather API Error", "Weather")
+            else errorHandler(bot, message, err, "Weather API Error", "Weather")
         });
 };
 

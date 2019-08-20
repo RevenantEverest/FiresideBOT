@@ -128,7 +128,7 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 
 - [EditPrefix](https://help.firesidebot.com/commands/editprefix) `<param>`  
 **Desc**: Change prefix  
-**Aliases**: `ep`   
+**Aliases**:   
 **Params**: Desired Prefix  
 **Example**: `?editprefix`  
 
@@ -139,13 +139,13 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Example**: `?editrank #bot-commands`  
 
 - [EditRankComplexity](https://help.firesidebot.com/commands/editrankcomplexity) `<param>`  
-**Desc**: Update server rank complexity  
+**Desc**: Update server rank complexity (How hard it is to level up)  
 **Aliases**: `erc`   
 **Params**: Number  
 **Example**: `?editrankcomplexity 10`  
 
 - [EditRankrate](https://help.firesidebot.com/commands/editrankrate) `<param>`  
-**Desc**: Update server rank rate  
+**Desc**: Update server rank rate (How much EXP is aquired per message)  
 **Aliases**: `err`   
 **Params**: Number  
 **Example**: `?editrankrank 12`  

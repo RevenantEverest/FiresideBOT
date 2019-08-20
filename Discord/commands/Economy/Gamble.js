@@ -6,19 +6,19 @@ const qrec = pgp.errors.queryResultErrorCode;
 
 const errorHandler = require('../../controllers/errorHandler');
 
-async function getRecord(message, settings, amountWagered) {
+async function getRecord(bot, message, settings, amountWagered) {
     discordCurrencyDB.findByDiscordIdAndGuildId({ discord_id: message.author.id, guild_id: message.guild.id })
     .then(currency => {
         let RNG = Math.floor(Math.random() * 100);
         if(currency.currency < amountWagered) return message.channel.send(`You can't gamble what you don't have`);
 
-        if(RNG > 50) updateCurrency(message, currency, settings, amountWagered, RNG, true);
-        else if(RNG <= 50) updateCurrency(message, currency, settings, amountWagered, RNG, false);
+        if(RNG > 50) updateCurrency(bot, message, currency, settings, amountWagered, RNG, true);
+        else if(RNG <= 50) updateCurrency(bot, message, currency, settings, amountWagered, RNG, false);
     })
-    .catch(err => errorHandler(message, err, "Error Finding Currency Record", "Gamble"));
+    .catch(err => errorHandler(bot, message, err, "Error Finding Currency Record", "Gamble"));
 }
 
-async function updateCurrency(message, currency, settings, amountWagered, RNG, winner) {
+async function updateCurrency(bot, message, currency, settings, amountWagered, RNG, winner) {
     let newAmount = 0;
     if(winner) newAmount = parseInt(currency.currency, 10) + (amountWagered * 2);
     if(!winner) newAmount = currency.currency - amountWagered;
@@ -36,7 +36,7 @@ async function updateCurrency(message, currency, settings, amountWagered, RNG, w
                 `**${settings.currency_name}** and now has **${newAmount.toLocaleString()} ${settings.currency_name}**`
             );
     })
-    .catch(err => errorHandler(message, err, "Error Updating Currency Record", "Gamble"));
+    .catch(err => errorHandler(bot, message, err, "Error Updating Currency Record", "Gamble"));
 };
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
@@ -46,8 +46,8 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     let amountWagered = parseInt(args[1], 10);
 
     currencyDB.findCurrencySettings(message.guild.id)
-    .then(settings => getRecord(message, settings, amountWagered))
-    .catch(err => errorHandler(message, err, "Error Finding Currency Settings", "Gamble"));
+    .then(settings => getRecord(bot, message, settings, amountWagered))
+    .catch(err => errorHandler(bot, message, err, "Error Finding Currency Settings", "Gamble"));
 };
 
 module.exports.config = {

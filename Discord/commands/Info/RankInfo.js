@@ -10,21 +10,21 @@ const qrec = pgp.errors.queryResultErrorCode;
 
 const errorHandler = require('../../controllers/errorHandler');
 
-async function getRank(settings, args, message) {
+async function getRank(bot, settings, args, message) {
     ranksDB.findByGuildId(message.guild.id)
     .then(ranks => {
         let rank = ranks.filter(el => el.rank_name === args.join(" "));
         if(rank.length < 1) return message.channel.send("No Rank Found");
-        else handleRankInfo(settings, rank[0], message);
+        else handleRankInfo(bot, settings, rank[0], message);
     })
     .catch(err => {
         if(err instanceof QRE && err.code === qrec.noData)
             message.channel.send("No Ranks Found");
-        else errorHandler(message, err, "DB Error", "RankInfo");
+        else errorHandler(bot, message, err, "DB Error", "RankInfo");
     })
 }
 
-async function handleRankInfo(settings, rank, message) {
+async function handleRankInfo(bot, settings, rank, message) {
     recordsDB.findByGuildId(message.guild.id)
     .then(async records => {
         let rankMembers = [];
@@ -40,7 +40,7 @@ async function handleRankInfo(settings, rank, message) {
     .catch(err => {
         if(err instanceof QRE && err.code === qrec.noData)
             message.channel.send("No Records Found");
-        else errorHandler(message, err, "DB Error", "RankInfo");
+        else errorHandler(bot, message, err, "DB Error", "RankInfo");
     })
 };
 
@@ -48,9 +48,8 @@ async function sendEmbed(settings, rank, rankMembers, message) {
     let embed = new Discord.RichEmbed();
     embed
     .setColor(0xff66b3)
-    .addField(`Rank Info`,
-        `**Rank Name**: ${rank.rank_name}\n` + 
-        `**ID**: ${rank.id}\n` +
+    .addField(`**${rank.rank_name}**`,
+        `**Rank ID**: ${rank.id}\n` +
         `**Tier**: ${rank.rank_number}\n` +
         `**Members At Rank**: ${rankMembers.length}`
     )
@@ -64,8 +63,8 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     args.splice(0, 1);
 
     settingsDB.findByGuildId(message.guild.id)
-    .then(settings => getRank(settings, args, message))
-    .catch(err => errorHandler(message, err, "Error Finding Rank Settings", "RankInfo"));
+    .then(settings => getRank(bot, settings, args, message))
+    .catch(err => errorHandler(bot, message, err, "Error Finding Rank Settings", "RankInfo"));
 };
 
 module.exports.config = {

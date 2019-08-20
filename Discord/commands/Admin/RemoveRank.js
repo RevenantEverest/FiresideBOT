@@ -7,7 +7,7 @@ const qrec = pgp.errors.queryResultErrorCode;
 
 const errorHandler = require('../../controllers/errorHandler');
 
-async function updateRankNumbers(rank, message) {
+async function updateRankNumbers(bot, rank, message) {
     db.findByGuildId(rank.guild_id)
     .then(ranks => {
         let rankData = [];
@@ -18,12 +18,12 @@ async function updateRankNumbers(rank, message) {
 
         Promise.all(promises)
         .then(() => message.channel.send(`Rank **${rank.rank_name}** removed`))
-        .catch(err => errorHandler(message, err, "Error Removing Rank", "RemoveRank"));
+        .catch(err => errorHandler(bot, message, err, "Error Removing Rank", "RemoveRank"));
     })
     .catch(err => {
         if(err instanceof QRE && err.code === qrec.noData)
             message.channel.send(`Rank **${rank.rank_name}** deleted`);
-        else errorHandler(message, err, "Error Removing Rank", "RemoveRank");
+        else errorHandler(bot, message, err, "Error Removing Rank", "RemoveRank");
     });
 };
 
@@ -37,13 +37,13 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
         if(rank.guild_id !== message.guild.id) return message.channel.send("Invalid ID");
 
         db.delete(rank_id)
-        .then(rank => updateRankNumbers(rank, message))
-        .catch(err => errorHandler(message, err, "Error Removing Rank", "RemoveRank"));
+        .then(rank => updateRankNumbers(bot, rank, message))
+        .catch(err => errorHandler(bot, message, err, "Error Removing Rank", "RemoveRank"));
     })
     .catch(err => {
         if(err instanceof QRE && err.code === qrec.noData)
             message.channel.send(`No Rank Found`);
-        else errorHandler(message, err, "Error Finding Rank By ID", "RemoveRank");
+        else errorHandler(bot, message, err, "Error Finding Rank By ID", "RemoveRank");
     })
     
 };

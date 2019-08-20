@@ -10,7 +10,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
 
     settingsDB.updateComplexity({ guild_id: message.guild.id, complexity: parseInt(args[1], 10) })
     .then(() => message.channel.send(`Server rank complexity updated to **${args[1]}**`))
-    .catch(err => errorHandler(message, err, "Error Updating Rank Complexity", "EditRankComplexity"));
+    .catch(err => errorHandler(bot, message, err, "Error Updating Rank Complexity", "EditRankComplexity"));
 };
 
 module.exports.config = {
@@ -19,6 +19,6 @@ module.exports.config = {
     aliases: ['erc'],
     params: { required: true, params: "Number" },
     category: 'Config',
-    desc: 'Update server rank complexity',
+    desc: 'Update server rank complexity (How hard it is to level up)',
     example: 'editrankcomplexity 10'
 };

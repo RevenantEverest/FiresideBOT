@@ -52,7 +52,7 @@ async function handleEmbed(message, args, bot, discord_id, playlists, songData, 
 
   if(args[0] === "serverplaylist" || args[0] === "sp")
     embed
-    .setAuthor(`${message.guild.name}`, `https://cdn.discordapp.com/avatars/${message.guild.id}/${message.guild.icon}.png?size=2048`);
+    .setAuthor(`${message.guild.name}`, message.guild.iconURL);
   else
     embed
     .setAuthor(`${discordUser.username}#${discordUser.discriminator}`, `https://cdn.discordapp.com/avatars/${discordUser.id}/${discordUser.avatar}.png?size=2048`)

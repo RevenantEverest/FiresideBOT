@@ -12,7 +12,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
 
     settingsDB.updateChannel({ guild_id: message.guild.id, channel_id: channel_id })
     .then(() => message.channel.send(`Level Ups will now be posted in <#${channel_id}>`))
-    .catch(err => errorHandler(message, err, "Error Updating Rank Channel", "EditRankChannel"));
+    .catch(err => errorHandler(bot, message, err, "Error Updating Rank Channel", "EditRankChannel"));
 };
 
 module.exports.config = {

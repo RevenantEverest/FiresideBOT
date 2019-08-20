@@ -9,7 +9,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
 
     currencyDB.updateCurrencyIncreaseRate({ currency_increase_rate: parseInt(args[1], 10), guild_id: message.guild.id })
     .then(() => message.channel.send(`Server currency increase rate updated to **${args[1]}**`))
-    .catch(err => errorHandler(message, err, "Error Updating Currency Rate", "EditCurrencyRate"));
+    .catch(err => errorHandler(bot, message, err, "Error Updating Currency Rate", "EditCurrencyRate"));
 };
 
 module.exports.config = {

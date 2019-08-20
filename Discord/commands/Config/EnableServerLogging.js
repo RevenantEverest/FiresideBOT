@@ -6,16 +6,16 @@ const qrec = pgp.errors.queryResultErrorCode;
 
 const errorHandler = require('../../controllers/errorHandler');
 
-async function update(message, channel_id) {
+async function update(bot, message, channel_id) {
     db.update({ guild_id: message.guild.id, enabled: true, channel_id: channel_id })
     .then(() => message.channel.send(`Server Logging is now **enabled** and logs will be posted in <#${channel_id}>`))
-    .catch(err => errorHandler(message, err, "Error Enabling Server Logging", "EnableServerLogging"));
+    .catch(err => errorHandler(bot, message, err, "Error Enabling Server Logging", "EnableServerLogging"));
 };
 
-async function save(message, channel_id) {
+async function save(bot, message, channel_id) {
     db.save({ guild_id: message.guild.id, enabled: true, channel_id: channel_id })
     .then(() => message.channel.send(`Server Logging is now **enabled** and logs will be posted in <#${channel_id}>`))
-    .catch(err => errorHandler(message, err, "Error Saving Log Settings", "EnableServerLogging"));
+    .catch(err => errorHandler(bot, message, err, "Error Saving Log Settings", "EnableServerLogging"));
 };
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
@@ -27,11 +27,11 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     else return message.channel.send("Please tag a Text Channel you'd like the Logs to be posted in");
 
     db.findByGuildId(message.guild.id)
-    .then(settings => settings.enabled ? message.channel.send("Server Logging already enabled") : update(message, channel_id))
+    .then(settings => settings.enabled ? message.channel.send("Server Logging already enabled") : update(bot, message, channel_id))
     .catch(err => {
         if(err instanceof QRE && err.code === qrec.noData)
-            save(message, channel_id);
-        else errorHandler(message, err, "DB Error", "EnableServerLogging");
+            save(bot, message, channel_id);
+        else errorHandler(bot, message, err, "DB Error", "EnableServerLogging");
     })
 };
 

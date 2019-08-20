@@ -2,18 +2,21 @@ const Discord = require('discord.js');
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     let infoEmbed = new Discord.RichEmbed();
-
-    let accountCreated = message.author.createdAt.toString().split(" ");
+    let user = null;
+    if(args[1])
+        if(args[1].startsWith('<@')) user = bot.users.get(/<@!?(\d+)>/.exec(args.join(" "))[1]);
+    let accountCreated = user ? user.createdAt.toString().split(" ") : message.author.createdAt.toString().split(" ");
+    user ? user : user = message.author;
 
     infoEmbed
     .setColor(0xff0066)
-    .setThumbnail(message.author.avatarURL)
-    .addField('**User Info**', `${message.author.username}#${message.author.discriminator}`)
+    .setThumbnail(`https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=2048`)
+    .addField('**User Info**', `${user.username} #${user.discriminator}`)
     .addBlankField()
+    .addField('Status:', user.presence.status, true)
+    .addField('Game:', (user.presence.game || 'NA'), true)
     .addField('Account Created:', `${accountCreated[1]} ${accountCreated[2]} ${accountCreated[3]}`)
-    .addField('Status:', message.author.presence.status, true)
-    .addField('Game:', (message.author.presence.game || 'NA'), true)
-    .setFooter(`ID: ${message.author.id}`)
+    .setFooter(`ID: ${user.id}`)
 
     message.channel.send(infoEmbed);
 };

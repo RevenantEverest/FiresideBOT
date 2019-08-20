@@ -10,28 +10,28 @@ const qrec = pgp.errors.queryResultErrorCode;
 
 const errorHandler = require('../../controllers/errorHandler');
 
-async function deleteUserPlaylistSongs(playlist, message) {
+async function deleteUserPlaylistSongs(bot, playlist, message) {
     userSongsDB.deletePlaylistSongs(playlist.playlist_id)
     .then(() => message.channel.send(`Playlist **${playlist.name}** has been deleted`))
-    .catch(err => errorHandler(message, err, "Error Deleteing Playlist Songs", "DeletePlaylist"));
+    .catch(err => errorHandler(bot, message, err, "Error Deleteing Playlist Songs", "DeletePlaylist"));
 };
 
-async function deleteGuildPlaylistSongs(playlist, message) {
+async function deleteGuildPlaylistSongs(bot, playlist, message) {
     guildSongsDB.deletePlaylistSongs(playlist.playlist_id)
     .then(() => message.channel.send(`Server Playlist **${playlist.name}** has been deleted`))
-    .catch(err => errorHandler(message, err, "Error Deleteing Playlist Songs", "DeletePlaylist"));
+    .catch(err => errorHandler(bot, message, err, "Error Deleteing Playlist Songs", "DeletePlaylist"));
 }
 
-async function deleteUserPlaylist(playlist, message) {
+async function deleteUserPlaylist(bot, playlist, message) {
     userPlaylistsDB.delete(playlist.playlist_id)
-    .then(() => deleteUserPlaylistSongs(playlist, message))
-    .catch(err => errorHandler(message, err, "Error Deleteing Playlist", "DeletePlaylist"))
+    .then(() => deleteUserPlaylistSongs(bot, playlist, message))
+    .catch(err => errorHandler(bot, message, err, "Error Deleteing Playlist", "DeletePlaylist"))
 };
 
-async function deleteGuildPlaylist(playlist, message) {
+async function deleteGuildPlaylist(bot, playlist, message) {
     guildPlaylistsDB.delete(playlist.playlist_id)
-    .then(() => deleteGuildPlaylistSongs(playlist, message))
-    .catch(err => errorHandler(message, err, "Error Deleteing Playlist", "DeletePlaylist"))
+    .then(() => deleteGuildPlaylistSongs(bot, playlist, message))
+    .catch(err => errorHandler(bot, message, err, "Error Deleteing Playlist", "DeletePlaylist"))
 }
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
@@ -40,20 +40,20 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
         if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send(`You don't have permission to use this command`);
         args.splice(args.indexOf("-s"), 1);
         guildPlaylistsDB.findByGuildIdAndPlaylistName({ guild_id: message.guild.id, name: args[1] })
-        .then(playlist => deleteGuildPlaylist(playlist, message))
+        .then(playlist => deleteGuildPlaylist(bot, playlist, message))
         .catch(err => {
             if(err instanceof QRE && err.code === qrec.noData) 
                 message.channel.send(`No playlist by that name found`);
-            else errorHandler(message, err, "DB Error", "DeletePlaylist");
+            else errorHandler(bot, message, err, "DB Error", "DeletePlaylist");
         })
     }
     else {
         userPlaylistsDB.findByDiscordIdAndPlaylistName({ discord_id: message.author.id, name: args[1] })
-        .then(playlist => deleteUserPlaylist(playlist, message))
+        .then(playlist => deleteUserPlaylist(bot, playlist, message))
         .catch(err => {
             if(err instanceof QRE && err.code === qrec.noData) 
                 message.channel.send(`No playlist by that name found`);
-            else errorHandler(message, err, "DB Error", "DeletePlaylist");
+            else errorHandler(bot, message, err, "DB Error", "DeletePlaylist");
         })
     } 
 };

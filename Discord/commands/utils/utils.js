@@ -133,7 +133,7 @@ module.exports = {
                 thumbnail: thumbnails[thumbnails.length - 1].url, 
                 requestedBy: message.author.username 
             }
-            callback(message, args, server, {
+            callback(Discord_Bot, message, args, server, {
                 songInfo: songInfo, 
                 guildPlaylist: (options.guildPlaylist ? options.guildPlaylist : ""), 
                 playlist: (options.playlist ? options.playlist : "")

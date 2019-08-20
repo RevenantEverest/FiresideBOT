@@ -96,7 +96,7 @@ module.exports = {
         .then(songs => {
             let author = {
                 text: `${message.guild.name}`,
-                image: `https://cdn.discordapp.com/avatars/${message.guild.id}/${message.guild.icon}.png?size=2048`
+                image: message.guild.iconURL
             }
             if(songs.length >= 5) handlePages(message, bot, playlist, songs, author, true);
             else handleSingle(message, playlist, songs, author, true);

@@ -103,9 +103,9 @@ services.handleOnMessage = async (bot, message) => {
     .catch(err => console.error(err));
 
     
-    await disabledCommandsDB.findByGuildId(message.guild.id)
-    .then(dCommands => disabledCommands = dCommands.map(el => el.command))
-    .catch(err => console.error(err));
+    // await disabledCommandsDB.findByGuildId(message.guild.id)
+    // .then(dCommands => disabledCommands = dCommands.map(el => el.command))
+    // .catch(err => console.error(err));
 
     BackUpCommands(PREFIX, message);
 

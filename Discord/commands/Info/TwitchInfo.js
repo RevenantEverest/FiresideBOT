@@ -3,7 +3,7 @@ const twitchServices = require('../../services/twitchServices');
 
 const errorHandler = require('../../controllers/errorHandler');
 
-async function checkStreamStatus(args, message, info) {
+async function checkStreamStatus(bot, args, message, info) {
     twitchServices.getTwitchStreamStatus(args[1])
         .then(streamStatus => {
             if(streamStatus.data.stream) {
@@ -20,11 +20,11 @@ async function checkStreamStatus(args, message, info) {
                 sendTwitchUserInfo(args, message, info);
             } 
         })
-        .catch(err => errorHandler(message, err, "Twitch API Error", "TwitchInfo"));
+        .catch(err => errorHandler(bot, message, err, "Twitch API Error", "TwitchInfo"));
 
 };
 
-async function getTwitchInfo(args, message) {
+async function getTwitchInfo(bot, args, message) {
     twitchServices.getTwitchInfo(args[1])
         .then(results => {
             let info = {
@@ -38,12 +38,12 @@ async function getTwitchInfo(args, message) {
                 mature: results.data.mature,
                 logo: results.data.logo
             };
-            checkStreamStatus(args, message, info);
+            checkStreamStatus(bot, args, message, info);
         })
         .catch(err => {
             if(err.response.status === 404)
                 message.channel.send('No Twitch User Found');
-            else errorHandler(message, err, "Twitch API Error", "TwitchInfo");
+            else errorHandler(bot, message, err, "Twitch API Error", "TwitchInfo");
         })
 };
 
@@ -60,7 +60,6 @@ async function sendTwitchUserInfo(args, message, info) {
         .addField('Resolution', `${info.resolution} ${info.average_fps}FPS`, true)
         .addField('Partnered:', (info.partner ? 'Yes' : 'No'), true)
         .addField('Mature Audience: ', (info.mature ? 'Yes' : 'No'), true)
-        // .addField()
     }else if(!info.isStreaming) {
         embed
         .addField('Total Views:', info.totalViews.toLocaleString(), true)
@@ -76,7 +75,7 @@ async function sendTwitchUserInfo(args, message, info) {
 };
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
-    getTwitchInfo(args, message);
+    getTwitchInfo(bot, args, message);
 };
 
 module.exports.config = {

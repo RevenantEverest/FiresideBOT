@@ -41,10 +41,10 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
         .catch(err => {
             if(err instanceof QRE && err.code === qrec.noData)
                 sendEmbed(message, PREFIX, settings, { enabled: false, channel_id: 'none' });
-            else errorHandler(message, err, "Error Finding Log Settings", "Config");
+            else errorHandler(bot, message, err, "Error Finding Log Settings", "Config");
         })
     })
-    .catch(err => errorHandler(message, err, "Error Finding Settings", "Config"));
+    .catch(err => errorHandler(bot, message, err, "Error Finding Settings", "Config"));
 };
 
 module.exports.config = {

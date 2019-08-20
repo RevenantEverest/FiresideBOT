@@ -6,10 +6,10 @@ const qrec = pgp.errors.queryResultErrorCode;
 
 const errorHandler = require('../../controllers/errorHandler');
 
-async function enableCommand(message, command, id) {
+async function enableCommand(bot, message, command, id) {
     db.delete(id)
     .then(() => message.channel.send(`**${command.d_name}** is now enabled`))
-    .catch(err => errorHandler(message, err, "Error Removing Disabled Command", "EnableCommand"))
+    .catch(err => errorHandler(bot, message, err, "Error Removing Disabled Command", "EnableCommand"))
 }
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
@@ -20,13 +20,13 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
         .then(dCmd => {
             dCmd = dCmd.map(el => el.command);
             if(dCmd.includes(cmd.config.name))
-                enableCommand(message, cmd, dCmd[dCmd.indexOf(cmd.config.name)].id)
+                enableCommand(bot, message, cmd, dCmd[dCmd.indexOf(cmd.config.name)].id)
             else return message.channel.send(`**${cmd.config.d_name}** is already enabled`)
         })
         .catch(err => {
             if(err instanceof QRE && err.code === qrec.noData)
-                save(message, command.config);
-            else errorHandler(message, err, "DB Error", "EnableCommand");
+                enableCommand(bot, message, command.config);
+            else errorHandler(bot, message, err, "DB Error", "EnableCommand");
         })
     }
     else message.channel.send("Not a valid Command or Alias");

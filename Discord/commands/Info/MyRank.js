@@ -10,24 +10,24 @@ const qrec = pgp.errors.queryResultErrorCode;
 
 const errorHandler = require('../../controllers/errorHandler');
 
-async function getRanks(message, settings) {
+async function getRanks(bot, message, settings) {
     ranksDB.findByGuildId(message.guild.id)
-    .then(ranks => getRecord(message, settings, ranks))
+    .then(ranks => getRecord(bot, message, settings, ranks))
     .catch(err => {
         if(err instanceof QRE && err.code === qrec.noData) 
             message.channel.send("No Ranks Found");
-        else errorHandler(message, err, "DB Error", "MyRank");
+        else errorHandler(bot, message, err, "DB Error", "MyRank");
     });
 }
 
-async function getRecord(message, settings, ranks) {
+async function getRecord(bot, message, settings, ranks) {
     recordsDB.findByDiscordIdAndGuildId({ discord_id: message.author.id, guild_id: message.guild.id })
     .then(record => sendEmbed(message, settings, ranks, record))
     .catch(err => {
         if(err instanceof QRE && err.code === qrec.noData) 
             message.channel.send("No Record Found");
-        else errorHandler(message, err, "DB Error", "MyRank");
-    })
+        else errorHandler(bot, message, err, "DB Error", "MyRank");
+    });
 }
 
 async function sendEmbed(message, settings, ranks, record) {
@@ -35,14 +35,13 @@ async function sendEmbed(message, settings, ranks, record) {
     let RankName = ranks.length <= Level ?  ranks[ranks.length - 1].rank_name : ranks.filter(el => el.rank_number === Level)[0].rank_name;
 
     let embed = new Discord.RichEmbed();
-
     embed
     .setColor(0xff66b3)
     .setThumbnail(message.author.avatarURL)
-    .addField("My Rank", 
-        `**Rank**: ${RankName}\n` + 
-        `**Tier**: ${Level > ranks.length ? ranks.length : Level.toLocaleString()}\n` + 
-        `**EXP**: ${record.xp.toLocaleString()}`
+    .addField(`${message.author.username}'s Rank`, 
+        `**Rank:** ${RankName}\n` + 
+        `**Tier:** ${Level > ranks.length ? ranks.length : Level.toLocaleString()}\n` +
+        `**EXP:** ${parseInt(record.xp, 10).toLocaleString()}`
     )
 
     message.channel.send(embed);
@@ -50,7 +49,7 @@ async function sendEmbed(message, settings, ranks, record) {
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     settingsDB.findByGuildId(message.guild.id)
-    .then(settings => getRanks(message, settings))
+    .then(settings => getRanks(bot, message, settings))
     .catch(err => errorHandler(bot, message, err, "Error Finding Rank Settings", "MyRank"));
 };
 

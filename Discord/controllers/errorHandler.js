@@ -1,5 +1,4 @@
 const Discord = require("discord.js");
-const bot = require('../Discord_Bot');
 const ticketsController = require('./ticketsController');
 
 async function getDate() {
@@ -8,7 +7,7 @@ async function getDate() {
     return `${date.toLocaleString('en-US', options)} EST`;
 }
 
-async function logError(message, err, errMsg, command) {
+async function logError(bot, message, err, errMsg, command) {
     console.error(err);
     let embed = new Discord.RichEmbed();
     embed
@@ -24,7 +23,7 @@ async function logError(message, err, errMsg, command) {
     // Log to DB
 };
 
-async function handleTicket(message, err, errMsg, command) {
+async function handleTicket(bot, message, err, errMsg, command) {
     let messageContent = 
     { 
         content: `**Command:** ${command}\n**Error Message:** ${errMsg}\n**Guild ID:** ${message.guild.id}`, 
@@ -33,7 +32,7 @@ async function handleTicket(message, err, errMsg, command) {
     ticketsController.openTicket(bot, messageContent);
 };
 
-module.exports = async (message, err, errMsg, command) => {
+module.exports = async (bot, message, err, errMsg, command) => {
     let embed = new Discord.RichEmbed();
     
     embed
@@ -44,7 +43,7 @@ module.exports = async (message, err, errMsg, command) => {
         await msg.react("✅");
         await msg.react("❌");
         
-        logError(message, err, errMsg, command);
+        logError(bot, message, err, errMsg, command);
 
         const r_collector = new Discord.ReactionCollector(msg, r => r.users.array()[r.users.array().length - 1].id === message.author.id, { time: 60000 });
 
@@ -54,7 +53,7 @@ module.exports = async (message, err, errMsg, command) => {
             if(reaction.emoji.name === "❌") return r_collector.stop();
 
             if(reaction.emoji.name === "✅") {
-                handleTicket(message, err, errMsg, command);
+                handleTicket(bot, message, err, errMsg, command);
                 embed.setColor(0x00ff00).addField("Ticket Sent!", "A member from our support team will message you shortly").setFooter(await getDate());
                 reaction.message.edit(embed);
                 return r_collector.stop();

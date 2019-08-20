@@ -24,12 +24,12 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     .then(streamer => {
         twitchtrackerDB.save({ guild_id: message.guild.id, twitch_username: streamer.data.name, channel_id: channel_id, role_id: role_id })
         .then(tracker => message.channel.send(`Tracker added for **${streamer.data.display_name}** and will be posted in <#${channel_id}>. ID: **${tracker.id}**`))
-        .catch(err => errorHandler(message, err, "Error Saving Tracker", "TwitchTracker"));
+        .catch(err => errorHandler(bot, message, err, "Error Saving Tracker", "TwitchTracker"));
     })
     .catch(err => {
         if(err.response.status === 404)
             message.channel.send('No Twitch User Found');
-        else errorHandler(message, err, "Twitch API Error", "TwitchTracker");
+        else errorHandler(bot, message, err, "Twitch API Error", "TwitchTracker");
     });
 };
 

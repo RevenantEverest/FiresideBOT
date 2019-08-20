@@ -1,6 +1,8 @@
 const Discord = require('discord.js');
 const pokemonServices = require('../../services/pokemonServices');
 
+const errorHandler = require('../../controllers/errorHandler');
+
 async function getPokemon(message, args, id) {
     let pokemonPromises = [pokemonServices.getPokemon(id)];
     let pokemonEmbed = new Discord.RichEmbed();
@@ -38,8 +40,7 @@ async function getPokemon(message, args, id) {
     .catch(err => {
         if(err.response.status === 404)
             message.channel.send("No Pokemon found by that name or ID");
-        else
-            console.error(err); 
+        else errorHandler(bot, message, err, "API Error", "Pokemon");
     });
 };
 

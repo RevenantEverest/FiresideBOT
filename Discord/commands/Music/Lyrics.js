@@ -101,7 +101,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
         .catch(err => {
             if(err.response.status === 404)
                 return message.channel.send('Song not found')
-            else errorHandler(message, err, "Ksoft API Error", "Lyrics");
+            else errorHandler(bot, message, err, "Ksoft API Error", "Lyrics");
         });
 };
 

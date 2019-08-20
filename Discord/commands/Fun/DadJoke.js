@@ -1,6 +1,8 @@
 const Discord = require('discord.js');
 const apiServices = require('../../services/apiServices');
 
+const errorHandler = require('../../controllers/errorHandler');
+
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     apiServices.getDadJoke()
     .then(joke => {
@@ -14,7 +16,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
         }
         else message.channel.send(joke.data.joke);
     })
-    .catch(err => console.error(err));
+    .catch(err => errorHandler(bot, message, err, "API Error", "Dadjoke"));
 };
 
 module.exports.config = {

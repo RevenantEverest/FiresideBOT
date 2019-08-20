@@ -1,6 +1,8 @@
 const Discord = require('discord.js');
 const gameStatServices = require('../../services/gameStatServices');
 
+const errorHandler = require('../../controllers/errorHandler');
+
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     if(!args[1]) return message.channel.send('Please specify a BattleTag, Platform, and Region');
     
@@ -102,9 +104,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
             }
             message.channel.send(embed);
         })
-        .catch(err => {
-            console.log(err);
-        })
+        .catch(err => errorHandler(bot, message, err, "API Error", "Overwatch"));
 };
 
 module.exports.config = {
