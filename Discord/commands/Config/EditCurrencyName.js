@@ -8,7 +8,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     args.splice(0, 1);
     currencyDB.updateCurrencyName({ currency_name: args.join(" "), guild_id: message.guild.id })
     .then(() => message.channel.send(`Server currency name updated to **${args.join(" ")}**`))
-    .catch(err => errorHandler(bot, message, err, "Error Updating Currency Name", "EditCurrencyName"));
+    .catch(err => errorHandler(message, err, "Error Updating Currency Name", "EditCurrencyName"));
 };
 
 module.exports.config = {

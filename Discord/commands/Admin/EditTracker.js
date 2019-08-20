@@ -16,7 +16,7 @@ async function getTwitchTrackers(message, args, channel_id, role_id) {
     .catch(err => {
         if(err instanceof QRE && err.code === qrec.noData)
             message.channel.send(`No Tracker Found`);
-        else errorHandler(bot, message, err, "DB Error", "EditTracker");
+        else errorHandler(message, err, "DB Error", "EditTracker");
     })
 }
 
@@ -34,7 +34,7 @@ async function updateTracker(message, args, channel_id, role_id, tracker) {
             `${uTracker.role_id !== "none" ? `and will tag <@&${uTracker.role_id}>` : ''}`
         );
     })
-    .catch(err => errorHandler(bot, message, err, "Error Updating Tracker", "EditTracker"));
+    .catch(err => errorHandler(message, err, "Error Updating Tracker", "EditTracker"));
 }
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {

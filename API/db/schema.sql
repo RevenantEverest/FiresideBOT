@@ -2,7 +2,13 @@ DROP TABLE IF EXISTS autodj;
 DROP TABLE IF EXISTS bot_guilds;
 DROP TABLE IF EXISTS currency_settings;
 DROP TABLE IF EXISTS discord_currency;
--- Discord Tokens
+DROP TABLE IF EXISTS discord_tickets;
+DROP TABLE IF EXISTS discord_tokens;
+DROP TABLE IF EXISTS discord_closed_tickets;
+DROP TABLE IF EXISTS discord_ranks;
+DROP TABLE IF EXISTS discord_rank_records;
+DROP TABLE IF EXISTS discord_rank_settings;
+DROP TABLE IF EXISTS disabled_commands;
 DROP TABLE IF EXISTS guild_playlists;
 DROP TABLE IF EXISTS guild_settings;
 DROP TABLE IF EXISTS guild_songs;
@@ -88,6 +94,12 @@ CREATE TABLE discord_rank_settings (
   general_increase_rate INT,
   complexity INT,
   channel_id VARCHAR(255)
+);
+
+CREATE TABLE disabled_commands (
+  id SERIAL PRIMARY KEY,
+  guild_id VARCHAR(255),
+  command VARCHAR(255)
 );
 
 CREATE TABLE guild_playlists (

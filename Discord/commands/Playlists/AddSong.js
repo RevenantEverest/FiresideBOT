@@ -26,7 +26,7 @@ async function findUserPlaylist(args, message, server, guildPlaylist, playlistSe
   .catch(err => {
     if(err instanceof QRE && err.code === qrec.noData)
         return message.channel.send(`No playlist by that name found`);
-    else errorHandler(bot, message, err, "DB Error", "AddSong");
+    else errorHandler(message, err, "DB Error", "AddSong");
   });
 }
 
@@ -51,7 +51,7 @@ async function findGuildPlaylist(args, message, server, guildPlaylist, playlistS
   .catch(err => {
     if(err instanceof QRE && err.code === qrec.noData)
         return message.channel.send(`No playlist by that name found`);
-    else errorHandler(bot, message, err, "DB Error", "AddSong");
+    else errorHandler(message, err, "DB Error", "AddSong");
   });
 }
 
@@ -71,7 +71,7 @@ async function getGuildPlaylistSongs(message, playlist, info) {
       saveToGuildPlaylist(message, playlist.name, {
         playlist_id: playlist.playlist_id, title: info.title, link: info.link, author: info.author, duration: info.duration, thumbnail_url: info.thumbnail 
       });
-    else errorHandler(bot, message, err, "DB Error", "AddSong");
+    else errorHandler(message, err, "DB Error", "AddSong");
   })
 }
 
@@ -91,7 +91,7 @@ async function getUserPlaylistSongs(message, playlist, info) {
       saveToUserPlaylist(message, playlist.name, {
         playlist_id: playlist.playlist_id, title: info.title, link: info.link, author: info.author, duration: info.duration, thumbnail_url: info.thumbnail 
       });
-    else errorHandler(bot, message, err, "DB Error", "AddSong");
+    else errorHandler(message, err, "DB Error", "AddSong");
   })
 }
 
@@ -110,13 +110,13 @@ async function checkForDuplicates(songs, info) {
 async function saveToUserPlaylist(message, playlist_name, data) {
   userSongsDB.save(data) 
   .then(playlist => message.channel.send(`**${data.title}** added to playlist **${playlist_name}** with ID **${playlist.song_id}**`))
-  .catch(err => errorHandler(bot, message, err, "Error Saving to Playlist", "AddSong"));
+  .catch(err => errorHandler(message, err, "Error Saving to Playlist", "AddSong"));
 }
 
 async function saveToGuildPlaylist(message, playlist_name, data) {
   guildSongsDB.save(data) 
   .then(playlist => message.channel.send(`**${data.title}** added to playlist **${playlist_name}** with ID **${playlist.song_id}**`))
-  .catch(err => errorHandler(bot, message, err, "Error Saving to Playlist", "AddSong"));
+  .catch(err => errorHandler(message, err, "Error Saving to Playlist", "AddSong"));
 }
 
 async function guildPlaylistCheck(message, args, server, options) {

@@ -40,6 +40,12 @@ A Music, Economy, & Admin Discord Bot written in Node.js
  Optional Param  
 **Example**: `?ban @RevenantEverest 5 His memes are low tier`  
 
+- [DisableCommand](https://help.firesidebot.com/commands/disablecommand) `<param>`  
+**Desc**: Disables a Command  
+**Aliases**:   
+**Params**: Command Name or Alias  
+**Example**: `?disablecommand play`  
+
 - [EditRank](https://help.firesidebot.com/commands/editrank) `<param>`  
 **Desc**: Change a ranks name  
 **Aliases**: `er`   
@@ -52,6 +58,12 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Params**: Flag / Tracker ID / #Channel-Tag and/or @Role Tag  
 **Flags**: `-t`   
 **Example**: `?edittracker -t 108 #general @everyone`  
+
+- [EnableCommand](https://help.firesidebot.com/commands/enablecommand) `<param>`  
+**Desc**: Enables a Command  
+**Aliases**: ``   
+**Params**: Command Name or Alias  
+**Example**: `?enablecommand play`  
 
 - [Purge](https://help.firesidebot.com/commands/purge) `[param]`  
 **Desc**: Bulk delete messages  

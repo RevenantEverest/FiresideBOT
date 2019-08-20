@@ -16,7 +16,7 @@ async function getRanks(bot, message, user_id, settings) {
     .catch(err => {
         if(err instanceof QRE && err.code === qrec.noData) 
             message.channel.send("No Ranks Found");
-        else errorHandler(bot, message, err, "DB Error", "ViewRank");
+        else errorHandler(message, err, "DB Error", "ViewRank");
     });
 }
 
@@ -26,7 +26,7 @@ async function getRecord(bot, message, user_id, settings, ranks) {
     .catch(err => {
         if(err instanceof QRE && err.code === qrec.noData) 
             message.channel.send("No Record Found");
-        else errorHandler(bot, message, err, "DB Error", "ViewRank");
+        else errorHandler(message, err, "DB Error", "ViewRank");
     })
 }
 
@@ -57,7 +57,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
 
     settingsDB.findByGuildId(message.guild.id)
     .then(settings => getRanks(bot, message, user_id, settings))
-    .catch(err => errorHandler(bot, message, err, "Error Finding Rank Settings", "ViewRank"));
+    .catch(err => errorHandler(message, err, "Error Finding Rank Settings", "ViewRank"));
 };
 
 module.exports.config = {

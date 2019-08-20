@@ -16,7 +16,7 @@ async function getRanks(message, settings) {
     .catch(err => {
         if(err instanceof QRE && err.code === qrec.noData) 
             message.channel.send("No Ranks Found");
-        else errorHandler(bot, message, err, "DB Error", "MyRank");
+        else errorHandler(message, err, "DB Error", "MyRank");
     });
 }
 
@@ -26,7 +26,7 @@ async function getRecord(message, settings, ranks) {
     .catch(err => {
         if(err instanceof QRE && err.code === qrec.noData) 
             message.channel.send("No Record Found");
-        else errorHandler(bot, message, err, "DB Error", "MyRank");
+        else errorHandler(message, err, "DB Error", "MyRank");
     })
 }
 

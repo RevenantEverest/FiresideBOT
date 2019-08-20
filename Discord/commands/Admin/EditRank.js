@@ -26,7 +26,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     .catch(err => {
         if(err instanceof QRE && err.code === qrec.noData)
             message.channel.send("Invalid ID");
-        else errorHandler(bot, message, err, "DB Error", "EditRank");
+        else errorHandler(message, err, "DB Error", "EditRank");
     })
 };
 

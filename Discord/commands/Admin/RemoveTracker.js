@@ -10,7 +10,7 @@ async function deleteTracker(message, tracker) {
     if(tracker.guild_id !== message.guild.id) return message.channel.send("Invalid ID");
     twitchTrackerDB.delete(tracker.id)
     .then(() => message.channel.send(`Deleted Tracker for **${tracker.twitch_username}**`))
-    .catch(err => errorHandler(bot, message, err, "Error Deleteing Tracker", "RemoveTracker"));
+    .catch(err => errorHandler(message, err, "Error Deleteing Tracker", "RemoveTracker"));
 }
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
@@ -24,7 +24,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     .catch(err => {
         if(err instanceof QRE && err.code === qrec.noData)
             message.channel.send(`No Tracker Found`);
-        else errorHandler(bot, message, err, "Error Finding Tracker By ID", "RemoveTracker");
+        else errorHandler(message, err, "Error Finding Tracker By ID", "RemoveTracker");
     });
 };
 

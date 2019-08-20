@@ -17,7 +17,7 @@ async function updatePlaylistRoles(message, playlist, role_id) {
 
     guildPlaylistsDB.update({ guild_id: message.guild.id, playlist_id: playlist.playlist_id, name: playlist.name, roles: roles })
     .then(() => message.channel.send(`Users with the role <@&${role_id}> can now add songs to Server Playlist **${playlist.name}**`))
-    .catch(err => errorHandler(bot, message, err, "Error Updating Playlist", "AddPlaylistRoles"));
+    .catch(err => errorHandler(message, err, "Error Updating Playlist", "AddPlaylistRoles"));
 }
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
@@ -36,7 +36,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     .catch(err => {
         if(err instanceof QRE && err.code === qrec.noData)
             message.channel.send("No Playlist found by that name");
-        else errorHandler(bot, message, err, "DB Error", "AddPlaylistRoles");
+        else errorHandler(message, err, "DB Error", "AddPlaylistRoles");
     })
 };
 

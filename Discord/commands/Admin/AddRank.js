@@ -10,7 +10,7 @@ const errorHandler = require('../../controllers/errorHandler');
 async function saveRank(rank, message) {
     db.save(rank)
     .then(rank => message.channel.send(`New Rank **${rank.rank_name}** added with ID: **${rank.id}** in position **${rank.rank_number}**`))
-    .catch(err => errorHandler(bot, message, err, "Error Saving Rank", "AddRank"));
+    .catch(err => errorHandler(message, err, "Error Saving Rank", "AddRank"));
 };
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
@@ -25,7 +25,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     .catch(err => {
         if(err instanceof QRE && err.code === qrec.noData)
             saveRank({ guild_id: message.guild.id, rank_name: args.join(" "), rank_number: 1 }, message)
-        else errorHandler(bot, message, err, "Error Finding Rank Number", "AddRak");
+        else errorHandler(message, err, "Error Finding Rank Number", "AddRak");
     });
 };
 

@@ -25,7 +25,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     .catch(err => {
         if(err instanceof QRE && err.code === qrec.noData)
             return message.channel.send("No Available Trackers")
-        else errorHandler(bot, message, err, "DB Error", "Trackers");
+        else errorHandler(message, err, "DB Error", "Trackers");
     })
 };
 

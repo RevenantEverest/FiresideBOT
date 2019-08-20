@@ -9,7 +9,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
 
     settingsDB.updateRate({ guild_id: message.guild.id, general_increase_rate: parseInt(args[1], 10) })
     .then(() => message.channel.send(`Server rank rate updated to **${args[1]}**`))
-    .catch(err => errorHandler(bot, message, err, "Error Updating Rank Rate", "EditRankRate"));
+    .catch(err => errorHandler(message, err, "Error Updating Rank Rate", "EditRankRate"));
 };
 
 module.exports.config = {

@@ -9,13 +9,13 @@ const errorHandler = require('../../controllers/errorHandler');
 async function update(message, channel_id) {
     db.update({ guild_id: message.guild.id, enabled: true, channel_id: channel_id })
     .then(() => message.channel.send(`Server Logging is now **enabled** and logs will be posted in <#${channel_id}>`))
-    .catch(err => errorHandler(bot, message, err, "Error Enabling Server Logging", "EnableServerLogging"));
+    .catch(err => errorHandler(message, err, "Error Enabling Server Logging", "EnableServerLogging"));
 };
 
 async function save(message, channel_id) {
     db.save({ guild_id: message.guild.id, enabled: true, channel_id: channel_id })
     .then(() => message.channel.send(`Server Logging is now **enabled** and logs will be posted in <#${channel_id}>`))
-    .catch(err => errorHandler(bot, message, err, "Error Saving Log Settings", "EnableServerLogging"));
+    .catch(err => errorHandler(message, err, "Error Saving Log Settings", "EnableServerLogging"));
 };
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
@@ -31,7 +31,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     .catch(err => {
         if(err instanceof QRE && err.code === qrec.noData)
             save(message, channel_id);
-        else errorHandler(bot, message, err, "DB Error", "EnableServerLogging");
+        else errorHandler(message, err, "DB Error", "EnableServerLogging");
     })
 };
 

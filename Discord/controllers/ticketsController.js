@@ -7,6 +7,12 @@ const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
 const qrec = pgp.errors.queryResultErrorCode;
 
+async function getDate() {
+    let date = new Date();
+    let options = { timezone: 'EST', weekday: 'long', day: 'numeric', month: 'long', hour: 'numeric', minute: 'numeric' };
+    return `${date.toLocaleString('en-US', options)} EST`;
+}
+
 module.exports = {
     async handleTicket(bot, message) {
        discordTicketsDB.findByDiscordId(message.author.id)
@@ -22,7 +28,7 @@ module.exports = {
         })
     },
     async openTicket(bot, message) {
-        discordTicketsDB.save({ discord_id: message.author.id, initial_message: message.content, ticket_date: await utils.getDate() })
+        discordTicketsDB.save({ discord_id: message.author.id, initial_message: message.content, ticket_date: await getDate() })
         .then(ticket => {
             let responseEmbed = new Discord.RichEmbed();
             let serverEmbed = new Discord.RichEmbed();
@@ -55,7 +61,7 @@ module.exports = {
         .addField('User:', message.author.username, true)
         .addField('Discord ID:', message.author.id, true)
         .addField('Message:', message.content)
-        .setFooter(`Received ${await utils.getDate()}`)
+        .setFooter(`Received ${await getDate()}`)
 
         bot.channels.get('542561301302345760').send(embed);
         message.author.send('Message received')
@@ -67,7 +73,7 @@ module.exports = {
             discord_id: ticket.discord_id,
             initial_message: ticket.initial_message, 
             ticket_date: ticket.ticket_date,
-            close_date: await utils.getDate(),
+            close_date: await getDate(),
             closed_by: message.author.id,
             reason: reason
         };

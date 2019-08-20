@@ -7,7 +7,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     
     guildsDB.updateSettings({ guild_id: message.guild.id, prefix: args[1] })
     .then(() => message.channel.send(`Prefix updated to **${args[1]}**`))
-    .catch(err => errorHandler(bot, message, err, "Error Updating Prefix", "EditPrefix"));
+    .catch(err => errorHandler(message, err, "Error Updating Prefix", "EditPrefix"));
 };
 
 module.exports.config = {

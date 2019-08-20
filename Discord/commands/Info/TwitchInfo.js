@@ -20,7 +20,7 @@ async function checkStreamStatus(args, message, info) {
                 sendTwitchUserInfo(args, message, info);
             } 
         })
-        .catch(err => errorHandler(bot, message, err, "Twitch API Error", "TwitchInfo"));
+        .catch(err => errorHandler(message, err, "Twitch API Error", "TwitchInfo"));
 
 };
 
@@ -43,7 +43,7 @@ async function getTwitchInfo(args, message) {
         .catch(err => {
             if(err.response.status === 404)
                 message.channel.send('No Twitch User Found');
-            else errorHandler(bot, message, err, "Twitch API Error", "TwitchInfo");
+            else errorHandler(message, err, "Twitch API Error", "TwitchInfo");
         })
 };
 

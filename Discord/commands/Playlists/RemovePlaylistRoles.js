@@ -13,7 +13,7 @@ async function updatePlaylistRoles(message, playlist, role_id) {
     let roles = playlist.roles;
     guildPlaylistsDB.update({ guild_id: message.guild.id, playlist_id: playlist.playlist_id, name: playlist.name, roles: roles })
     .then(() => message.channel.send(`Role <@&${role_id}> removed from Server Playlist **${playlist.name}**. Members with this role no longer can add songs to the playlist`))
-    .catch(err => errorHandler(bot, message, err, "Error Updating Roles", "RemovePlaylistRoles"));
+    .catch(err => errorHandler(message, err, "Error Updating Roles", "RemovePlaylistRoles"));
 }
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
@@ -32,7 +32,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     .catch(err => {
         if(err instanceof QRE && err.code === qrec.noData)
             message.channel.send("No Playlist found by that name");
-        else errorHandler(bot, message, err, "DB Error", "RemovePlaylistRoles");
+        else errorHandler(message, err, "DB Error", "RemovePlaylistRoles");
     })
 };
 

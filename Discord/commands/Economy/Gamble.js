@@ -15,7 +15,7 @@ async function getRecord(message, settings, amountWagered) {
         if(RNG > 50) updateCurrency(message, currency, settings, amountWagered, RNG, true);
         else if(RNG <= 50) updateCurrency(message, currency, settings, amountWagered, RNG, false);
     })
-    .catch(err => errorHandler(bot, message, err, "Error Finding Currency Record", "Gamble"));
+    .catch(err => errorHandler(message, err, "Error Finding Currency Record", "Gamble"));
 }
 
 async function updateCurrency(message, currency, settings, amountWagered, RNG, winner) {
@@ -36,7 +36,7 @@ async function updateCurrency(message, currency, settings, amountWagered, RNG, w
                 `**${settings.currency_name}** and now has **${newAmount.toLocaleString()} ${settings.currency_name}**`
             );
     })
-    .catch(err => errorHandler(bot, message, err, "Error Updating Currency Record", "Gamble"));
+    .catch(err => errorHandler(message, err, "Error Updating Currency Record", "Gamble"));
 };
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
@@ -47,7 +47,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
 
     currencyDB.findCurrencySettings(message.guild.id)
     .then(settings => getRecord(message, settings, amountWagered))
-    .catch(err => errorHandler(bot, message, err, "Error Finding Currency Settings", "Gamble"));
+    .catch(err => errorHandler(message, err, "Error Finding Currency Settings", "Gamble"));
 };
 
 module.exports.config = {
