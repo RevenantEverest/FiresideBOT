@@ -4,14 +4,6 @@ const utils = require('../utils/utils');
 
 const errorHandler = require('../../controllers/errorHandler');
 
-/*
-
-   If Lyrics data returns a character count over 1024 calls handlePages()
-
-   Seperates lyrics into multiple pages
-
-*/
-
 function handlePages(message, results, bot) {
     let embed = new Discord.RichEmbed();
     let CPI = 0;
@@ -102,12 +94,6 @@ function handlePages(message, results, bot) {
     })
 };
 
-/*
-
-    Handles Single Page of Lyrics
-
-*/
-
 function handleSinglePage(message, results) {
     let embed = new Discord.RichEmbed();
     embed
@@ -135,8 +121,6 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     else if(!args[1] && !server.queue.isPlaying) 
         return message.channel.send('Please specify a song');
     
-
-    // Add result for current song
     ksoftServices.getLyrics(search)
         .then(results => {
             results = results.data.data[0];
@@ -148,7 +132,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
         .catch(err => {
             if(err.response.status === 404)
                 return message.channel.send('Song not found')
-            else console.error(err);
+            else errorHandler(bot, message, err, "Ksoft API Error", "Lyrics");
         });
 };
 

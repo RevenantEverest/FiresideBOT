@@ -1,7 +1,7 @@
 module.exports = {
   servers: [],
   Discord_Options: {
-    version: 'v1.5.0',
+    version: 'v1.6.0',
     users: 0,
     updatePending: false,
     modules: {
@@ -26,6 +26,6 @@ module.exports = {
       username: 'FiresideBOT',
       password: process.env.TWITCH_KEY
     },
-    channels: ['RevenantEverest', 'Atsuumo', 'Wookie']
+    channels: ['RevenantEverest']
   }
 };

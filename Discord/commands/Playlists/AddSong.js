@@ -3,9 +3,6 @@ const userSongsDB = require('../../models/UserModels/userSongsDB');
 
 const guildPlaylistsDB = require('../../models/GuildModels/guildPlaylistsDB');
 const guildSongsDB = require('../../models/GuildModels/guildSongsDB');
-
-const YTDL = require('ytdl-core');
-const youtubeServices = require('../../services/youtubeServices');
 const utils = require('../utils/utils');
 
 const pgp = require('pg-promise')();
@@ -24,7 +21,7 @@ async function findUserPlaylist(args, message, server, guildPlaylist, playlistSe
           playlist_id: playlist.playlist_id, title: info.title, link: info.link, author: info.author, duration: info.duration, thumbnail_url: info.thumbnail 
         });
     }
-    else youtubeSearch(message, args, request, guildPlaylist, playlist);
+    else utils.youtubeSearch(message, args, server, request, { guildPlaylist: guildPlaylist, playlist: playlist }, guildPlaylistCheck);
   })
   .catch(err => {
     if(err instanceof QRE && err.code === qrec.noData)
@@ -49,7 +46,7 @@ async function findGuildPlaylist(args, message, server, guildPlaylist, playlistS
               
         getGuildPlaylistSongs(message, playlist, info);
     }
-    else youtubeSearch(message, args, request, guildPlaylist, playlist);
+    else utils.youtubeSearch(message, args, server, request, { guildPlaylist: guildPlaylist, playlist: playlist }, guildPlaylistCheck);
   })
   .catch(err => {
     if(err instanceof QRE && err.code === qrec.noData)
@@ -122,28 +119,9 @@ async function saveToGuildPlaylist(message, playlist_name, data) {
   .catch(err => errorHandler(bot, message, err, "Error Saving to Playlist", "AddSong"));
 }
 
-async function youtubeSearch(message, args, songRequest, guildPlaylist, playlist) {
-  youtubeServices.youtubeSearch(songRequest)
-  .then(results => {
-    if(results.data.items.length > 1) return message.channel.send("No results found");
-    const link = `https://www.youtube.com/watch?v=${results.data.items[0].id.videoId}`;
-    YTDL_GetInfo(message, args, guildPlaylist, link, playlist);
-  })
-  .catch(err => {
-    if(err.response.status === 400) errorHandler(bot, message, err, "Invalid Search Request", "AddSong");
-  })
-}
-
-async function YTDL_GetInfo(message, args, guildPlaylist, link, playlist) {
-  YTDL.getInfo(link, (err, info) => {
-    if(err) return errorHandler(bot, message, err, "YTDL Error", "AddSong");
-    if(info.title === undefined) return message.channel.send(`Can't read title of undefined`);
-    if(info.length_seconds >= 600) return message.channel.send('Playlist Songs limited to 10 minutes');
-    let thumbnails = info.player_response.videoDetails.thumbnail.thumbnails;
-    let songInfo = { title: info.title, link: link, author: info.author.name, duration: info.length_seconds, thumbnail_url: thumbnails[thumbnails.length - 1].url };
-    if(guildPlaylist) getGuildPlaylistSongs(message, playlist, songInfo) ;
-    else getUserPlaylistSongs(message, playlist, songInfo);
-  });
+async function guildPlaylistCheck(message, args, server, options) {
+  if(options.guildPlaylist) getGuildPlaylistSongs(message, options.playlist, options.songInfo);
+  else getUserPlaylistSongs(message, options.playlist, options.songInfo);
 }
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
@@ -181,6 +159,3 @@ module.exports.config = {
     desc: 'Adds a song to your playlist from',
     example: 'addsong Chillstep Better Now Post Malone'
 };
-
-// Check For Duplicate for User Playlist
-// Fix Request 

@@ -1,3 +1,8 @@
+const youtubeServices = require('../../services/youtubeServices');
+const YTDL = require('ytdl-core');
+const Discord_Bot = require('../../Discord_Bot');
+const errorHandler = require('../../controllers/errorHandler');
+
 module.exports = {
     fortunes: [
         "Yes",
@@ -45,9 +50,8 @@ module.exports = {
         return maxEl;
     },
     async timeParser(sec, format) {
-        // let d = Math.floor((sec / 3600) * 24);
-        let d = Math.floor(sec / (60 * 60 * 24));
-        let h = Math.floor(sec / 3600);
+        let d = Math.floor(sec / (3600 * 24));
+        let h = Math.floor(sec % (3600 * 24) / 3600);
         let m = Math.floor(sec % 3600 / 60);
         let s = Math.floor(sec % 3600 % 60);
 
@@ -104,5 +108,36 @@ module.exports = {
           arr[j] = temp;
         }
         return arr;
-      }
+    },
+    async youtubeSearch(message, args, server, songRequest, options, callback) {
+        youtubeServices.youtubeSearch(songRequest)
+        .then(results => {
+            if(results.data.items.length < 1) return message.channel.send("No results found");
+            let link = `https://www.youtube.com/watch?v=${results.data.items[0].id.videoId}`;
+            this.YTDL_GetInfo(message, args, server, link, options, callback);
+        })
+        .catch(err => errorHandler(Discord_Bot, message, err, "YouTube Search Error", "Utils"));
+    },
+    async YTDL_GetInfo(message, args, server, link, options, callback) {
+        YTDL.getBasicInfo(link, (err, info) => {
+            if(err) return errorHandler(Discord_Bot, message, err, "YTDL Error", "Utils")
+            if(info.player_response.videoDetails === undefined) return message.channel.send(`Invalid Video Details`);
+            if(info.player_response.videoDetails.lengthSeconds >= 3600) return message.channel.send('Requests limited to 1 hour');
+            info = info.player_response.videoDetails;
+            let thumbnails = info.thumbnail.thumbnails;
+            let songInfo = { 
+                title: info.title, 
+                link: link, 
+                author: info.author, 
+                duration: info.lengthSeconds, 
+                thumbnail: thumbnails[thumbnails.length - 1].url, 
+                requestedBy: message.author.username 
+            }
+            callback(message, args, server, {
+                songInfo: songInfo, 
+                guildPlaylist: (options.guildPlaylist ? options.guildPlaylist : ""), 
+                playlist: (options.playlist ? options.playlist : "")
+            });
+        });
+    }
 };

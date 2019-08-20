@@ -72,7 +72,7 @@ module.exports = async (message, bot, contentArr, options) => {
       reaction.message.edit(options.flavorText, embed);
       reaction.remove(reaction.users.array()[reaction.users.array().length - 1].id);
     });
-    r_collector.on('end', e => msg.clearReactions());
+    r_collector.on('end', () => msg.clearReactions());
 
   })
   .catch(err => console.log(err))
