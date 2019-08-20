@@ -13,7 +13,7 @@ const ranksController = require('./ranksController');
 const guildsDB = require('../models/GuildModels/guildsDB');
 const logSettingsDB = require('../models/GuildModels/guildLogSettingsDB');
 const disabledCommandsDB = require('../models/disabledCommandsDB');
-const guildSettingsDB = require('../models/GuildModels/guildSettingsDB');
+const welcomeMessageDB = require('../models/welcomeMessageDB');
 
 const BackUpCommands = require('../commands/BackUpCommands');
 
@@ -161,6 +161,15 @@ services.handleOnMessage = async (bot, message) => {
 */
 services.handleOnMemberAdd = async (bot, member) => {
     if(member.user.bot) return;
+    let welcomeMessage = null;
+    await welcomeMessageDB.findByGuildId(member.guild.id)
+    .then(message => welcomeMessage = message.message)
+    .catch(err => {
+        if(err instanceof QRE && err.code === qrec.noData) return;
+        else console.error(err);
+    });
+
+    if(welcomeMessage) member.user.send(welcomeMessage);
 
     logSettingsDB.findByGuildId(member.guild.id)
     .then(settings => {

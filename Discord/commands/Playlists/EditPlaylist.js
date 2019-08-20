@@ -63,7 +63,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
         args.splice(args.indexOf("-s"), 1);
         findGuildPlaylists(bot, args, message);
     }
-    else if(args.includes("-p")) findUserPlaylists(args, message, true);
+    else if(args.includes("-p")) findUserPlaylists(bot, args, message, true);
     else findUserPlaylists(bot, args, message, false);
 };
 

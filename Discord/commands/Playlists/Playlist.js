@@ -51,8 +51,8 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
   else if(/<@!?(\d+)>/.exec(args.join(" "))) discord_id = /<@!?(\d+)>/.exec(args.join(" "))[1];
 
   if(discord_id) {
-    args.splice(args.indexOf(`<@${discord_id}>`), 1);
-    if(!args.includes("-i")) return myPlaylists.findMyPlaylists(message, args, discord_id, bot);
+    args.splice(1, 1);
+    if(!args.includes("-i") && !args[1]) return myPlaylists.findMyPlaylists(message, args, discord_id, bot);
   }
 
   playlistName = args[1] === "-s" || args[1] === '-i' ? args[2] : args[1];
