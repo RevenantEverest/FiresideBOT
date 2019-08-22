@@ -33,6 +33,12 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Params**: Rank Name  
 **Example**: `?addrank NewRank`  
 
+- [AutoRole](https://help.firesidebot.com/commands/autorole) `<param>`  
+**Desc**: Assign a role to give new server members when they join  
+**Aliases**: `ar`   
+**Params**: @Role Tag  
+**Example**: `?autorole @users`  
+
 - [Ban](https://help.firesidebot.com/commands/ban) `<param>`  
 **Desc**: Bans a user  
 **Aliases**:   
@@ -76,6 +82,12 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Aliases**:   
 **Params**: @Tag / Amount  
 **Example**: `?purge @RevenantEverest 20`  
+
+- [RemoveAutoRole](https://help.firesidebot.com/commands/removeautorole) `<param>`  
+**Desc**: Removes set AutoRole (Also disables AutoRole)  
+**Aliases**: `rar`   
+**Params**: @Role Tag  
+**Example**: `?autorole @users`  
 
 - [RemoveRank](https://help.firesidebot.com/commands/removerank) `<param>`  
 **Desc**: Removes a Rank Tier  

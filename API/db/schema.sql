@@ -23,6 +23,12 @@ DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS default_commands;
 DROP TABLE IF EXISTS custom_commands;
 
+CREATE TABLE auto_role (
+  id SERIAL PRIMARY KEY,
+  guild_id VARCHAR(255),
+  role_id VARCHAR(255)
+);
+
 CREATE TABLE autodj (
   id SERIAL PRIMARY KEY,
   user_id INT,

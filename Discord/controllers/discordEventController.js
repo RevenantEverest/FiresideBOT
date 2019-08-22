@@ -14,6 +14,7 @@ const guildsDB = require('../models/GuildModels/guildsDB');
 const logSettingsDB = require('../models/GuildModels/guildLogSettingsDB');
 const disabledCommandsDB = require('../models/disabledCommandsDB');
 const welcomeMessageDB = require('../models/welcomeMessageDB');
+const autoRoleDB = require('../models/autoRoleDB');
 
 const BackUpCommands = require('../commands/BackUpCommands');
 
@@ -162,14 +163,19 @@ services.handleOnMessage = async (bot, message) => {
 services.handleOnMemberAdd = async (bot, member) => {
     if(member.user.bot) return;
     let welcomeMessage = null;
+    let autoRole = null;
     await welcomeMessageDB.findByGuildId(member.guild.id)
     .then(message => welcomeMessage = message.message)
     .catch(err => {
         if(err instanceof QRE && err.code === qrec.noData) return;
         else console.error(err);
     });
+    await autoRoleDB.findByGuildId(member.guild.id)
+    .then(aRole => autoRole = aRole.role_id)
+    .catch(err => console.error(err));
 
     if(welcomeMessage) member.user.send(welcomeMessage);
+    if(autoRole) member.addRole(autoRole, 'Fireside AutoRole').catch(err => console.error(err));
 
     logSettingsDB.findByGuildId(member.guild.id)
     .then(settings => {

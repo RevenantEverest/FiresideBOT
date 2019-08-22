@@ -45,7 +45,7 @@ async function handleEmbed(message, args, bot, discord_id, playlists, songData, 
   totalLength = await utils.timeParser(totalLength);
 
   embed
-  .setTitle(`Available Playlists (${totalLength})`)
+  .addField(`Overall Playlist Length:`, `(${totalLength})`)
   .addBlankField()
   .setThumbnail('https://i.imgur.com/OpSJJxe.png')
   .setColor(0xff3399);
