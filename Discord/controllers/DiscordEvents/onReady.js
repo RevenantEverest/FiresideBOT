@@ -21,9 +21,6 @@ module.exports = async (bot, getCommands) => {
 
     getCommands();
 
-    // For Loop Doesn't wait to be finished, ReadMe won't properly update without waiting setTimeout
-    setTimeout(() => readmeController.write(), 2000);
-
     guildsController.checkGuilds(bot)
     
     bot.user.setActivity("The Campfire | ?help", {type: "WATCHING"});
@@ -32,8 +29,8 @@ module.exports = async (bot, getCommands) => {
     }, 7200000);
 
     setInterval(() => {
-        config.Discord_Options.users = 0;
-        bot.guilds.array().forEach(el => config.Discord_Options.users += el.memberCount);
+        config.environment.users = 0;
+        bot.guilds.array().forEach(el => config.environment.users += el.memberCount);
     }, 5000);
 
     if(process.env.ENVIRONMENT === "DEV") return console.log(chalk.hex('#00ff00')('[LOG]') +'  FiresideBOT Ready');

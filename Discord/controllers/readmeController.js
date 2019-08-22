@@ -4,12 +4,12 @@ const chalk = require('chalk');
 
 module.exports = {
     write() {
-        const categories = ['Admin', 'Config', 'Economy', 'Fun', 'GameStats', 'Info', 'Music', 'Other', 'Playlists', 'Support'];
         let readme_value = '';
-
+        let categories = config.categories;
+        categories.splice(categories.map(el => el.name).indexOf("Dev"), 1);
         categories.forEach((category, idx) => {
             let readme_commands = '';
-            config.Discord_Commands.filter(commands => commands.category === category).forEach(el => {
+            config.commands.filter(commands => commands.category === category.name).forEach(el => {
                 let param = (el.params ? (el.params.required ? ("`" + "<param>" + "`") : ("`" + "[param]" + "`")) : '');
                 let flags = '';
                 let aliases = '';
@@ -24,20 +24,20 @@ module.exports = {
                 `**Example**: ${("`?" + el.example + "`")}  \n\n`
             });
             readme_value += 
-            `<a id="${category}"></a>  \n\n` +
-            `#### ${category}  \n\n` +
+            `<a id="${category.name}"></a>  \n\n` +
+            `#### ${category.name}  \n\n` +
             `${readme_commands}  \n\n` +
             `--- \n\n`;
         });
 
         let toc_commands = '';
-        categories.forEach(el => toc_commands += `[${el}](#${el}), `);
+        categories.forEach(el => toc_commands += `[${el.name}](#${el.name}), `);
 
         let README = 
         
         `# FiresideBOT  \n` +
         `A Music, Economy, & Admin Discord Bot written in Node.js  \n\n` +
-        `###### Current Version: ${config.Discord_Options.version}  \n` +
+        `###### Current Version: ${config.environment.version}  \n` +
         `[HelpDocs](help.firesidebot.com) || [Invite](https://discordapp.com/oauth2/authorize?` +
         `client_id=441338104545017878&response_type=code&permissions=8&scope=bot) || [Online Control Panel](https://firesidebot.com)  \n\n` +
         `---  \n\n` +

@@ -37,7 +37,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
 
 module.exports.config = {
     name: 'editwelcomemessage',
-    d_name: 'editWelcomeMessage',
+    d_name: 'EditWelcomeMessage',
     aliases: ['ewm'],
     params: {required: true, params: 'Message (1024 Character Limit)'},
     category: 'Admin',

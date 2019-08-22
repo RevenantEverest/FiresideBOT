@@ -32,6 +32,6 @@ module.exports.config = {
     aliases: ['p'],
     params: { required: true, params: 'YouTube Link or Search Request' },
     category: 'Music',
-    desc: 'Plays request',
+    desc: 'Plays a requested YouTube Link or Search Request',
     example: 'play kingdom hearts sanctuary'
 }

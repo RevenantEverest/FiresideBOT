@@ -4,11 +4,11 @@ const router = express.Router();
 const config = require('../config/config');
 
 router.route("/")
-.get((req, res) => res.json({ message: "Getting Commands", data: config.Discord_Commands }));
+.get((req, res) => res.json({ message: "Getting Commands", data: config.commands }));
 
 router.route("/name/:name")
 .get((req, res) => {
-    let command = config.Discord_Commands.filter(el => el.name === req.params.name);
+    let command = config.commands.filter(el => el.name === req.params.name);
     res.json({ message: "Getting Command", data: command })
 });
 

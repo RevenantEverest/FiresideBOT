@@ -1,3 +1,4 @@
+const config = require('../../config/config');
 const Discord = require('discord.js');
 const pagination = require('../utils/pagination');
 const disabledCommandsDB = require('../../models/disabledCommandsDB');
@@ -5,10 +6,11 @@ const disabledCommandsDB = require('../../models/disabledCommandsDB');
 function helpSpec(PREFIX, message, args, bot, contentArr) {
     let embed = new Discord.RichEmbed();
     embed.setColor(0xcc00ff);
+    let flavorText = "`<param>` is a required param and `[param]` is an optional param. For more information on a command use `" + PREFIX + "help <command>` ™";
 
-    if(contentArr[contentArr.map(e => e.category.toLowerCase()).indexOf(args[1].toLowerCase())]) {
-      let helpInfo = contentArr[contentArr.map(e => e.category.toLowerCase()).indexOf(args[1].toLowerCase())];
-      embed.setTitle(`**${helpInfo.category}**`);
+    if(contentArr[contentArr.map(e => e.category[0].toLowerCase()).indexOf(args[1].toLowerCase())]) {
+      let helpInfo = contentArr[contentArr.map(e => e.category[0].toLowerCase()).indexOf(args[1].toLowerCase())];
+      embed.addField(`**${helpInfo.category[0]}**`, `${helpInfo.category[1]}`).addBlankField();
       helpInfo.fields.forEach(el => embed.addField(`${el.field}`, `${el.value}`, el.inline));
     } 
     else if(bot.commands.get(args[1].toLowerCase()) || bot.commands.get(bot.aliases.get(args[1].toLowerCase()))) {
@@ -18,21 +20,24 @@ function helpSpec(PREFIX, message, args, bot, contentArr) {
       helpInfo = helpInfo.config;
 
       embed
-      .addField(`**${helpInfo.d_name}**`, `${helpInfo.desc}`)
+      .addField(`**${helpInfo.d_name}** - ${helpInfo.category} ${helpInfo.params ? (helpInfo.params.required ? '`<param>`' : '`[param]`') : ''}`, `${helpInfo.desc}`)
       .addBlankField()
-      .addField('Category: ', `${helpInfo.category}`)
       
       if(helpInfo.params)
         embed
-        .addField('Param Type: ', `${helpInfo.params.required ? 'Required' : 'Optional'}`, true)
         .addField('Params: ', helpInfo.params.params, true)
+
+      if(helpInfo.aliases.length > 0) {
+        let aliasText = '';
+        helpInfo.aliases.forEach(el => aliasText += "`" + el + "` ");
+        embed.addField('Aliases:', aliasText, true)
+      }
 
       if(helpInfo.flags) {
         let flagText = '';
         helpInfo.flags.forEach(el => flagText += "`" + el + "` ");
         embed.addField('Flags:', flagText, true)
-      }
-        
+      } 
 
       embed
       .addField('Example:', "`" + PREFIX + helpInfo.example + "`")
@@ -41,18 +46,19 @@ function helpSpec(PREFIX, message, args, bot, contentArr) {
     else
       return message.channel.send('Invalid Command or Category');
 
-    message.channel.send(embed);
+    message.channel.send(flavorText, embed);
 };
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
-    let categories = ['Admin', 'Config', 'Economy', 'Fun', 'GameStats', 'Info', 'Music', 'Other', 'Playlists', 'Support'];
+    let categories = config.categories;
+    categories.splice(categories.map(el => el.name).indexOf("Dev"), 1);
     let contentArr = [
       {
-        category: `Welcome to the FiresideBOT Help Command`,
+        category: [`Welcome to the FiresideBOT Help Command`, 'Need immediate help? Message Fireside to open a ticket'],
         fields: [
           {
             field: 'Available Categories:',
-            value: categories.join(" **|** ")
+            value: categories.map(el => el.name).join(" **|** ")
           },
           {
             field: 'How To Use:',
@@ -74,12 +80,10 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     .then(commands => dCommands = commands.map(el => el.command))
     .catch(err => console.error(err));
 
-    console.log(dCommands)
-    categories.forEach(el => contentArr.push({ category: el, fields: [] }));
-
+    categories.forEach(el => contentArr.push({ category: [el.name, el.desc], fields: [] }));
     commands.forEach(el => {
-      if(el.config.category && contentArr[contentArr.map(e => e.category).indexOf(el.config.category)])
-        contentArr[contentArr.map(e => e.category).indexOf(el.config.category)].fields.push({
+      if(el.config.category && contentArr[contentArr.map(e => e.category[0]).indexOf(el.config.category)])
+        contentArr[contentArr.map(e => e.category[0]).indexOf(el.config.category)].fields.push({
           field: `${dCommands.includes(el.config.name) ? '❌' : ''} ${el.config.d_name} ${el.config.params ? (el.config.params.required ? '`<param>`' : '`[param]`') : ''}`, 
           value: (el.config.desc === '' ? '*N/A*' : el.config.desc),
           inline: false
@@ -89,7 +93,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     let flavorText = "`<param>` is a required param and `[param]` is an optional param. For more information on a command use `" + PREFIX + "help <command>` ™";
 
     if(!args[1])
-        pagination(message, bot, contentArr, { flavorText: flavorText, title: true, color: 0xcc00ff });
+        pagination(message, bot, contentArr, { flavorText: flavorText, color: 0xcc00ff });
     else 
         helpSpec(PREFIX, message, args, bot, contentArr);
 };

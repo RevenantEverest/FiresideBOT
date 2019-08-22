@@ -12,15 +12,13 @@ async function getCommands() {
   Discord_Bot.aliases = new Discord.Collection();
   Discord_Bot.config = new Discord.Collection();
   
-  const categories = ['Admin', 'Dev', 'Config', 'Economy', 'Fun', 'GameStats', 'Info', 'Music', 'Other', 'Playlists', 'Support'];
-  
   /*
       Pulls all files from the command directory
       For each file sets the name in the config from that file as an element in Discord.Collection
       For each file config, takes the aliases in the config and stores them in Discord.Collection
   */
-  for(let i = 0; i < categories.length; i++) {
-    let path = `/commands/${categories[i]}`;
+  for(let i = 0; i < config.categories.length; i++) {
+    let path = `/commands/${config.categories[i].name}`;
     fs.readdir(`.${path}`, async (err, files) => {
       if(err) console.error(err);
       let jsfile = files.filter(f => f.split(".").pop() === 'js');
@@ -28,7 +26,7 @@ async function getCommands() {
       jsfile.forEach((f, i) => {
         let pull = require(`.${path}/${f}`);
         Discord_Bot.commands.set(pull.config.name, pull);
-        config.Discord_Commands.push(pull.config);
+        config.commands.push(pull.config);
         
         pull.config.aliases.forEach(alias => {
           Discord_Bot.aliases.set(alias, pull.config.name);

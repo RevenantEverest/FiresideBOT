@@ -10,7 +10,7 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 
 | Category                 | Subcategory
 | -------------            |:-------------
-| [Commands](#Commands)    | [Admin](#Admin), [Config](#Config), [Economy](#Economy), [Fun](#Fun), [GameStats](#GameStats), [Info](#Info), [Music](#Music), [Other](#Other), [Playlists](#Playlists), [Support](#Support), 
+| [Commands](#Commands)    | [Acirhia](#Acirhia), [Admin](#Admin), [Config](#Config), [Economy](#Economy), [Fun](#Fun), [GameStats](#GameStats), [Info](#Info), [Music](#Music), [Other](#Other), [Playlists](#Playlists), [Support](#Support), 
 
 ---  
 
@@ -22,6 +22,40 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 `<param>` indicates a required parameter while `[param]` indicates an optional parameter  
 
 ---  
+
+<a id="Acirhia"></a>  
+
+#### Acirhia  
+
+- [CreateCharacter](https://help.firesidebot.com/commands/createcharacter) `<param>`  
+**Desc**: Creates a new Acirhia Character  
+**Aliases**: `cc`   
+**Params**: Character Name  
+**Example**: `?createcharacter King Arthur`  
+
+- [Inventory](https://help.firesidebot.com/commands/inventory)   
+**Desc**: View current inventory  
+**Aliases**: `inv`   
+**Example**: `?inventory`  
+
+- [MyCharacter](https://help.firesidebot.com/commands/mycharacter)   
+**Desc**: View Character Stats and Equipped Items  
+**Aliases**: `mc` `vc`   
+**Example**: `?mycharacter`  
+
+- [RunDungeon](https://help.firesidebot.com/commands/rundungeon)   
+**Desc**: Begin a dungeon run  
+**Aliases**: `rd`   
+**Example**: `?rundungeon`  
+
+- [Shop](https://help.firesidebot.com/commands/shop)   
+**Desc**: View available shop items  
+**Aliases**:   
+**Example**: `?shop`  
+
+  
+
+--- 
 
 <a id="Admin"></a>  
 
@@ -65,7 +99,7 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Flags**: `-t`   
 **Example**: `?edittracker -t 108 #general @everyone`  
 
-- [editWelcomeMessage](https://help.firesidebot.com/commands/editwelcomemessage) `<param>`  
+- [EditWelcomeMessage](https://help.firesidebot.com/commands/editwelcomemessage) `<param>`  
 **Desc**: Edit a welcome message that get's sent to anyone who joins the server (Also enables Welcome Message)  
 **Aliases**: `ewm`   
 **Params**: Message (1024 Character Limit)  
@@ -421,7 +455,7 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Example**: `?pause`  
 
 - [Play](https://help.firesidebot.com/commands/play) `<param>`  
-**Desc**: Plays request  
+**Desc**: Plays a requested YouTube Link or Search Request  
 **Aliases**: `p`   
 **Params**: YouTube Link or Search Request  
 **Example**: `?play kingdom hearts sanctuary`  
@@ -439,7 +473,7 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Example**: `?promote 7`  
 
 - [Queue](https://help.firesidebot.com/commands/queue)   
-**Desc**: Displays the queue  
+**Desc**: Displays the current queue  
 **Aliases**: `q`   
 **Example**: `?queue`  
 
@@ -477,6 +511,11 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 <a id="Other"></a>  
 
 #### Other  
+
+- [Daily](https://help.firesidebot.com/commands/daily)   
+**Desc**: Redeem daily rewards  
+**Aliases**: `d`   
+**Example**: `?daily`  
 
 - [Emojis](https://help.firesidebot.com/commands/emojis)   
 **Desc**: Displays the servers custom emojis  
