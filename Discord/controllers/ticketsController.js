@@ -1,5 +1,4 @@
 const Discord = require('discord.js');
-const utils = require('../commands/utils/utils');
 const discordTicketsDB = require('../models/discordTicketsDB');
 const discordClosedTicketsDB = require('../models/discordClosedTicketsDB');
 
@@ -24,7 +23,7 @@ module.exports = {
         .catch(err => {
             if(err instanceof QRE && err.code === qrec.noData)
                 this.openTicket(bot, message);
-            else console.log(err);
+            else console.error(err);
         })
     },
     async openTicket(bot, message) {

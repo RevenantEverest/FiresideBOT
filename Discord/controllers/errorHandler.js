@@ -20,7 +20,7 @@ async function logError(bot, message, err, errMsg, command) {
     .setFooter(await getDate());
 
     bot.channels.get(process.env.ENVIRONMENT === "DEV" ? "613146139524333605" : "543862697742172179").send(embed);
-    // Log to DB
+    /* Log to DB */
 };
 
 async function handleTicket(bot, message, err, errMsg, command) {

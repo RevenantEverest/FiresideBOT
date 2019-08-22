@@ -67,7 +67,7 @@ module.exports = {
             })
             .catch(err => {
                 //Log Error
-                console.log(err);
+                console.error(err);
             });
     },
     async removeGuild(bot, guild) {

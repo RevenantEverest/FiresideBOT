@@ -1,14 +1,21 @@
 const express = require('express');
-const controller = require('../controllers/commandController');
 const router = express.Router();
 
+const config = require('../config/config');
+
 router.route("/")
-.get(controller.index)
+.get((req, res) => res.json({ message: "Getting Commands", data: config.Discord_Commands }));
 
 router.route("/name/:name")
-.get(controller.getOne)
+.get((req, res) => {
+    let command = config.Discord_Commands.filter(el => el.name === req.params.name);
+    res.json({ message: "Getting Command", data: command })
+});
 
 router.route("/category/:category")
-.get(controller.getByCategory)
+.get((req, res) => {
+    let category = config.Discord_Commands.filter(el => el.category === req.params.category);
+    res.json({ message: "Getting Commands By Category", data: category })
+});
 
 module.exports = router;
