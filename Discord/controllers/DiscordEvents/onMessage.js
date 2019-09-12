@@ -59,7 +59,7 @@ module.exports = async (bot, message) => {
     
     let args = message.content.substring(PREFIX.length).split(" ");
     let server = config.servers[config.servers.map(el => el.id).indexOf(message.guild.id)];
-    let options = config.Discord_Options;
+    let options = config.environment;
     
     let commandfile = bot.commands.get(args[0].toLowerCase()) || bot.commands.get(bot.aliases.get(args[0].toLowerCase()));
 

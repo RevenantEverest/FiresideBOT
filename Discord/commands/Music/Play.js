@@ -1,7 +1,7 @@
 const playSong = require('../utils/playSong');
 const utils = require('../utils/utils');
 
-async function setQueue(message, args, server, options) {
+async function setQueue(bot, message, args, server, options) {
   server.queue.queueInfo.push(options.songInfo);
   message.channel.send(`**${options.songInfo.title}** was added to the queue. In position **#${server.queue.queueInfo.length}**`);
   if(!message.guild.voiceConnection) 
