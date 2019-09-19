@@ -3,6 +3,7 @@ const userSongsDB = require('../../models/UserModels/userSongsDB');
 const guildSongsDB = require('../../models/GuildModels/guildSongsDB');
 const utils = require('./utils');
 const pagination = require('../utils/pagination');
+const errorHandler = require('../../controllers/errorHandler');
 
 const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
@@ -88,7 +89,7 @@ module.exports = {
         .catch(err => {
             if(err instanceof QRE && err.code === qrec.noData)
                 message.channel.send(`No songs found in playlist **${playlist.name}**`);
-            else console.error(err);
+            else errorHandler(bot, message, err, "DB Error", "ViewPlaylist");
         })
     },
     async viewGuildPlaylist(message, args, server, playlist, bot) {
@@ -104,7 +105,7 @@ module.exports = {
         .catch(err => {
             if(err instanceof QRE && err.code === qrec.noData)
                 message.channel.send(`No songs found in playlist **${playlist.name}**`);
-            else console.error(err);
+            else errorHandler(bot, message, err, "DB Error", "ViewPlaylist");
         })
     }
 };

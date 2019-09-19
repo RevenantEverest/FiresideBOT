@@ -4,6 +4,7 @@ const userSongsDB = require('../../models/UserModels/userSongsDB');
 const guildPlaylistsDB = require('../../models/GuildModels/guildPlaylistsDB');
 const guildSongsDB = require('../../models/GuildModels/guildSongsDB');
 const utils = require('./utils');
+const errorHandler = require('../../controllers/errorHandler');
 
 const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
@@ -17,7 +18,7 @@ async function getUserPlaylistSongs(playlists) {
     .catch(err => {
       if(err instanceof QRE && err.code === qrec.noData)
         songData.push([]);
-      else console.log(err);
+      else errorHandler(bot, message, err, "DB Error", "MyPlaylists");
     })
   }
   return songData;
@@ -31,7 +32,7 @@ async function getGuildPlaylistSongs(playlists) {
     .catch(err => {
       if(err instanceof QRE && err.code === qrec.noData)
         songData.push([]);
-      else console.log(err);
+      else errorHandler(bot, message, err, "DB Error", "MyPlaylists");
     })
   }
   return songData;
@@ -74,12 +75,12 @@ module.exports = {
     .then(playlists => {
       getUserPlaylistSongs(playlists)
       .then(songData => handleEmbed(message, args, bot, discord_id, playlists, songData, false))
-      .catch(err => console.error(err));
+      .catch(err => errorHandler(bot, message, err, "DB Error", "MyPlaylists"));
     })
     .catch(err => {
       if(err instanceof QRE && err.code === qrec.noData)
         message.channel.send(`No playlists found`);
-      else console.log(err);
+      else errorHandler(bot, message, err, "DB Error", "MyPlaylists");
     })    
   },
   async findServerPlaylists(message, args, bot) {;
@@ -87,12 +88,12 @@ module.exports = {
     .then(playlists => {
       getGuildPlaylistSongs(playlists)
       .then(songData => handleEmbed(message, args, bot, message.author.id, playlists, songData, true))
-      .catch(err => console.error(err));
+      .catch(err => errorHandler(bot, message, err, "DB Error", "MyPlaylists"));
     })
     .catch(err => {
       if(err instanceof QRE && err.code === qrec.noData)
         message.channel.send(`No playlists found`);
-      else console.log(err);
+      else errorHandler(bot, message, err, "DB Error", "MyPlaylists");
     })
   }
 }

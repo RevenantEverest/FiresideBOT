@@ -1,5 +1,6 @@
 const playSong = require('../utils/playSong');
 const utils = require('../utils/utils');
+const errorHandler = require('../../controllers/errorHandler');
 
 async function setQueue(bot, message, args, server, options) {
   server.queue.queueInfo.push(options.songInfo);
@@ -9,7 +10,7 @@ async function setQueue(bot, message, args, server, options) {
     .then((connection) => {
       playSong.playSong(connection, message, server);
     })
-    .catch(err => console.error(err));
+    .catch(err => errorHandler(bot, message, err, "Join Voice Channel Error", "Play"));
 }
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {

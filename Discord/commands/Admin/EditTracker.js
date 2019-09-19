@@ -25,6 +25,7 @@ async function updateTracker(bot, message, args, channel_id, role_id, tracker) {
         id: tracker.id, 
         guild_id: tracker.guild_id, 
         twitch_username: tracker.twitch_username, 
+        twitch_id: tracker.twitch_id,
         channel_id: (channel_id ? channel_id : tracker.channel_id), 
         role_id: (role_id ? role_id : tracker.role_id) 
     })

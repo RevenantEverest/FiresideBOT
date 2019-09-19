@@ -166,6 +166,7 @@ CREATE TABLE twitch_tracker (
   id SERIAL PRIMARY KEY,
   guild_id VARCHAR(255),
   twitch_username VARCHAR(255),
+  twitch_id VARCHAR(255),
   channel_id VARCHAR(255),
   role_id VARCHAR(255)
 );

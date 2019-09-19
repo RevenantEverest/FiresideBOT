@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const YTDL = require('ytdl-core');
 const handleRecommendations = require('./handleRecommendations');
 const utils = require('./utils');
+const errorHandler = require('../../controllers/errorHandler');
 
 const lastfmServices = require('../../services/lastfmServices');
 
@@ -22,12 +23,12 @@ async function getGenre(server) {
             server.queue.genres.push(songInfo.data.track.toptags.tag[0].name)
           }
         })
-        .catch(err => console.error(err));
+        .catch(err => errorHandler(bot, message, err, "LastFM Error", "PlaySong"));
     })
-    .catch(err => console.error(err));
+    .catch(err => errorHandler(bot, message, err, "LastFM Error", "PlaySong"));
 }
 
-services.playSong = async (connection, message, server) => {
+services.playSong = async (bot, connection, message, server) => {
   let currentSongEmbed = new Discord.RichEmbed();
   let request = server.queue.queueInfo[0];
 
@@ -66,7 +67,7 @@ services.playSong = async (connection, message, server) => {
     else {
       if(server.queue.options.recommendations) {
         let promise = new Promise((resolve, reject) => {
-          handleRecommendations(message, server, resolve, reject);
+          handleRecommendations(bot, message, server, resolve, reject);
         });
         promise.then(() => {
           this.playSong(connection, message);

@@ -19,7 +19,7 @@ async function logError(bot, message, err, errMsg, command) {
     .addField("Error Message:", errMsg)
     .setFooter(await getDate());
 
-    bot.channels.get(process.env.ENVIRONMENT === "DEV" ? "613146139524333605" : "543862697742172179").send(embed);
+    bot.channels.get(process.env.ENVIRONMENT === "DEV" ? "624216968844804096" : "543862697742172179").send(embed);
     /* Log to DB */
 };
 

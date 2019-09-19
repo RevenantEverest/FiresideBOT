@@ -12,7 +12,6 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     embed.setColor(0xff9999).setTitle("Available Trackers")
     twitchTrackerDB.findByGuildId(message.guild.id)
     .then(trackers => {
-        embed.addField("Amount:", trackers.length)
         let trackerField = '';
         trackers.forEach((el, idx) => trackerField += 
             `${idx + 1}. ${el.twitch_username} <#${el.channel_id}> ` + 

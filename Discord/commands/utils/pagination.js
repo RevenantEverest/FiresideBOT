@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const errorHandler = require('../../controllers/errorHandler');
 
 /*
   ContentArr Parsing Example:

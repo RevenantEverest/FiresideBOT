@@ -12,10 +12,9 @@ async function getDate() {
 
 services.handleOnReady = async (bot) => {
 
-    setInterval(() => {
-        twitchTrackerController.runCheck(bot);
-        twitchTrackerController.checkOffline();
-    }, 120000)
+    setInterval(() => twitchTrackerController.runCheck(bot), 120000);
+
+    // 120000
     
     if(process.env.ENVIRONMENT === "DEV") return console.log(chalk.hex('#ff9900')('[LOG]') + ' Twitch-Tracker Ready');
 
