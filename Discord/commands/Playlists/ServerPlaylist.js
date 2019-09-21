@@ -9,17 +9,19 @@ const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
 const qrec = pgp.errors.queryResultErrorCode;
 
-async function getSongs(args, message, server, playlist) {
+const errorHandler = require('../../controllers/errorHandler');
+
+async function getSongs(bot, args, message, server, playlist) {
   guildSongsDB.findByPlaylistId(playlist.playlist_id)
-  .then(songs => addToQueue(args, message, server, playlist, songs))
+  .then(songs => addToQueue(bot, args, message, server, playlist, songs))
   .catch(err => {
     if(err instanceof QRE && err.code === qrec.noData)
       message.channel.send(`No songs found in playlist **${playlist.name}**`);
-    else console.log(err);
+    else errorHandler(bot, message, err, "DB Error", "ServerPlaylist");
   })
 }
 
-async function addToQueue(args, message, server, playlist, songs) {
+async function addToQueue(bot, args, message, server, playlist, songs) {
   if(args.includes("-s")) songs = await utils.shuffle(songs);
   songs.forEach(el => {
     server.queue.queueInfo.push({
@@ -28,9 +30,11 @@ async function addToQueue(args, message, server, playlist, songs) {
   })
   message.channel.send(`Adding playlist **${playlist.name}** to the queue`);
 
-  if(!message.guild.voiceConnection) message.member.voiceChannel.join().then((connection) => {
-      playSong.playSong(connection, message, server);
-  })
+  if(!message.guild.voiceConnection) message.member.voiceChannel.join()
+    .then((connection) => {
+        playSong.playSong(bot, connection, message, server);
+    })
+    .catch(err => console.error(err));
 }
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
@@ -46,12 +50,12 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
   .then(playlist => {
     if(args.includes("-i")) return viewPlaylist.viewGuildPlaylist(message, args, server, playlist, bot);
     if(!message.member.voiceChannel) return message.channel.send("You must be in a voice channel");
-    getSongs(args, message, server, playlist)
+    getSongs(bot, args, message, server, playlist)
   })
   .catch(err => {
     if(err instanceof QRE && err.code === qrec.noData)
       message.channel.send('No playlist found by that name');
-    else console.log(err);
+    else errorHandler(bot, message, err, "DB Error", "ServerPlaylist");
   })
 };
 

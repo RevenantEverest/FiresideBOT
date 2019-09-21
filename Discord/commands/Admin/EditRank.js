@@ -4,10 +4,12 @@ const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
 const qrec = pgp.errors.queryResultErrorCode;
 
-async function updateRank(rank_name, rank, message) {
+const errorHandler = require('../../controllers/errorHandler');
+
+async function updateRank(bot, rank_name, rank, message) {
     ranksDB.update({ id: rank.id, rank_name: rank_name, rank_number: rank.rank_number, guild_id: rank.guild_id })
     .then(() => message.channel.send(`Rank **${rank.rank_name}** updated to **${rank_name}**`))
-    .catch(err => console.error(err));
+    .catch(err => errorHandler(bot, message, err, "Error Updating Rank", "EditRank"));
 };
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
@@ -20,11 +22,11 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     args.splice(0, 1);
 
     ranksDB.findById(rank_id)
-    .then(rank => updateRank(args.join(" "), rank, message))
+    .then(rank => updateRank(bot, args.join(" "), rank, message))
     .catch(err => {
         if(err instanceof QRE && err.code === qrec.noData)
             message.channel.send("Invalid ID");
-        else console.error(err);
+        else errorHandler(bot, message, err, "DB Error", "EditRank");
     })
 };
 

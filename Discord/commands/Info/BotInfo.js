@@ -9,9 +9,9 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     infoEmbed
     .setColor(0xff0066)
     .setThumbnail(bot.user.avatarURL)
-    .addField('**Bot Info**', bot.user.username)
+    .setTitle(bot.user.username)
     .addBlankField()
-    .addField('Users:', config.Discord_Options.users.toLocaleString(), true)
+    .addField('Users:', config.environment.users.toLocaleString(), true)
     .addField('Guilds:', bot.guilds.array().length.toLocaleString(), true)
     .addField('Commands:', bot.commands.array().length.toLocaleString(), true)
     .addField('Created:', `${accountCreated[1]} ${accountCreated[2]} ${accountCreated[3]}`, true)

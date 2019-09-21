@@ -6,6 +6,22 @@ const utils = require('../commands/utils/utils');
 
 const logger = require('../services/loggerServices');
 
+async function handleEmbed(title, dateMessage, color, guild) {
+    let date = await utils.getDate();
+    let embed = new Discord.RichEmbed();
+
+    embed
+    .setTitle(`**${title}**`)
+    .addBlankField()
+    .setColor(color)
+    .addField('Name:', guild.name, true)
+    .addField('ID:', guild.id, true)
+    .addField('Member Count:', parseInt(guild.memberCount, 10).toLocaleString())
+    .setFooter(`${dateMessage}: ${date}`)
+
+    if(process.env.ENVIRONMENT !== "DEV") bot.channels.get('538528459190829064').send(embed);
+};
+
 module.exports = {
     async checkGuilds(bot) {
         guildsDB.findAll()
@@ -44,51 +60,18 @@ module.exports = {
             .catch(err => console.error(err));
     },
     async saveGuild(bot, guild) {
-        let date = await utils.getDate();
         guildsDB.save({ guild_name: guild.name, guild_id: guild.id })
             .then(() => {
-
                 defaultSettingsController.guildSettingsCheck(guild);
                 defaultSettingsController.currencySettingsCheck(guild);
                 defaultSettingsController.rankSettingsCheck(guild);
-
-                let embed = new Discord.RichEmbed();
-                embed
-                .setTitle('**New Guild**')
-                .addBlankField()
-                .setColor('#00ff00')
-                .addField('Name:', guild.name, true)
-                .addField('ID:', guild.id, true)
-                .addField('Member Count:', guild.memberCount)
-                .setFooter(`Guild added: ${date}`)
-
-                if(process.env.ENVIRONMENT !== "DEV")
-                    bot.channels.get('538528459190829064').send(embed);
+                handleEmbed('New Guild', 'Guild added', 0x00ff00, guild);
             })
-            .catch(err => {
-                //Log Error
-                console.log(err);
-            });
+            .catch(err => console.error(err));
     },
     async removeGuild(bot, guild) {
-        let date = await utils.getDate();
-        let embed = new Discord.RichEmbed();
-        embed
-        .setTitle('**Removed Guild**')
-        .addBlankField()
-        .setColor('#ff0000')
-        .addField('Name:', guild.name, true)
-        .addField('ID:', guild.id, true)
-        .addField('Member Count:', guild.memberCount)
-        .setFooter(`Guild removed: ${date}`)
-
-        if(process.env.ENVIRONMENT !== "DEV")
-            bot.channels.get('538528459190829064').send(embed);
-
         guildsDB.destroy(guild.id)
-            .catch(err => {
-                //Log Error
-                console.error(err);
-            });
+        .then(() => handleEmbed('Guild Removed', 'Guild removed', 0xff0000, guild))
+        .catch(err => console.error(err));
     }
 }

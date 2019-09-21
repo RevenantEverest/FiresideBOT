@@ -8,7 +8,7 @@ module.exports = {
         return db.one('SELECT * FROM discord_tickets WHERE id = $1', id);
     },
     async findByDiscordId(id) {
-        return db.one('SELECT * FROM discord_tickets WHERE discord_id = $1', id);
+        return db.many('SELECT * FROM discord_tickets WHERE discord_id = $1', id);
     },
     async save(ticket) {
         return db.one(`INSERT INTO discord_tickets (discord_id, initial_message, ticket_date)

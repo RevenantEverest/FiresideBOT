@@ -1,5 +1,7 @@
 const settingsDB = require('../../models/discordRankSettingsDB');
 
+const errorHandler = require('../../controllers/errorHandler');
+
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send(`You don't have permission to use this command`);
     if(!args[1]) return message.channel.send("Please tag a channel you'd like Level Ups posted in");
@@ -10,7 +12,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
 
     settingsDB.updateChannel({ guild_id: message.guild.id, channel_id: channel_id })
     .then(() => message.channel.send(`Level Ups will now be posted in <#${channel_id}>`))
-    .catch(err => console.error(err));
+    .catch(err => errorHandler(bot, message, err, "Error Updating Rank Channel", "EditRankChannel"));
 };
 
 module.exports.config = {

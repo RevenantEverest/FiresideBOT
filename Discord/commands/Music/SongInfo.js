@@ -2,6 +2,8 @@ const Discord = require('discord.js');
 const ksoftServices = require('../../services/ksoftServices');
 const utils = require('../utils/utils');
 
+const errorHandler = require('../../controllers/errorHandler');
+
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     args.splice(0, 1);
     
@@ -32,7 +34,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
         .catch(err => {
             if(err.response.status === 404)
                 return message.channel.send('Song not found');
-            else console.error(err.response);
+            else errorHandler(bot, message, err, "Ksoft API Error", "SongInfo");
         })
 };
 

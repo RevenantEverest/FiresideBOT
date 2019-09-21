@@ -1,80 +1,91 @@
 const Discord = require('discord.js');
 const twitchServices = require('../../services/twitchServices');
 
-async function checkStreamStatus(args, message, info) {
-    twitchServices.getTwitchStreamStatus(args[1])
-        .then(streamStatus => {
-            if(streamStatus.data.stream) {
-                info.isStreaming = true;
-                info.currentViewers = streamStatus.data.stream.viewers;
-                info.average_fps = streamStatus.data.stream.average_fps;
-                info.resolution = streamStatus.data.stream.video_height;
-                info.stream_type = streamStatus.data.stream.stream_type;
+const errorHandler = require('../../controllers/errorHandler');
 
-                sendTwitchUserInfo(args, message, info);
+async function getTwitchGame(bot, message, info, id) {
+    twitchServices.getTwitchGame(id)
+    .then(game => {
+        info.game = game.data.data[0] ? game.data.data.name : "No Game";
+        sendTwitchUserInfo(message, info);
+    })
+    .catch(err => errorHandler(bot, message, err, "Twitch API Error", "TwitchInfo"));
+}
+
+async function checkStreamStatus(bot, args, message, info) {
+    twitchServices.getTwitchStreamStatus(args[1])
+        .then(async streamStatus => {
+            streamStatus = streamStatus.data.data[0];
+            if(streamStatus.type) {
+                info.isStreaming = true;
+                info.title = streamStatus.title;
+                info.currentViewers = streamStatus.viewer_count;
+                info.type = streamStatus.type;
+                info.broadcaster_lang = streamStatus.language;
+
+                getTwitchGame(bot, message, info, streamStatus.game_id);
             }
             else {
                 info.isStreaming = false;
-                sendTwitchUserInfo(args, message, info);
+                sendTwitchUserInfo(message, info);
             } 
         })
-        .catch(err => console.error(err));
+        .catch(err => errorHandler(bot, message, err, "Twitch API Error", "TwitchInfo"));
 
 };
 
-async function getTwitchInfo(args, message) {
+async function getTwitchInfo(bot, args, message) {
     twitchServices.getTwitchInfo(args[1])
         .then(results => {
+            results = results.data.data[0];
             let info = {
-                display_name: results.data.display_name,
-                status: results.data.status,
-                game: results.data.game,
-                totalViews: results.data.views,
-                followers: results.data.followers,
-                broadcaster_lang: results.data.broadcaster_language,
-                partner: results.data.partner,
-                mature: results.data.mature,
-                logo: results.data.logo
+                display_name: results.display_name,
+                totalViews: results.view_count,
+                followers: results.followers,
+                boradcaster_type: results.boradcaster_type,
+                mature: results.mature,
+                logo: results.profile_image_url
             };
-            checkStreamStatus(args, message, info);
+            checkStreamStatus(bot, args, message, info);
         })
         .catch(err => {
             if(err.response.status === 404)
                 message.channel.send('No Twitch User Found');
-            else console.error(err);
+            else errorHandler(bot, message, err, "Twitch API Error", "TwitchInfo");
         })
 };
 
-async function sendTwitchUserInfo(args, message, info) {
+async function sendTwitchUserInfo(message, info) {
     let embed = new Discord.RichEmbed();
-    embed.setTitle(`Twitch Info for **${info.display_name}**`).setColor(0x6600ff).addBlankField();
-    if(info.isStreaming) {
+    embed
+    .setTitle(`Twitch Info for **${info.display_name}**`)
+    .setColor(0x6600ff)
+    .addBlankField();
+    if(info.isStreaming)
         embed
-        .addField('Title:', info.status)
+        .addField('Title:', info.title)
         .addField('Playing:', info.game, true)
         .addField('Current Viewers: ', info.currentViewers.toLocaleString(), true)
-        .addField('Total Views:', info.totalViews.toLocaleString(), true)
-        .addField('Followers: ', info.followers.toLocaleString(), true)
-        .addField('Resolution', `${info.resolution} ${info.average_fps}FPS`, true)
-        .addField('Partnered:', (info.partner ? 'Yes' : 'No'), true)
-        .addField('Mature Audience: ', (info.mature ? 'Yes' : 'No'), true)
-        // .addField()
-    }else if(!info.isStreaming) {
+        // .addField('Total Views:', info.totalViews.toLocaleString(), true)
+        // .addField('Followers: ', info.followers.toLocaleString(), true)
+        // .addField('Resolution', `${info.resolution} ${info.average_fps}FPS`, true)
+        // .addField('Partnered:', (info.b ? 'Yes' : 'No'), true)
+        // .addField('Mature Audience: ', (info.mature ? 'Yes' : 'No'), true)
+    else if(!info.isStreaming)
         embed
-        .addField('Total Views:', info.totalViews.toLocaleString(), true)
-        .addField('Followers: ', info.followers.toLocaleString(), true)
-    }
+        // .addField('Total Views:', info.totalViews.toLocaleString(), true)
+        // .addField('Followers: ', info.followers.toLocaleString(), true)
 
     embed
     .addField('Language: ', info.broadcaster_lang.toUpperCase(), true)
     .setThumbnail(info.logo)
-    .setFooter('Powered By Twitch API', 'https://proxy.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn1.iconfinder.com%2Fdata%2Ficons%2Ficonza-circle-social%2F64%2F697028-twitch-512.png&f=1')
+    .setFooter('Powered By Twitch API', 'https://i.imgur.com/DwmLOBU.png')
 
     message.channel.send(embed);
 };
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
-    getTwitchInfo(args, message);
+    getTwitchInfo(bot, args, message);
 };
 
 module.exports.config = {

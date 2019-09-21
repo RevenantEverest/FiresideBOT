@@ -8,14 +8,17 @@ const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
 const qrec = pgp.errors.queryResultErrorCode;
 
+const errorHandler = require('../../controllers/errorHandler');
+
 async function getRanks(bot, message, settings) {
     ranksDB.findByGuildId(message.guild.id)
     .then(ranks => getRecords(bot, message, settings, ranks))
     .catch(err => {
-        if(err instanceof QRE && err.code === qrec.noData) message.channel.send("No Ranks Found");
-        else console.error(err);
+        if(err instanceof QRE && err.code === qrec.noData) 
+            message.channel.send("No Ranks Found");
+        else errorHandler(bot, message, err, "DB Error", "Leaderboards");
     });
-}
+};
 
 async function getRecords(bot, message, settings, ranks) {
     recordsDB.findByGuildId(message.guild.id)
@@ -28,8 +31,9 @@ async function getRecords(bot, message, settings, ranks) {
         sendEmbed(bot, message, settings, ranks, top10);
     })
     .catch(err => {
-        if(err instanceof QRE && err.code === qrec.noData) message.channel.send("No Record Found");
-        else console.error(err);
+        if(err instanceof QRE && err.code === qrec.noData) 
+            message.channel.send("No Record Found");
+        else errorHandler(bot, message, err, "DB Error", "Leaderboards");
     })
 }
 
@@ -37,6 +41,7 @@ async function sendEmbed(bot, message, settings, ranks, records) {
     
     let embed = new Discord.RichEmbed();
     let topUser = await bot.fetchUser(records[0].discord_id);
+    let topTen = '';
 
     embed
     .setColor(0xff66b3)
@@ -49,19 +54,23 @@ async function sendEmbed(bot, message, settings, ranks, records) {
         let Level = await utils.calculateLevel(settings.complexity, (parseInt(el.xp, 10) + parseInt(settings.general_increase_rate, 10)));
         let RankName = ranks.length <= Level ?  ranks[ranks.length - 1].rank_name : ranks.filter(el => el.rank_number === Level)[0].rank_name;
         
-        embed.addField(`${idx + 1}. ${user.username}`, 
-            `**Tier**: ${Level}\n` +
-            `**Rank**: ${RankName}\n` +
-            `**EXP**: ${parseInt(el.xp, 10).toLocaleString()}` 
-        );
-        if(idx === (records.length - 1)) return message.channel.send(embed);
+        if(idx === 0)
+            embed
+            .addField(`**Leader:**  ${user.username}`, `**Rank ${Level}**: ${RankName}\n**EXP:** ${parseInt(el.xp, 10).toLocaleString()}`)
+            .addBlankField();
+        else topTen += `**${idx + 1}. ${user.username}** ( EXP: ${parseInt(el.xp, 10).toLocaleString()} )\n`;
+        
+        if(idx === (records.length - 1)) {
+            embed.addField("Top 10:", topTen);
+            return message.channel.send(embed);
+        }
     });
 }
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     settingsDB.findByGuildId(message.guild.id)
     .then(settings => getRanks(bot, message, settings))
-    .catch(err => console.error(err));
+    .catch(err => errorHandler(bot, message, err, "Error Finding Rank Settings", "Leaderboards"));
 };
 
 module.exports.config = {

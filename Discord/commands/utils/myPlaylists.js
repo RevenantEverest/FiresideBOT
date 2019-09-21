@@ -4,6 +4,7 @@ const userSongsDB = require('../../models/UserModels/userSongsDB');
 const guildPlaylistsDB = require('../../models/GuildModels/guildPlaylistsDB');
 const guildSongsDB = require('../../models/GuildModels/guildSongsDB');
 const utils = require('./utils');
+const errorHandler = require('../../controllers/errorHandler');
 
 const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
@@ -17,7 +18,7 @@ async function getUserPlaylistSongs(playlists) {
     .catch(err => {
       if(err instanceof QRE && err.code === qrec.noData)
         songData.push([]);
-      else console.log(err);
+      else errorHandler(bot, message, err, "DB Error", "MyPlaylists");
     })
   }
   return songData;
@@ -31,7 +32,7 @@ async function getGuildPlaylistSongs(playlists) {
     .catch(err => {
       if(err instanceof QRE && err.code === qrec.noData)
         songData.push([]);
-      else console.log(err);
+      else errorHandler(bot, message, err, "DB Error", "MyPlaylists");
     })
   }
   return songData;
@@ -45,14 +46,14 @@ async function handleEmbed(message, args, bot, discord_id, playlists, songData, 
   totalLength = await utils.timeParser(totalLength);
 
   embed
-  .setTitle(`Available Playlists (${totalLength})`)
+  .addField(`Overall Playlist Length:`, `(${totalLength})`)
   .addBlankField()
   .setThumbnail('https://i.imgur.com/OpSJJxe.png')
   .setColor(0xff3399);
 
   if(args[0] === "serverplaylist" || args[0] === "sp")
     embed
-    .setAuthor(`${message.guild.name}`, `https://cdn.discordapp.com/avatars/${message.guild.id}/${message.guild.icon}.png?size=2048`);
+    .setAuthor(`${message.guild.name}`, message.guild.iconURL);
   else
     embed
     .setAuthor(`${discordUser.username}#${discordUser.discriminator}`, `https://cdn.discordapp.com/avatars/${discordUser.id}/${discordUser.avatar}.png?size=2048`)
@@ -63,7 +64,7 @@ async function handleEmbed(message, args, bot, discord_id, playlists, songData, 
     let overallLength = 0;
     songData[i].forEach(el => overallLength += parseInt(el.duration, 10));
     overallLength = await utils.timeParser(overallLength);
-    embed.addField(`${i + 1}. ${playlists[i].name} (${overallLength})`, `${songData[i].length} Songs`)
+    embed.addField(`${i + 1}. ${playlists[i].name} (${overallLength}) ${playlists[i].public ? "" : `<:Locked:624341962358652958>*Private*` }`, `${songData[i].length} Songs`)
   }
   return message.channel.send(embed);
 }
@@ -74,12 +75,12 @@ module.exports = {
     .then(playlists => {
       getUserPlaylistSongs(playlists)
       .then(songData => handleEmbed(message, args, bot, discord_id, playlists, songData, false))
-      .catch(err => console.error(err));
+      .catch(err => errorHandler(bot, message, err, "DB Error", "MyPlaylists"));
     })
     .catch(err => {
       if(err instanceof QRE && err.code === qrec.noData)
         message.channel.send(`No playlists found`);
-      else console.log(err);
+      else errorHandler(bot, message, err, "DB Error", "MyPlaylists");
     })    
   },
   async findServerPlaylists(message, args, bot) {;
@@ -87,12 +88,12 @@ module.exports = {
     .then(playlists => {
       getGuildPlaylistSongs(playlists)
       .then(songData => handleEmbed(message, args, bot, message.author.id, playlists, songData, true))
-      .catch(err => console.error(err));
+      .catch(err => errorHandler(bot, message, err, "DB Error", "MyPlaylists"));
     })
     .catch(err => {
       if(err instanceof QRE && err.code === qrec.noData)
         message.channel.send(`No playlists found`);
-      else console.log(err);
+      else errorHandler(bot, message, err, "DB Error", "MyPlaylists");
     })
   }
 }

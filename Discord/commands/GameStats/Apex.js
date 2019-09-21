@@ -1,6 +1,8 @@
 const Discord = require('discord.js');
 const gameStatServices = require('../../services/gameStatServices');
 
+const errorHandler = require('../../controllers/errorHandler');
+
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     if(!args[1]) 
         return message.channel.send('Please specify a Platform and your Origin profile name');
@@ -45,8 +47,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
         .catch(err => {
             if(err.response.status = 404)
                 return message.channel.send('Invalid Profile');
-            else
-                console.error(err);
+            else errorHandler(bot, message, err, "API Error", "Apex");
         });
 };
 

@@ -1,4 +1,5 @@
 const guildsDB = require('../../models/GuildModels/guildsDB');
+const errorHandler = require('../../controllers/errorHandler');
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send(`You don't have permission to use this command`);
@@ -6,16 +7,13 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     
     guildsDB.updateSettings({ guild_id: message.guild.id, prefix: args[1] })
     .then(() => message.channel.send(`Prefix updated to **${args[1]}**`))
-    .catch(err => {
-        message.channel.send("Error Updating Prefix");
-        console.error(err);
-    })
+    .catch(err => errorHandler(bot, message, err, "Error Updating Prefix", "EditPrefix"));
 };
 
 module.exports.config = {
     name: 'editprefix',
     d_name: 'EditPrefix',
-    aliases: ['ep'],
+    aliases: [],
     params: { required: true, params: 'Desired Prefix' },
     category: 'Config',
     desc: 'Change prefix',

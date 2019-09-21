@@ -1,31 +1,59 @@
 module.exports = {
   servers: [],
-  Discord_Options: {
-    version: 'v1.5.1',
+  environment: {
+    version: 'v1.6.0',
     users: 0,
-    updatePending: false,
-    modules: {
-      Admin: true,
-      Economy: true,
-      Fun: true,
-      GameStats: true,
-      Info: true,
-      Music: true
-    }
+    updatePending: false
   },
-  Discord_Commands : [],
-  Twitch_Options: {
-    options: {
-      debug: false
+  categories: [
+    {
+      name: 'Acirhia',
+      desc: 'Commands associated with a text based RPG called Acirhia.\n*Acirhia is still in beta, any rewards earned or progress made may be wiped before full release*'
     },
-    connection: {
-      cluster: 'aws',
-      reconnect: true
+    {
+      name: 'Admin',
+      desc: 'Powerful moderation commands'
     },
-    identity: {
-      username: 'FiresideBOT',
-      password: process.env.TWITCH_KEY
+    {
+      name: 'Dev',
+      desc: 'n/a'
     },
-    channels: ['RevenantEverest', 'Atsuumo', 'Wookie']
-  }
+    {
+      name: 'Config',
+      desc: 'Fireside configuration commands (*Admin Only*)'
+    },
+    {
+      name: 'Economy',
+      desc: 'Server based economy system commands'
+    },
+    {
+      name: 'Fun',
+      desc: 'Light hearted commands with no outstanding use'
+    },
+    {
+      name: 'GameStats',
+      desc: 'Commands that let you check your account stats on your favorite games'
+    },
+    {
+      name: 'Info',
+      desc: 'General information based commands'
+    },
+    {
+      name: 'Music',
+      desc: 'Server queue based commands'
+    },
+    {
+      name: 'Other',
+      desc: 'Non categorized commands'
+    },
+    {
+      name: 'Playlists',
+      desc: 'Customize a personal and server playlists'
+    },
+    {
+      name: 'Support',
+      desc: 'Need help with Fireside? Use these commands. Message Fireside directly to open up a ticket'
+    }
+  ],
+  commands : [],
 };

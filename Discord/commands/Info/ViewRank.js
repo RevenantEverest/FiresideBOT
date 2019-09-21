@@ -8,12 +8,15 @@ const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
 const qrec = pgp.errors.queryResultErrorCode;
 
+const errorHandler = require('../../controllers/errorHandler');
+
 async function getRanks(bot, message, user_id, settings) {
     ranksDB.findByGuildId(message.guild.id)
     .then(ranks => getRecord(bot, message, user_id, settings, ranks))
     .catch(err => {
-        if(err instanceof QRE && err.code === qrec.noData) message.channel.send("No Ranks Found");
-        else console.error(err);
+        if(err instanceof QRE && err.code === qrec.noData) 
+            message.channel.send("No Ranks Found");
+        else errorHandler(message, err, "DB Error", "ViewRank");
     });
 }
 
@@ -21,8 +24,9 @@ async function getRecord(bot, message, user_id, settings, ranks) {
     recordsDB.findByDiscordIdAndGuildId({ discord_id: user_id, guild_id: message.guild.id })
     .then(record => sendEmbed(bot, message, settings, ranks, record))
     .catch(err => {
-        if(err instanceof QRE && err.code === qrec.noData) message.channel.send("No Record Found");
-        else console.error(err);
+        if(err instanceof QRE && err.code === qrec.noData) 
+            message.channel.send("No Record Found");
+        else errorHandler(bot, message, err, "DB Error", "ViewRank");
     })
 }
 
@@ -35,12 +39,11 @@ async function sendEmbed(bot, message, settings, ranks, record) {
 
     embed
     .setColor(0xff66b3)
-    .setAuthor(`${user.username}`, `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`)
     .setThumbnail(`https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`)
-    .addField(`View Rank`, 
+    .addField(`${user.username}'s Rank`, 
         `**Rank**: ${RankName}\n` + 
         `**Tier**: ${Level > ranks.length ? ranks.length : Level.toLocaleString()}\n` + 
-        `**EXP**: ${record.xp.toLocaleString()}`
+        `**EXP**: ${parseInt(record.xp, 10).toLocaleString()}`
     )
 
     message.channel.send(embed);
@@ -53,7 +56,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
 
     settingsDB.findByGuildId(message.guild.id)
     .then(settings => getRanks(bot, message, user_id, settings))
-    .catch(err => console.error(err));
+    .catch(err => errorHandler(bot, message, err, "Error Finding Rank Settings", "ViewRank"));
 };
 
 module.exports.config = {

@@ -1,6 +1,8 @@
 const Discord = require('discord.js');
 const apiServices = require('../../services/apiServices');
 
+const errorHandler = require('../../controllers/errorHandler');
+
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     if(!args[1]) return message.channel.send('Please specify a City name');
 
@@ -22,10 +24,8 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
             message.channel.send(embed)
         })
         .catch(err => {
-            if(err.response.status === 404)
-                message.channel.send('City Not Found')
-            else 
-                console.error(err)
+            if(err.response.status === 404) message.channel.send('City Not Found')
+            else errorHandler(bot, message, err, "Weather API Error", "Weather")
         });
 };
 

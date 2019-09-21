@@ -1,5 +1,7 @@
 const settingsDB = require('../../models/discordRankSettingsDB');
 
+const errorHandler = require('../../controllers/errorHandler');
+
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send(`You don't have permission to use this command`);
     if(!Number.isInteger(parseInt(args[1], 10))) return message.channel.send('Please specify an integer value');
@@ -8,10 +10,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
 
     settingsDB.updateComplexity({ guild_id: message.guild.id, complexity: parseInt(args[1], 10) })
     .then(() => message.channel.send(`Server rank complexity updated to **${args[1]}**`))
-    .catch(err => {
-        console.error(err);
-        message.channel.send('An error has occurred, sorry for the inconvenience');
-    })
+    .catch(err => errorHandler(bot, message, err, "Error Updating Rank Complexity", "EditRankComplexity"));
 };
 
 module.exports.config = {
@@ -20,6 +19,6 @@ module.exports.config = {
     aliases: ['erc'],
     params: { required: true, params: "Number" },
     category: 'Config',
-    desc: 'Update server rank complexity',
+    desc: 'Update server rank complexity (How hard it is to level up)',
     example: 'editrankcomplexity 10'
 };

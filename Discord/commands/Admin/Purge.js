@@ -1,5 +1,32 @@
 const Discord = require('discord.js');
+const logSettings = require('../../models/GuildModels/guildLogSettingsDB');
 const utils = require('../utils/utils');
+const errorHandler = require('../../controllers/errorHandler');
+
+const pgp = require('pg-promise')();
+const QRE = pgp.errors.QueryResultError;
+const qrec = pgp.errors.queryResultErrorCode;
+
+async function checkLogSettings(bot, message, msg) {
+    logSettings.findByGuildId(message.guild.id)
+    .then(settings => sendEmbed(bot, message, msg, settings))
+    .catch(err => {
+        if(err instanceof QRE && err.code === qrec.noData)
+            sendEmbed(bot, message, msg);
+        else errorHandler(bot, message, err, "Error Finding Log Settings", "Purge")
+    });
+};
+
+async function sendEmbed(bot, message, msg, settings) {
+    let embed = new Discord.RichEmbed();
+    embed
+    .setColor(0xff0000)
+    .addField('Bulk Message Delete', `**Amount**: ${msg.size}`)
+    .setFooter(`Used by: ${message.author.username} on ${await utils.getDate()}`, message.author.avatarURL)
+
+    if(settings) return bot.channels.get(settings.channel_id).send(embed);
+    else message.channel.send(embed);
+};
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {    
     let userId = null;
@@ -10,22 +37,14 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
 
     if(messagecount > 100)return message.channel.send("You can only delete 100 messages at a time");
 
-    let date = await utils.getDate();
+    
     
     message.channel.fetchMessages({ limit: messagecount })
     .then(messages => {
         let deleteMessages = messages;
         if(userId) deleteMessages = messages.array().filter(el => el.author.id === userId);
 
-        message.channel.bulkDelete(deleteMessages).then(msg => {
-        
-            let embed = new Discord.RichEmbed();
-            embed
-            .setColor(0xff0000)
-            .addField('Bulk Message Delete', `**Amount**: ${msg.size}`)
-            .setFooter(`Used by: ${message.author.username} on ${date}`, message.author.avatarURL)
-            message.channel.send(embed);
-        })
+        message.channel.bulkDelete(deleteMessages).then(msg => checkLogSettings(bot, message, msg))
         .catch(err => {
             if(err.code === 50034)
                 return message.channel.send('You can only bulk delete messages that are under 14 days old')

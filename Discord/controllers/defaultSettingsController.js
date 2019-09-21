@@ -8,7 +8,7 @@ const qrec = pgp.errors.queryResultErrorCode;
 
 async function saveGuildSettings(guild) {
     guildsDB.saveDefaultSettings({ guild_id: guild.id, prefix: '?' })
-    .catch(err => console.log(err));
+    .catch(err => console.error(err));
 };
 
 async function saveCurrencySettings(guild) {
@@ -27,7 +27,7 @@ module.exports = {
         .catch(err => {
             if(err instanceof QRE && err.code === qrec.noData)
                 saveGuildSettings(guild);
-            else console.log(err);
+            else console.error(err);
         });
     },
     async currencySettingsCheck(guild) {
@@ -35,7 +35,7 @@ module.exports = {
         .catch(err => {
             if(err instanceof QRE && err.code === qrec.noData)
                 saveCurrencySettings(guild);
-            else console.log(err);
+            else console.error(err);
         });
     },
     async rankSettingsCheck(guild) {
@@ -43,7 +43,7 @@ module.exports = {
         .catch(err => {
             if(err instanceof QRE && err.code === qrec.noData)
                 saveRankSettings(guild);
-            else console.log(err);
+            else console.error(err);
         })
     }
 };

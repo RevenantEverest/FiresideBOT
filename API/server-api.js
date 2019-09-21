@@ -15,7 +15,7 @@ const app = express();
 const Discord_Bot = require('./Discord_Bot');
 Discord_Bot.login(process.env.DISCORD_KEY);
 
-const ssl = null;
+let ssl = null;
 if(process.env.ENVIRONMENT !== "DEV") 
     ssl = { 
         key: fs.readFileSync(process.env.SSL_PRIVKEY), 

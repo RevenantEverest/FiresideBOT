@@ -1,5 +1,7 @@
 const settingsDB = require('../../models/discordRankSettingsDB');
 
+const errorHandler = require('../../controllers/errorHandler');
+
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send(`You don't have permission to use this command`);
     if(!Number.isInteger(parseInt(args[1], 10))) return message.channel.send('Please specify an integer value');
@@ -7,10 +9,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
 
     settingsDB.updateRate({ guild_id: message.guild.id, general_increase_rate: parseInt(args[1], 10) })
     .then(() => message.channel.send(`Server rank rate updated to **${args[1]}**`))
-    .catch(err => {
-        console.error(err);
-        message.channel.send('An error has occurred, sorry for the inconvenience');
-    })
+    .catch(err => errorHandler(bot, message, err, "Error Updating Rank Rate", "EditRankRate"));
 };
 
 module.exports.config = {
@@ -19,6 +18,6 @@ module.exports.config = {
     aliases: ['err'],
     params: { required: true, params: "Number" },
     category: 'Config',
-    desc: 'Update server rank rate',
+    desc: 'Update server rank rate (How much EXP is aquired per message)',
     example: 'editrankrank 12'
 };

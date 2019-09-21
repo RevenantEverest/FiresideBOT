@@ -54,6 +54,6 @@ module.exports.config = {
     d_name: 'Queue',
     aliases: ['q'],
     category: 'Music',
-    desc: 'Displays the queue',
+    desc: 'Displays the current queue',
     example: 'queue'
 };

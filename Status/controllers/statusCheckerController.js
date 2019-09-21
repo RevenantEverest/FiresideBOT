@@ -1,45 +1,40 @@
 const Discord = require('discord.js');
 const apiServices = require('../services/apiServices');
+const shell = require('shelljs');
+
+async function getDate() {
+    let date = new Date();
+    let options = { timezone: 'EST', weekday: 'long', day: 'numeric', month: 'long', hour: 'numeric', minute: 'numeric' };
+    return `${date.toLocaleString('en-US', options)} EST`;
+};
+
+async function sendEmbed(bot, message) {
+    let embed = new Discord.RichEmbed();
+    embed.setColor(0xff0000).addField(message, getDate());
+    bot.channels.get('543862697742172179').send(embed);
+
+    shell.exec('./run.sh');
+};
 
 module.exports = {
-    checkAPI() {
-        let embed = new Discord.RichEmbed();
+    checkAPI(bot) {
         apiServices.API_Status()
-        .catch(() => {
-            embed.setColor(0x00ff00).addField('API is not responding');
-            bot.channels.get('543862697742172179').send(embed);
-        });
+        .catch(() => sendEmbed(bot, "API is not responding..."));
     },
-    checkDBL() {
-        let embed = new Discord.RichEmbed();
+    checkDBL(bot) {
         apiServices.DBL_Status()
-        .catch(() => {
-            embed.setColor(0x00ff00).setTitle('DBL Service is not responding');
-            bot.channels.get('543862697742172179').send(embed);
-        });
+        .catch(() => sendEmbed(bot, "DBL is not responding..."));
     },
-    checkDiscord() {
-        let embed = new Discord.RichEmbed();
+    checkDiscord(bot) {
         apiServices.Discord_Status()
-        .catch(() => {
-            embed.setColor(0x00ff00).addField('Bot is not responding');
-            bot.channels.get('543862697742172179').send(embed);
-        });
+        .catch(() => sendEmbed(bot, "Discord is not responding..."));
     },
-    checkLogger() {
-        let embed = new Discord.RichEmbed();
+    checkLogger(bot) {
         apiServices.Logger_Status()
-        .catch(() => {
-            embed.setColor(0x00ff00).addField('Logger Service is not responding');
-            bot.channels.get('543862697742172179').send(embed);
-        });
+        .catch(() => sendEmbed(bot, "Logger is not responding..."));
     },
-    checkTwitchTracker() {
-        let embed = new Discord.RichEmbed();
+    checkTwitchTracker(bot) {
         apiServices.TwitchTracker_Status()
-        .catch(() => {
-            embed.setColor(0x00ff00).addField('Twitch Tracker Service is not responding');
-            bot.channels.get('543862697742172179').send(embed);
-        });
+        .catch(() => sendEmbed(bot, "TwitchTracker is not responding..."));
     }
 };

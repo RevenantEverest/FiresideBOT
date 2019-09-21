@@ -2,7 +2,13 @@ DROP TABLE IF EXISTS autodj;
 DROP TABLE IF EXISTS bot_guilds;
 DROP TABLE IF EXISTS currency_settings;
 DROP TABLE IF EXISTS discord_currency;
--- Discord Tokens
+DROP TABLE IF EXISTS discord_tickets;
+DROP TABLE IF EXISTS discord_tokens;
+DROP TABLE IF EXISTS discord_closed_tickets;
+DROP TABLE IF EXISTS discord_ranks;
+DROP TABLE IF EXISTS discord_rank_records;
+DROP TABLE IF EXISTS discord_rank_settings;
+DROP TABLE IF EXISTS disabled_commands;
 DROP TABLE IF EXISTS guild_playlists;
 DROP TABLE IF EXISTS guild_settings;
 DROP TABLE IF EXISTS guild_songs;
@@ -16,6 +22,12 @@ DROP TABLE IF EXISTS users;
 
 DROP TABLE IF EXISTS default_commands;
 DROP TABLE IF EXISTS custom_commands;
+
+CREATE TABLE auto_role (
+  id SERIAL PRIMARY KEY,
+  guild_id VARCHAR(255),
+  role_id VARCHAR(255)
+);
 
 CREATE TABLE autodj (
   id SERIAL PRIMARY KEY,
@@ -90,6 +102,12 @@ CREATE TABLE discord_rank_settings (
   channel_id VARCHAR(255)
 );
 
+CREATE TABLE disabled_commands (
+  id SERIAL PRIMARY KEY,
+  guild_id VARCHAR(255),
+  command VARCHAR(255)
+);
+
 CREATE TABLE guild_playlists (
   playlist_id SERIAL PRIMARY KEY,
   roles text[],
@@ -119,6 +137,12 @@ CREATE TABLE guild_log_settings (
   channel_id VARCHAR(255)
 );
 
+CREATE TABLE guild_welcome_message (
+  id SERIAL PRIMARY KEY,
+  guild_id VARCHAR(255),
+  message VARCHAR(1024)
+);
+
 CREATE TABLE regulars (
   regular_id SERIAL PRIMARY KEY,
   channel VARCHAR(255),
@@ -142,6 +166,7 @@ CREATE TABLE twitch_tracker (
   id SERIAL PRIMARY KEY,
   guild_id VARCHAR(255),
   twitch_username VARCHAR(255),
+  twitch_id VARCHAR(255),
   channel_id VARCHAR(255),
   role_id VARCHAR(255)
 );

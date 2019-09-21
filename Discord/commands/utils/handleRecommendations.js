@@ -2,7 +2,7 @@ const lastfmServices = require('../../services/lastfmServices');
 const youtubeServices = require('../../services/youtubeServices');
 const YTDL = require('ytdl-core');
 const utils = require('./utils');
-const playSong = require('./playSong');
+const errorHandler = require('../../controllers/errorHandler');
 
 /*
 
@@ -13,7 +13,7 @@ const playSong = require('./playSong');
 
 */
 
-async function youtubeSearch(message, server, songRequest, resolve, reject) {
+async function youtubeSearch(bot, message, server, songRequest, resolve, reject) {
     youtubeServices.youtubeSearch(songRequest)
       .then(results => {
         if(results.data.items[0] === undefined) {
@@ -21,7 +21,7 @@ async function youtubeSearch(message, server, songRequest, resolve, reject) {
           return message.channel.send("An error has occured");
         }
         YTDL.getInfo(`https://www.youtube.com/watch?v=${results.data.items[0].id.videoId}`, (err, info) => {
-          if(err) message.channel.send('YTDL Get Info error');
+          if(err) errorHandler(bot, message, err, "YTDL Error", "HandleRecommendations");
           if(info === undefined) return message.channel.send("An Error has occured, sorry for the inconvenience.");
           if(info.length_seconds >= 3600) return message.channel.send('Requests limited to 1 hour');
           server.queue.queueInfo.push({
@@ -44,7 +44,7 @@ async function youtubeSearch(message, server, songRequest, resolve, reject) {
       });
 }
 
-module.exports = async (message, server, resolve, reject) => {
+module.exports = async (bot, message, server, resolve, reject) => {
     let genre = utils.mode(server.queue.genres);
     lastfmServices.getSongsByGenre(genre)
         .then(results => {
@@ -52,11 +52,11 @@ module.exports = async (message, server, resolve, reject) => {
             let title = results.data.tracks.track[RNG].name;
             let artist = results.data.tracks.track[RNG].artist.name;
 
-            youtubeSearch(message, server, (`${title} ${artist}`), resolve, reject);
+            youtubeSearch(bot, message, server, (`${title} ${artist}`), resolve, reject);
 
         })
         .catch(err => {
-          console.error(err)
+          errorHandler(bot, message, err, "LastFM Error", "HandleRecommendations");
           return reject();
         });
 };

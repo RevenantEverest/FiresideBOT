@@ -1,11 +1,35 @@
 const Discord = require('discord.js');
-const utils = require('../commands/utils/utils');
+const pagination = require('../commands/utils/pagination');
 const discordTicketsDB = require('../models/discordTicketsDB');
 const discordClosedTicketsDB = require('../models/discordClosedTicketsDB');
 
 const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
 const qrec = pgp.errors.queryResultErrorCode;
+
+async function getDate() {
+    let date = new Date();
+    let options = { timezone: 'EST', weekday: 'long', day: 'numeric', month: 'long', hour: 'numeric', minute: 'numeric' };
+    return `${date.toLocaleString('en-US', options)} EST`;
+};
+
+async function handleMultiTicket(bot, message, ticket) {
+    let contentArr = [];
+    ticket.forEach(el => {
+        let content = { category: ["Multiple Tickets Found", "Please Specify a ticket ID to respond to\n`Example: #24 <Your Message>`"], fields: [] };
+        if(el.initial_message.split(" ")[0] === "**Command**")
+            content.fields.push({ field: `${el.id}`, value: `Command Error for ${el.initial_message.split(" ")[1]}\n\n**Opened On**: ${el.ticket_date}` });
+        else {
+            let initialMessage = el.initial_message.split("");
+            let sampleMessage = '';
+            if(initialMessage.length < 20) sampleMessage = initialMessage.join("");
+            else for(let i = 0; i < 20; i++) { sampleMessage += initialMessage[i]; }
+            content.fields.push({ field: `Ticket ID #${el.id}`, value: `${sampleMessage}\n\n**Opened On**: ${el.ticket_date}` });
+        }
+        contentArr.push(content);
+    })
+    pagination(message, bot, contentArr, { dm: true, color: 0xffff4d });
+};
 
 module.exports = {
     async handleTicket(bot, message) {
@@ -18,7 +42,14 @@ module.exports = {
         .then(ticket => {
             if(message.content.split("").length > 1000) 
                 return message.author.send('Please limit your message to 1024 characters or less');
-            this.userResponse(bot, message, ticket);
+            if(ticket.length > 1 && message.content.split("")[0] !== "#") handleMultiTicket(bot, message, ticket);
+            else if(ticket.length > 1 && message.content.split("")[0] === "#") {
+                let args = message.content.split(" ");
+                if(ticket.map(el => el.id).includes(parseInt(args[0].split("#").join(""))))
+                    this.userResponse(bot, message, message.content.split(args[0]).join(" "), ticket[ticket.map(el => el.id).indexOf(parseInt(args[0].split("#").join(""), 10))]);
+                else message.author.send("Invalid Ticket ID");
+            }
+            else this.userResponse(bot, message, message.content, ticket);
         })
         .catch(err => {
             if(err instanceof QRE && err.code === qrec.noData)
@@ -27,7 +58,7 @@ module.exports = {
         })
     },
     async openTicket(bot, message) {
-        discordTicketsDB.save({ discord_id: message.author.id, initial_message: message.content, ticket_date: await utils.getDate() })
+        discordTicketsDB.save({ discord_id: message.author.id, initial_message: message.content, ticket_date: await getDate() })
             .then(ticket => {
                 let responseEmbed = new Discord.RichEmbed();
                 let serverEmbed = new Discord.RichEmbed();
@@ -50,7 +81,7 @@ module.exports = {
             })
             .catch(err => console.error(err));
     },
-    async userResponse(bot, message, ticket) {
+    async userResponse(bot, message, messageContent, ticket) {
         let embed = new Discord.RichEmbed();
 
         embed
@@ -59,8 +90,8 @@ module.exports = {
         .addBlankField()
         .addField('User:', message.author.username, true)
         .addField('Discord ID:', message.author.id, true)
-        .addField('Message:', message.content)
-        .setFooter(`Received ${await utils.getDate()}`)
+        .addField('Message:', messageContent)
+        .setFooter(`Received ${await getDate()}`)
 
         bot.channels.get('542561301302345760').send(embed);
         message.author.send('Message received')
@@ -72,12 +103,12 @@ module.exports = {
             discord_id: ticket.discord_id,
             initial_message: ticket.initial_message, 
             ticket_date: ticket.ticket_date,
-            close_date: await utils.getDate(),
+            close_date: await getDate(),
             closed_by: message.author.id,
             reason: reason
         };
         discordClosedTicketsDB.save(data)
-            .then(closedTicket => {
+            .then(() => {
                 let userEmbed = new Discord.RichEmbed();
                 let serverEmbed = new Discord.RichEmbed();
 

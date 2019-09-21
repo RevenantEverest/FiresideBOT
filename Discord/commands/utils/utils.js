@@ -1,3 +1,8 @@
+const youtubeServices = require('../../services/youtubeServices');
+const YTDL = require('ytdl-core');
+const Discord_Bot = require('../../Discord_Bot');
+const errorHandler = require('../../controllers/errorHandler');
+
 module.exports = {
     fortunes: [
         "Yes",
@@ -61,7 +66,7 @@ module.exports = {
                    `${m > 0 ? (m > 1 ? `${minutes} minutes, ` : `${minutes} minute, `) : ''}` +
                    `${s > 0 ? (s > 1 ? `${seconds} seconds` : `${seconds} second`) : ''}`;
         else 
-            return `${d > 0 ? `${days}:` : ''}${h > 0 ? `${hours}:` : ''}${m > 0 ? `${minutes}:` : ''}${s > 0 ? `${seconds}` : ''}`;
+            return `${d > 0 ? `${days}:` : ''}${h > 0 ? `${hours}:` : (d > 0 ? '00' : '')}${m > 0 ? `${minutes}:` : (h > 0 ? '00' : '')}${s > 0 ? `${seconds}` : '00'}`;
     },
     async getDate() {
         let date = new Date();
@@ -103,5 +108,36 @@ module.exports = {
           arr[j] = temp;
         }
         return arr;
-      }
+    },
+    async youtubeSearch(message, args, server, songRequest, options, callback) {
+        youtubeServices.youtubeSearch(songRequest)
+        .then(results => {
+            if(results.data.items.length < 1) return message.channel.send("No results found");
+            let link = `https://www.youtube.com/watch?v=${results.data.items[0].id.videoId}`;
+            this.YTDL_GetInfo(message, args, server, link, options, callback);
+        })
+        .catch(err => errorHandler(Discord_Bot, message, err, "YouTube Search Error", "Utils"));
+    },
+    async YTDL_GetInfo(message, args, server, link, options, callback) {
+        YTDL.getBasicInfo(link, (err, info) => {
+            if(err) return errorHandler(Discord_Bot, message, err, "YTDL Error", "Utils")
+            if(info.player_response.videoDetails === undefined) return message.channel.send(`Invalid Video Details`);
+            if(info.player_response.videoDetails.lengthSeconds >= 3600) return message.channel.send('Requests limited to 1 hour');
+            info = info.player_response.videoDetails;
+            let thumbnails = info.thumbnail.thumbnails;
+            let songInfo = { 
+                title: info.title, 
+                link: link, 
+                author: info.author, 
+                duration: info.lengthSeconds, 
+                thumbnail: thumbnails[thumbnails.length - 1].url, 
+                requestedBy: message.author.username 
+            }
+            callback(Discord_Bot, message, args, server, {
+                songInfo: songInfo, 
+                guildPlaylist: (options.guildPlaylist ? options.guildPlaylist : ""), 
+                playlist: (options.playlist ? options.playlist : "")
+            });
+        });
+    }
 };

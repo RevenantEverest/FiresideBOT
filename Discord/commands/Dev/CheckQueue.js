@@ -28,9 +28,9 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     queuesInProgress ? embed.setColor(0x00ff00) : embed.setColor(0xff0000);
     
     embed
-    .addField("In Progress:", (queuesInProgress ? queuesInProgress : '0'), true)
-    .addField("Overall Length: ", queueLengthInSeconds, true)
-    .addField("Songs In Queue:", (queueSongAmount + queuesInProgress))
+    .addField("In Progress:", (queuesInProgress ? queuesInProgress : "0"), true)
+    .addField("Overall Length: ", (queueLengthInSeconds ? queueLengthInSeconds : "0"), true)
+    .addField("Songs In Queue:", (queuesInProgress > 1 ? (queueSongAmount + queuesInProgress) : "0"))
 
     message.channel.send(embed);
 };

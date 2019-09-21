@@ -2,6 +2,8 @@ const gameStatServices = require('../../services/gameStatServices');
 const Discord = require('discord.js');
 const utils = require('../utils/utils');
 
+const errorHandler = require('../../controllers/errorHandler');
+
 const ranks = [
     {name: "Copper IV", image: "https://i.imgur.com/mBiT3oJ.png"}, {name: "Copper III", image: "https://i.imgur.com/MoqdihO.png"},
     {name: "Copper II", image: "https://i.imgur.com/DjoCqbJ.png"}, {name: "Copper I" ,image: "https://i.imgur.com/bYOhH2S.png"},
@@ -66,9 +68,7 @@ async function handleGeneric(username, platform, embed, message) {
 
         message.channel.send(embed);
     })
-    .catch(err => {
-        console.log(err)
-    });
+    .catch(err => errorHandler(bot, message, err, "API Error", "RainbowSix"));
 };
 
 async function handleOperators(username, platform, embed, message) {
@@ -76,9 +76,7 @@ async function handleOperators(username, platform, embed, message) {
     .then(stats => {
         console.log(stats.data);
     })
-    .catch(err => {
-
-    });
+    .catch(err => errorHandler(bot, message, err, "API Error", "RainbowSix"));
 };
 
 async function handleSeasonal(args, platform, embed, message) {
@@ -125,9 +123,7 @@ async function handleSeasonal(args, platform, embed, message) {
 
         message.channel.send(embed);
     })
-    .catch(err => {
-        console.log(err);
-    });
+    .catch(err => errorHandler(bot, message, err, "API Error", "RainbowSix"));
 };
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {

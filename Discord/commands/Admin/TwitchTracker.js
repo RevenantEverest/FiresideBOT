@@ -1,6 +1,14 @@
 const twitchServices = require('../../services/twitchServices');
 const twitchtrackerDB = require('../../models/twitchTrackerDB');
 
+const errorHandler = require('../../controllers/errorHandler');
+
+async function saveTracker(bot, message, channel_id, role_id, streamer) {
+    twitchtrackerDB.save({ guild_id: message.guild.id, twitch_username: streamer.login, twitch_id: streamer.id, channel_id: channel_id, role_id: role_id })
+    .then(tracker => message.channel.send(`Tracker added for **${streamer.display_name}** and will be posted in <#${channel_id}>. ID: **${tracker.id}**`))
+    .catch(err => errorHandler(bot, message, err, "Error Saving Tracker", "TwitchTracker"));
+}
+
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     let channel_id = null;
     let role_id = null;
@@ -15,22 +23,13 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
 
     args.splice(args.indexOf("<#" + channel_id + ">"), 1);
     
-    if(role_id !== "none") 
-        args.splice(args.indexOf((role_id === "@everyone" ? "@everyone" : `<#${role_id}>`), 1));
+    if(role_id !== "none") args.splice(args.indexOf((role_id === "@everyone" ? "@everyone" : `<#${role_id}>`), 1));
 
-    twitchServices.getTwitchInfo(args[1])
-    .then(streamer => {
-        twitchtrackerDB.save({ guild_id: message.guild.id, twitch_username: streamer.data.name, channel_id: channel_id, role_id: role_id })
-        .then(tracker => message.channel.send(`Tracker added for **${streamer.data.display_name}** and will be posted in <#${channel_id}>. ID: **${tracker.id}**`))
-        .catch(err => {
-            message.channel.send("Error Saving Tracker")
-            console.error(err);
-        })
-    })
+    twitchServices.getTwitchInfo(args[1].toLowerCase())
+    .then(streamer => saveTracker(bot, message, channel_id, role_id, streamer.data.data[0]))
     .catch(err => {
-        if(err.response.status === 404)
-            message.channel.send('No Twitch User Found');
-        else console.error(err);
+        if(err.response) message.channel.send('No Twitch User Found');
+        else errorHandler(bot, message, err, "Twitch API Error", "TwitchTracker");
     });
 };
 
