@@ -3,6 +3,10 @@ const Discord = require('discord.js');
 const pagination = require('../utils/pagination');
 const disabledCommandsDB = require('../../models/disabledCommandsDB');
 
+const pgp = require('pg-promise')();
+const QRE = pgp.errors.QueryResultError;
+const qrec = pgp.errors.queryResultErrorCode;
+
 function helpSpec(PREFIX, message, args, bot, contentArr) {
     let embed = new Discord.RichEmbed();
     embed.setColor(0xcc00ff);
@@ -16,7 +20,7 @@ function helpSpec(PREFIX, message, args, bot, contentArr) {
     else if(bot.commands.get(args[1].toLowerCase()) || bot.commands.get(bot.aliases.get(args[1].toLowerCase()))) {
       let helpInfo = bot.commands.get(bot.aliases.get(args[1].toLowerCase())) || bot.commands.get(args[1].toLowerCase());
       
-      // Variable redefinition required for aliases to apply 
+      /* Variable redefinition required for aliases to apply */
       helpInfo = helpInfo.config;
 
       embed
@@ -50,8 +54,7 @@ function helpSpec(PREFIX, message, args, bot, contentArr) {
 };
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
-    let categories = config.categories;
-    categories.splice(categories.map(el => el.name).indexOf("Dev"), 1);
+    let categories = config.categories.filter(el => el.name !== "DEV");
     let contentArr = [
       {
         category: [`Welcome to the FiresideBOT Help Command`, 'Need immediate help? Message Fireside to open a ticket'],
@@ -78,7 +81,10 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
 
     await disabledCommandsDB.findByGuildId(message.guild.id)
     .then(commands => dCommands = commands.map(el => el.command))
-    .catch(err => console.error(err));
+    .catch(err => {
+        if(err instanceof QRE && err.code === qrec.noData) return;
+        else console.error(err);
+    });
 
     categories.forEach(el => contentArr.push({ category: [el.name, el.desc], fields: [] }));
     commands.forEach(el => {
