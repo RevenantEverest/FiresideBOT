@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const apiServices = require('../services/apiServices');
+const shell = require('shelljs');
 
 async function getDate() {
     let date = new Date();
@@ -11,7 +12,8 @@ async function sendEmbed(bot, message) {
     let embed = new Discord.RichEmbed();
     embed.setColor(0xff0000).addField(message, getDate());
     bot.channels.get('543862697742172179').send(embed);
-    // Run Bash Script
+
+    shell.exec('./run.sh');
 };
 
 module.exports = {
