@@ -10,10 +10,10 @@ async function getDate() {
 
 async function sendEmbed(bot, message) {
     let embed = new Discord.RichEmbed();
-    embed.setColor(0xff0000).addField(message, getDate());
+    embed.setColor(0xff0000).addField(message, await getDate());
     bot.channels.get('543862697742172179').send(embed);
 
-    shell.exec('./run.sh');
+    shell.exec('~/FiresideBOT/run.sh');
 };
 
 module.exports = {

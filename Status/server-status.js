@@ -15,7 +15,7 @@ bot.on("ready", () => {
     if(process.env.ENVIRONMENT === "DEV") return cbotonsole.log(chalk.hex('#00ff00')('[LOG]') + '  Status Checker Ready');
 
     let embed = new Discord.RichEmbed();
-    embed.setColor(0xff9900).setTitle("Status Checker Starting up...").setFooter(getDate());
+    embed.setColor(0xff9900).setTitle("Status Checker Starting up...").setFooter(await getDate());
 
     bot.channels.get("543862697742172179").send(embed);
 
