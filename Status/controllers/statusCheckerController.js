@@ -2,6 +2,8 @@ const Discord = require('discord.js');
 const apiServices = require('../services/apiServices');
 const shell = require('shelljs');
 
+let calls = 0;
+
 async function getDate() {
     let date = new Date();
     let options = { timezone: 'EST', weekday: 'long', day: 'numeric', month: 'long', hour: 'numeric', minute: 'numeric' };
@@ -12,8 +14,12 @@ async function sendEmbed(bot, message) {
     let embed = new Discord.RichEmbed();
     embed.setColor(0xff0000).addField(message, await getDate());
     bot.channels.get('543862697742172179').send(embed);
+    calls++;
+
+    if(calls > 1) return;
 
     shell.exec('~/FiresideBOT/run.sh');
+    setTimeout(() => calls = 0, 5000);
 };
 
 module.exports = {
