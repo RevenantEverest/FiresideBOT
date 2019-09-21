@@ -10,7 +10,7 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 
 | Category                 | Subcategory
 | -------------            |:-------------
-| [Commands](#Commands)    | [Acirhia](#Acirhia), [Admin](#Admin), [Config](#Config), [Economy](#Economy), [Fun](#Fun), [GameStats](#GameStats), [Info](#Info), [Music](#Music), [Other](#Other), [Playlists](#Playlists), [Support](#Support),
+| [Commands](#Commands)    | [Acirhia](#Acirhia), [Admin](#Admin), [Config](#Config), [Economy](#Economy), [Fun](#Fun), [GameStats](#GameStats), [Info](#Info), [Music](#Music), [Other](#Other), [Playlists](#Playlists), [Support](#Support), 
 
 ---  
 
@@ -53,9 +53,9 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Aliases**:   
 **Example**: `?shop`  
 
+  
 
-
----
+--- 
 
 <a id="Admin"></a>  
 
@@ -76,7 +76,7 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 - [Ban](https://help.firesidebot.com/commands/ban) `<param>`  
 **Desc**: Bans a user  
 **Aliases**:   
-**Params**: Tag
+**Params**: Tag 
  Optional Param  
 **Example**: `?ban @RevenantEverest 5 His memes are low tier`  
 
@@ -152,9 +152,9 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Aliases**: `vwm`   
 **Example**: `?viewwelcomemessage`  
 
+  
 
-
----
+--- 
 
 <a id="Config"></a>  
 
@@ -218,9 +218,9 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Params**: #Channel Tag  
 **Example**: `?enableserverlogging #bot-commands`  
 
+  
 
-
----
+--- 
 
 <a id="Economy"></a>  
 
@@ -243,9 +243,9 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Params**: Mention / Amount  
 **Example**: `?give @YourFavoritePerson 100`  
 
+  
 
-
----
+--- 
 
 <a id="Fun"></a>  
 
@@ -292,9 +292,9 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Params**: Number  
 **Example**: `?roll 20`  
 
+  
 
-
----
+--- 
 
 <a id="GameStats"></a>  
 
@@ -324,9 +324,9 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Params**: Username, Platform  
 **Example**: `?apex RevenantEverest uplay`  
 
+  
 
-
----
+--- 
 
 <a id="Info"></a>  
 
@@ -402,9 +402,9 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Params**: City Name  
 **Example**: `?weather New York`  
 
+  
 
-
----
+--- 
 
 <a id="Music"></a>  
 
@@ -504,9 +504,9 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Params**: Number  
 **Example**: `?volume 20`  
 
+  
 
-
----
+--- 
 
 <a id="Other"></a>  
 
@@ -542,9 +542,9 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Aliases**:   
 **Example**: `?vote`  
 
+  
 
-
----
+--- 
 
 <a id="Playlists"></a>  
 
@@ -609,9 +609,9 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Flags**: `-i` `-s`   
 **Example**: `?serverplaylist MyFavoriteSongs`  
 
+  
 
-
----
+--- 
 
 <a id="Support"></a>  
 
@@ -634,6 +634,7 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Aliases**:   
 **Example**: `?support`  
 
+  
 
+--- 
 
----
