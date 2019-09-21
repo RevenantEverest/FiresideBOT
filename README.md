@@ -14,7 +14,25 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 
 ---  
 
-# Features  
+# Feature Highlights  
+
+#### User Playlists:  
+- Create a playlist that spans across servers. Playlists can be public or private, and public playlists can be viewed and requested by other users  
+
+#### Server Playlists:  
+- Admins can create a server playlist which anyone in the server can request. Admins can also add Roles to that playlist allowing any server members with that role to add to the playlist.  
+
+#### Auto Stream Poster:  
+- Add you or your favorite twitch streamer to a list of "Trackers" and anytime they go live, Fireside will post it in a text channel of your choice!  
+
+#### Ranks:  
+- Create up to 20 ranks for server members to level up with, and have full control of the EXP they get and how hard it is to level up  
+
+#### Welcome Message:  
+- Add a welcome message to your server that gets sent as a DM to every new member  
+
+#### Server Logging:  
+- Log all the happenings in the server, to member updates, role creation/changes and more!  
 
 ---  
 

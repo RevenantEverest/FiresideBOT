@@ -47,7 +47,19 @@ module.exports = {
         `| [Commands](#Commands)    | ${toc_commands}\n` +
         `\n` +
         `---  \n\n` +
-        `# Features  \n\n` +
+        `# Feature Highlights  \n\n` + 
+        `#### User Playlists:  \n` +
+        `- Create a playlist that spans across servers. Playlists can be public or private, and public playlists can be viewed and requested by other users  \n\n` +
+        `#### Server Playlists:  \n` + 
+        `- Admins can create a server playlist which anyone in the server can request. Admins can also add Roles to that playlist allowing any server members with that role to add to the playlist.  \n\n` +
+        `#### Auto Stream Poster:  \n` + 
+        `- Add you or your favorite twitch streamer to a list of "Trackers" and anytime they go live, Fireside will post it in a text channel of your choice!  \n\n` +
+        `#### Ranks:  \n` + 
+        `- Create up to 20 ranks for server members to level up with, and have full control of the EXP they get and how hard it is to level up  \n\n` +
+        `#### Welcome Message:  \n` + 
+        `- Add a welcome message to your server that gets sent as a DM to every new member  \n\n` +
+        `#### Server Logging:  \n` + 
+        `- Log all the happenings in the server, to member updates, role creation/changes and more!  \n\n` +
         `---  \n\n` +
         `### Commands  \n` +
         `${("`" + "<param>" + "`")} indicates a required parameter while ${("`" + "[param]" + "`")} indicates an optional parameter  \n\n` +
