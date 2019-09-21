@@ -11,6 +11,7 @@ async function findUserPlaylists(bot, args, message, privacy) {
     userPlaylistsDB.findByDiscordId(message.author.id)
     .then(playlists => {
         let playlist = playlists.filter(el => el.name === args[1]);
+        if(!playlist[0]) return message.channel.send("No Playlist Found");
         if(privacy) return updateUserPlaylist(bot, args, message, playlist[0], privacy);
         if(playlists.includes(args[2].toString())) return message.channel.send("No Duplicate Playlist Names");
         else if(args[3]) return message.channel.send('No white space allowed');

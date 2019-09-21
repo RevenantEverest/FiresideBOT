@@ -33,7 +33,7 @@ module.exports = async (bot, member) => {
         embed
         .setAuthor(`New Member ${member.user.username}#${member.user.discriminator}`, `https://cdn.discordapp.com/avatars/${member.user.id}/${member.user.avatar}.png?size=2048`)
         .setColor(0x00ff00)
-        .setFooter(`ID: ${member.user.id}`)
+        .setFooter(`User ID: ${member.user.id}`)
 
         bot.channels.get(settings.channel_id).send(embed);
     })

@@ -8,7 +8,7 @@ async function setQueue(bot, message, args, server, options) {
   if(!message.guild.voiceConnection) 
     message.member.voiceChannel.join()
     .then((connection) => {
-      playSong.playSong(connection, message, server);
+      playSong.playSong(bot, connection, message, server);
     })
     .catch(err => errorHandler(bot, message, err, "Join Voice Channel Error", "Play"));
 }

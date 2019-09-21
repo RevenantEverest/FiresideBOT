@@ -49,7 +49,7 @@ module.exports = async (bot, message) => {
             currentSongEmbed: [],
             genres: [],
             options: {
-                volume: '50',
+                volume: null,
                 loop: false,
                 recommendations: false,
                 voteToSkip: false

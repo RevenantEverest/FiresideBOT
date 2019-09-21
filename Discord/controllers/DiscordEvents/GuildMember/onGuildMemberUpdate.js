@@ -31,7 +31,7 @@ module.exports = async (bot, oldMember, newMember) => {
         embed
         .setAuthor(`Member Updated by ${executor.username}#${executor.discriminator}`, `https://cdn.discordapp.com/avatars/${executor.id}/${executor.avatar}.png?size=2048`)
         .setThumbnail(`https://cdn.discordapp.com/avatars/${newMember.user.id}/${newMember.user.avatar}.png?size=2048`)
-        .setFooter(`ID: ${newMember.user.id}`)
+        .setFooter(`User ID: ${newMember.user.id}`)
         .setColor(0xff9900)
         .setDescription(updateText)
 

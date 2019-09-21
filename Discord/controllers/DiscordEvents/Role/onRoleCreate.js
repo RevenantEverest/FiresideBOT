@@ -19,7 +19,7 @@ module.exports = async (bot, role) => {
         embed
         .setColor(0x00ff00)
         .setAuthor(`Role Created by ${executor.username}#${executor.discriminator}`, `https://cdn.discordapp.com/avatars/${executor.id}/${executor.avatar}.png?size=2048`)
-        .setFooter(`ID: ${role.id}`)
+        .setFooter(`Role ID: ${role.id}`)
 
         bot.channels.get(settings.channel_id).send(embed);
     })

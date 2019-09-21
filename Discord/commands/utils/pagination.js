@@ -1,5 +1,4 @@
 const Discord = require('discord.js');
-const errorHandler = require('../../controllers/errorHandler');
 
 /*
   ContentArr Parsing Example:
@@ -47,6 +46,28 @@ async function handleEmbed(contentArr, options, index) {
   return embed;
 };
 
+async function handleMessage(message, msg, bot, contentArr, options, index) {
+  await msg.react("⏪");
+  await msg.react("⏹");
+  await msg.react("⏩");
+    
+  const r_collector = new Discord.ReactionCollector(msg, r => r.users.array()[r.users.array().length - 1].id === message.author.id, { time: (options.time * 60000) });
+
+  r_collector.on('collect', async (reaction, user) => {
+    if(reaction.users.array()[reaction.users.array().length - 1].id === bot.user.id) return;
+    if(reaction.emoji.name === "⏹") return r_collector.stop();
+
+    if(reaction.emoji.name === "⏪") index === 0 ? index = (contentArr.length - 1) : index--;
+    else if(reaction.emoji.name === "⏩") index === (contentArr.length - 1) ? index = 0 : index++;
+
+    embed = await handleEmbed(contentArr, options, index);
+
+    reaction.message.edit(options.flavorText, embed);
+    // reaction.remove(reaction.users.array()[reaction.users.array().length - 1].id);
+  });
+  r_collector.on('end', e => msg.delete());
+};
+
 module.exports = async (message, bot, contentArr, options) => {
   if(!options.time) options.time = 1;
 
@@ -54,27 +75,12 @@ module.exports = async (message, bot, contentArr, options) => {
 
   let embed = await handleEmbed(contentArr, options, index);
 
-  message.channel.send(options.flavorText, embed).then(async (msg) => {
-    await msg.react("⏪");
-    await msg.react("⏹");
-    await msg.react("⏩");
-    
-    const r_collector = new Discord.ReactionCollector(msg, r => r.users.array()[r.users.array().length - 1].id === message.author.id, { time: (options.time * 60000) });
-
-    r_collector.on('collect', async (reaction, user) => {
-      if(reaction.users.array()[reaction.users.array().length - 1].id === bot.user.id) return;
-      if(reaction.emoji.name === "⏹") return r_collector.stop();
-
-      if(reaction.emoji.name === "⏪") index === 0 ? index = (contentArr.length - 1) : index--;
-      else if(reaction.emoji.name === "⏩") index === (contentArr.length - 1) ? index = 0 : index++;
-
-      embed = await handleEmbed(contentArr, options, index);
-
-      reaction.message.edit(options.flavorText, embed);
-      reaction.remove(reaction.users.array()[reaction.users.array().length - 1].id);
-    });
-    r_collector.on('end', () => msg.clearReactions());
-
-  })
-  .catch(err => console.log(err))
-}
+  if(options.dm)
+    message.author.send(options.flavorText, embed)
+    .then(msg => handleMessage(message, msg, bot, contentArr, options, index))
+    .catch(err => console.error(err));
+  else
+    message.channel.send(options.flavorText, embed)
+    .then(msg => handleMessage(message, msg, bot, contentArr, options, index))
+    .catch(err => console.log(err));
+};

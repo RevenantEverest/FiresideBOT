@@ -2,13 +2,13 @@ const playSong = require('../utils/playSong');
 const utils = require('../utils/utils');
 const errorHandler = require('../../controllers/errorHandler');
 
-async function setQueue(message, args, server, options) {
+async function setQueue(bot, message, args, server, options) {
   server.queue.queueInfo.splice(0, 0, options.songInfo);
   message.channel.send(`**${options.songInfo.title}** was added to the queue. In position **#1**`);
   if(!message.guild.voiceConnection) 
     message.member.voiceChannel.join()
     .then((connection) => {
-      playSong.playSong(connection, message, server);
+      playSong.playSong(bot, connection, message, server);
     })
     .catch(err => errorHandler(bot, message, err, "Join Voice Channel Error", "PlayNext"));
 }

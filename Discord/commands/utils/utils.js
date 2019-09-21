@@ -66,7 +66,7 @@ module.exports = {
                    `${m > 0 ? (m > 1 ? `${minutes} minutes, ` : `${minutes} minute, `) : ''}` +
                    `${s > 0 ? (s > 1 ? `${seconds} seconds` : `${seconds} second`) : ''}`;
         else 
-            return `${d > 0 ? `${days}:` : ''}${h > 0 ? `${hours}:` : ''}${m > 0 ? `${minutes}:` : ''}${s > 0 ? `${seconds}` : ''}`;
+            return `${d > 0 ? `${days}:` : ''}${h > 0 ? `${hours}:` : (d > 0 ? '00' : '')}${m > 0 ? `${minutes}:` : (h > 0 ? '00' : '')}${s > 0 ? `${seconds}` : '00'}`;
     },
     async getDate() {
         let date = new Date();

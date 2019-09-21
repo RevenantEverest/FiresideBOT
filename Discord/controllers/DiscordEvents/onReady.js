@@ -32,7 +32,7 @@ module.exports = async (bot, getCommands) => {
         bot.guilds.array().forEach(el => config.environment.users += el.memberCount);
     }, 5000);
 
-    if(process.env.ENVIRONMENT === "DEV") return console.log(chalk.hex('#00ff00')('[LOG]') +'  FiresideBOT Ready');
+    if(process.env.ENVIRONMENT === "DEV") return console.log(chalk.hex('#00ff00')('[LOG]') +' FiresideBOT Ready');
 
     let embed = new Discord.RichEmbed();
     embed.setColor(0xff9900).setTitle("Starting up...").setFooter(await utils.getDate());

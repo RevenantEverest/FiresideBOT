@@ -14,7 +14,7 @@ const errorHandler = require('../../controllers/errorHandler');
 
 async function getSongs(bot, args, message, server, playlist) {
   userSongsDB.findByPlaylistId(playlist.playlist_id)
-  .then(songs => addToQueue(args, message, server, playlist, songs))
+  .then(songs => addToQueue(bot, args, message, server, playlist, songs))
   .catch(err => {
     if(err instanceof QRE && err.code === qrec.noData)
       message.channel.send('No songs found in playlist `' + playlist.name + '`');
@@ -22,7 +22,7 @@ async function getSongs(bot, args, message, server, playlist) {
   });
 }
 
-async function addToQueue(args, message, server, playlist, songs) {
+async function addToQueue(bot, args, message, server, playlist, songs) {
   if(args.includes("-s")) songs = await utils.shuffle(songs);
   songs.forEach((el, idx) => {
     server.queue.queueInfo.push({
@@ -34,7 +34,7 @@ async function addToQueue(args, message, server, playlist, songs) {
       if(!message.guild.voiceConnection) 
         message.member.voiceChannel.join()
         .then((connection) => {
-          playSong.playSong(connection, message, server);
+          playSong.playSong(bot, connection, message, server);
         })
         .catch(err => console.error(err));
     }

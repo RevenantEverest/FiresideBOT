@@ -84,7 +84,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     commands.forEach(el => {
       if(el.config.category && contentArr[contentArr.map(e => e.category[0]).indexOf(el.config.category)])
         contentArr[contentArr.map(e => e.category[0]).indexOf(el.config.category)].fields.push({
-          field: `${dCommands.includes(el.config.name) ? '❌' : ''} ${el.config.d_name} ${el.config.params ? (el.config.params.required ? '`<param>`' : '`[param]`') : ''}`, 
+          field: `${el.config.d_name}${el.config.params ? (el.config.params.required ? '` <param> `' : '` [param] `') : ''}${dCommands.includes(el.config.name) ? '<:Cross:624336361633218580>*Disabled*' : ''}`, 
           value: (el.config.desc === '' ? '*N/A*' : el.config.desc),
           inline: false
         });

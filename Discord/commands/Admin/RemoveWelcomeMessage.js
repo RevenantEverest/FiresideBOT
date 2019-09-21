@@ -7,7 +7,7 @@ const qrec = pgp.errors.queryResultErrorCode;
 
 const errorHandler = require('../../controllers/errorHandler');
 
-async function deleteWelcomeMessage() {
+async function deleteWelcomeMessage(bot, message, welcomeMessage) {
     db.delete(welcomeMessage.id)
     .then(() => message.channel.send("Welcome Message has been removed"))
     .catch(err => errorHandler(bot, message, err, "Error Deleting Welcome Message", "RemoveWelcomeMessage"));

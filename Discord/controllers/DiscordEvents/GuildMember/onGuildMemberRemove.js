@@ -36,7 +36,7 @@ module.exports = async (bot, member) => {
         .setThumbnail(`https://cdn.discordapp.com/avatars/${member.user.id}/${member.user.avatar}.png?size=2048`)
         .setColor(0xff0000)
         .setTitle(`${member.user.username}#${member.user.discriminator}`)
-        .setFooter(`ID: ${member.user.id}`)
+        .setFooter(`User ID: ${member.user.id}`)
 
         bot.channels.get(settings.channel_id).send(embed);
     })

@@ -26,7 +26,7 @@ async function getGenre(server) {
         .catch(err => errorHandler(bot, message, err, "LastFM Error", "PlaySong"));
     })
     .catch(err => errorHandler(bot, message, err, "LastFM Error", "PlaySong"));
-}
+};
 
 services.playSong = async (bot, connection, message, server) => {
   let currentSongEmbed = new Discord.RichEmbed();
@@ -41,7 +41,7 @@ services.playSong = async (bot, connection, message, server) => {
     Then sets the volume according to the servers saved volume
   */
   server.dispatcher = connection.playStream(YTDL(request.link, {filter: 'audioonly', quality: 'highestaudio', highWaterMark: 1<<25}));
-  volume.run('', message, (['', server.queue.options.volume]), server, '');
+  volume.run('', message, (['PlaySong', server.queue.options.volume]), server, '');
 
   currentSongEmbed
     .setTitle('**CURRENT SONG**')
@@ -63,7 +63,7 @@ services.playSong = async (bot, connection, message, server) => {
 
   server.dispatcher.on("end", () => {
     if(server.queue.queueInfo[0] && message.guild.voiceConnection) 
-      services.playSong(connection, message, server);
+      services.playSong(bot, connection, message, server);
     else {
       if(server.queue.options.recommendations) {
         let promise = new Promise((resolve, reject) => {

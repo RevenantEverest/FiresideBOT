@@ -64,7 +64,7 @@ async function handleEmbed(message, args, bot, discord_id, playlists, songData, 
     let overallLength = 0;
     songData[i].forEach(el => overallLength += parseInt(el.duration, 10));
     overallLength = await utils.timeParser(overallLength);
-    embed.addField(`${i + 1}. ${playlists[i].name} (${overallLength}) ${playlists[i].public ? "" : "*Private*" }`, `${songData[i].length} Songs`)
+    embed.addField(`${i + 1}. ${playlists[i].name} (${overallLength}) ${playlists[i].public ? "" : `<:Locked:624341962358652958>*Private*` }`, `${songData[i].length} Songs`)
   }
   return message.channel.send(embed);
 }
