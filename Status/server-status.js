@@ -11,7 +11,7 @@ async function getDate() {
     return `${date.toLocaleString('en-US', options)} EST`;
 };
 
-bot.on("ready", () => {
+bot.on("ready", async () => {
     if(process.env.ENVIRONMENT === "DEV") return cbotonsole.log(chalk.hex('#00ff00')('[LOG]') + '  Status Checker Ready');
 
     let embed = new Discord.RichEmbed();
