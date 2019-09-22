@@ -1,35 +1,22 @@
-#root, .App {
-  height: 100%;
-  max-height: 100%;
-  width: 100%;
-  max-width: 100%;
-  overflow-x: hidden;
+.App {
+  text-align: center;
 }
 
-.App-Contents {  display: inline; }
-
-#HelpDocs {
-  display: inline-block;
-  min-height: 100%;
-  width: 100%;
-  background-color: #1a1a1a;
-  color: #cccccc;
+.App-logo {
+  height: 40vmin;
 }
 
-.HelpDocs-Contents {
-    display: inline-block;
-    height: auto;
-    width: 74%;
-    background-color: inherit;
-    margin-left: 20%;
-    margin-top: 2%;
-  }
-  
-  .CommandImage {
-    border-radius: 32px;
-  }
-  
-  .HelpDocs-UnderContruction {
-    font-weight: 800;
-    margin-bottom: 10%;
-  }
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #09d3ac;
+}
