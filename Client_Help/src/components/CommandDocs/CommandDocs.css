@@ -1,9 +1,0 @@
-.CommandDocs-Header { font-size: 60px; }
-.CommandDocs-SubHeader { margin-bottom: 8%; }
-#CommandDocs-QuickNav-Music, #CommandDocs-QuickNav-Currency, #CommandDocs-QuickNav-Fun,
-#CommandDocs-QuickNav-Info
-{ font-size: 20px;  margin-right: 1%; font-weight: 600; }
-#CommandDocs-QuickNav-Currency, #CommandDocs-QuickNav-Fun, #CommandDocs-QuickNav-Info {margin-left: 1%; }
-#CommandDocs-QuickNav-Music:hover, #CommandDocs-QuickNav-Currency:hover, #CommandDocs-QuickNav-Fun:hover,
-#CommandDocs-QuickNav-Info:hover
-{ color: orange; }

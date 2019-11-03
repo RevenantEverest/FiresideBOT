@@ -1,7 +1,0 @@
-.WhatsNew-News-UL > li > p { display: inline; color: orange; }
-.WhatsNew-News-UL > li > p:hover { cursor: pointer; }
-
-.WhatsNew-NewCommands-UL > a > li:hover { color: orange; cursor: pointer; }
-.WhatsNew-ChangedCommands-UL > a > li:hover { color: orange; cursor: pointer; }
-
-.WhatsNew-Trello { margin-bottom: 10%; }
