@@ -42,6 +42,8 @@ app.use("/user/playlists", require('./routes/UserRoutes/userPlaylistRoutes'));
 app.use("/user/songs", require('./routes/UserRoutes/userSongRoutes'));
 
 app.use("/commands/custom", require('./routes/customCommandRoutes'));
+app.use("/commands", require("./routes/commandRoutes"));
+app.use("/commands/logs", require("./routes/commandLogRoutes"));
 app.use("/login", require('./routes/loginRoutes'));
 app.use("/queue", require('./routes/queueRoutes'));
 app.use("/autodj", require('./routes/autodjRoutes'));
