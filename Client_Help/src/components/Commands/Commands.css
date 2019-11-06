@@ -1,0 +1,15 @@
+.CommandText {
+    font-weight: 600;
+    display: inline;
+    color: #cccccc;
+}
+
+.CommandLink {
+    font-weight: 800;
+    font-size: 16px;
+    transition: .3s;
+}
+
+.CommandLink:hover {
+    color: #A42700;
+}
