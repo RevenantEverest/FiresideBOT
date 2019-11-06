@@ -47,7 +47,7 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 
 - [CreateCharacter](https://help.firesidebot.com/commands/createcharacter) `<param>`  
 **Desc**: Creates a new Acirhia Character  
-**Aliases**: `cc`   
+**Aliases**: `createchar`   
 **Params**: Character Name  
 **Example**: `?createcharacter King Arthur`  
 
@@ -98,11 +98,29 @@ A Music, Economy, & Admin Discord Bot written in Node.js
  Optional Param  
 **Example**: `?ban @RevenantEverest 5 His memes are low tier`  
 
+- [CreateCommand](https://help.firesidebot.com/commands/createcommand) `<param>`  
+**Desc**: Create a custom command  
+**Aliases**: `addcom`   
+**Params**: Input (Command Name) and Output (Command Response)  
+**Example**: `?createcommand MyCommand This is a new command`  
+
+- [DeleteCommand](https://help.firesidebot.com/commands/deletecommand) `<param>`  
+**Desc**: Delete a custom command  
+**Aliases**: `delcom`   
+**Params**: Command ID or CommandName  
+**Example**: `?deletecommand MyCommand`  
+
 - [DisableCommand](https://help.firesidebot.com/commands/disablecommand) `<param>`  
 **Desc**: Disables a Command  
 **Aliases**: `disabledcommands` `dc`   
 **Params**: Command Name or Alias  
 **Example**: `?disablecommand play`  
+
+- [EditCommand](https://help.firesidebot.com/commands/editcommand) `<param>`  
+**Desc**: Edit a custom command  
+**Aliases**: `editcom`   
+**Params**: Command Name or ID and Updated Output  
+**Example**: `?editcommand MyCommand This is my new command edit`  
 
 - [EditRank](https://help.firesidebot.com/commands/editrank) `<param>`  
 **Desc**: Change a ranks name  
@@ -169,6 +187,11 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Desc**: Get sent an example of your server's welcome message in a DM  
 **Aliases**: `vwm`   
 **Example**: `?viewwelcomemessage`  
+
+- [CustomCommands](https://help.firesidebot.com/commands/customcommands)   
+**Desc**: Custom Command  
+**Aliases**: `customcommand` `custcom` `cc`   
+**Example**: `?customcommands`  
 
   
 
