@@ -7,6 +7,7 @@ const ranksController = require('../ranksController');
 
 const guildsDB = require('../../models/GuildModels/guildsDB');
 const disabledCommandsDB = require('../../models/disabledCommandsDB');
+const customCommandsDB = require('../../models/customCommandsDB');
 
 const BackUpCommands = require('../../commands/BackUpCommands');
 
@@ -14,26 +15,26 @@ const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
 const qrec = pgp.errors.queryResultErrorCode;
 
+async function checkCustomCommands(message, args) {
+    customCommandsDB.findByGuildIdAndInput({ guild_id: message.guild.id, input: args[0].toLowerCase() })
+    .then(customCommand => message.channel.send(customCommand.output))
+    .catch(err => {
+        if(err instanceof QRE && err.code === qrec.noData) return;
+        else console.error(err);
+    });
+};
+
 module.exports = async (bot, message) => {
     if(message.author.bot) return;
     if(message.channel.type === "dm") return ticketsController.handleTicket(bot, message);
     currencyController.handleCurrency(message);
     ranksController.handleXP(bot, message);
-        
-    let disabledCommands = null;
+
     let PREFIX = null;
     
     await guildsDB.findPrefix(message.guild.id)
     .then(prefix => PREFIX = prefix.prefix)
     .catch(err => console.error(err));
-    
-        
-    await disabledCommandsDB.findByGuildId(message.guild.id)
-    .then(dCommands => disabledCommands = dCommands.map(el => el.command))
-    .catch(err => {
-        if(err instanceof QRE && err.code === qrec.noData) return;
-        else console.error(err);
-    });
     
     BackUpCommands(PREFIX, message);
     
@@ -58,12 +59,20 @@ module.exports = async (bot, message) => {
     });
     
     let args = message.content.substring(PREFIX.length).split(" ");
-    let server = config.servers[config.servers.map(el => el.id).indexOf(message.guild.id)];
     let options = config.environment;
-    
+    let disabledCommands = null;
+
+    await disabledCommandsDB.findByGuildId(message.guild.id)
+    .then(dCommands => disabledCommands = dCommands.map(el => el.command))
+    .catch(err => {
+        if(err instanceof QRE && err.code === qrec.noData) return;
+        else console.error(err);
+    });
+
+    let server = config.servers[config.servers.map(el => el.id).indexOf(message.guild.id)];
     let commandfile = bot.commands.get(args[0].toLowerCase()) || bot.commands.get(bot.aliases.get(args[0].toLowerCase()));
 
-    if(!commandfile) return;
+    if(!commandfile) return checkCustomCommands(message, args);
     if(commandfile.config.category === "Admin" && !message.member.hasPermission('ADMINISTRATOR'))
         return message.channel.send(`You don't have permission to use this command`);
     else if(disabledCommands) {

@@ -63,9 +63,8 @@ async function handleMessage(message, msg, bot, contentArr, options, index) {
     embed = await handleEmbed(contentArr, options, index);
 
     reaction.message.edit(options.flavorText, embed);
-    // reaction.remove(reaction.users.array()[reaction.users.array().length - 1].id);
   });
-  r_collector.on('end', e => msg.delete());
+  r_collector.on('end', e => msg.clearReactions());
 };
 
 module.exports = async (message, bot, contentArr, options) => {
