@@ -1,18 +1,21 @@
 const express = require('express');
-const customCommandsController = require('../controllers/customCommandsController');
-const customCommandsRouter = express.Router();
+const controller = require('../controllers/customCommandsController');
+const router = express.Router();
 
-customCommandsRouter.route('/')
-  .get(customCommandsController.index)
-  .post(customCommandsController.addCommand)
-  .put(customCommandsController.updateCommand)
+router.route("/")
+.get(controller.index)
+.post(controller.save)
+.put(controller.update)
 
-customCommandsRouter.route('/user/:id')
-  .get(customCommandsController.getByUserId)
+router.route("/discord_id/:id")
+.get(controller.getByDiscordId)
 
-customCommandsRouter.route('/delete/:id')
-  .delete(customCommandsController.deleteCommand)
+router.route("/guild_id/:id")
+.get(controller.getByGuildId)
+
+router.route("/delete/:id")
+.delete(controller.delete)
 
 
 
-module.exports = customCommandsRouter;
+module.exports = router;

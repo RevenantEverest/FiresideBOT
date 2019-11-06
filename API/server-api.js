@@ -1,9 +1,7 @@
 require('dotenv').config();
 
 /* Dependencies */
-const fs = require('fs');
 const http = require('http');
-const https = require('http');
 const express = require('express');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
@@ -14,14 +12,6 @@ const app = express();
 
 const Discord_Bot = require('./Discord_Bot');
 Discord_Bot.login(process.env.DISCORD_KEY);
-
-let ssl = null;
-if(process.env.ENVIRONMENT !== "DEV") 
-    ssl = { 
-        key: fs.readFileSync(process.env.SSL_PRIVKEY), 
-        cert: fs.readFileSync(process.env.SSL_FULLCHAIN), 
-        ca: fs.readFileSync(process.env.SSL_CHAIN) 
-    };
 
 /* Middleware */
 app.use(logger('dev'));
@@ -62,7 +52,4 @@ app.use("/", (req, res) => res.json({ message: "Fireside API" }));
 
 /* PROD */
 let server = http.createServer(app);
-server.listen(3001, () => console.log(chalk.hex("#00ff00")(`[HTTP]`) +  ` Fireside-API: Listening on port 3001`));
-
-if(process.env.ENVIRONMENT !== "DEV")
-    https.createServer(ssl, app).listen(3443, () => console.log(`[HTTPS] Fireside-API: Listening on port 3443`));
+server.listen(process.env.API_PORT, () => console.log(chalk.hex("#00ff00")(`[HTTP]`) +  ` Fireside-API: Listening on port ${process.env.API_PORT}`));

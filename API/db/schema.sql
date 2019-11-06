@@ -210,8 +210,10 @@ CREATE TABLE default_commands (
 );
 
 CREATE TABLE custom_commands (
-  command_id SERIAL PRIMARY KEY,
-  user_id BIGINT,
-  command VARCHAR(255),
-  output VARCHAR(255)
+  id SERIAL PRIMARY KEY,
+  guild_id VARCHAR(255),
+  created_by VARCHAR(255),
+  input VARCHAR(255),
+  output VARCHAR(1024),
+  date VARCHAR(255)
 );
