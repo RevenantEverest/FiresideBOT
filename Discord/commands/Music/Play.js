@@ -2,17 +2,6 @@ const playSong = require('../utils/playSong');
 const utils = require('../utils/utils');
 const errorHandler = require('../../controllers/errorHandler');
 
-async function setQueue(bot, message, args, server, options) {
-  server.queue.queueInfo.push(options.songInfo);
-  message.channel.send(`**${options.songInfo.title}** was added to the queue. In position **#${server.queue.queueInfo.length}**`);
-  if(!message.guild.voiceConnection)
-    message.member.voiceChannel.join()
-    .then((connection) => {
-      playSong.playSong(bot, connection, message, server);
-    })
-    .catch(err => errorHandler(bot, message, err, "Join Voice Channel Error", "Play"));
-}
-
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     if(!args[1]) return message.channel.send("Please provide a link");
     if(!message.member.voiceChannel) return message.channel.send("You must be in a voice channel");
@@ -24,12 +13,19 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     args.splice(0, 1);
 
     if(await utils.checkString(args[0], requestFilter)) {
-      request = await utils.filter(args[0], { special: false });
-      isLink = true;
+        request = await utils.filter(args[0], { special: false });
+        isLink = true;
     }
     else request = args.join(" ");
 
-    utils.youtubeSearch(message, args, server, request, { isLink: isLink }, setQueue);
+    utils.youtubeSearch(message, args, server, request, { isLink: isLink }, (songInfo) => {
+        server.queue.queueInfo.push(songInfo);
+        message.channel.send(`**${songInfo.title}** was added to the queue. In position **#${server.queue.queueInfo.length}**`);
+        if(!message.guild.voiceConnection)
+            message.member.voiceChannel.join()
+            .then((connection) => playSong.playSong(bot, connection, message, server))
+            .catch(err => errorHandler(bot, message, err, "Join Voice Channel Error", "Play"));
+    });
 };
 
 module.exports.config = {

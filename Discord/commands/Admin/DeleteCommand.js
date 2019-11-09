@@ -13,7 +13,7 @@ async function findCommandByID(bot, message, args, id) {
         deleteCommand(bot, message, args, command);
     })
     .catch(err => {
-        if(err instanceof QRE && err.code === qrec.noData) return message.channel.send
+        if(err instanceof QRE && err.code === qrec.noData) return message.channel.send("Command Not Found");
         else errorHandler(bot, message, err, "Error Finding Command by ID", "DeleteCommand");
     });
 };

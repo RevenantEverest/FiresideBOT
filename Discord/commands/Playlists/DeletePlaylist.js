@@ -1,61 +1,40 @@
-const userPlaylistsDB = require('../../models/UserModels/userPlaylistsDB');
-const userSongsDB = require('../../models/UserModels/userSongsDB');
+const userPlaylistsController = require('../../controllers/dbControllers/userPlaylistsController');
+const guildPlaylistsController = require('../../controllers/dbControllers/guildPlaylistsController');
 
-const guildPlaylistsDB = require('../../models/GuildModels/guildPlaylistsDB');
-const guildSongsDB = require('../../models/GuildModels/guildSongsDB');
-
-const pgp = require('pg-promise')();
-const QRE = pgp.errors.QueryResultError;
-const qrec = pgp.errors.queryResultErrorCode;
-
-const errorHandler = require('../../controllers/errorHandler');
-
-async function deleteUserPlaylistSongs(bot, playlist, message) {
-    userSongsDB.deletePlaylistSongs(playlist.playlist_id)
-    .then(() => message.channel.send(`Playlist **${playlist.name}** has been deleted`))
-    .catch(err => errorHandler(bot, message, err, "Error Deleteing Playlist Songs", "DeletePlaylist"));
-};
-
-async function deleteGuildPlaylistSongs(bot, playlist, message) {
-    guildSongsDB.deletePlaylistSongs(playlist.playlist_id)
-    .then(() => message.channel.send(`Server Playlist **${playlist.name}** has been deleted`))
-    .catch(err => errorHandler(bot, message, err, "Error Deleteing Playlist Songs", "DeletePlaylist"));
-}
-
-async function deleteUserPlaylist(bot, playlist, message) {
-    userPlaylistsDB.delete(playlist.playlist_id)
-    .then(() => deleteUserPlaylistSongs(bot, playlist, message))
-    .catch(err => errorHandler(bot, message, err, "Error Deleteing Playlist", "DeletePlaylist"))
-};
-
-async function deleteGuildPlaylist(bot, playlist, message) {
-    guildPlaylistsDB.delete(playlist.playlist_id)
-    .then(() => deleteGuildPlaylistSongs(bot, playlist, message))
-    .catch(err => errorHandler(bot, message, err, "Error Deleteing Playlist", "DeletePlaylist"))
-}
+const userSongsController = require('../../controllers/dbControllers/userSongsController');
+const guildSongsController = require('../../controllers/dbControllers/guildSongsController');
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     if(!args[1]) return message.channel.send('Please specify a Playlist to delete');
     if(args.includes("-s")) {
         if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send(`You don't have permission to use this command`);
         args.splice(args.indexOf("-s"), 1);
-        guildPlaylistsDB.findByGuildIdAndPlaylistName({ guild_id: message.guild.id, name: args[1] })
-        .then(playlist => deleteGuildPlaylist(bot, playlist, message))
-        .catch(err => {
-            if(err instanceof QRE && err.code === qrec.noData) 
-                message.channel.send(`No playlist by that name found`);
-            else errorHandler(bot, message, err, "DB Error", "DeletePlaylist");
-        })
+        let data = { guild_id: message.guild.id, name: args[1] };
+        guildPlaylistsController.getByGuildIdAndPlaylistName(bot, message, "DeletePlaylist", data, handleGuildPlaylist, handleNoGuildPlaylist);
     }
     else {
-        userPlaylistsDB.findByDiscordIdAndPlaylistName({ discord_id: message.author.id, name: args[1] })
-        .then(playlist => deleteUserPlaylist(bot, playlist, message))
-        .catch(err => {
-            if(err instanceof QRE && err.code === qrec.noData) 
-                message.channel.send(`No playlist by that name found`);
-            else errorHandler(bot, message, err, "DB Error", "DeletePlaylist");
-        })
+        let data = { discord_id: message.author.id, name: args[1] };
+        userPlaylistsController.getByDiscordIdAndPlaylistName(bot, message, "DeletePlaylist", data, handleUserPlaylist, handleNoUserPlaylist);
     } 
+
+    async function handleUserPlaylist(playlist) {
+        userSongsController.deletePlaylistSongs(bot, message, "DeletePlaylist", playlist.playlist_id, () => {
+            userPlaylistsController.delete(bot, message, "DeletePlaylist", playlist.playlist_id, () => {
+                return message.channel.send(`Playlist **${playlist.name}** has been deleted`);
+            });
+        });
+    };
+
+    async function handleGuildPlaylist(playlist) {
+        guildSongsController.deletePlaylistSongs(bot, message, "DeletePlaylist", playlist.playlist_id, () => {
+            guildPlaylistsController.delete(bot, message, "DeletePlaylist", playlist.playlist_id, () => {
+                return message.channel.send(`Server Playlist **${playlist.name}** has been deleted`);
+            });
+        });
+    };
+
+    async function handleNoUserPlaylist() { return message.channel.send("No Playlist Found"); }
+    async function handleNoGuildPlaylist() { return message.channel.send("No Server Playlist Found"); }
 };
 
 module.exports.config = {
