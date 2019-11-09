@@ -1,45 +1,38 @@
 const Discord = require('discord.js');
-const discordCurrencyDB = require('../../models/discordCurrencyDB');
-const currencyDB = require('../../models/currencyDB');
-const pgp = require('pg-promise')();
-const QRE = pgp.errors.QueryResultError;
-const qrec = pgp.errors.queryResultErrorCode;
-
-const errorHandler = require('../../controllers/errorHandler');
-
-async function createRecord(bot, settings, message) {
-    discordCurrencyDB.save({ discord_id: message.author.id, guild_id: message.guild.id, currency: 0 })
-    .then(userCurrency => sendEmbed(bot, message, settings, userCurrency))
-    .catch(err => errorHandler(bot, message, err, "Error Creating Currency Record", "Balance"));
-};
-
-async function getCurrencyRecord(bot, message, settings) {
-    discordCurrencyDB.findByDiscordIdAndGuildId({ discord_id: message.author.id, guild_id: message.guild.id })
-    .then(userCurrency => sendEmbed(message, settings, userCurrency))
-    .catch(err => {
-        if(err instanceof QRE && err.code === qrec.noData)
-            createRecord(bot, settings, message, currencyEmbed);
-        else errorHandler(bot, message, err, "Error Finding Currency Record", "Balance");
-    })
-};
-
-async function sendEmbed(message, settings, userCurrency) {
-    let embed = new Discord.RichEmbed();
-    embed
-    .setColor(0xff6600)
-    .addField("Bank Records For:", `${message.author.username}`, true)
-    .addField("Server: ", `${message.guild.name}`, true)
-    .addBlankField()
-    .addField(`${settings.currency_name}:`, parseInt(userCurrency.currency, 10).toLocaleString())
-    .setThumbnail('https://i.imgur.com/PzZmx1l.png')
-    message.channel.send(embed);
-};
+const discordCurrencyController = require('../../controllers/dbControllers/discordCurrencyController');
+const currencyController = require('../../controllers/dbControllers/currencyController');
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
-    currencyDB.findCurrencySettings(message.guild.id)
-    .then(settings => getCurrencyRecord(bot, message, settings))
-    .catch(err => errorHandler(bot, message, err, "Error Finding Currency Settings", "Balance"));
+    let cSettings = null;
+    currencyController.getCurrencySettings(bot, message, "Balance", message.guild.id, handleCurrencyRecords, handleNoSettings);
+
+    async function handleCurrencyRecords(settings) {
+        cSettings = settings;
+        let data = { discord_id: message.author.id, guild_id: message.guild.id };
+        discordCurrencyController.getByDiscordIdAndGuildId(bot, message, "Balance", data, (record) => sendEmbed(settings, record), handleNoRecord);
+    };
+
+    async function handleNoSettings() {
+        let data = { guild_id: message.author.id, currency_name: "Kindling", currency_increase_rate: 10 };
+        currencyController.saveDefaultSettings(bot, message, "Balance", data, handleCurrencyRecords, handleNoRecord);
+    };
     
+    async function handleNoRecord() {
+        let data = { discord_id: message.author.id, guild_id: message.guild.id, currency: 0 }
+        discordCurrencyController.save(bot, message, "Balance", data, (record) => sendEmbed(settings, record));
+    };
+
+    async function sendEmbed(settings, userCurrency) {
+        let embed = new Discord.RichEmbed();
+        embed
+        .setColor(0xff6600)
+        .addField("Bank Records For:", `${message.author.username}`, true)
+        .addField("Server: ", `${message.guild.name}`, true)
+        .addBlankField()
+        .addField(`${settings.currency_name}:`, parseInt(userCurrency.currency, 10).toLocaleString())
+        .setThumbnail('https://i.imgur.com/PzZmx1l.png')
+        message.channel.send(embed);
+    };
 };
 
 module.exports.config = {

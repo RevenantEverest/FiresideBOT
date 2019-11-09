@@ -281,7 +281,7 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 - [Give](https://help.firesidebot.com/commands/give) `<param>`  
 **Desc**: Gives a currency amount to desired recipient, from your balance  
 **Aliases**:   
-**Params**: Mention / Amount  
+**Params**: @Mention and Amount  
 **Example**: `?give @YourFavoritePerson 100`  
 
   
