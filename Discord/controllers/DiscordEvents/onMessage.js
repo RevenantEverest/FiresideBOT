@@ -5,7 +5,7 @@ const currencyController = require('../currencyController');
 const ticketsController = require('../ticketsController');
 const ranksController = require('../ranksController');
 
-const guildsDB = require('../../models/GuildModels/guildsDB');
+const guildSettingsDB = require('../../models/GuildModels/guildSettingsDB');
 const disabledCommandsDB = require('../../models/disabledCommandsDB');
 const customCommandsDB = require('../../models/customCommandsDB');
 
@@ -32,8 +32,8 @@ module.exports = async (bot, message) => {
 
     let PREFIX = null;
     
-    await guildsDB.findPrefix(message.guild.id)
-    .then(prefix => PREFIX = prefix.prefix)
+    await guildSettingsDB.findByGuildId(message.guild.id)
+    .then(settings => PREFIX = settings.prefix)
     .catch(err => console.error(err));
     
     BackUpCommands(PREFIX, message);

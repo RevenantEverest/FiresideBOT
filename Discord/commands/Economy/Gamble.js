@@ -8,7 +8,10 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     let amountWagered = parseInt(args[1], 10);
     let cSettings = null;
 
-    currencyController.getCurrencySettings(bot, message, "Gamble", message.guild.id, handleRecord, handleNoSettings);
+    currencyController.getCurrencySettings(bot, message, "Gamble", message.guild.id, handleRecord, () => {
+        let data = { guild_id: message.author.id, currency_name: "Kindling", currency_increase_rate: 10 };
+        currencyController.saveDefaultSettings(bot, message, "Gamble", data, handleRecord);
+    });
 
     async function handleRecord(settings) {
         cSettings = settings;
@@ -31,11 +34,6 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
                 `**${cSettings.currency_name}** and now has **${newAmount.toLocaleString()} ${cSettings.currency_name}**`
             );
         });
-    };
-
-    async function handleNoSettings() {
-        let data = { guild_id: message.author.id, currency_name: "Kindling", currency_increase_rate: 10 };
-        currencyController.saveDefaultSettings(bot, message, "Gamble", data, handleRecord);
     };
 
     async function handleNoRecord() {

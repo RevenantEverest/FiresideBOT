@@ -1,19 +1,20 @@
-const guildsDB = require('../../models/GuildModels/guildsDB');
-const errorHandler = require('../../controllers/errorHandler');
-
-async function updateGuildSettings(bot, message, args) {
-    guildsDB.updateSettings({ guild_id: message.guild.id, prefix: args[1], volume: findGuildSettings.volume })
-    .then(() => message.channel.send(`Prefix updated to **${args[1]}**`))
-    .catch(err => errorHandler(bot, message, err, "Error Updating Prefix", "EditPrefix"));
-};
+const guildSettingsController = require('../../controllers/dbControllers/guildSettingsController');
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send(`You don't have permission to use this command`);
     if(!args[1]) return message.channel.send("Please specify what you'd like to change Firesides Preifx to");
-    
-    guildsDB.findSettings(message.guild.id)
-    .then(settings => updateGuildSettings(bot, message, args, settings))
-    .catch(err => console.error(err));
+
+    guildSettingsController.getByGuildId(bot, message, "EditPrefix", message.guild.id, updateSettings, () => {
+        let data = { guild_id: message.guild.id, prefix: "?", volume: findGuildSettings.volume };
+        guildSettingsController.save(bot, message, "EditPrefix", data, updateSettings);
+    });
+
+    async function updateSettings(settings) {
+        let data = { guild_id: message.guild.id, prefix: args[1], volume: settings.volume };
+        guildSettingsController.update(bot, message, "EditPrefix", data, (newSettings) => {
+            return message.channel.send(`Prefix updated to **${newSettings.prefix}**`);
+        });
+    };
 };
 
 module.exports.config = {

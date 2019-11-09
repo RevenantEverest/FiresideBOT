@@ -65,7 +65,7 @@ services.update = async (bot, message, command, data, callback) => {
 
 services.delete = async (bot, message, command, data, callback) => {
     db.delete(data)
-    .then(record => callback(record))
+    .then(() => callback())
     .catch(err => errorHandler(bot, message, err, "Error Delete Currency Record", command));
 };
 

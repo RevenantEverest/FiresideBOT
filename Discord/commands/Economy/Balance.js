@@ -4,22 +4,18 @@ const currencyController = require('../../controllers/dbControllers/currencyCont
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     let cSettings = null;
-    currencyController.getCurrencySettings(bot, message, "Balance", message.guild.id, handleCurrencyRecords, handleNoSettings);
+    currencyController.getCurrencySettings(bot, message, "Balance", message.guild.id, handleCurrencyRecords, () => {
+        let data = { guild_id: message.author.id, currency_name: "Kindling", currency_increase_rate: 10 };
+        currencyController.saveDefaultSettings(bot, message, "Balance", data, handleCurrencyRecords);
+    });
 
     async function handleCurrencyRecords(settings) {
         cSettings = settings;
         let data = { discord_id: message.author.id, guild_id: message.guild.id };
-        discordCurrencyController.getByDiscordIdAndGuildId(bot, message, "Balance", data, (record) => sendEmbed(settings, record), handleNoRecord);
-    };
-
-    async function handleNoSettings() {
-        let data = { guild_id: message.author.id, currency_name: "Kindling", currency_increase_rate: 10 };
-        currencyController.saveDefaultSettings(bot, message, "Balance", data, handleCurrencyRecords, handleNoRecord);
-    };
-    
-    async function handleNoRecord() {
-        let data = { discord_id: message.author.id, guild_id: message.guild.id, currency: 0 }
-        discordCurrencyController.save(bot, message, "Balance", data, (record) => sendEmbed(settings, record));
+        discordCurrencyController.getByDiscordIdAndGuildId(bot, message, "Balance", data, (record) => sendEmbed(settings, record), () => {
+            let data = { discord_id: message.author.id, guild_id: message.guild.id, currency: 0 }
+            discordCurrencyController.save(bot, message, "Balance", data, (record) => sendEmbed(settings, record));
+        });
     };
 
     async function sendEmbed(settings, userCurrency) {

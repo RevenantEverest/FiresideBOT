@@ -1,6 +1,4 @@
-const db = require('../../models/GuildModels/guildLogSettingsDB');
-
-const errorHandler = require('../../controllers/errorHandler');
+const logSettingsController = require('../../controllers/dbControllers/guildLogSettingsController');
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send(`You don't have permission to use this command`);
@@ -9,6 +7,18 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     let channel_id = null;
     if(/<#?(\d+)>/.exec(args.join(" "))) channel_id = /<#?(\d+)>/.exec(args.join(" "))[1];
     else return message.channel.send("Please tag a Text Channel you'd like the tracker to post in");
+
+    logSettingsController.getByGuildId(bot, message, "EditLogChannel", message.guild.id, updateLogSetting, () => {
+        let data = { guild_id: message.guild.id, channel_id: "none", enabled: false };
+        logSettingsController.save(bot, message, "EditLogChannel", data, updateLogSetting);
+    });
+
+    async function updateLogSetting(settings) {
+        let data = { guild_id: message.guild.id, channel_id: channel_id, enabled: settings.enabled };
+        logSettingsController.update(bot, message, "EditLogChannel", data, () => {
+            return message.channel.send(`Server Logs will now be posted in <#${channel_id}>`);
+        });
+    };
 };
 
 module.exports.config = {

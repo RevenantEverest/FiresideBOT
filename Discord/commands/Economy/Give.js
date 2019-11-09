@@ -16,19 +16,28 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
 
     if(message.author.id === recipient_id) return message.channel.send(`You can't give money to yourself`);
 
-    currencyController.getCurrencySettings(bot, message, "Give", message.guild.id, handleUserRecord, handleNoSettings);
+    currencyController.getCurrencySettings(bot, message, "Give", message.guild.id, handleUserRecord, () => {
+        let data = { guild_id: message.author.id, currency_name: "Kindling", currency_increase_rate: 10 };
+        currencyController.saveDefaultSettings(bot, message, "Give", data, handleUserRecord);
+    });
 
     async function handleUserRecord(settings) {
         cSettings = settings;
         let data = { discord_id: message.author.id, guild_id: message.guild.id };
-        discordCurrencyController.getByDiscordIdAndGuildId(bot, message, "Give", data, handleRecipientRecord, handleNoUserRecord);
+        discordCurrencyController.getByDiscordIdAndGuildId(bot, message, "Give", data, handleRecipientRecord, () => {
+            let data = { discord_id: message.author.id, guild_id: message.guild.id, currency: 0 };
+            discordCurrencyController.save(bot, message, "Give", data, handleUserRecord);
+        });
     };
 
     async function handleRecipientRecord(record) {
         if(record.currency < amountGiven) return message.channel.send('Insufficient Funds...');
         userRecord = record;
         let data = { discord_id: recipient_id, guild_id: message.guild.id };
-        discordCurrencyController.getByDiscordIdAndGuildId(bot, message, "Give", data, handleUpdateRecords, handleNoRecipientRecord);
+        discordCurrencyController.getByDiscordIdAndGuildId(bot, message, "Give", data, handleUpdateRecords, () => {
+            let data = { discord_id: recipient_id, guild_id: message.author.id, currency: 0 };
+            discordCurrencyController.save(bot, message, "Give", data, handleUserRecord);
+        });
     };
 
     async function handleUpdateRecords(record) {
@@ -44,21 +53,6 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
                 );
             });
         });
-    };
-
-    async function handleNoUserRecord() {
-        let data = { discord_id: message.author.id, guild_id: message.guild.id, currency: 0 };
-        discordCurrencyController.save(bot, message, "Give", data, handleUserRecord);
-    };
-
-    async function handleNoRecipientRecord() {
-        let data = { discord_id: recipient_id, guild_id: message.author.id, currency: 0 };
-        discordCurrencyController.save(bot, message, "Give", data, handleUserRecord);
-    };
-
-    async function handleNoSettings() {
-        let data = { guild_id: message.author.id, currency_name: "Kindling", currency_increase_rate: 10 };
-        currencyController.saveDefaultSettings(bot, message, "Give", data, handleUserRecord);
     };
 };
 

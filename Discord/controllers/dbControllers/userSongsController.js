@@ -56,7 +56,7 @@ services.delete = async (bot, message, command, data, callback) => {
 
 services.deletePlaylistSongs = async (bot, message, command, data, callback) => {
     db.deletePlaylistSongs(data)
-    .then(song => callback(song))
+    .then(() => callback())
     .catch(err => errorHandler(bot, message, err, "Error Deleteing Songs", command));
 };
 

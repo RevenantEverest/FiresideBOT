@@ -333,6 +333,11 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Params**: Number  
 **Example**: `?roll 20`  
 
+- [Vibe](https://help.firesidebot.com/commands/vibe)   
+**Desc**: Checks your current vibe  
+**Aliases**: `vibecheck`   
+**Example**: `?vibe`  
+
   
 
 --- 

@@ -15,6 +15,15 @@ module.exports = {
         VALUES ($/guild_id/, $/general_increase_rate/, $/complexity/, $/channel_id/)
         RETURNING *`, settings);
     },
+    update(settings) {
+        return db.one(`UPDATE discord_rank_settings
+        SET
+        complexity = $/complexity/,
+        general_increase_rate = $/general_increase_rate/,
+        channel_id = $/channel_id/
+        WHERE guild_id = $/guild_id/
+        RETURNING *`, settings);
+    },
     updateComplexity(settings) {
         return db.one(`UPDATE discord_rank_settings
         SET
