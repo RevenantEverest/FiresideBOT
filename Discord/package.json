@@ -21,6 +21,7 @@
     "dotenv": "^8.1.0",
     "express": "^4.17.1",
     "morgan": "^1.9.1",
+    "node-memwatch": "^1.0.1",
     "nodemon": "^1.19.3",
     "opusscript": "0.0.6",
     "pg-promise": "^8.7.5",
