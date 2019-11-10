@@ -1,32 +1,10 @@
 const Discord = require('discord.js');
 const YTDL = require('ytdl-core');
-const handleRecommendations = require('./handleRecommendations');
 const utils = require('./utils');
-const errorHandler = require('../../controllers/errorHandler');
-
-const lastfmServices = require('../../services/lastfmServices');
 
 const volume = require('../Music/Volume');
 
 const services = {};
-
-async function getGenre(bot, message, server) {
-  let filterArr = ['official', 'music', 'video', 'lyric', 'lyrics', 'audio', 'monstercat', 'release', 'version', 'HD'];
-  let search = await utils.filter(server.queue.currentSongInfo.title, filterArr, { special: true });
-  lastfmServices.getTrack({ track: search })
-    .then(results => {
-      if(!results.data.results.trackmatches.track[0]) return;
-      lastfmServices.getSongInfo({ track: results.data.results.trackmatches.track[0].name, artist: results.data.results.trackmatches.track[0].artist })
-        .then(songInfo => {
-          if(!songInfo.data.track) return;
-          if(songInfo.data.track.toptags.tag[0]) {
-            server.queue.genres.push(songInfo.data.track.toptags.tag[0].name)
-          }
-        })
-        .catch(err => errorHandler(bot, message, err, "LastFM Error", "PlaySong"));
-    })
-    .catch(err => errorHandler(bot, message, err, "LastFM Error", "PlaySong"));
-};
 
 services.playSong = async (bot, connection, message, server) => {
   let currentSongEmbed = new Discord.RichEmbed();
@@ -59,20 +37,12 @@ services.playSong = async (bot, connection, message, server) => {
 
   server.queue.queueInfo.shift();
 
-  getGenre(bot, message, server);
-
   server.dispatcher.on("end", () => {
     if(server.queue.queueInfo[0] && message.guild.voiceConnection) 
       services.playSong(bot, connection, message, server);
     else {
-      if(server.queue.options.recommendations) {
-        let promise = new Promise((resolve, reject) => {
-          handleRecommendations(bot, message, server, resolve, reject);
-        });
-        promise.then(() => {
-          this.playSong(connection, message);
-        })
-      }
+      if(server.queue.options.recommendations) 
+        return message.channel.send("This feature has been temporarily removed until a better version is implemented")
       else {
         server.queue.queueInfo = [];
         server.queue.currentSongEmbed = {};

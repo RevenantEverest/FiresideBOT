@@ -1,42 +1,11 @@
 const Discord = require('discord.js');
-const userPlaylistsDB = require('../../models/UserModels/userPlaylistsDB');
-const userSongsDB = require('../../models/UserModels/userSongsDB');
-const guildPlaylistsDB = require('../../models/GuildModels/guildPlaylistsDB');
-const guildSongsDB = require('../../models/GuildModels/guildSongsDB');
 const utils = require('./utils');
-const errorHandler = require('../../controllers/errorHandler');
 
-const pgp = require('pg-promise')();
-const QRE = pgp.errors.QueryResultError;
-const qrec = pgp.errors.queryResultErrorCode;
+const userPlaylistsController = require('../../controllers/dbControllers/userPlaylistsController');
+const userSongsController = require('../../controllers/dbControllers/userSongsController');
 
-async function getUserPlaylistSongs(playlists) {
-  let songData = [];
-  for(let i = 0; i < playlists.length; i++) {
-    await userSongsDB.findByPlaylistId(playlists[i].playlist_id)
-    .then(songs => songData.push(songs))
-    .catch(err => {
-      if(err instanceof QRE && err.code === qrec.noData)
-        songData.push([]);
-      else errorHandler(bot, message, err, "DB Error", "MyPlaylists");
-    })
-  }
-  return songData;
-}
-
-async function getGuildPlaylistSongs(playlists) {
-  let songData = [];
-  for(let i = 0; i < playlists.length; i++) {
-    await guildSongsDB.findByPlaylistId(playlists[i].playlist_id)
-    .then(songs => songData.push(songs))
-    .catch(err => {
-      if(err instanceof QRE && err.code === qrec.noData)
-        songData.push([]);
-      else errorHandler(bot, message, err, "DB Error", "MyPlaylists");
-    })
-  }
-  return songData;
-}
+const guildPlaylistsController = require('../../controllers/dbControllers/guildPlaylistsController');
+const guildSongsController = require('../../controllers/dbControllers/guildSongsController');
 
 async function handleEmbed(message, args, bot, discord_id, playlists, songData, guildPlaylist) {
   let embed = new Discord.RichEmbed();
@@ -70,30 +39,40 @@ async function handleEmbed(message, args, bot, discord_id, playlists, songData, 
 }
 
 module.exports = {
-  async findMyPlaylists(message, args, discord_id, bot) {
-    userPlaylistsDB.findByDiscordId(discord_id)
-    .then(playlists => {
-      getUserPlaylistSongs(playlists)
-      .then(songData => handleEmbed(message, args, bot, discord_id, playlists, songData, false))
-      .catch(err => errorHandler(bot, message, err, "DB Error", "MyPlaylists"));
-    })
-    .catch(err => {
-      if(err instanceof QRE && err.code === qrec.noData)
-        message.channel.send(`No playlists found`);
-      else errorHandler(bot, message, err, "DB Error", "MyPlaylists");
-    })    
+  async findMyPlaylists(message, args, discord_id, bot) { 
+    userPlaylistsController.getByDiscordId(bot, message, "MyPlaylists", discord_id, getPlaylistSongs, () => {
+        return message.channel.send("No Playlists Found");
+    });
+
+    async function getPlaylistSongs(playlists) {
+        let songData = [];
+        playlists.forEach((el, idx) => {
+            userSongsController.getByPlaylistId(bot, message, "MyPlaylists", el.playlist_id, (songs) => {
+                songData.push(songs);
+                if((idx + 1) === playlists.length) return handleEmbed(message, args, bot, discord_id, playlists, songData, false);
+            }, () => {
+                songData.push([]);
+                if((idx + 1) === playlists.length) return handleEmbed(message, args, bot, discord_id, playlists, songData, false);
+            });
+        });
+    };
   },
   async findServerPlaylists(message, args, bot) {;
-    guildPlaylistsDB.findByGuildId(message.guild.id)
-    .then(playlists => {
-      getGuildPlaylistSongs(playlists)
-      .then(songData => handleEmbed(message, args, bot, message.author.id, playlists, songData, true))
-      .catch(err => errorHandler(bot, message, err, "DB Error", "MyPlaylists"));
-    })
-    .catch(err => {
-      if(err instanceof QRE && err.code === qrec.noData)
-        message.channel.send(`No playlists found`);
-      else errorHandler(bot, message, err, "DB Error", "MyPlaylists");
-    })
+    guildPlaylistsController.getByGuildId(bot, message, "MyPlaylists", message.guild.id, getPlaylistSongs, () => {
+        return message.channel.send("No Playlists Found");
+    });
+
+    async function getPlaylistSongs(playlists) {
+        let songData = [];
+        playlists.forEach((el, idx) => {
+            guildSongsController.getByPlaylistId(bot, message, "MyPlaylists", el.playlist_id, (songs) => {
+                songData.push(songs);
+                if((idx + 1) === playlists.length) return handleEmbed(message, args, bot, message.author.id, playlists, songData, true);
+            }, () => {
+                songData.push([]);
+                if((idx + 1) === playlists.length) return handleEmbed(message, args, bot, message.author.id, playlists, songData, true);
+            });
+        });
+    };
   }
 }
