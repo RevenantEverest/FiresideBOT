@@ -1,28 +1,6 @@
-const db = require('../../models/customCommandsDB');
 const config = require('../../config/config');
+const customCommandsController = require('../../controllers/dbControllers/customCommandsController');
 const utils = require('../utils/utils');
-
-const pgp = require('pg-promise')();
-const QRE = pgp.errors.QueryResultError;
-const qrec = pgp.errors.queryResultErrorCode;
-
-const errorHandler = require('../../controllers/errorHandler');
-
-async function checkForCommand(bot, message, commandName, commandOutput) {
-    db.findByGuildIdAndInput({ guild_id: message.guild.id, input: commandName })
-    .then(() => message.channel.send("Custom command name already exists"))
-    .catch(err => {
-        if(err instanceof QRE && err.code === qrec.noData) return saveCommand(bot, message, commandName, commandOutput);
-        else errorHandler(bot, message, err, "Error Finding Command", "CreateCommand");
-    })
-};
-
-async function saveCommand(bot, message, commandName, commandOutput) {
-    let date = await utils.getDate();
-    db.save({ guild_id: message.guild.id, created_by: message.author.id, input: commandName, output: commandOutput, date: date })
-    .then(newCommand => message.channel.send(`New command **${newCommand.input.charAt(0).toUpperCase() + newCommand.input.slice(1)}** created by <@${newCommand.created_by}> with ID: **${newCommand.id}**`))
-    .catch(err => errorHandler(bot, message, err, "Error Creating Command", "CreateCommand"))
-};
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     if(!args[1]) return message.channel.send("Please specify a command name and a command output. Names can only be 1 word and outputs can be up to 1024 characters.");
@@ -39,7 +17,19 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
 
     if(commandOutput.split("").length > 1024) return message.channel.send("Command outputs can only be 1024 characters long.");
 
-    checkForCommand(bot, message, commandName, commandOutput);
+    customCommandsController.getByGuildIdAndInput(bot, message, "CreateCommand", { guild_id: message.guild.id, input: commandName }, () => {
+        return message.channel.send("Custom Command name already exists");
+    }, saveCommand);
+
+    async function saveCommand() {
+        let data = { guild_id: message.guild.id, created_by: message.author.id, input: commandName, output: commandOutput, date: await utils.getDate() };
+        customCommandsController.save(bot, message, "CreateCommand", data, (newCommand) => {
+            return message.channel.send(
+                `New command **${newCommand.input.charAt(0).toUpperCase() + newCommand.input.slice(1)}** ` + 
+                `created by <@${newCommand.created_by}> with ID: **${newCommand.id}**`
+            );
+        });
+    }
 };
 
 module.exports.config = {

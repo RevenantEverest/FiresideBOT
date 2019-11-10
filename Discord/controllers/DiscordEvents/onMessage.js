@@ -1,4 +1,5 @@
 const config = require('../../config/config');
+const { Permissions } = require('discord.js');
 const logger = require('../../services/loggerServices');
 
 const currencyController = require('../currencyController');
@@ -27,8 +28,12 @@ async function checkCustomCommands(message, args) {
 module.exports = async (bot, message) => {
     if(message.author.bot) return;
     if(message.channel.type === "dm") return ticketsController.handleTicket(bot, message);
+
     currencyController.handleCurrency(message);
     ranksController.handleXP(bot, message);
+
+    let permissions = new Permissions(message.channel.permissionsFor(bot.user).bitfield);
+    if(!permissions.has("SEND_MESSAGES") || !permissions.has("EMBED_LINKS")) return;
 
     let PREFIX = null;
     

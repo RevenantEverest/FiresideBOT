@@ -1,47 +1,32 @@
-const db = require('../../models/autoRoleDB');
-
-const pgp = require('pg-promise')();
-const QRE = pgp.errors.QueryResultError;
-const qrec = pgp.errors.queryResultErrorCode;
-
-const errorHandler = require('../../controllers/errorHandler');
-
-async function displayAutoRole(bot, message) {
-    db.findByGuildId(message.guild.id)
-    .then(autoRole => message.channel.send(`Current Auto Role is <@&${autoRole.role_id}>`))
-    .catch(err => {
-        if(err instanceof QRE && err.code === qrec.noData)
-            message.channel.send("No Auto Role Available");
-        else errorHandler(bot, message, err, "DB Error", "AutoRole");
-    })
-};
-
-async function save(bot, message, role_id) {
-    db.save({ guild_id: message.guild.id, role_id: role_id })
-    .then(autoRole => message.channel.send(`<@&${autoRole.role_id}> will now be given to new server members`))
-    .catch(err => errorHandler(bot, message, err, "Error Saving AutoRole", "AutoRole"));
-};
-
-async function update(bot, message, role_id, id) {
-    db.update({ id: id, guild_id: message.guild.id, role_id: role_id })
-    .then(autoRole => message.channel.send(`Auto Role updated to now allow <@&${autoRole.role_id}> to be given to new server members`))
-    .catch(err => errorHandler(bot, message, err, "Error Updating AutoRole", "AutoRole"));
-};
+const autoRoleController = require('../../controllers/dbControllers/autoRoleController');
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
-    if(!args[1]) return displayAutoRole(bot, message);
-    
     let role_id = null;
-    if(/<@&?(\d+)>/.exec(args.join(" "))) role_id = /<@&?(\d+)>/.exec(args.join(" "))[1];
-    else return message.channel.send("Invalid Role ID. Please tag a role you'd like new members to recieve");
 
-    db.findByGuildId(message.guild.id)
-    .then(autoRole => update(bot, message, role_id, autoRole.id))
-    .catch(err => {
-        if(err instanceof QRE && err.code === qrec.noData)
-            save(bot, message, role_id);
-        else errorHandler(bot, message, err, "DB Error", "AutoRole");
-    })
+    if(args[1]) {
+        if(/<@&?(\d+)>/.exec(args.join(" "))) role_id = /<@&?(\d+)>/.exec(args.join(" "))[1];
+        else return message.channel.send("Invalid Role ID. Please tag a role you'd like new members to recieve");
+    }
+
+    autoRoleController.getByGuildId(bot, message, "AutoRole", message.guild.id, (!args[1] ? displayAutoRole : updateAutoRole), () => {
+        if(!args[1]) return message.channel.send("No Auto Role Set"); 
+
+        let data = { guild_id: message.guild.id, role_id: role_id };
+        autoRoleController.save(bot, message, "AutoRole", data, (autoRole) => {
+            return message.channel.send(`<@&${autoRole.role_id}> will now be given to new server members`);
+        });
+    });
+
+    async function updateAutoRole(autoRole) {
+        let data = { id: autoRole.id, guild_id: message.guild.id, role_id: role_id };
+        autoRoleController.update(bot, message, "AutoRole", data, (newAutoRole) => {
+            return message.channel.send(`Auto Role updated to now allow <@&${newAutoRole.role_id}> to be given to new server members`);
+        });
+    };
+
+    async function displayAutoRole(autoRole) {
+        return message.channel.send(`Current Auto Role is <@&${autoRole.role_id}>`);
+    };
 };
 
 module.exports.config = {

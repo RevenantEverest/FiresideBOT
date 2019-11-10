@@ -81,7 +81,7 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 
 - [AddRank](https://help.firesidebot.com/commands/addrank) `<param>`  
 **Desc**: Creates a new Rank Tier  
-**Aliases**: `ar`   
+**Aliases**: `nr` `cr`   
 **Params**: Rank Name  
 **Example**: `?addrank NewRank`  
 
@@ -119,7 +119,8 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 - [EditCommand](https://help.firesidebot.com/commands/editcommand) `<param>`  
 **Desc**: Edit a custom command  
 **Aliases**: `editcom`   
-**Params**: Command Name or ID and Updated Output  
+**Params**: Name of command to change, an updated name or an updated output  
+**Flags**: `-n`   
 **Example**: `?editcommand MyCommand This is my new command edit`  
 
 - [EditRank](https://help.firesidebot.com/commands/editrank) `<param>`  

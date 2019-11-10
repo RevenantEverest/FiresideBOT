@@ -1,57 +1,62 @@
-const db = require('../../models/customCommandsDB');
 const config = require('../../config/config');
-const utils = require('../utils/utils');
-
-const pgp = require('pg-promise')();
-const QRE = pgp.errors.QueryResultError;
-const qrec = pgp.errors.queryResultErrorCode;
-
-const errorHandler = require('../../controllers/errorHandler');
-
-async function findCommandByID(bot, message, args, id) {
-    db.findById(id)
-    .then(command => {
-        if(command.guild_id !== message.guild.id) return message.channel.send("Command Not Found");
-        args.splice(0, 1);
-        args.splice(0, 1);
-        editCommand(bot, message, args, command, args.join(" "));
-    })
-    .catch(err => {
-        if(err instanceof QRE && err.code === qrec.noData) return message.channel.send
-        else errorHandler(bot, message, err, "Error Finding Command by ID", "DeleteCommand");
-    });
-};
-
-async function findCommandByName(bot, message, args, input) {
-    db.findByGuildIdAndInput({ guild_id: message.guild.id, input: input })
-    .then(command => {
-        args.splice(0, 1);
-        args.splice(0, 1);
-        editCommand(bot, message, args, command, args.join(" "));
-    })
-    .catch(err => {
-        if(err instanceof QRE && err.code === qrec.noData) return message.channel.send("Command Not Found");
-        else errorHandler(bot, message, err, "Error Finding Command by Input", "DeleteCommand");
-    });
-};
-
-async function editCommand(bot, message, args, command, commandOutput) {
-    db.update({ guild_id: message.guild.id, id: command.id, input: command.input, output: commandOutput })
-    .then(uCommand => message.channel.send(`Custom Command **${uCommand.input.charAt(0).toUpperCase() + uCommand.input.slice(1)}** successfully updated by <@${message.author.id}>`))
-    .catch(err => errorHandler(bot, message, err, "Error Updating Command", "EditCommand"))
-};
+const customCommandsController = require('../../controllers/dbControllers/customCommandsController');
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
-    if(!args[1]) return message.channel.send("Please specify a command name or command ID");
-    if(Number.isInteger(parseInt(args[1], 10))) return findCommandByID(bot, message, args, parseInt(args[1], 10));
-    else return findCommandByName(bot, message, args, args[1].toLowerCase());
+    if(!args[1]) return message.channel.send("Please specify a command name");
+    if(!args[2]) return message.channel.send("Please specify an updated name using the flag -n or an updated output");
+    if(args.includes("-n") && !args[3]) return message.channel.send("Please specify an updated command name");
+
+    customCommandsController.getByGuildId(bot, message, "EditCommand", message.guild.id, handleCommands, () => handleCommands([]));
+
+    async function handleCommands(commands) {
+        let commandQuery = args[1] === "-n" ? args[2].toLowerCase() : args[1].toLowerCase();
+        if(args.includes("-n")) {
+            commandQuery = args.join(" ").toLowerCase().split(" ");
+            commandQuery.splice(args.indexOf("-n"), 1);
+            let newName = commandQuery[2];
+            commandQuery = commandQuery[1];
+            if(commands.filter(el => el.input === newName).length > 0)
+                return message.channel.send("Command Name Already Exists");
+            if(config.commands.length < 1) return message.channel.send("Commands haven't been set since startup, please wait a few seconds before trying again");
+            if(config.commands.map(el => el.name).includes(newName)) return message.channel.send("Commands may not have the same name default Fireside commands.");
+            if([].concat.apply([], config.commands.map(el => el.aliases)).includes(newName)) 
+                return message.channel.send("Commands may not have the same name default Fireside commands.");
+        }
+        let data = { guild_id: message.guild.id, input: commandQuery };
+        customCommandsController.getByGuildIdAndInput(bot, message, "EditCommand", data, updateCommand, handleNoData);
+    };
+
+    async function updateCommand(command) {
+        let commandOutput = command.output;
+        let commandInput =  command.input;
+        if(args.includes("-n")) {
+            commandInput = args.join(" ").toLowerCase().split(" ");
+            commandInput.splice(args.indexOf("-n"), 1);
+            commandInput = commandInput[2];
+        }
+        else {
+            args.splice(0, 1);
+            args.splice(0, 1);
+            commandOutput = args.join(" ");
+        }
+        let data = { guild_id: message.guild.id, id: command.id, input: commandInput, output: commandOutput };
+        customCommandsController.update(bot, message, "EditCommand", data, (newCommand) => {
+            return message.channel.send(
+                `Custom Command **${command.input.charAt(0).toUpperCase() + command.input.slice(1)}** ` +
+                `successfully updated by <@${message.author.id}>`
+            );
+        });
+    };
+
+    async function handleNoData() { return message.channel.send("No Command Found"); }
 };
 
 module.exports.config = {
     name: 'editcommand',
     d_name: 'EditCommand',
     aliases: ['editcom'],
-    params: { required: true, params: 'Command Name or ID and Updated Output' },
+    params: { required: true, params: 'Name of command to change, an updated name or an updated output' },
+    flags: ['-n'],
     category: 'Admin',
     desc: 'Edit a custom command',
     example: `editcommand MyCommand This is my new command edit`

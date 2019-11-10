@@ -1,51 +1,33 @@
-const Discord = require('discord.js');
-const db = require('../../models/discordRanksDB');
-
-const pgp = require('pg-promise')();
-const QRE = pgp.errors.QueryResultError;
-const qrec = pgp.errors.queryResultErrorCode;
-
-const errorHandler = require('../../controllers/errorHandler');
-
-async function updateRankNumbers(bot, rank, message) {
-    db.findByGuildId(rank.guild_id)
-    .then(ranks => {
-        let rankData = [];
-        let promises = [];
-        
-        ranks.forEach((el, idx) => rankData.push({ id: el.id, guild_id: el.guild_id, rank_name: el.rank_name, rank_number: (idx + 1) }));
-        rankData.forEach(el => promises.push(db.update(el)));
-
-        Promise.all(promises)
-        .then(() => message.channel.send(`Rank **${rank.rank_name}** removed`))
-        .catch(err => errorHandler(bot, message, err, "Error Removing Rank", "RemoveRank"));
-    })
-    .catch(err => {
-        if(err instanceof QRE && err.code === qrec.noData)
-            message.channel.send(`Rank **${rank.rank_name}** deleted`);
-        else errorHandler(bot, message, err, "Error Removing Rank", "RemoveRank");
-    });
-};
+const ranksController = require('../../controllers/dbControllers/ranksController');
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     if(!args[1]) return message.channel.send("Please specify a Rank ID");
     if(!Number.isInteger(parseInt(args[1], 10))) return message.channel.send("Invalid ID");
     
     let rank_id = parseInt(args[1], 10);
-    db.findById(rank_id)
-    .then(rank => {
-        if(rank.guild_id !== message.guild.id) return message.channel.send("Invalid ID");
 
-        db.delete(rank_id)
-        .then(rank => updateRankNumbers(bot, rank, message))
-        .catch(err => errorHandler(bot, message, err, "Error Removing Rank", "RemoveRank"));
-    })
-    .catch(err => {
-        if(err instanceof QRE && err.code === qrec.noData)
-            message.channel.send(`No Rank Found`);
-        else errorHandler(bot, message, err, "Error Finding Rank By ID", "RemoveRank");
-    })
-    
+    ranksController.getOne(bot, message, "RemoveRank", rank_id, deleteRank, () => {
+        return message.channel.send("No Rank Found");
+    });
+
+    async function deleteRank(rank) {
+        if(rank.guild_id !== message.guild.id) return message.channel.send("No Rank Found");
+        ranksController.delete(bot, message, "RemoveRank", rank_id, () => {
+            ranksController.getByGuildId(bot, message, "RemoveRank", message.guild.id, (ranks) => updateRankNumbers(rank, ranks), () => {
+                return message.channel.send(`Rank **${rank.rank_name}** removed`);;
+            });
+        });
+    };
+
+    async function updateRankNumbers(deletedRank, ranks) {
+        let rankData = [];
+        ranks.forEach((el, idx) => rankData.push({ id: el.id, guild_id: el.guild_id, rank_name: el.rank_name, rank_number: (idx + 1) }));
+        rankData.forEach((el, idx) => {
+            ranksController.update(bot, message, "RemoveRank", el, () => {
+                if((idx + 1) === rankData.length) return message.channel.send(`Rank **${deletedRank.rank_name}** removed`); 
+            });
+        });
+    };
 };
 
 module.exports.config = {

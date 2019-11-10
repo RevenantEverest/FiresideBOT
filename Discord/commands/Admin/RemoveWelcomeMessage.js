@@ -1,26 +1,15 @@
-const Discord = require('discord.js');
-const db = require('../../models/welcomeMessageDB');
-
-const pgp = require('pg-promise')();
-const QRE = pgp.errors.QueryResultError;
-const qrec = pgp.errors.queryResultErrorCode;
-
-const errorHandler = require('../../controllers/errorHandler');
-
-async function deleteWelcomeMessage(bot, message, welcomeMessage) {
-    db.delete(welcomeMessage.id)
-    .then(() => message.channel.send("Welcome Message has been removed"))
-    .catch(err => errorHandler(bot, message, err, "Error Deleting Welcome Message", "RemoveWelcomeMessage"));
-}
+const welcomeMessageController = require('../../controllers/dbControllers/welcomeMessageController');
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
-    db.findByGuildId(message.guild.id)
-    .then(welcomeMessage => deleteWelcomeMessage(bot, message, welcomeMessage))
-    .catch(err => {
-        if(err instanceof QRE && err.code === qrec.noData)
-            message.channel.send("No welcome message found");
-        else errorHandler(bot, message, err, "DB Error", "ViewWelcomeMessage");
-    })
+    welcomeMessageController.getByGuildId(bot, message, "RemoveWelcomeMessage", message.guild.id, deleteWelcomeMessage, () => {
+        return message.channel.send("No Welcome Message Found")
+    });
+
+    async function deleteWelcomeMessage(welcomeMessage) {
+        welcomeMessageController.delete(bot, message, "RemoveWelcomeMessage", welcomeMessage.id, () => {
+            return message.channel.send("Welcome Message Removed");
+        });
+    };
 };
 
 module.exports.config = {

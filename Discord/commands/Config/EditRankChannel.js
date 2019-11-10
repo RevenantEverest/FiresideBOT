@@ -1,3 +1,4 @@
+const { Permissions } = require('discord.js');
 const rankSettingsController = require('../../controllers/dbControllers/rankSettingsController');
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
@@ -7,6 +8,10 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     let channel_id = null;
     if(/<#?(\d+)>/.exec(args.join(" "))) channel_id = /<#?(\d+)>/.exec(args.join(" "))[1];
     else return message.channel.send("Please tag a Text Channel you'd like the tracker to post in");
+
+    let permissions = new Permissions(bot.channels.get(channel_id).permissionsFor(bot.user).bitfield);
+    if(!permissions.has("SEND_MESSAGES") || !permissions.has("EMBED_LINKS"))
+        return message.channel.send("Fireside doesn't have permissions to post or embed links in that channel");
 
     rankSettingsController.getByGuildId(bot, message, "EditRankChannel", message.guild.id, updateSettings, () => {
         let data = { guild_id: message.guild.id, general_increase_rate: 10, complexity: 2, channel_id: "none" };

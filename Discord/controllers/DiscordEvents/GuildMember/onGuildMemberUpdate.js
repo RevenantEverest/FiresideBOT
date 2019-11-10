@@ -8,12 +8,16 @@ const QRE = pgp.errors.QueryResultError;
 const qrec = pgp.errors.queryResultErrorCode;
 
 module.exports = async (bot, oldMember, newMember) => {
-    let audit = await bot.guilds.get(newMember.guild.id).fetchAuditLogs();
-    let executor = audit.entries.array()[0].executor;
-
     logSettingsDB.findByGuildId(newMember.guild.id)
     .then(async settings => {
         if(!settings.enabled) return;
+        
+        let permissions = new Discord.Permissions(bot.channels.get(settings.channel_id).permissionsFor(bot.user).bitfield);
+        if(!permissions.has("SEND_MESSAGES")) return;
+        if(!permissions.has("VIEW_AUDIT_LOG")) return;
+
+        let audit = await bot.guilds.get(newMember.guild.id).fetchAuditLogs();
+        let executor = audit.entries.array()[0].executor;
 
         let embed = new Discord.RichEmbed();
         let updateText = `**${newMember.user.username}** #${newMember.user.discriminator} ${oldMember.nickname ? `(${oldMember.nickname})` : ''}\n\n`;
