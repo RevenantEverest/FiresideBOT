@@ -217,3 +217,10 @@ CREATE TABLE custom_commands (
   output VARCHAR(1024),
   date VARCHAR(255)
 );
+
+CREATE TABLE vote_logs (
+  id SERIAL PRIMARY KEY,
+  discord_id VARCHAR(255),
+  amount BIGINT,
+  date VARCHAR(255)
+);

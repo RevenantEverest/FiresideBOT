@@ -1,23 +1,4 @@
-const guildsDB = require('../../models/GuildModels/guildsDB');
-const errorHandler = require('../../controllers/errorHandler');
-
-async function updateVolume(bot, message, volume, settings) {
-  guildsDB.updateSettings({ guild_id: message.guild.id, prefix: settings.prefix, volume: volume })
-  .then(() => message.channel.send(`Volume set to: **${volume}**`))
-  .catch(err => errorHandler(bot, message, err, "Error Updating Volume", "Volume"));
-};
-
-async function handleQueueVolume(bot, message, server) {
-  if(server.queue.options.volume) 
-    return server.dispatcher.setVolume(server.queue.options.volume / 100)
-  
-  guildsDB.findSettings(message.guild.id)
-  .then(settings => {
-    server.queue.options.volume = settings.volume;
-    server.dispatcher.setVolume(settings.volume / 100);
-  })
-  .catch(err => errorHandler(bot, message, err, "Error Finding Volume", "Volume"))
-};
+const guildSettingsController = require('../../controllers/dbControllers/guildSettingsController');
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     if(!message.member.voiceChannel) return message.channel.send('Please join a voice channel');
@@ -27,13 +8,26 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     if(!Number.isInteger(parseInt(args[1], 10))) return message.channel.send("Invalid integer value.");
     if(parseInt(args[1], 10) > 100 || parseInt(args[1], 10) <= 0) return message.channel.send("Please select a volume between 1 and 100.");
 
-    server.queue.options.volume = parseInt(args[1], 10);
+    let volume = parseInt(args[1], 10);
+    server.queue.options.volume = volume;
 
     if(server.dispatcher) server.dispatcher.setVolume(server.queue.options.volume / 100);
 
-    guildsDB.findSettings(message.guild.id)
-    .then(settings => updateVolume(bot, message, parseInt(args[1], 10), settings))
-    .catch(err => errorHandler(bot, message, err, "Error Finding Volume", "Volume"));
+    guildSettingsController.getByGuildId(bot, message, "Volume", message.guild.id, updateVolume, () => {
+        let data = { guild_id: message.guild.id, prefix: "?", volume: 50 };
+        guildSettingsController.save(bot, message, "EditPrefix", data, updateSettings);
+    });
+
+    async function updateVolume(settings) {
+        let data = { guild_id: message.guild.id, prefix: settings.prefix, volume: volume };
+        guildSettingsController.update(bot, message, "Volume", data, (newSettings) => {
+            return message.channel.send(`Volume set to: **${newSettings.volume}**`);
+        });
+    };
+
+    async function handleQueueVolume() {
+        guildSettingsController.getByGuildId(bot, message, "Volume")
+    };
 };
 
 module.exports.config = {

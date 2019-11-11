@@ -5,7 +5,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     if(!args[1]) return message.channel.send("Please specify what you'd like to change Firesides Preifx to");
 
     guildSettingsController.getByGuildId(bot, message, "EditPrefix", message.guild.id, updateSettings, () => {
-        let data = { guild_id: message.guild.id, prefix: "?", volume: findGuildSettings.volume };
+        let data = { guild_id: message.guild.id, prefix: "?", volume: 50 };
         guildSettingsController.save(bot, message, "EditPrefix", data, updateSettings);
     });
 

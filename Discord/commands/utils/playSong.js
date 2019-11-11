@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const YTDL = require('ytdl-core');
 const utils = require('./utils');
 
-const volume = require('../Music/Volume');
+const guildSettingsController = require('../../controllers/dbControllers/guildSettingsController');
 
 const services = {};
 
@@ -19,7 +19,11 @@ services.playSong = async (bot, connection, message, server) => {
     Then sets the volume according to the servers saved volume
   */
   server.dispatcher = connection.playStream(YTDL(request.link, {filter: 'audioonly', quality: 'highestaudio', highWaterMark: 1<<25}));
-  volume.run('', message, (['PlaySong', server.queue.options.volume]), server, '');
+  if(server.queue.options.volume) server.dispatcher.setVolume(server.queue.options.volume / 100)
+  else guildSettingsController.getByGuildId(bot, message, "PlaySong", message.guild.id, (settings) => {
+    server.queue.options.volume = settings.volume;
+    server.dispatcher.setVolume(settings.volume / 100);
+  }, () => {});
 
   currentSongEmbed
     .setTitle('**CURRENT SONG**')
