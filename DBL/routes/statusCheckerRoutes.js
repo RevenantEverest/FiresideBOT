@@ -1,8 +1,7 @@
 const express = require('express');
-const controller = require('../controllers/statusCheckerController');
 const router = express.Router();
 
 router.route("/")
-.get(controller.checkStatus)
+.get((req, res) => res.json({ message: "Online", data: { online: true } }))
 
 module.exports = router;
