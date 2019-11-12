@@ -1,4 +1,4 @@
-const guildsDB = require('../models/GuildModels/guildsDB');
+const guildSettingsDB = require('../models/GuildModels/guildSettingsDB');
 const currencyDB = require('../models/currencyDB');
 const rankSettingsDB = require('../models/discordRankSettingsDB');
 
@@ -7,7 +7,7 @@ const QRE = pgp.errors.QueryResultError;
 const qrec = pgp.errors.queryResultErrorCode;
 
 async function saveGuildSettings(guild) {
-    guildsDB.saveDefaultSettings({ guild_id: guild.id, prefix: '?' })
+    guildSettingsDB.save({ guild_id: guild.id, prefix: '?', volume: 50 })
     .catch(err => console.error(err));
 };
 
@@ -23,7 +23,7 @@ async function saveRankSettings(guild) {
 
 module.exports = {
     async guildSettingsCheck(guild) {
-        guildsDB.ifSettingsExist(guild.id)
+        guildSettingsDB.findByGuildId(guild.id)
         .catch(err => {
             if(err instanceof QRE && err.code === qrec.noData)
                 saveGuildSettings(guild);
