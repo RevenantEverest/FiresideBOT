@@ -5,14 +5,8 @@ const moment = require('moment');
 
 module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     if(message.author.id !== "163346982709100546") return;
-    let date = await utils.getDate();
-    let momentDate = await moment();
-
-    let fakeDate = 'Fri Nov 15 2019 13:43:58 GMT-0500';
-
-    message.channel.send(momentDate.toString());
-
-    console.log(moment([2019, 11, 15]).diff([2019, 11, 12], 'days'));
+    let date = await moment().add(30, 'd');
+    console.log(moment(date).format("Do MMM YYYY"));
 };
 
 module.exports.config = {

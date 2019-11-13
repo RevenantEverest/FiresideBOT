@@ -22,6 +22,8 @@ app.use(cors());
 app.set('trust proxy', true);
 app.set('trust proxy', 'loopback');
 
+app.use("/donator", require('./routes/donatorRoutes'));
+
 app.use("/", (req, res) => res.json({ message: "FiresideBOT" }));
 
 app.listen(PORT, () => console.log(chalk.hex("#00ff00")(`[HTTP]`) + ` FiresideBOT: Listening on port ${PORT}`));
