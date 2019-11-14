@@ -20,7 +20,7 @@ module.exports = async (req, res, next) => {
 
     async function handleUserPremium(record) {
         let end_date = await moment(moment().add(30, 'd')).format("MMMM Do YYYY");
-        let start_date = await moment().format("MMMM Do YYYY")
+        let start_date = await moment().format("MMMM Do YYYY");
         let data = { discord_id: record.discord_id, start_date: start_date, end_date: end_date, active: true };
         userPremiumController.update(data, handleEmbeds);
     };

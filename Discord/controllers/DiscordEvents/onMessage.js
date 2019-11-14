@@ -9,6 +9,8 @@ const ranksController = require('../ranksController');
 const guildSettingsDB = require('../../models/GuildModels/guildSettingsDB');
 const disabledCommandsDB = require('../../models/disabledCommandsDB');
 const customCommandsDB = require('../../models/customCommandsDB');
+const userPremiumRecordsDB = require('../../models/UserModels/userPremiumRecordsDB');
+const guildPremiumRecordsDB = require('../../models/GuildModels/guildPremiumRecordsDB');
 
 const BackUpCommands = require('../../commands/BackUpCommands');
 
@@ -60,12 +62,15 @@ module.exports = async (bot, message) => {
                 recommendations: false,
                 voteToSkip: false
             }
-        }
+        },
+        premium: false
     });
     
     let args = message.content.substring(PREFIX.length).split(" ");
+    let server = config.servers[config.servers.map(el => el.id).indexOf(message.guild.id)];
     let options = config.environment;
     let disabledCommands = null;
+    let userstate = {};
 
     await disabledCommandsDB.findByGuildId(message.guild.id)
     .then(dCommands => disabledCommands = dCommands.map(el => el.command))
@@ -74,7 +79,21 @@ module.exports = async (bot, message) => {
         else console.error(err);
     });
 
-    let server = config.servers[config.servers.map(el => el.id).indexOf(message.guild.id)];
+    await userPremiumRecordsDB.findByDiscordId(message.author.id)
+    .then(record => userstate.premium = record.active)
+    .catch(err => {
+        if(err instanceof QRE && err.code === qrec.noData) return;
+        else console.error(err);
+    });
+
+    await guildPremiumRecordsDB.findByGuildId(message.guild.id)
+    .then(record => server.premium = record.active)
+    .catch(err => {
+        if(err instanceof QRE && err.code === qrec.noData) return;
+        else console.error(err);
+    });
+
+    
     let commandfile = bot.commands.get(args[0].toLowerCase()) || bot.commands.get(bot.aliases.get(args[0].toLowerCase()));
 
     if(!commandfile) return checkCustomCommands(message, args);
@@ -82,12 +101,12 @@ module.exports = async (bot, message) => {
         return message.channel.send(`You don't have permission to use this command`);
     else if(disabledCommands) {
         if(disabledCommands.includes(commandfile.config.name)) return message.react("❌");
-        else commandfile.run(PREFIX, message, args, server, bot, options);
+        else commandfile.run(PREFIX, message, args, server, bot, options, userstate);
     }
-    else commandfile.run(PREFIX, message, args, server, bot, options);
+    else commandfile.run(PREFIX, message, args, server, bot, options, userstate);
                     
     if(process.env.ENVIRONMENT === "DEV") return;
     logger.commandLogger({ 
         command: commandfile.config.d_name.toString(), args: args.join(" "), message: '', discord_id: message.author.id, guild_id: message.guild.id
     });
-}
+};
