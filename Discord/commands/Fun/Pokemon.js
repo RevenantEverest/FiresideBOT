@@ -44,7 +44,7 @@ async function getPokemon(message, args, id) {
     });
 };
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(!args[1] || args[1] === "-i" && !args[2]) return getPokemon(message, args, (Math.floor(Math.random() * 802)));
     if(args[1]) {
         let id = args[1].toLowerCase();

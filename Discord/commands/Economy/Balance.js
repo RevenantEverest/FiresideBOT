@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const discordCurrencyController = require('../../controllers/dbControllers/discordCurrencyController');
 const currencyController = require('../../controllers/dbControllers/currencyController');
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     let cSettings = null;
     currencyController.getCurrencySettings(bot, message, "Balance", message.guild.id, handleCurrencyRecords, () => {
         let data = { guild_id: message.author.id, currency_name: "Kindling", currency_increase_rate: 10 };

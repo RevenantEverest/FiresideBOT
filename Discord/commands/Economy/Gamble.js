@@ -1,7 +1,7 @@
 const discordCurrencyController = require('../../controllers/dbControllers/discordCurrencyController');
 const currencyController = require('../../controllers/dbControllers/currencyController');
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(!args[1]) return message.channel.send('Please specify an amount to wager');
     if(!Number.isInteger(parseInt(args[1], 10))) return message.channel.send('Please specify an integer value to wager');
 

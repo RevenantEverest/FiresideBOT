@@ -3,7 +3,7 @@ const ksoftServices = require('../../services/ksoftServices');
 
 const errorHandler = require('../../controllers/errorHandler');
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(!message.channel.nsfw) return message.channel.send("NSFW can only be used in NSFW marked channels");
     ksoftServices.randomNSFW()
     .then(nsfw => {

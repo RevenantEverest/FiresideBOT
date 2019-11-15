@@ -1,7 +1,7 @@
 const discordCurrencyController = require('../../controllers/dbControllers/discordCurrencyController');
 const currencyController = require('../../controllers/dbControllers/currencyController');
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(!args[1]) return message.channel.send('Please specify an a recipient and an amount');
     if(!args[2]) return message.channel.send('Please specify an amount to give');
     if(!Number.isInteger(parseInt(args[2], 10))) return message.channel.send('Please specify an integer value to give');

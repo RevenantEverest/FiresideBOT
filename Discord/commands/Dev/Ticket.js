@@ -118,7 +118,7 @@ async function closeTicket(bot, args, message) {
     ticketsController.closeTicket(bot, message, ticket, reason);
 };
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     /*
         Only allow users with the support role in FiresideBOT to respond to and manipulate tickets
     */
