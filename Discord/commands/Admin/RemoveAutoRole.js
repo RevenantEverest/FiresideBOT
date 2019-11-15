@@ -1,6 +1,6 @@
 const autoRoleController = require('../../controllers/dbControllers/autoRoleController');
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     autoRoleController.getByGuildId(bot, message, "RemoveAutoRole", message.guild.id, deleteAutoRole, () => {
         return message.channel.send("No Auto Role Available");
     });

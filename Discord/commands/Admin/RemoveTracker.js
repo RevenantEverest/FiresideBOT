@@ -1,6 +1,6 @@
 const twitchTrackerController = require('../../controllers/dbControllers/twitchTrackerController');
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(!args[1]) return message.channel.send("Please specify a flag and a Tracker ID");
     if(!args.includes("-t")) return message.channel.send("Please use a flag to define which tracker you'd like to remove");
     

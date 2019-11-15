@@ -2,7 +2,7 @@ const config = require('../../config/config');
 const customCommandsController = require('../../controllers/dbControllers/customCommandsController');
 const utils = require('../utils/utils');
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(!args[1]) return message.channel.send("Please specify a command name and a command output. Names can only be 1 word and outputs can be up to 1024 characters.");
     if(!args[2]) return message.channel.send("Please Specify a command output. Outputs can be up to 1024 characters long.");
     if(config.commands.length < 1) return message.channel.send("Commands haven't been set since startup, please wait a few seconds before trying again");

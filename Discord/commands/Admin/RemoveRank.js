@@ -1,6 +1,6 @@
 const ranksController = require('../../controllers/dbControllers/ranksController');
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(!args[1]) return message.channel.send("Please specify a Rank ID");
     if(!Number.isInteger(parseInt(args[1], 10))) return message.channel.send("Invalid ID");
     

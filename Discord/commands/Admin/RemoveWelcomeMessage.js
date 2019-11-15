@@ -1,6 +1,6 @@
 const welcomeMessageController = require('../../controllers/dbControllers/welcomeMessageController');
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     welcomeMessageController.getByGuildId(bot, message, "RemoveWelcomeMessage", message.guild.id, deleteWelcomeMessage, () => {
         return message.channel.send("No Welcome Message Found")
     });

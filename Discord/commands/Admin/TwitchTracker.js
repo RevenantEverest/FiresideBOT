@@ -2,7 +2,7 @@ const { Permissions } = require('discord.js');
 const twitchServices = require('../../services/twitchServices');
 const twitchTrackerController = require('../../controllers/dbControllers/twitchTrackerController');
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     let channel_id = null;
     let role_id = null;
     if(!args[1]) return message.channel.send('Please Specify a Twitch User, tag a Text Channel and tag a role');

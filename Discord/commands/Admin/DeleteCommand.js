@@ -1,6 +1,6 @@
 const customCommandsController = require('../../controllers/dbControllers/customCommandsController');
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(!args[1]) return message.channel.send("Please specify a command name or command ID");
     if(Number.isInteger(parseInt(args[1], 10)))
         return customCommandsController.getOne(bot, message, "DeleteCommand", parseInt(args[1], 10), deleteCommand, handleNoData);

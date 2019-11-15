@@ -1,6 +1,6 @@
 const welcomeMessageController = require('../../controllers/dbControllers/welcomeMessageController');
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(!args[1]) return message.channel.send("Please specify a desired Welcome Message");
     args.splice(0, 1);
     let messageLength = args.join(" ").split("").length;

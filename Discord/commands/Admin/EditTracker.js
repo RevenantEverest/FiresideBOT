@@ -1,7 +1,7 @@
 const { Permissions } = require('discord.js');
 const twitchTrackerController = require('../../controllers/dbControllers/twitchTrackerController');
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(!args[1]) return message.channel.send("Please specify an available flag, tracker ID, #Channel-Tag or @Role Tag");
 
     let channel_id = null;

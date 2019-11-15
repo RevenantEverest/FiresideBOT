@@ -28,7 +28,7 @@ async function sendEmbed(bot, message, msg, settings) {
     else message.channel.send(embed);
 };
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {    
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {    
     let userId = null;
     let messagecount = 10;
     if(/<@!?(\d+)>/.exec(args.join(" "))) userId = /<@!?(\d+)>/.exec(args.join(" "))[1];

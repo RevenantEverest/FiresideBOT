@@ -1,6 +1,6 @@
 const autoRoleController = require('../../controllers/dbControllers/autoRoleController');
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     let role_id = null;
 
     if(args[1]) {

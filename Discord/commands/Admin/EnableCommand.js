@@ -1,6 +1,6 @@
 const disabledCommandsController = require('../../controllers/dbControllers/disabledCommandsController');
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(!args[1]) return message.channel.send("Please specify a command you'd like to enable");
     let command = bot.commands.get(args[1].toLowerCase()) || bot.commands.get(bot.aliases.get(args[1].toLowerCase()));
     if(!command) return message.channel.send("Not a valid Command or Alias");

@@ -1,7 +1,7 @@
 const config = require('../../config/config');
 const customCommandsController = require('../../controllers/dbControllers/customCommandsController');
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(!args[1]) return message.channel.send("Please specify a command name");
     if(!args[2]) return message.channel.send("Please specify an updated name using the flag -n or an updated output");
     if(args.includes("-n") && !args[3]) return message.channel.send("Please specify an updated command name");
