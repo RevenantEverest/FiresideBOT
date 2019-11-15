@@ -1,7 +1,7 @@
 const { Permissions } = require('discord.js');
 const logSettings = require('../../controllers/dbControllers/guildLogSettingsController');
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send(`You don't have permission to use this command`);
     if(!args[1]) return message.channel.send("Please tag a channel you'd like Logs posted in");
 

@@ -1,6 +1,6 @@
 const currencyController = require('../../controllers/dbControllers/currencyController');
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send(`You don't have permission to use this command`);
     if(!Number.isInteger(parseInt(args[1], 10))) return message.channel.send('Please specify an integer value');
     if(parseInt(args[1], 10) <= 0) return message.channel.send("Please choose a number higher than 0");

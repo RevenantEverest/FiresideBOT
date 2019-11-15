@@ -5,7 +5,7 @@ const currencyController = require('../../controllers/dbControllers/currencyCont
 const welcomeMessageController = require('../../controllers/dbControllers/welcomeMessageController');
 const rankSettingsController = require('../../controllers/dbControllers/rankSettingsController');
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     let logSettings = null;
     let welcomeMessage = null;
     let currencySettings = null;
