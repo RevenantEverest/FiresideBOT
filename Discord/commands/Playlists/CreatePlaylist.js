@@ -1,7 +1,7 @@
 const userController = require('../../controllers/dbControllers/userPlaylistsController');
 const guildController = require('../../controllers/dbControllers/guildPlaylistsController');
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(!args[1]) return message.channel.send('Please enter a name for the new Playlist');
     if(args[2] && !args.includes("-s")) return message.channel.send("No White Space Allowed");
 
@@ -13,7 +13,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     else userController.getByDiscordId(bot, message, "CreatePlaylist", message.author.id, handleUserPlaylist, handleNoUserPlaylists);
 
     async function handleUserPlaylist(playlists) {
-        if(playlists.length >= 5) return message.channel.send("Playlists limited to 5");
+        if(!userstate.premium && playlists.length >= 5) return message.channel.send("Playlists limited to 5");
         if(playlists.map(el => el.name).includes(args[1].toString())) return message.channel.send("No Duplicate Playlist Names");
         else userController.save(bot, message, "CreatePlaylist", { name: args[1], discord_id: message.author.id, public: true }, (playlist) => {
             message.channel.send(`New playlist **${playlist.name}** created`);
@@ -21,7 +21,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     };
 
     async function handleGuildPlaylist(playlists) {
-        if(playlists.length >= 1) return message.channel.send("Server Playlists limited to 1");
+        if(!server.premium && playlists.length >= 1) return message.channel.send("Server Playlists limited to 1");
         if(playlists.map(el => el.name).includes(args[1].toString())) return message.channel.send("No Duplicate Playlist Names");
         else guildController.save(bot, message, "CreatePlaylist", { guild_id: message.guild.id, name: args[1] }, (playlist) => {
             message.channel.send(`New server playlist **${playlist.name}** created`);

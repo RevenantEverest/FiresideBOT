@@ -401,6 +401,13 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Flags**: `-q` `-a` `-t`   
 **Example**: `?poll -q How is everyone enjoying FiresideBOT? -a It's amazing -a It's okay -a Developer is bad :eyes: -t 60`  
 
+- [PremiumStatus](https://help.firesidebot.com/commands/premiumstatus) `[param]`  
+**Desc**: Check your premium status  
+**Aliases**: `ps`   
+**Params**: Flag  
+**Flags**: `-s`   
+**Example**: `?premiumstatus`  
+
 - [RankInfo](https://help.firesidebot.com/commands/rankinfo)   
 **Desc**: Displays available Rank Tier Info  
 **Aliases**: `ri`   

@@ -2,7 +2,7 @@ const playSong = require('../utils/playSong');
 const utils = require('../utils/utils');
 const errorHandler = require('../../controllers/errorHandler');
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
 
     if(!args[1]) return message.channel.send("Please provide a link");
     if(!message.member.voiceChannel) return message.channel.send("You must be in a voice channel");
@@ -20,8 +20,12 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     else request = args.join(" ");
 
     utils.youtubeSearch(message, args, server, request, { isLink: isLink }, (songInfo) => {
+        if(!userstate.premium && songInfo.duration >= 3600)
+            return message.channel.send("Non premium requests limited to 1 hour");
+
         server.queue.queueInfo.splice(0, 0, songInfo);
         message.channel.send(`**${songInfo.title}** was added to the queue. In position **#1**`);
+        
         if(!message.guild.voiceConnection)
             message.member.voiceChannel.join()
             .then((connection) => playSong.playSong(bot, connection, message, server))

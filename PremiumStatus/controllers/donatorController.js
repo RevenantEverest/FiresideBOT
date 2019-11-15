@@ -19,8 +19,8 @@ module.exports = async (req, res, next) => {
         });
 
     async function handleUserPremium(record) {
-        let end_date = await moment(moment().add(30, 'd')).format("MMMM Do YYYY");
-        let start_date = await moment().format("MMMM Do YYYY");
+        let end_date = moment(moment().add(30, 'd')).format("YYYY-MM-DD");
+        let start_date = moment().format("YYYY-MM-DD");
         let data = { discord_id: record.discord_id, start_date: start_date, end_date: end_date, active: true };
         userPremiumController.update(data, handleEmbeds);
     };
@@ -32,7 +32,7 @@ module.exports = async (req, res, next) => {
 
         userEmbed
         .setColor(0x00ff00)
-        .addField("Thank You For Purchasing Fireside Premium!", `Your premium will end on ${record.end_date}`)
+        .addField("Thank You For Purchasing Fireside Premium!", `Your premium will end on ${moment(record.end_date).format("MMM Do YYYY")}`)
 
         logEmbed
         .setColor(0xff33cc)

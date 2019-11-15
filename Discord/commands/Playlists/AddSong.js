@@ -18,7 +18,7 @@ async function checkForDuplicates(songs, info) {
     else return false;
 };
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(!args[1]) return message.channel.send('Please specify a playlist to add to');
     if(!server.queue.isPlaying && !args[1]) return message.channel.send('Please specify a playlist and song to add');
     if(!server.queue.isPlaying && !args[2]) return message.channel.send('Please specify a song to add');
@@ -50,10 +50,16 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     async function placeholder(info) {
         let playlist = null;
         if(guildPlaylist) {
+            if(!server.premium && info.duration >= 600)
+                return message.channel.send("Non premium playlists songs can't exceed 10 minutes");
+
             let data = { guild_id: message.guild.id, name: playlistSearch };
             guildPlaylistsController.getByGuildIdAndPlaylistName(bot, message, "AddSong", data, handleGuildPlaylist, handleNoPlaylist);
         }
         else {
+            if(!userstate.premium && info.duration >= 600)
+                return message.channel.send("Non premium playlists songs can't exceed 10 minutes");
+                
             let data = { discord_id: message.author.id, name: playlistSearch };
             userPlaylistsController.getByDiscordIdAndPlaylistName(bot, message, "AddSong", data, handleUserPlaylist, handleNoPlaylist);
         }

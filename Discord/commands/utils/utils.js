@@ -123,7 +123,7 @@ module.exports = {
         YTDL.getBasicInfo(link, (err, info) => {
             if(err) return errorHandler(Discord_Bot, message, err, "YTDL Error", "Utils")
             if(info.player_response.videoDetails === undefined) return message.channel.send(`Invalid Video Details`);
-            if(info.player_response.videoDetails.lengthSeconds >= 3600) return message.channel.send('Requests limited to 1 hour');
+
             info = info.player_response.videoDetails;
             let thumbnails = info.thumbnail.thumbnails;
             let songInfo = { 

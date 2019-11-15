@@ -16,10 +16,11 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
         let playlist = uPlaylists.filter(el => el.name === args[1]);
         if(!playlist[0]) return message.channel.send("No Playlist Found");
         if(args.includes("-p")) privacy = true;
-        if(privacy) return updateUserPlaylist(bot, args, message, playlist[0], privacy);
-        if(uPlaylists.includes(args[2].toString())) return message.channel.send("No Duplicate Playlist Names");
-        else if(args[3]) return message.channel.send('No white space allowed');
-
+        if(!privacy) {
+            if(uPlaylists.map(el => el.name).includes(args[2].toString())) return message.channel.send("No Duplicate Playlist Names");
+            else if(args[3]) return message.channel.send('No white space allowed');
+        }
+        
         let data = {
             playlist_id: playlist[0].playlist_id, 
             discord_id: message.author.id, 

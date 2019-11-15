@@ -1,49 +1,58 @@
 const Discord = require('discord.js');
 const moment = require('moment');
 
-const guildPremiumController = require('../../controllers/dbControllers/guildPremiumRecordsController');
 const userPremiumController = require('../../controllers/dbControllers/userPremiumRecordsController');
+const guildPremiumController = require('../../controllers/dbControllers/guildPremiumRecordsController');
 
 module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
-    if(!args[1]) return message.channel.send("Please provide a flag, discord/guild ID, and a desired premium length");
-    if(!args[2]) return message.channel.send("Please provide a discord or guild ID");
+    if(!args[1]) return message.channel.send("Please provide a flag, discord/guild ID, and an optional reason for premium revocation");
 
     let premium_id = null;
-    let premium_length = args.includes("-s") ? args[3] : args[2];
-
-    if(!Number.isInteger(parseInt(premium_length, 10)) || !premium_length)
-        return message.channel.send("Please use an integer value to define premium length");
 
     if(/<@?(\d+)>/.exec(args.join(" "))) premium_id = /<@?(\d+)>/.exec(args.join(" "))[1];
     else if(/<@!?(\d+)>/.exec(args.join(" "))) premium_id = /<@!?(\d+)>/.exec(args.join(" "))[1];
-    else if(Number.isInteger(parseInt(args[1], 10))) premium_id = args[1];
-    else if(Number.isInteger(parseInt(args[2], 10))) premium_id = args[2];
+    else if(args.includes("-s") && Number.isInteger(parseInt(args[2], 10))) premium_id = args[2];
+    else if (Number.isInteger(parseInt(args[1], 10))) premium_id = args[1];
 
     if(!premium_id) return message.channel.send("Please provide a valid discord or guild ID");
 
-    let end_date = moment(moment().add(parseInt(premium_length, 10), 'd')).format("YYYY-MM-DD");
-    let start_date = moment().format("YYYY-MM-DD");
+    let end_date = moment().format("YYYY-MM-DD");
+    let reason = null;
+
+    if(args[3]) {
+        let re = /(?<=\s)(-[a-z0-9]+)([^\-]*)?/gi;
+        var m = re.exec(args.join(" "));
+
+        while(m != null) {
+            if(m[1] === "-r") {
+                if(!m[2]) return message.channel.send("Please Provide A Reason");
+                reason = m[2].replace(/^\s+|\s+$/g, '');
+            }
+            m = re.exec(message);
+        }
+    }
 
     if(args.includes("-s")) 
         return guildPremiumController.getByGuildId(bot, message, "GrantDonator", premium_id, handleGuildPremium, () => {
-            let data = { guild_id: premium_id, start_date: "", end_date: "", active: true, issued_by: message.author.id };
-            guildPremiumController.save(bot, message, "GrantDonator", data, handleGuildPremium);
+            return message.channel.send("No Premium Record Found");
         });
     else 
         return userPremiumController.getByDiscordId(bot, message, "GrantDonator", premium_id, handleUserPremium, () => {
-            let data = { discord_id: premium_id, start_date: "", end_date: "", active: true };
-            userPremiumController.save(bot, message, "GrantDonator", data, handleUserPremium);
+            return message.channel.send("No Premium Record Found");
         });
 
     async function handleUserPremium(record) {
-        let isActive = moment(start_date).to(end_date).split(" ").includes("ago") ? false : true;
-        let data = { discord_id: record.discord_id, start_date: start_date, end_date: end_date, active: isActive };
+        let isActive = moment(record.start_date).to(record.end_date).split(" ").includes("ago") ? false : true;
+        console.log(isActive, record.active)
+        if(!isActive || !record.active) return message.channel.send("User's premium has already ended");
+        let data = { discord_id: record.discord_id, start_date: record.start_date, end_date: end_date, active: false };
         userPremiumController.update(bot, message, "GrantDonator", data, handleUserEmbed);
     };
 
     async function handleGuildPremium(record) {
-        let isActive = moment(start_date).to(end_date).split(" ").includes("ago") ? false : true;
-        let data = { guild_id: record.guild_id, start_date: start_date, end_date: end_date, active: isActive, issued_by: message.author.id };
+        let isActive = moment(record.start_date).to(record.end_date).split(" ").includes("ago") ? false : true;
+        if(!isActive || !record.active) return message.channel.send("Server's premium has already ended");
+        let data = { guild_id: record.guild_id, start_date: record.start_date, end_date: end_date, active: false, issued_by: message.author.id };
         guildPremiumController.update(bot, message, "GrantDonator", data, handleGuildEmbed);
     };
 
@@ -52,11 +61,12 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
         let embed = new Discord.RichEmbed();
 
         embed
-        .setColor(0x00ff00)
-        .addField("You Have Been Granted Fireside Premium!", `Your premium will end on ${moment(record.end_date).format("MMMM Do YYYY")}`)
+        .setColor(0xff0000)
+        .addField("Your Fireside Premium Has Been Revoked", `**Reason**: ${reason ? reason : "No Reason Given"}`)
+        .setFooter(`If you think is a mistake, please message Fireside directly to open a ticket`);
 
         if(discordUser) discordUser.send(embed);
-        message.channel.send("Donator Status Granted");
+        message.channel.send("Donator Status Revoked");
         handleLogEmbed(record);
     };
 
@@ -67,8 +77,9 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
         let embed = new Discord.RichEmbed();
 
         embed
-        .setColor(0x00ff00)
-        .addField(`Your Server Has Been Granted Fireside Premium!`, `Your premium will end on ${moment(record.end_date).format("MMMM Do YYYY")}`);
+        .setColor(0xff0000)
+        .addField("Your Server's Fireside Premium Has Been Revoked", `**Reason**: ${reason ? reason : "No Reason Given"}`)
+        .setFooter(`If you think is a mistake, please message Fireside directly to open a ticket`);
 
         for(let i = 0; i < channels.length; i++) {
             if(channels[i].type !== 'text') continue;
@@ -81,7 +92,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
         }
     
         notification.general ? bot.channels.get(notification.general.id).send(embed) : bot.channels.get(notification.channels.id).send(embed);
-        message.channel.send("Server Donator Status Granted");
+        message.channel.send("Server Donator Status Revoked");
         handleLogEmbed(record);
     };
 
@@ -89,22 +100,24 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
         let embed = new Discord.RichEmbed();
 
         embed
-        .setColor(0xff33cc)
-        .setTitle(`New ${record.guild_id ? "Server " : ""}Donator Granted`)
+        .setColor(0xff9900)
+        .setTitle("Donator Privilages Revoked")
         .addField(record.guild_id ? "Guild ID:" : "Discord ID:", record.guild_id ? record.guild_id : record.discord_id, true)
         .addField("Start Date:", moment(record.start_date).format("MMMM Do YYYY"), true)
         .addField("End Date:", moment(record.end_date).format("MMMM Do YYYY"), true)
-        .setFooter(`Granted By: ${message.author.username}`, message.author.avatarURL)
+        .setFooter(`Revoked By: ${message.author.username}`, message.author.avatarURL)
 
         bot.channels.get("624360349700980745").send(embed);
     };
 };
 
 module.exports.config = {
-    name: 'grantdonator',
-    d_name: 'GrantDonator',
-    aliases: ['gd'],
+    name: 'revokepremium',
+    d_name: 'PrevokePremium',
+    aliases: ['rp'],
+    params: { required: true, params: 'Flag, Discord/Guild ID, Optional Reason' },
+    flags: ['-r'],
     category: 'Dev',
-    desc: 'Grants donator perks to a user or server',
-    example: 'grantdonator -u @RevenantEverest 100d'
+    desc: 'Revokes a user or guilds premium status',
+    example: 'revokepremium @RevenantEverest'
 };
