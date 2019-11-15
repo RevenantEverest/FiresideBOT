@@ -1,7 +1,7 @@
 const userSongsController = require('../../controllers/dbControllers/userSongsController');
 const guildSongsController = require('../../controllers/dbControllers/guildSongsController');
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(!args[1]) return message.channel.send('Please specify a song ID');
 
     if(args.includes("-s")) {

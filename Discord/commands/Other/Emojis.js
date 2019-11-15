@@ -1,4 +1,4 @@
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     const emojiList = bot.emojis.map(e=>e.toString()).join(" ");
     message.channel.send(emojiList);
 };

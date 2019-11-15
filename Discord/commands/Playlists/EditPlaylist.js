@@ -2,7 +2,7 @@ const userPlaylistsController = require('../../controllers/dbControllers/userPla
 const guildPlaylistController = require('../../controllers/dbControllers/guildPlaylistsController');
 
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(!args[1]) return message.channel.send('Please enter a name for the new Playlist');
     if(args.includes("-s")) {
         if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send(`You don't have permission to use this command`);

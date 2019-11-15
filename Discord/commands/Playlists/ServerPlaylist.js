@@ -6,7 +6,7 @@ const viewPlaylist = require('../utils/viewPlaylist');
 const guildPlaylistsController = require('../../controllers/dbControllers/guildPlaylistsController');
 const guildSongsController = require('../../controllers/dbControllers/guildSongsController');
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(options.updatePending) return message.channel.send("An Update is currently pending, features will resume upon Update");
     if(!args[1]) return myPlaylists.findServerPlaylists(message, args, bot);
 

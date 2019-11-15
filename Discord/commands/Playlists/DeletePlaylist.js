@@ -4,7 +4,7 @@ const guildPlaylistsController = require('../../controllers/dbControllers/guildP
 const userSongsController = require('../../controllers/dbControllers/userSongsController');
 const guildSongsController = require('../../controllers/dbControllers/guildSongsController');
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(!args[1]) return message.channel.send('Please specify a Playlist to delete');
     if(args.includes("-s")) {
         if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send(`You don't have permission to use this command`);

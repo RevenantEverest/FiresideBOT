@@ -6,7 +6,7 @@ const utils = require('../utils/utils');
 const userPlaylistsController = require('../../controllers/dbControllers/userPlaylistsController');
 const userSongsController = require('../../controllers/dbControllers/userSongsController');
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(!args[1]) return myPlaylists.findMyPlaylists(message, args, message.author.id, bot);
   
     let playlistName = null;
