@@ -1,4 +1,4 @@
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(!server.dispatcher || server.queue.isPlaying === false)
       return message.channel.send("No song to pause.");
     if(server.queue.isPlaying === true && server.queue.isPaused === false) {

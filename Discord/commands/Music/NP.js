@@ -1,4 +1,4 @@
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(server.queue.isPlaying === false) return message.channel.send("No song currently playing");
     else return message.channel.send(server.queue.currentSongEmbed);
 };

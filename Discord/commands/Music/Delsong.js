@@ -1,4 +1,4 @@
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(!args[1]) return message.channel.send("Please specifiy a song to delete.");
 
     let index = parseInt(args[1], 10) - 1;

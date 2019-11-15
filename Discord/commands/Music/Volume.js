@@ -1,6 +1,6 @@
 const guildSettingsController = require('../../controllers/dbControllers/guildSettingsController');
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(!message.member.voiceChannel) return message.channel.send('Please join a voice channel');
     if(args[0] === "PlaySong") return handleQueueVolume(bot, message, server);
 
