@@ -65,9 +65,9 @@ async function handleMessage(message, msg, bot, contentArr, options, index) {
     reaction.message.edit(options.flavorText, embed);
   });
   r_collector.on('end', e => {
-    let permissions = new Discord.Permissions(message.channel.permissionsFor(bot.user).bitfield);
-    if(permissions.has("MANAGE_MESSAGES")) return;
-    msg.clearReactions()
+    let permissions = message.channel.type === "DM" ? null : new Discord.Permissions(message.channel.permissionsFor(bot.user).bitfield);
+    if(permissions && !permissions.has("MANAGE_MESSAGES")) return;
+    msg.clearReactions();
   });
 };
 

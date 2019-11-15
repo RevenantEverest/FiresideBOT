@@ -1,13 +1,12 @@
 const express = require('express');
+const controller = require('../controllers/commandErrorLogsController');
 const router = express.Router();
-const controller = require('../controllers/userLogsController');
 
 router.route("/")
 .get(controller.index)
-.post(controller.create)
+.post(controller.save)
 
-router.route("/log/:id")
+router.route("/:id")
 .get(controller.getOne)
-.delete(controller.delete)
 
 module.exports = router;

@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 const ticketsController = require('./ticketsController');
+const loggerServices = require('../services/loggerServices');
 
 async function getDate() {
     let date = new Date();
@@ -20,7 +21,9 @@ async function logError(bot, message, err, errMsg, command) {
     .setFooter(await getDate());
 
     bot.channels.get(process.env.ENVIRONMENT === "DEV" ? "624216968844804096" : "624755756079513621").send(embed);
-    /* Log to DB */
+    let data = { command: command, args: message.content, guild_id: message.guild.id, discord_id: message.author.id, error_message: errMsg, error: err};
+    loggerServices.commandErrorLogger(data)
+    .catch(err => console.error(err));
 };
 
 async function handleTicket(bot, message, err, errMsg, command) {
@@ -61,6 +64,11 @@ module.exports = async (bot, message, err, errMsg, command) => {
 
             reaction.remove(reaction.users.array()[reaction.users.array().length - 1].id);
         });
-        r_collector.on('end', e => msg.clearReactions());
+        r_collector.on('end', e => {
+            let permissions = new Discord.Permissions(message.channel.permissionsFor(bot.user).bitfield);
+            if(permissions && !permissions.has("MANAGE_MESSAGES")) return;
+            console.log(permissions, "Called for Clear Reactions");
+            msg.clearReactions();
+        });
     });
 };

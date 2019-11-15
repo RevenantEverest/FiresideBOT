@@ -43,8 +43,10 @@ CREATE TABLE autodj (
 );
 
 CREATE TABLE bot_guilds (
+    id SERIAL PRIMARY KEY,
     guild_name VARCHAR(255),
-    guild_id VARCHAR(255)
+    guild_id VARCHAR(255),
+    date VARCHAR(255)
 );
 
 CREATE TABLE custom_commands (
@@ -256,5 +258,16 @@ CREATE TABLE premium_logs (
     currency VARCHAR(255),
     recurring BOOLEAN,
     buyer_email VARCHAR(255),
+    date VARCHAR(255)
+);
+
+CREATE TABLE command_error_logs (
+    id SERIAL PRIMARY KEY,
+    command VARCHAR(255),
+    args VARCHAR(255),
+    guild_id VARCHAR(255),
+    discord_id VARCHAR(255),
+    error_message VARCHAR(255),
+    error VARCHAR(1024),
     date VARCHAR(255)
 );
