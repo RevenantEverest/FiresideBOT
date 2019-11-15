@@ -47,7 +47,7 @@ async function sendEmbed(message, settings, ranks, record) {
     message.channel.send(embed);
 }
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     settingsDB.findByGuildId(message.guild.id)
     .then(settings => getRanks(bot, message, settings))
     .catch(err => errorHandler(bot, message, err, "Error Finding Rank Settings", "MyRank"));

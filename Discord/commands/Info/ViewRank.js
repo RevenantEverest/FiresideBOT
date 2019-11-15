@@ -49,7 +49,7 @@ async function sendEmbed(bot, message, settings, ranks, record) {
     message.channel.send(embed);
 }
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(!args[1]) return message.channel.send("Please specify a user");
     if(!message.content.split(" ")[1].startsWith('<@')) return message.channel.send('Please specify a valid recipient');
     let user_id = /<@!?(\d+)>/.exec(args.join(" "))[1];

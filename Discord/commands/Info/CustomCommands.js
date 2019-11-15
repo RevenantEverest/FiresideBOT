@@ -77,7 +77,7 @@ async function parseData(bot, message, args, commands) {
     }
 };
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     db.findByGuildId(message.guild.id)
     .then(commands => parseData(bot, message, args, commands))
     .catch(err => {
