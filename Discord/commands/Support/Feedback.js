@@ -13,7 +13,7 @@ async function getDate() {
     return date.toLocaleString('en-US', options);
 }
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(!args[1]) return message.channel.send('Please write a message to send as feedback');
     let embed = new Discord.RichEmbed();
     args.splice(0, 1);
