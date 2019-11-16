@@ -5,7 +5,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     if(Number.isInteger(parseInt(args[1], 10)))
         return customCommandsController.getOne(bot, message, "DeleteCommand", parseInt(args[1], 10), deleteCommand, handleNoData);
     else {
-        let data = { guild_id: message.guild.id, input: args[1] };
+        let data = { guild_id: message.guild.id, input: args[1].toLowerCase() };
         return customCommandsController.getByGuildIdAndInput(bot, message, "DeleteCommand", data, deleteCommand, handleNoData);
     }
 

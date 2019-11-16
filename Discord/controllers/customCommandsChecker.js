@@ -27,7 +27,7 @@ async function updateCustomCommandName(bot, customCommand, guildCustomCommands) 
             updatedName = temp;
     };
 
-    customCommandsDB.update({ guild_id: customCommand.guild_id, id: customCommand.id, input: updatedName, output: customCommand.output })
+    customCommandsDB.update({ guild_id: customCommand.guild_id, id: customCommand.id, input: updatedName.toLowerCase(), output: customCommand.output })
     .then(updatedCommand => checkForLogSettings(bot, customCommand, updatedCommand))
     .catch(err => console.error(err));
 };

@@ -17,9 +17,16 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
 
     if(commandOutput.split("").length > 1024) return message.channel.send("Command outputs can only be 1024 characters long.");
 
-    customCommandsController.getByGuildIdAndInput(bot, message, "CreateCommand", { guild_id: message.guild.id, input: commandName }, () => {
-        return message.channel.send("Custom Command name already exists");
-    }, saveCommand);
+    customCommandsController.getByGuildId(bot, message, "CreateCommand", message.guild.id, handleCommands, saveCommand);
+
+    async function handleCommands(commands) {
+        if(commands.filter(el => el.input === commandName).length > 0)
+            return message.channel.send("Custom Command name already exists");
+        if(!server.premium && commands.length > 20)
+            return message.channel.send("Custcom Commands limited to 20");
+
+        saveCommand();
+    };
 
     async function saveCommand() {
         let data = { guild_id: message.guild.id, created_by: message.author.id, input: commandName, output: commandOutput, date: await utils.getDate() };
