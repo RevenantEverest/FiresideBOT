@@ -21,7 +21,7 @@ async function logEmbed(bot, oldGuild, newGuild) {
 
 module.exports = async (bot, oldGuild, newGuild) => {
     if(oldGuild.name !== newGuild.name)
-        guildsDB.update({ guild_id: newGuild.id, guild_name: newGuild.name })
+        guildsDB.update({ guild_id: newGuild.id, name: newGuild.name })
         .then(() => logEmbed(bot, oldGuild, newGuild))
         .catch(err => console.error(err));
 };

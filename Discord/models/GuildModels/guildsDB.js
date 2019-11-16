@@ -11,12 +11,12 @@ module.exports = {
         return db.one('SELECT COUNT(*) FROM bot_guilds WHERE guild_id = $1', id);
     },
     save(guild) {
-        return db.one('INSERT INTO bot_guilds (guild_name, guild_id) VALUES ($/guild_name/, $/guild_id/) RETURNING *', guild);
+        return db.one('INSERT INTO bot_guilds (name, guild_id, date) VALUES ($/name/, $/guild_id/, $/date/) RETURNING *', guild);
     },
     update(guild) {
         return db.one(`UPDATE bot_guilds
         SET
-        guild_name = $/guild_name/
+        name = $/name/
         WHERE guild_id = $/guild_id/
         RETURNING *`, guild);
     },

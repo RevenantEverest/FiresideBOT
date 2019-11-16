@@ -60,7 +60,7 @@ module.exports = {
             .catch(err => console.error(err));
     },
     async saveGuild(bot, guild) {
-        guildsDB.save({ guild_name: guild.name, guild_id: guild.id })
+        guildsDB.save({ name: guild.name, guild_id: guild.id, date: await utils.getDate() })
             .then(() => {
                 defaultSettingsController.guildSettingsCheck(guild);
                 defaultSettingsController.currencySettingsCheck(guild);
