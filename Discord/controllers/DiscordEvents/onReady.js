@@ -4,6 +4,7 @@ const utils = require('../../commands/utils/utils');
 
 const config = require('../../config/config');
 const guildsController = require('../guildsController');
+const customCommandsChecker = require('../customCommandsChecker');
 
 async function setBotActivity(bot) {
     const activities = [
@@ -33,10 +34,12 @@ module.exports = async (bot, getCommands) => {
         bot.guilds.array().forEach(el => config.environment.users += el.memberCount);
     }, 5000);
 
+    customCommandsChecker(bot);
+
     if(process.env.ENVIRONMENT === "DEV") return console.log(chalk.hex('#00ff00')('[LOG]') +' FiresideBOT Ready');
 
     let embed = new Discord.RichEmbed();
-    embed.setColor(0xff9900).setTitle("Starting up...").setFooter(await utils.getDate());
+    embed.setColor(0xff9900).setTitle("FiresideBOT Ready").setFooter(await utils.getDate());
 
     bot.channels.get("543862697742172179").send(embed);
 }

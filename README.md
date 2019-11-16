@@ -47,7 +47,7 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 
 - [CreateCharacter](https://help.firesidebot.com/commands/createcharacter) `<param>`  
 **Desc**: Creates a new Acirhia Character  
-**Aliases**: `cc`   
+**Aliases**: `createchar`   
 **Params**: Character Name  
 **Example**: `?createcharacter King Arthur`  
 
@@ -81,7 +81,7 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 
 - [AddRank](https://help.firesidebot.com/commands/addrank) `<param>`  
 **Desc**: Creates a new Rank Tier  
-**Aliases**: `ar`   
+**Aliases**: `nr` `cr`   
 **Params**: Rank Name  
 **Example**: `?addrank NewRank`  
 
@@ -98,11 +98,30 @@ A Music, Economy, & Admin Discord Bot written in Node.js
  Optional Param  
 **Example**: `?ban @RevenantEverest 5 His memes are low tier`  
 
+- [CreateCommand](https://help.firesidebot.com/commands/createcommand) `<param>`  
+**Desc**: Create a custom command  
+**Aliases**: `addcom`   
+**Params**: Input (Command Name) and Output (Command Response)  
+**Example**: `?createcommand MyCommand This is a new command`  
+
+- [DeleteCommand](https://help.firesidebot.com/commands/deletecommand) `<param>`  
+**Desc**: Delete a custom command  
+**Aliases**: `delcom`   
+**Params**: Command ID or CommandName  
+**Example**: `?deletecommand MyCommand`  
+
 - [DisableCommand](https://help.firesidebot.com/commands/disablecommand) `<param>`  
 **Desc**: Disables a Command  
 **Aliases**: `disabledcommands` `dc`   
 **Params**: Command Name or Alias  
 **Example**: `?disablecommand play`  
+
+- [EditCommand](https://help.firesidebot.com/commands/editcommand) `<param>`  
+**Desc**: Edit a custom command  
+**Aliases**: `editcom`   
+**Params**: Name of command to change, an updated name or an updated output  
+**Flags**: `-n`   
+**Example**: `?editcommand MyCommand This is my new command edit`  
 
 - [EditRank](https://help.firesidebot.com/commands/editrank) `<param>`  
 **Desc**: Change a ranks name  
@@ -169,6 +188,11 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Desc**: Get sent an example of your server's welcome message in a DM  
 **Aliases**: `vwm`   
 **Example**: `?viewwelcomemessage`  
+
+- [CustomCommands](https://help.firesidebot.com/commands/customcommands)   
+**Desc**: Custom Command  
+**Aliases**: `customcommand` `custcom` `cc`   
+**Example**: `?customcommands`  
 
   
 
@@ -258,7 +282,7 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 - [Give](https://help.firesidebot.com/commands/give) `<param>`  
 **Desc**: Gives a currency amount to desired recipient, from your balance  
 **Aliases**:   
-**Params**: Mention / Amount  
+**Params**: @Mention and Amount  
 **Example**: `?give @YourFavoritePerson 100`  
 
   
@@ -309,6 +333,11 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Aliases**: `dice`   
 **Params**: Number  
 **Example**: `?roll 20`  
+
+- [Vibe](https://help.firesidebot.com/commands/vibe)   
+**Desc**: Checks your current vibe  
+**Aliases**: `vibecheck`   
+**Example**: `?vibe`  
 
   
 
@@ -372,6 +401,13 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Flags**: `-q` `-a` `-t`   
 **Example**: `?poll -q How is everyone enjoying FiresideBOT? -a It's amazing -a It's okay -a Developer is bad :eyes: -t 60`  
 
+- [PremiumStatus](https://help.firesidebot.com/commands/premiumstatus) `[param]`  
+**Desc**: Check your premium status  
+**Aliases**: `ps`   
+**Params**: Flag  
+**Flags**: `-s`   
+**Example**: `?premiumstatus`  
+
 - [RankInfo](https://help.firesidebot.com/commands/rankinfo)   
 **Desc**: Displays available Rank Tier Info  
 **Aliases**: `ri`   
@@ -416,7 +452,7 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 
 - [Weather](https://help.firesidebot.com/commands/weather) `<param>`  
 **Desc**: Displays the current weather for the spcified City  
-**Aliases**: `w`   
+**Aliases**:   
 **Params**: City Name  
 **Example**: `?weather New York`  
 

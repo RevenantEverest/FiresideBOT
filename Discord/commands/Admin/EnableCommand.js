@@ -1,35 +1,23 @@
-const db = require('../../models/disabledCommandsDB');
+const disabledCommandsController = require('../../controllers/dbControllers/disabledCommandsController');
 
-const pgp = require('pg-promise')();
-const QRE = pgp.errors.QueryResultError;
-const qrec = pgp.errors.queryResultErrorCode;
-
-const errorHandler = require('../../controllers/errorHandler');
-
-async function enableCommand(bot, message, command, id) {
-    db.delete(id)
-    .then(() => message.channel.send(`**${command.d_name}** is now enabled`))
-    .catch(err => errorHandler(bot, message, err, "Error Removing Disabled Command", "EnableCommand"))
-}
-
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(!args[1]) return message.channel.send("Please specify a command you'd like to enable");
-    let cmd = bot.commands.get(args[1].toLowerCase()) || bot.commands.get(bot.aliases.get(args[1].toLowerCase()));
-    if(cmd) {
-        db.findByGuildId(message.guild.id)
-        .then(dCmd => {
-            dCmd_Names = dCmd.map(el => el.command);
-            if(dCmd_Names.includes(cmd.config.name))
-                enableCommand(bot, message, cmd.config, dCmd[dCmd_Names.indexOf(cmd.config.name)].id);
-            else return message.channel.send(`**${cmd.config.d_name}** is already enabled`)
-        })
-        .catch(err => {
-            if(err instanceof QRE && err.code === qrec.noData)
-                message.channel.send(`No commands currently disabled`);
-            else errorHandler(bot, message, err, "DB Error", "EnableCommand");
-        })
-    }
-    else message.channel.send("Not a valid Command or Alias");
+    let command = bot.commands.get(args[1].toLowerCase()) || bot.commands.get(bot.aliases.get(args[1].toLowerCase()));
+    if(!command) return message.channel.send("Not a valid Command or Alias");
+
+    disabledCommandsController.getByGuildId(bot, message, "EnableCommand", message.guild.id, enableCommand, () => {
+        enableCommand([]);
+    });
+
+    async function enableCommand(disabledCommands) {
+        let dCommandNames = disabledCommands.map(el => el.command);
+        if(!dCommandNames.includes(command.config.name))
+            return message.channel.send(`**${command.config.d_name}** is already enabled`);
+        let data = disabledCommands[dCommandNames.indexOf(command.config.name)].id;
+        disabledCommandsController.delete(bot, message, "EnableCommand", data, () => {
+            return message.channel.send(`**${command.config.d_name}** is now enabled`);
+        });
+    };
 };
 
 module.exports.config = {

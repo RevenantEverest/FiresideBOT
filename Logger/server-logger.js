@@ -15,8 +15,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 /* Routes */
 app.use("/command", require('./routes/commandLogRoutes'));
-app.use("/guild", require('./routes/guildLogRoutes'));
-app.use("/user", require('./routes/userLogRoutes'));
+app.use("/error/command", require('./routes/commandErrorLogs'));
 
 /* Default Routes */
 app.use("/", (req, res) => {

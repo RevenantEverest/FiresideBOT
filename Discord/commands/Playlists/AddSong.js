@@ -1,152 +1,108 @@
-const userPlaylistsDB = require('../../models/UserModels/userPlaylistsDB');
-const userSongsDB = require('../../models/UserModels/userSongsDB');
+const userPlaylistsController = require('../../controllers/dbControllers/userPlaylistsController');
+const userSongsController = require('../../controllers/dbControllers/userSongsController');
 
-const guildPlaylistsDB = require('../../models/GuildModels/guildPlaylistsDB');
-const guildSongsDB = require('../../models/GuildModels/guildSongsDB');
+const guildPlaylistsController = require('../../controllers/dbControllers/guildPlaylistsController');
+const guildSongsController = require('../../controllers/dbControllers/guildSongsController');
+
 const utils = require('../utils/utils');
 
-const pgp = require('pg-promise')();
-const QRE = pgp.errors.QueryResultError;
-const qrec = pgp.errors.queryResultErrorCode;
-
-const errorHandler = require('../../controllers/errorHandler');
-
-async function findUserPlaylist(bot, args, message, server, guildPlaylist, playlistSearch, request) {
-  userPlaylistsDB.findByDiscordIdAndPlaylistName({ discord_id: message.author.id, name: playlistSearch })
-  .then(playlist => {
-    if(server.queue.isPlaying && !args[2]) {
-        let info = server.queue.currentSongInfo;
-
-        saveToUserPlaylist(bot, message, playlist.name, {
-          playlist_id: playlist.playlist_id, title: info.title, link: info.link, author: info.author, duration: info.duration, thumbnail_url: info.thumbnail
-        });
-    }
-    else utils.youtubeSearch(message, args, server, request, { guildPlaylist: guildPlaylist, playlist: playlist }, guildPlaylistCheck);
-  })
-  .catch(err => {
-    if(err instanceof QRE && err.code === qrec.noData)
-        return message.channel.send(`No playlist by that name found`);
-    else errorHandler(bot, message, err, "DB Error", "AddSong");
-  });
-}
-
-async function findGuildPlaylist(bot, args, message, server, guildPlaylist, playlistSearch, request) {
-  guildPlaylistsDB.findByGuildIdAndPlaylistName({ guild_id: message.guild.id, name: playlistSearch })
-  .then(playlist => {
-    let hasPermission = false;
-    if(playlist.roles) {
-      message.member.roles.forEach((el, idx) => {
-        if(playlist.roles.indexOf(el) !== -1) hasPermission = true;
-      })
-    }
-    if(message.member.hasPermission('ADMINISTRATOR')) hasPermission = true;
-    if(!hasPermission) return message.channel.send(`You don't have permission to use this command`)
-    if(server.queue.isPlaying && !args[2]) {
-        let info = server.queue.currentSongInfo;
-
-        getGuildPlaylistSongs(bot, message, playlist, info);
-    }
-    else utils.youtubeSearch(message, args, server, request, { guildPlaylist: guildPlaylist, playlist: playlist }, guildPlaylistCheck);
-  })
-  .catch(err => {
-    if(err instanceof QRE && err.code === qrec.noData)
-        return message.channel.send(`No playlist by that name found`);
-    else errorHandler(bot, message, err, "DB Error", "AddSong");
-  });
-}
-
-async function getGuildPlaylistSongs(bot, message, playlist, info) {
-  guildSongsDB.findByPlaylistId(playlist.playlist_id)
-  .then(async songs => {
-    let duplicate = await checkForDuplicates(songs, info);
-    if(duplicate)
-      return message.channel.send(`Song already exists in playlist **${playlist.name}**`);
-    else
-      saveToGuildPlaylist(bot, message, playlist.name, {
-        playlist_id: playlist.playlist_id, title: info.title, link: info.link, author: info.author, duration: info.duration, thumbnail_url: info.thumbnail
-      });
-  })
-  .catch(err => {
-    if(err instanceof QRE && err.code === qrec.noData)
-      saveToGuildPlaylist(bot, message, playlist.name, {
-        playlist_id: playlist.playlist_id, title: info.title, link: info.link, author: info.author, duration: info.duration, thumbnail_url: info.thumbnail
-      });
-    else errorHandler(bot, message, err, "DB Error", "AddSong");
-  })
-}
-
-async function getUserPlaylistSongs(bot, message, playlist, info) {
-  userSongsDB.findByPlaylistId(playlist.playlist_id)
-  .then(async songs => {
-    let duplicate = await checkForDuplicates(songs, info);
-    if(duplicate)
-      return message.channel.send(`Song already exists in playlist **${playlist.name}**`);
-    else
-      saveToUserPlaylist(bot, message, playlist.name, {
-        playlist_id: playlist.playlist_id, title: info.title, link: info.link, author: info.author, duration: info.duration, thumbnail_url: info.thumbnail
-      });
-  })
-  .catch(err => {
-    if(err instanceof QRE && err.code === qrec.noData)
-      saveToUserPlaylist(bot, message, playlist.name, {
-        playlist_id: playlist.playlist_id, title: info.title, link: info.link, author: info.author, duration: info.duration, thumbnail_url: info.thumbnail
-      });
-    else errorHandler(bot, message, err, "DB Error", "AddSong");
-  })
-}
-
 async function checkForDuplicates(songs, info) {
-  let arr = [];
-  await songs.forEach(async el => {
-    let video_id = await utils.filter(el.link, {special: false});
-    arr.push(video_id);
-  });
+    let arr = [];
+    await songs.forEach(async el => {
+        let video_id = await utils.filter(el.link, {special: false});
+        arr.push(video_id);
+    });
 
-  let video_id = await utils.filter(info.link, {special: false});
-  if(arr.includes(video_id)) return true;
-  else return false;
-}
+    let video_id = await utils.filter(info.link, {special: false});
+    if(arr.includes(video_id)) return true;
+    else return false;
+};
 
-async function saveToUserPlaylist(bot, message, playlist_name, data) {
-  userSongsDB.save(data)
-  .then(playlist => message.channel.send(`**${data.title}** added to playlist **${playlist_name}** with ID **${playlist.song_id}**`))
-  .catch(err => errorHandler(bot, message, err, "Error Saving to Playlist", "AddSong"));
-}
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
+    if(!args[1]) return message.channel.send('Please specify a playlist to add to');
+    if(!server.queue.isPlaying && !args[1]) return message.channel.send('Please specify a playlist and song to add');
+    if(!server.queue.isPlaying && !args[2]) return message.channel.send('Please specify a song to add');
 
-async function saveToGuildPlaylist(bot, message, playlist_name, data) {
-  guildSongsDB.save(data)
-  .then(playlist => message.channel.send(`**${data.title}** added to playlist **${playlist_name}** with ID **${playlist.song_id}**`))
-  .catch(err => errorHandler(bot, message, err, "Error Saving to Playlist", "AddSong"));
-}
+    const requestFilter = ['http://', 'https://', '\.com', 'watch\?v=', 'watch\?V=', 'youtube', 'www\.youtube', 'youtu\.be', '/'];
+    let request = '';
+    let playlistSearch = args[1];
+    let guildPlaylist = false;
+    let isLink = false;
 
-async function guildPlaylistCheck(bot, message, args, server, options) {
-  if(options.guildPlaylist) getGuildPlaylistSongs(bot, message, options.playlist, options.songInfo);
-  else getUserPlaylistSongs(bot, message, options.playlist, options.songInfo);
-}
+    if(args[1] === "-s") playlistSearch = args[2];
+    if(args.includes("-s")) {
+        args.splice(args.indexOf("-s"), 1);
+        guildPlaylist = true;
+    }
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
-  if(!args[1]) return message.channel.send('Please specify a playlist to add to');
-  if(!server.queue.isPlaying && !args[1]) return message.channel.send('Please specify a playlist and song to add');
-  if(!server.queue.isPlaying && !args[2]) return message.channel.send('Please specify a song to add');
+    args.splice(1, 1);
+    args.splice(0, 1);
 
-  let request = '';
-  const requestFilter = ['http://', 'https://', '.com', 'watch?v=', 'youtube', 'www.youtube', 'youtu.be', '/'];
-  let playlistSearch = args[1];
-  let guildPlaylist = false;
+    if(await utils.checkString(args[0], requestFilter)) {
+        request = await utils.filter(args[0], { special: false });
+        isLink = true;
+    }
+    else request = args.join(" ");
+    
+    if(server.queue.isPlaying && !args[1]) placeholder(server.queue.currentSongInfo);
+    else utils.youtubeSearch(message, args, server, request, { isLink: isLink }, (songInfo) => placeholder(songInfo));
 
-  if(args[1] === "-s") playlistSearch = args[2];
-  if(args.includes("-s")) {
-    args.splice(args.indexOf("-s"), 1);
-    guildPlaylist = true;
-  }
+    async function placeholder(info) {
+        let playlist = null;
+        if(guildPlaylist) {
+            if(!server.premium && info.duration >= 600)
+                return message.channel.send("Non premium playlists songs can't exceed 10 minutes");
 
-  args.splice(1, 1);
-  args.splice(0, 1);
+            let data = { guild_id: message.guild.id, name: playlistSearch };
+            guildPlaylistsController.getByGuildIdAndPlaylistName(bot, message, "AddSong", data, handleGuildPlaylist, handleNoPlaylist);
+        }
+        else {
+            if(!userstate.premium && info.duration >= 600)
+                return message.channel.send("Non premium playlists songs can't exceed 10 minutes");
+                
+            let data = { discord_id: message.author.id, name: playlistSearch };
+            userPlaylistsController.getByDiscordIdAndPlaylistName(bot, message, "AddSong", data, handleUserPlaylist, handleNoPlaylist);
+        }
+    
+        async function handleUserPlaylist(uPlaylist) {
+            playlist = uPlaylist;
+            userSongsController.getByPlaylistId(bot, message, "AddSong", playlist.playlist_id, async (songs) => {
+                saveToUserPlaylist(playlist, songs, info)
+            }, handleNoPlaylistSongs);
+        };
+    
+        async function handleGuildPlaylist(gPlaylist) {
+            playlist = gPlaylist
+            guildSongsController.getByPlaylistId(bot, message, "AddSong", playlist.playlist_id, async (songs) => {
+                saveToGuildPlaylist(playlist, songs, info)
+            }, handleNoPlaylistSongs);
+        };
+    
+        async function saveToUserPlaylist(playlist, songs, info) {
+            let duplicate = await checkForDuplicates(songs, info);
+            if(duplicate) return message.channel.send(`Song already exists in server playlist **${playlist.name}**`);
+            let data = {
+                playlist_id: playlist.playlist_id, title: info.title, link: info.link, author: info.author, duration: info.duration, thumbnail_url: info.thumbnail
+            };
+            userSongsController.save(bot, message, "AddSong", data, (song) => {
+                return message.channel.send(`**${song.title}** added to playlist **${playlist.name}** with ID **${song.song_id}**`);
+            });
+        };
+    
+        async function saveToGuildPlaylist(playlist, songs, info) {
+            let duplicate = await checkForDuplicates(songs, info);
+            if(duplicate) return message.channel.send(`Song already exists in server playlist **${playlist.name}**`);
+            let data = {
+                playlist_id: playlist.playlist_id, title: info.title, link: info.link, author: info.author, duration: info.duration, thumbnail_url: info.thumbnail
+            };
+            guildSongsController.save(bot, message, "AddSong", data, (song) => {
+                return message.channel.send(`**${song.title}** added to server playlist **${playlist.name}** with ID **${song.song_id}**`)
+            });
+        };
 
-  await utils.checkString(args[2], requestFilter) ? request = await utils.filter(args[2], { special: false }) : request = args.join(" ");
-
-  if(guildPlaylist) findGuildPlaylist(bot, args, message, server, guildPlaylist, playlistSearch, request);
-  else findUserPlaylist(bot, args, message, server, guildPlaylist, playlistSearch, request);
+        async function handleNoPlaylist() { return message.channel.send(`No${guildPlaylist ? " Server " : " "}Playlist Found`); }
+        async function handleNoPlaylistSongs() { guildPlaylist ? saveToGuildPlaylist(playlist, [], info) : saveToUserPlaylist(playlist, [], info); }
+    };
 };
 
 module.exports.config = {

@@ -36,7 +36,7 @@ async function handleSingle(message, songs, overallLength, author) {
   message.channel.send(embed);
 };
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
   if(server.queue.queueInfo.length < 1) return message.channel.send("No other songs in queue");
 
   let songs = server.queue.queueInfo;

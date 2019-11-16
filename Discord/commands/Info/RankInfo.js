@@ -57,7 +57,7 @@ async function sendEmbed(settings, rank, rankMembers, message) {
     message.channel.send(embed);
 }
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(!args[1]) return message.channel.send("Please specify a rank name");
 
     args.splice(0, 1);

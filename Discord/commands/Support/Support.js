@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const config = require('../../config/config');
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(!args[1]) return message.channel.send('https://discord.gg/TqKHVUa');
 };
 

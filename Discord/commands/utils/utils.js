@@ -26,7 +26,7 @@ module.exports = {
     },
     async filter(str, options) {
         let re = null;
-        if(options.special) re =  /(?:https?:\/\/(?:www\.)?(?:youtu\.be|youtube\.com)\/(?:watch\?v=)?([^ ]*))|([a-z0-9 ]*)/i;
+        if(options.special) re =  /(?:https?:\/\/(?:www\.)?(?:youtu\.be|youtube\.com)\/(?:watch\?v=)?([^ ]*))|([a-z0-9 _]*)/i;
         else re =  /(?:https?:\/\/(?:www\.)?(?:youtu\.be|youtube\.com)\/(?:watch\?v=)?([^ ]*))/i;
         let ret = re.exec(str);
         if(!ret) return str;
@@ -110,19 +110,22 @@ module.exports = {
         return arr;
     },
     async youtubeSearch(message, args, server, songRequest, options, callback) {
+        let link = options.isLink ? `https://www.youtube.com/watch?v=${songRequest}` : '';
+        if(options.isLink) return this.YTDL_GetInfo(message, args, server, link, callback);
+        
         youtubeServices.youtubeSearch(songRequest)
         .then(results => {
             if(results.data.items.length < 1) return message.channel.send("No results found");
-            let link = `https://www.youtube.com/watch?v=${results.data.items[0].id.videoId}`;
-            this.YTDL_GetInfo(message, args, server, link, options, callback);
+            link = `https://www.youtube.com/watch?v=${results.data.items[0].id.videoId}`;
+            this.YTDL_GetInfo(message, args, server, link, callback);
         })
         .catch(err => errorHandler(Discord_Bot, message, err, "YouTube Search Error", "Utils"));
     },
-    async YTDL_GetInfo(message, args, server, link, options, callback) {
+    async YTDL_GetInfo(message, args, server, link, callback) {
         YTDL.getBasicInfo(link, (err, info) => {
             if(err) return errorHandler(Discord_Bot, message, err, "YTDL Error", "Utils")
             if(info.player_response.videoDetails === undefined) return message.channel.send(`Invalid Video Details`);
-            if(info.player_response.videoDetails.lengthSeconds >= 3600) return message.channel.send('Requests limited to 1 hour');
+
             info = info.player_response.videoDetails;
             let thumbnails = info.thumbnail.thumbnails;
             let songInfo = { 
@@ -133,11 +136,7 @@ module.exports = {
                 thumbnail: thumbnails[thumbnails.length - 1].url, 
                 requestedBy: message.author.username 
             }
-            callback(Discord_Bot, message, args, server, {
-                songInfo: songInfo, 
-                guildPlaylist: (options.guildPlaylist ? options.guildPlaylist : ""), 
-                playlist: (options.playlist ? options.playlist : "")
-            });
+            callback(songInfo);
         });
     }
 };

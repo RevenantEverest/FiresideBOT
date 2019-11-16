@@ -1,20 +1,13 @@
-const Discord = require('discord.js');
-const db = require('../../models/welcomeMessageDB');
+const welcomeMessageController = require('../../controllers/dbControllers/welcomeMessageController');
 
-const pgp = require('pg-promise')();
-const QRE = pgp.errors.QueryResultError;
-const qrec = pgp.errors.queryResultErrorCode;
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
+    welcomeMessageController.getByGuildId(bot, message, "ViewWelcomeMessage", message.guild.id, handleWelcomeMessage, () => {
+        return message.channel.send('No Welcome Message Found');
+    });
 
-const errorHandler = require('../../controllers/errorHandler');
-
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
-    db.findByGuildId(message.guild.id)
-    .then(welcomeMessage => message.author.send(welcomeMessage.message))
-    .catch(err => {
-        if(err instanceof QRE && err.code === qrec.noData)
-            message.channel.send("No welcome message found");
-        else errorHandler(bot, message, err, "DB Error", "ViewWelcomeMessage");
-    })
+    async function handleWelcomeMessage(welcomeMessage) {
+        message.author.send(welcomeMessage.message);
+    };
 };
 
 module.exports.config = {

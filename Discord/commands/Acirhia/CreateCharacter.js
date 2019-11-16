@@ -154,7 +154,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
 module.exports.config = {
     name: 'createcharacter',
     d_name: 'CreateCharacter',
-    aliases: ['cc'],
+    aliases: ['createchar'],
     params: { required: true, params: 'Character Name' },
     category: 'Acirhia',
     desc: 'Creates a new Acirhia Character',

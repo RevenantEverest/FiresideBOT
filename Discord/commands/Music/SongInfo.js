@@ -4,7 +4,7 @@ const utils = require('../utils/utils');
 
 const errorHandler = require('../../controllers/errorHandler');
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     args.splice(0, 1);
     
     let search = args;

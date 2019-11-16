@@ -56,7 +56,7 @@ async function setDefaultRankSettings(bot, message, guild_id, updateMessage) {
     .catch(err => errorHandler(bot, message, err, "Error Saving Rank Settings", "Config"));
 };
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(message.author.id !== "163346982709100546") return;
     if(!args[1]) return message.channel.send("Please Specify a Guild ID");
     if(!bot.guilds.array().map(el => el.id).includes(args[1])) return message.channel.send("Invalid Guild ID");

@@ -9,15 +9,19 @@ const QRE = pgp.errors.QueryResultError;
 const qrec = pgp.errors.queryResultErrorCode;
 
 module.exports = async (bot, member) => {
-    currencyController.removeCurrencyRecord(bot, member);
     if(member.user.bot) return;
 
-    let audit = await bot.guilds.get(member.guild.id).fetchAuditLogs();
-    audit = audit.entries.array()[0];
-
     logSettingsDB.findByGuildId(member.guild.id)
-    .then(settings => {
+    .then(async settings => {
         if(!settings.enabled) return;
+        
+        let permissions = new Discord.Permissions(bot.channels.get(settings.channel_id).permissionsFor(bot.user).bitfield);
+        if(!permissions.has("SEND_MESSAGES")) return;
+        if(!permissions.has("VIEW_AUDIT_LOG")) return;
+
+        currencyController.removeCurrencyRecord(bot, member);
+        let audit = await bot.guilds.get(member.guild.id).fetchAuditLogs();
+        audit = audit.entries.array()[0];
 
         let embed = new Discord.RichEmbed();
 

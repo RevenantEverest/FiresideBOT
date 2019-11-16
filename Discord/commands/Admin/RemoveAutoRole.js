@@ -1,25 +1,15 @@
-const db = require('../../models/autoRoleDB');
+const autoRoleController = require('../../controllers/dbControllers/autoRoleController');
 
-const pgp = require('pg-promise')();
-const QRE = pgp.errors.QueryResultError;
-const qrec = pgp.errors.queryResultErrorCode;
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
+    autoRoleController.getByGuildId(bot, message, "RemoveAutoRole", message.guild.id, deleteAutoRole, () => {
+        return message.channel.send("No Auto Role Available");
+    });
 
-const errorHandler = require('../../controllers/errorHandler');
-
-async function removeAutoRole(bot, message, id) {
-    db.delete(id)
-    .then(() => message.channel.send("AutoRole successfully removed"))
-    .catch(err => errorHandler(bot, message, err, "DB Error", "AutoRole"));
-};
-
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
-    db.findByGuildId(message.guild.id)
-    .then(autoRole => removeAutoRole(bot, message, autoRole.id))
-    .catch(err => {
-        if(err instanceof QRE && err.code === qrec.noData)
-            message.channel.send("No Auto Role Available");
-        else errorHandler(bot, message, err, "DB Error", "AutoRole");
-    })
+    async function deleteAutoRole(autoRole) {
+        autoRoleController.delete(bot, message, "RemoveAutoRole", autoRole.id, () => {
+            return message.channel.send("AutoRole removed");
+        });
+    };
 };
 
 module.exports.config = {

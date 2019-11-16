@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     let embed = new Discord.RichEmbed();
     server.queue.options.loop ? server.queue.options.loop = false : server.queue.options.loop = true;
     

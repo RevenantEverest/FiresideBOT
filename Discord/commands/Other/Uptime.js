@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const config = require('../../config/config');
 const utils = require('../utils/utils');
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     let uptimeSeconds = Math.floor(bot.uptime / 1000);
     let uptime = await utils.timeParser(uptimeSeconds, true);
     let embed = new Discord.RichEmbed();

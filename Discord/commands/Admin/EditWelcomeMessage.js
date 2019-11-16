@@ -1,38 +1,24 @@
-const Discord = require('discord.js');
-const db = require('../../models/welcomeMessageDB');
+const welcomeMessageController = require('../../controllers/dbControllers/welcomeMessageController');
 
-const pgp = require('pg-promise')();
-const QRE = pgp.errors.QueryResultError;
-const qrec = pgp.errors.queryResultErrorCode;
-
-const errorHandler = require('../../controllers/errorHandler');
-
-
-async function save(bot, message, welcomeMessage) {
-    db.save({ guild_id: message.guild.id, message: welcomeMessage })
-    .then(() => message.channel.send("Welcome Message updated!"))
-    .catch(err => errorHandler(bot, message, err, "Error Saving Welcome Message", "EditWelcomeMessage"));
-};
-
-async function update(bot, message, oldWelcomeMessage, newWelcomeMessage) {
-    db.update({ id: oldWelcomeMessage.id, guild_id: message.guild.id, message: newWelcomeMessage })
-    .then(() => message.channel.send("Welcome Message updated!"))
-    .catch(err => errorHandler(bot, message, err, "Error Updating Welcome Message", "EditWelcomeMessage"));
-};
-
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(!args[1]) return message.channel.send("Please specify a desired Welcome Message");
     args.splice(0, 1);
-    console.log(args.join(" "))
     let messageLength = args.join(" ").split("").length;
     if(messageLength > 1024) return message.channel.send(`Exceeded character limit by **${message.length - 1024}** characters.`);
-    db.findByGuildId(message.guild.id)
-    .then(welcomeMessage => update(bot, message, welcomeMessage, args.join(" ")))
-    .catch(err => {
-        if(err instanceof QRE && err.code === qrec.noData)
-            save(bot, message, args.join(" "));
-        else errorHandler(bot, message, err, "DB Error", "EditWelcomeMessage");
-    })
+
+    welcomeMessageController.getByGuildId(bot, message, "EditWelcomeMessage", message.guild.id, updateWelcomeMessage, () => {
+        let data = { guild_id: message.guild.id, message: args.join(" ") };
+        welcomeMessageController.save(bot, message, "EditWelcomeMessage", data, () => {
+            return message.channel.send("Welcome Message Updated");
+        });
+    });
+
+    async function updateWelcomeMessage(welcomeMessage) {
+        let data = { id: welcomeMessage.id, guild_id: message.guild.id, message: args.join(" ") };
+        welcomeMessageController.update(bot, message, "EditWelcomeMessage", data, () => {
+            return message.channel.send("Welcome Message Updated");
+        });
+    };
 };
 
 module.exports.config = {

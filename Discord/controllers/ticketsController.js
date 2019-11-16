@@ -49,7 +49,7 @@ module.exports = {
                     this.userResponse(bot, message, message.content.split(args[0]).join(" "), ticket[ticket.map(el => el.id).indexOf(parseInt(args[0].split("#").join(""), 10))]);
                 else message.author.send("Invalid Ticket ID");
             }
-            else this.userResponse(bot, message, message.content, ticket);
+            else this.userResponse(bot, message, message.content, ticket[0]);
         })
         .catch(err => {
             if(err instanceof QRE && err.code === qrec.noData)

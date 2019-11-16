@@ -63,9 +63,12 @@ async function handleMessage(message, msg, bot, contentArr, options, index) {
     embed = await handleEmbed(contentArr, options, index);
 
     reaction.message.edit(options.flavorText, embed);
-    // reaction.remove(reaction.users.array()[reaction.users.array().length - 1].id);
   });
-  r_collector.on('end', e => msg.delete());
+  r_collector.on('end', e => {
+    let permissions = message.channel.type === "DM" ? null : new Discord.Permissions(message.channel.permissionsFor(bot.user).bitfield);
+    if(permissions && !permissions.has("MANAGE_MESSAGES")) return;
+    msg.clearReactions();
+  });
 };
 
 module.exports = async (message, bot, contentArr, options) => {

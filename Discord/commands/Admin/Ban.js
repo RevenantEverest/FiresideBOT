@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const utils = require('../utils/utils');
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(!args[1]) return message.channel.send();
     if(!args[2]) return message.channel.send();
     if(!Number.isInteger(parseInt(args[2], 10))) return message.chennel.send();

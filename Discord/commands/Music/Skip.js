@@ -46,7 +46,7 @@ async function handleVote(bot, message, server, memberData) {
     })
 };
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(server.queue.options.voteToSkip && server.dispatcher) {
         let memberData = {
             count: message.guild.voiceConnection.channel.members.array().filter(el => el.user.bot === false).length,

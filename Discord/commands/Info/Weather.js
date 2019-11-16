@@ -3,7 +3,7 @@ const apiServices = require('../../services/apiServices');
 
 const errorHandler = require('../../controllers/errorHandler');
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(!args[1]) return message.channel.send('Please specify a City name');
 
     apiServices.getWeather(args[1])
@@ -32,7 +32,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
 module.exports.config = {
     name: "weather",
     d_name: "Weather",
-    aliases: ["w"],
+    aliases: [],
     params: { required: true, params: "City Name" },
     category: 'Info',
     desc: "Displays the current weather for the spcified City",

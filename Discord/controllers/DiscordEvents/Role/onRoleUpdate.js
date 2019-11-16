@@ -7,14 +7,18 @@ const QRE = pgp.errors.QueryResultError;
 const qrec = pgp.errors.queryResultErrorCode;
 
 module.exports = async (bot, oldRole, newRole) => {
-    if(oldRole.name === "@everyone" || newRole.name === "@everyone") return;
-    if(oldRole.position !== newRole.position) return;
-    let audit = await bot.guilds.get(newRole.guild.id).fetchAuditLogs();
-    let executor = audit.entries.array()[0].executor;
-
     logSettingsDB.findByGuildId(newRole.guild.id)
-    .then(settings => {
+    .then(async settings => {
         if(!settings.enabled) return;
+
+        let permissions = new Discord.Permissions(bot.channels.get(settings.channel_id).permissionsFor(bot.user).bitfield);
+        if(!permissions.has("SEND_MESSAGES")) return;
+        if(!permissions.has("VIEW_AUDIT_LOG")) return;
+
+        if(oldRole.name === "@everyone" || newRole.name === "@everyone") return;
+        if(oldRole.position !== newRole.position) return;
+        let audit = await bot.guilds.get(newRole.guild.id).fetchAuditLogs();
+        let executor = audit.entries.array()[0].executor;
         
         let infoText = '';
 

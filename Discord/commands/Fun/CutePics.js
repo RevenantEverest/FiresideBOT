@@ -3,7 +3,7 @@ const ksoftServices = require('../../services/ksoftServices');
 
 const errorHandler = require('../../controllers/errorHandler');
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     ksoftServices.randomCutePics()
     .then(cutePic => {
         let embed = new Discord.RichEmbed();

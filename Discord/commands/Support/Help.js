@@ -53,7 +53,7 @@ function helpSpec(PREFIX, message, args, bot, contentArr) {
     message.channel.send(flavorText, embed);
 };
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     let categories = config.categories.filter(el => el.name !== "DEV");
     let contentArr = [
       {

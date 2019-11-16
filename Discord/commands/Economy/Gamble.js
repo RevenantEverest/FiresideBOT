@@ -1,53 +1,45 @@
-const discordCurrencyDB = require('../../models/discordCurrencyDB');
-const currencyDB = require('../../models/currencyDB');
-const pgp = require('pg-promise')();
-const QRE = pgp.errors.QueryResultError;
-const qrec = pgp.errors.queryResultErrorCode;
+const discordCurrencyController = require('../../controllers/dbControllers/discordCurrencyController');
+const currencyController = require('../../controllers/dbControllers/currencyController');
 
-const errorHandler = require('../../controllers/errorHandler');
-
-async function getRecord(bot, message, settings, amountWagered) {
-    discordCurrencyDB.findByDiscordIdAndGuildId({ discord_id: message.author.id, guild_id: message.guild.id })
-    .then(currency => {
-        let RNG = Math.floor(Math.random() * 100);
-        if(currency.currency < amountWagered) return message.channel.send(`You can't gamble what you don't have`);
-
-        if(RNG > 50) updateCurrency(bot, message, currency, settings, amountWagered, RNG, true);
-        else if(RNG <= 50) updateCurrency(bot, message, currency, settings, amountWagered, RNG, false);
-    })
-    .catch(err => errorHandler(bot, message, err, "Error Finding Currency Record", "Gamble"));
-}
-
-async function updateCurrency(bot, message, currency, settings, amountWagered, RNG, winner) {
-    let newAmount = 0;
-    if(winner) newAmount = parseInt(currency.currency, 10) + (amountWagered * 2);
-    if(!winner) newAmount = currency.currency - amountWagered;
-
-    discordCurrencyDB.update({ currency: newAmount, discord_id: message.author.id, guild_id: message.guild.id })
-    .then(() => {
-        if(winner)
-            message.channel.send(
-                `**${message.author.username}** rolled a **${RNG}** and won **${(amountWagered * 2).toLocaleString()}** ` + 
-                `**${settings.currency_name}** and now has **${newAmount.toLocaleString()} ${settings.currency_name}**`
-            );
-        else if(!winner)
-            message.channel.send(
-                `**${message.author.username}** rolled a **${RNG}** and lost **${amountWagered.toLocaleString()}** ` + 
-                `**${settings.currency_name}** and now has **${newAmount.toLocaleString()} ${settings.currency_name}**`
-            );
-    })
-    .catch(err => errorHandler(bot, message, err, "Error Updating Currency Record", "Gamble"));
-};
-
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(!args[1]) return message.channel.send('Please specify an amount to wager');
     if(!Number.isInteger(parseInt(args[1], 10))) return message.channel.send('Please specify an integer value to wager');
 
     let amountWagered = parseInt(args[1], 10);
+    let cSettings = null;
 
-    currencyDB.findCurrencySettings(message.guild.id)
-    .then(settings => getRecord(bot, message, settings, amountWagered))
-    .catch(err => errorHandler(bot, message, err, "Error Finding Currency Settings", "Gamble"));
+    currencyController.getCurrencySettings(bot, message, "Gamble", message.guild.id, handleRecord, () => {
+        let data = { guild_id: message.author.id, currency_name: "Kindling", currency_increase_rate: 10 };
+        currencyController.saveDefaultSettings(bot, message, "Gamble", data, handleRecord);
+    });
+
+    async function handleRecord(settings) {
+        cSettings = settings;
+        let data = { discord_id: message.author.id, guild_id: message.guild.id };
+        discordCurrencyController.getByDiscordIdAndGuildId(bot, message, "Gamble", data, updateRecord, handleNoRecord);
+    };
+
+    async function updateRecord(record) {
+        if(record.currency < amountWagered) return message.channel.send(`You can't gamble what you don't have`);
+        
+        let RNG = Math.floor(Math.random() * 100);
+        let newAmount = 0;
+        
+        RNG > 50 ? newAmount = parseInt(record.currency, 10) + (amountWagered * 2) : newAmount = record.currency - amountWagered;
+
+        let data = { currency: newAmount, discord_id: message.author.id, guild_id: message.guild.id };
+        discordCurrencyController.update(bot, message, "Gamble", data, () => {
+            return message.channel.send(
+                `**${message.author.username}** rolled a **${RNG}** and ${RNG > 50 ? "won" : "lost"} **${(amountWagered * 2).toLocaleString()}** ` + 
+                `**${cSettings.currency_name}** and now has **${newAmount.toLocaleString()} ${cSettings.currency_name}**`
+            );
+        });
+    };
+
+    async function handleNoRecord() {
+        let data = { discord_id: message.author.id, guild_id: message.guild.id, currency: 0 }
+        discordCurrencyController.save(bot, message, "Balance", data, updateRecord);
+    };
 };
 
 module.exports.config = {

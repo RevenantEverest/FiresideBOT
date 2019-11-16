@@ -3,7 +3,7 @@ const apiServices = require('../../services/apiServices');
 
 const errorHandler = require('../../controllers/errorHandler');
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     apiServices.getDadJoke()
     .then(joke => {
         if(args.includes("-i")) {

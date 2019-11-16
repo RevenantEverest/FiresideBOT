@@ -126,7 +126,7 @@ async function handleSeasonal(args, platform, embed, message) {
     .catch(err => errorHandler(bot, message, err, "API Error", "RainbowSix"));
 };
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(!args[1]) return message.channel.send("Please Specify a Username / Platform and appropriate flag");
 
     let embed = new Discord.RichEmbed();

@@ -1,4 +1,4 @@
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     message.channel.send("https://discordbots.org/bot/441338104545017878/vote");
 };
 

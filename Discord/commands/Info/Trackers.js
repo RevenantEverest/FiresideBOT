@@ -7,7 +7,7 @@ const qrec = pgp.errors.queryResultErrorCode;
 
 const errorHandler = require('../../controllers/errorHandler');
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     let embed = new Discord.RichEmbed();
     embed.setColor(0xff9999).setTitle("Available Trackers")
     twitchTrackerDB.findByGuildId(message.guild.id)

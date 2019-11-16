@@ -3,7 +3,7 @@ const gameStatServices = require('../../services/gameStatServices');
 
 const errorHandler = require('../../controllers/errorHandler');
 
-module.exports.run = async (PREFIX, message, args, server, bot, options) => {
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(!args[1]) return message.channel.send('Please specify a BattleTag, Platform, and Region');
     
     let platformIndex, regionIndex = 0;
