@@ -107,7 +107,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
         .addField("End Date:", moment(record.end_date).format("MMMM Do YYYY"), true)
         .setFooter(`Revoked By: ${message.author.username}`, message.author.avatarURL)
 
-        bot.channels.get("624360349700980745").send(embed);
+        bot.channels.get("543862697742172179").send(embed);
     };
 };
 
