@@ -1,0 +1,21 @@
+#ControlPanelDocs {
+  position: relative;
+  display: inline-block;
+  height: 99%;
+  width: 100%;
+  background-color: #1a1a1a;
+}
+
+.ControlPanelDocs-Contents {
+  display: inline-block;
+  height: auto;
+  background-color: inherit;
+}
+
+.ControlPanelDocs-Header {
+  font-size: 50px;
+}
+
+.ControlPanelDocs-SubHeader {
+  margin-bottom: 10%;
+}

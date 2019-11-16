@@ -1,0 +1,14 @@
+#ServerInfo { margin-bottom: 10%; }
+.ServerInfo-Header { display: inline; font-size: 30px; }
+.ServerInfo-Header:hover { color: orange; }
+.ServerInfo-SubHeader {
+  display: inline;
+  font-weight: 400;
+  font-size: 18px;
+}
+
+.ServerInfo-Desc > a { color: orange; }
+.ServerInfo-Desc > a:hover { text-decoration: underline; }
+
+.ServerInfo-SubHeader-Param {font-size: 14px;}
+#ServerInfo-Image { border-radius: 16px; }

@@ -8,8 +8,10 @@ module.exports = {
         "Yes",
         "No",
         "Maybe",
+        "Fuck You",
         "If you believe hard enough",
         "Try asking again",
+        "Kill Yourself",
         "Sure",
         "Fair Enough",
         "Please stop",
@@ -24,7 +26,7 @@ module.exports = {
     },
     async filter(str, options) {
         let re = null;
-        if(options.special) re =  /(?:https?:\/\/(?:www\.)?(?:youtu\.be|youtube\.com)\/(?:watch\?v=)?([^ ]*))|([a-z0-9 _-]*)/i;
+        if(options.special) re =  /(?:https?:\/\/(?:www\.)?(?:youtu\.be|youtube\.com)\/(?:watch\?v=)?([^ ]*))|([a-z0-9 ]*)/i;
         else re =  /(?:https?:\/\/(?:www\.)?(?:youtu\.be|youtube\.com)\/(?:watch\?v=)?([^ ]*))/i;
         let ret = re.exec(str);
         if(!ret) return str;
@@ -108,13 +110,10 @@ module.exports = {
         return arr;
     },
     async youtubeSearch(message, args, server, songRequest, options, callback) {
-        let link = options.isLink ? `https://www.youtube.com/watch?v=${songRequest}` : '';
-        if(options.isLink) return this.YTDL_GetInfo(message, args, server, link, options, callback);
-        
         youtubeServices.youtubeSearch(songRequest)
         .then(results => {
             if(results.data.items.length < 1) return message.channel.send("No results found");
-            link = `https://www.youtube.com/watch?v=${results.data.items[0].id.videoId}`;
+            let link = `https://www.youtube.com/watch?v=${results.data.items[0].id.videoId}`;
             this.YTDL_GetInfo(message, args, server, link, options, callback);
         })
         .catch(err => errorHandler(Discord_Bot, message, err, "YouTube Search Error", "Utils"));

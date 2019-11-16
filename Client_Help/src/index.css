@@ -1,13 +1,28 @@
-body {
+@import url('https://fonts.googleapis.com/css?family=Raleway'); /* Raleway Font Import */
+@import url('https://fonts.googleapis.com/css?family=Roboto'); /* Roboto Font Import */
+
+body, html {
   margin: 0;
+  padding: 0;
+  max-height: 100%;
+  height: 100%;
+  max-width: 100%;
+  width: 100%;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: #0d0d0d;
+  color: #cccccc;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+a{
+  text-decoration: none;
+  color: inherit;
+}
+
+a:visited, a:hover, a:focus, a:active {
+  text-decoration: none;
+  color: inherit;
 }

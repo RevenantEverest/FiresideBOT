@@ -1,0 +1,10 @@
+.RankDocs-Header { font-size: 30px; }
+.RankDocs-Header:hover { color: orange; }
+.RankDocs-SubHeader { font-size: 14px; }
+.RankDocs-Desc { margin-top: 6%; }
+
+.RankDocs-Images {
+  border-radius: 16px;
+  border: solid #cccccc;
+  margin-top: 1%;
+}

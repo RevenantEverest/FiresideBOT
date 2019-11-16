@@ -1,0 +1,18 @@
+.PersonalPlaylistDocs-Header { font-size: 30px; }
+.PersonalPlaylistDocs-Header:hover { color: orange; }
+.PersonalPlaylistDocs-SubHeader { font-size: 14px; display: inline; margin-bottom: 6%; }
+.PersonalPlaylistDocs-SubHeader-AutoDJLink { text-decoration: underline; }
+.PersonalPlaylistDocs-SubHeader-AutoDJLink:hover {color: orange; display: inline; }
+.PersonalPlaylistDocs-Desc { margin-top: 6%; display: inline-block; }
+
+.PersonalPlaylistDocs-Desc-GuildPlaylists-Link { margin-left: .5%; text-decoration: underline; }
+.PersonalPlaylistDocs-Desc-GuildPlaylists-Link:hover { color: orange; }
+
+.PersonalPlaylistDocs-Images {
+  border-radius: 16px;
+  border: solid #cccccc;
+  margin-top: 1%;
+}
+#PersonalPlaylist-ImageA { width: 60%; }
+#PersonalPlaylist-ImageB { width: 80%; }
+#PersonalPlaylist-ImageC { width: 80%; margin-bottom: 10%; }

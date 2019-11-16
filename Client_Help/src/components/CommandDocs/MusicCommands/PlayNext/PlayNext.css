@@ -1,0 +1,11 @@
+#PlayNext { margin-bottom: 10%; }
+.PlayNext-Header { display: inline; font-size: 30px; }
+.PlayNext-Header:hover { color: orange; }
+.PlayNext-SubHeader {
+  display: inline;
+  font-weight: 400;
+  font-size: 18px;
+}
+
+.PlayNext-SubHeader-Param {font-size: 14px;}
+#PlayNext-Image { border-radius: 16px; }

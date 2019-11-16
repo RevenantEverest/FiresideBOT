@@ -1,0 +1,11 @@
+#SongInfo { margin-bottom: 10%; }
+.SongInfo-Header { display: inline; font-size: 30px; }
+.SongInfo-Header:hover { color: orange; }
+.SongInfo-SubHeader {
+  display: inline;
+  font-weight: 400;
+  font-size: 18px;
+}
+
+.SongInfo-SubHeader-Param {font-size: 14px;}
+#SongInfo-Image { border-radius: 16px; }

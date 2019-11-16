@@ -1,0 +1,11 @@
+#Balance { margin-bottom: 10%; }
+.Balance-Header { display: inline; font-size: 30px; }
+.Balance-Header:hover { color: orange; }
+.Balance-SubHeader {
+  display: inline;
+  font-weight: 400;
+  font-size: 18px;
+}
+
+.Balance-SubHeader-Param {font-size: 14px;}
+#Balance-Image { border-radius: 16px; }

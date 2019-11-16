@@ -10,7 +10,7 @@ const volume = require('../Music/Volume');
 
 const services = {};
 
-async function getGenre(bot, message, server) {
+async function getGenre(server) {
   let filterArr = ['official', 'music', 'video', 'lyric', 'lyrics', 'audio', 'monstercat', 'release', 'version', 'HD'];
   let search = await utils.filter(server.queue.currentSongInfo.title, filterArr, { special: true });
   lastfmServices.getTrack({ track: search })
@@ -59,7 +59,7 @@ services.playSong = async (bot, connection, message, server) => {
 
   server.queue.queueInfo.shift();
 
-  getGenre(bot, message, server);
+  getGenre(server);
 
   server.dispatcher.on("end", () => {
     if(server.queue.queueInfo[0] && message.guild.voiceConnection) 

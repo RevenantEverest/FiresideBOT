@@ -6,7 +6,7 @@ const utils = require('../commands/utils/utils');
 
 const logger = require('../services/loggerServices');
 
-async function handleEmbed(bot, title, dateMessage, color, guild) {
+async function handleEmbed(title, dateMessage, color, guild) {
     let date = await utils.getDate();
     let embed = new Discord.RichEmbed();
 
@@ -65,13 +65,13 @@ module.exports = {
                 defaultSettingsController.guildSettingsCheck(guild);
                 defaultSettingsController.currencySettingsCheck(guild);
                 defaultSettingsController.rankSettingsCheck(guild);
-                handleEmbed(bot, 'New Guild', 'Guild added', 0x00ff00, guild);
+                handleEmbed('New Guild', 'Guild added', 0x00ff00, guild);
             })
             .catch(err => console.error(err));
     },
     async removeGuild(bot, guild) {
         guildsDB.destroy(guild.id)
-        .then(() => handleEmbed(bot, 'Guild Removed', 'Guild removed', 0xff0000, guild))
+        .then(() => handleEmbed('Guild Removed', 'Guild removed', 0xff0000, guild))
         .catch(err => console.error(err));
     }
 }

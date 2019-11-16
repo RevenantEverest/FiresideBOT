@@ -1,0 +1,11 @@
+#NP { margin-bottom: 10%; }
+.NP-Header { display: inline; font-size: 30px; }
+.NP-Header:hover { color: orange; }
+.NP-SubHeader {
+  display: inline;
+  font-weight: 400;
+  font-size: 18px;
+}
+
+.NP-SubHeader-Param {font-size: 14px;}
+#NP-Image { border-radius: 16px; }
