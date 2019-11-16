@@ -32,7 +32,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
 module.exports.config = {
     name: "weather",
     d_name: "Weather",
-    aliases: ["w"],
+    aliases: [],
     params: { required: true, params: "City Name" },
     category: 'Info',
     desc: "Displays the current weather for the spcified City",

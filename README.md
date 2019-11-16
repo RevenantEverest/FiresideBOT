@@ -452,7 +452,7 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 
 - [Weather](https://help.firesidebot.com/commands/weather) `<param>`  
 **Desc**: Displays the current weather for the spcified City  
-**Aliases**: `w`   
+**Aliases**:   
 **Params**: City Name  
 **Example**: `?weather New York`  
 
