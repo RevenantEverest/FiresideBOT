@@ -15,7 +15,7 @@ bot.on("ready", async () => {
     let embed = new Discord.RichEmbed();
     embed.setColor(0xff9900).setTitle("API Ready").setFooter(await utils.getDate());
 
-    bot.channels.get("543862697742172179").send(embed);
+    if(process.env.ENVIRONMENT !== "DEV") bot.channels.get("543862697742172179").send(embed);
 });
 
 bot.on("error", async () => {
