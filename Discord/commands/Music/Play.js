@@ -7,6 +7,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     if(!message.member.voiceChannel) return message.channel.send("You must be in a voice channel");
     if(options.updatePending) return message.channel.send("An Update is currently pending, features will resume upon Update")
 
+    let isLink = false;
     let request = '';
     const requestFilter = ['http://', 'https://', '\.com', 'watch\?v=', 'watch\?V=', 'youtube', 'www\.youtube', 'youtu\.be', '/'];
     args.splice(0, 1);
