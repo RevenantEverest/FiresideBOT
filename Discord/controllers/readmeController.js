@@ -58,6 +58,8 @@ module.exports = {
         `- Create up to 20 ranks for server members to level up with, and have full control of the EXP they get and how hard it is to level up  \n\n` +
         `#### Welcome Message:  \n` + 
         `- Add a welcome message to your server that gets sent as a DM to every new member  \n\n` +
+        `#### Custom Commands:  \n` + 
+        `- Create custom commands that return any desired output!  \n\n` +
         `#### Server Logging:  \n` + 
         `- Log all the happenings in the server, to member updates, role creation/changes and more!  \n\n` +
         `---  \n\n` +

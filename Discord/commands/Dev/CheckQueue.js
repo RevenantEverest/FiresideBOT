@@ -30,7 +30,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     embed
     .addField("In Progress:", (queuesInProgress ? queuesInProgress : "0"), true)
     .addField("Overall Length: ", (queueLengthInSeconds ? queueLengthInSeconds : "0"), true)
-    .addField("Songs In Queue:", (queuesInProgress > 1 ? (queueSongAmount + queuesInProgress) : "0"))
+    .addField("Songs In Queue:", (queuesInProgress > 0 ? (queueSongAmount + queuesInProgress) : "0"), true)
 
     message.channel.send(embed);
 };

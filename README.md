@@ -1,7 +1,7 @@
 # FiresideBOT  
 A Music, Economy, & Admin Discord Bot written in Node.js  
 
-###### Current Version: v1.6.0  
+###### Current Version: v1.8.0  
 [HelpDocs](help.firesidebot.com) || [Invite](https://discordapp.com/oauth2/authorize?client_id=441338104545017878&response_type=code&permissions=8&scope=bot) || [Online Control Panel](https://firesidebot.com)  
 
 ---  
@@ -30,6 +30,9 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 
 #### Welcome Message:  
 - Add a welcome message to your server that gets sent as a DM to every new member  
+
+#### Custom Commands:  
+- Create custom commands that return any desired output!  
 
 #### Server Logging:  
 - Log all the happenings in the server, to member updates, role creation/changes and more!  
@@ -592,8 +595,8 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Example**: `?uptime`  
 
 - [Vote](https://help.firesidebot.com/commands/vote)   
-**Desc**: Displays link to Vote for Fireside on DBL  
-**Aliases**:   
+**Desc**: Displays link to Vote for Fireside on DBL, and how many votes you have stored  
+**Aliases**: `votes`   
 **Example**: `?vote`  
 
   
