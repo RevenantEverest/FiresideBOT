@@ -9,8 +9,8 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     
     embed.setTitle('Queues In Progress').addBlankField()
 
-    let queuesInProgress = config.servers.filter(el => el.queue.isPlaying).length || '';
-    let queueLengthInSeconds = 0;
+    let queuesInProgress = config.servers.filter(el => el.queue.isPlaying).length || null;
+    let queueLengthInSeconds = null;
     let queueSongAmount = 0;
     if(queuesInProgress >= 1) {
         [].concat.apply([], config.servers.map(el => el.queue.queueInfo)).map(el => el.duration).forEach(el => {

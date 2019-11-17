@@ -2,9 +2,15 @@ const guildSettingsController = require('../../controllers/dbControllers/guildSe
 
 module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(!message.member.voiceChannel) return message.channel.send('Please join a voice channel');
-    if(args[0] === "PlaySong") return handleQueueVolume(bot, message, server);
 
-    if(!args[1]) return message.channel.send(`Current Volume: **${server.queue.options.volume}**`);
+    if(!args[1]) {
+        if(!server.queue.options.volume)
+            return guildSettingsController.getByGuildId(bot, message, "Volume", message.guild.id, (settings) => {
+                server.queue.options.volume = settings.volume;
+                return message.channel.send(`Current Volume: **${settings.volume}**`);
+            }, saveDefaultSettings);
+        else return message.channel.send(`Current Volume: **${server.queue.options.volume}**`);
+    }
     if(!Number.isInteger(parseInt(args[1], 10))) return message.channel.send("Invalid integer value.");
     if(parseInt(args[1], 10) > 100 || parseInt(args[1], 10) <= 0) return message.channel.send("Please select a volume between 1 and 100.");
 
@@ -13,10 +19,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
 
     if(server.dispatcher) server.dispatcher.setVolume(server.queue.options.volume / 100);
 
-    guildSettingsController.getByGuildId(bot, message, "Volume", message.guild.id, updateVolume, () => {
-        let data = { guild_id: message.guild.id, prefix: "?", volume: 50 };
-        guildSettingsController.save(bot, message, "EditPrefix", data, updateSettings);
-    });
+    guildSettingsController.getByGuildId(bot, message, "Volume", message.guild.id, updateVolume, saveDefaultSettings);
 
     async function updateVolume(settings) {
         let data = { guild_id: message.guild.id, prefix: settings.prefix, volume: volume };
@@ -25,8 +28,9 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
         });
     };
 
-    async function handleQueueVolume() {
-        guildSettingsController.getByGuildId(bot, message, "Volume")
+    async function saveDefaultSettings() {
+        let data = { guild_id: message.guild.id, prefix: "?", volume: 50 };
+        guildSettingsController.save(bot, message, "EditPrefix", data, updateSettings);
     };
 };
 
