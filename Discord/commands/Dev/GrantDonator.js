@@ -5,6 +5,8 @@ const guildPremiumController = require('../../controllers/dbControllers/guildPre
 const userPremiumController = require('../../controllers/dbControllers/userPremiumRecordsController');
 
 module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
+    if(message.author.id !== "163346982709100546") return;
+    
     if(!args[1]) return message.channel.send("Please provide a flag, discord/guild ID, and a desired premium length");
     if(!args[2]) return message.channel.send("Please provide a discord or guild ID");
 
