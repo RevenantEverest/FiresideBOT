@@ -32,10 +32,26 @@ a:visited, a:hover, a:focus, a:active {
   color: inherit;
 }
 
+p {
+  font-size: 16px;
+}
+
+.display-inline { display: inline; }
+
 .Button {
   background: #A42700 !important;
   font-weight: 600;
   transition: .3s linear;
+}
+
+.DiscordButton {
+  background: #4a67cf !important;
+  font-weight: 600;
+  transition: .3s linear;
+}
+
+.ScreenFill {
+  height: 70.7vh;
 }
 
 .cascading-admin-card .admin-up {

@@ -12,12 +12,16 @@ import {
     faTrashAlt, faNewspaper, faBullhorn, faCompactDisc, faClock, 
     faHeadphonesAlt, faArrowAltCircleRight, faTimes, faCrosshairs, faEdit, 
     faLink, faMugHot, faPaperPlane, faDatabase, faHeart, 
-    faMapMarkerAlt, faPlayCircle, faPalette, faPhotoVideo, faBars, faMoneyBillAlt, faUsers, faArrowUp, faArrowDown, faFolderOpen, faSearch
+    faMapMarkerAlt, faPlayCircle, faPalette, faPhotoVideo, faBars, 
+    faMoneyBillAlt, faUsers, faArrowUp, faArrowDown, faFolderOpen, 
+    faSearch, faGem, faQuestionCircle, faShieldAlt, faRecordVinyl
 } from '@fortawesome/free-solid-svg-icons';
 
 import NavBar from './components/NavBar/NavBar';
 import HomePage from './components/HomePage/HomePage';
+import GettingStarted from './components/GettingStarted/GettingStarted';
 import Commands from './components/Commands/Commands';
+import Premium from './components/Premium/Premium';
 import SingleCommand from './components/SingleCommand/SingleCommand';
 import Footer from './components/Footer/Footer';
 
@@ -34,7 +38,7 @@ library.add(
     faLink, faMugHot, faPaperPlane, faDatabase, faHeart,
     faMapMarkerAlt, faPlayCircle, faPalette, faPhotoVideo, faBars,
     faMoneyBillAlt, faUsers, faArrowUp, faArrowDown, faFolderOpen,
-    faSearch
+    faSearch, faGem, faQuestionCircle, faShieldAlt, faRecordVinyl
 );
 
 class App extends Component {
@@ -62,6 +66,14 @@ class App extends Component {
         .catch(err => console.error(err));
     }
 
+    routeCommands() {
+        let Commands = this.state.commands.map((el, idx) => {
+            return <Route key={idx} exact path={`/commands/${el.name}`} component={() => (<SingleCommand command={el} />)}/>
+        });
+
+        return Commands;
+    };
+
     render() {
         return(
             <div id="App">
@@ -70,7 +82,9 @@ class App extends Component {
                     <NavBar />
                     <Route exact path="/" component={HomePage} />
                     {this.state.dataReceived ? <Route exact path="/commands" component={() => (<Commands commands={this.state.commands} />)} /> : ''}
-                    <Route path="/commands/:command" component={SingleCommand} />
+                    {this.state.dataReceived ? <Route exact path="/gettingstarted" component={GettingStarted} /> : ''}
+                    <Route exact path="/premium" component={Premium} />
+                    {this.state.dataReceived ? this.routeCommands() : ''}
                     <Footer />
                 </div>
             </Router>

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './CommandInfo.css';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Container, Row, Col } from 'react-bootstrap';
@@ -18,7 +19,7 @@ class CommandInfo extends Component {
             <div id="CommandInfo">
                 <Container>
                 <Row>
-                    <Col md={6} className="WeeklyWrapUp-Col">
+                    <Col md={6} className="CommandInfo-Col">
                         <MDBCard style={{ background: "#1a1a1a", color: "inherit", paddingBottom: "5%" }} className="cascading-admin-card">
                         <div className="admin-up">
                         <FontAwesomeIcon icon="magic" className="FontAwesomeIcon orange" />
@@ -31,7 +32,7 @@ class CommandInfo extends Component {
                         </div>
                         </MDBCard>
                     </Col>
-                    <Col md={6} className="WeeklyWrapUp-Col">
+                    <Col md={6} className="CommandInfo-Col">
                         <MDBCard style={{ background: "#1a1a1a", color: "inherit", paddingBottom: "5%" }} className="cascading-admin-card">
                         <div className="admin-up">
                         <FontAwesomeIcon icon="folder-open" className="FontAwesomeIcon cyan" />
@@ -44,19 +45,6 @@ class CommandInfo extends Component {
                         </div>
                         </MDBCard>
                     </Col>
-                    {/* <Col md={4} className="WeeklyWrapUp-Col">
-                        <MDBCard style={{ background: "#1a1a1a", color: "inherit", paddingBottom: "5%" }} className="cascading-admin-card">
-                        <div className="admin-up">
-                        <FontAwesomeIcon icon="magic" className="FontAwesomeIcon yellow" />
-                            <div className="data">
-                            <p>CATEGORIES</p>
-                            <h4>
-                                <strong>{categories.length}</strong>
-                            </h4>
-                            </div>
-                        </div>
-                        </MDBCard>
-                    </Col> */}
                 </Row>
                 </Container>
             </div>

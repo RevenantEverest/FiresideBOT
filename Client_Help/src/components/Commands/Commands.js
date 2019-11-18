@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 import './Commands.css';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Link as ScrollLink, Element } from 'react-scroll';
 import { Container, Row, Col } from 'react-bootstrap';
-import { MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBBadge, MDBFormInline } from 'mdbreact';
+import { MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBBadge, MDBFormInline, MDBBtn } from 'mdbreact';
 
-import CommandsSideNav from '../CommandsSideNav/CommandsSideNav';
 import CommandInfo from '../CommandInfo/CommandInfo';
 import Skin from '../../res/Skin';
 
@@ -18,7 +18,17 @@ class Command extends Component {
             search: ''
         };
         this.handleChange = this.handleChange.bind(this);
+        this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
     }
+
+    componentDidMount() {
+        this.updateWindowDimensions();
+        window.addEventListener('resize', this.updateWindowDimensions);
+    }
+
+    componentWillUnmount = () => window.removeEventListener('resize', this.updateWindowDimensions);
+
+    updateWindowDimensions = () => this.setState({ width: window.innerWidth, height: window.innerHeight }, () => console.log(this.state.width));
 
     handleChange(e) {
         let name = e.target.name;
@@ -26,13 +36,13 @@ class Command extends Component {
         this.setState({ [name]: value });
     }
 
-    renderCommands() {
-        let commands = this.props.commands.filter(el => { return el.name.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1; });
+    renderCommands(commands) {
         let categories = commands.map(el => el.category);
         categories = categories.filter((el, idx) => categories.indexOf(el) === idx);
         let Commands = categories.map((el, idx) => {
             return(
-                <Row key={idx} style={{ marginBottom: "5%" }} className="justify-content-sm-center">
+                <Element id={`${el}`} key={idx}>
+                <Row style={{ marginBottom: "5%" }} className="justify-content-sm-center">
                 <Col>
                     <div style={{ marginBottom: "2%" }}>
                         <h1 className="h1">{el}</h1>
@@ -46,13 +56,13 @@ class Command extends Component {
                             return(
                                 <Row key={idxx}style={{ marginBottom: "2%" }} className="justify-content-sm-center">
                                 <Col>
-                                    <MDBCard style={{ width: "22rem", borderLeft: `solid thick ${Skin.hex}` }}>
+                                    <MDBCard 
+                                    style={{ borderLeft: `solid thick ${Skin.hex}` }} 
+                                    className={`${this.state.width < 800 ? "w-auto" : "w-50"}`}
+                                    >
                                         <MDBCardBody style={{ background: "#1a1a1a" }}>
                                         <MDBCardTitle>
-                                        <Link className="CommandLink" to={{
-                                            pathname: `/commands/${command.name}`,
-                                            state: { commandData: command }
-                                        }}>
+                                        <Link className="CommandLink" to={`/commands/${command.name}`}>
                                             {command.d_name} 
                                             {command.params ? <MDBBadge color="dark">{(command.params.required ? '<param>' : '[param]')}</MDBBadge> : ''}
                                         </Link>
@@ -85,6 +95,7 @@ class Command extends Component {
                     }
                 </Col>
                 </Row>
+                </Element>
             );
         })
 
@@ -95,19 +106,29 @@ class Command extends Component {
         );
     }
 
-    renderCommandInfo() {
-        let commands = this.props.commands.filter(el => { return el.name.indexOf(this.state.search) !== -1; });
-        return <CommandInfo commands={commands} />;
+    renderCommandCategories(commands) {
+        let categories = commands.map(el => el.category);
+        categories = categories.filter((el, idx) => categories.indexOf(el) === idx);
+        let Categories = categories.map((el, idx) => {
+            return(
+                <Col key={idx} md={2} xs={6}>
+                    <ScrollLink activeClass="active" className="test6" to={`${el}`} spy={true} smooth={true} duration={800}>
+                        <MDBBtn color={Skin.MDBColor} className="Button w-100" >
+                            {el}
+                        </MDBBtn>
+                    </ScrollLink>
+                </Col>
+            );
+        });
+        return Categories;
     }
 
     render() {
+        let commands = this.props.commands.filter(el => { return el.name.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1; });
         return(
-            <div className="Command">
+            <div className={`Command ${commands.length < 1 ? "ScreenFill" : ""}`}>
             <Container fluid>
             <Row style={{ marginBottom: "5%" }}>
-                <Col md={2} style={{ position: "fixed" }}>
-                    <CommandsSideNav commands={this.props.commands} />
-                </Col>
                 <Col>
                     <Container>
                     <Row style={{ marginBottom: "2%" }}>
@@ -128,10 +149,13 @@ class Command extends Component {
                     </Row>
                     <Row style={{ marginBottom: "5%" }}>
                         <Col>
-                        {this.renderCommandInfo()}
+                            <CommandInfo commands={commands} />
                         </Col>
                     </Row>
-                        {this.renderCommands()}
+                    <Row style={{ marginBottom: "5%" }}>
+                        {this.renderCommandCategories(commands)}
+                    </Row>
+                        {this.renderCommands(commands)}
                     </Container>
                 </Col>
             </Row>

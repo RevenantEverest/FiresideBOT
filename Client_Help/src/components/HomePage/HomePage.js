@@ -17,40 +17,88 @@ import Skin from '../../res/Skin';
 
 class HomePage extends Component {
 
+    _inviteLink = `https://discordapp.com/oauth2/authorize?client_id=441338104545017878&permissions=8&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2F&scope=bot`;
+
     render() {
         return(
             <div id="HomePage">
                 <Container fluid>
-                <Row>
-                    <Col>
-                    <MDBJumbotron style={{ padding: 0 }} fluid style={{ background: "inherit" }}>
+                <Row style={{ marginBottom: "5%" }} className="justify-content-md-center">
+                    <Col style={{ paddingLeft: "0", paddingRight: "0" }}>
+                    <MDBJumbotron style={{ padding: "0", background: "inherit" }} fluid>
                         <MDBCol className="text-white text-center" style={{ backgroundImage: `url(https://i.imgur.com/r7kBhso.jpg)` }}>
                         <MDBCol className="py-5">
-                            <MDBCardTitle className="h1-responsive pt-3 m-5 font-bold">FiresideBOT Help Docs</MDBCardTitle>
-                            <p className="mx-5 mb-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat fugiat, laboriosam, voluptatem,
-                            optio vero odio nam sit officia accusamus minus error nisi architecto nulla ipsum dignissimos. Odit sed qui, dolorum!
-                            </p>
-                            <Link to="/commands">
-                            <MDBBtn color={Skin.MDBColor} className="mb-5 Button">View Commands</MDBBtn>
-                            </Link>
+                            <img src="https://i.imgur.com/78hVFuT.png" alt="" className="HomePage-Logo" />
+                            <MDBCardText tag="div">
+                                <Link to="/gettingstarted">
+                                <MDBBtn color={Skin.MDBColor} className="mb-5 Button HomePage-Button">Getting Started</MDBBtn>
+                                </Link>
+                                <a target="_blank" rel="noopener noreferrer" href={this._inviteLink}>
+                                <MDBBtn color={Skin.MDBColor} tag="div" className="mb-5 DiscordButton HomePage-Button">
+                                Add To Discord
+                                </MDBBtn>
+                                </a>
+                            </MDBCardText>
                         </MDBCol>
                         </MDBCol>
                     </MDBJumbotron>
                     </Col>
                 </Row>
-                <Row>
-                    <Col>
-                        <MDBCard style={{ width: "22rem" }}>
-                            <MDBCardBody style={{ background: "#1a1a1a" }}>
+                <Row style={{ marginBottom: "5%" }}>
+                    <Container>
+                    <Row className="justify-content-xs-center justify-content-sm-center">
+                        <Col lg={4} md={3} sm={8} xs={12} style={{ marginBottom: "5%" }}>
+                        <MDBCard className="text-center w-auto">
+                            <MDBCardBody style={{ background: "#1a1a1a", height: "200px" }}>
                             <MDBCardTitle>
                             <FontAwesomeIcon className="h1" icon="magic" />
                             </MDBCardTitle>
-                            <MDBCardText tag="div" className="h5">
+                            <MDBCardText tag="div" className="h5" style={{ height: "50px", color: "#cccccc" }}>
+                                Learn about all of Fireside's commands.
                             </MDBCardText>
-                            <MDBBtn color={Skin.MDBColor} className="Button" href="#">Learn More</MDBBtn>
+                            <Link to="/commands">
+                            <MDBBtn color={Skin.MDBColor} tag="div" className="Button">View All Commands</MDBBtn>
+                            </Link>
                             </MDBCardBody>
                         </MDBCard>
-                    </Col>
+                        </Col>
+
+                        <Col lg={4} md={3} sm={8} xs={12} style={{ marginBottom: "5%" }}>
+                        <MDBCard className="text-center w-auto">
+                            <MDBCardBody style={{ background: "#1a1a1a", height: "200px" }}>
+                            <MDBCardTitle>
+                            <FontAwesomeIcon className="h1" icon="gem" />
+                            </MDBCardTitle>
+                            <MDBCardText tag="div" className="h5" style={{ height: "50px", color: "#cccccc" }}>
+                                Learn about what Fireside Premium has to offer!
+                            </MDBCardText>
+                            <Link to="/premium">
+                            <MDBBtn color={Skin.MDBColor} ta="div" className="Button">Learn More</MDBBtn>
+                            </Link>
+                            </MDBCardBody>
+                        </MDBCard>
+                        </Col>
+
+                        <Col lg={4} md={3} sm={8} xs={12} style={{ marginBottom: "5%" }}>
+                        <MDBCard className="text-center w-auto">
+                            <MDBCardBody style={{ background: "#1a1a1a", height: "200px" }}>
+                            <MDBCardTitle>
+                            <FontAwesomeIcon className="h1" icon="question-circle" />
+                            </MDBCardTitle>
+                            <MDBCardText tag="div" className="h5" style={{ height: "50px", color: "#cccccc" }}>
+                                Need more help than what's provided here? Join our support server!
+                                
+                            </MDBCardText>
+                            <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/TqKHVUa">
+                            <MDBBtn color={Skin.MDBColor} className="Button">
+                            Join Support Server
+                            </MDBBtn>
+                            </a>
+                            </MDBCardBody>
+                        </MDBCard>
+                        </Col>
+                    </Row>
+                    </Container>
                 </Row>
                 </Container>
             </div>

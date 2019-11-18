@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './SingleCommand.css';
 
-import { Link } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 import { MDBCard, MDBCardBody, MDBCardText, MDBCardTitle, MDBBadge } from 'mdbreact';
 
@@ -10,12 +9,12 @@ class SingleCommand extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            commandData: this.props.location.state.commandData
+            command: this.props.command
         };
     }
 
     render() {
-        const command = this.state.commandData;
+        const command = this.state.command;
         return(
             <div id="SingleCommand" style={{ marginTop: "5%", marginBottom: "5%" }}>
                 <Container>
