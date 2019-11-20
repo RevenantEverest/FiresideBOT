@@ -28,7 +28,7 @@ class HomePage extends Component {
                     <MDBJumbotron style={{ padding: "0", background: "inherit" }} fluid>
                         <MDBCol className="text-white text-center" style={{ backgroundImage: `url(https://i.imgur.com/r7kBhso.jpg)` }}>
                         <MDBCol className="py-5">
-                            <img src="https://i.imgur.com/78hVFuT.png" alt="" className="HomePage-Logo" />
+                            <img src="https://i.imgur.com/ER0tEk0.png" alt="" className="HomePage-Logo" />
                             <MDBCardText tag="div">
                                 <Link to="/gettingstarted">
                                 <MDBBtn color={Skin.MDBColor} className="mb-5 Button HomePage-Button">Getting Started</MDBBtn>

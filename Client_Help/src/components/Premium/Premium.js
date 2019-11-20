@@ -54,58 +54,43 @@ class Premium extends Component {
                 <Row style={{ marginBottom: "10%" }}>
                     <Col>
                         <MDBCard style={{ width: "22rem" }} className="text-center">
-                            <MDBCardBody style={{ background: "#1a1a1a", height: "250px" }}>
+                            <MDBCardBody style={{ background: "#1a1a1a", height: "150px" }}>
                             <MDBCardTitle>
                             <FontAwesomeIcon className="h1" icon="music" />
                             <br />
                             Unlimited Song Request Length
                             </MDBCardTitle>
                             <MDBCardText tag="div" className="h5" style={{ height: "50px", color: "#cccccc" }}>
-                                Need more help than what's provided here? Join our support server!
+                                Request songs longer than an hour!
                             </MDBCardText>
-                            <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/TqKHVUa">
-                            <MDBBtn color={Skin.MDBColor} className="Button">
-                            Join Support Server
-                            </MDBBtn>
-                            </a>
                             </MDBCardBody>
                         </MDBCard>
                     </Col>
                     <Col>
                         <MDBCard style={{ width: "22rem" }} className="text-center">
-                            <MDBCardBody style={{ background: "#1a1a1a", height: "250px" }}>
+                            <MDBCardBody style={{ background: "#1a1a1a", height: "150px" }}>
                             <MDBCardTitle>
                             <FontAwesomeIcon className="h1" icon="headphones-alt" />
                             <br />
                             Unlimited Playlists
                             </MDBCardTitle>
                             <MDBCardText tag="div" className="h5" style={{ height: "50px", color: "#cccccc" }}>
-                                Need more help than what's provided here? Join our support server!
+                                Create more than 5 playlists, allowing you to fully organize your favorite music!
                             </MDBCardText>
-                            <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/TqKHVUa">
-                            <MDBBtn color={Skin.MDBColor} className="Button">
-                            Join Support Server
-                            </MDBBtn>
-                            </a>
                             </MDBCardBody>
                         </MDBCard>
                     </Col>
                     <Col>
                         <MDBCard style={{ width: "22rem" }} className="text-center">
-                            <MDBCardBody style={{ background: "#1a1a1a", height: "250px" }}>
+                            <MDBCardBody style={{ background: "#1a1a1a", height: "150px" }}>
                             <MDBCardTitle>
                             <FontAwesomeIcon className="h1" icon="record-vinyl" />
                             <br />
                             Unlimited Playlist Song Length
                             </MDBCardTitle>
                             <MDBCardText tag="div" className="h5" style={{ height: "50px", color: "#cccccc" }}>
-                                Need more help than what's provided here? Join our support server!
+                                Add songs to your playlists that are longer than 10 minutes!
                             </MDBCardText>
-                            <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/TqKHVUa">
-                            <MDBBtn color={Skin.MDBColor} className="Button">
-                            Join Support Server
-                            </MDBBtn>
-                            </a>
                             </MDBCardBody>
                         </MDBCard>
                     </Col>
@@ -119,79 +104,59 @@ class Premium extends Component {
                 <Row style={{ marginBottom: "4%" }}>
                 <Col>
                         <MDBCard style={{ width: "22rem" }} className="text-center">
-                            <MDBCardBody style={{ background: "#1a1a1a", height: "250px" }}>
+                            <MDBCardBody style={{ background: "#1a1a1a", height: "150px" }}>
                             <MDBCardTitle>
                             <FontAwesomeIcon className="h1" icon="headphones-alt" />
                             <br />
                             Unlimited Server Playlists
                             </MDBCardTitle>
                             <MDBCardText tag="div" className="h5" style={{ height: "50px", color: "#cccccc" }}>
-                                Need more help than what's provided here? Join our support server!
+                                Create more than 2 server playlists, allowing your server members access to more of 
+                                the music your server prioritizes!
                             </MDBCardText>
-                            <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/TqKHVUa">
-                            <MDBBtn color={Skin.MDBColor} className="Button">
-                            Join Support Server
-                            </MDBBtn>
-                            </a>
                             </MDBCardBody>
                         </MDBCard>
                     </Col>
                     <Col>
                         <MDBCard style={{ width: "22rem" }} className="text-center">
-                            <MDBCardBody style={{ background: "#1a1a1a", height: "250px" }}>
+                            <MDBCardBody style={{ background: "#1a1a1a", height: "150px" }}>
                             <MDBCardTitle>
                             <FontAwesomeIcon className="h1" icon="record-vinyl" />
                             <br />
                             Unlimited Server Playlist Song Length
                             </MDBCardTitle>
                             <MDBCardText tag="div" className="h5" style={{ height: "50px", color: "#cccccc" }}>
-                                Need more help than what's provided here? Join our support server!
+                                No longer by limied in your server playlist song length. Add hours long tracks, that everyone in the server
+                                can enjoy!
                             </MDBCardText>
-                            <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/TqKHVUa">
-                            <MDBBtn color={Skin.MDBColor} className="Button">
-                            Join Support Server
-                            </MDBBtn>
-                            </a>
                             </MDBCardBody>
                         </MDBCard>
                     </Col>
                     <Col style={{ marginBottom: "4%" }}>
                         <MDBCard style={{ width: "22rem" }} className="text-center">
-                            <MDBCardBody style={{ background: "#1a1a1a", height: "250px" }}>
+                            <MDBCardBody style={{ background: "#1a1a1a", height: "150px" }}>
                             <MDBCardTitle>
                             <FontAwesomeIcon className="h1" icon="shield-alt" />
                             <br />
                             Unlimited Server Ranks
                             </MDBCardTitle>
                             <MDBCardText tag="div" className="h5" style={{ height: "50px", color: "#cccccc" }}>
-                                Need more help than what's provided here? Join our support server!
-                                
+                                Allow your server members to reach levels beyond 20, adding a new dynamic and server activenes.
                             </MDBCardText>
-                            <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/TqKHVUa">
-                            <MDBBtn color={Skin.MDBColor} className="Button">
-                            Join Support Server
-                            </MDBBtn>
-                            </a>
                             </MDBCardBody>
                         </MDBCard>
                     </Col>
                     <Col style={{ marginBottom: "4%" }}>
                         <MDBCard style={{ width: "22rem" }} className="text-center">
-                            <MDBCardBody style={{ background: "#1a1a1a", height: "250px" }}>
+                            <MDBCardBody style={{ background: "#1a1a1a", height: "150px" }}>
                             <MDBCardTitle>
                             <FontAwesomeIcon className="h1" icon="magic" />
                             <br />
                             Unlimited Custom Commands
                             </MDBCardTitle>
                             <MDBCardText tag="div" className="h5" style={{ height: "50px", color: "#cccccc" }}>
-                                Need more help than what's provided here? Join our support server!
-                                
+                                Create unlimited custom commands for server members to utilize!
                             </MDBCardText>
-                            <a target="_blank" rel="noopener noreferrer" href="https://discord.gg/TqKHVUa">
-                            <MDBBtn color={Skin.MDBColor} className="Button">
-                            Join Support Server
-                            </MDBBtn>
-                            </a>
                             </MDBCardBody>
                         </MDBCard>
                     </Col>
