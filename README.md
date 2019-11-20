@@ -48,12 +48,6 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 
 #### Acirhia  
 
-- [CreateCharacter](https://help.firesidebot.com/commands/createcharacter) `<param>`  
-**Desc**: Creates a new Acirhia Character  
-**Aliases**: `createchar`   
-**Params**: Character Name  
-**Example**: `?createcharacter King Arthur`  
-
 - [Inventory](https://help.firesidebot.com/commands/inventory)   
 **Desc**: View current inventory  
 **Aliases**: `inv`   

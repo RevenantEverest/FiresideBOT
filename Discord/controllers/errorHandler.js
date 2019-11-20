@@ -21,7 +21,7 @@ async function logError(bot, message, err, errMsg, command) {
     .setFooter(await getDate());
 
     bot.channels.get(process.env.ENVIRONMENT === "DEV" ? "624216968844804096" : "624755756079513621").send(embed);
-    err = err.toString().split("").map((el, idx) => idx <= 1024 ? el : null).filter(Boolean);
+    err = err.toString().split("").map((el, idx) => idx <= 1024 ? el : null).filter(Boolean).join(" ");
     let data = { command: command, args: message.content, guild_id: message.guild.id, discord_id: message.author.id, error_message: errMsg, error: err};
     loggerServices.commandErrorLogger(data)
     .catch(err => console.error(err));
