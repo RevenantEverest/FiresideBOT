@@ -48,6 +48,11 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 
 #### Acirhia  
 
+- [Fight](https://help.firesidebot.com/commands/fight)   
+**Desc**: Begin a random encounter for an enemy in the current area  
+**Aliases**:   
+**Example**: `?fight`  
+
 - [Inventory](https://help.firesidebot.com/commands/inventory)   
 **Desc**: View current inventory  
 **Aliases**: `inv`   
@@ -67,6 +72,11 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Desc**: View available shop items  
 **Aliases**:   
 **Example**: `?shop`  
+
+- [StartAdventure](https://help.firesidebot.com/commands/startadventure)   
+**Desc**: If a user doesn't have character, this command creates one. It is needed before using any other Acirhia commands without a profile  
+**Aliases**: `sa` `startad`   
+**Example**: `?startadventure`  
 
   
 
@@ -363,10 +373,10 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Example**: `?overwatch pc us Revenant#11470`  
 
 - [RainbowSix](https://help.firesidebot.com/commands/rainbowsix) `<param>`  
-**Desc**: Displays relevant stats for your most recent Apex Legend  
+**Desc**: Displays relevant stats for your most Rainbow Six account  
 **Aliases**: `r6` `rainbowsix` `rainbowsix`   
 **Params**: Username, Platform  
-**Example**: `?apex RevenantEverest uplay`  
+**Example**: `?rainbowsix RevenantEverest uplay`  
 
   
 

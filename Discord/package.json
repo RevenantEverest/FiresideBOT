@@ -26,6 +26,6 @@
     "opusscript": "0.0.6",
     "pg-promise": "^8.7.2",
     "rainbowsix-api-node": "0.0.1",
-    "ytdl-core": "^0.29.2"
+    "ytdl-core": "^1.0.3"
   }
 }

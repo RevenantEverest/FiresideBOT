@@ -167,6 +167,6 @@ module.exports.config = {
     aliases: ['r6', 'rainbowsix', 'rainbowsix'],
     params: { required: true, params: 'Username, Platform' },
     category: 'GameStats',
-    desc: 'Displays relevant stats for your most recent Apex Legend',
-    example: 'apex RevenantEverest uplay'
+    desc: 'Displays relevant stats for your most Rainbow Six account',
+    example: 'rainbowsix RevenantEverest uplay'
 };
