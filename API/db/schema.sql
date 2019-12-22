@@ -49,6 +49,21 @@ CREATE TABLE bot_guilds (
     date VARCHAR(255)
 );
 
+CREATE TABLE changelogs (
+    id SERIAL PRIMARY KEY,
+    content TEXT,
+    version VARCHAR(25),
+    release_date VARCHAR(255),
+    type VARCHAR(255)
+);
+
+CREATE TABLE working_changelogs (
+    id SERIAL PRIMARY KEY,
+    content TEXT,
+    version VARCHAR(255),
+    type VARCHAR(255)
+);
+
 CREATE TABLE custom_commands (
     id SERIAL PRIMARY KEY,
     guild_id VARCHAR(255),

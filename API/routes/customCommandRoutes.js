@@ -7,11 +7,17 @@ router.route("/")
 .post(controller.save)
 .put(controller.update)
 
+router.route("/id/:id")
+.get(controller.getOne)
+
 router.route("/discord_id/:id")
 .get(controller.getByDiscordId)
 
 router.route("/guild_id/:id")
 .get(controller.getByGuildId)
+
+router.route("/discord_id/:discord_id/guild_id/:guild_id")
+.get(controller.getByDiscordIdAndGuildId)
 
 router.route("/delete/:id")
 .delete(controller.delete)

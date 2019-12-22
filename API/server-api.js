@@ -44,8 +44,11 @@ app.use("/trackers/twitch", require('./routes/twitchTrackerRoutes'));
 app.use("/ranks/tiers", require('./routes/discordRankRoutes'));
 app.use("/ranks/settings", require('./routes/discordRankSettingsRoutes'));
 app.use("/ranks/records", require('./routes/discordRankRecordRoutes'));
+app.use("/welcome_message", require('./routes/welcomeMessageRoutes'));
 
 app.use("/discord", require('./routes/discordAPIRoutes'));
+app.use("/changelogs", require('./routes/changelogRoutes'));
+app.use("/working_changelogs", require('./routes/workingChangelogRoutes'));
 
 /* Default Routes */
 app.use("/", (req, res) => res.json({ message: "Fireside API" }));

@@ -17,7 +17,15 @@ module.exports = {
     return db.oneOrNone(`SELECT * FROM user_playlists WHERE discord_id = $/discord_id/ AND name = $/name/`, playlist);
   },
   save(playlist) {
-    return db.one('INSERT INTO user_playlists (discord_id, public, name) VALUES($/discord_id/, $/public/, $/name/) RETURNING *', playlist);
+    return db.one('INSERT INTO user_playlists (discord_id, name, public) VALUES($/discord_id/, $/name/, $/public/) RETURNING *', playlist);
+  },
+  update(playlist) {
+    return db.one(`UPDATE user_playlists
+    SET
+    name = $/name/,
+    public = $/public/
+    WHERE discord_id = $/discord_id/
+    RETURNING *`, playlist);
   },
   deleteByNameAndDiscordId(playlist) {
     return db.none('DELETE FROM user_playlists WHERE name = $/name/ AND WHERE discord_id = $/discord_id/');
