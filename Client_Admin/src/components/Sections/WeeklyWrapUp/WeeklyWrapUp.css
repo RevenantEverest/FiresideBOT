@@ -1,0 +1,9 @@
+@media (max-width: 780px) {
+    .WeeklyWrapUp-Col {
+        margin-bottom: 10%;
+    }
+
+    .WeeklyWrapUp-Row {
+        margin-top: 10%;
+    }
+}
