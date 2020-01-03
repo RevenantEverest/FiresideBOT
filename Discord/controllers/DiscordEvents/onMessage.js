@@ -93,6 +93,8 @@ module.exports = async (bot, message) => {
         else console.error(err);
     });
 
+    console.log(config.servers[0]);
+
     
     let commandfile = bot.commands.get(args[0].toLowerCase()) || bot.commands.get(bot.aliases.get(args[0].toLowerCase()));
 

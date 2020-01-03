@@ -1,0 +1,28 @@
+#CustomCommands {
+    min-height: 62vh;
+}
+
+#CustomCommands-Table {
+    background: #151515;
+    color: #cccccc;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 5%;
+}
+
+.CustomCommands-TH {
+    color: #cccccc !important;
+    font-weight: 800;
+}
+
+.CustomCommands-TD {
+    font-weight: 600;
+}
+
+.CustomCommands-TD-Username-Image {
+    width: 35px;
+    position: relative;
+    margin-right: 20px;
+    margin-top: -8px;
+    top: 3px;
+}

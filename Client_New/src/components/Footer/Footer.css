@@ -1,0 +1,46 @@
+.Footer-Logo-Text {
+    font-family: 'NexaRustSlab', sans-serif; 
+    display: inline-block;
+}
+
+.Footer-Logo {
+    width: 20px;
+    display: inline-block;
+    margin-bottom: 1%;
+    margin-right: 1%;
+}
+
+.Footer-LI {
+    font-size: 14px;
+}
+
+.Footer-Link:hover {
+    color: orange;
+}
+
+.Footer-Icon {
+    font-size: 20px;
+    display: inline-block;
+    margin-right: 12px;
+}
+
+.Footer-Col {
+    margin-bottom: 2%;
+}
+
+.Footer-Col > p {
+    display: inline;
+}
+
+.Footer-Fireside {
+    color: orange;
+    display: inline;
+}
+
+#Footer-DBL-Link { color: orange }
+
+@media (max-width: 800px) {
+    .Footer-Col__Sec1 {
+        margin-bottom: 5%;
+    }
+}

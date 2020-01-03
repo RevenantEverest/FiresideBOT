@@ -1,0 +1,32 @@
+#RankTiers {
+    min-height: 62vh;
+}
+
+.RankTiers-Breadcrumb {
+    padding: 0;
+}
+
+#RankTiers-Table {
+    background: #151515;
+    color: #cccccc;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 5%;
+}
+
+.RankTiers-TH {
+    color: #cccccc !important;
+    font-weight: 800;
+}
+
+.RankTiers-TD-RankNumber {
+    font-weight: 800;
+}
+
+.RankTiers-TD-RankName {
+    font-weight: 600;
+}
+
+.RankTiers-TD-Rank {
+    font-weight: 400;
+}
