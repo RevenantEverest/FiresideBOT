@@ -9,8 +9,6 @@ import {
     MDBCol as Col
 } from 'mdbreact';
 
-import Logo from '../../res/images/Logo.png';
-
 class DashboardFooter extends Component {
 
     render() {
@@ -20,7 +18,7 @@ class DashboardFooter extends Component {
                 <Container fluid className="text-center text-md-left" style={{ marginBottom: "2%" }}>
                     <Row>
                     <Col md="6" className="Footer-Col__Sec1">
-                        <img src={Logo} alt="" className="Footer-Logo" />
+                        <img src="https://i.imgur.com/efYsW7T.png" alt="" className="Footer-Logo" />
                         <h5 className="title Footer-Logo-Text">FiresideBOT</h5>
                         <Row style={{ marginTop: "2%" }}>
                         <Col className="Footer-Col" style={{ marginBottom: "2%" }}>

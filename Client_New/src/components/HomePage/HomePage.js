@@ -13,8 +13,6 @@ import Testimonials from '../Testimonials/Testimonials';
 import discordServices from '../../services/discordServices';
 import loginServies from '../../services/loginServices';
 
-import Logo from '../../res/images/Logo.png';
-
 import Skin from '../../res/Skin';
 import env from '../../env';
 
@@ -114,7 +112,7 @@ class HomePage extends Component {
                         <Container>
                         <Row>
                             <Col className="py-5">
-                                <img src={Logo} alt="" className="HomePage-Logo" />
+                                <img src="https://i.imgur.com/efYsW7T.png" alt="" className="HomePage-Logo" />
                                 <h1 className="h1 HomePage-Logo_Text">FiresideBOT</h1>
                                 <MDBCardText tag="div">
                                     <h6 className="h6">The all in one Discord Bot garenteed to bring new life to your server!</h6>
