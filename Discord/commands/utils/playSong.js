@@ -41,7 +41,7 @@ services.playSong = async (bot, connection, message, server) => {
 
   server.queue.queueInfo.shift();
 
-  server.dispatcher.on("end", () => {
+  server.dispatcher.once("end", () => {
     if(server.queue.queueInfo[0] && message.guild.voiceConnection) 
       services.playSong(bot, connection, message, server);
     else {
