@@ -119,11 +119,31 @@ module.exports = {
             link = `https://www.youtube.com/watch?v=${results.data.items[0].id.videoId}`;
             this.YTDL_GetInfo(message, args, server, link, callback);
         })
-        .catch(err => errorHandler(Discord_Bot, message, err, "YouTube Search Error", "Utils"));
+        .catch(err => {
+            if(err.response) {
+                switch(err.response.status) {
+                    case 403:
+                        errorHandler(Discord_Bot, message, err, "YouTube Search Error 403: Forbidden", "Utils");
+                        break;
+                    default:
+                        errorHandler(Discord_Bot, message, err, "YouTube Search Error", "Utils");
+                        break;
+                };
+            }
+            else errorHandler(Discord_Bot, message, err, "YouTube Search Error", "Utils");
+        });
     },
     async YTDL_GetInfo(message, args, server, link, callback) {
         YTDL.getBasicInfo(link, (err, info) => {
-            if(err) return errorHandler(Discord_Bot, message, err, "YTDL Error", "Utils")
+            if(err) {
+                console.log(err.toString())
+                if(err.toString() === "Error: This video is unavailable.") 
+                    return message.channel.send("This video is unavailable");
+                else if(err.toString().split(":")[0] === "TypeError")
+                    return message.channel.send("Invalid search request");
+                else 
+                    return errorHandler(Discord_Bot, message, err, "YTDL Error", "Utils")
+            };
             if(info.player_response.videoDetails === undefined) return message.channel.send(`Invalid Video Details`);
 
             info = info.player_response.videoDetails;
