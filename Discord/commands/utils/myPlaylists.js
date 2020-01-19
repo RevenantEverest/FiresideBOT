@@ -31,7 +31,7 @@ async function handleEmbed(message, args, bot, discord_id, playlists, songData, 
     if(i > 20) return;
     if(!guildPlaylist && !playlists[i].public && discord_id !== message.author.id) continue;
     let overallLength = 0;
-    songData[i].forEach(el => overallLength += parseInt(el.duration, 10));
+    songData[i] ? songData[i].forEach(el => overallLength += parseInt(el.duration, 10)) : overallLength += 0;
     overallLength = await utils.timeParser(overallLength);
     embed.addField(`${i + 1}. ${playlists[i].name} (${overallLength}) ${playlists[i].public ? "" : `<:Locked:624341962358652958>*Private*` }`, `${songData[i].length} Songs`)
   }
