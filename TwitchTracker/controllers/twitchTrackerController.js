@@ -13,14 +13,16 @@ async function post(bot, info) {
         else config.channelsLive.push(el.twitch_id);
 
         let embed = new Discord.RichEmbed();
+
         embed
-        .setColor(0xcc66ff)
+        .setAuthor(`${el.username} is now LIVE`, el.logo)
         .setThumbnail(el.logo)
-        .setTitle(`${el.username} is now LIVE`)
-        .addBlankField()
-        .addField('Title:', el.title, true)
-        .addField('Playing:', el.game, true)
-        .addField("Click To Watch:", `[Click Me](https://twitch.tv/${el.username})`, true)
+        .setColor(0xcc66ff)
+        .setFooter('Powered By Twitch API', 'https://i.imgur.com/DwmLOBU.png')
+        .setDescription(`[${el.title}](https://twitch.tv/${el.username})`)
+        .addField("Playing:", el.game, true)
+        .addField("Viewers:", el.viewers.toLocaleString(), true)
+        .setImage(el.thumbnail_url)
 
         el.guilds.forEach(guild => {
             let role_mention = (guild.role_id === "@everyone" ? "@everyone" : (guild.role_id === "none" ? '' : `<@&${guild.role_id}>`));
@@ -35,10 +37,12 @@ async function parseData(bot, trackers, streamStatus, gameData, logoData) {
         let game = gameData.filter(el => stream.game_id === el.id)[0];
         let logo = logoData.filter(el => stream.user_id === el.id)[0];
         let info = { 
-            logo: logo.profile_image_url, 
-            username: stream.user_name, 
             twitch_id: stream.user_id,
+            username: stream.user_name,
             title: stream.title,
+            viewers: stream.viewer_count,
+            logo: logo.profile_image_url, 
+            thumbnail_url: `https://static-cdn.jtvnw.net/previews-ttv/live_user_${stream.user_name.toLowerCase()}-600x338.jpg`,
             game: game ? game.name : "No Game",
             guilds: [] 
         };
