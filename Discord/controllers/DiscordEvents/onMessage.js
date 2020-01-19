@@ -38,9 +38,13 @@ module.exports = async (bot, message) => {
     if(!permissions.has("SEND_MESSAGES") || !permissions.has("EMBED_LINKS")) return;
 
     let PREFIX = null;
+    let VOLUME = null;
     
     await guildSettingsDB.findByGuildId(message.guild.id)
-    .then(settings => PREFIX = settings.prefix)
+    .then(settings => {
+        PREFIX = settings.prefix;
+        VOLUME = settings.volume;
+    })
     .catch(err => console.error(err));
     
     BackUpCommands(PREFIX, message);
@@ -57,7 +61,7 @@ module.exports = async (bot, message) => {
             currentSongEmbed: [],
             genres: [],
             options: {
-                volume: null,
+                volume: VOLUME,
                 loop: false,
                 recommendations: false,
                 voteToSkip: false
@@ -92,9 +96,6 @@ module.exports = async (bot, message) => {
         if(err instanceof QRE && err.code === qrec.noData) return;
         else console.error(err);
     });
-
-    console.log(config.servers[0]);
-
     
     let commandfile = bot.commands.get(args[0].toLowerCase()) || bot.commands.get(bot.aliases.get(args[0].toLowerCase()));
 
