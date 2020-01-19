@@ -21,6 +21,16 @@ services.getTwitchStreamStatus = (data) => {
     });
 };
 
+services.getTwitchUserFollowers = (data) => {
+    return axios({
+        method: "GET",
+        url: `https://api.twitch.tv/helix/users/follows?to_id=${data}`,
+        headers: {
+            'Client-ID': process.env.TWITCH_CLIENT_ID
+        }
+    });
+};
+
 services.getTwitchGame = (data) => {
     return axios({
         method: "GET",
