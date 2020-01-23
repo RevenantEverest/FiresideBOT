@@ -11,7 +11,7 @@ module.exports = async (bot, guild) => {
     embed
     .setColor(0x00ff00)
     .addField(
-        'Thank you for adding FiresideBOT <:Fireside:538307773008445440>', 
+        'Thank you for adding FiresideBOT <:Fireside:669895306242162699>', 
         'Learn what you can do with `?help` command\n\n' +
         `If you're experiencing any issue please use our [Support Server](https://discord.gg/TqKHVUa)\n\n` +
         `And if FiresideBOT isn't meeting your expectations or you want to just leave a kind message you can tell us with the ` + "`?feedback` command"

@@ -9,7 +9,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
         .setColor(0xff6600)
         .setDescription(
             `<:Campfire2:597235623631388737> **The Campfire Burns Steadily**\n\n` + 
-            `<:Fireside:538307773008445440> **${ping} ms** bot latency\n` +
+            `<:Fireside:669895306242162699> **${ping} ms** bot latency\n` +
             `💖 **${Math.round(bot.ping)} ms** heartbeat latency`
         );
 
