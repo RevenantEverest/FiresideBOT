@@ -7,88 +7,111 @@ const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
 const qrec = pgp.errors.queryResultErrorCode;
 
-async function post(bot, info) {
-    info.forEach(el => {
-        if(config.channelsLive.includes(el.twitch_id)) return;
-        else config.channelsLive.push(el.twitch_id);
-
-        let embed = new Discord.RichEmbed();
-
-        embed
-        .setAuthor(`${el.username} is now LIVE`, el.logo)
-        .setThumbnail(el.logo)
-        .setColor(0xcc66ff)
-        .setFooter('Powered By Twitch API', 'https://i.imgur.com/DwmLOBU.png')
-        .setDescription(`[${el.title}](https://twitch.tv/${el.username})`)
-        .addField("Playing:", el.game, true)
-        .addField("Viewers:", el.viewers.toLocaleString(), true)
-        .setImage(el.thumbnail_url)
-
-        el.guilds.forEach(guild => {
-            let role_mention = (guild.role_id === "@everyone" ? "@everyone" : (guild.role_id === "none" ? '' : `<@&${guild.role_id}>`));
-            bot.guilds.get(guild.guild_id).channels.get(guild.channel_id).send(role_mention, embed);
-        })
-    })
-};
-
-async function parseData(bot, trackers, streamStatus, gameData, logoData) {
-    let data = [];
-    streamStatus.forEach(async (stream, idx) => {
-        let game = gameData.filter(el => stream.game_id === el.id)[0];
-        let logo = logoData.filter(el => stream.user_id === el.id)[0];
-        let info = { 
-            twitch_id: stream.user_id,
-            username: stream.user_name,
-            title: stream.title,
-            viewers: stream.viewer_count,
-            logo: logo.profile_image_url, 
-            thumbnail_url: `https://static-cdn.jtvnw.net/previews-ttv/live_user_${stream.user_name.toLowerCase()}-600x338.jpg`,
-            game: game ? game.name : "No Game",
-            guilds: [] 
-        };
-        trackers.filter(el => el.twitch_id === stream.user_id).forEach(el => info.guilds.push(el));
-        data.push(info);
-        if(idx === (streamStatus.length - 1)) post(bot, data);
-    });
-};
-
-async function getTwitchLogos(bot, trackers, streamStatus, gameData) {
-    let promises = [];
-    twitch_ids = trackers.map(el => el.twitch_id);
-    twitch_ids.filter((el, idx) => twitch_ids.indexOf(el) == idx).forEach(el => promises.push(twitchServices.getTwitchInfo(el)));
-    Promise.all(promises)
-    .then(logos => parseData(bot, trackers, streamStatus, gameData, [].concat.apply([], logos.map(el => el.data.data)).filter(el => el !== undefined)))
-    .catch(err => console.error(err));
-};
-
-async function getTwitchGames(bot, trackers, streamStatus) {
-    let promises = [];
-    let game_ids = streamStatus.map(el => el.game_id);
-    game_ids = game_ids.filter((el, idx) => game_ids.indexOf(el) == idx);
-
-    game_ids.forEach(el => promises.push(twitchServices.getTwitchGame(el)));
-    Promise.all(promises)
-    .then(games => getTwitchLogos(bot, trackers, streamStatus, [].concat.apply([], games.map(el => el.data.data)).filter(el => el !== undefined)))
-    .catch(err => console.error(err));
-};
-
 module.exports = {
     runCheck(bot) {
         db.findAll()
-        .then(trackers => {
-            let promises = [];
-            twitch_ids = trackers.map(el => el.twitch_id);
-            twitch_ids.filter((el, idx) => twitch_ids.indexOf(el) == idx).forEach(el => promises.push(twitchServices.getTwitchStreamStatus(el)));
-            Promise.all(promises).then(streamStatus => {
-                streamStatus = streamStatus.map(el => el.data.data[0] ? el.data.data[0] : '').filter(el => el !== '');
-                let channelsLive = streamStatus.map(el => el.user_id)
-                config.channelsLive.forEach(el => {
-                    if(!channelsLive.includes(el)) config.channelsLive.splice(config.channelsLive.indexOf(el), 1);
-                })
-                if(streamStatus[0]) getTwitchGames(bot, trackers, streamStatus);
-            })
-            .catch(err => console.error(err));
-        })
+        .then(trackers => getStreamStatus(trackers))
         .catch(err => err instanceof QRE && err.code === qrec.noData ? console.log("No Trackers") : console.error(err));
+
+        function getStreamStatus(trackers) {
+            let temp = [];
+            trackers.forEach(el => {
+                if(temp.map(tracker => tracker.twitch_id).includes(el.twitch_id)) return;
+                let data = {
+                    twitch_id: el.twitch_id,
+                    guildInfo: trackers.filter(tracker => tracker.twitch_id === el.twitch_id)
+                };
+                temp.push(data);
+            });
+            let query = '';
+            temp.forEach((el, idx) => idx <= 100 ? query += `user_id=${el.twitch_id}&` : query += '');
+
+            twitchServices.getTwitchStreamStatus(query)
+            .then(streams => checkChannelsLive(temp, streams.data.data))
+            .catch(err => console.error(err));
+        };
+
+        function checkChannelsLive(trackerData, streams) {
+            let currentLive = streams.map(el => el.user_id);
+            trackerData = trackerData.filter(el => currentLive.includes(el.twitch_id));
+            currentLive.forEach(el => {
+                if(config.channelsLive.includes(el))
+                    trackerData.splice(trackerData.map(el => el.twitch_id).indexOf(el), 1);
+                else 
+                    config.channelsLive.push(el);
+            });
+
+            config.channelsLive.forEach(el => {
+                if(!currentLive.includes(el))
+                    config.channelsLive.splice(config.channelsLive.indexOf(el), 1);
+            });
+
+            if(!trackerData[0]) return;
+
+            getTwitchGames(trackerData, streams);
+        };
+
+        function getTwitchGames(trackerData, streams) {
+            let game_ids = streams.map(el => el.game_id);
+            let query = '';
+            game_ids.forEach(el => query += `id=${el}&`);
+
+            twitchServices.getTwitchGame(query)
+            .then(games => getTwitchLogos(trackerData, streams, games.data.data))
+            .catch(err => console.error(err));
+        };
+
+        function getTwitchLogos(trackerData, streams, games) {
+            let query = '';
+            trackerData.forEach(el => query += `id=${el.twitch_id}&`);
+
+            twitchServices.getTwitchInfo(query)
+            .then(twitchUsers => parseData(trackerData, streams, games, twitchUsers.data.data))
+            .catch(err => console.error(err));
+        };
+
+        function parseData(trackerData, streams, games, twitchUsers) {
+            let temp = [];
+            trackerData.forEach(el => {
+                let twitchUser = twitchUsers.filter(user => user.id === el.twitch_id)[0];
+                let streamData = streams.filter(stream => stream.user_id === el.twitch_id)[0];
+                let gameData = games.filter(game => game.id === streamData.game_id)[0];
+                let data = {
+                    twitch_id: el.twitch_id,
+                    display_name: streamData.user_name,
+                    title: streamData.title,
+                    viewers: streamData.viewer_count,
+                    logo: twitchUser.profile_image_url,
+                    thumbnail_url: `https://static-cdn.jtvnw.net/previews-ttv/live_user_${streamData.user_name.toLowerCase()}-600x338.jpg`,
+                    game: gameData ? gameData.name : "No Game",
+                    guildInfo: el.guildInfo
+                };
+                temp.push(data);
+            });
+            trackerData = temp;
+
+            sendEmbed(trackerData);
+        };
+
+        function sendEmbed(trackerData) {
+            trackerData.forEach(el => {
+                let embed = new Discord.RichEmbed();
+
+                embed
+                .setAuthor(`${el.display_name} is now LIVE`, el.logo)
+                .setThumbnail(el.logo)
+                .setColor(0xcc66ff)
+                .setDescription(`[${el.title}](https://twitch.tv/${el.display_name})`)
+                .addField("Playing:", el.game, true)
+                .addField("Viewers:", el.viewers.toLocaleString(), true)
+                .setImage(el.thumbnail_url)
+                .setFooter('Powered By Twitch API', 'https://i.imgur.com/DwmLOBU.png')
+
+                el.guildInfo.forEach(guild => {
+                    let role_mention = guild.role_id === "@everyone" ? "@everyone" : (guild.role_id === "none" ? '' : `<@&${guild.role_id}>`);
+                    bot.guilds.get(guild.guild_id).channels.get(guild.channel_id).send(role_mention, embed);
+                });
+            });
+        };
     }
 };

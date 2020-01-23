@@ -4,7 +4,8 @@ const services = {};
 services.getTwitchInfo = (data) => {
     return axios({
         method: "GET",
-        url: `https://api.twitch.tv/helix/users?id=${data}`,
+        // https://api.twitch.tv/helix/users?id=${data}
+        url: `https://api.twitch.tv/helix/users?${data}`,
         headers: {
             'Client-ID': process.env.TWITCH_CLIENT_ID
         }
@@ -14,7 +15,8 @@ services.getTwitchInfo = (data) => {
 services.getTwitchStreamStatus = (data) => {
     return axios({
         method: "GET",
-        url: `https://api.twitch.tv/helix/streams?user_id=${data}`,
+        // https://api.twitch.tv/helix/streams?user_id=${data}
+        url: `https://api.twitch.tv/helix/streams?${data}`,
         headers: {
             'Client-ID': process.env.TWITCH_CLIENT_ID
         }
@@ -24,7 +26,8 @@ services.getTwitchStreamStatus = (data) => {
 services.getTwitchGame = (data) => {
     return axios({
         method: "GET",
-        url: `https://api.twitch.tv/helix/games?id=${data}`,
+        // https://api.twitch.tv/helix/games?id=${data}
+        url: `https://api.twitch.tv/helix/games?${data}`,
         headers: {
             'Client-ID': process.env.TWITCH_CLIENT_ID
         }
