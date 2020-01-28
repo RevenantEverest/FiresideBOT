@@ -1,7 +1,7 @@
 # FiresideBOT  
 A Music, Economy, & Admin Discord Bot written in Node.js  
 
-###### Current Version: v1.7.1  
+###### Current Version: v1.7.5  
 [HelpDocs](help.firesidebot.com) || [Invite](https://discordapp.com/oauth2/authorize?client_id=441338104545017878&response_type=code&permissions=8&scope=bot) || [Online Control Panel](https://firesidebot.com)  
 
 ---  
@@ -340,6 +340,11 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Aliases**: `dice`   
 **Params**: Number  
 **Example**: `?roll 20`  
+
+- [Thanos](https://help.firesidebot.com/commands/thanos)   
+**Desc**: Displays a random Thanos quote  
+**Aliases**:   
+**Example**: `?thanos`  
 
 - [Vibe](https://help.firesidebot.com/commands/vibe)   
 **Desc**: Checks your current vibe  

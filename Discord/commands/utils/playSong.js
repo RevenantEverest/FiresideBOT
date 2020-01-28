@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const config = require('../../config/config');
 const YTDL = require('ytdl-core');
 const utils = require('./utils');
 
@@ -37,7 +38,9 @@ services.playSong = async (bot, connection, message, server) => {
   server.queue.currentSongEmbed = currentSongEmbed;
   server.queue.currentSongInfo = request;
 
-  if(server.queue.options.loop) server.queue.queueInfo.push(request);
+  if(server.queue.options.loop && !config.environment.updatePending) server.queue.queueInfo.push(request);
+  else if(server.queue.options.loop && config.environment.updatePending)
+    message.channel.send("An update is currently pending. Looping will disabled until the update is pushed");
 
   server.queue.queueInfo.shift();
 
