@@ -19,7 +19,7 @@ router.route("/guild_id/:id")
 router.route("/discord_id/:discord_id/guild_id/:guild_id")
 .get(controller.getByDiscordIdAndGuildId)
 
-router.route("/delete/:id")
+router.route("/id/:id")
 .delete(controller.delete)
 
 

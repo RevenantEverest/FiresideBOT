@@ -73,7 +73,7 @@ module.exports = {
     },
     save(req, res, next) {
         let data = { 
-            input: req.body.input, output: req.body.output, 
+            input: req.body.input.split(" ").join(""), output: req.body.output, 
             guild_id: req.body.guild_id, created_by: req.body.created_by, 
             date: moment().format("DD MMM YYYY") 
         }
@@ -87,7 +87,7 @@ module.exports = {
         .catch(err => next(err));
     },
     delete(req, res, next) {
-        db.destroy(req.params.id)
+        db.delete(req.params.id)
         .then(() => res.json({ message: "Command Deleted" }))
         .catch(err => next(err));
     }
