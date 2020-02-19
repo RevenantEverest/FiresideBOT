@@ -3,7 +3,7 @@ import './Changelogs.css';
 
 import ReactMarkdown from 'react-markdown';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Spinner } from 'react-bootstrap';
 import {
     MDBBtn,
     MDBCollapse,
@@ -24,6 +24,8 @@ import Skin from '../../res/Skin';
 
 class Changelogs extends Component {
 
+    _isMounted = false;
+
     constructor(props) {
         super(props);
         this.state = {
@@ -31,6 +33,11 @@ class Changelogs extends Component {
             search: ''
         }
         this.handleChange = this.handleChange.bind(this);
+    }
+
+    componentDidMount() {
+        this._isMounted = true;
+        this.getChangelogs();
     }
 
     toggleCollapse = collapseID => () => {
@@ -52,6 +59,13 @@ class Changelogs extends Component {
     findEditModal = (index) => this.state[("edit" + index)];
     findDeleteModal = (index) => this.state[("delete" + index)];
 
+    getChangelogs() {
+        if(!this._isMounted) return;
+        changelogServices.getChangelogs()
+        .then(changelogs => this.setState({ changelogs: changelogs.data.data, dataReceived: true }))
+        .catch(err => console.error(err));
+    }
+
     handleChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
     deleteChangelog(el, modal) {
@@ -66,8 +80,8 @@ class Changelogs extends Component {
     }
 
     renderChangelogs() {
-        if(this.props.changelogs.length < 1) return <h5 className="h5">No Changelogs</h5>
-        let Changelogs = this.props.changelogs.filter(el => { return el.version.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1 }).map((el, idx) => {
+        if(this.state.changelogs.length < 1) return <h5 className="h5">No Changelogs</h5>
+        let Changelogs = this.state.changelogs.filter(el => { return el.version.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1 }).map((el, idx) => {
             idx++;
             return(
                 <Col key={idx} lg={12}>
@@ -144,7 +158,7 @@ class Changelogs extends Component {
                 </Row>
                 <Row>
                     <Col>
-                    {this.props.changelogs ? this.renderChangelogs() : ''}
+                    {this.state.dataReceived ? this.renderChangelogs() : <Spinner animation="border" role="status"><span className="sr-only">Loading...</span></Spinner>}
                     </Col>
                 </Row>
                 </Container>

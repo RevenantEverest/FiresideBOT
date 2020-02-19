@@ -3,7 +3,7 @@ import './WorkingChangelogs.css';
 
 import ReactMarkdown from 'react-markdown';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Spinner } from 'react-bootstrap';
 import {
     MDBBtn,
     MDBCollapse,
@@ -24,6 +24,8 @@ import Skin from '../../res/Skin';
 
 class WorkingChangelogs extends Component {
 
+    _isMounted = false;
+
     constructor(props) {
         super(props);
         this.state = {
@@ -32,6 +34,13 @@ class WorkingChangelogs extends Component {
         }
         this.handleChange = this.handleChange.bind(this);
     }
+
+    componentDidMount() {
+        this._isMounted = true;
+        this.getWorkingChangelogs();
+    }
+
+    componentWillUnmount = () => this._isMounted = false;
 
     toggleCollapse = collapseID => () => {
         this.setState(prevState => ({
@@ -52,6 +61,13 @@ class WorkingChangelogs extends Component {
     findEditModal = (index) => this.state[("edit" + index)];
     findDeleteModal = (index) => this.state[("delete" + index)];
 
+    getWorkingChangelogs() {
+        if(!this._isMounted) return;
+        changelogServices.getWorkingChangelogs()
+        .then(changelogs => this.setState({ workingChangelogs: changelogs.data.data, dataReceived: true }))
+        .catch(err => console.error(err));
+    }
+
     handleChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
     deleteWorkingChangelog(el, modal) {
@@ -66,8 +82,8 @@ class WorkingChangelogs extends Component {
     }
 
     renderWorkingChangelogs() {
-        if(this.props.workingChangelogs.length < 1) return <h5 className="h5">No Working Changelogs</h5>
-        let WorkingChangelogs = this.props.workingChangelogs.filter(el => { return el.version.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1 }).map((el, idx) => {
+        if(this.state.workingChangelogs.length < 1) return <h5 className="h5">No Working Changelogs</h5>
+        let WorkingChangelogs = this.state.workingChangelogs.filter(el => { return el.version.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1 }).map((el, idx) => {
             idx++;
             return(
                 <Col key={idx} lg={12}>
@@ -144,7 +160,7 @@ class WorkingChangelogs extends Component {
                 </Row>
                 <Row>
                     <Col>
-                    {this.props.workingChangelogs ? this.renderWorkingChangelogs() : ''}
+                    {this.state.dataReceived ? this.renderWorkingChangelogs() : <Spinner animation="border" role="status"><span className="sr-only">Loading...</span></Spinner>}
                     </Col>
                 </Row>
                 </Container>
