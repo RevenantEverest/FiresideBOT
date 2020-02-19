@@ -37,13 +37,21 @@ module.exports = {
     create(req, res, next) {
         twitchServices.getTwitchInfo(req.body.streamer)
         .then(streamer => {
-            db.save({ guild_id: req.body.guild_id, twitch_username: streamer.data.name, channel_id: req.body.channel_id, role_id: req.body.role_id })
+            streamer = streamer.data.data[0];
+            let data = { 
+                guild_id: req.body.guild_id, 
+                twitch_username: streamer.login, 
+                twitch_id: streamer.id,
+                channel_id: req.body.channel_id, 
+                role_id: req.body.role_id
+            };
+            db.save(data)
             .then(tracker => res.json({ message: "Tracker Saved", data: tracker }))
             .catch(err => next(err));
         })
         .catch(err => {
             if(err.response.status === 404)
-                res.json({ error: 'No Twitch User Found' });
+                res.status(404).send("Streamer Not Found");
             else next(err);
         });
     },
