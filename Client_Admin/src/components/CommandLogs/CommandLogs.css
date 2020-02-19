@@ -1,0 +1,12 @@
+#CommandLogs-Table, .caret, .mdb-select > input,.dropdown-content li > a, .dropdown-content li > span {
+    color: #cccccc !important;
+}
+
+/* td:hover { color: #5c5c5c; } */
+/* td { font-weight: 400 !important; } */
+.page-link { color: #cccccc !important; }
+.pagination .page-item .page-link:hover { background-color: #3c3c3c; }
+.pagination .page-item.active .page-link { background-color: #A42700 !important; }
+.dropdown-content { background: #1a1a1a; }
+.dropdown-content li:hover, .dropdown-content li.active { background: #3a3a3a; }
+.table-hover tbody tr:hover { color: #5c5c5c; }
