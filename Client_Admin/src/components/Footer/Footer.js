@@ -1,23 +1,23 @@
 import React, { Component } from 'react';
 import './Footer.css';
 
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Container, Row, Col } from 'react-bootstrap';
 import { MDBFooter } from 'mdbreact';
 
-import Logo from '../../res/images/Logo.png';
-
 class Footer extends Component {
 
     render() {
+        let filterArr = ["/", "/features", "/premium", "/faq"];
+        let pathCheck = filterArr.includes(this.props.location.pathname);
         return(
-            <div id="Footer">
-            <MDBFooter style={{ background: "#060606" }} className="font-small pt-4 mt-4">
+            <div id="Footer" className={pathCheck ? '' : 'display-none'}>
+                <MDBFooter style={{ background: "#060606" }} className="font-small pt-4 mt-4">
                 <Container fluid className="text-center text-md-left" style={{ marginBottom: "2%" }}>
                     <Row>
-                    <Col md="6" className="Footer-Col__Sec1">
-                        <img src={Logo} alt="" className="Footer-Logo" />
+                    <Col md={6} className="Footer-Col__Sec1">
+                        <img src="https://i.imgur.com/KR9xQdZ.png" alt="" className="Footer-Logo" />
                         <h5 className="title Footer-Logo-Text">FiresideBOT</h5>
                         <Row style={{ marginTop: "2%" }}>
                         <Col className="Footer-Col" style={{ marginBottom: "2%" }}>
@@ -59,7 +59,7 @@ class Footer extends Component {
                             </Col>
                         </Row>
                     </Col>
-                    <Col md="2" style={{ marginBottom: "2%" }}>
+                    <Col md={2} style={{ marginBottom: "2%" }}>
                         <h5 className="title Footer-UL-Title__Contact">Contact</h5>
                         <ul className="Footer-UL" style={{ paddingLeft: "0" }}>
                         <li className="list-unstyled Footer-LI">
@@ -70,7 +70,7 @@ class Footer extends Component {
                         </li>
                         </ul>
                     </Col>
-                    <Col md="2" style={{ marginBottom: "2%" }}>
+                    <Col md={2} style={{ marginBottom: "2%" }}>
                         <h5 className="title Footer-UL-Title__UsefulLinks">Useful Links</h5>
                         <ul className="Footer-UL" style={{ paddingLeft: "0" }}>
                         <li className="list-unstyled Footer-LI">
@@ -84,7 +84,7 @@ class Footer extends Component {
                         </li>
                         </ul>
                     </Col>
-                    <Col md="2" style={{ marginBottom: "2%" }}>
+                    <Col md={2} style={{ marginBottom: "2%" }}>
                         <h5 className="title Footer-UL-Title__UsefulLinks">Resources</h5>
                         <ul className="Footer-UL" style={{ paddingLeft: "0" }}>
                         <li className="list-unstyled Footer-LI">
@@ -108,4 +108,4 @@ class Footer extends Component {
     }
 };
 
-export default Footer;
+export default withRouter(Footer);
