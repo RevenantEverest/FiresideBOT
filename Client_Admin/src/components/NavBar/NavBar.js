@@ -1,21 +1,9 @@
-import React, { Component } from 'react';
+import React,  { Component } from 'react';
 import './NavBar.css';
 
 import { withRouter } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-    MDBNavbar,
-    MDBNavbarBrand,
-    MDBNavbarToggler,
-    MDBCollapse,
-    MDBNavbarNav,
-    MDBNavItem,
-    MDBNavLink,
-    MDBDropdown,
-    MDBDropdownToggle,
-    MDBDropdownMenu,
-    MDBDropdownItem
-} from 'mdbreact';
+import SideNav from '../SideNav/SideNav';
+import HomeNav from '../HomeNav/HomeNav';
 
 class NavBar extends Component {
 
@@ -23,55 +11,37 @@ class NavBar extends Component {
         super(props);
         this.state = {
             isOpen: false
-        };
-        this.togglePostCollapse = this.togglePostCollapse.bind(this);
+        }
     }
 
-    toggleCollapse = () => this.setState({ isOpen: !this.state.isOpen });
-    togglePostCollapse() {
-        if(this.state.isOpen)
-            this.setState({ isOpen: false })
+    renderHomeNav() {
+        return <HomeNav userData={this.props.userData} getManageServer={this.props.getManageServer} />;
+    }
+
+    renderDashboardNav() {
+        // if(this.props.userData)
+        //     return <SideNav 
+        //             userData={this.props.userData} 
+        //             manageServer={this.props.manageServer} 
+        //             getManageServer={this.props.getManageServer}
+        //             changelogs={this.props.changelogs} 
+        //             handleLogout={this.props.handleLogout} 
+        //             />;
+        // else return <Redirect to="/" />
+
+        return <SideNav 
+        userData={this.props.userData} 
+        manageServer={this.props.manageServer} 
+        getManageServer={this.props.getManageServer}
+        changelogs={this.props.changelogs} 
+        handleLogout={this.props.handleLogout} 
+        />;
     }
 
     render() {
-        return(
-            <div id="NavBar">
-                  <MDBNavbar color="black" dark expand="md">
-                    <MDBNavbarBrand>
-                    <strong className="white-text">Fireside Admin</strong>
-                    </MDBNavbarBrand>
-                    <MDBNavbarToggler onClick={this.toggleCollapse} />
-                    <MDBCollapse id="navbarCollapse3" isOpen={this.state.isOpen} navbar>
-                    <MDBNavbarNav left>
-                        <MDBNavItem onClick={this.togglePostCollapse}>
-                        <MDBNavLink to="/">Home</MDBNavLink>
-                        </MDBNavItem>
-                        <MDBNavItem onClick={this.togglePostCollapse}>
-                        <MDBNavLink to="/dashboard">Dashboard</MDBNavLink>
-                        </MDBNavItem>
-                        <MDBNavItem onClick={this.togglePostCollapse}>
-                        <MDBNavLink to="/changelogs">ChangeLogs</MDBNavLink>
-                        </MDBNavItem>
-                    </MDBNavbarNav>
-                    <MDBNavbarNav right>
-                        <MDBNavItem>
-                        <MDBDropdown>
-                            <MDBDropdownToggle nav caret>
-                            <FontAwesomeIcon icon="user" />
-                            </MDBDropdownToggle>
-                            <MDBDropdownMenu className="dropdown-default">
-                            <MDBDropdownItem href="#!">Action</MDBDropdownItem>
-                            <MDBDropdownItem href="#!">Another Action</MDBDropdownItem>
-                            <MDBDropdownItem href="#!">Something else here</MDBDropdownItem>
-                            <MDBDropdownItem href="#!">Something else here</MDBDropdownItem>
-                            </MDBDropdownMenu>
-                        </MDBDropdown>
-                        </MDBNavItem>
-                    </MDBNavbarNav>
-                    </MDBCollapse>
-                </MDBNavbar>
-            </div>
-        );
+        let filterArr = ["/", "/features", "/premium", "/faq"];
+        let pathCheck = filterArr.includes(this.props.location.pathname);
+        return pathCheck ? this.renderHomeNav() : this.renderDashboardNav();
     }
 };
 
