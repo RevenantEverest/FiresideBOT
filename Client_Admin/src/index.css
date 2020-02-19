@@ -33,13 +33,62 @@ a:visited, a:hover, a:focus, a:active {
   color: inherit;
 }
 
-.Button {
-  background: #A42700 !important;
-  font-weight: 600;
-  transition: .3s linear;
+table.table a {
+  color: inherit;
 }
 
+body::-webkit-scrollbar { background: #0d0d0d; }
+body::-webkit-scrollbar-thumb { background: #262626; }
+
 .display-inline { display: inline; }
+.display-none { display: none; }
+
+.Button {
+  background: #A42700 !important;
+  color: inherit;
+}
+
+.Button:hover {
+  color: #cccccc;
+}
+
+.FontAwesomeIcon { display: inline; margin-right: 5%; }
+.Component-Header {
+  font-size: 2.5rem;
+  font-weight: 600;
+}
+.Component-Breadcrumb {
+  display: inline;
+  transition: .3s;
+}
+
+.Component-Breadcrumb:hover {
+  color: #A42700;
+  cursor: pointer;
+}
+
+.Component-Breadcrumb-Main {
+  font-weight: 600;
+}
+
+.Component-Content {
+  margin-top: 25px;
+}
+
+.Modal {
+  background: #151515 !important;
+  color: #cccccc;
+  border-color: #0d0d0d;
+
+}
+
+.Modal > .close {
+  color: #cccccc;
+}
+
+.modal-content {
+  background-color: #151515 !important;
+}
 
 .cascading-admin-card .admin-up {
   margin-left: 4%;
@@ -47,11 +96,11 @@ a:visited, a:hover, a:focus, a:active {
   margin-top: -20px;
 }
 
-.cascading-admin-card .admin-up .FontAwesomeIcon {
+.cascading-admin-card .admin-up .Admin-FontAwesomeIcon {
   box-shadow: 0 2px 9px 0 rgba(0, 0, 0, 0.2), 0 2px 13px 0 rgba(0, 0, 0, 0.19);
 }
 
-.cascading-admin-card .admin-up .FontAwesomeIcon {
+.cascading-admin-card .admin-up .Admin-FontAwesomeIcon {
   font-size: 65px;
   color: #cccccc;
   text-align: left;
@@ -59,7 +108,7 @@ a:visited, a:hover, a:focus, a:active {
   border-radius: 3px;
 }
 
-.FontAwesomeIcon {
+.Admin-FontAwesomeIcon {
   padding: 15px;
 }
 
@@ -87,6 +136,7 @@ a:visited, a:hover, a:focus, a:active {
 }
 
 .progress {
+  height: 12px;
   background: #1f1f1f !important;
 }
 
@@ -102,17 +152,10 @@ a:visited, a:hover, a:focus, a:active {
   background: #CC8218 !important;
 }
 
-.Modal {
-  background: #151515 !important;
-  color: #cccccc;
-  border-color: #0d0d0d;
-
+.carousel-multi-item .carousel-indicators li {
+  background-color: #A42700;
 }
 
-.Modal > .close {
-  color: #cccccc;
-}
-
-.modal-content {
-  background-color: #151515 !important;
+.carousel-multi-item .carousel-indicators .active {
+  background-color: #A42700;
 }
