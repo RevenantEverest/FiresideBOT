@@ -1,36 +1,40 @@
 import React, { Component } from 'react';
 import './TopCommandsMonth.css';
 
-import PieChart from '../../Charts/PieChart/PieChart';
+import Spinner from 'react-bootstrap/Spinner';
+import PieChart from '../Charts/PieChart/PieChart';
+
+import commandLogServices from '../../services/commandLogServices';
 
 class TopCommandsMonth extends Component {
 
+    _isMounted = false;
+
     constructor(props) {
         super(props);
-        this.state = {
-            logs: this.props.logs
-        }
+        this.state = {}
+    }
+
+    componentDidMount() {
+        this._isMounted = true;
+        this.getTopCommandsMonth();
+    }
+
+    componentWillUnmount = () => this._isMounted = false;
+
+    getTopCommandsMonth() {
+        if(!this._isMounted) return;
+		commandLogServices.getTopCommandsMonth()
+		.then(logsThisMonth => this.setState({ logsThisMonth: logsThisMonth.data.data, dataReceived: true }))
+		.catch(err => console.error(err));
     }
 
     renderChart() {
         const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', ' August', 'September', 'October', 'November', 'December'];
         const today = new Date();
         const date = { day: today.getDate(), month: today.getMonth(), year: today.getFullYear() };
-        let logsThisMonth = this.state.logs.filter(el => el.date.split(",")[1].split(" ")[1] === months[date.month]);
-
-        let temp = [];
-        logsThisMonth.forEach(el => {
-            if(temp.map(log => log.command).includes(el.command)) return;
-            let data = {
-                command: el.command,
-                amount: logsThisMonth.filter(log => log.command === el.command).length,
-                info: logsThisMonth.filter(log => log.command === el.command)
-            }
-            temp.push(data);
-            temp = temp.sort((a, b) => b.amount - a.amount);
-        });
-
-        logsThisMonth = temp.map((el, idx) => idx < 3 ? el : null).filter(Boolean);
+		
+		let logsThisMonth = this.state.logsThisMonth;
 
         let data = {
             labels: logsThisMonth.map(el => el.command),
@@ -54,7 +58,7 @@ class TopCommandsMonth extends Component {
     render() {
         return(
             <div id="TopCommandsMonth">
-            {this.state.logs ? this.renderChart() : ''}
+            {this.state.dataReceived ? this.renderChart() : <Spinner animation="border" role="status" style={{ display: "inline-block" }}><span className="sr-only">Loading...</span></Spinner>}
             </div>
         );
     }

@@ -77,10 +77,10 @@ class WeeklyCommands extends Component {
         let percentDifference = Math.round(((thisWeek / lastWeek) - 1) * 100) / 100 * 100;
 
         return(
-            <Col md={3} className="WeeklyWrapUp-Col">
+            <Col md={4} className="WeeklyWrapUp-Col">
                 <MDBCard style={{ background: "#0c0c0c", color: "inherit" }} className="cascading-admin-card">
                 <div className="admin-up">
-                <FontAwesomeIcon icon="magic" className="FontAwesomeIcon cyan" />
+                <FontAwesomeIcon icon="magic" className="Admin-FontAwesomeIcon cyan" />
                     <div className="data">
                     <p>COMMANDS USED</p>
                     <h4>

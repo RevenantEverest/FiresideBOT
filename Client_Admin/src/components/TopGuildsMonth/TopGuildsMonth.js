@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import './TopGuildsMonth.css';
 
-import PieChart from '../../Charts/PieChart/PieChart';
-import services from '../../../services/apiServices';
+import Spinner from 'react-bootstrap/Spinner';
+import PieChart from '../Charts/PieChart/PieChart';
 
+import commandLogServices from '../../services/commandLogServices';
 
 class TopGuildsMonth extends Component {
 
@@ -16,12 +17,14 @@ class TopGuildsMonth extends Component {
 
     componentDidMount() {
         this._isMounted = true;
-        this.getLogs();
+        this.getTopGuildsMonth();
     }
 
-    getLogs() {
+    componentWillUnmount = () => this._isMounted = false;
+
+    getTopGuildsMonth() {
         if(!this._isMounted) return setTimeout(() => this.getLogs(), 2000);
-        services.getTopGuildsMonth()
+        commandLogServices.getTopGuildsMonth()
         .then(logs => this.setState({ logs: logs.data.data, dataReceived: true }))
         .catch(err => console.error(err));
     }
@@ -55,7 +58,7 @@ class TopGuildsMonth extends Component {
     render() {
         return(
             <div id="TopGuildsMonth">
-            {this.state.logs ? this.renderChart() : ''}
+            {this.state.logs ? this.renderChart() : <Spinner animation="border" role="status" style={{ display: "inline-block" }}><span className="sr-only">Loading...</span></Spinner>}
             </div>
         );
     }

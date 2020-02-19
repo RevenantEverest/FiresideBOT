@@ -74,8 +74,8 @@ class LineChart extends Component {
     render() {
         return(
             <div id="LineChart">
-            <MDBCard style={{ background: "#151515" }}>
-                <MDBCardHeader>{this.state.options.title}</MDBCardHeader>
+            <MDBCard style={{ background: "#1a1a1a" }}>
+                <MDBCardHeader style={{ background: "#262626" }}>{this.state.options.title}</MDBCardHeader>
                 <MDBCardBody style={{ background: "#0c0c0c" }}>
                     <Line
                     data={this.state.data} 

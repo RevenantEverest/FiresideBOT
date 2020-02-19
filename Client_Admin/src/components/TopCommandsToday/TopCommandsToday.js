@@ -1,37 +1,39 @@
 import React, { Component } from 'react';
 import './TopCommandsToday.css';
 
-import PieChart from '../../Charts/PieChart/PieChart';
+import Spinner from 'react-bootstrap/Spinner';
+import PieChart from '../Charts/PieChart/PieChart';
+
+import commandLogServices from '../../services/commandLogServices';
 
 class TopCommandsToday extends Component {
 
+    _isMounted = false;
+
     constructor(props) {
         super(props);
-        this.state = {
-            logs: this.props.logs
-        }
+        this.state = {};
+    }
+
+    componentDidMount() {
+        this._isMounted = true;
+        this.getTopCommandsToday();
+    }
+
+    componentWillUnmount = () => this._isMounted = false;
+
+    getTopCommandsToday() {
+        if(!this._isMounted) return;
+		commandLogServices.getTopCommandsToday()
+		.then(logsToday => this.setState({ logsToday: logsToday.data.data, dataReceived: true }))
+		.catch(err => console.error(err));
     }
 
     renderChart() {
         const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', ' August', 'September', 'October', 'November', 'December'];
         const today = new Date();
         const date = { day: today.getDate(), month: today.getMonth(), year: today.getFullYear() };
-        let logsThisMonth = this.state.logs.filter(el => el.date.split(",")[1].split(" ")[1] === months[date.month]);
-        let logsToday = logsThisMonth.filter(el => el.date.trim().split(",")[1].split(" ")[2] === `${date.day}`);
-
-        let temp = [];
-        logsToday.forEach(el => {
-            if(temp.map(log => log.command).includes(el.command)) return;
-            let data = {
-                command: el.command,
-                amount: logsToday.filter(log => log.command === el.command).length,
-                info: logsToday.filter(log => log.command === el.command)
-            }
-            temp.push(data);
-            temp = temp.sort((a, b) => b.amount - a.amount);
-        });
-
-        logsToday = temp.map((el, idx) => idx < 3 ? el : null).filter(Boolean);
+		let logsToday = this.state.logsToday;
 
         let data = {
             labels: logsToday.map(el => el.command),
@@ -55,7 +57,7 @@ class TopCommandsToday extends Component {
     render() {
         return(
             <div id="TopCommandsToday">
-            {this.state.logs ? this.renderChart() : ''}
+            {this.state.dataReceived ? this.renderChart() : <Spinner animation="border" role="status" style={{ display: "inline-block" }}><span className="sr-only">Loading...</span></Spinner>}
             </div>
         );
     }

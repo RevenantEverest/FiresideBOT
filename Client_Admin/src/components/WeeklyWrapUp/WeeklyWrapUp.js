@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './WeeklyWrapUp.css';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 import {
     MDBCard,
     MDBCardBody,
@@ -10,7 +10,7 @@ import {
     MDBBadge
 } from 'mdbreact';
 
-import WeeklyCommands from '../../DataSets/WeeklyCommands/WeeklyCommands';
+import WeeklyCommands from '../WeeklyCommands/WeeklyCommands';
 
 class WeeklyWrapUp extends Component {
 
@@ -23,10 +23,10 @@ class WeeklyWrapUp extends Component {
 
     renderNewGuilds() {
         return(
-            <Col md={3} className="WeeklyWrapUp-Col">
+            <Col md={4} className="WeeklyWrapUp-Col">
                 <MDBCard style={{ background: "#0c0c0c", color: "inherit" }} className="cascading-admin-card">
                 <div className="admin-up">
-                <FontAwesomeIcon icon="users" className="FontAwesomeIcon orange" />
+                <FontAwesomeIcon icon="users" className="Admin-FontAwesomeIcon orange" />
                     <div className="data">
                     <p>NEW GUILDS</p>
                     <h4>
@@ -53,10 +53,10 @@ class WeeklyWrapUp extends Component {
 
     renderDonations() {
         return(
-            <Col md={3} className="WeeklyWrapUp-Col">
+            <Col md={4} className="WeeklyWrapUp-Col">
                 <MDBCard style={{ background: "#0c0c0c", color: "inherit" }} className="cascading-admin-card">
                 <div className="admin-up">
-                <FontAwesomeIcon icon="money-bill-alt" className="FontAwesomeIcon yellow" />
+                <FontAwesomeIcon icon="money-bill-alt" className="Admin-FontAwesomeIcon yellow" />
                     <div className="data">
                     <p>DONATIONS</p>
                     <h4>
@@ -79,13 +79,11 @@ class WeeklyWrapUp extends Component {
     render() {
         return(
             <div id="WeeklyWrapup">
-            <Container fluid>
-                <Row className="justify-content-md-center WeeklyWrapUp-Row" style={{ marginBottom: "2%" }}>
-                    {this.state.logs ? this.renderNewGuilds() : ''}
-                    <WeeklyCommands logs={this.props.logs} />
-                    {this.state.logs ? this.renderDonations(): ''}
-                </Row>
-            </Container>
+            <Row className="justify-content-md-center WeeklyWrapUp-Row" style={{ marginLeft: 0, marginRIght: 0 }}>
+                {this.state.logs ? this.renderNewGuilds() : ''}
+                <WeeklyCommands logs={this.props.logs} />
+                {this.state.logs ? this.renderDonations(): ''}
+            </Row>
             </div>
         );
     }

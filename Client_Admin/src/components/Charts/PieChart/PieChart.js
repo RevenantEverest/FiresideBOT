@@ -50,8 +50,8 @@ class PieChart extends Component {
     render() {
         return(
             <div id="PieChart">
-            <MDBCard style={{ background: "#151515" }}>
-                <MDBCardHeader>{this.state.options.title}</MDBCardHeader>
+            <MDBCard style={{ background: "#1a1a1a" }}>
+                <MDBCardHeader style={{ background: "#262626" }}>{this.state.options.title}</MDBCardHeader>
                 <MDBCardBody style={{ background: "#0a0a0a" }}>
                     <MDBCardText tag="div">
                         <Pie

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import './TopGuildsToday.css';
 
-import PieChart from '../../Charts/PieChart/PieChart';
-import services from '../../../services/apiServices';
+import Spinner from 'react-bootstrap/Spinner';
+import PieChart from '../Charts/PieChart/PieChart';
+
+import commandLogServices from '../../services/commandLogServices';
 
 class TopGuildsToday extends Component {
 
@@ -15,12 +17,14 @@ class TopGuildsToday extends Component {
 
     componentDidMount() {
         this._isMounted = true;
-        this.getLogs();
+        this.getTopGuildsToday();
     }
+    
+    componentWillUnmount = () => this._isMounted = false;
 
-    getLogs() {
-        if(!this._isMounted) return setTimeout(() => this.getLogs(), 2000);
-        services.getTopGuildsToday()
+    getTopGuildsToday() {
+        if(!this._isMounted) return;
+        commandLogServices.getTopGuildsToday()
         .then(logs => this.setState({ logs: logs.data.data, dataReceived: true }))
         .catch(err => console.error(err));
     }
@@ -53,7 +57,7 @@ class TopGuildsToday extends Component {
     render() {
         return(
             <div id="TopGuildsToday">
-            {this.state.logs ? this.renderChart() : ''}
+            {this.state.logs ? this.renderChart() : <Spinner animation="border" role="status" style={{ display: "inline-block" }}><span className="sr-only">Loading...</span></Spinner>}
             </div>
         );
     }
