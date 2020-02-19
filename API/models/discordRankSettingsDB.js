@@ -14,5 +14,14 @@ module.exports = {
         return db.one(`INSERT INTO discord_rank_settings (guild_id, general_increase_rate, complexity, channel_id)
         VALUES ($/guild_id/, $/general_increase_rate/. $/complexity/, $/channel_id/)
         RETURNING *`, settings);
+    },
+    update(settings) {
+        return db.one(`UPDATE discord_rank_settings
+        SET
+        general_increase_rate = $/general_increase_rate/,
+        complexity = $/complexity/,
+        channel_id = $/channel_id/
+        WHERE id = $/id/ AND guild_id = $/guild_id/
+        RETURNING *`, settings);
     }
 };
