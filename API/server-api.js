@@ -29,6 +29,7 @@ app.use("/guilds/settings", require('./routes/GuildRoutes/guildSettingsRoutes'))
 app.use("/guild/playlists", require('./routes/GuildRoutes/guildPlaylistRoutes'));
 app.use("/guild/songs", require('./routes/GuildRoutes/guildSongRoutes'));
 app.use("/guild/members/new", require('./routes/newGuildMembersRoutes'));
+app.use("/guilds/embed", require('./routes/GuildRoutes/guildEmbedRoutes.js'));
 app.use("/user/playlists", require('./routes/UserRoutes/userPlaylistRoutes'));
 app.use("/user/songs", require('./routes/UserRoutes/userSongRoutes'));
 

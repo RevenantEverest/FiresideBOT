@@ -2,29 +2,70 @@ import React, { Component } from 'react';
 import './WeeklyWrapup.css';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Spinner } from 'react-bootstrap';
 import {
     MDBCard,
     MDBCardBody,
     MDBCardHeader
 } from 'mdbreact';
 
+import commandLogServices from '../../../services/commandLogServices';
+import newGuildMemberServices from '../../../services/newGuildMemberServices';
+
 class WeeklyWrapup extends Component {
 
-    render() {
+    _isMounted = false;
+
+    constructor(props) {
+        super(props);
+        this.state = {};
+    }
+
+    componentDidMount() {
+        this._isMounted = true;
+        this.getLogsThisMonth();
+    }
+    componentWillUnmount = () => this._isMounted = false;
+
+    getLogsThisMonth() {
+        if(!this.props.manageServer) return;
+        if(!this._isMounted) return setTimeout(() => this.getLogsThisMonth(), 2000);
+        commandLogServices.getCommandsWeekByGuild(this.props.manageServer.id)
+        .then(logsThisWeek => this.setState({ logsThisWeek: logsThisWeek.data.data }, () => this.getNewGuildMembers()))
+        .catch(err => console.error(err));
+    }
+
+    getNewGuildMembers() {
+        newGuildMemberServices.getNewGuildMembers(this.props.manageServer.id)
+        .then(newMembers => this.setState({ newMembers: newMembers.data.data, dataReceived: true }))
+        .catch(err => console.error(err));
+    }
+
+    renderServerPicker() {
         return(
-            <div id="WeeklyWrapup">
-            <Container fluid>
-            <Row style={{ marginBottom: "5%" }}>
-                <Col>
-                    <MDBCard>
-                    <MDBCardHeader style={{ background: "#1a1a1a", fontWeight: 600 }}>
-                    Weekly Wrapup
-                    </MDBCardHeader>
-                    </MDBCard>
-                </Col>
+            <Row style={{ marginLeft: 0, marginRight: 0 }}>
+            <Col>
+                <Spinner animation="border" role="status" style={{ display: "inline-block" }}><span className="sr-only">Loading...</span></Spinner>
+                <h5 className="h5" style={{ display: "inline-block", marginLeft: "2%" }}>Please Select A Server To Manage Before Viewing Weekly Wrapup</h5>
+            </Col>
             </Row>
-            <Row>
+        );
+    }
+
+    renderSpinner() {
+        return(
+            <Row style={{ marginLeft: 0, marginRight: 0 }}>
+            <Col>
+                <Spinner animation="border" role="status" style={{ display: "inline-block" }}><span className="sr-only">Loading...</span></Spinner>
+            </Col>
+            </Row>
+        );
+    }
+
+    renderWrapUp() {
+        let logsThisWeek = this.state.logsThisWeek;
+        return(
+            <Row style={{ marginLeft: 0, marginRight: 0 }}>
                 <Col md={4} className="WeeklyWrapup-Col">
                     <MDBCard style={{ background: "#0c0c0c", color: "inherit" }} className="cascading-admin-card">
                     <div className="admin-up">
@@ -32,7 +73,7 @@ class WeeklyWrapup extends Component {
                         <div className="data">
                         <p>NEW GUILDS MEMBERS</p>
                         <h4>
-                            <strong>20</strong>
+                            <strong>{this.state.newMembers.length}</strong>
                         </h4>
                         </div>
                     </div>
@@ -51,7 +92,7 @@ class WeeklyWrapup extends Component {
                         <div className="data">
                         <p>COMMANDS USED</p>
                         <h4>
-                            <strong>120</strong>
+                            <strong>{logsThisWeek.length}</strong>
                         </h4>
                         </div>
                     </div>
@@ -70,7 +111,7 @@ class WeeklyWrapup extends Component {
                         <div className="data">
                         <p>SONGS PLAYED</p>
                         <h4>
-                            <strong>50</strong>
+                            <strong>{logsThisWeek.filter(el => el.command === "Play").length}</strong>
                         </h4>
                         </div>
                     </div>
@@ -83,6 +124,25 @@ class WeeklyWrapup extends Component {
                     </MDBCard>
                 </Col>
             </Row>
+        );
+    }
+
+    render() {
+        return(
+            <div id="WeeklyWrapup">
+            <Container fluid style={{ paddingLeft: 0, paddingRight: 0 }}>
+            <Row style={{ marginBottom: "5%", marginLeft: 0, marginRight: 0 }}>
+                <Col>
+                    <MDBCard>
+                    <MDBCardHeader style={{ background: "#1a1a1a", fontWeight: 600 }}>
+                    Weekly Wrapup
+                    </MDBCardHeader>
+                    </MDBCard>
+                </Col>
+            </Row>
+            {this.props.manageServer ? '' : this.renderServerPicker()}
+            {this.state.dataReceived ? this.renderWrapUp() : ''}
+            {this.props.manageServer && !this.state.dataReceived ?  this.renderSpinner() : ''}
             </Container>
             </div>
         );

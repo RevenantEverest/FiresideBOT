@@ -1,4 +1,3 @@
-
 const db = require('../config/connection');
 
 module.exports = {
@@ -9,7 +8,7 @@ module.exports = {
         return db.one('SELECT * FROM command_logs WHERE id = $1', id);
     },
     findByGuildId(id) {
-        return db.many('SELCT * FROM command_logs WHERE guild_id = $1', id);
+        return db.many('SELECT * FROM command_logs WHERE guild_id = $1', id);
     },
     findByCommand(command) {
         return db.many('SELECT * FROM command_logs WHERE command = $1', command);

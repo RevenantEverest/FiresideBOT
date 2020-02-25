@@ -14,7 +14,7 @@ import {
     MDBBadge
 } from 'mdbreact';
 
-import Skin from '../../res/Skin';
+import Skin from '../../../res/Skin';
 
 class SingleChangelog extends Component {
 

@@ -73,7 +73,7 @@ class Changelogs extends Component {
         .then(() => {
             let modalNumber = 'delete' + modal;
             this.setState({[modalNumber]: !this.state[modalNumber]}, () => {
-                this.props.getChangelogs();
+                this.getChangelogs();
             });
         })
         .catch(err => console.error(err));

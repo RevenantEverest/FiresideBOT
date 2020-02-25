@@ -16,6 +16,7 @@ import {
     MDBFormInline
 } from 'mdbreact';
 
+import CreateChangelog from '../CreateChangelog/CreateChangelog';
 import EditChangelog from '../EditChangelog/EditChangelog';
 
 import changelogServices from '../../services/changelogServices';
@@ -33,6 +34,7 @@ class WorkingChangelogs extends Component {
             search: ''
         }
         this.handleChange = this.handleChange.bind(this);
+        this.getWorkingChangelogs = this.getWorkingChangelogs.bind(this);
     }
 
     componentDidMount() {
@@ -48,18 +50,8 @@ class WorkingChangelogs extends Component {
         }));
     }
 
-    toggleEditModal = nr => () => {
-        let modalNumber = 'edit' + nr;
-        this.setState({[modalNumber]: !this.state[modalNumber]});
-    }
-
-    toggleDeleteModal = nr => () => {
-        let modalNumber = 'delete' + nr;
-        this.setState({[modalNumber]: !this.state[modalNumber]});
-    }
-
-    findEditModal = (index) => this.state[("edit" + index)];
-    findDeleteModal = (index) => this.state[("delete" + index)];
+    toggleModal = (modal, nr) => () => this.setState({[modal + nr]: !this.state[modal + nr]});
+    findModal = (modal, index) => this.state[(modal + index)];
 
     getWorkingChangelogs() {
         if(!this._isMounted) return;
@@ -75,7 +67,7 @@ class WorkingChangelogs extends Component {
         .then(() => {
             let modalNumber = 'delete' + modal;
             this.setState({[modalNumber]: !this.state[modalNumber]}, () => {
-                this.props.getWorkingChangelogs();
+                this.getWorkingChangelogs();
             });
         })
         .catch(err => console.error(err));
@@ -93,8 +85,8 @@ class WorkingChangelogs extends Component {
                 <MDBCollapse id={`basicCollapse${idx + 1}`} isOpen={this.state.collapseID}>
                     <MDBCard style={{ background: "#1a1a1a", color: "#cccccc" }}>
                     <MDBCardBody>
-                        <MDBBtn color={Skin.MDBColor} className="Button" size="sm" onClick={this.toggleEditModal((idx + 1))}>Edit</MDBBtn>
-                        <MDBBtn color="elegant" size="sm" onClick={this.toggleDeleteModal((idx + 1))}>
+                        <MDBBtn color={Skin.hex} className="Button" size="sm" onClick={this.toggleModal("edit", (idx + 1))}>Edit</MDBBtn>
+                        <MDBBtn color="elegant" size="sm" onClick={this.toggleModal("delete", (idx + 1))}>
                         <FontAwesomeIcon icon="trash-alt" />
                         </MDBBtn>
                         <MDBCardText tag="div">
@@ -103,20 +95,20 @@ class WorkingChangelogs extends Component {
                     </MDBCardBody>
                     </MDBCard>
 
-                    <MDBModal isOpen={this.findDeleteModal((idx + 1))} toggle={this.toggleDeleteModal((idx + 1))} centered>
-                    <MDBModalHeader toggle={this.toggleDeleteModal((idx + 1))} tag="div" className="Modal">
+                    <MDBModal isOpen={this.findModal("delete", (idx + 1))} toggle={this.toggleModal("delete", (idx + 1))} centered>
+                    <MDBModalHeader toggle={this.toggleModal("delete", (idx + 1))} tag="div" className="Modal">
                     <h4 className="h4 display-inline">Are you sure you want to delete </h4>
                     <h4 className="h4 display-inline" style={{ fontWeight: 600, color: "orange" }}>{el.version}</h4>
                     <h4 className="h4 display-inline">?</h4>
                     </MDBModalHeader>
                     <MDBModalBody className="Modal">
-                        <MDBBtn color="elegant" onClick={this.toggleDeleteModal((idx + 1))}>Close</MDBBtn>
+                        <MDBBtn color="elegant" onClick={this.toggleModal("delete", (idx + 1))}>Close</MDBBtn>
                         <MDBBtn color={Skin.MDBColor} className="Button" onClick={() => this.deleteWorkingChangelog(el, (idx + 1))}>Delete Changelog</MDBBtn>
                     </MDBModalBody>
                     </MDBModal>
                     
-                    <MDBModal isOpen={this.findEditModal((idx + 1))} toggle={this.toggleEditModal((idx + 1))} size="fluid">
-                    <MDBModalHeader toggle={this.toggleEditModal((idx + 1))} tag="div" className="Modal">
+                    <MDBModal isOpen={this.findModal("edit", (idx + 1))} toggle={this.toggleModal("edit", (idx + 1))} size="fluid">
+                    <MDBModalHeader toggle={this.toggleModal("edit", (idx + 1))} tag="div" className="Modal">
                     <h4 className="h4 display-inline">Edit Changelog </h4>
                     <h4 className="h4 display-inline" style={{ fontWeight: 600, color: "orange" }}>{el.version}</h4>
                     </MDBModalHeader>
@@ -124,9 +116,9 @@ class WorkingChangelogs extends Component {
                         <EditChangelog 
                         userData={this.props.userData} 
                         changelogData={el} 
-                        getWorkingChangelogs={this.props.getWorkingChangelogs}
+                        getWorkingChangelogs={this.getWorkingChangelogs}
                         getChangelogs={this.props.getChangelogs}
-                        closeModal={this.toggleEditModal((idx + 1))}
+                        closeModal={this.toggleModal("edit", (idx + 1))}
                         />
                     </MDBModalBody>
                     </MDBModal>
@@ -142,6 +134,25 @@ class WorkingChangelogs extends Component {
         return(
             <div id="WorkingChangelogs">
                 <Container>
+                <Row>
+                    <Col>
+                    <MDBBtn color={Skin.hex} className="Button" size="md" onClick={this.toggleModal("create", 1)}>
+                    Create Changelog
+                    </MDBBtn>
+                    <MDBModal isOpen={this.findModal("create", 1)} toggle={this.toggleModal("create", 1)} size="fluid">
+                    <MDBModalHeader toggle={this.toggleModal("create", 1)} tag="div" className="Modal">
+                    <h4 className="h4 display-inline">Edit Changelog </h4>
+                    </MDBModalHeader>
+                    <MDBModalBody className="Modal">
+                        <CreateChangelog 
+                        userData={this.props.userData}
+                        getWorkingChangelogs={this.getWorkingChangelogs}
+                        closeModal={this.toggleModal("create", 1)}
+                        />
+                    </MDBModalBody>
+                    </MDBModal>
+                    </Col>
+                </Row>
                 <Row style={{ marginBottom: "2%" }}>
                     <Col lg={10} md={2} sm={2}>
                     <MDBFormInline className="md-form" >

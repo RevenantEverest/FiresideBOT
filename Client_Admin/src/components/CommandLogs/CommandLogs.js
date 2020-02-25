@@ -3,7 +3,7 @@ import './CommandLogs.css';
 
 import { Link } from 'react-router-dom';
 import { Container, Row, Col, Spinner } from 'react-bootstrap';
-import { MDBDataTable, MDBIcon } from 'mdbreact';
+import { MDBDataTable } from 'mdbreact';
 
 import commandLogServices from '../../services/commandLogServices';
 

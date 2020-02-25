@@ -23,33 +23,38 @@ class EditCahngeLog extends Component {
         this.state = {
             userData: this.props.userData,
             changelogData: this.props.changelogData,
-            content: this.props.changelogData.content
+            content: this.props.changelogData.content,
+            flavorText: "",
+            send_embed: false
         }
         this.handleChange = this.handleChange.bind(this);
+        this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleChange = (e) => this.setState({ [e.target.name]: e.target.value });
-
+    handleChange = (e) => this.setState({ [e.target.name]: e.target.value }, () => console.log(this.state));
+    handleCheckboxChange = (e) => this.setState({ send_embed: !this.state.send_embed });
     handleSubmit(e, publish) {
         e.preventDefault();
         let data = {
             id: this.props.changelogData.id,
+            flavor_text: this.state.flavorText ? this.state.flavorText : null,
             content: this.state.content ? this.state.content : this.props.changelogData.content,
             version: this.state.version ? this.state.version : this.props.changelogData.version,
-            type: this.state.type ? this.state.type : this.props.changelogData.type
+            type: this.state.type ? this.state.type : this.props.changelogData.type,
+            send_embed: this.state.send_embed ? this.state.send_embed : false
         };
         
         if(publish && this.props.changelog)
             return this.updateChangelog(data);
         else if(publish && !this.props.changelog)
-            return this.createChangelog(data);
+            return this.publishChangelog(data);
         else if(!publish && this.props.changelog)
             return this.updateChangelog(data);
         else return this.updateWorkingChangelog(data);
     }
 
-    createChangelog(data) {
+    publishChangelog(data) {
         changelogServices.publishChangelog(data)
         .then(() => {
             this.props.getChangelogs();
@@ -85,7 +90,7 @@ class EditCahngeLog extends Component {
                     <MDBCard className="w-auto" >
                     <MDBCardBody style={{ background: "#1a1a1a", minHeight: "25vh", color: "#cccccc" }}>
                         <Row style={{ marginBottom: "5%" }}>
-                            <Col lg={6}>
+                            <Col lg={4}>
                             <MDBInput 
                             name="version"
                             label="Version"
@@ -93,7 +98,7 @@ class EditCahngeLog extends Component {
                             onChange={this.handleChange}
                             />
                             </Col>
-                            <Col lg={6}>
+                            <Col lg={4}>
                             <MDBInput 
                             name="type" 
                             label="Type" 
@@ -101,8 +106,50 @@ class EditCahngeLog extends Component {
                             onChange={this.handleChange}
                             />
                             </Col>
+                            <Col lg={4}>
+                            <MDBInput 
+                            label="Send Embed" 
+                            filled 
+                            type="checkbox" 
+                            id="checkbox2" 
+                            name="send_embed" 
+                            onChange={this.handleCheckboxChange} />
+                            </Col>
                         </Row>
                         <MDBCardText tag="div">
+                        <Row>
+                        <div className="input-group" style={{ minHeight: "21vh" }}>
+                            <div className="input-group-prepend">
+                                <span 
+                                className="input-group-text" 
+                                id="basic-addon" 
+                                style={{ 
+                                    background: "#151515",
+                                    color: "#cccccc",
+                                    border: "solid thin #0a0a0a"
+                                }}>
+                                <FontAwesomeIcon icon="pencil-alt" />
+                                </span>
+                            </div>
+                            <textarea 
+                            className="form-control" 
+                            id="exampleFormControlTextarea1" 
+                            rows="5" 
+                            style={{ 
+                                background: "#1a1a1a",
+                                border: "solid thin #0a0a0a",
+                                color: "#cccccc",
+                                height: "auto"
+                            }}
+                            name="flavorText"
+                            value={this.state.flavorText}
+                            onChange={this.handleChange}
+                            />
+                        </div>
+                        </Row>
+                        <br />
+                        <br />
+                        <Row>
                         <div className="input-group" style={{ minHeight: "21vh" }}>
                             <div className="input-group-prepend">
                                 <span 
@@ -132,6 +179,7 @@ class EditCahngeLog extends Component {
                             onChange={this.handleChange}
                             />
                         </div>
+                        </Row>
                         </MDBCardText>
                         <MDBBtn color="elegant" onClick={this.props.closeModal}>Close</MDBBtn>
                         <MDBBtn color="mdb-color" onClick={(e) => this.handleSubmit(e, false)}>Save</MDBBtn>
@@ -141,8 +189,8 @@ class EditCahngeLog extends Component {
                     </Col>
                     <Col style={{ marginBottom: "2%" }}>
                     <MDBCard className="w-auto">
-                    <MDBCardBody style={{ background: "#1a1a1a", minHeight: "41vh" }}>
-                        <MDBCardText tag="div" style={{ height: "36vh", overflowY: "scroll" }}>
+                    <MDBCardBody style={{ background: "#1a1a1a", minHeight: "65vh" }}>
+                        <MDBCardText tag="div" style={{ height: "65vh", overflowY: "scroll" }}>
                         <ReactMarkdown source={this.state.content} />
                         </MDBCardText>
                     </MDBCardBody>

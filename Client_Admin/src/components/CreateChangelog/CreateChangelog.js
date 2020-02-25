@@ -12,8 +12,6 @@ import {
     MDBInput
 } from 'mdbreact';
 
-import Skin from '../../res/Skin';
-
 import changelogServices from '../../services/changelogServices';
 
 class CreateChangelog extends Component {
@@ -25,11 +23,12 @@ class CreateChangelog extends Component {
             content: ''
         }
         this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
-    handleSubmit(e, publish) {
+    handleSubmit(e) {
         e.preventDefault();
         let data = {
             content: this.state.content,
@@ -37,20 +36,12 @@ class CreateChangelog extends Component {
             type: this.state.type
         };
 
-        if(publish)
-            changelogServices.publishChangelog(data)
-            .then(() => {
-                this.props.getChangelogs()
-                this.props.closeModal();
-            })
-            .catch(err => console.error(err));
-        else 
-            changelogServices.createWorkingChangelog(data)
-            .then(() => {
-                this.props.getWorkingChangelogs()
-                this.props.closeModal();
-            })
-            .catch(err => console.error(err));
+        changelogServices.createWorkingChangelog(data)
+        .then(() => {
+            this.props.getWorkingChangelogs()
+            this.props.closeModal();
+        })
+        .catch(err => console.error(err));
     }
 
     render() {
@@ -100,8 +91,7 @@ class CreateChangelog extends Component {
                         </div>
                         </MDBCardText>
                         <MDBBtn color="elegant" onClick={this.props.closeModal}>Close</MDBBtn>
-                        <MDBBtn color="mdb-color" onClick={(e) => this.handleSubmit(e, false)}>Save</MDBBtn>
-                        <MDBBtn color={Skin.MDBColor} className="Button" onClick={(e) => this.handleSubmit(e, true)}>Publish</MDBBtn>
+                        <MDBBtn color="mdb-color" onClick={this.handleSubmit}>Save</MDBBtn>
                     </MDBCardBody>
                     </MDBCard>
                     </Col>

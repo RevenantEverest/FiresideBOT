@@ -62,3 +62,9 @@
 .dropright .dropdown-menu.dropdown-default .dropdown-item.active {
     background: #1a1a1a !important;
 }
+
+.black-skin .navbar .navbar-nav .nav-item .dropdown-menu a:hover, 
+.black-skin .navbar .navbar-nav .nav-item .dropdown-menu a:focus, 
+.black-skin .navbar .navbar-nav .nav-item .dropdown-menu a:active {
+    background: transparent !important;
+}

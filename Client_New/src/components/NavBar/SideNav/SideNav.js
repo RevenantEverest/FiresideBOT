@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import './SideNav.css';
 
-import { Route, Redirect } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Container, Row, Col, Image } from 'react-bootstrap';
 import { 
@@ -19,28 +19,33 @@ import {
     MDBSideNavLink
 } from "mdbreact";
 
-import ServerPicker from '../ServerPicker/ServerPicker';
-import Dashboard from '../Dashboard/Dashboard';
-import Analytics from '../Analytics/Analytics';
-import CustomCommands from '../CustomCommands/CustomCommands';
-import Ranks from '../Ranks/Ranks';
-import RankTiers from '../RankTiers/RankTiers';
-import RankSettings from '../RankSettings/RankSettings';
-import Playlists from '../Playlists/Playlists';
-import SinglePlaylist from '../SinglePlaylist/SinglePlaylist';
-import UserPlaylists from '../UserPlaylists/UserPlaylists';
-import GuildPlaylists from '../GuildPlaylists/GuildPlaylists';
-import Economy from '../Economy/Economy';
-import EconomySettings from '../EconomySettings/EconomySettings';
-import Trackers from '../Trackers/Trackers';
-import Settings from '../Settings/Settings';
-import DashboardFooter from '../DashboardFooter/DashboardFooter';
+import ServerPicker from '../../ServerPicker/ServerPicker';
+import Dashboard from '../../Dashboard/Dashboard';
+import Analytics from '../../Analytics/Analytics';
+import CustomCommands from '../../CustomCommands/CustomCommands';
+import Ranks from '../../Ranks/Ranks';
+import RankTiers from '../../Ranks/RankTiers/RankTiers';
+import RankSettings from '../../Ranks/RankSettings/RankSettings';
+import AutoDJ from '../../AutoDJ/AutoDJ';
+import Playlists from '../../Playlists/Playlists';
+import SinglePlaylist from '../../SinglePlaylist/SinglePlaylist';
+import UserPlaylists from '../../UserPlaylists/UserPlaylists';
+import GuildPlaylists from '../../GuildPlaylists/GuildPlaylists';
+import Economy from '../../Economy/Economy';
+import EconomySettings from '../../Economy/EconomySettings/EconomySettings';
+import Moderation from '../../Moderation/Moderation';
+import Trackers from '../../Trackers/Trackers';
+import Settings from '../../Settings/Settings';
+import UserSettings from '../../UserSettings/UserSettings';
+import Community from '../../Community/Community';
+import Support from '../../Support/Support';
+import DashboardFooter from '../../Dashboard/DashboardFooter/DashboardFooter';
 
-import discordServices from '../../services/discordServices';
-import guildServices from '../../services/GuildServices/guildServices';
-import loginServices from '../../services/loginServices';
+import discordServices from '../../../services/discordServices';
+import guildServices from '../../../services/GuildServices/guildServices';
+import loginServices from '../../../services/loginServices';
 
-class TestSideNav extends Component {
+class SideNav extends Component {
 
     _isMounted = false;
 
@@ -67,21 +72,19 @@ class TestSideNav extends Component {
         window.removeEventListener("resize", this.handleResize);
     }
 
-    handleResize = () =>
-        this.setState({
-            windowWidth: window.innerWidth
-        });
+    handleResize = () => this.setState({ windowWidth: window.innerWidth });
 
-    handleToggleClickA = () => {
-        this.setState({
-            toggleStateA: !this.state.toggleStateA
-        });
-    }
+    handleToggleClickA = () => this.setState({ toggleStateA: !this.state.toggleStateA });
 
     getUserInfo() {
         if(!this._isMounted) return setTimeout(() => this.getUserInfo(), 2000);
         discordServices.getUserInfo(this.props.userData.discord_id)
-        .then(discordUser => this.setState({ avatar: `https://cdn.discordapp.com/avatars/${this.state.userData.discord_id}/${discordUser.data.data.avatar}.png` }))
+        .then(discordUser => {
+            this.setState({ 
+                discordUser: discordUser.data.data, 
+                avatar: `https://cdn.discordapp.com/avatars/${this.state.userData.discord_id}/${discordUser.data.data.avatar}.png` 
+            });
+        })
         .catch(err => console.error(err));
     }
 
@@ -136,7 +139,7 @@ class TestSideNav extends Component {
             <div className="fixed-sn black-skin">
                 <MDBSideNav
                 className="SideNav"
-                logo="https://i.imgur.com/B5BgSRb.png"
+                logo="https://i.imgur.com/NnflIQW.png"
                 triggerOpening={this.state.toggleStateA}
                 breakWidth={this.state.breakWidth}
                 bg="https://i.imgur.com/OrxckTo.png"
@@ -186,13 +189,18 @@ class TestSideNav extends Component {
                         <FontAwesomeIcon className="FontAwesomeIcon" icon="crosshairs" />
                         Trackers
                     </MDBSideNavLink>
-                    <MDBSideNavLink to="/support" topLevel className="SideNav-El">
-                        <FontAwesomeIcon className="FontAwesomeIcon" icon="comments" />
-                        Support
-                    </MDBSideNavLink>
                     <MDBSideNavLink to="/settings" topLevel className="SideNav-El">
                         <FontAwesomeIcon className="FontAwesomeIcon" icon="cogs" />
-                        Settings
+                        Server Settings
+                    </MDBSideNavLink>
+                    <br />
+                    <MDBSideNavLink to="/community" topLevel className="SideNav-El">
+                        <FontAwesomeIcon className="FontAwesomeIcon" icon="comments" />
+                        Community
+                    </MDBSideNavLink>
+                    <MDBSideNavLink to="/support" topLevel className="SideNav-El">
+                        <FontAwesomeIcon className="FontAwesomeIcon" icon="question-circle" />
+                        Support
                     </MDBSideNavLink>
                 </MDBSideNavNav>
                 </MDBSideNav>
@@ -224,14 +232,18 @@ class TestSideNav extends Component {
                                 {this.state.avatar ? <Image src={this.state.avatar} roundedCircle style={{ height: "32px", border: "solid 3px #151515" }} /> : <FontAwesomeIcon icon="user" style={{ marginRight: "5%" }} />}
                                 </MDBDropdownToggle>
                                 <MDBDropdownMenu right={this.state.width > 800 ? true : false} className="dropdown-default SideNav-TopNav__DropDownMenu">
-                                <MDBDropdownItem className="SideNav-TopNav-Dropdown-Item">
-                                    <FontAwesomeIcon className="FontAwesomeIcon SideNav-TopNav-Dropdown-Item-Span" icon="lightbulb" />
-                                    <span className="SideNav-TopNav-Dropdown-Item-Span">Feature Suggestion</span>
+                                <MDBDropdownItem className="SideNav-TopNav-Dropdown-Item-User" style={{ padding: "10px 15px 10px 15px" }}>
+                                        <span className="SideNav-TopNav-Dropdown-Item-Span">
+                                            {this.state.discordUser ? `${this.state.discordUser.username}#${this.state.discordUser.discriminator}` : ''}
+                                        </span>
                                 </MDBDropdownItem>
-                                <MDBDropdownItem className="SideNav-TopNav-Dropdown-Item">
-                                    <FontAwesomeIcon className="FontAwesomeIcon SideNav-TopNav-Dropdown-Item-Span" icon="cog" />
-                                    <span className="SideNav-TopNav-Dropdown-Item-Span">Settings</span>
+                                <MDBDropdownItem divider />
+                                <MDBSideNavLink to="/account" style={{ padding: 0 }}>
+                                <MDBDropdownItem className="SideNav-TopNav-Dropdown-Item" style={{ padding: "10px 15px 10px 15px" }}>
+                                        <FontAwesomeIcon className="FontAwesomeIcon SideNav-TopNav-Dropdown-Item-Span" icon="user-alt" />
+                                        <span className="SideNav-TopNav-Dropdown-Item-Span">Account</span>
                                 </MDBDropdownItem>
+                                </MDBSideNavLink>
                                 <MDBDropdownItem divider />
                                 <MDBDropdownItem className="SideNav-TopNav-Dropdown-Item" onClick={() => this.handleLogout()}>
                                     <FontAwesomeIcon className="FontAwesomeIcon SideNav-TopNav-Dropdown-Item-Span" icon="sign-out-alt" />
@@ -252,6 +264,7 @@ class TestSideNav extends Component {
                 <Route exact path="/ranks" component={() => (<Ranks userData={userData} manageServer={manageServer} />)} />
                 <Route exact path="/ranks/tiers" component={() => (<RankTiers userData={userData} manageServer={manageServer} />)} />
                 <Route exact path="/ranks/settings" component={() => (<RankSettings userData={userData} manageServer={manageServer} />)} />
+                <Route exact path="/autodj" component={() => (<AutoDJ userData={userData} manageServer={manageServer} userInfo={this.state.discordUser} />)} />
                 <Route exact path="/playlists" component={() => (<Playlists userData={userData} manageServer={manageServer} />)} />
                 <Route exact path="/playlists/guild" component={() => (<GuildPlaylists userData={userData} manageServer={manageServer} />)} />
                 <Route exact path="/playlists/user" component={() => (<UserPlaylists userData={userData} manageServer={manageServer} />)} />
@@ -259,14 +272,17 @@ class TestSideNav extends Component {
                 <Route path="/playlists/user/:playlist_name" component={SinglePlaylist} />
                 <Route exact path="/economy" component={() => (<Economy userData={userData} manageServer={manageServer} />)} />
                 <Route exact path="/economy/settings" component={() => (<EconomySettings userData={userData} manageServer={manageServer} />)} />
+                <Route exact path="/moderation" component={() => (<Moderation userData={userData} manageServer={manageServer} />)} />
                 <Route exact path="/trackers" component={() => (<Trackers userData={userData} manageServer={manageServer} />)} />
                 <Route exact path="/settings" component={() => (<Settings userData={userData} manageServer={manageServer} />)} />
+                <Route exact path="/account" component={() => (<UserSettings userData={userData} userInfo={this.state.discordUser} />)} />
+                <Route exact path="/community" component={() => (<Community userData={userData} userInfo={this.state.discordUser} />)} />
+                <Route exact path="/support" component={() => (<Support userData={userData} userInfo={this.state.discordUser} />)} />
                 </main>
                 <DashboardFooter />
-                {this.state.homeRedirect ? <Redirect to="/" /> : ''}
             </div>
         );
     }
 }
 
-export default TestSideNav;
+export default SideNav;

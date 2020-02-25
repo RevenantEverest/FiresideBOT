@@ -13,7 +13,9 @@ services.publishChangelog = async (data) => {
         data: {
             content: data.content,
             version: data.version,
-            type: data.type
+            type: data.type,
+            flavor_text: data.flavor_text,
+            send_embed: data.send_embed
         }
     });
 };
