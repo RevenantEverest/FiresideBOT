@@ -1,10 +1,13 @@
 .Footer-Logo-Text {
+    position: relative;
     font-family: 'NexaRustSlab', sans-serif; 
     display: inline-block;
+    top: 5px;
+    left: -10px;
 }
 
 .Footer-Logo {
-    width: 20px;
+    width: 40px;
     display: inline-block;
     margin-bottom: 1%;
     margin-right: 1%;

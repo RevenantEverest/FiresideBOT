@@ -9,7 +9,7 @@ import {
     MDBCarouselItem
 } from 'mdbreact';
 
-import SingleTestimonial from '../SingleTestimonial/SingleTestimonial';
+import SingleTestimonial from './SingleTestimonial/SingleTestimonial';
 
 class Testimonials extends Component {
 
@@ -23,7 +23,7 @@ class Testimonials extends Component {
                     </h2>
                     <MDBCarousel
                     activeItem={1}
-                    length={2}
+                    length={3}
                     slide={true}
                     showControls={true}
                     multiItem
@@ -31,6 +31,8 @@ class Testimonials extends Component {
                     >
                     <MDBCarouselInner>
                         <MDBRow>
+
+                        {/* Carousel 1 */}
                         <MDBCarouselItem itemId="1">
                             <SingleTestimonial 
                             image={"https://i.imgur.com/MUgJw51.png"} 
@@ -62,13 +64,16 @@ class Testimonials extends Component {
                             name={"Spark1yTurtle"} 
                             title={"Premium User"} 
                             review={`
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod
-                                eos id officiis hic tenetur quae quaerat ad velit ab hic
-                                tenetur.
+                            Fireside is an excellent application in Discord. Anytime I want to play music, 
+                            it doesn't interrupt my streaming, gaming, or calls in all my servers. This application 
+                            is easy to install, easy to program and premium allows me to go above and beyond for music 
+                            distribution in discord.
                             `} 
                             stars={[1, 1, 1, 1, 0]}
                             />
                         </MDBCarouselItem>
+
+                        {/* Carousel 2 */}
                         <MDBCarouselItem itemId="2">
                             <SingleTestimonial 
                             image={"https://i.imgur.com/wgktMou.png"} 
@@ -83,26 +88,40 @@ class Testimonials extends Component {
                             mobileDisplay
                             />
                             <SingleTestimonial 
-                            image={"https://i.imgur.com/z1M2jpa.png"} 
-                            name={"CaptainStimpy"} 
+                            image={"https://i.imgur.com/rGdkWI2.png"} 
+                            name={"Psy"} 
                             title={"User"} 
                             review={`
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod
-                                eos id officiis hic tenetur quae quaerat ad velit ab hic
-                                tenetur.
+                                Fireside bot is a great bot i suggest it to all my friends that have discord servers. 
+                                It has a lot of utility and features that i use on a daily basis. I love the Rank system 
+                                and server playlists that it lets you use. 10/10 bot for sure definitly try it out.
                             `} 
                             stars={[1, 1, 1, 1, 0]} 
                             />
                             <SingleTestimonial 
-                            image={"https://i.imgur.com/Po0aG3y.png"} 
-                            name={"CharlieT"} 
-                            title={"User"} 
+                            image={"https://i.imgur.com/588QeiT.png"} 
+                            name={"Dost"} 
+                            title={"Premium User"} 
                             review={`
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod
-                                eos id officiis hic tenetur quae quaerat ad velit ab hic
-                                tenetur.
+                                I use this bot for all my discord servers. Works amazing and easy to use. Creator is fast to 
+                                responding to tickets and listens to suggestions.
                             `} 
                             stars={[1, 1, 1, 1, 1]} 
+                            />
+                        </MDBCarouselItem>
+
+                        {/* Carousel 3 */}
+                        <MDBCarouselItem itemId="3">
+                            <SingleTestimonial 
+                            image={"https://i.imgur.com/Yjp8zcD.jpg"} 
+                            name={"hidefsilence"} 
+                            title={"Premium User"} 
+                            review={`
+                                Fireside bot is a fantastic bot for any streaming discord. It is well maintained and being updated 
+                                regularly and is well on its way to being the only bot needed to help run and maintain my Discord server.
+                            `} 
+                            stars={[1, 1, 1, 1, 1]}
+                            mobileDisplay
                             />
                         </MDBCarouselItem>
                         </MDBRow>

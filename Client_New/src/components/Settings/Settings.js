@@ -7,8 +7,8 @@ import { MDBCard, MDBCardBody, MDBCardTitle } from 'mdbreact';
 
 //Component Imports
 import GuildSettings from '../GuildSettings/GuildSettings';
-import EconomySettings from '../EconomySettings/EconomySettings';
-import RankSettings from '../RankSettings/RankSettings';
+import EconomySettings from '../Economy/EconomySettings/EconomySettings';
+import RankSettings from '../Ranks/RankSettings/RankSettings';
 import EditWelcomeMessage from '../EditWelcomeMessage/EditWelcomeMessage';
 
 class Settings extends Component {

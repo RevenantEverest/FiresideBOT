@@ -2,21 +2,23 @@
     font-family: 'NexaRustSlab', sans-serif; 
     display: inline-block; 
     position: relative;
-    top: 18px;
-    left: 1%;
-    font-size: 35px;
+    top: 35px;
+    left: -5%;
+    font-size: 40px;
     margin-bottom: 3%;
 }
 
 .HomePage-Logo {
-    width: 50px;
+    position: relative;
+    width: 140px;
     display: inline-block;
     margin-bottom: 1%;
+    left: -3%;
 }
 
 @media (max-width: 800px) {
     .HomePage-Logo {
-        width: 35px;
+        width: 100px;
         display: inline-block;
         margin-bottom: 6%;
     }
@@ -29,9 +31,9 @@
         font-family: 'NexaRustSlab', sans-serif; 
         display: inline-block; 
         position: relative;
-        top: 4px;
-        left: 2%;
-        font-size: 30px;
+        top: 12px;
+        left: -20px;
+        font-size: 25px;
         margin-bottom: 3%;
     }
 }

@@ -43,9 +43,11 @@ services.updateRankSettings = (data) => {
         method: "PUT",
         url: `${env.API}/ranks/settings`,
         data: {
+            id: data.id,
             guild_id: data.guild_id,
             general_increase_rate: data.general_increase_rate,
-            channel_id: data.channel.id
+            complexity: data.complexity,
+            channel_id: data.channel_id
         }
     });
 };

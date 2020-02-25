@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Redirect, Link } from 'react-router-dom';
 import './Economy.css';
 
+import { Redirect, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Container, Row, Col, Table, Image, Spinner } from 'react-bootstrap';
 import { MDBBtn, MDBFormInline } from 'mdbreact';

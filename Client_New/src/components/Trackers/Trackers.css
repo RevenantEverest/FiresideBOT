@@ -1,20 +1,10 @@
 #Trackers {
-    height: auto;
-    width: 100%;
-    background: #151515;
+    min-height: 62vh;
 };
 
+/* Trackers-ContainerMain needs to stay for Table Styling to work*/
 #Trackers-ContainerMain {
-    height: 75vh;
     background: transparent;
-}
-
-.Trackers-Container {
-    margin-top: 20px;
-}
-
-.Trackers-Breadcrumb {
-    padding: 0;
 }
 
 #Trackers-Table {
@@ -46,3 +36,6 @@
     transition: .3s;
 }
 .Trackers-Icon-Trash:hover { color: orange }
+.Trackers-TD-Action {
+    width: 20%;
+}

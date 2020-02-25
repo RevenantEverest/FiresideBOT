@@ -2,7 +2,7 @@ import axios from 'axios';
 import env from '../env';
 const services = {};
 
-services.getDiscordUserSize = (data) => {
+services.getDiscordUserSize = () => {
     return axios.get(`${env.API}/discord/bot/users/size`);
 };
   

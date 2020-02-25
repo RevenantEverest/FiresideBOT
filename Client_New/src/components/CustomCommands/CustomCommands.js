@@ -7,7 +7,7 @@ import { Container, Row, Col, Table, Image, Spinner } from 'react-bootstrap';
 import { 
     MDBCard,
     MDBCardBody,
-    MDBCardTitle,
+    //MDBCardTitle,
     MDBCardText,
     MDBModal,
     MDBModalHeader,
@@ -16,8 +16,8 @@ import {
     MDBBtn 
 } from 'mdbreact';
 
-import AddCustomCommand from '../AddCustomCommand/AddCustomCommand';
-import EditCustomCommand from '../EditCustomCommand/EditCustomCommand';
+import AddCustomCommand from './AddCustomCommand/AddCustomCommand';
+import EditCustomCommand from './EditCustomCommand/EditCustomCommand';
 
 import customCommandServices from '../../services/customCommandServices';
 import commandServices from '../../services/commandServices';
@@ -47,30 +47,12 @@ class CustomCommands extends Component {
 
     componentWillUnmount = () => this._isMounted = false;
 
-    toggleModal = nr => () => {
-        let modalNumber = 'modal' + nr;
+    toggleModal = (modal, idx) => () => {
+        let modalNumber = modal + idx;
         this.setState({[modalNumber]: !this.state[modalNumber]});
     }
 
-    togglePreviewModal = nr => () => {
-        let modalNumber = 'preview' + nr;
-        this.setState({[modalNumber]: !this.state[modalNumber]});
-    }
-
-    toggleEditModal = nr => () => {
-        let modalNumber = 'edit' + nr;
-        this.setState({[modalNumber]: !this.state[modalNumber]});
-    }
-
-    toggleDeleteModal = nr => () => {
-        let modalNumber = 'delete' + nr;
-        this.setState({[modalNumber]: !this.state[modalNumber]});
-    }
-
-    findModal = (index) => this.state[("modal" + index)];
-    findPreviewModal = (index) => this.state[("preview" + index)];
-    findEditModal = (index) => this.state[("edit" + index)];
-    findDeleteModal = (index) => this.state[("delete" + index)];
+    findModal = (modal, index) => this.state[(modal + index)];
 
     getCustomCommands() {
         if(!this._isMounted) return setTimeout(() => this.getCustomCommands(), 2000);
@@ -94,9 +76,9 @@ class CustomCommands extends Component {
         this.setState({ [name]: value });
     }
 
-    deleteCommand(el) {
+    deleteCommand(el, idx) {
         customCommandServices.delete(el.id)
-        .then(() => this.getCustomCommands())
+        .then(() => this.setState({ [`delete${idx}`]: false }, () => this.getCustomCommands()))
         .catch(err => console.error(err));
     }
 
@@ -139,37 +121,37 @@ class CustomCommands extends Component {
                     <Container>
                     <Row>
                         <Col lg={3}>
-                            <MDBBtn color="elegant" size="sm" onClick={this.togglePreviewModal((idx + 1))}>
+                            <MDBBtn color="elegant" size="sm" onClick={this.toggleModal("preview", (idx + 1))}>
                             <FontAwesomeIcon className="CustomCommands-Icon-Trash" icon="search-plus" />
                             </MDBBtn>
                         </Col>
                         <Col lg={3}>
-                            <MDBBtn color="elegant" size="sm" onClick={this.toggleEditModal((idx + 1))}>
+                            <MDBBtn color="elegant" size="sm" onClick={this.toggleModal("edit", (idx + 1))}>
                             <FontAwesomeIcon className="CustomCommands-Icon-Trash" icon="edit" />
                             </MDBBtn>
                         </Col>
                         <Col lg={3}>
-                            <MDBBtn color="elegant" size="sm" onClick={this.toggleDeleteModal((idx + 1))}>
+                            <MDBBtn color="elegant" size="sm" onClick={this.toggleModal("delete", (idx + 1))}>
                             <FontAwesomeIcon className="CustomCommands-Icon-Trash" icon="trash-alt" />
                             </MDBBtn>
                         </Col>
                     </Row>
                     </Container>
                     </td>
-                    <MDBModal isOpen={this.findDeleteModal((idx + 1))} toggle={this.toggleDeleteModal((idx + 1))} centered>
-                    <MDBModalHeader toggle={this.toggleDeleteModal((idx + 1))} tag="div" className="Modal">
+                    <MDBModal isOpen={this.findModal("delete", (idx + 1))} toggle={this.toggleModal("delete", (idx + 1))} centered>
+                    <MDBModalHeader toggle={this.toggleModal("delete", (idx + 1))} tag="div" className="Modal">
                     <h4 className="h4 display-inline">Are you sure you want to delete the Custom Command </h4>
                     <h4 className="h4 display-inline orange-text">{el.input.charAt(0).toUpperCase() + el.input.slice(1)}</h4>
                     <h4 className="h4 display-inline">?</h4>
                     </MDBModalHeader>
                     <MDBModalBody className="Modal">
-                        <MDBBtn color="elegant" onClick={this.toggleDeleteModal((idx + 1))}>Close</MDBBtn>
-                        <MDBBtn color={Skin.hex} style={{ background: Skin.hex }} onClick={() => this.deleteCommand(el)}>Delete</MDBBtn>
+                        <MDBBtn color="elegant" onClick={this.toggleModal("delete", (idx + 1))}>Close</MDBBtn>
+                        <MDBBtn color={Skin.hex} style={{ background: Skin.hex }} onClick={() => this.deleteCommand(el, (idx + 1))}>Delete</MDBBtn>
                     </MDBModalBody>
                     </MDBModal>
                     
-                    <MDBModal isOpen={this.findEditModal((idx + 1))} toggle={this.toggleEditModal((idx + 1))} centered>
-                    <MDBModalHeader toggle={this.toggleEditModal((idx + 1))} tag="div" className="Modal">
+                    <MDBModal isOpen={this.findModal("edit", (idx + 1))} toggle={this.toggleModal("edit", (idx + 1))} centered>
+                    <MDBModalHeader toggle={this.toggleModal("edit", (idx + 1))} tag="div" className="Modal">
                     <h4 className="h4 display-inline">Edit Custom Command </h4>
                     <h4 className="h4 display-inline orange-text">{el.input.charAt(0).toUpperCase() + el.input.slice(1)}</h4>
                     </MDBModalHeader>
@@ -178,14 +160,15 @@ class CustomCommands extends Component {
                         userData={this.state.userData}
                         customCommandData={el}
                         defaultCommands={this.state.defaultCommandData}
-                        getCustomCommands={this.getCustomCommands}
-                        toggleModal={this.toggleEditModal((idx + 1))}
+                        getCustomCommands={this.getCustomCommands} 
+                        manageServer={this.props.manageServer}
+                        toggleModal={this.toggleModal("edit", (idx + 1))}
                         />
                     </MDBModalBody>
                     </MDBModal>
 
-                    <MDBModal isOpen={this.findPreviewModal((idx + 1))} toggle={this.togglePreviewModal((idx + 1))} size="fluid">
-                    <MDBModalHeader toggle={this.togglePreviewModal((idx + 1))} tag="div" className="Modal">
+                    <MDBModal isOpen={this.findModal("preview", (idx + 1))} toggle={this.toggleModal("preview", (idx + 1))} size="fluid">
+                    <MDBModalHeader toggle={this.toggleModal("preview", (idx + 1))} tag="div" className="Modal">
                     <h4 className="h4 display-inline">Preview Command</h4>
                     </MDBModalHeader>
                     <MDBModalBody className="Modal">
@@ -239,7 +222,7 @@ class CustomCommands extends Component {
                         </Row>
                         <Row>
                             <Col>
-                            <MDBBtn color="elegant" onClick={this.togglePreviewModal((idx + 1))}>Close</MDBBtn>
+                            <MDBBtn color="elegant" onClick={this.toggleModal("preview", (idx + 1))}>Close</MDBBtn>
                             </Col>
                         </Row>
                         </Container>

@@ -18,12 +18,11 @@ class Features extends Component {
                 <MDBRow>
                     <section className="my-5">
                         <h2 className="h1-responsive font-weight-bold text-center my-5">
-                        Why is it so great?
+                        Why choose Fireside?
                         </h2>
                         <p className="lead grey-text w-responsive text-center mx-auto mb-5">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-                        ad minim veniam.
+                        Fireside is a bot that lets you listen to music you love while also adding great features, moderation tools, 
+                        and overall improvements to your Discord server. From a casual server, to a community, Fireside bot is a great investment.
                         </p>
 
                         <MDBRow>
@@ -65,7 +64,7 @@ class Features extends Component {
                         <MDBCol md="4" className="text-name">
                             <img
                             className="img-fluid"
-                            src="https://i.imgur.com/svUMCo8.png"
+                            src="https://i.imgur.com/ug9huUj.png"
                             alt=""
                             />
                         </MDBCol>
@@ -114,16 +113,11 @@ class Features extends Component {
                     <h2 className="h1-responsive font-weight-bold text-center my-5">
                     What do we offer?
                     </h2>
-                    <p className="lead grey-text w-responsive text-center mx-auto mb-5">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-                    ad minim veniam.
-                    </p>
                     <MDBRow>
                     <MDBCol lg="6" className="text-center text-lg-left" style={{ marginBottom: "5%" }}>
                         <img
                         className="img-fluid"
-                        src="https://i.imgur.com/PojE25G.png"
+                        src="https://i.imgur.com/M8TqvKT.png"
                         alt=""
                         style={{ borderRadius: "6px" }}
                         />
@@ -131,14 +125,13 @@ class Features extends Component {
                     <MDBCol lg="6">
                         <MDBRow className="mb-3">
                         <MDBCol size="1">
-                            <MDBIcon icon="share" size="lg" className="indigo-text" />
+                            <MDBIcon icon="grin-alt" size="lg" style={{ color: Skin.hex }} />
                         </MDBCol>
                         <MDBCol xl="10" md="11" size="10">
-                            <h5 className="font-weight-bold mb-3">Safety</h5>
+                            <h5 className="font-weight-bold mb-3">Cuztomizeable Welcome Message</h5>
                             <p className="grey-text">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit
-                            enim ad minima veniam, quis nostrum exercitationem ullam.
-                            Reprehenderit maiores aperiam assumenda deleniti hic.
+                            Take advantage of our customizeable Welcome Messages that are sent to all new server members.
+                            Let them know what your server's about and where they can find important information!
                             </p>
                         </MDBCol>
                         </MDBRow>
@@ -152,14 +145,13 @@ class Features extends Component {
                     <MDBCol lg="6">
                         <MDBRow className="mb-3">
                         <MDBCol size="1">
-                            <MDBIcon icon="share" size="lg" className="indigo-text" />
+                            <MDBIcon fab icon="twitch" size="lg" style={{ color: Skin.hex }} />
                         </MDBCol>
                         <MDBCol xl="10" md="11" size="10">
-                            <h5 className="font-weight-bold mb-3">Safety</h5>
+                            <h5 className="font-weight-bold mb-3">Twitch Auto Notification</h5>
                             <p className="grey-text">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit
-                            enim ad minima veniam, quis nostrum exercitationem ullam.
-                            Reprehenderit maiores aperiam assumenda deleniti hic.
+                            Get notified every time your favorite streamer goes live! Customize the channel 
+                            and the role that gets tagged each time a notification is posted.
                             </p>
                         </MDBCol>
                         </MDBRow>
@@ -167,10 +159,37 @@ class Features extends Component {
                     <MDBCol lg="6" className="text-center text-lg-left">
                         <img
                         className="img-fluid"
-                        src="https://i.imgur.com/WI0JiXM.png"
+                        src="https://i.imgur.com/vMkomOy.png"
                         alt=""
                         style={{ borderRadius: "6px" }}
                         />
+                    </MDBCol>
+                    </MDBRow>
+                </section>
+                </MDBRow>
+                <MDBRow>
+                <section className="my-5">
+                    <MDBRow>
+                    <MDBCol lg="6" className="text-center text-lg-left" style={{ marginBottom: "5%" }}>
+                        <img
+                        className="img-fluid"
+                        src="https://i.imgur.com/cyYObmq.png"
+                        alt=""
+                        style={{ borderRadius: "6px" }}
+                        />
+                    </MDBCol>
+                    <MDBCol lg="6">
+                        <MDBRow className="mb-3">
+                        <MDBCol size="1">
+                            <MDBIcon icon="ghost" size="lg" style={{ color: Skin.hex }} />
+                        </MDBCol>
+                        <MDBCol xl="10" md="11" size="10">
+                            <h5 className="font-weight-bold mb-3">Vibe Checks</h5>
+                            <p className="grey-text">
+                            Compete with your friends to see who's vibing and who's not for the day.
+                            </p>
+                        </MDBCol>
+                        </MDBRow>
                     </MDBCol>
                     </MDBRow>
                 </section>

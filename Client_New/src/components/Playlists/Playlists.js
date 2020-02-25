@@ -12,12 +12,12 @@ class Playlists extends Component {
                 <Container fluid id="Playlists-ContainerMain">
                 <Container className="Playlists-Container">
                     <Row className="justify-content-md-center">
-                        <Col lg={3}>
+                        <Col lg={4}>
                             <Link to="/playlists/user">
                             <div as="div" id="Playlists-MyPlaylists">My Playlists</div>
                             </Link>
                         </Col>
-                        <Col lg={3}>
+                        <Col lg={4}>
                             <Link to="/playlists/guild">
                             <div as="div" id="Playlists-GuildPlaylists">Guild Playlists</div>
                             </Link>

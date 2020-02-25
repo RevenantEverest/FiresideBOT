@@ -94,11 +94,11 @@ class EditWelcomeMessage extends Component {
     renderForm() {
         return(
             <form onSubmit={this.handleSubmit}>
-                <Container fluid>
+                <Container style={{ paddingLeft: 0, paddingRight: 0 }}>
                 <Row>
-                    <Col style={{ paddingLeft: 0, paddingRight: 0 }}>
-                    <MDBCard className="w-auto" >
-                    <MDBCardBody style={{ background: "#1a1a1a", minHeight: "30vh", color: "#cccccc" }}>
+                    <Col>
+                    <MDBCard className="w-100" >
+                    <MDBCardBody style={{ background: "#1a1a1a", minHeight: "350px", color: "#cccccc" }}>
                         <Row>
                         <Col lg={4} style={{ paddingRight: 0 }}>
                             <label>Welcome Message</label>
@@ -111,7 +111,7 @@ class EditWelcomeMessage extends Component {
                         </Col>
                         </Row>
                         <MDBCardText tag="div" style={{ marginTop: "2%", marginBottom: "2%" }}>
-                        <div className="input-group" style={{ height: "20vh" }}>
+                        <div className="input-group" style={{ height: "200px" }}>
                             <div className="input-group-prepend">
                                 <span 
                                 className="input-group-text" 
@@ -153,20 +153,15 @@ class EditWelcomeMessage extends Component {
     render() {
         return(
             <div id="EditWelcomeMessage">
-                <Container>
-                    <ToastContainer
-                    position="top-right"
-                    autoClose={5000}  
-                    newestOnTop
-                    rtl={false} 
-                    />
+                <Container fluid style={{ paddingLeft: 0, paddingRight: 0 }}>
+                    <ToastContainer position="top-right" autoClose={5000} newestOnTop rtl={false} />
                 <Row>
                     <Col>
                     {this.state.dataReceived ? this.renderForm() : <Spinner animation="border" role="status"><span className="sr-only">Loading...</span></Spinner>}
                     </Col>
                     <Col>
-                    <MDBCard className="w-auto">
-                    <MDBCardBody style={{ background: "#1a1a1a", minHeight: "30vh" }}>
+                    <MDBCard className="w-100">
+                    <MDBCardBody style={{ background: "#1a1a1a", minHeight: "350px" }}>
                         <Row>
                         <Col lg={5} style={{ paddingRight: 0 }}>
                             <label>Welcome Message Output</label>
@@ -181,7 +176,7 @@ class EditWelcomeMessage extends Component {
                         <MDBCardText 
                         tag="div" 
                         style={{ 
-                            height: "26vh", 
+                            height: "200px", 
                             overflowY: "scroll", 
                             border: "solid thin #0a0a0a", 
                             color: "#cccccc",

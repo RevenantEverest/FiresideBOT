@@ -48,9 +48,23 @@ body::-webkit-scrollbar-thumb { background: #262626; }
 .display-inline { display: inline; }
 .display-none { display: none; }
 
+.Discord-Button {
+  background: #4a67cf !important;
+  color: #cccccc;
+  transition: .5s;
+}
+.Discord-Button:hover {
+  background: #4a67cfc2 !important;
+  color: #cccccc;
+}
+.Button { 
+  background: #A42700 !important; 
+  color: white;
+  transition: .5s;
+}
 .Button:hover {
-  color: red !important;
-  padding: 100px !important;
+  background-color: rgba(164, 38, 0, 0.932) !important;
+  color: #cccccc;
 }
 
 .FontAwesomeIcon { display: inline; margin-right: 5%; }

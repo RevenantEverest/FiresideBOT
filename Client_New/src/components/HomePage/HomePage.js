@@ -10,8 +10,8 @@ import Offers from '../Offers/Offers';
 import Features from '../Features/Features';
 import Testimonials from '../Testimonials/Testimonials';
 
-import discordServices from '../../services/discordServices';
 import loginServies from '../../services/loginServices';
+import discordServices from '../../services/discordServices';
 
 import Skin from '../../res/Skin';
 import env from '../../env';
@@ -23,49 +23,46 @@ class HomePage extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-
-        }
+        this.state = {}
     }
 
     componentDidMount() {
         this._isMounted = true;
-        if(window.location.search) this.getToken();
+        if(window.location.search && !this.props.userData && !window.localStorage.getItem("id")) this.getToken();
         this.getDiscordBotUsers();
     }
 
-    componentWillUnmount() { this._isMounted = false; }
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
 
     getToken() {
+        if(!this._isMounted) return setTimeout(() => this.getToken(), 2000);
         let code = window.location.search.split("code=")[1];
         loginServies.handleLogin(code)
         .then(results => {
-            window.localStorage.setItem('id', results.data.data.userData.discord_id);
-            this.setState({ tokenRecieved: true }, () => this.props.getUserData(results.data.data.userData));
-        }).catch(err => console.error(err));
+            let userData = results.data.data.userData;
+            console.log(userData);
+            window.localStorage.setItem('id', userData.discord_id);
+            this.setState({ userData: userData, isLoggedIn: true }, () => this.props.getUserData(userData));
+        })
+        .catch(err => console.error(err));
     }
 
     getDiscordBotUsers() {
-        if(!this._isMounted) return setTimeout(() => this.getDiscordBotUsers(), 5000);
         discordServices.getDiscordUserSize()
         .then(users => {
+            if(!this._isMounted) return;
             this.setState({ usersCount: users.data.data, botInfoDataRecieved: true }, () => {
-                setTimeout(() => {
-                this.getDiscordBotUsers()
-                }, 5000);
+                setTimeout(() => this.getDiscordBotUsers(), 10000);
             });
         })
-        .catch(err => {
-            console.error(err);
-            setTimeout(() => {
-                this.getDiscordBotUsers();
-            });
-        })
+        .catch(err => console.error(err));
     }
 
     renderUserCount() {
         return(
-            <MDBBtn id="HomePage-UserCount" color={Skin.hex} style={{ background: Skin.hex }} size="md">
+            <MDBBtn id="HomePage-UserCount" className="Button" size="md">
                 <AnimatedNumber
                 className="HomePage-ServerList"
                 component="span"
@@ -110,15 +107,15 @@ class HomePage extends Component {
                     <MDBJumbotron style={{ padding: "0", background: "inherit" }} fluid>
                         <Col className="text-white" style={{ backgroundImage: `url(https://i.imgur.com/CyclXef.png)` }}>
                         <Container>
-                        <Row>
+                        <Row style={{ marginTop: "-20px" }}>
                             <Col className="py-5">
-                                <img src="https://i.imgur.com/efYsW7T.png" alt="" className="HomePage-Logo" />
+                                <img src="https://i.imgur.com/KR9xQdZ.png" alt="" className="HomePage-Logo" />
                                 <h1 className="h1 HomePage-Logo_Text">FiresideBOT</h1>
                                 <MDBCardText tag="div">
-                                    <h6 className="h6">The all in one Discord Bot garenteed to bring new life to your server!</h6>
+                                    <h6 className="h6">The all in one Discord Bot guaranteed to bring new life to your server!</h6>
                                     <br />
                                     {this.state.botInfoDataRecieved ? this.renderUserCount() : this.renderBlankUserCount()}
-                                    <MDBBtn color="#4a67cf" style={{ background: "#4a67cf" }} size="md" tag="a" target="_blank" rel="noopener noreferrer" href={this._inviteLink}>
+                                    <MDBBtn className="Discord-Button" size="md" tag="a" target="_blank" rel="noopener noreferrer" href={this._inviteLink}>
                                     Add To Discord
                                     </MDBBtn>
                                 </MDBCardText>
@@ -145,7 +142,7 @@ class HomePage extends Component {
                     </Col>
                 </Row>
                 </Container>
-                {this.state.tokenRecieved ? <Redirect to="/dashboard" /> : ''}
+                {this.state.isLoggedIn ? <Redirect to="/dashboard" /> : ''}
             </div>
         );
     }

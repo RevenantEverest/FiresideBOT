@@ -40,6 +40,7 @@ class GuildSettings extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
+        console.log("UwU")
         guildServices.updateSettings({ guild_id: this.state.manageServer.id, prefix: (this.state.prefix ? this.state.prefix : this.settings.prefix) })
         .then(() => {
             this.toggleSuccessNotify();
@@ -92,7 +93,7 @@ class GuildSettings extends Component {
                         </Row>
                     </Col>
                     <Col lg={1}>
-                        <MDBBtn color={Skin.hex} style={{ background: Skin.hex }} size="md" onSubmit={this.handleSubmit}>Update</MDBBtn>
+                        <MDBBtn color={Skin.hex} style={{ background: Skin.hex }} size="md" onClick={this.handleSubmit}>Update</MDBBtn>
                     </Col>
                 </Row>
                 </Container>

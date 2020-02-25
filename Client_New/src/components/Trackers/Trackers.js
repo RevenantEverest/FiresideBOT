@@ -4,13 +4,20 @@ import './Trackers.css';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Container, Row, Col, Table, Spinner } from 'react-bootstrap';
+import {
+    MDBModal,
+    MDBModalHeader,
+    MDBModalBody,
+    MDBBtn
+} from 'mdbreact';
 
-//Component Imports
-import AddTracker from '../AddTracker/AddTracker';
+import AddTracker from './AddTracker/AddTracker';
+import EditTracker from './EditTRacker/EditTRacker';
 
-//Services Imports
 import discordServices from '../../services/discordServices';
 import twitchTrackerServices from '../../services/twitchTrackerServices';
+
+import Skin from '../../res/Skin';
 
 class Trackers extends Component {
 
@@ -32,6 +39,13 @@ class Trackers extends Component {
 
     componentWillUnmount = () => this._isMounted = false;
 
+    toggleModal = (modal, idx) => () => {
+        let modalNumber = modal + idx;
+        this.setState({[modalNumber]: !this.state[modalNumber]});
+    }
+
+    findModal = (modal, index) => this.state[(modal + index)];
+
     getTrackers() {
         if(!this._isMounted) return setTimeout(() => this.getTrackers(), 2000);
         if(!this.state.manageServer) return;
@@ -52,10 +66,19 @@ class Trackers extends Component {
         .catch(err => console.error(err));
     }
 
-    removeTracker(el) {
+    deleteTracker(el, modalIndex) {
         twitchTrackerServices.removeTracker(el.id)
-        .then(() => this.getTrackers())
+        .then(() => this.setState({ [`delete${modalIndex}`]: false }, () => this.getTrackers()))
         .catch(err => console.error(err))
+    }
+
+    renderServerPicker() {
+        return(
+            <div>
+                <Spinner animation="border" role="status" style={{ display: "inline-block" }}><span className="sr-only">Loading...</span></Spinner>
+                <h5 className="h5" style={{ display: "inline-block", marginLeft: "2%" }}>Please Select A Server To Manage Before Continuing</h5>
+            </div>
+        );
     }
 
     renderTrackers() {
@@ -73,9 +96,54 @@ class Trackers extends Component {
                     </td>
                     <td className="Trackers-TD Trackers-TD-Channel">{ChannelName}</td>
                     <td className="Trackers-TD Trackers-TD-Role">{RoleName}</td>
-                    <td className="Trackers-TD Trackers-TD-Action" style={{ textAlign: "center" }}>
-                        <FontAwesomeIcon className="Trackers-Icon-Trash" icon="trash-alt" onClick={() => this.removeTracker(el)}/>
+                    <td className="Trackers-TD Trackers-TD-Action">
+                    <Container>
+                    <Row>
+                        <Col lg={6}>
+                            <MDBBtn color="elegant" size="sm" onClick={this.toggleModal("edit", (idx + 1))}>
+                            <FontAwesomeIcon className="CustomCommands-Icon-Trash" icon="edit" />
+                            </MDBBtn>
+                        </Col>
+                        <Col lg={6}>
+                            <MDBBtn color="elegant" size="sm" onClick={this.toggleModal("delete", (idx + 1))}>
+                            <FontAwesomeIcon className="CustomCommands-Icon-Trash" icon="trash-alt" />
+                            </MDBBtn>
+                        </Col>
+                    </Row>
+                    </Container>
                     </td>
+
+                    <MDBModal isOpen={this.findModal("delete", (idx + 1))} toggle={this.toggleModal("delete", (idx + 1))} centered>
+                    <MDBModalHeader toggle={this.toggleModal("delete", (idx + 1))} tag="div" className="Modal">
+                    <h4 className="h4 display-inline">Are you sure you want to delete the Tracker for </h4>
+                    <h4 className="h4 display-inline orange-text">{el.twitch_username}</h4>
+                    <h4 className="h4 display-inline">?</h4>
+                    </MDBModalHeader>
+                    <MDBModalBody className="Modal">
+                        <MDBBtn color="elegant" onClick={this.toggleModal("delete", (idx + 1))}>Close</MDBBtn>
+                        <MDBBtn color={Skin.hex} style={{ background: Skin.hex }} onClick={() => this.deleteTracker(el, (idx + 1))}>Delete</MDBBtn>
+                    </MDBModalBody>
+                    </MDBModal>
+                    
+                    <MDBModal isOpen={this.findModal("edit", (idx + 1))} toggle={this.toggleModal("edit", (idx + 1))} size="lg">
+                    <MDBModalHeader toggle={this.toggleModal("edit", (idx + 1))} tag="div" className="Modal">
+                    <h4 className="h4 display-inline">Edit Tracker </h4>
+                    <h4 className="h4 display-inline orange-text">{el.twitch_username}</h4>
+                    </MDBModalHeader>
+                    <MDBModalBody className="Modal">
+                        <EditTracker
+                        userData={this.state.userData}
+                        manageServer={this.props.manageServer}
+                        tracker={el}
+                        channelName={ChannelName}
+                        roleName={RoleName}
+                        getTrackers={this.getTrackers}
+                        channels={this.state.channels}
+                        roles={this.state.roles}
+                        toggleModal={this.toggleModal("edit", (idx + 1))}
+                        />
+                    </MDBModalBody>
+                    </MDBModal>
                 </tr>
             );
         });
@@ -100,43 +168,62 @@ class Trackers extends Component {
 
     renderAddTracker() {
         return(
-            <AddTracker 
-            userData={this.state.userData}
-            manageServer={this.state.manageServer}
-            getTrackers={this.getTrackers}
-            channels={this.state.channels}
-            roles={this.state.roles}
-            />
+            <Col style={{ paddingLeft: 0 }}>
+                <MDBBtn 
+                color={Skin.hex} 
+                className="Button" 
+                size="md" 
+                style={{ background: Skin.hex, padding: "8px", width: "150px" }}
+                onClick={this.toggleModal("create", 1)}
+                >
+                    Add Tracker
+                </MDBBtn>
+                <MDBModal isOpen={this.findModal("create", 1)} toggle={this.toggleModal("create", 1)} size="lg">
+                <MDBModalHeader toggle={this.toggleModal("create", 1)} tag="div" className="Modal">
+                <h4 className="h4 display-inline">Add Twitch Tracker </h4>
+                </MDBModalHeader>
+                <MDBModalBody className="Modal">
+                    <AddTracker 
+                    userData={this.state.userData}
+                    manageServer={this.state.manageServer}
+                    getTrackers={this.getTrackers}
+                    channels={this.state.channels}
+                    roles={this.state.roles}
+                    streamers={this.state.trackers.map(el => el.twitch_username)}
+                    toggleModal={this.toggleModal("create", 1)}
+                    />
+                </MDBModalBody>
+                </MDBModal>
+            </Col>
         );
     }
 
     render() {
         return(
             <div id="Trackers">
-            <Container fluid id="Trackers-ContainerMain">
-                <Container className="Trackers-Container">
-                <Row>
-                    <Col style={{ paddingLeft: "0", paddingRight: "0" }}>
-                        <h1 className="Component-Header">Trackers</h1>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col style={{ paddingLeft: "0", paddingRight: "0" }}>
-                        <Link to="/"><p className="Component-Breadcrumb Trackers-Breadcrumb">Home </p></Link>
-                        <p className="Component-Breadcrumb Component-Breadcrumb-Main">/ Trackers</p>
-                    </Col>
-                </Row>
-                <Row className="Component-Content">
-                    {this.state.dataReceived ? '' : <Spinner animation="border" role="status"><span className="sr-only">Loading...</span></Spinner>}
-                    {this.state.dataReceived ? this.renderAddTracker() : ''}
-                </Row>
-                <Row className="Component-Content">
-                    <Col style={{ paddingLeft: "0", paddingRight: "0" }}>
-                    {this.state.dataReceived ? this.renderTrackers() : ''}
-                    </Col>
-                </Row>
+                <Container>
+                    <Row>
+                        <Col>
+                            <h1 className="Component-Header">Trackers</h1>
+                        </Col>
+                    </Row>
+                    <Row style={{ marginBottom: "2%" }}>
+                        <Col>
+                            <Link to="/"><p className="Component-Breadcrumb">Home </p></Link>
+                            <p className="Component-Breadcrumb Component-Breadcrumb-Main">/ Trackers</p>
+                        </Col>
+                    </Row>
+                    {!this.state.manageServer ? this.renderServerPicker() : ''}
+                    <Row className="Component-Content">
+                        {!this.state.dataReceived && this.state.manageServer ? <Spinner animation="border" role="status"><span className="sr-only">Loading...</span></Spinner> : ''}
+                        {this.state.dataReceived ? this.renderAddTracker() : ''}
+                    </Row>
+                    <Row className="Component-Content">
+                        <Col style={{ paddingLeft: "0", paddingRight: "0" }}>
+                        {this.state.dataReceived ? this.renderTrackers() : ''}
+                        </Col>
+                    </Row>
                 </Container>
-            </Container>
             </div>
         );
     }

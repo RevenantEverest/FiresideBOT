@@ -1,0 +1,138 @@
+#EmbedPreview {
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    flex-direction: column;
+}
+
+#wrapper {
+    display: flex;
+    max-width: 520px;
+}
+
+#side-color {
+    width: 4px;
+    border-radius: 3px 0 0 3px;
+}
+
+#card {
+    background: rgba(48, 50, 53, 0.3);
+    border-color: rgba(87, 90, 102, 0.6);
+    color: rgba(255, 255, 255, .6);
+    border-radius: 0 3px 3px 0;
+    display: flex;
+    padding: 8px 10px;
+    font-size: 14px;
+    position: relative;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    flex-direction: column;
+    border: 1px solid rgba(0,0,0,.125)
+}
+
+.block {
+    padding: 0;
+    display: flex;
+    margin-bottom: 10px;
+    flex: 1 1 auto;
+    -webkit-box-flex: 1;
+}
+
+#inner #fields .field {
+    -webkit-box-flex: 0;
+    flex: 0;
+    padding-top: 10px;
+    max-width: 506px;
+    min-width: 100%;
+}
+
+#inner #fields {
+    display: flex;
+    flex-wrap: wrap;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    flex-direction: row;
+    margin-top: -10px;
+}
+
+#inner #author {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+#inner #author img#author-icon {
+    margin-right: 9px;
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    border-radius: 50%;
+}
+
+#inner #author #author-name {
+    color: white;
+    display: inline-block;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+#title {
+    color: white;
+}
+
+#inner #fields .field .field-name {
+    color: white;
+    font-size: 14px;
+    margin-bottom: 4px;
+    font-weight: 800;
+}
+
+#inner #fields .field .field-value {
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.1em;
+    white-space: pre-wrap;
+    margin-top: 6px;
+    word-wrap: break-word;
+}
+
+#inner #fields .field.inline {
+    box-sizing: 2;
+    -webkit-box-sizing: 2;
+    flex: 2;
+    min-width: 135px;
+    flex-basis: auto;
+}
+
+#thumb {
+    height: 684px;
+}
+
+img#thumb {
+    max-height: 80px;
+    max-width: 80px;
+    border-radius: 3px;
+    flex-shrink: 0;
+    width: auto;
+    object-fit: contain;
+    margin-left: 20px;
+}
+
+#footer {
+    font-size: 12px;
+}
+
+#footer-name {
+    color: rgba(255, 255, 255, 0.6);
+    box-sizing: inherit;
+}
+
+#footer #footer-icon {
+    margin-right: 9px;
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    border-radius: 50%;
+}

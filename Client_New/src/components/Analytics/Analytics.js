@@ -4,14 +4,12 @@ import './Analytics.css';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col, Spinner } from 'react-bootstrap';
 
-import TopCommandsToday from '../TopCommandsToday/TopCommandsToday';
-import TopCommandsMonth from '../TopCommandsMonth/TopCommandsMonth';
-import CommandsOvertime from '../CommandsOvertime/CommandsOvertime';
-import WeeklyWrapup from '../WeeklyWrapup/WeeklyWrapup';
+import TopCommandsToday from './TopCommandsToday/TopCommandsToday';
+import TopCommandsMonth from './TopCommandsMonth/TopCommandsMonth';
+import CommandsOvertime from './CommandsOvertime/CommandsOvertime';
+import WeeklyWrapup from './WeeklyWrapup/WeeklyWrapup';
 
 class Analytics extends Component {
-
-    _isMounted = false;
     
     constructor(props) {
         super(props);
@@ -19,20 +17,6 @@ class Analytics extends Component {
             userData: this.props.userData,
             manageServer: this.props.manageServer
         }
-    }
-
-    componentDidMount() {
-        this._isMounted = true;
-        this.getServerLogs();
-    }
-
-    componentWillUnmount() { this._isMounted = false; }
-
-    getServerLogs() {
-        if(!this._isMounted) return setTimeout(() => this.getServerLogs(), 2000);
-        if(!this.state.manageServer) return;
-        // Get Logs
-        this.setState({ dataReceived: true })
     }
 
     renderServerPicker() {
@@ -46,26 +30,28 @@ class Analytics extends Component {
 
     renderAnalytics() {
         return(
-            <Container fluid>
-            <Row style={{ marginBottom: "5%" }}>
-            <Col>
-                <WeeklyWrapup />
-            </Col>
-            </Row>
-            <Row style={{ marginBottom: "2%" }}>
-                <Col>
-                <TopCommandsToday />
+            <Row>
+                <Container fluid>
+                <Row style={{ marginBottom: "5%" }}>
+                <Col style={{ paddingLeft: 0, paddingRight: 0 }}>
+                    <WeeklyWrapup manageServer={this.props.manageServer} />
                 </Col>
-                <Col>
-                <TopCommandsMonth />
-                </Col>
+                </Row>
+                <Row style={{ marginBottom: "5%" }}>
+                    <Col>
+                    <TopCommandsToday manageServer={this.props.manageServer} />
+                    </Col>
+                    <Col>
+                    <TopCommandsMonth manageServer={this.props.manageServer} />
+                    </Col>
+                </Row>
+                <Row style={{ marginBottom: "5%" }}>
+                    <Col>
+                    <CommandsOvertime manageServer={this.props.manageServer} />
+                    </Col>
+                </Row>
+                </Container>
             </Row>
-            <Row style={{ marginBottom: "5%" }}>
-                <Col>
-                <CommandsOvertime />
-                </Col>
-            </Row>
-            </Container>
         );
     }
 
@@ -78,20 +64,13 @@ class Analytics extends Component {
                         <h1 className="Component-Header">Analytics</h1>
                     </Col>
                 </Row>
-                <Row style={{ marginBottom: "4%" }}>
+                <Row style={{ marginBottom: "2%" }}>
                     <Col>
                         <Link to="/"><p className="Component-Breadcrumb">Home </p></Link>
                         <p className="Component-Breadcrumb Component-Breadcrumb-Main">/ Analytics</p>
                     </Col>
                 </Row>
-                <Row>
-                    <Col className="justify-content-sm-center justify-content-xs-center" style={{ paddingLeft: 0, paddingRight: 0 }}>
-                    {/* {!this.state.dataReceived && this.props.manageServer ? <Spinner animation="border" role="status"><span className="sr-only">Loading...</span></Spinner> : ''}
-                    {!this.state.manageServer ? this.renderServerPicker() : ''}
-                    {this.state.dataReceived ? this.renderAnalytics() : ''} */}
-                    {this.renderAnalytics()}
-                    </Col>
-                </Row>
+                {this.props.manageServer ? this.renderAnalytics() : this.renderServerPicker()}
                 </Container>
             </div>
         );

@@ -28,7 +28,7 @@ services.save = (data) => {
         url: `${env.API}/commands/custom`,
         data: {
             guild_id: data.guild_id,
-            created_by: data.discord_id,
+            created_by: data.created_by,
             input: data.input,
             output: data.output
         }

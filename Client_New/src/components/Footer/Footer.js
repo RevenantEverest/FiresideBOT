@@ -3,12 +3,8 @@ import './Footer.css';
 
 import { Link, withRouter } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-    MDBFooter,
-    MDBContainer as Container,
-    MDBRow as Row, 
-    MDBCol as Col
-} from 'mdbreact';
+import { Container, Row, Col } from 'react-bootstrap';
+import { MDBFooter } from 'mdbreact';
 
 class Footer extends Component {
 
@@ -21,7 +17,7 @@ class Footer extends Component {
                 <Container fluid className="text-center text-md-left" style={{ marginBottom: "2%" }}>
                     <Row>
                     <Col md="6" className="Footer-Col__Sec1">
-                        <img src="https://i.imgur.com/efYsW7T.png" alt="" className="Footer-Logo" />
+                        <img src="https://i.imgur.com/KR9xQdZ.png" alt="" className="Footer-Logo" />
                         <h5 className="title Footer-Logo-Text">FiresideBOT</h5>
                         <Row style={{ marginTop: "2%" }}>
                         <Col className="Footer-Col" style={{ marginBottom: "2%" }}>
@@ -67,10 +63,7 @@ class Footer extends Component {
                         <h5 className="title Footer-UL-Title__Contact">Contact</h5>
                         <ul className="Footer-UL" style={{ paddingLeft: "0" }}>
                         <li className="list-unstyled Footer-LI">
-                            <p>support@firesidebot.com</p>
-                        </li>
-                        <li className="list-unstyled Footer-LI">
-                            <p>1 (800) 555-5555</p>
+                            <p>firesidebot@gmail.com</p>
                         </li>
                         </ul>
                     </Col>

@@ -3,7 +3,7 @@ import env from '../env';
 const services = {};
 
 services.getDefaultCommands = () => {
-  return axios.get(`${env.COMMAND_API}/commands`);
+  return axios.get(`${env.API}/commands`);
 };
 
 export default services;

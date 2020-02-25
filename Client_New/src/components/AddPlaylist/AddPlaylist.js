@@ -1,11 +1,19 @@
 import React, { Component } from 'react';
 import './AddPlaylist.css';
 
-import { Container, Row, Col, Button, Alert, Form } from 'react-bootstrap';
-
-//Services Imports
-import userPlaylistServices from '../../services/UserServices/userPlaylistServices';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Container, Row, Col } from 'react-bootstrap';
+import {
+    MDBInput,
+    MDBTooltip,
+    MDBBtn,
+    toast, 
+    ToastContainer 
+} from 'mdbreact';
+
+import userPlaylistServices from '../../services/UserServices/userPlaylistServices';
+
+import Skin from '../../res/Skin';
 
 class AddPlaylist extends Component {
 
@@ -24,86 +32,63 @@ class AddPlaylist extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
+
+        if(!this.state.name) return this.toggleFailureNotify("No empty fields");
+
         if(this.state.name.split("").includes(" "))
-        return this.setState({ formFailure: true, failureReason: "No White Space allowed in playlist names " }, () => setTimeout(() => this.setState({ formFailure: false }), 2000));
+            return this.toggleFailureNotify("No White Space Allowed");
         else if(this.state.playlistNames.includes(this.state.name))
-        return this.setState({ formFailure: true, failureReason: "Playlist Already Exists" }, () => setTimeout(() => this.setState({ formFailure: false }), 2000));
+            return this.toggleFailureNotify("Playlist Already Exists");
         else if(this.state.playlistNames.length >= 5)
-        return this.setState({ formFailure: true, failureReason: "Playlists Limited to 5" }, () => setTimeout(() => this.setState({ formFailure: false }), 2000));
+            return this.toggleFailureNotify("Playlists Limited to 5");
         
         userPlaylistServices.addPlaylist({ discord_id: this.state.userData.discord_id, name: this.state.name, public: true })
         .then(() => {
             document.querySelector("#AddPlaylist-Form").reset();
-            this.setState({ formSuccess: true }, () => setTimeout(() => this.setState({ formSuccess: false }), 2000))
+            this.toggleSuccessNotify();
             this.props.getPlaylists();
         })
         .catch(err => console.error(err));
     }
 
-    renderSuccess() {
-        return(
-            <Col lg={4}>
-                <Alert variant="success" style={{ marginTop: "25px" }}>
-                Playlist Created!
-                <FontAwesomeIcon className="FontAwesomeIcon AddPlaylist-Alert-Close" icon="times" onClick={() => this.setState({ formSuccess: false })} />
-                </Alert>    
-            </Col>
-        );
-    }
-
-    renderFailure() {
-        return(
-            <Col lg={4}>
-                <Alert variant="danger" style={{ marginTop: "25px" }}>
-                {this.state.failureReason}
-                <FontAwesomeIcon className="FontAwesomeIcon AddPlaylist-Alert-Close" icon="times" onClick={() => this.setState({ formFailure: false })} />
-                </Alert>    
-            </Col>
-        );
-    }
+    toggleSuccessNotify = () => toast.success("Added Successfully", { position: "top-right", autoClose: 5000 });
+    toggleFailureNotify = (reason) => toast.error(`ERROR: ${reason}`, { position: "top-right", autoClose: 5000 });
 
     render() {
         return(
             <div id="AddPlaylist">
-            <Container>
-            <Row>
-                <Col style={{ paddingLeft: 0, paddingRight: 0 }}>
-                    <Form id="AddPlaylist-Form" onSubmit={this.handleSubmit} autoComplete="off">
-                    <Form.Group>
-                        <Form.Row>
-                        <Col lg={2}>
-                        <Form.Label>Playlist Name: </Form.Label>
+                <ToastContainer position="top-right" autoClose={5000} newestOnTop rtl={false} />
+                <form id="AddPlaylist-Form" onSubmit={this.handleSubmit}>
+                <Container fluid>
+                <Row style={{ marginBottom: "2%" }}>
+                    <Col lg={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
+                        <Row>
+                        <Col lg={6} style={{ paddingRight: 0 }}>
+                            <label>Playlist Name</label>
                         </Col>
-                        </Form.Row>
-                        <Form.Row>
-                            <Col lg={2}>
-                            <Form.Control 
-                            id="AddPlaylist-PlaylistName" 
+                        <Col lg={6}>
+                            <MDBTooltip domElement tag="span" placement="right">
+                                <span><FontAwesomeIcon icon="question-circle" /></span>
+                                <span>Desired name for a playlist. (No White Space)</span>
+                            </MDBTooltip>
+                        </Col>
+                        </Row>
+                        <Row>
+                        <Col lg={12} id="AddPlaylist-Name-Col">
+                            <MDBInput 
+                            name="name"
                             type="text" 
-                            name="name"  
-                            onChange={this.handleChange}
+                            onChange={this.handleChange} 
                             />
-                            </Col>
-                            <Col lg={3}>
-                            <Button id="AddPlaylist-UpdateButton" variant="primary" type="submit">
-                            Create
-                            </Button>
-                            </Col>
-                        </Form.Row>
-                        <Form.Row>
-                            <Col lg={2}>
-                            <Form.Text>
-                            Desired name for a playlist. (No White Space)
-                            </Form.Text>
-                            </Col>
-                        </Form.Row>
-                    </Form.Group>
-                    </Form>
-                </Col>
-                {this.state.formSuccess ? this.renderSuccess() : ''}
-                {this.state.formFailure ? this.renderFailure() : ''}
-            </Row>
-            </Container>
+                        </Col>
+                        </Row>
+                    </Col>
+                    <Col lg={1}>
+                        <MDBBtn color={Skin.hex} style={{ background: Skin.hex, margin: 0 }} size="md" onClick={this.handleSubmit}>Create</MDBBtn>
+                    </Col>
+                </Row>
+                </Container>
+                </form>
             </div>
         );
     }

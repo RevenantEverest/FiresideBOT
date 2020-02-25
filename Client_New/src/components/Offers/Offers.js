@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './Offers.css';
 
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Container, Row, Col } from 'react-bootstrap';
 import {
@@ -10,8 +11,6 @@ import {
     MDBCardText,
     MDBBtn
 } from 'mdbreact';
-
-import Skin from '../../res/Skin';
 
 class Offers extends Component {
 
@@ -27,16 +26,16 @@ class Offers extends Component {
                     <MDBCard className="text-center w-auto" >
                     <MDBCardBody style={{ background: "#1a1a1a", height: "280px" }}>
                         <MDBCardTitle>
-                            <FontAwesomeIcon className="Offers-Icon" icon="gem" />
+                            <FontAwesomeIcon className="Offers-Icon" icon="magic" />
                             <br />
                             <br />
-                            Premium
+                            View Commands
                         </MDBCardTitle>
                         <MDBCardText style={{ height: "40px", color: "white" }}>
-                        Queue up some tunes, and save them to a playlist with our extensive Music funtionality.
+                        Take a look at all the commands Fireside has to offer!
                         </MDBCardText>
                         <br />
-                        <MDBBtn color={Skin.hex} tag="a" style={{ background: Skin.hex }} size="md" target="_blank" rel="noopener noreferrer" href={this._helpLink}>
+                        <MDBBtn className="Button" size="md" tag="a" target="_blank" rel="noopener noreferrer" href={this._helpLink + "/commands"}>
                         Learn More
                         </MDBBtn>
                     </MDBCardBody>
@@ -46,18 +45,20 @@ class Offers extends Component {
                     <MDBCard className="text-center w-auto" >
                     <MDBCardBody style={{ background: "#1a1a1a", height: "280px" }}>
                         <MDBCardTitle>
-                            <FontAwesomeIcon className="Offers-Icon" icon="bolt" />
+                            <FontAwesomeIcon className="Offers-Icon" icon="gem" />
                             <br />
                             <br />
-                            Moderation
+                            Premium
                         </MDBCardTitle>
                         <MDBCardText style={{ height: "40px", color: "white" }}>
-                        Take control of your server with powerful admin and moderation tools.
+                        Enhance your Fireside experience with our Premium features!
                         </MDBCardText>
                         <br />
-                        <MDBBtn color={Skin.hex} tag="a" style={{ background: Skin.hex }} size="md" target="_blank" rel="noopener noreferrer" href={this._helpLink}>
-                        Learn More
-                        </MDBBtn>
+                        <Link to="/premium">
+                            <MDBBtn className="Button" size="md">
+                            Learn More
+                            </MDBBtn>
+                        </Link>
                     </MDBCardBody>
                     </MDBCard>
                     </Col>
@@ -71,10 +72,10 @@ class Offers extends Component {
                             Support Server
                         </MDBCardTitle>
                         <MDBCardText style={{ height: "40px", color: "white" }}>
-                        Reward active members of your server with a server wide currency system.
+                        Join our support server for real time help as well as participating in new feature suggestions and discussions!
                         </MDBCardText>
                         <br />
-                        <MDBBtn color={Skin.hex} tag="a" style={{ background: Skin.hex }} size="md" target="_blank" rel="noopener noreferrer" href={this._helpLink}>
+                        <MDBBtn className="Button" size="md" tag="a" target="_blank" rel="noopener noreferrer" href="https://discord.gg/TqKHVUa">
                         Learn More
                         </MDBBtn>
                     </MDBCardBody>

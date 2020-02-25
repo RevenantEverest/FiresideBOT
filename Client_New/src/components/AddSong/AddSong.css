@@ -1,34 +1,3 @@
-#AddSong-SongName {
-    background: transparent !important;
-    border: none;
-    border-bottom: solid #cccccc;
-    border-radius: 0px;
-    color: #cccccc;
-}
-
-#AddSong-SongNumber {
-    background: transparent !important;
-    border: none;
-    border-bottom: solid #cccccc;
-    border-radius: 0px;
-    color: #cccccc;
-}
-
-#AddSong-SubmitButton {
-    border:none;
-    border-left: solid #cccccc;
-    background: inherit !important;
-    padding: 5px 8px 5px 8px;
-    font-size: 15px;
-}
-
-#AddSong-SubmitButton:hover {
-    transition: .5s;
-    color: orange !important;
-    border-left: solid orange;
-}
-
-.AddSong-Alert-Close {
-    float: right;
-    margin-top: 5px;
+#AddSong-Request-Col > div > input {
+    padding: 0;
 }

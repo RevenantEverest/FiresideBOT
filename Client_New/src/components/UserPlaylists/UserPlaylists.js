@@ -75,9 +75,12 @@ class UserPlaylists extends Component {
 
     findModal = (index) => this.state[("modal" + index)];
 
-    deletePlaylist(el) {
+    deletePlaylist(modalIndex, el) {
         userPlaylistServices.deletePlaylist(el.playlist_id)
-        .then(() => this.getPlaylists())
+        .then(() => {
+            this.toggle(modalIndex);
+            this.getPlaylists()
+        })
         .catch(err => console.error(err));
     } 
 
@@ -138,7 +141,7 @@ class UserPlaylists extends Component {
                 </MDBModalHeader>
                 <MDBModalBody className="Modal">
                     <MDBBtn color="elegant" onClick={this.toggle((idx + 1))}>Close</MDBBtn>
-                    <MDBBtn color={Skin.hex} style={{ background: Skin.hex }} onClick={(e) => this.deletePlaylist(el)}>Delete Playlist</MDBBtn>
+                    <MDBBtn color={Skin.hex} style={{ background: Skin.hex }} onClick={(e) => this.deletePlaylist((idx + 1), el)}>Delete Playlist</MDBBtn>
                 </MDBModalBody>
                 </MDBModal>
                 </Col>
@@ -168,7 +171,7 @@ class UserPlaylists extends Component {
                     <h1 className="Component-Header">Playlists</h1>
                 </Col>
             </Row>
-            <Row style={{ marginBottom: "2%" }}>
+            <Row style={{ marginBottom: "5%" }}>
                 <Col>
                     <Link to="/"><p className="Component-Breadcrumb">Home </p></Link>
                     <Link to="/playlists"><p className="Component-Breadcrumb">/ Playlists </p></Link>

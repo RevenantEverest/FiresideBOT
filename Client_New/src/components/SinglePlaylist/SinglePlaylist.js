@@ -97,7 +97,7 @@ class SinglePlaylist extends Component {
                         </MDBBtn>
 
                         <MDBModal isOpen={this.findModal((idx + 1))} toggle={this.toggle((idx + 1))} centered>
-                        <MDBModalHeader toggle={this.toggle((idx + 1))} className="Modal">
+                        <MDBModalHeader tag="div" toggle={this.toggle((idx + 1))} className="Modal">
                         <h4 className="h4 display-inline">Are you sure you want to delete </h4>
                         <h4 className="h4 display-inline" style={{ fontWeight: 600, color: "orange" }}>{el.title}</h4>
                         <h4 className="h4 display-inline">?</h4>
@@ -180,6 +180,7 @@ class SinglePlaylist extends Component {
                         manageServer={this.state.manageServer} 
                         playlistData={this.state.playlistData}
                         getSongs={this.getSongs}
+                        toggleModal={this.toggle(1)}
                         />
                     </MDBModalBody>
                     </MDBModal>
