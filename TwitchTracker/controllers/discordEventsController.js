@@ -12,7 +12,7 @@ async function getDate() {
 
 services.handleOnReady = async (bot) => {
 
-    setInterval(() => twitchTrackerController.runCheck(bot), 120000);
+    setInterval(() => twitchTrackerController.run(bot), 120000);
 
     // 120000
     
