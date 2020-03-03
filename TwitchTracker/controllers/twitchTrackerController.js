@@ -11,13 +11,14 @@ async function generateQuery(trackers) {
     let query = '';
     let batchData = [];
     trackers.forEach((el, idx) => {
-        if(!idx % 100 === 0)
-            query += `user_id=${el.twitch_id}&`;
-        else {
+        if(idx % 100 === 0 && idx !== 0) {
             batchData.push(query);
             query = '';
         }
+        else query += `user_id=${el.twitch_id}&`;
     });
+
+    batchData.push(query);
     return batchData;
 };
 
@@ -38,12 +39,16 @@ module.exports.run = async (bot) => {
         });
         
         let batches = await generateQuery(temp);
+        let promises = [];
 
-        batches.forEach(el => {
-            twitchServices.getTwitchStreamStatus(el)
-            .then(streams => checkChannelsLive(temp, streams.data.data))
-            .catch(err => console.error(err));
+        batches.forEach(el => promises.push(twitchServices.getTwitchStreamStatus(el)));
+
+        Promise.all(promises)
+        .then(streams => {
+            streams = [].concat.apply([], streams.map(el => el.data.data));
+            checkChannelsLive(temp, streams)
         })
+        .catch(err => console.error(err));
     };
 
     function checkChannelsLive(trackerData, streams) {
@@ -127,6 +132,7 @@ module.exports.run = async (bot) => {
                 .setFooter('Powered By Twitch API', 'https://i.imgur.com/DwmLOBU.png')
 
                 el.guildInfo.forEach(guild => {
+                    if(guild.guild_id !== "427883469092159490") return;
                     let role_mention = guild.role_id === "@everyone" ? "@everyone" : (guild.role_id === "none" ? '' : `<@&${guild.role_id}>`);
                     bot.guilds.get(guild.guild_id).channels.get(guild.channel_id).send(role_mention, embed);
                 });
