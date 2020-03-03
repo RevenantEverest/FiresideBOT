@@ -21,10 +21,6 @@ async function generateQuery(trackers) {
     return batchData;
 };
 
-async function getImageURL(el) {
-    
-};
-
 module.exports.run = async (bot) => {
     db.findAll()
     .then(trackers => getStreamStatus(trackers))
