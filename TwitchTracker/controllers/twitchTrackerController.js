@@ -132,7 +132,6 @@ module.exports.run = async (bot) => {
                 .setFooter('Powered By Twitch API', 'https://i.imgur.com/DwmLOBU.png')
 
                 el.guildInfo.forEach(guild => {
-                    if(guild.guild_id !== "427883469092159490") return;
                     let role_mention = guild.role_id === "@everyone" ? "@everyone" : (guild.role_id === "none" ? '' : `<@&${guild.role_id}>`);
                     bot.guilds.get(guild.guild_id).channels.get(guild.channel_id).send(role_mention, embed);
                 });
