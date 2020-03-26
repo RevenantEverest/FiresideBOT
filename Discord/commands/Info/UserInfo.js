@@ -10,7 +10,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
 
     infoEmbed
     .setColor(0xff0066)
-    .setThumbnail(`https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=2048`)
+    .setThumbnail(user.avatarURL ? user.avatarURL : "https://i.imgur.com/CBCTbyK.png")
     .addField('**User Info**', `${user.username} #${user.discriminator}`)
     .addBlankField()
     .addField('Status:', user.presence.status, true)
