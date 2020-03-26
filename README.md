@@ -586,6 +586,11 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Aliases**: `unpause`   
 **Example**: `?resume`  
 
+- [Shuffle](https://help.firesidebot.com/commands/shuffle)   
+**Desc**: Shuffles the current Queue  
+**Aliases**:   
+**Example**: `?shuffle`  
+
 - [Skip](https://help.firesidebot.com/commands/skip)   
 **Desc**: Skips to next song in queue  
 **Aliases**:   
