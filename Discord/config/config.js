@@ -1,7 +1,7 @@
 module.exports = {
   servers: [],
   environment: {
-    version: 'v1.7.5',
+    version: 'v1.8.0',
     users: 0,
     updatePending: false
   },
