@@ -118,11 +118,23 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Params**: Input (Command Name) and Output (Command Response)  
 **Example**: `?createcommand MyCommand This is a new command`  
 
+- [CreateFortune](https://help.firesidebot.com/commands/createfortune) `<param>`  
+**Desc**: Creates a fortune to be used in the 8ball command  
+**Aliases**: `cf`   
+**Params**: Fortune name  
+**Example**: `?createfortune Oh? You're approaching me?`  
+
 - [DeleteCommand](https://help.firesidebot.com/commands/deletecommand) `<param>`  
 **Desc**: Delete a custom command  
 **Aliases**: `delcom`   
 **Params**: Command ID or CommandName  
 **Example**: `?deletecommand MyCommand`  
+
+- [DeleteFortune](https://help.firesidebot.com/commands/deletefortune) `<param>`  
+**Desc**: Deletes a custom fortune used in the 8ball command  
+**Aliases**: `df`   
+**Params**: Fortune Index  
+**Example**: `?deletefortune 4`  
 
 - [DisableCommand](https://help.firesidebot.com/commands/disablecommand) `<param>`  
 **Desc**: Disables a Command  
@@ -416,6 +428,11 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Desc**: Displays relevant Bot info  
 **Aliases**: `stats` `bi`   
 **Example**: `?botinfo`  
+
+- [Fortunes](https://help.firesidebot.com/commands/fortunes)   
+**Desc**: Displays all custom fortunes  
+**Aliases**:   
+**Example**: `?fortunes`  
 
 - [Leaderboard](https://help.firesidebot.com/commands/leaderboard)   
 **Desc**: Displays Rank Leaderboard for server  
