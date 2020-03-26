@@ -7,13 +7,8 @@ const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
 const qrec = pgp.errors.queryResultErrorCode;
 
-const adjectives = [
-    'Handy', 'Diligent', 'Wonderful', 'Curious', 'Helpful', 'Excited', 'Understanding', 'Hopeful'
-];
-
-const nouns = [
-    'Dogs', 'Buildings', 'Dice', 'Trees', 'Cats', 'Ice', 'Records', 'Computers'
-];
+const adjectives = ['Handy', 'Diligent', 'Wonderful', 'Curious', 'Helpful', 'Excited', 'Understanding', 'Hopeful'];
+const nouns = ['Dogs', 'Buildings', 'Dice', 'Trees', 'Cats', 'Ice', 'Records', 'Computers'];
 
 async function RNG(num) { return Math.floor(Math.random() * num); }
 
