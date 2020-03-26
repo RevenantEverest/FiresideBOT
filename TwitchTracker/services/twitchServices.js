@@ -7,7 +7,8 @@ services.getTwitchInfo = (data) => {
         // https://api.twitch.tv/helix/users?id=${data}
         url: `https://api.twitch.tv/helix/users?${data}`,
         headers: {
-            'Client-ID': process.env.TWITCH_CLIENT_ID
+            'Client-ID': process.env.TWITCH_CLIENT_ID,
+            'Content-Type': 'application/x-www-form-urlencoded'
         }
     });
 };

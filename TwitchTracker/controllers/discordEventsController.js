@@ -14,7 +14,7 @@ services.handleOnReady = async (bot) => {
 
     setInterval(() => twitchTrackerController.run(bot), 120000);
 
-    // 120000
+    // DEFAULT INTERVAL: 120000
     
     if(process.env.ENVIRONMENT === "DEV") return console.log(chalk.hex('#ff9900')('[LOG]') + ' Twitch-Tracker Ready');
 

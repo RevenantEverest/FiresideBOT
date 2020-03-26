@@ -12,15 +12,25 @@ async function generateQuery(trackers) {
     let batchData = [];
     trackers.forEach((el, idx) => {
         if(idx % 100 === 0 && idx !== 0) {
+            query = query.substring(0, query.length - 1);
             batchData.push(query);
             query = '';
         }
         else query += `user_id=${el.twitch_id}&`;
     });
 
+    query = query.substring(0, query.length - 1);
     batchData.push(query);
     return batchData;
 };
+
+/*
+
+Tracker Length: 112
+Stream Status Promise Length: 4 [Doesn't seem right]
+Batch Data Length: 
+
+*/
 
 module.exports.run = async (bot) => {
     db.findAll()
@@ -46,7 +56,7 @@ module.exports.run = async (bot) => {
         Promise.all(promises)
         .then(streams => {
             streams = [].concat.apply([], streams.map(el => el.data.data));
-            checkChannelsLive(temp, streams)
+            checkChannelsLive(temp, streams);
         })
         .catch(err => console.error(err));
     };
@@ -115,7 +125,7 @@ module.exports.run = async (bot) => {
 
     function sendEmbed(trackerData) {
         trackerData.forEach(el => {
-            // Create Cron Job To Purge Image Channel Every 30 days
+            // Create Cron Job To Purge Image Channel Every 14 days
             bot.channels.get("684308884139016210").send(`Attachment for ${el.display_name}`, { files: [el.thumbnail_url] })
             .then(msg => {
 
@@ -132,6 +142,10 @@ module.exports.run = async (bot) => {
                 .setFooter('Powered By Twitch API', 'https://i.imgur.com/DwmLOBU.png')
 
                 el.guildInfo.forEach(guild => {
+                    if(!bot.guilds.get(guild.guild_id)) return;
+                    else if(!bot.guilds.get(guild.guild_id).channels.get(guild.channel_id)) return console.log("Invalid Channel");
+
+                    if(process.env.ENVIRONMENT === "DEV" && guild.guild_id !== "427883469092159490") return;
                     let role_mention = guild.role_id === "@everyone" ? "@everyone" : (guild.role_id === "none" ? '' : `<@&${guild.role_id}>`);
                     bot.guilds.get(guild.guild_id).channels.get(guild.channel_id).send(role_mention, embed);
                 });
