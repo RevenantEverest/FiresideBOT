@@ -1,15 +1,11 @@
 const Discord = require('discord.js');
-const utils = require('../../../commands/utils/utils');
-
-const logSettingsDB = require('../../../models/GuildModels/guildLogSettingsDB');
-
-const pgp = require('pg-promise')();
-const QRE = pgp.errors.QueryResultError;
-const qrec = pgp.errors.queryResultErrorCode;
+const utils = require('../../../utils/utils');
+const logSettingsController = require('../../logSettingsController');
 
 module.exports = async (bot, oldMember, newMember) => {
-    logSettingsDB.findByGuildId(newMember.guild.id)
-    .then(async settings => {
+    logSettingsController.getLogSettings(oldMember.guild.id, handleLogEmbed);
+
+    async function handleLogEmbed(settings) {
         if(!settings.enabled) return;
         
         let permissions = new Discord.Permissions(bot.channels.get(settings.channel_id).permissionsFor(bot.user).bitfield);
@@ -40,9 +36,5 @@ module.exports = async (bot, oldMember, newMember) => {
         .setDescription(updateText)
 
         bot.channels.get(settings.channel_id).send(embed);
-    })
-    .catch(err => {
-        if(err instanceof QRE && err.code === qrec.noData) return;
-        else console.error(err);
-    })
+    };
 };

@@ -1,28 +1,27 @@
 const Discord = require('discord.js');
-
-const currencyController = require('../../currencyController');
-
-const logSettingsDB = require('../../../models/GuildModels/guildLogSettingsDB');
-
-const pgp = require('pg-promise')();
-const QRE = pgp.errors.QueryResultError;
-const qrec = pgp.errors.queryResultErrorCode;
+const currencyRecordsDB = require('../../../models/currencyRecordsDB');
+const logSettingsController = require('../../logSettingsController');
 
 module.exports = async (bot, member) => {
     if(member.user.bot) return;
+    else logSettingsController.getLogSettings(member.guild.id, deleteCurrencyRecord);
 
-    logSettingsDB.findByGuildId(member.guild.id)
-    .then(async settings => {
+    async function deleteCurrencyRecord(settings) {
+        logSettings = settings;
+        currencyRecordsDB.delete(member.id)
+        .then(() => handleLogEmbed(settings))
+        .catch(err => console.error(err));
+    };
+
+    async function handleLogEmbed(settings) {
         if(!settings.enabled) return;
         
         let permissions = new Discord.Permissions(bot.channels.get(settings.channel_id).permissionsFor(bot.user).bitfield);
         if(!permissions.has("SEND_MESSAGES")) return;
         if(!permissions.has("VIEW_AUDIT_LOG")) return;
 
-        currencyController.removeCurrencyRecord(bot, member);
-        let audit = await bot.guilds.get(member.guild.id).fetchAuditLogs();
-        audit = audit.entries.array()[0];
-
+        let auditLogs = await bot.guilds.get(member.guild.id).fetchAuditLogs();
+        let audit = auditLogs.entries.array()[0];
         let embed = new Discord.RichEmbed();
 
         if(audit.action === "MEMBER_KICK") {
@@ -34,7 +33,7 @@ module.exports = async (bot, member) => {
             if(audit.reason)
                 embed.setDescription(`**Reason**: ${audit.reason}`)
         }
-        else embed.setTitle(`Member Leave`)
+        else embed.setTitle(`Member Left`)
 
         embed
         .setThumbnail(`https://cdn.discordapp.com/avatars/${member.user.id}/${member.user.avatar}.png?size=2048`)
@@ -43,9 +42,5 @@ module.exports = async (bot, member) => {
         .setFooter(`User ID: ${member.user.id}`)
 
         bot.channels.get(settings.channel_id).send(embed);
-    })
-    .catch(err => {
-        if(err instanceof QRE && err.code === qrec.noData) return;
-        else console.error(err);
-    })
+    };
 };

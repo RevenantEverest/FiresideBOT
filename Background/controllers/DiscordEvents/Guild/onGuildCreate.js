@@ -2,10 +2,20 @@ const Discord = require('discord.js');
 const guildsController = require('../../guildsController');
 
 module.exports = async (bot, guild) => {
+    
     guildsController.saveGuild(bot, guild);
 
-    let embed = new Discord.RichEmbed();
+    /*
+    
+        Create Guild Intro Message DB to log when a guild has received an intro message
+        Check that DB to see if an intro message has been sent or not
+
+        Used to mitigate the Discord Outages calling the onGuildRemove event
+
+    */
+
     const channels = guild.channels.array();
+    let embed = new Discord.RichEmbed();
     let welcome = { general: null, channels: null };
 
     embed

@@ -3,7 +3,6 @@ const chalk = require('chalk');
 const utils = require('../../commands/utils/utils');
 
 const config = require('../../config/config');
-const guildsController = require('../guildsController');
 const customCommandsChecker = require('../customCommandsChecker');
 
 async function setBotActivity(bot) {
@@ -21,13 +20,9 @@ async function setBotActivity(bot) {
 module.exports = async (bot, getCommands) => {
 
     getCommands();
-
-    guildsController.checkGuilds(bot)
     
     bot.user.setActivity("The Campfire | ?help", {type: "WATCHING"});
-    setInterval(() => {
-        setBotActivity(bot);
-    }, 7200000);
+    setInterval(() => setBotActivity(bot), 7200000);
 
     setInterval(() => {
         config.environment.users = 0;

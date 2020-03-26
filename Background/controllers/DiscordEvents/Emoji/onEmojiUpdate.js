@@ -1,14 +1,10 @@
 const Discord = require('discord.js');
-
-const logSettingsDB = require('../../../models/GuildModels/guildLogSettingsDB');
-
-const pgp = require('pg-promise')();
-const QRE = pgp.errors.QueryResultError;
-const qrec = pgp.errors.queryResultErrorCode;
+const logSettingsController = require('../../logSettingsController');
 
 module.exports = async (bot, oldEmoji, newEmoji) => {
-    logSettingsDB.findByGuildId(oldEmoji.guild.id)
-    .then(async settings => {
+    logSettingsController.getLogSettings(oldEmoji.guild.id, handleLogEmbed);
+
+    async function handleLogEmbed(settings) {
         if(!settings.enabled) return;
         
         let permissions = new Discord.Permissions(bot.channels.get(settings.channel_id).permissionsFor(bot.user).bitfield);
@@ -29,10 +25,6 @@ module.exports = async (bot, oldEmoji, newEmoji) => {
         .setDescription(`**Emoji**: <:${oldEmoji.name}:${oldEmoji.id}>\n\n**Old Name**: ${oldEmoji.name}\n`+ infoText)
         .setFooter(`Emoji ID: ${oldEmoji.id}`)
         
-        bot.channels.get(settings.channel_id).send(embed)
-    })
-    .catch(err => {
-        if(err instanceof QRE && err.code === qrec.noData) return;
-        else console.error(err);
-    });
+        bot.channels.get(settings.channel_id).send(embed);
+    }
 };
