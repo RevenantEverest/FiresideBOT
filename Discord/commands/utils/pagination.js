@@ -66,7 +66,6 @@ async function handleMessage(message, msg, bot, contentArr, options, index) {
   });
   r_collector.on('end', e => {
     if(message.channel.type === "dm") return;
-    console.log(message.channel.type);
     
     let permissions =  new Discord.Permissions(message.channel.permissionsFor(bot.user).bitfield);
     if(!permissions.has("MANAGE_MESSAGES")) return;
