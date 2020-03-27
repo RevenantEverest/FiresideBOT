@@ -30,7 +30,7 @@ services.checkDefaultSettings = async (guild_id, callback) => {
     .then(() => checkCurrencySettings())
     .catch(err => {
         if(err instanceof QRE && err.code === qrec.noData)
-            this.saveDefaultGuildSettings(guild_id, checkCurrencySettings);
+            services.saveDefaultGuildSettings(guild_id, checkCurrencySettings);
         else console.error(err);
     })
 
@@ -39,7 +39,7 @@ services.checkDefaultSettings = async (guild_id, callback) => {
         .then(() => checkRankSettings())
         .catch(err => {
             if(err instanceof QRE && err.code === qrec.noData)
-                this.saveDefaultCurrencySettings(guild_id, checkRankSettings);
+                services.saveDefaultCurrencySettings(guild_id, checkRankSettings);
             else console.error(err);
         });
     };
@@ -48,7 +48,9 @@ services.checkDefaultSettings = async (guild_id, callback) => {
         rankSettingsDB.findByGuildId(guild_id)
         .catch(err => {
             if(err instanceof QRE && err.code === qrec.noData)
-                this.saveDefaultRankSettings(guild_id, callback);
+                services.saveDefaultRankSettings(guild_id, () => { 
+                    return console.log("[Log] Default Settings Saved"); 
+                });
             else console.error(err);
         });
     }

@@ -1,10 +1,10 @@
 const Discord = require('discord.js');
+const moment = require('moment');
 
 module.exports = async (bot, oldGuild, newGuild) => {
     if(oldGuild.name !== newGuild.name)
         guildsDB.update({ guild_id: newGuild.id, name: newGuild.name })
         .then(() => {
-            let date = await utils.getDate();
             let embed = new Discord.RichEmbed();
 
             embed
@@ -15,7 +15,7 @@ module.exports = async (bot, oldGuild, newGuild) => {
             .addField('New Name:', newGuild.name, true)
             .addField('ID:', newGuild.id, true)
             .addField('Member Count:', parseInt(newGuild.memberCount, 10).toLocaleString())
-            .setFooter(`Guild Updated: ${date}`)
+            .setFooter(`Guild Updated: ${moment().format("LLLL") + " EST"}`)
 
             if(process.env.ENVIRONMENT !== "DEV") bot.channels.get('538528459190829064').send(embed);
         })
