@@ -52,8 +52,7 @@ async function parseContentArr(contentArr, categoryFilter, dCommands) {
             params = command.params;
             fields.push({
                 field: `**${command.d_name}** ${params ? (params.required ? '`<param>`' : '`[param]`') : ""} ${dCommands.includes(command.name) ? "<:Cross:624336361633218580>*Disabled*" : ""}`,
-                value: command.desc === "" ? "*N/A*" : command.desc,
-                inline: false
+                value: command.desc === "" ? "*N/A*" : command.desc
             });
         });
         contentArr.push({ category: category, fields: fields });
