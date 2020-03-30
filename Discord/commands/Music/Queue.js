@@ -30,7 +30,7 @@ async function handleSingle(message, songs, overallLength, author) {
   embed.setTitle(`**QUEUE** (${overallLength})`).setColor(0x00ffff).setAuthor(author.text, author.image);
 
   songs.forEach((el, idx) => {
-    embed.addField(`${(idx + 1)}. ${el.title}`, `Link: [Click Me](${el.link})\nRequested By: ${el.requestedBy}`);
+    embed.addField(`${(idx + 1)}. ${el.title}`, `Link: [Click Me](${el.link})\nRequested By: ${el.requestedBy.username}`);
   });
 
   message.channel.send(embed);
