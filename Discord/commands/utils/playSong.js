@@ -64,7 +64,9 @@ services.playSong = async (bot, connection, message, server) => {
             if(server.queue.options.recommendations) 
                 return message.channel.send("This feature has been temporarily removed until a better version is implemented")
             else {
-                server.queue = { queueInfo: [], currentSongEmbed: {}, currentSongInfo: {}, genres: [] };
+                server.queue.queueInfo, server.queue.genres = [];
+                server.queue.currentSongEmbed, server.queue.currentSongInfo = {};
+                
                 connection.disconnect();
                 server.queue.isPlaying = false;
                 message.channel.send('Queue concluded.');
