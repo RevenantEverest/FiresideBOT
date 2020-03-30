@@ -35,7 +35,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     }
 
     embed
-    .addField(`**Poll:** ${poll.question}`, `Started By ${message.author.username}`)
+    .addField(`**Poll:** ${poll.question}`, `Started By <@${message.author.username}>`)
     .addBlankField()
     .setColor(0x00ff00)
 
@@ -107,7 +107,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
             msg.edit(pollEndEmbed);
         });
     })
-    .catch(err => console.log('Error at Message Channel Send .then()', err));
+    .catch(err => console.error(err));
 
 };
 
