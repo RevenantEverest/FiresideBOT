@@ -46,3 +46,9 @@ CREATE TABLE guild_welcome_message (
     guild_id VARCHAR(255),
     message VARCHAR(1024)
 );
+
+CREATE TABLE guild_logs (
+    id SERIAL PRIMARY KEY,
+    guild_id VARCHAR(255),
+    date VARCHAR(255)
+);

@@ -1,3 +1,12 @@
+DROP TABLE IF EXISTS auto_role;
+DROP TABLE IF EXISTS autodj;
+DROP TABLE IF EXISTS custom_commands;
+DROP TABLE IF EXISTS disabled_commands;
+DROP TABLE IF EXISTS regulars;
+DROP TABLE IF EXISTS twitch_banned_words;
+DROP TABLE IF EXISTS twitch_currency;
+DROP TABLE IF EXISTS twitch_queue; 
+
 
 CREATE TABLE auto_role (
     id SERIAL PRIMARY KEY,
@@ -25,6 +34,18 @@ CREATE TABLE disabled_commands (
     id SERIAL PRIMARY KEY,
     guild_id VARCHAR(255),
     command VARCHAR(255)
+);
+
+CREATE TABLE music_logs (
+    id SERIAL PRIMARY KEY,
+    guild_id VARCHAR(255),
+    discord_id VARCHAR(255),
+    title VARCHAR(255),
+    author VARCHAR(255),
+    link VARCHAR(255),
+    duration VARCHAR(255),
+    thumbnail_url VARCHAR(255),
+    date VARCHAR(255)
 );
 
 CREATE TABLE regulars (
