@@ -2,7 +2,10 @@ const Discord = require('discord.js');
 
 module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     let embed = new Discord.RichEmbed();
-    server.queue.options.loop ? server.queue.options.loop = false : server.queue.options.loop = true;
+    server.queue.options.loop = !server.queue.options.loop;
+
+    if(server.queue.options.loop && server.queue.isPlaying) console.log("Playing")
+        // server.queue.queueInfo.push(server.queue.currentSongInfo);
     
     embed.addField('**Music Options**', `Autoplay(loop) is now ${server.queue.options.loop ? '**on**' : '**off**'}`)
     message.channel.send(embed.setColor(0xcc00ff));
