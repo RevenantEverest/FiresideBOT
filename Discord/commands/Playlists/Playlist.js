@@ -37,7 +37,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
         if(args.includes("-s")) songs = await utils.shuffle(songs);
         songs.forEach((el, idx) => {
             server.queue.queueInfo.push({
-                title: el.title, link: el.link, author: el.author, duration: el.duration, thumbnail: el.thumbnail_url, requestedBy: message.author.username
+                title: el.title, link: el.link, author: el.author, duration: el.duration, thumbnail: el.thumbnail_url, requestedBy: message.author
             });
 
             if(idx === (songs.length - 1)) {

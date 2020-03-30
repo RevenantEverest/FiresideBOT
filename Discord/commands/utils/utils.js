@@ -191,7 +191,7 @@ module.exports = {
                 author: info.author, 
                 duration: info.lengthSeconds, 
                 thumbnail: thumbnails[thumbnails.length - 1].url, 
-                requestedBy: message.author.username 
+                requestedBy: message.author
             }
             callback(songInfo);
         });
