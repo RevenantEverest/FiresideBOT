@@ -27,8 +27,9 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
 
         if(!message.guild.voiceConnection)
             message.member.voiceChannel.join()
-            .then((connection) => playSong.playSong(bot, connection, message, server))
+            .then(connection => playSong.playSong(bot, connection, message, server))
             .catch(err => errorHandler(bot, message, err, "Join Voice Channel Error", "Play"));
+        else playSong.playSong(bot, server.queue.connection, message, server);
     });
 };
 

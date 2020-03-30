@@ -47,6 +47,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
                 .then((connection) => playSong.playSong(bot, connection, message, server))
                 .catch(err => console.error(err));
             }
+            else playSong.playSong(bot, server.queue.connection, message, server);
         })
     };
 

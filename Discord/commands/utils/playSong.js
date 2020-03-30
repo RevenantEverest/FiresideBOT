@@ -12,6 +12,7 @@ const services = {};
 services.playSong = async (bot, connection, message, server) => {
     let currentSongEmbed = new Discord.RichEmbed();
     let request = server.queue.queueInfo[0];
+    server.queue.connection = connection;
 
     if(server.queue.isPaused === true) server.queue.isPaused = false;
     if(server.queue.isPlaying === false) server.queue.isPlaying = true;
@@ -67,9 +68,12 @@ services.playSong = async (bot, connection, message, server) => {
                 server.queue.queueInfo, server.queue.genres = [];
                 server.queue.currentSongEmbed, server.queue.currentSongInfo = {};
                 
-                connection.disconnect();
                 server.queue.isPlaying = false;
                 message.channel.send('Queue concluded.');
+                setTimeout(() => {
+                    if(!server.queue.isPlaying)
+                        return connection.disconnect();
+                }, 300000);
             }
         }
     });
