@@ -379,6 +379,13 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Aliases**:   
 **Example**: `?thanos`  
 
+- [Trivia](https://help.firesidebot.com/commands/trivia) `[param]`  
+**Desc**: Starts a trivia game  
+**Aliases**:   
+**Params**: Number  
+**Flags**: `-easy` `-medium` `-hard`   
+**Example**: `?trivia 10 -medium `  
+
 - [Vibe](https://help.firesidebot.com/commands/vibe)   
 **Desc**: Checks your current vibe  
 **Aliases**: `vibecheck`   
