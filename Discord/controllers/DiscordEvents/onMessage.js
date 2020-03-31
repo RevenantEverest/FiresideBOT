@@ -3,6 +3,7 @@ const { Permissions } = require('discord.js');
 const logger = require('../../services/loggerServices');
 
 const ticketsController = require('../ticketsController');
+const customCommandParser = require('../customCommandParser');
 
 const guildSettingsDB = require('../../models/GuildModels/guildSettingsDB');
 const disabledCommandsDB = require('../../models/disabledCommandsDB');
@@ -16,9 +17,9 @@ const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
 const qrec = pgp.errors.queryResultErrorCode;
 
-async function checkCustomCommands(message, args) {
+async function checkCustomCommands(bot, message, args) {
     customCommandsDB.findByGuildIdAndInput({ guild_id: message.guild.id, input: args[0].toLowerCase() })
-    .then(customCommand => message.channel.send(customCommand.output))
+    .then(customCommand => customCommandParser(bot, message, customCommand))
     .catch(err => {
         if(err instanceof QRE && err.code === qrec.noData) return;
         else console.error(err);
@@ -94,7 +95,7 @@ module.exports = async (bot, message) => {
     
     let commandfile = bot.commands.get(args[0].toLowerCase()) || bot.commands.get(bot.aliases.get(args[0].toLowerCase()));
 
-    if(!commandfile) return checkCustomCommands(message, args);
+    if(!commandfile) return checkCustomCommands(bot, message, args);
     if(commandfile.config.category === "Admin" && !message.member.hasPermission('ADMINISTRATOR'))
         return message.channel.send(`You don't have permission to use this command`);
     else if(disabledCommands) {
