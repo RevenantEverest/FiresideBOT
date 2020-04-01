@@ -33,7 +33,7 @@ module.exports = async (bot, member) => {
             if(audit.reason)
                 embed.setDescription(`**Reason**: ${audit.reason}`)
         }
-        else embed.setTitle(`Member Left`)
+        else embed.setAuthor(`Member Left`, member.user.avatarURL)
 
         embed
         .setThumbnail(`https://cdn.discordapp.com/avatars/${member.user.id}/${member.user.avatar}.png?size=2048`)
