@@ -1,5 +1,3 @@
-async function RNG(num) { return Math.floor(Math.random() * num); }
-
 module.exports = async (bot, message, customCommand) => {
     /*
         ${Choice1, Choice2, Choice3} returns one of the choices separated by commas
@@ -15,7 +13,7 @@ module.exports = async (bot, message, customCommand) => {
         variables.forEach(async (el, idx) => {
             let exec = /\${([^}]*)}/.exec(el)[1];
 
-            if(exec === "touser") output = output.replace("${touser}", message.author);
+            if(exec.toLowerCase() === "touser") output = output.replace("${" + exec + "}", message.author);
 
             if(exec.includes(",")) {
                 let choices = exec.split(",");
