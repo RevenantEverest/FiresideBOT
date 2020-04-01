@@ -10,7 +10,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
 
     async function handleFortune(fortunes) {
         let index = parseInt(args[1], 10) - 1;
-        if(index < 0 || index >= fortunes.fortunes.length) return message.channel.send("Invalid Index __");
+        if(index < 0 || index >= fortunes.fortunes.length) return message.channel.send("Invalid Index");
         let removedFortune = fortunes.fortunes[index];
 
         fortunes.fortunes.splice(index, 1);
@@ -28,7 +28,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
 
     async function deleteFortunes(fortunes, removedFortune) {
         fortunesController.delete(bot, message, "DeleteFortune", fortunes.id, () => {
-            return message.channel.send(`Fortune **${removedFortune}** sucessfully deleted!`);
+            return message.channel.send(`Fortune **${removedFortune}** successfully deleted!`);
         });
     };
 };
