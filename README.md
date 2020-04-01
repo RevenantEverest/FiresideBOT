@@ -124,6 +124,12 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Params**: Fortune name  
 **Example**: `?createfortune Oh? You're approaching me?`  
 
+- [CreateNewMemberMessage](https://help.firesidebot.com/commands/createnewmembermessage) `<param>`  
+**Desc**: Creates a member message to be pulled from when a new member joins  
+**Aliases**: `cnmm`   
+**Params**: Message  
+**Example**: `?createnewmembermessage Welcome ${user} you're our ${membercount}`  
+
 - [DeleteCommand](https://help.firesidebot.com/commands/deletecommand) `<param>`  
 **Desc**: Delete a custom command  
 **Aliases**: `delcom`   
@@ -141,6 +147,11 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Aliases**: `disabledcommands` `dc`   
 **Params**: Command Name or Alias  
 **Example**: `?disablecommand play`  
+
+- [DisableNewMemberMessages](https://help.firesidebot.com/commands/disablenewmembermessages)   
+**Desc**: Disables New Member Messages System  
+**Aliases**: `dnmm`   
+**Example**: `?disablenewmembermessages`  
 
 - [EditCommand](https://help.firesidebot.com/commands/editcommand) `<param>`  
 **Desc**: Edit a custom command  
@@ -174,6 +185,12 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Params**: Command Name or Alias  
 **Example**: `?enablecommand play`  
 
+- [EnableNewMemberMessages](https://help.firesidebot.com/commands/enablenewmembermessages) `<param>`  
+**Desc**: Enables New Member Messages System  
+**Aliases**: `enmm`   
+**Params**: Text Channel Tag  
+**Example**: `?enablenewmembermessages #welcome`  
+
 - [GrantExperience](https://help.firesidebot.com/commands/grantexperience) `<param>`  
 **Desc**: Gives EXP to a member  
 **Aliases**: `grantexp` `gexp`   
@@ -199,6 +216,12 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Params**: User Tag / Amount  
 **Flags**: `-r`   
 **Example**: `?removecurrency @RevenantEverest 1000 -r His memes were bad`  
+
+- [RemoveNewMemberMessage](https://help.firesidebot.com/commands/removenewmembermessage) `<param>`  
+**Desc**: Removes a new member message  
+**Aliases**: `rnmm`   
+**Params**: Message Index  
+**Example**: `?removenewmembermessage 4`  
 
 - [RemoveRank](https://help.firesidebot.com/commands/removerank) `<param>`  
 **Desc**: Removes a Rank Tier  
@@ -450,6 +473,11 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Desc**: Displays current Rank and XP  
 **Aliases**: `mr`   
 **Example**: `?myrank`  
+
+- [NewMemberMessages](https://help.firesidebot.com/commands/newmembermessages)   
+**Desc**: Displays all New Member Messages  
+**Aliases**: `nmm`   
+**Example**: `?newmembermessages`  
 
 - [Poll](https://help.firesidebot.com/commands/poll) `<param>`  
 **Desc**: Creates a new Poll  

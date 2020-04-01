@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const logSettingsController = require('../../logSettingsController');
+const newMemberMessagesController = require('../../newMemberMessagesController');
 const welcomeMessageDB = require('../../../models/welcomeMessageDB');
 const autoRoleDB = require('../../../models/autoRoleDB');
 
@@ -10,6 +11,8 @@ const qrec = pgp.errors.queryResultErrorCode;
 module.exports = async (bot, member) => {
     if(member.user.bot) return;
     else logSettingsController.getLogSettings(member.guild.id, handleLogEmbed);
+
+    newMemberMessagesController.getByGuildId(bot, member.guild, member);
 
     async function handleLogEmbed(settings) {
         if(!settings.enabled) return;

@@ -30,6 +30,14 @@ CREATE TABLE custom_commands (
     date VARCHAR(255)
 );
 
+CREATE TABLE new_member_messages (
+    id SERIAL PRIMARY KEY,
+    guild_id VARCHAR(255),
+    messages TEXT[],
+    channel_id VARCHAR(255),
+    enabled BOOLEAN
+);
+
 CREATE TABLE disabled_commands (
     id SERIAL PRIMARY KEY,
     guild_id VARCHAR(255),
