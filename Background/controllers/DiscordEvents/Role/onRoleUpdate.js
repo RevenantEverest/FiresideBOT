@@ -26,7 +26,7 @@ module.exports = async (bot, oldRole, newRole) => {
         let embed = new Discord.RichEmbed();
         embed
         .setColor(0xff9900)
-        .setAuthor(`Role Updated by ${executor.username}#${executor.discriminator}`, `https://cdn.discordapp.com/avatars/${executor.id}/${executor.avatar}.png?size=2048`)
+        .setAuthor(`Role Updated by ${executor.username}#${executor.discriminator}`, executor.avatarURL ? executor.avatarURL : "https://i.imgur.com/CBCTbyK.png")
         .setDescription(`**Role Name**: ${oldRole.name} \n\n`+ infoText)
         .setFooter(`Role ID: ${newRole.id}`)
 

@@ -42,7 +42,7 @@ module.exports = async (bot, member) => {
 
         let embed = new Discord.RichEmbed();
         embed
-        .setAuthor(`New Member ${member.user.username}#${member.user.discriminator}`, `https://cdn.discordapp.com/avatars/${member.user.id}/${member.user.avatar}.png?size=2048`)
+        .setAuthor(`New Member ${member.user.username}#${member.user.discriminator}`, member.user.avatarURL ? member.user.avatarURL : "https://i.imgur.com/CBCTbyK.png")
         .setColor(0x00ff00)
         .setFooter(`User ID: ${member.user.id}`)
 

@@ -9,7 +9,7 @@ const qrec = pgp.errors.queryResultErrorCode;
 const defaultSettingsController = require('./defaultSettingsController');
 
 services.removeRecord = async (member) => {
-    discordCurrencyDB.delete(member.id)
+    recordsDB.delete(member.user.id)
     .catch(err => console.error(err));
 };
 

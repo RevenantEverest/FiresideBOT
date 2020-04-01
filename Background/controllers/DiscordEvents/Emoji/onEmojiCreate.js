@@ -17,7 +17,7 @@ module.exports = async (bot, emoji) => {
         let embed = new Discord.RichEmbed();
         embed
         .setColor(0x00ff00)
-        .setAuthor(`Emoji created by ${executor.username}#${executor.discriminator}`, `https://cdn.discordapp.com/avatars/${executor.id}/${executor.avatar}.png?size=2048`)
+        .setAuthor(`Emoji created by ${executor.username}#${executor.discriminator}`, executor.avatarURL ? executor.avatarURL : "https://i.imgur.com/CBCTbyK.png")
         .setDescription(`**Emoji**: <:${emoji.name}:${emoji.id}>\n**Name**: ${emoji.name}`)
         .setFooter(`Emoji ID: ${emoji.id}`)
 

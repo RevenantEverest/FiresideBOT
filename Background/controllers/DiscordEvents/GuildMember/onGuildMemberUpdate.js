@@ -29,8 +29,8 @@ module.exports = async (bot, oldMember, newMember) => {
             updateText += `**Removed Role**: <@&${await utils.arrDifference(oldMember._roles, newMember._roles)}>`;
 
         embed
-        .setAuthor(`Member Updated by ${executor.username}#${executor.discriminator}`, `https://cdn.discordapp.com/avatars/${executor.id}/${executor.avatar}.png?size=2048`)
-        .setThumbnail(`https://cdn.discordapp.com/avatars/${newMember.user.id}/${newMember.user.avatar}.png?size=2048`)
+        .setAuthor(`Member Updated by ${executor.username}#${executor.discriminator}`, executor.avatarURL ? executor.avatarURL : "https://i.imgur.com/CBCTbyK.png")
+        .setThumbnail(newMember.user.avatarURL ? newMember.user.avatarURL : "https://i.imgur.com/CBCTbyK.png")
         .setFooter(`User ID: ${newMember.user.id}`)
         .setColor(0xff9900)
         .setDescription(updateText)
