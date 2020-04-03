@@ -12,8 +12,12 @@ module.exports = async (bot, oldMember, newMember) => {
         if(!permissions.has("SEND_MESSAGES")) return;
         if(!permissions.has("VIEW_AUDIT_LOG")) return;
 
-        let audit = await bot.guilds.get(newMember.guild.id).fetchAuditLogs();
-        let executor = audit.entries.array()[0].executor;
+        let auditLogs = await bot.guilds.get(newMember.guild.id).fetchAuditLogs();
+        let audit = auditLogs.entries.array()[0];
+        let executor = audit.executor;
+
+        if(audit.reason)
+            if(audit.reason === "Fireside isLive Role") return;
 
         let embed = new Discord.RichEmbed();
         let updateText = `**${newMember.user.username}** #${newMember.user.discriminator} ${oldMember.nickname ? `(${oldMember.nickname})` : ''}\n\n`;

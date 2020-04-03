@@ -75,13 +75,21 @@ CREATE TABLE twitch_currency (
     currency BIGINT
 );
 
+CREATE TABLE streamer_roles (
+    id SERIAL PRIMARY KEY,
+    guild_id VARCHAR(255),
+    role_id VARCHAR(255),
+    enabled BOOLEAN
+);
+
 CREATE TABLE twitch_tracker (
     id SERIAL PRIMARY KEY,
     guild_id VARCHAR(255),
     twitch_username VARCHAR(255),
     twitch_id VARCHAR(255),
     channel_id VARCHAR(255),
-    role_id VARCHAR(255)
+    role_id VARCHAR(255),
+    flavor_text VARCHAR(1024)
 );
 
 CREATE TABLE twitch_queue (

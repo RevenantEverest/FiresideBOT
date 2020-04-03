@@ -153,6 +153,11 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Aliases**: `dnmm`   
 **Example**: `?disablenewmembermessages`  
 
+- [DisableStreamerRole](https://help.firesidebot.com/commands/disablestreamerrole)   
+**Desc**: Disables Streamer Role system that gives anyone who's streaming a role  
+**Aliases**: `dsr`   
+**Example**: `?disablestreamerrole`  
+
 - [EditCommand](https://help.firesidebot.com/commands/editcommand) `<param>`  
 **Desc**: Edit a custom command  
 **Aliases**: `editcom`   
@@ -165,6 +170,12 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Aliases**: `er`   
 **Params**: Rank ID and new Rank name  
 **Example**: `?editrank 92 NewRankName`  
+
+- [EditStreamerRole](https://help.firesidebot.com/commands/editstreamerrole) `<param>`  
+**Desc**: Edits Streamer Role that is given anyone who's streaming in you server  
+**Aliases**: `editsr`   
+**Params**: Role Tag  
+**Example**: `?editstreamerrole @isLive`  
 
 - [EditTracker](https://help.firesidebot.com/commands/edittracker) `<param>`  
 **Desc**: Edit an existing tracker  
@@ -190,6 +201,12 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Aliases**: `enmm`   
 **Params**: Text Channel Tag  
 **Example**: `?enablenewmembermessages #welcome`  
+
+- [EnableStreamerRole](https://help.firesidebot.com/commands/enablestreamerrole) `<param>`  
+**Desc**: Enables Streamer Role system to give anyone who's streaming a role  
+**Aliases**: `esr`   
+**Params**: Role Tag  
+**Example**: `?enablestreamerrole @isLive`  
 
 - [GrantExperience](https://help.firesidebot.com/commands/grantexperience) `<param>`  
 **Desc**: Gives EXP to a member  
