@@ -11,8 +11,8 @@ module.exports = {
         return db.many('SELECT * FROM twitch_tracker WHERE guild_id = $1', id);
     },
     save(tracker) {
-        return db.one(`INSERT INTO twitch_tracker (guild_id, twitch_username, twitch_id, channel_id, role_id)
-        VALUES ($/guild_id/, $/twitch_username/, $/twitch_id/, $/channel_id/, $/role_id/)
+        return db.one(`INSERT INTO twitch_tracker (guild_id, twitch_username, twitch_id, channel_id, role_id, flavor_text)
+        VALUES ($/guild_id/, $/twitch_username/, $/twitch_id/, $/channel_id/, $/role_id/, $/flavor_text/)
         RETURNING *`, tracker);
     },
     update(tracker) {
@@ -22,7 +22,8 @@ module.exports = {
         twitch_username = $/twitch_username/,
         twitch_id = $/twitch_id/,
         channel_id = $/channel_id/,
-        role_id = $/role_id/
+        role_id = $/role_id/,
+        flavor_text = $/flavor_text/
         WHERE id = $/id/
         RETURNING *`, tracker);
     },

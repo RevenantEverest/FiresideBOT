@@ -43,7 +43,8 @@ module.exports = {
                 twitch_username: streamer.login, 
                 twitch_id: streamer.id,
                 channel_id: req.body.channel_id, 
-                role_id: req.body.role_id
+                role_id: req.body.role_id,
+                flavor_tex: req.body.flavor_text
             };
             db.save(data)
             .then(tracker => res.json({ message: "Tracker Saved", data: tracker }))
