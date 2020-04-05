@@ -17,7 +17,7 @@ module.exports = async (bot, message, customCommand) => {
 
             if(exec.includes(",")) {
                 let choices = exec.split(",");
-                let randomResponse = choices[Math.floor(Math.random() * (choices.length - 1))];
+                let randomResponse = choices[Math.floor(Math.random() * choices.length)];
                 output = output.replace(/\${([^}]*)}/, randomResponse);
             }
 
