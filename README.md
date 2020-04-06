@@ -262,7 +262,7 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Desc**: Creates a tracker for a Twitch User that posts when they're live to a text channel  
 **Aliases**: `tt` `ttracker`   
 **Params**: Twitch Username / #Channel Tag / @Role Tag  
-**Example**: `?twitchtracker RevenantEverest #bot-commands`  
+**Example**: `?twitchtracker RevenantEverest #bot-commands Hello ${role}! ${streamer} is now live!`  
 
 - [ViewWelcomeMessage](https://help.firesidebot.com/commands/viewwelcomemessage)   
 **Desc**: Get sent an example of your server's welcome message in a DM  

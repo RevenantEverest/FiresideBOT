@@ -6,10 +6,13 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
 
     let channel_id = null;
     let role_id = null;
+    let tracker_id = null;
+    let flavor_text = null;
+
     if(/<#?(\d+)>/.exec(args.join(" "))) channel_id = /<#?(\d+)>/.exec(args.join(" "))[1];
-    else if(args.includes("@everyone") || args.includes("everyone")) role_id = "@everyone";
+    
+    if(args.includes("@everyone") || args.includes("everyone")) role_id = "@everyone";
     else if(/<@&?(\d+)>/.exec(args.join(" "))) role_id = /<@&?(\d+)>/.exec(args.join(" "))[1];
-    else return message.channel.send("Please tag a Text Channel you'd like the tracker to post in or tag a Role you'd like to be notified when the tracker is posted");
 
     if(channel_id) {
         let permissions = new Permissions(bot.channels.get(channel_id).permissionsFor(bot.user).bitfield);
@@ -17,12 +20,24 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
             return message.channel.send("Fireside doesn't have permissions to post or embed links in that channel");
         args.splice(args.indexOf(`<#${channel_id}>`), 1);
     }
-    else if(role_id) args.splice(args.indexOf(`<@&${role_id}>`), 1);
+    
+    if(role_id) args.splice(args.indexOf(`<@&${role_id}>`), 1);
 
     if(!args.includes("-t")) return message.channel.send("Please specify a valid flag");
-    args.splice(args.indexOf("-t"), 1);
+    else args.splice(args.indexOf("-t"), 1);
 
-    twitchTrackerController.getOne(bot, message, "EditTracker", args[1], updateTracker, () => {
+    if(!Number.isInteger(parseInt(args[1], 10))) return message.channel.send("Invalid ID provided");
+    else tracker_id = parseInt(args[1], 10);
+
+    args.splice(0, 1);
+    args.splice(0, 1);
+
+    if(args[0]) flavor_text = args.join(" ");
+
+    if(!channel_id && !role_id && !flavor_text) 
+        return message.channel.send("Please tag a Text Channel you'd like the tracker to post in or tag a Role you'd like to be notified when the tracker is posted");
+
+    twitchTrackerController.getOne(bot, message, "EditTracker", tracker_id, updateTracker, () => {
         return message.channel.send("No Tracker Found");
     });
 
@@ -34,13 +49,14 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
             twitch_username: tracker.twitch_username, 
             twitch_id: tracker.twitch_id,
             channel_id: (channel_id ? channel_id : tracker.channel_id), 
-            role_id: (role_id ? role_id : tracker.role_id) 
+            role_id: (role_id ? role_id : tracker.role_id),
+            flavor_text: (flavor_text ? flavor_text : tracker.flavor_text)
          };
         twitchTrackerController.update(bot, message, "EditTracker", data, (newTracker) => {
-            message.channel.send(
-                `Tracker for **${tracker.twitch_username}** updated and now will post in <#${newTracker.channel_id}> ` + 
-                `${newTracker.role_id !== "none" ? `and will tag <@&${newTracker.role_id}>` : ''}`
-            );
+            let messageText = `Tracker for **${tracker.twitch_username}** updated `;
+            if(channel_id) messageText += `and will now be posted in <#${newTracker.channel_id}> `;
+            if(role_id) messageText += `and will tag <@&${newTracker.role_id}> `;
+            return message.channel.send(messageText);
         });
     };
 };
