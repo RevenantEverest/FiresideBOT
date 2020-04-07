@@ -10,6 +10,8 @@ const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
 const qrec = pgp.errors.queryResultErrorCode;
 
+const errorHandler = require('./errorHandler');
+
 services.deleteRankRecord = async (member) => {
     recordsDB.deleteByDiscordId(member.user.id)
     .catch(err => console.error(err));

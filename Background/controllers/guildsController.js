@@ -4,6 +4,7 @@ const chalk = require('chalk');
 const guildsDB = require('../models/guildsDB');
 
 const defaultSettingsController = require('./defaultSettingsController');
+const errorHandler = require('./errorHandler');
 const services = {};
 
 async function handleEmbed(bot, title, dateMessage, color, guild) {
@@ -54,7 +55,7 @@ services.removeGuild = async (bot, guild) => {
         handleEmbed(bot, 'Guild Removed', 'Guild removed', 0xff0000, guild);
         console.log(chalk.hex('#ff9900')("[LOG]") + " Removing Guild");
     })
-    .catch(err => console.error(err));
+    .catch(err => errorHandler({ controller: "Guilds Controller", message: "Error Removing Guild", error: err }));
 };
 
 services.saveGuild = async (bot, guild) => {
@@ -64,7 +65,7 @@ services.saveGuild = async (bot, guild) => {
         handleEmbed(bot, 'New Guild', 'Guild added', 0x00ff00, guild);
         console.log(chalk.hex('#ff9900')("[LOG]") + " Adding Guild");
     })
-    .catch(err => console.error(err));
+    .catch(err => errorHandler({ controller: "Guilds Controller", message: "Error Adding Guild", error: err }));
 };
 
 services.updateGuild = async (bot, oldGuild, newGuild) => {
@@ -84,7 +85,7 @@ services.updateGuild = async (bot, oldGuild, newGuild) => {
 
         if(process.env.ENVIRONMENT !== "DEV") bot.channels.get('538528459190829064').send(embed);
     })
-    .catch(err => console.error(err));
+    .catch(err => errorHandler({ controller: "Guilds Controller", message: "Error Updating Guild", error: err }));
 };
 
 module.exports = services;

@@ -81,8 +81,3 @@ services.persistence = async (bot) => {
 };
 
 module.exports = services;
-    /*
-        Create separate function that checks the role_id for settings to see if anyone who has it isn't live anymore
-        This creates a makeshift persistence layer so there isn't a need for DB table
-        Have this function run on Discord event onReady
-    */

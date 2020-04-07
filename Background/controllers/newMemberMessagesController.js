@@ -5,12 +5,14 @@ const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
 const qrec = pgp.errors.queryResultErrorCode;
 
+const errorHandler = require('./errorHandler');
+
 services.getByGuildId = async (bot, guild, member) => {
     db.findByGuildId(guild.id)
     .then(newMemberMessages => services.parseMessage(bot, guild, member, newMemberMessages))
     .catch(err => {
         if(err instanceof QRE && err.code === qrec.noData) return;
-        else console.error(err);
+        else errorHandler({ controller: "New Member Messages Controller", message: "Error Finding New Member Messages", error: err });
     });
 };
 
