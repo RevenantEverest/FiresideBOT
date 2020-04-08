@@ -44,10 +44,11 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
             message.channel.send(`Adding playlist **${playlistName}** to the queue`);
             if(!message.guild.voiceConnection) 
                 message.member.voiceChannel.join()
-                .then((connection) => playSong.playSong(bot, connection, message, server))
+                .then(connection => playSong.playSong(bot, connection, message, server))
                 .catch(err => console.error(err));
             }
-            else playSong.playSong(bot, server.queue.connection, message, server);
+            else if(message.guild.voiceConnection && !server.queue.isPlaying)
+                playSong.playSong(bot, server.queue.connection, message, server);
         })
     };
 

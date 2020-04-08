@@ -6,6 +6,7 @@ const utils = require('./utils');
 
 const guildSettingsController = require('../../controllers/dbControllers/guildSettingsController');
 const musicLogsController = require('../../controllers/dbControllers/musicLogsController');
+const likedSongController = require('../../controllers/dbControllers/likedSongsController');
 
 const services = {};
 
@@ -48,7 +49,7 @@ services.playSong = async (bot, connection, message, server) => {
     .setThumbnail(request.thumbnail)
     .setFooter(`Length: ${await utils.timeParser(request.duration)}`)
     .setColor(0x0be289)
-    message.channel.send(currentSongEmbed);
+    message.channel.send(currentSongEmbed).then(msg => services.handleLikedSong(bot, message, msg, data));
 
     server.queue.currentSongEmbed = currentSongEmbed;
     server.queue.currentSongInfo = request;
@@ -77,6 +78,39 @@ services.playSong = async (bot, connection, message, server) => {
             }
         }
     });
-}
+};
+
+services.handleLikedSong = async (bot, message, msg, data) => {
+    const heartReacts = ["❤️", "❣️", "💕", "💞", "💓", "💗", "💖", "💘", "💝"];
+    const chosenReact = heartReacts[Math.floor(Math.random() * heartReacts.length)];
+    let userReactions = [];
+    await msg.react(chosenReact);
+
+    const r_collector = new Discord.ReactionCollector(msg, r => r.users.array(), { time: (data.duration >= 600 ? 120000 : data.duration * 1000) });
+    r_collector.on('collect', reaction => {
+        let whoReacted = reaction.users.array()[reaction.users.array().length - 1].id;
+        if(whoReacted === bot.user.id || userReactions.includes(whoReacted)) return;
+
+        if(reaction.emoji.name === chosenReact) {
+            userReactions.push(reaction.users.array()[reaction.users.array().length - 1].id);
+            likedSongController.getByDiscordId(bot, message, "Utils: PlaySong", whoReacted, saveLikedSong, () => saveLikedSong(null));
+        }
+
+        async function saveLikedSong(likedSongs) {
+            if(likedSongs && likedSongs.map(el => el.link).includes(data.link)) return;
+            data.discord_id = whoReacted;
+            likedSongController.save(bot, message, "Utils: PlaySong", data, () => {
+                console.log("Liked Song Saved");
+            });
+        };
+    });
+    r_collector.on('end', () => {
+        if(message.channel.type === "dm") return;
+        
+        let permissions =  new Discord.Permissions(message.channel.permissionsFor(bot.user).bitfield);
+        if(!permissions.has("MANAGE_MESSAGES")) return;
+        msg.clearReactions();
+    });
+};
 
 module.exports = services;

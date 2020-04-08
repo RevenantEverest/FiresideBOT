@@ -44,6 +44,17 @@ CREATE TABLE disabled_commands (
     command VARCHAR(255)
 );
 
+CREATE TABLE liked_songs (
+    id SERIAL PRIMARY KEY,
+    discord_id VARCHAR(255),
+    title VARCHAR(255),
+    author VARCHAR(255),
+    link VARCHAR(255),
+    duration VARCHAR(255),
+    thumbnail_url VARCHAR(255),
+    date VARCHAR(255)
+);
+
 CREATE TABLE music_logs (
     id SERIAL PRIMARY KEY,
     guild_id VARCHAR(255),
