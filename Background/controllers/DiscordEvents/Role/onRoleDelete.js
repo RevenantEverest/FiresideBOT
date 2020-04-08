@@ -7,6 +7,8 @@ module.exports = async (bot, role) => {
     async function handleLogEmbed(settings) {
         if(!settings.enabled) return;
         else if(!settings.role_delete) return;
+
+        if(role.name === bot.user.username) return;
         
         let permissions = new Discord.Permissions(bot.channels.get(settings.channel_id).permissionsFor(bot.user).bitfield);
         if(!permissions.has("SEND_MESSAGES")) return;

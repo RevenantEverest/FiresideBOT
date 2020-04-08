@@ -11,7 +11,14 @@ module.exports = {
         return db.one('SELECT * FROM guild_logs WHERE guild_id = $1', id);
     },
     save(guild) {
-        return db.one(`INSERT INTO guild_logs (guild_id, date) VALUES ($/guild_id/, $/date/)
+        return db.one(`INSERT INTO guild_logs (guild_id, join_date) VALUES ($/guild_id/, $/join_date/)
+        RETURNING *`, guild);
+    },
+    update(guild) {
+        return db.one(`UPDATE guild_logs
+        SET
+        removal_date = $/removal_date/
+        WHERE guild_id = $/guild_id/
         RETURNING *`, guild);
     },
     delete(id) {

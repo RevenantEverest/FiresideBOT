@@ -4,6 +4,7 @@ const chalk = require('chalk');
 const guildsDB = require('../models/guildsDB');
 
 const defaultSettingsController = require('./defaultSettingsController');
+const guildLogsController = require('./guildLogsController');
 const errorHandler = require('./errorHandler');
 const services = {};
 
@@ -53,7 +54,7 @@ services.removeGuild = async (bot, guild) => {
     guildsDB.destroy(guild.id)
     .then(() => {
         handleEmbed(bot, 'Guild Removed', 'Guild removed', 0xff0000, guild);
-        console.log(chalk.hex('#ff9900')("[LOG]") + " Removing Guild");
+        guildLogsController.update(guild);
     })
     .catch(err => errorHandler({ controller: "Guilds Controller", message: "Error Removing Guild", error: err }));
 };
@@ -63,7 +64,9 @@ services.saveGuild = async (bot, guild) => {
     .then(() => {
         defaultSettingsController.checkDefaultSettings(guild.id);
         handleEmbed(bot, 'New Guild', 'Guild added', 0x00ff00, guild);
-        console.log(chalk.hex('#ff9900')("[LOG]") + " Adding Guild");
+        guildLogsController.getByGuildId(guild, guildLog => {
+            if(guildLog.removal_date) return guildLogsController.update(guild, true);
+        }, true);
     })
     .catch(err => errorHandler({ controller: "Guilds Controller", message: "Error Adding Guild", error: err }));
 };

@@ -58,5 +58,6 @@ CREATE TABLE guild_welcome_message (
 CREATE TABLE guild_logs (
     id SERIAL PRIMARY KEY,
     guild_id VARCHAR(255),
-    date VARCHAR(255)
+    join_date VARCHAR(255),
+    removal_date VARCHAR(255)
 );

@@ -13,5 +13,7 @@ module.exports = async (err) => {
     .addField("Error Message:", err.message)
     .setFooter(moment().format("LLLL") + " EST")
 
-    bot.channels.get(process.env.ENVIRONMENT === "DEV" ? "624216968844804096" : "624755756079513621").send(embed).then(() => console.error(err.error));
+    let channel = bot.channels.get(process.env.ENVIRONMENT === "DEV" ? "624216968844804096" : "624755756079513621");
+    if(channel) return channel.send(embed).then(() => console.error(err.error));
+    else return console.error(err.error);
 };
