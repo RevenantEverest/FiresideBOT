@@ -31,8 +31,8 @@ const Discord = require('discord.js');
 async function handleEmbed(contentArr, options, index) {
     let embed = new Discord.RichEmbed();
 
-    if(options.title) embed.setTitle(`**${contentArr[index].category}**`).addBlankField();
-    else if(!options.title) embed.addField(`**${contentArr[index].category[0]}**`, contentArr[index].category[1]).addBlankField();
+    if(options.title) embed.setTitle(`**${contentArr[index].category}**`);
+    else if(!options.title) embed.addField(`**${contentArr[index].category[0]}**`, contentArr[index].category[1]);
 
     if(contentArr[index].author) embed.setAuthor(contentArr[index].author.text, contentArr[index].author.image);
     if(options.thumbnail) embed.setThumbnail(options.thumbnail);

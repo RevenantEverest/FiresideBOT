@@ -65,27 +65,18 @@ async function parseContentArr(contentArr, categoryFilter, dCommands) {
 module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     let categories = config.categories.filter(el => el.name !== "Dev");
     let flavorText = "`<param>` is a required param and `[param]` is an optional param. For more information on a command use `" + PREFIX + "help <command>` ™";
-    let contentArr = [
-      {
+    let introMessage = {
         category: [`Welcome to the FiresideBOT Help Command`, 'Need immediate help? Message Fireside to open a ticket'],
         fields: [
-          {
-            field: 'Available Categories:',
-            value: categories.map(el => el.name).join(" **|** ")
-          },
-          {
-            field: 'How To Use:',
-            value: 'Use the reactions below to move back and forth through the menu',
-            inline: true
-          },
-          {
+        {field: 'Available Categories:', value: categories.map(el => el.name).join(" **|** ")},
+        {field: 'How To Use:', value: 'Use the reactions below to move back and forth through the menu', inline: true},
+        {
             field: 'More Info:',
             value: 'To get more info about a command or category use the help command again with the desired command or category afterwards\n`Example: ' + PREFIX + 'help Music`',
             inline: true
-          }
+        }
         ]
-      }
-    ];  
+    };  
     let commands = bot.commands.array();
     let dCommands = [];
 
@@ -98,7 +89,8 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
 
     let categoryFilter = await parseCategoryFilter(categories, commands);
 
-    contentArr = await parseContentArr(contentArr, categoryFilter, dCommands);
+    let contentArr = await parseContentArr([], categoryFilter, dCommands);
+    contentArr.splice(0, 0, introMessage);
 
     if(!args[1]) 
         return pagination(message, bot, contentArr, { flavorText: flavorText, color: 0xcc00ff });
@@ -108,7 +100,8 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
         return handleCommand();
 
     async function handleCommand() {
-        let command = bot.commands.get(args[1].toLowerCase()).config || bot.commands.get(bot.aliases.get(args[1].toLowerCase())).config;
+        let command = bot.commands.get(args[1].toLowerCase()) || bot.commands.get(bot.aliases.get(args[1].toLowerCase()));
+        command = command.config;
         let embed = new Discord.RichEmbed();
 
         embed
