@@ -13,7 +13,19 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     if(!permissions.has("SEND_MESSAGES")) return message.channel.send("Fireside doesn't have permission to post in that channel");
 
     logSettings.getByGuildId(bot, message, "EnableServerLogging", message.guild.id, updateSettings, () => {
-        let data = { guild_id: message.guild.id, enabled: false, channel_id: "none" };
+        let data = { 
+            guild_id: message.guild.id, 
+            enabled: false, 
+            channel_id: "none",
+            member_role_change: true,
+            member_nickname_change: true,
+            emoji_create: true,
+            emoji_update: true,
+            emoji_delete: true,
+            role_create: true,
+            role_update: true,
+            role_delete: true
+        };
         logSettings.save(bot, message, "EnableServerLogging", data, updateSettings);
     });
 

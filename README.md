@@ -292,6 +292,13 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Aliases**: `dsl`   
 **Example**: `?disableserverlogging`  
 
+- [DisableServerLoggingModule](https://help.firesidebot.com/commands/disableerverloggingmodule) `<param>`  
+**Desc**: Disables a Server Logging Module  
+**Aliases**: `dslm`   
+**Params**: Flag  
+**Flags**: `-mrc` `-mnc` `-ec` `-eu` `-ed` `-rc` `-ru` `-rd`   
+**Example**: `?disableserverlogging -ru`  
+
 - [EditCurrencyName](https://help.firesidebot.com/commands/editcurrencyname) `<param>`  
 **Desc**: Update server currency name  
 **Aliases**: `ecn`   
@@ -339,6 +346,13 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Aliases**: `esl`   
 **Params**: #Channel Tag  
 **Example**: `?enableserverlogging #bot-commands`  
+
+- [EnableServerLoggingModule](https://help.firesidebot.com/commands/enableserverloggingmodule) `<param>`  
+**Desc**: Enables a Server Logging Module  
+**Aliases**: `eslm`   
+**Params**: Flag  
+**Flags**: `-mrc` `-mnc` `-ec` `-eu` `-ed` `-rc` `-ru` `-rd`   
+**Example**: `?enableserverlogging -ru`  
 
   
 

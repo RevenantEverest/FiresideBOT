@@ -1,0 +1,79 @@
+const logSettingsController = require('../../controllers/dbControllers/guildLogSettingsController');
+
+module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
+    if(!args[1]) return message.channel.send("Please spcify a flag(s) for the module you'd like to enable");
+
+    let re = new RegExp(`${this.config.flags.join("|")}`, "ig");
+    let matches = args.join(" ").match(re);
+
+    if(!matches) return message.channel.send("Invalid flag provided");
+
+    let modules = {};
+    matches.forEach(el => {
+        switch(el) {
+            case "-mrc":
+                modules.memberRoleChange = {enabled: false};
+                break;
+            case "-mnc":
+                modules.memberNicknameChange = {enabled: false};
+                break;
+            case "-ec":
+                modules.emojiCreate = {enabled: false};
+                break;
+            case "-eu":
+                modules.emojiUpdate = {enabled: false};
+                break;
+            case "-ed":
+                modules.emojiDelete = {enabled: false};
+                break;
+            case "-rc":
+                modules.roleCreate = {enabled: false};
+                break;
+            case "-ru":
+                modules.roleUpdate = {enabled: false};
+                break;
+            case "-rd":
+                modules.roleDelete = {enabled: false};
+                break;
+            default:
+                break;
+        }
+    });
+
+    logSettingsController.getByGuildId(bot, message, this.config.d_name, message.guild.id, updateSettings, () => {
+        return message.channel.send("Modules already disabled");
+    });
+
+    async function updateSettings(logSettings) {
+        let data = {
+            id: logSettings.id,
+            guild_id: message.guild.id,
+            enabled: logSettings.enabled,
+            channel_id: logSettings.channel_id,
+            member_role_change: modules.memberRoleChange ? modules.memberRoleChange.enabled : logSettings.member_role_change,
+            member_nickname_change: modules.memberNicknameChange ? modules.memberNicknameChange.enabled : logSettings.member_nickname_change,
+            emoji_create: modules.emojiCreate ? modules.emojiCreate.enabled : logSettings.emoji_create,
+            emoji_update: modules.emojiUpdate ? modules.emojiUpdate.enabled : logSettings.emoji_update,
+            emoji_delete: modules.emojiDelete ? modules.emojiDelete.enabled : logSettings.emoji_delete,
+            role_create: modules.roleCreate ? modules.roleCreate.enabled : logSettings.role_create,
+            role_update: modules.roleUpdate ? modules.roleUpdate.enabled : logSettings.role_update,
+            role_delete: modules.roleDelete ? modules.roleDelete.enabled : logSettings.role_delete
+        };
+
+        console.log(data.member_role_change);
+        logSettingsController.update(bot, message, "DisableServerLoggingModule", data, () => {
+            return message.channel.send("Server Logging Modules Updated");
+        });
+    };
+};
+
+module.exports.config = {
+    name: 'disableerverloggingmodule',
+    d_name: 'DisableServerLoggingModule',
+    aliases: ['dslm'],
+    params: { required: true, params: 'Flag' },
+    flags: ['-mrc', '-mnc', '-ec', '-eu', '-ed', '-rc', '-ru', '-rd'],
+    category: 'Config',
+    desc: 'Disables a Server Logging Module',
+    example: 'disableserverlogging -ru'
+};

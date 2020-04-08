@@ -6,6 +6,7 @@ module.exports = async (bot, emoji) => {
 
     async function handleLogEmbed(settings) {
         if(!settings.enabled) return;
+        else if(!settings.emoji_create) return;
         
         let permissions = new Discord.Permissions(bot.channels.get(settings.channel_id).permissionsFor(bot.user).bitfield);
         if(!permissions.has("SEND_MESSAGES")) return;

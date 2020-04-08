@@ -38,6 +38,14 @@ CREATE TABLE guild_log_settings (
     id SERIAL PRIMARY KEY,
     guild_id VARCHAR(255),
     enabled BOOLEAN,
+    member_role_change BOOLEAN,
+    member_nickname_change BOOLEAN,
+    emoji_create BOOLEAN,
+    emoji_update BOOLEAN,
+    emoji_delete BOOLEAN,
+    role_create BOOLEAN,
+    role_update BOOLEAN,
+    role_delete BOOLEAN,
     channel_id VARCHAR(255)
 );
 
