@@ -32,13 +32,17 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
             `**${currentQuestion.difficulty.charAt(0).toUpperCase() + currentQuestion.difficulty.slice(1)}**`
         )
 
-        let answers = [await utils.replaceHTMLEntitiy(currentQuestion.correct_answer)];
-        currentQuestion.incorrect_answers.forEach(async el => {
-            el = await utils.replaceHTMLEntitiy(el);
-            answers.push(el);
-        });
+        let answers = null;
 
-        if(currentQuestion.type === "multiple") answers = await utils.shuffle(answers);
+        if(currentQuestion.type === "multiple") {
+            answers = [await utils.replaceHTMLEntitiy(currentQuestion.correct_answer)];
+            answers = await utils.shuffle(answers);
+            currentQuestion.incorrect_answers.forEach(async el => {
+                el = await utils.replaceHTMLEntitiy(el);
+                answers.push(el);
+            });
+        }
+        else if(currentQuestion.type === "boolean") answers = ["True", "False"];
 
         reactionCollector(questions, currentQuestion, embed, answers);
     };
@@ -48,14 +52,13 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
         let answerInfo = [];
 
         let temp = "";
-        answers.forEach((el, idx) => temp += `${answerEmotes[idx]}: ${el} **0%**\n`)
+        answers.forEach((el, idx) => temp += `${answerEmotes[idx]}: ${el} **0%**\n`);
         embed.addField("Answers:", temp);
         message.channel.send(embed)
         .then(async msg => {
-
             for(let i = 0; i < answers.length; i++) { 
                 await msg.react(`${numberEmotes[i]}\u20E3`);
-                answerInfo.push({ id: (i + 1), answers: 0 });
+                answerInfo.push({ id: (i + 1), answersAmount: 0 });
             };
 
             await msg.react("▶️");
@@ -70,7 +73,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
                     if(answerInfo[i].id === parseInt(reaction.emoji.name, 10)) {
     
                         totalAnswers++;
-                        answerInfo[i].answers++;
+                        answerInfo[i].answersAmount++;
     
                         editEmbed
                         .setColor(0xff0fab)
@@ -81,7 +84,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
                         )
                         
                         temp = '';
-                        answers.forEach((a, idx) => temp += `${answerEmotes[idx]}: ${a} **${Math.round((answerInfo[idx].answers / totalAnswers) * 100)}%**\n`);
+                        answers.forEach((a, idx) => temp += `${answerEmotes[idx]}: ${a} **${Math.round((answerInfo[idx].answersAmount / totalAnswers) * 100)}%**\n`);
                         editEmbed.addField('Answers:', temp)
                         reaction.message.edit(editEmbed);
                     }
@@ -103,7 +106,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
                     answers.forEach((a, i) => results += `${a === currentQuestion.correct_answer ? "🟢" : "🔴"} ${a} **0%** \n`);
                 else 
                     answers.forEach((a, i) => {
-                        results += `${a === currentQuestion.correct_answer ? "🟢" : "🔴"} ${a} **${Math.round((answerInfo[i].answers / totalAnswers) * 100)}%**\n`
+                        results += `${a === currentQuestion.correct_answer ? "🟢" : "🔴"} ${a} **${Math.round((answerInfo[i].answersAmount / totalAnswers) * 100)}%**\n`
                     });
     
                 endEmbed.addField('Results:', results);
