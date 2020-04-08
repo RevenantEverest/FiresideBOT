@@ -1,5 +1,6 @@
 const defaultFortunes = require('../utils/utils').fortunes;
 const fortunesController = require('../../controllers/dbControllers/fortunesController');
+const fortuneParser = require('../../controllers/fortunesParser');
 
 module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(!args[1]) return message.channel.send("Ask a question.");
@@ -10,7 +11,8 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
 
     async function handleFortunes(customFortunes) {
         let fortunes = [].concat.apply(defaultFortunes, customFortunes.fortunes);
-        message.channel.send(fortunes[Math.floor(Math.random() * fortunes.length)]);
+        let chosenFortune = fortunes[Math.floor(Math.random() * fortunes.length)];
+        return fortuneParser(message, chosenFortune);
     }
 };
 
