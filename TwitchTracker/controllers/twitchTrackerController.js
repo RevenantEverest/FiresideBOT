@@ -2,6 +2,7 @@ const config = require('../config/config');
 const Discord = require('discord.js');
 const db = require('../models/twitchTrackerDB');
 const twitchServices = require('../services/twitchServices');
+const flavorTextParser = require('./flavorTextParser');
 
 const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
@@ -141,13 +142,20 @@ module.exports.run = async (bot) => {
                 .setImage(msg.attachments.array()[0].url)
                 .setFooter('Powered By Twitch API', 'https://i.imgur.com/DwmLOBU.png')
 
-                el.guildInfo.forEach(guild => {
+                el.guildInfo.forEach(async guild => {
                     if(!bot.guilds.get(guild.guild_id)) return;
                     else if(!bot.guilds.get(guild.guild_id).channels.get(guild.channel_id)) return console.log("Invalid Channel");
 
+                    let role_mention = "";
+
                     if(process.env.ENVIRONMENT === "DEV" && guild.guild_id !== "427883469092159490") return;
-                    let role_mention = guild.role_id === "@everyone" ? "@everyone" : (guild.role_id === "none" ? '' : `<@&${guild.role_id}>`);
-                    bot.guilds.get(guild.guild_id).channels.get(guild.channel_id).send(role_mention, embed);
+                    if(guild.flavor_text && guild.flavor_text !== "") 
+                        guild.flavor_text = await flavorTextParser(guild.flavor_text, guild, el.display_name);
+                    else if(guild.role_id && guild.role_id === "@everyone") role_mention = "@everyone";
+                    else if(guild.role_id && guild.role_id === "none") role_mention = " ";
+                    else if(guild.role_id) role_mention = `<@&${guild.role_id}>`;
+                    
+                    bot.guilds.get(guild.guild_id).channels.get(guild.channel_id).send(role_mention ? role_mention : guild.flavor_text, embed);
                 });
             });
         });
