@@ -208,13 +208,6 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Params**: Role Tag  
 **Example**: `?enablestreamerrole @isLive`  
 
-- [GrantExperience](https://help.firesidebot.com/commands/grantexperience) `<param>`  
-**Desc**: Gives EXP to a member  
-**Aliases**: `grantexp` `gexp`   
-**Params**: User Tag / Amount  
-**Flags**: `-r`   
-**Example**: `?grantexperience @RevenantEverest 100 -r Good vibes`  
-
 - [Purge](https://help.firesidebot.com/commands/purge) `[param]`  
 **Desc**: Bulk delete messages  
 **Aliases**:   
