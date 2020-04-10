@@ -24,7 +24,6 @@ import FAQ from './components/pages/FAQ';
 import Premium from './components/pages/Premium';
 import SideNav from './components/sections/SideNav';
 import Footer from './components/sections/Footer';
-// import ChangelogRouter from './components/sections/ChangelogRouter';
 
 import commandServices from './services/commandServices';
 
