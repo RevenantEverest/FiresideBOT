@@ -37,6 +37,12 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 #### Server Logging:  
 - Log all the happenings in the server, to member updates, role creation/changes and more!  
 
+#### Streamer Roles: 
+- Grant a role to anyone in your server whose presence changes to *streaming* 
+
+#### New Member Messages: 
+- Setup a list of new member messages that can be pulled from and posted when a new member joins your server! 
+
 ---  
 
 ### Commands  

@@ -61,7 +61,11 @@ module.exports = {
         `#### Custom Commands:  \n` + 
         `- Create custom commands that return any desired output!  \n\n` +
         `#### Server Logging:  \n` + 
-        `- Log all the happenings in the server, to member updates, role creation/changes and more!  \n\n` +
+        `- Log all the happenings in the server, to member updates, role creation/changes and more!  \n\n` + 
+        `#### Streamer Roles: \n` +
+        `- Grant a role to anyone in your server whose presence changes to *streaming* \n\n` +
+        `#### New Member Messages: \n` +
+        `- Setup a list of new member messages that can be pulled from and posted when a new member joins your server! \n\n` +
         `---  \n\n` +
         `### Commands  \n` +
         `${("`" + "<param>" + "`")} indicates a required parameter while ${("`" + "[param]" + "`")} indicates an optional parameter  \n\n` +
