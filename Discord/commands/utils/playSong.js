@@ -100,7 +100,7 @@ services.handleLikedSong = async (bot, message, msg, data) => {
             if(likedSongs && likedSongs.map(el => el.link).includes(data.link)) return;
             data.discord_id = whoReacted;
             likedSongController.save(bot, message, "Utils: PlaySong", data, () => {
-                console.log("Liked Song Saved");
+                msg.channel.send(`**${data.title}** added to Liked Songs`);
             });
         };
     });
