@@ -25,7 +25,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
 
     async function handleNewMemberMessages(newMemberMessages) {
         generalSettings.newMemberMessages = newMemberMessages;
-        streamerRolesController.getByGuildId(bot, message, "Config", message.guild.id, () => handleStreamerRoles());
+        streamerRolesController.getByGuildId(bot, message, "Config", message.guild.id, handleStreamerRoles, () => handleStreamerRoles());
     }
 
     async function handleStreamerRoles(streamerRoles) {
