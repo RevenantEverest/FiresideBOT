@@ -48,7 +48,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
                 .catch(err => console.error(err));
             }
             else if(message.guild.voiceConnection && !server.queue.isPlaying)
-                playSong.playSong(bot, server.queue.connection, message, server);
+                return playSong.playSong(bot, server.queue.connection, message, server);
         })
     };
 
