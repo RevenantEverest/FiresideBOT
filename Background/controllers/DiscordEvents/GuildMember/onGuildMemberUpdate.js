@@ -25,7 +25,7 @@ module.exports = async (bot, oldMember, newMember) => {
         else if(oldMember._roles.length !== newMember._roles.length) return handleRoleChange(settings, audit, updateText);
     };
 
-    async function handleRoleChange(settings, audit, updateText) {
+    async function handleNicknameChange(settings, audit, updateText) {
         if(!settings.member_role_change) return;
 
         if(!oldMember.nickname) updateText += `**New Nickname**: ${newMember.nickname}\n`;
@@ -35,7 +35,7 @@ module.exports = async (bot, oldMember, newMember) => {
         return sendEmbed(settings, audit, updateText);
     };
 
-    async function handleNicknameChange(settings, audit, updateText) {
+    async function handleRoleChange(settings, audit, updateText) {
         if(!settings.member_nickname_change) return;
 
         if(oldMember._roles.length < newMember._roles.length && settings.member_role_change)
