@@ -32,6 +32,8 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     async function updateSettings(settings) {
         if(settings.enabled) return message.channel.send("Server Logging is already enabled");
         let data = { guild_id: message.guild.id, enabled: true, channel_id: channel_id };
+        settings.enabled = true;
+        settings.channel_id = channel_id;
         logSettings.update(bot, message, "EnableServerLogging", data, (newSettings) => {
             return message.channel.send(`Server Logging is now **enabled** and logs will be posted in <#${newSettings.channel_id}>`);
         });
