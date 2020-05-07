@@ -1,6 +1,7 @@
 const config = require('./config/config');
 const Discord = require('discord.js');
 const bot = new Discord.Client();
+const twitchTokensController = require('./controllers/twitchTokensController');
 const utils = require('./utils/utils');
 
 bot.on("ready", async () => {
@@ -10,7 +11,14 @@ bot.on("ready", async () => {
         bot.guilds.array().forEach(el => {
             config.info.userCount += el.memberCount;
         });
-    }, 5000)
+    }, 5000);
+
+    twitchTokensController.getToken(async () => {
+        let embed = new Discord.RichEmbed();
+        embed.setColor(0xff9900).setTitle("API Tokens Set").setFooter(await utils.getDate());
+
+        if(process.env.ENVIRONMENT !== "DEV") bot.channels.get("543862697742172179").send(embed);
+    });
 
     let embed = new Discord.RichEmbed();
     embed.setColor(0xff9900).setTitle("API Ready").setFooter(await utils.getDate());

@@ -110,3 +110,12 @@ CREATE TABLE twitch_queue (
     link VARCHAR(255),
     duration VARCHAR(255)
 );
+
+CREATE TABLE api_tokens (
+    id SERIAL PRIMARY KEY,
+    service VARCHAR(255),
+    token VARCHAR(255),
+    refresh_token VARCHAR(255),
+    expires_in INT,
+    date VARCHAR(255)
+);

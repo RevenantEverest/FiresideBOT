@@ -1,6 +1,7 @@
 const Discord_Bot = require('../Discord_Bot');
 const db = require('../models/twitchTrackerDB');
 const twitchServices = require('../services/twitchServices');
+const twitchTokensController = require('./twitchTokensController');
 
 const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
@@ -48,7 +49,13 @@ module.exports = {
             };
             db.save(data)
             .then(tracker => res.json({ message: "Tracker Saved", data: tracker }))
-            .catch(err => next(err));
+            .catch(err => {
+                if(err.response) {
+                    if(err.response.status === 401) 
+                        return twitchTokensController.updateToken(this.create(req, res, next));
+                }
+                else next(err);
+            });
         })
         .catch(err => {
             if(err.response.status === 404)
