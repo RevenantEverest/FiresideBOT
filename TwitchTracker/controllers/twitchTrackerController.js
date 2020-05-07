@@ -2,7 +2,9 @@ const config = require('../config/config');
 const Discord = require('discord.js');
 const db = require('../models/twitchTrackerDB');
 const twitchServices = require('../services/twitchServices');
+const tokenController = require('./tokenController');
 const flavorTextParser = require('./flavorTextParser');
+const services = {};
 
 const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
@@ -33,7 +35,7 @@ Batch Data Length:
 
 */
 
-module.exports.run = async (bot) => {
+services.run = async (bot) => {
     db.findAll()
     .then(trackers => getStreamStatus(trackers))
     .catch(err => err instanceof QRE && err.code === qrec.noData ? console.log("No Trackers") : console.error(err));
@@ -59,7 +61,13 @@ module.exports.run = async (bot) => {
             streams = [].concat.apply([], streams.map(el => el.data.data));
             checkChannelsLive(temp, streams);
         })
-        .catch(err => console.error(err));
+        .catch(err => {
+            if(err.response) {
+                if(err.response.status === 401) 
+                    return tokenController.update(services.run(bot));
+            }
+            else console.error(err);
+        });
     };
 
     function checkChannelsLive(trackerData, streams) {
@@ -89,7 +97,13 @@ module.exports.run = async (bot) => {
 
         twitchServices.getTwitchGame(query)
         .then(games => getTwitchLogos(trackerData, streams, games.data.data))
-        .catch(err => console.error(err));
+        .catch(err => {
+            if(err.response) {
+                if(err.response.status === 401) 
+                    return tokenController.update(services.run(bot));
+            }
+            else console.error(err);
+        });
     };
 
     function getTwitchLogos(trackerData, streams, games) {
@@ -98,7 +112,13 @@ module.exports.run = async (bot) => {
 
         twitchServices.getTwitchInfo(query)
         .then(twitchUsers => parseData(trackerData, streams, games, twitchUsers.data.data))
-        .catch(err => console.error(err));
+        .catch(err => {
+            if(err.response) {
+                if(err.response.status === 401) 
+                    return tokenController.update(services.run(bot));
+            }
+            else console.error(err);
+        });
     };
 
     function parseData(trackerData, streams, games, twitchUsers) {
@@ -161,3 +181,5 @@ module.exports.run = async (bot) => {
         });
     };
 };
+
+module.exports = services;

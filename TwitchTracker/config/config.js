@@ -1,3 +1,4 @@
 module.exports = {
-    channelsLive: []
+    channelsLive: [],
+    accessTokens: {}
 }

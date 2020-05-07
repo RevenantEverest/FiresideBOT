@@ -1,6 +1,7 @@
 const config = require('../config/config');
 const Discord = require('discord.js');
 const chalk = require('chalk');
+const tokenController = require('../controllers/tokenController');
 const twitchTrackerController = require('../controllers/twitchTrackerController');
 const services = {};
 
@@ -12,9 +13,12 @@ async function getDate() {
 
 services.handleOnReady = async (bot) => {
 
-    setInterval(() => twitchTrackerController.run(bot), 5000);
+    tokenController.getToken(handleTrackers);
 
     // DEFAULT INTERVAL: 120000
+    async function handleTrackers() {
+        setInterval(() => twitchTrackerController.run(bot), 5000);
+    };
     
     if(process.env.ENVIRONMENT === "DEV") return console.log(chalk.hex('#ff9900')('[LOG]') + ' Twitch-Tracker Ready');
 
