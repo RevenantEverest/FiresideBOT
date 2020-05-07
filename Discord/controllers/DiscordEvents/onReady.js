@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const chalk = require('chalk');
+const twitchTokensController = require('../twitchTokensController');
 const utils = require('../../commands/utils/utils');
 
 const config = require('../../config/config');
@@ -20,6 +21,14 @@ async function setBotActivity(bot) {
 module.exports = async (bot, getCommands) => {
 
     getCommands();
+    twitchTokensController.getToken(async () => {
+        if(process.env.ENVIRONMENT === "DEV") return console.log(chalk.hex('#ff9900')('[LOG]') +' Discord Tokens Set');
+
+        let embed = new Discord.RichEmbed();
+        embed.setColor(0xff9900).setTitle("Discord Tokens Set").setFooter(await utils.getDate());
+
+        bot.channels.get("543862697742172179").send(embed);
+    });
     
     bot.user.setActivity("The Campfire | ?help", {type: "WATCHING"});
     setInterval(() => setBotActivity(bot), 7200000);

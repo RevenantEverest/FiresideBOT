@@ -1,10 +1,11 @@
 module.exports = {
   servers: [],
   environment: {
-    version: 'v1.8.1',
+    version: 'v1.8.2',
     users: 0,
     updatePending: false
   },
+  accessTokens: {},
   categories: [
     {
       name: 'Acirhia',
