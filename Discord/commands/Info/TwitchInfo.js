@@ -45,7 +45,6 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     };
 
     async function handleEmbed() {
-        message.channel.send(info.thumbnail_url);
         let embed = new Discord.RichEmbed();
         let broadcaster_type = info.broadcaster_type !== '' ? info.broadcaster_type : 'Standard';
 
