@@ -13,14 +13,26 @@ module.exports = async (bot, message, customCommand) => {
         variables.forEach(async (el, idx) => {
             let exec = /\${([^}]*)}/.exec(el)[1];
 
+            console.log(exec);
+
+            /* To User */
             if(exec.toLowerCase() === "touser") output = output.replace("${" + exec + "}", message.author);
 
+            /* Random Response */
             if(exec.includes(",")) {
                 let choices = exec.split(",");
                 let randomResponse = choices[Math.floor(Math.random() * choices.length)];
                 output = output.replace(/\${([^}]*)}/, randomResponse);
             }
 
+            /* Random User */
+            if(exec.toLowerCase() === "randomuser") {
+                let guildMembers = message.guild.members.array();
+                guildMembers = guildMembers.filter(gm => !gm.bot);
+                output = output.replace("${" + exec + "}", guildMembers[Math.floor(Math.random() * guildMembers.length)]);
+            }
+
+            /* Role Receive */
             if(/<@&?(\d+)>/.exec(exec)) {
                 let role_id = /<@&?(\d+)>/.exec(exec)[1];
                 await message.member.addRole(role_id, 'Fireside Custom Command')
