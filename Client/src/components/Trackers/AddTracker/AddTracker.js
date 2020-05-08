@@ -51,7 +51,7 @@ class AddTracker extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        console.log(this.state);
+
         const requestFilter = ['http://', 'https://', '.com', '.tv', 'twitch', 'www.', '/'];
         let streamer = this.state.streamer;
         this.checkString(streamer, requestFilter) ? streamer = this.filter(streamer, requestFilter, { special: false }) : streamer = this.state.streamer;
