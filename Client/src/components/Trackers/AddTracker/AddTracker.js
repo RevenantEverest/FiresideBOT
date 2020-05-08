@@ -65,7 +65,8 @@ class AddTracker extends Component {
             guild_id: this.props.manageServer.id,
             streamer: streamer.toLowerCase(),
             channel_id: this.state.channel_id,
-            role_id: this.state.role_id ? this.state.role_id : "none"
+            role_id: this.state.role_id ? this.state.role_id : "none",
+            flavor_text: this.state.flavor_text ? this.state.flavor_text : ""
         };
 
         twitchTrackerServices.addTracker(data)
@@ -83,31 +84,57 @@ class AddTracker extends Component {
     renderForm() {
         return(
             <form onSubmit={this.handleSubmit}>
-                <Container fluid>
-                <Row style={{ marginBottom: "5%" }}>
-                    <Col lg={4} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                        <Row>
-                            <Col lg={4} style={{ paddingRight: 0 }}>
-                                <label>Streamer</label>
-                            </Col>
-                            <Col lg={8}>
-                                <MDBTooltip domElement tag="span" placement="right">
-                                    <span><FontAwesomeIcon icon="question-circle" /></span>
-                                    <span>The username of the streamer you'd like to track.</span>
-                                </MDBTooltip>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col lg={10} id="AddTracker-Input-Col">
-                                <MDBInput 
-                                name="streamer"
-                                type="text" 
-                                onChange={this.handleChange} 
-                                />
-                            </Col>
-                        </Row>
-                    </Col>
-                    <Col lg={4} style={{ paddingLeft: 0  }}>
+                <Container>
+                <Row className="mb-5">
+                <Col lg={4}>
+                    <Row>
+                        <Col lg={4} style={{ paddingRight: 0 }}>
+                            <label>Streamer</label>
+                        </Col>
+                        <Col lg={8}>
+                            <MDBTooltip domElement tag="span" placement="right">
+                                <span><FontAwesomeIcon icon="question-circle" /></span>
+                                <span>The username of the streamer you'd like to track.</span>
+                            </MDBTooltip>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col lg={10} id="AddTracker-Input-Col">
+                            <MDBInput 
+                            name="streamer"
+                            type="text" 
+                            onChange={this.handleChange} 
+                            />
+                        </Col>
+                    </Row>
+                </Col>
+                </Row>
+                <Row className="mb-5">
+                <Col lg={4}>
+                    <Row>
+                        <Col lg={4} style={{ paddingRight: 0 }}>
+                            <label>Flavor Text</label>
+                        </Col>
+                        <Col lg={8}>
+                            <MDBTooltip domElement tag="span" placement="right">
+                                <span><FontAwesomeIcon icon="question-circle" /></span>
+                                <span>Optional text to be added when a notification is posted. Allows custom variables.</span>
+                            </MDBTooltip>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col lg={10} id="AddTracker-Input-Col">
+                            <MDBInput 
+                            name="flavor_text"
+                            type="text" 
+                            onChange={this.handleChange} 
+                            />
+                        </Col>
+                    </Row>
+                </Col>
+                </Row>
+                <Row className="mb-5">
+                    <Col lg={4}>
                         <Row>
                         <Col lg={4} style={{ paddingRight: 0 }}>
                             <label>Channel</label>
@@ -130,7 +157,9 @@ class AddTracker extends Component {
                             </Col>
                         </Row>
                     </Col>
-                    <Col lg={4} style={{ paddingRight: 0 }}>
+                </Row>
+                <Row className="mb-5">
+                    <Col lg={4}>
                         <Row>
                         <Col lg={4} style={{ paddingRight: 0 }}>
                             <label>Roles</label>
@@ -155,11 +184,9 @@ class AddTracker extends Component {
                     </Col>
                 </Row>
                 <Row>
-                    <Col lg={2} md={2} sm={2} xs={2} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                        <MDBBtn color="elegant" style={{ margin: 0 }} size="md" onClick={() => this.props.toggleModal()}>Close</MDBBtn>
-                    </Col>
-                    <Col lg={3} md={3} sm={3} xs={3} style={{ paddingLeft: 0, paddingRight: 0 }}>
-                        <MDBBtn color={Skin.hex} style={{ background: Skin.hex, margin: 0 }} size="md" onClick={this.handleSubmit}>Create</MDBBtn>
+                    <Col>
+                        <MDBBtn color="elegant" size="md" onClick={() => this.props.toggleModal()}>Close</MDBBtn>
+                        <MDBBtn color={Skin.hex} style={{ background: Skin.hex }} size="md" onClick={this.handleSubmit}>Create</MDBBtn>
                     </Col>
                 </Row>
                 </Container>

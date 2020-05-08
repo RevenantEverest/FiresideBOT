@@ -14,7 +14,8 @@ services.addTracker = (data) => {
             guild_id: data.guild_id,
             channel_id: data.channel_id,
             role_id: data.role_id,
-            streamer: data.streamer
+            streamer: data.streamer,
+            flavor_text: data.flavor_text
         }
     })
 };
@@ -29,7 +30,8 @@ services.editTracker = (data) => {
             twitch_username: data.twitch_username,
             twitch_id: data.twitch_id,
             channel_id: data.channel_id,
-            role_id: data.role_id
+            role_id: data.role_id,
+            flavor_text: data.flavor_text
         }
     });
 };
