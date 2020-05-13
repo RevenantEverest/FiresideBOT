@@ -34,7 +34,7 @@ services.getUserInfo = (req, res, next) => {
         .catch(err => {
             if(err.response) {
                 if(err.response.status === 401)
-                    return refreshTokenController.refreshToken(req.params.id, getUserGuilds);
+                    return refreshTokenController.refreshToken(req.params.id, gatherUserInfo);
             }
             else next(err);
         });
