@@ -23,7 +23,7 @@ CREATE TABLE working_changelogs (
 CREATE TABLE discord_tokens (
     id SERIAL PRIMARY KEY,
     discord_id VARCHAR(255),
-    token VARCHAR(255),
+    access_token VARCHAR(255),
     refresh_token VARCHAR(255),
     expires_in VARCHAR(255)
 );

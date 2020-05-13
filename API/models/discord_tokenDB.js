@@ -11,14 +11,14 @@ module.exports = {
         return db.one('SELECT * FROM discord_tokens WHERE token = $1', token);
     },
     save(token) {
-        return db.one(`INSERT INTO discord_tokens (discord_id, token, refresh_token, expires_in)
+        return db.one(`INSERT INTO discord_tokens (discord_id, access_token, refresh_token, expires_in)
         VALUES ($/discord_id/, $/access_token/, $/refresh_token/, $/expires_in/)
         RETURNING *`, token);
     },
     update(token) {
         return db.one(`UPDATE discord_tokens 
         SET
-        token = $/access_token/,
+        access_token = $/access_token/,
         refresh_token = $/refresh_token/,
         expires_in = $/expires_in/
         WHERE discord_id = $/discord_id/
