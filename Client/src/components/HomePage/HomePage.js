@@ -27,7 +27,6 @@ class HomePage extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props.userData)
         this._isMounted = true;
         if(window.location.search && !this.props.userData && !window.localStorage.getItem("token")) this.getToken();
         this.getDiscordBotUsers();
