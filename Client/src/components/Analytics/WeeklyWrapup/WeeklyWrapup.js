@@ -73,7 +73,9 @@ class WeeklyWrapup extends Component {
                         <div className="data">
                         <p>NEW GUILDS MEMBERS</p>
                         <h4>
-                            <strong>{this.state.newMembers.length}</strong>
+                            <strong>
+                                {this.state.newMembers ? this.state.newMembers.length : 0}
+                            </strong>
                         </h4>
                         </div>
                     </div>
