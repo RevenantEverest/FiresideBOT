@@ -43,7 +43,6 @@ import DashboardFooter from '../../Dashboard/DashboardFooter/DashboardFooter';
 
 import discordServices from '../../../services/discordServices';
 import guildServices from '../../../services/GuildServices/guildServices';
-import loginServices from '../../../services/loginServices';
 
 class SideNav extends Component {
 
@@ -103,14 +102,10 @@ class SideNav extends Component {
     }
 
     handleLogout() {
-        loginServices.logout(this.state.userData.discord_id)
-        .then(() => {
-            window.localStorage.clear();
-            this.setState({ logoutRedirect: true }, () => {
-                this.props.handleLogout();
-            });
-        })
-        .catch(err => console.error(err));
+        window.localStorage.clear();
+        this.setState({ logoutRedirect: true }, () => {
+            this.props.handleLogout();
+        });
     }
 
     renderServerPicker() {
