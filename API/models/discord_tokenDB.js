@@ -20,7 +20,7 @@ module.exports = {
         SET
         token = $/access_token/,
         refresh_token = $/refresh_token/,
-        expires_in = $/expures_in/
+        expires_in = $/expires_in/
         WHERE discord_id = $/discord_id/
         RETURNING *`, token);
     },

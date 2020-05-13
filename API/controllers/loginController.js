@@ -40,24 +40,18 @@ services.login = (req, res, next) => {
 
     discordServices.getToken(req.body.code)
     .then(discordToken => getDiscordUserInfo(discordToken.data))
-    .catch(err => {
-        // Handle Something Here
-        console.error(err);
-    });
+    .catch(err => console.error(err));
 
     function getDiscordUserInfo(discordToken) {
         loginData.discordToken = discordToken;
         discordServices.getUserInfo(discordToken.access_token)
         .then(discordUser => checkForToken(discordUser.data))
-        .catch(err => {
-            // Handle Something
-            console.error(err);
-        });
+        .catch(err => console.error(err));
     };
 
     function checkForToken(discordUser) {
         loginData.discordUser = discordUser;
-        discordTokensController.getByDiscordId(discordUser.id, checkForUser, () => {
+        discordTokensController.getByDiscordId(discordUser.id, updateToken, () => {
             let data = {
                 discord_id: discordUser.id,
                 access_token: loginData.discordToken.access_token, 
@@ -66,6 +60,17 @@ services.login = (req, res, next) => {
             };
             discordTokensController.save(data, checkForUser);
         });
+    };
+
+    function updateToken(token) {
+        let data = {
+            id: token.id,
+            discord_id: loginData.discordUser.id,
+            access_token: loginData.discordToken.access_token,
+            refresh_token: loginData.discordToken.refresh_token,
+            expires_in: loginData.discordToken.expires_in 
+        };
+        discordTokensController.update(data, checkForUser);
     };
 
     function checkForUser(token) {
