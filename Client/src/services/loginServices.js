@@ -27,16 +27,5 @@ services.verify = (data) => {
         headers: { "Authorization": `Bearer ${window.localStorage.token}` }
     });
 };
-  
-services.logout = (data) => {
-    return axios({
-        method: 'POST',
-        url: `${env.API}/login/discord/logout`,
-        data: {
-            discord_id: data
-        },
-        headers: { "Authorization": `Bearer ${window.localStorage.token}` }
-    });
-};
 
 export default services;
