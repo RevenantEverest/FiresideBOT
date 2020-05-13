@@ -1,5 +1,5 @@
 const config = require('../config/config');
-const apiTokensContoller = require('./apiTokensController');
+const apiTokensContoller = require('./dbControllers/apiTokensController');
 const twitchServices = require('../services/twitchServices');
 const moment = require('moment');
 const services = {};

@@ -3,7 +3,11 @@ import env from '../env';
 const services = {};
 
 services.getTrackers = (data) => {
-    return axios.get(`${env.API}/trackers/twitch/guild_id/${data}`);
+    return axios({
+        method: "GET",
+        url: `${env.API}/trackers/twitch/guild_id/${data}`,
+        headers: { "Authorization": `Bearer ${window.localStorage.token}` }
+    });
 };
 
 services.addTracker = (data) => {
@@ -16,7 +20,8 @@ services.addTracker = (data) => {
             role_id: data.role_id,
             streamer: data.streamer,
             flavor_text: data.flavor_text
-        }
+        },
+        headers: { "Authorization": `Bearer ${window.localStorage.token}` }
     })
 };
 
@@ -32,12 +37,17 @@ services.editTracker = (data) => {
             channel_id: data.channel_id,
             role_id: data.role_id,
             flavor_text: data.flavor_text
-        }
+        },
+        headers: { "Authorization": `Bearer ${window.localStorage.token}` }
     });
 };
 
 services.removeTracker = (data) => {
-    return axios.delete(`${env.API}/trackers/twitch/id/${data}`)
+    return axios({
+        method: "DELETE",
+        url: `${env.API}/trackers/twitch/id/${data}`,
+        headers: { "Authorization": `Bearer ${window.localStorage.token}` }
+    });
 };
 
 export default services;

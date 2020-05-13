@@ -15,7 +15,8 @@ services.sendEmbed = (data) => {
             thumbnail: data.thumbnail,
             footer: data.footer,
             fields: data.fields
-        }
+        },
+        headers: { "Authorization": `Bearer ${window.localStorage.token}` }
     });
 }
 

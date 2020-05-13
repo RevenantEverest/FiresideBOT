@@ -67,11 +67,14 @@ class App extends Component {
     componentWillUnmount = () => this._isMounted = false;
 
     checkLogin() {
-        if(!this._isMounted) return setTimeout(() => this.checkLogin(), 2000);
-        if(window.localStorage.getItem("id") && !this.state.userData)
-            loginServices.getUserData(window.localStorage.id)
-            .then(results => this.setState({ userData: results.data.data }))
-            .catch(err => console.log(err));
+        if(!this._isMounted || !window.localStorage.getItem("token")) return;
+
+        loginServices.verify(window.localStorage.token)
+        .then(user => this.setState({ userData: user.data.data }))
+        .catch(err => {
+            window.localStorage.clear();
+            console.error(err);
+        });
     }
 
     getUserData = (user) => this.setState({ userData: user }, () => this.componentDidMount());

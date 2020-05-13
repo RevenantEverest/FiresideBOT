@@ -27,9 +27,6 @@ module.exports = {
         .catch(err => next(err));
     },
     getUserInfo(req, res, next) {
-        // Log Error
-        //Potentially Handle No Access Token
-        //Handle 401 Response
         discord_tokenDB.findByDiscordId(req.params.id)
         .then(results => {
             discordServices.getUserInfo(results.token)

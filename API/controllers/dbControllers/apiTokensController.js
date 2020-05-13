@@ -1,4 +1,4 @@
-const db = require('../models/apiTokensDB');
+const db = require('../../models/apiTokensDB');
 const services = {};
 
 const pgp = require('pg-promise')();

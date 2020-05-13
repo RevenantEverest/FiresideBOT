@@ -4,25 +4,38 @@ const services = {};
 
 services.handleLogin = (data) => {
     return axios({
-      method: 'POST',
-      url: `${env.API}/login/discord/token`,
-      data: {
-        code: data
-      }
-    })
+        method: 'POST',
+        url: `${env.API}/login/discord/token`,
+        data: {
+            code: data
+        }
+    });
 };
   
 services.getUserData = (data) => {
-    return axios.get(`${env.API}/login/discord/user/${data}`);
+    return axios({
+        method: "GET",
+        url: `${env.API}/login/discord/user/${data}`,
+        headers: { "Authorization": `Bearer ${window.localStorage.token}` }
+    });
+};
+
+services.verify = (data) => {
+    return axios({
+        method: "POST",
+        url: `${env.API}/verify`,
+        headers: { "Authorization": `Bearer ${window.localStorage.token}` }
+    });
 };
   
 services.logout = (data) => {
     return axios({
-      method: 'POST',
-      url: `${env.API}/login/discord/logout`,
-      data: {
-        discord_id: data
-      }
+        method: 'POST',
+        url: `${env.API}/login/discord/logout`,
+        data: {
+            discord_id: data
+        },
+        headers: { "Authorization": `Bearer ${window.localStorage.token}` }
     });
 };
 

@@ -3,7 +3,11 @@ import env from '../env';
 const services = {};
 
 services.getByGuildId = (data) => {
-    return axios.get(`${env.API}/welcome_message/guild_id/${data}`);
+    return axios.get({
+        method: "GET",
+        url: `${env.API}/welcome_message/guild_id/${data}`,
+        headers: { "Authorization": `Bearer ${window.localStorage.token}` }
+    });
 };
 
 services.save = (data) => {
@@ -13,7 +17,8 @@ services.save = (data) => {
         data: {
             message: data.message,
             guild_id: data.guild_id
-        }
+        },
+        headers: { "Authorization": `Bearer ${window.localStorage.token}` }
     });
 };
 
@@ -25,7 +30,8 @@ services.update = (data) => {
             id: data.id,
             message: data.message,
             guild_id: data.guild_id
-        }
+        },
+        headers: { "Authorization": `Bearer ${window.localStorage.token}` }
     });
 };
 

@@ -27,23 +27,21 @@ class HomePage extends Component {
     }
 
     componentDidMount() {
+        console.log(this.props.userData)
         this._isMounted = true;
-        if(window.location.search && !this.props.userData && !window.localStorage.getItem("id")) this.getToken();
+        if(window.location.search && !this.props.userData && !window.localStorage.getItem("token")) this.getToken();
         this.getDiscordBotUsers();
     }
 
-    componentWillUnmount() {
-        this._isMounted = false;
-    }
+    componentWillUnmount = () => this._isMounted = false;
 
     getToken() {
         if(!this._isMounted) return setTimeout(() => this.getToken(), 2000);
         let code = window.location.search.split("code=")[1];
         loginServies.handleLogin(code)
         .then(results => {
-            let userData = results.data.data.userData;
-            console.log(userData);
-            window.localStorage.setItem('id', userData.discord_id);
+            let userData = results.data.data;
+            window.localStorage.setItem('token', userData.token);
             this.setState({ userData: userData, isLoggedIn: true }, () => this.props.getUserData(userData));
         })
         .catch(err => console.error(err));

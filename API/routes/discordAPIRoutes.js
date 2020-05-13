@@ -1,20 +1,21 @@
 const express = require('express');
 const discordAPIController = require('../controllers/discordAPIController');
+const verifyToken = require('../middleware/verifyToken');
 const router = express.Router();
 
 router.route("/user/guilds/:id")
-.get(discordAPIController.getGuilds)
+.get(verifyToken, discordAPIController.getGuilds)
 
 router.route("/user/info/:id")
-.get(discordAPIController.getUserInfo)
+.get(verifyToken, discordAPIController.getUserInfo)
 
 router.route("/bot/users/size")
 .get(discordAPIController.getBotUserSize)
 
 router.route("/guilds/channels/:id")
-.get(discordAPIController.getGuildTextChannels)
+.get(verifyToken, discordAPIController.getGuildTextChannels)
 
 router.route("/guilds/roles/:id")
-.get(discordAPIController.getGuildRoles)
+.get(verifyToken, discordAPIController.getGuildRoles)
 
 module.exports = router;

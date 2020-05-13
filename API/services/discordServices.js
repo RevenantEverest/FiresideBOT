@@ -17,17 +17,19 @@ services.getToken = (data) => {
 };
 
 services.refresh_token = (refresh_token) => {
+  const client_id = process.env.DISCORD_CLIENT_ID;
+  const client_secret = process.env.DISCORD_CLIENT_SECRET;
+  const redirect_uri = process.env.DISCORD_BACKEND_REDIRECT;
+  const scope = 'guilds%20identify%20guilds.join%20email%20messages.read';
   return axios({
     method: 'POST',
-    url: 'https://discordapp.com/api/oauth2/token',
-    data: {
-      client_id: process.env.DISCORD_CLIENT_ID,
-      client_secret: process.env.DISCORD_CLIENT_SECRET,
-      grant_type: 'refresh_token',
-      refresh_token: refresh_token,
-      redirect_uri: process.env.DISCORD_BACKEND_REDIRECT,
-      scope: 'guilds identify guilds.join email messages.read'
-    },
+    url: `https://discordapp.com/api/oauth2/token?
+          grant_type=refresh_token&
+          client_id=${client_id}&
+          client_secret=${client_secret}&
+          scope=${scope}&
+          refresh_token=${refresh_token}&
+          redirect_uri=${redirect_uri}`,
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
     }
