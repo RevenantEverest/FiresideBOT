@@ -19,7 +19,7 @@ services.getByGuildId = async (bot, guild, member) => {
 services.parseMessage = async (bot, guild, member, newMemberMessages) => {
     if(!newMemberMessages.enabled) return;
 
-    let message = newMemberMessages.messages[Math.floor(Math.random() * newMemberMessages.messages.length - 1)];
+    let message = newMemberMessages.messages[Math.floor(Math.random() * newMemberMessages.messages.length - 1) || 0];
 
     if(/\${.*}/gi.test(message)) {
         let variables = message.match(/\${([^}]*)}/g);

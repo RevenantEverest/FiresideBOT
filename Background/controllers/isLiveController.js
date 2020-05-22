@@ -30,7 +30,7 @@ services.checkLive = async (bot) => {
         let guildCurrentLive = currentLive.filter(el => el.guild_id === guild.id); 
 
         isStreaming.forEach(el => {
-            if(guildCurrentLive.includes(el.user.id)) return;
+            if(guildCurrentLive.map(el => el.discord_id).includes(el.user.id)) return;
 
             el.addRole(settings.role_id, 'Fireside isLive Role')
             .catch(err => console.error(err));

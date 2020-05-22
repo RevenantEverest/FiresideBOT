@@ -10,35 +10,18 @@ const qrec = pgp.errors.queryResultErrorCode;
 
 module.exports = async (bot, member) => {
     if(member.user.bot) return;
-    else logSettingsController.getLogSettings(member.guild.id, handleLogEmbed);
+    
+    logSettingsController.getLogSettings(member.guild.id, handleLogEmbed);
 
     newMemberMessagesController.getByGuildId(bot, member.guild, member);
 
     async function handleLogEmbed(settings) {
         if(!settings.enabled) return;
-        
+
         let permissions = new Discord.Permissions(bot.channels.get(settings.channel_id).permissionsFor(bot.user).bitfield);
         if(!permissions.has("SEND_MESSAGES")) return;
         if(!permissions.has("VIEW_AUDIT_LOG")) return;
         if(!permissions.has("MANAGE_ROLES")) return;
-
-        let welcomeMessage = null;
-        let autoRole = null;
-        await welcomeMessageDB.findByGuildId(member.guild.id)
-        .then(message => welcomeMessage = message.message)
-        .catch(err => {
-            if(err instanceof QRE && err.code === qrec.noData) return;
-            else console.error(err);
-        });
-        await autoRoleDB.findByGuildId(member.guild.id)
-        .then(aRole => autoRole = aRole.role_id)
-        .catch(err => {
-            if(err instanceof QRE && err.code === qrec.noData) return;
-            else console.error(err);
-        });
-
-        if(welcomeMessage) member.user.send(welcomeMessage);
-        if(autoRole) member.addRole(autoRole, 'Fireside AutoRole').catch(err => console.error(err));
 
         let embed = new Discord.RichEmbed();
         embed
@@ -48,4 +31,22 @@ module.exports = async (bot, member) => {
 
         bot.channels.get(settings.channel_id).send(embed);
     };
+
+    let welcomeMessage = null;
+    let autoRole = null;
+    await autoRoleDB.findByGuildId(member.guild.id)
+    .then(aRole => autoRole = aRole.role_id)
+    .catch(err => {
+        if(err instanceof QRE && err.code === qrec.noData) return;
+        else console.error(err);
+    });
+    await welcomeMessageDB.findByGuildId(member.guild.id)
+    .then(message => welcomeMessage = message.message)
+    .catch(err => {
+        if(err instanceof QRE && err.code === qrec.noData) return;
+        else console.error(err);
+    });
+
+    if(welcomeMessage) member.user.send(welcomeMessage);
+    if(autoRole) member.addRole(autoRole, 'Fireside AutoRole').catch(err => console.error(err));
 };

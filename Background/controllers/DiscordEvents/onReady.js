@@ -12,7 +12,7 @@ module.exports = async (bot) => {
 
     setInterval(() => {
         isLiveController.checkLive(bot);
-    }, 60000);
+    }, 120000);
 
     // 120000
 
