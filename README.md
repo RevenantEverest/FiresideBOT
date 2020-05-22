@@ -366,6 +366,11 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Aliases**: `bal`   
 **Example**: `?balance`  
 
+- [BlackJack](https://help.firesidebot.com/commands/blackjack)   
+**Desc**: Plays a game of Black Jack  
+**Aliases**: `bj`   
+**Example**: `?Black Jack 20`  
+
 - [Gamble](https://help.firesidebot.com/commands/gamble) `<param>`  
 **Desc**: Test your luck and win big  
 **Aliases**:   

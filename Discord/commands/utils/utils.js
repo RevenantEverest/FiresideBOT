@@ -146,6 +146,9 @@ module.exports = {
         }
         return arr;
     },
+    async isString(x) {
+        return Object.prototype.toString.call(x) === "[object String]"
+    },
     async youtubeSearch(message, args, server, songRequest, options, callback) {
         let link = options.isLink ? `https://www.youtube.com/watch?v=${songRequest}` : '';
         if(options.isLink) return this.YTDL_GetInfo(message, args, server, link, callback);
@@ -173,7 +176,7 @@ module.exports = {
     async YTDL_GetInfo(message, args, server, link, callback) {
         YTDL.getBasicInfo(link, (err, info) => {
             if(err) {
-                console.log(err.toString())
+                console.log(err.toString());
                 if(err.toString() === "Error: This video is unavailable.") 
                     return message.channel.send("This video is unavailable");
                 else if(err.toString().split(":")[0] === "TypeError")

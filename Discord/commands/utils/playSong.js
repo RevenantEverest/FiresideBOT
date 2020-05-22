@@ -23,6 +23,12 @@ services.playSong = async (bot, connection, message, server) => {
         Creates the dispatcher object from the Discord connection object.playStream
         Then sets the volume according to the servers saved volume
     */
+
+
+    if(!utils.isString(request.link)) {
+        console.log(request.link);
+        return message.channel.send("Incorrect URL parse, please try again");
+    }
     server.dispatcher = connection.playStream(YTDL(request.link, { filter: 'audioonly', quality: 'highestaudio', highWaterMark: 1<<25 }));
     if(server.queue.options.volume) server.dispatcher.setVolume(server.queue.options.volume / 100)
     else guildSettingsController.getByGuildId(bot, message, "PlaySong", message.guild.id, (settings) => {
