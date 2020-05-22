@@ -5,11 +5,9 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     if(Number.isInteger(parseInt(args[1], 10))) return message.channel.send(`You rolled a **${(Math.floor(Math.random() * args[1]).toLocaleString())}**`);
 
     async function handleMulti() {
-        let rollArgs = args[1].split("");
+        let rollArgs = args[1].split("d");
         let amount = parseInt(rollArgs[0], 10);
-        rollArgs.splice(rollArgs.indexOf("d"), 1);
-        rollArgs.splice(0, 1);
-        let sideAmount = parseInt(rollArgs.join(""), 10);
+        let sideAmount = parseInt(rollArgs[1], 10);
 
         if(!Number.isInteger(amount)) return message.channel.send("Invalid Input");
         if(!Number.isInteger(sideAmount)) return message.channel.send("Invalid Input");
@@ -24,6 +22,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
         }
         
         if(amount > 1) diceText += `= ${sum.toLocaleString()}`;
+        if(diceText.length > 2000) return message.channel.send("Exceeded Discord's 2,000 character message limit");
         message.channel.send(diceText);
     };
 };
