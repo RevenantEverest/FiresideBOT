@@ -1,7 +1,31 @@
 module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(!args[1]) return message.channel.send(`You rolled a **${(Math.floor(Math.random() * 100))}**`);
-    if(isNaN(parseInt(args[1], 10)) && args[1] != " ") return message.channel.send("Please specify a number.");
-    if(!isNaN(parseInt(args[1], 10))) return message.channel.send(`You rolled a **${(Math.floor(Math.random() * args[1]).toLocaleString())}**`);
+    if(args[1].toLowerCase().split("").includes("d")) return handleMulti();
+    if(!Number.isInteger(parseInt(args[1], 10)) && args[1] != " ") return message.channel.send("Please specify a number.");
+    if(Number.isInteger(parseInt(args[1], 10))) return message.channel.send(`You rolled a **${(Math.floor(Math.random() * args[1]).toLocaleString())}**`);
+
+    async function handleMulti() {
+        let rollArgs = args[1].split("");
+        let amount = parseInt(rollArgs[0], 10);
+        rollArgs.splice(rollArgs.indexOf("d"), 1);
+        rollArgs.splice(0, 1);
+        let sideAmount = parseInt(rollArgs.join(""), 10);
+
+        if(!Number.isInteger(amount)) return message.channel.send("Invalid Input");
+        if(!Number.isInteger(sideAmount)) return message.channel.send("Invalid Input");
+
+        let diceText = "";
+        let sum = 0;
+        for(let i = 0; i < amount; i++) {
+            let roll = Math.floor(Math.random() * sideAmount);
+            if(roll === 0) roll = 1;
+            sum = sum + roll;
+            diceText += `<:DnDDice:713410877323477032> ${roll.toLocaleString()} ${amount > 1 && i + 1 < amount ? "+" : ""} `;
+        }
+        
+        if(amount > 1) diceText += `= ${sum.toLocaleString()}`;
+        message.channel.send(diceText);
+    };
 };
 
 module.exports.config = {
