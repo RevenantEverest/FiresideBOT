@@ -14,7 +14,6 @@ module.exports = async (bot, oldRole, newRole) => {
         if(!permissions.has("VIEW_AUDIT_LOG")) return;
 
         if(oldRole.name === "@everyone" || newRole.name === "@everyone") return;
-        console.log(oldRole.rawPosition, newRole.rawPosition)
         if(oldRole.rawPosition !== newRole.rawPosition) return;
         let audit = await bot.guilds.resolve(newRole.guild.id).fetchAuditLogs();
         let executor = audit.entries.array()[0].executor;
