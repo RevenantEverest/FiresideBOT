@@ -9,7 +9,7 @@ module.exports = async (bot, guild) => {
 
     async function sendIntroMessage() {
         const channels = guild.channels.array();
-        let embed = new Discord.RichEmbed();
+        let embed = new Discord.MessageEmbed();
         let welcome = { general: null, channels: null };
 
         embed
@@ -31,6 +31,6 @@ module.exports = async (bot, guild) => {
                 welcome.channels = channels[i];
         }
 
-        welcome.general ? bot.channels.get(welcome.general.id).send(embed) : bot.channels.get(welcome.channels.id).send(embed);
+        welcome.general ? bot.channels.resolve(welcome.general.id).send(embed) : bot.channels.resolve(welcome.channels.id).send(embed);
     }
 };

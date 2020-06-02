@@ -10,20 +10,21 @@ module.exports = async (bot, role) => {
 
         if(role.name === bot.user.username) return;
         
-        let permissions = new Discord.Permissions(bot.channels.get(settings.channel_id).permissionsFor(bot.user).bitfield);
+        let permissions = await bot.channels.resolve(settings.channel_id).permissionsFor(bot.user);
+        if(!permissions) return;
         if(!permissions.has("SEND_MESSAGES")) return;
         if(!permissions.has("VIEW_AUDIT_LOG")) return;
 
-        let audit = await bot.guilds.get(role.guild.id).fetchAuditLogs();
+        let audit = await bot.guilds.resolve(role.guild.id).fetchAuditLogs();
         let executor = audit.entries.array()[0].executor;
 
-        let embed = new Discord.RichEmbed();
+        let embed = new Discord.MessageEmbed();
         embed
         .setColor(0xff0000)
-        .setAuthor(`Role Deleted by ${executor.username}#${executor.discriminator}`, executor.avatarURL ? executor.avatarURL : "https://i.imgur.com/CBCTbyK.png")
-        .setDescription(role.name)
+        .setAuthor(`Role Deleted by ${executor.username}#${executor.discriminator}`, executor.avatarURL() ? executor.avatarURL() : "https://i.imgur.com/CBCTbyK.png")
+        .setDescription(`**Role:** ${role.name}`)
         .setFooter(`Role ID: ${role.id}`)
 
-        bot.channels.get(settings.channel_id).send(embed);
+        bot.channels.resolve(settings.channel_id).send(embed);
     };
 };

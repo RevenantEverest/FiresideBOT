@@ -14,31 +14,32 @@ module.exports = async (bot, member) => {
     async function handleLogEmbed(settings) {
         if(!settings.enabled) return;
         
-        let permissions = new Discord.Permissions(bot.channels.get(settings.channel_id).permissionsFor(bot.user).bitfield);
+        let permissions = await bot.channels.resolve(settings.channel_id).permissionsFor(bot.user);
+        if(!permissions) return;
         if(!permissions.has("SEND_MESSAGES")) return;
         if(!permissions.has("VIEW_AUDIT_LOG")) return;
 
-        let auditLogs = await bot.guilds.get(member.guild.id).fetchAuditLogs();
+        let auditLogs = await bot.guilds.resolve(member.guild.id).fetchAuditLogs();
         let audit = auditLogs.entries.array()[0];
-        let embed = new Discord.RichEmbed();
+        let embed = new Discord.MessageEmbed();
 
         if(audit.action === "MEMBER_KICK") {
             embed
             .setAuthor(
                 `Member Kicked by ${audit.executor.username}#${audit.executor.discriminator}`, 
-                audit.executor.avatarURL ? audit.executor.avatarURL : "https://i.imgur.com/CBCTbyK.png"
+                audit.executor.avatarURL() ? audit.executor.avatarURL() : "https://i.imgur.com/CBCTbyK.png"
             )
             if(audit.reason)
                 embed.setDescription(`**Reason**: ${audit.reason}`)
         }
-        else embed.setAuthor(`Member Left`, member.user.avatarURL ? member.user.avatarURL : "https://i.imgur.com/CBCTbyK.png")
+        else embed.setAuthor(`Member Left`, member.user.avatarURL() ? member.user.avatarURL() : "https://i.imgur.com/CBCTbyK.png")
 
         embed
-        .setThumbnail(member.user.avatarURL ? member.user.avatarURL : "https://i.imgur.com/CBCTbyK.png")
+        .setThumbnail(member.user.avatarURL() ? member.user.avatarURL() : "https://i.imgur.com/CBCTbyK.png")
         .setColor(0xff0000)
-        .setTitle(`${member.user.username}#${member.user.discriminator}`)
-        .setFooter(`User ID: ${member.user.id}`)
+        .setDescription(`**Member:** ${member.user.username}#${member.user.discriminator}`)
+        .setFooter(`Member ID: ${member.user.id}`)
 
-        bot.channels.get(settings.channel_id).send(embed);
+        bot.channels.resolve(settings.channel_id).send(embed);
     };
 };

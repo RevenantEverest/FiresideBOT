@@ -79,13 +79,13 @@ services.handleEXP = async (bot, message) => {
     async function sendLevelUpEmbed(uRecord) {
         let { complexity, general_increase_rate, channel_id } = rankInfo.settings;
         let Level = await utils.calculateLevel(complexity, (parseInt(uRecord.xp, 10) + parseInt(general_increase_rate, 10)));
-        let embed = new Discord.RichEmbed();
+        let embed = new Discord.MessageEmbed();
 
         embed
         .setColor(0x66ff33)
         .addField("Level Up!", `<@${uRecord.discord_id}> is now Level: ${Level}`)
 
-        channel_id === "none" ? message.channel.send(embed) : bot.channels.get(channel_id).send(embed);
+        channel_id === "none" ? message.channel.send(embed) : bot.channels.fetch(channel_id).send(embed);
     };
 };
 

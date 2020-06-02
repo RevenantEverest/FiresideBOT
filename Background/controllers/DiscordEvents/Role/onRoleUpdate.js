@@ -8,29 +8,31 @@ module.exports = async (bot, oldRole, newRole) => {
         if(!settings.enabled) return;
         else if(!settings.role_delete) return;
 
-        let permissions = new Discord.Permissions(bot.channels.get(settings.channel_id).permissionsFor(bot.user).bitfield);
+        let permissions = await bot.channels.resolve(settings.channel_id).permissionsFor(bot.user);
+        if(!permissions) return;
         if(!permissions.has("SEND_MESSAGES")) return;
         if(!permissions.has("VIEW_AUDIT_LOG")) return;
 
         if(oldRole.name === "@everyone" || newRole.name === "@everyone") return;
-        if(oldRole.position !== newRole.position) return;
-        let audit = await bot.guilds.get(newRole.guild.id).fetchAuditLogs();
+        console.log(oldRole.rawPosition, newRole.rawPosition)
+        if(oldRole.rawPosition !== newRole.rawPosition) return;
+        let audit = await bot.guilds.resolve(newRole.guild.id).fetchAuditLogs();
         let executor = audit.entries.array()[0].executor;
         
         let infoText = '';
 
         if(oldRole.color !== newRole.color) infoText += `**Color**: ${newRole.hexColor}\n`;
-        if(oldRole.name !== newRole.name) infoText += `**Name**: ${newRole.name}\n`;
+        if(oldRole.name !== newRole.name) infoText += `**New Role Name**: ${newRole.name}\n`;
         if(oldRole.mentionable !== newRole.mentionable) infoText += `**Mentionable**: ${newRole.mentionable ? 'Yes' : 'No'}\n`;
         if(oldRole.permissions !== newRole.permissions) infoText += `**Permissions Changed**: Yes \n`;
 
-        let embed = new Discord.RichEmbed();
+        let embed = new Discord.MessageEmbed();
         embed
         .setColor(0xff9900)
-        .setAuthor(`Role Updated by ${executor.username}#${executor.discriminator}`, executor.avatarURL ? executor.avatarURL : "https://i.imgur.com/CBCTbyK.png")
-        .setDescription(`**Role Name**: ${oldRole.name} \n\n`+ infoText)
+        .setAuthor(`Role Updated by ${executor.username}#${executor.discriminator}`, executor.avatarURL() ? executor.avatarURL() : "https://i.imgur.com/CBCTbyK.png")
+        .setDescription(`**Old Role Name**: ${oldRole.name} \n\n`+ infoText)
         .setFooter(`Role ID: ${newRole.id}`)
 
-        bot.channels.get(settings.channel_id).send(embed);
+        bot.channels.resolve(settings.channel_id).send(embed);
     };
 };

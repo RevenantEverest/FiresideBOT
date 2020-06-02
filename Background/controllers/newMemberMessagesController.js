@@ -19,7 +19,8 @@ services.getByGuildId = async (bot, guild, member) => {
 services.parseMessage = async (bot, guild, member, newMemberMessages) => {
     if(!newMemberMessages.enabled) return;
 
-    let message = newMemberMessages.messages[Math.floor(Math.random() * newMemberMessages.messages.length - 1) || 0];
+    let randomIndex = Math.floor(Math.random() * newMemberMessages.messages.length - 1);
+    let message = newMemberMessages.messages[randomIndex < 0 ? 0 : randomIndex];
 
     if(/\${.*}/gi.test(message)) {
         let variables = message.match(/\${([^}]*)}/g);
@@ -30,8 +31,31 @@ services.parseMessage = async (bot, guild, member, newMemberMessages) => {
             if(exec.toLowerCase() === "user") message = message.replace("${" + exec + "}", member.user);
             
             if(exec.toLowerCase() === "membercount") {
-                let memberCount = bot.guilds.get(guild.id).memberCount;
-                message = message.replace("${" + exec + "}", memberCount)
+                let memberCount = bot.guilds.resolve(guild.id).memberCount.toString();
+                let contraction = "";
+                switch(memberCount.split("")[memberCount.length - 1]) {
+                    case "1":
+                        contraction = "st";
+                        break;
+                    case "2":
+                        contraction = "nd";
+                        break;
+                    case "3": 
+                        contraction = "rd";
+                        break;
+                    case "4":
+                    case "5":
+                    case "6":
+                    case "7":
+                    case "8":
+                    case "9":
+                    case "0":
+                        contraction = "th";
+                        break;
+                    default:
+                        break;
+                }
+                message = message.replace("${" + exec + "}", `${memberCount}${contraction}`);
             }
 
             if(exec.includes(",")) {
@@ -41,10 +65,10 @@ services.parseMessage = async (bot, guild, member, newMemberMessages) => {
             }
 
             if(idx === (variables.length - 1)) 
-                return bot.channels.get(newMemberMessages.channel_id).send(message);
+                return bot.channels.resolve(newMemberMessages.channel_id).send(message);
         });
     }
-    else return bot.channels.get(newMemberMessages.channel_id).send(message);
+    else return bot.channels.resolve(newMemberMessages.channel_id).send(message);
 };
 
 module.exports = services;

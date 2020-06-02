@@ -8,7 +8,4 @@ module.exports = async (bot, message) => {
 
     currencyController.handleCurrency(message);
     ranksController.handleEXP(bot, message);
-
-    let permissions = new Permissions(message.channel.permissionsFor(bot.user).bitfield);
-    if(!permissions.has("SEND_MESSAGES") || !permissions.has("EMBED_LINKS")) return;
 };

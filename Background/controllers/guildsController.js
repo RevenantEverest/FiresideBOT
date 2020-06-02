@@ -10,22 +10,21 @@ const services = {};
 
 async function handleEmbed(bot, title, dateMessage, color, guild) {
     let date = moment().format("LLLL") + " EST";
-    let embed = new Discord.RichEmbed();
+    let embed = new Discord.MessageEmbed();
 
     embed
     .setTitle(`**${title}**`)
-    .addBlankField()
     .setColor(color)
     .addField('Name:', guild.name, true)
     .addField('ID:', guild.id, true)
     .addField('Member Count:', parseInt(guild.memberCount, 10).toLocaleString())
     .setFooter(`${dateMessage}: ${date}`)
 
-    if(process.env.ENVIRONMENT !== "DEV") bot.channels.get('538528459190829064').send(embed);
+    if(process.env.ENVIRONMENT !== "DEV") bot.channels.resolve('538528459190829064').send(embed);
 };
 
 services.checkGuilds = async (bot) => {
-    let botGuilds = bot.guilds.array();
+    let botGuilds = bot.guilds.cache.array();
 
     guildsDB.findAll()
     .then(dbGuilds => checkForAddedGuilds(dbGuilds))
@@ -74,11 +73,10 @@ services.saveGuild = async (bot, guild) => {
 services.updateGuild = async (bot, oldGuild, newGuild) => {
     guildsDB.update({ guild_id: newGuild.id, name: newGuild.name })
     .then(() => {
-        let embed = new Discord.RichEmbed();
+        let embed = new Discord.MessageEmbed();
 
         embed
         .setTitle(`**Guild Updated**`)
-        .addBlankField()
         .setColor(0xff9900)
         .addField('Old Name:', oldGuild.name, true)
         .addField('New Name:', newGuild.name, true)
@@ -86,7 +84,7 @@ services.updateGuild = async (bot, oldGuild, newGuild) => {
         .addField('Member Count:', parseInt(newGuild.memberCount, 10).toLocaleString())
         .setFooter(`Guild Updated: ${moment().format("LLLL") + " EST"}`)
 
-        if(process.env.ENVIRONMENT !== "DEV") bot.channels.get('538528459190829064').send(embed);
+        if(process.env.ENVIRONMENT !== "DEV") bot.channels.resolve('538528459190829064').send(embed);
     })
     .catch(err => errorHandler({ controller: "Guilds Controller", message: "Error Updating Guild", error: err }));
 };

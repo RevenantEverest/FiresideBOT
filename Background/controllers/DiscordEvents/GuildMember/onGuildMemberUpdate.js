@@ -9,11 +9,12 @@ module.exports = async (bot, oldMember, newMember) => {
         if(!settings.enabled) return;
         else if(!settings.member_nickname_change && !settings.member_role_change) return;
 
-        let permissions = new Discord.Permissions(bot.channels.get(settings.channel_id).permissionsFor(bot.user).bitfield);
+        let permissions = await bot.channels.resolve(settings.channel_id).permissionsFor(bot.user);
+        if(!permissions) return;
         if(!permissions.has("SEND_MESSAGES")) return;
         if(!permissions.has("VIEW_AUDIT_LOG")) return;
 
-        let auditLogs = await bot.guilds.get(newMember.guild.id).fetchAuditLogs();
+        let auditLogs = await bot.guilds.resolve(newMember.guild.id).fetchAuditLogs();
         let audit = auditLogs.entries.array()[0];
 
         if(audit.reason)
@@ -26,7 +27,7 @@ module.exports = async (bot, oldMember, newMember) => {
     };
 
     async function handleNicknameChange(settings, audit, updateText) {
-        if(!settings.member_role_change) return;
+        if(!settings.member_nickname_change) return;
 
         if(!oldMember.nickname) updateText += `**New Nickname**: ${newMember.nickname}\n`;
         else if(newMember.nickname) updateText += `**Nickname Update**: ${newMember.nickname}\n`;
@@ -36,9 +37,9 @@ module.exports = async (bot, oldMember, newMember) => {
     };
 
     async function handleRoleChange(settings, audit, updateText) {
-        if(!settings.member_nickname_change) return;
+        if(!settings.member_role_change) return;
 
-        if(oldMember._roles.length < newMember._roles.length && settings.member_role_change)
+        if(oldMember._roles.length < newMember._roles.length)
             updateText += `**New Role**: <@&${await utils.arrDifference(oldMember._roles, newMember._roles)}>`;
         else if(oldMember._roles.length > newMember._roles.length)
             updateText += `**Removed Role**: <@&${await utils.arrDifference(oldMember._roles, newMember._roles)}>`;
@@ -47,15 +48,15 @@ module.exports = async (bot, oldMember, newMember) => {
     };
 
     async function sendEmbed(settings, audit, updateText) {
-        let embed = new Discord.RichEmbed();
+        let embed = new Discord.MessageEmbed();
         let executor = audit.executor;
         embed
-        .setAuthor(`Member Updated by ${executor.username}#${executor.discriminator}`, executor.avatarURL ? executor.avatarURL : "https://i.imgur.com/CBCTbyK.png")
-        .setThumbnail(newMember.user.avatarURL ? newMember.user.avatarURL : "https://i.imgur.com/CBCTbyK.png")
-        .setFooter(`User ID: ${newMember.user.id}`)
+        .setAuthor(`Member Updated by ${executor.username}#${executor.discriminator}`, executor.avatarURL() ? executor.avatarURL() : "https://i.imgur.com/CBCTbyK.png")
+        .setThumbnail(newMember.user.avatarURL() ? newMember.user.avatarURL() : "https://i.imgur.com/CBCTbyK.png")
+        .setFooter(`Member ID: ${newMember.user.id}`)
         .setColor(0xff9900)
         .setDescription(updateText)
 
-        bot.channels.get(settings.channel_id).send(embed);
+        bot.channels.resolve(settings.channel_id).send(embed);
     }
 };
