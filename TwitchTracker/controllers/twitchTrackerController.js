@@ -27,20 +27,14 @@ async function generateQuery(trackers) {
     return batchData;
 };
 
-/*
-
-Tracker Length: 112
-Stream Status Promise Length: 4 [Doesn't seem right]
-Batch Data Length: 
-
-*/
-
 services.run = async (bot) => {
+    console.log("Running...")
     db.findAll()
     .then(trackers => getStreamStatus(trackers))
     .catch(err => err instanceof QRE && err.code === qrec.noData ? console.log("No Trackers") : console.error(err));
 
     async function getStreamStatus(trackers) {
+        console.log("Inside Get Stream Status")
         let temp = [];
         trackers.forEach(el => {
             if(temp.map(tracker => tracker.twitch_id).includes(el.twitch_id)) return;
@@ -63,8 +57,9 @@ services.run = async (bot) => {
         })
         .catch(err => {
             if(err.response) {
-                if(err.response.status === 401) 
-                    return tokenController.update(services.run(bot));
+                if(err.response.status === 401)
+                    return tokenController.updateToken(() => services.run(bot));
+                else console.error(err.response);
             }
             else console.error(err);
         });
@@ -100,7 +95,8 @@ services.run = async (bot) => {
         .catch(err => {
             if(err.response) {
                 if(err.response.status === 401) 
-                    return tokenController.update(services.run(bot));
+                    return tokenController.updateToken(() => services.run(bot));
+                else console.error(err.response);
             }
             else console.error(err);
         });
@@ -115,7 +111,8 @@ services.run = async (bot) => {
         .catch(err => {
             if(err.response) {
                 if(err.response.status === 401) 
-                    return tokenController.update(services.run(bot));
+                    return tokenController.updateToken(() => services.run(bot));
+                else console.error(err.response);
             }
             else console.error(err);
         });

@@ -12,6 +12,7 @@ services.getClientToken = () => {
 };
 
 services.getTwitchInfo = (data) => {
+    data = data.replace(" ", "");
     return axios({
         method: "GET",
         url: `https://api.twitch.tv/helix/users?${data}`,
@@ -24,6 +25,7 @@ services.getTwitchInfo = (data) => {
 };
 
 services.getTwitchStreamStatus = (data) => {
+    data = data.replace(" ", "");
     return axios({
         method: "GET",
         url: `https://api.twitch.tv/helix/streams?${data}`,
@@ -35,6 +37,7 @@ services.getTwitchStreamStatus = (data) => {
 };
 
 services.getTwitchGame = (data) => {
+    data = data.replace(" ", "");
     return axios({
         method: "GET",
         url: `https://api.twitch.tv/helix/games?${data}`,

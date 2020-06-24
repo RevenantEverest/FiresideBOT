@@ -26,7 +26,7 @@ services.updateToken = (callback) => {
 
     async function updateToken(token) {
         services.generateToken(generatedToken => {
-            services.update(generatedToken, callback)
+            services.update(token, generatedToken, callback)
         });
     };
 
@@ -63,7 +63,7 @@ services.update = (token, generatedToken, callback) => {
     token.expires_in = generatedToken.expires_in;
     token.date = moment();
 
-    apiTokenContoller.update(data, handleToken);
+    apiTokenContoller.update(token, handleToken);
 
     async function handleToken(token) {
         config.accessTokens.twitch = token.token;
