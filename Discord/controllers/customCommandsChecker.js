@@ -54,7 +54,7 @@ async function findGeneralOrTopChannel(bot, oldCommand, newCommand) {
 };
 
 async function notifyServer(bot, oldCommand, newCommand, channel_id) {
-    let embed = new Discord.RichEmbed();
+    let embed = new Discord.MessageEmbed();
 
     embed
     .setColor(0xff6600)
@@ -65,7 +65,7 @@ async function notifyServer(bot, oldCommand, newCommand, channel_id) {
         `**Updated Name:** ${newCommand.input}\n\n` + 
         `This name can be updated by using the **EditCommand** command with the **-n** flag`
     )
-    bot.channels.get(channel_id).send(embed);
+    bot.channels.resolve(channel_id).send(embed);
 };
 
 module.exports = async (bot) => {

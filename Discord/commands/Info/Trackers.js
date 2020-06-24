@@ -9,7 +9,7 @@ const errorHandler = require('../../controllers/errorHandler');
 const pagination = require('../utils/pagination');
 
 module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
-    let embed = new Discord.RichEmbed();
+    let embed = new Discord.MessageEmbed();
     embed.setColor(0xff9999).setTitle("Available Trackers")
     twitchTrackerDB.findByGuildId(message.guild.id)
     .then(trackers => {

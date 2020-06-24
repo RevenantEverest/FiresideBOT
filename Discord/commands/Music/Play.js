@@ -4,7 +4,7 @@ const errorHandler = require('../../controllers/errorHandler');
 
 module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(!args[1]) return message.channel.send("Please provide a link");
-    if(!message.member.voiceChannel) return message.channel.send("You must be in a voice channel");
+    if(!message.member.voice.channel) return message.channel.send("You must be in a voice channel");
     if(options.updatePending) return message.channel.send("An Update is currently pending, features will resume upon Update")
 
     let isLink = false;
@@ -25,11 +25,11 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
         server.queue.queueInfo.push(songInfo);
         message.channel.send(`**${songInfo.title}** was added to the queue. In position **#${server.queue.queueInfo.length}**`);
 
-        if(!message.guild.voiceConnection)
-            message.member.voiceChannel.join()
+        if(!server.queue.connection)
+            message.member.voice.channel.join()
             .then(connection => playSong.playSong(bot, connection, message, server))
             .catch(err => errorHandler(bot, message, err, "Join Voice Channel Error", "Play"));
-        else if(message.guild.voiceConnection && !server.queue.isPlaying)
+        else if(server.queue.connection && !server.queue.isPlaying)
             return playSong.playSong(bot, server.queue.connection, message, server);
     });
 };

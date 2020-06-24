@@ -10,7 +10,7 @@ async function setBotActivity(bot) {
     const activities = [
         {value: "The Campfire | ?help", type: "WATCHING"},
         {value: `Serving ${config.environment.users.toLocaleString()} Users`, type: "PLAYING"},
-        {value: `Serving ${bot.guilds.array().length.toLocaleString()} Servers`, type: "PLAYING"},
+        {value: `Serving ${bot.guilds.cache.array().length.toLocaleString()} Servers`, type: "PLAYING"},
         {value: "help.firesidebot.com", type: "PLAYING"},
         {value: config.environment.version, type: "PLAYING"}
     ];
@@ -24,10 +24,10 @@ module.exports = async (bot, getCommands) => {
     twitchTokensController.getToken(async () => {
         if(process.env.ENVIRONMENT === "DEV") return console.log(chalk.hex('#ff9900')('[LOG]') +' Discord Tokens Set');
 
-        let embed = new Discord.RichEmbed();
+        let embed = new Discord.MessageEmbed();
         embed.setColor(0xff9900).setTitle("Discord Tokens Set").setFooter(await utils.getDate());
 
-        bot.channels.get("543862697742172179").send(embed);
+        bot.channels.resolve("543862697742172179").send(embed);
     });
     
     bot.user.setActivity("The Campfire | ?help", {type: "WATCHING"});
@@ -35,15 +35,15 @@ module.exports = async (bot, getCommands) => {
 
     setInterval(() => {
         config.environment.users = 0;
-        bot.guilds.array().forEach(el => config.environment.users += el.memberCount);
+        bot.guilds.cache.array().forEach(el => config.environment.users += el.memberCount);
     }, 5000);
 
     customCommandsChecker(bot);
 
     if(process.env.ENVIRONMENT === "DEV") return console.log(chalk.hex('#00ff00')('[LOG]') +' FiresideBOT Ready');
 
-    let embed = new Discord.RichEmbed();
+    let embed = new Discord.MessageEmbed();
     embed.setColor(0xff9900).setTitle("FiresideBOT Ready").setFooter(await utils.getDate());
 
-    bot.channels.get("543862697742172179").send(embed);
+    bot.channels.resolve("543862697742172179").send(embed);
 }

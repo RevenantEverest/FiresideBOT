@@ -1,6 +1,8 @@
 const { Permissions } = require('discord.js');
 const twitchServices = require('../../services/twitchServices');
 const twitchTrackerController = require('../../controllers/dbControllers/twitchTrackerController');
+const twitchTokenController = require('../../controllers/twitchTokensController');
+const errorHandler = require('../../controllers/errorHandler');
 
 module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     let channel_id = null;
@@ -20,7 +22,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     
     if(role_id !== "none") args.splice(args.indexOf((role_id === "@everyone" ? "@everyone" : `<#${role_id}>`), 1));
 
-    let permissions = new Permissions(bot.channels.get(channel_id).permissionsFor(bot.user).bitfield);
+    let permissions = new Permissions(bot.channels.resolve(channel_id).permissionsFor(bot.user).bitfield);
     if(!permissions.has("SEND_MESSAGES") || !permissions.has("EMBED_LINKS"))
         return message.channel.send("Fireside doesn't have permissions to post or embed links in that channel");
 
@@ -30,13 +32,20 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     args.splice(0, 1);
 
     if(args[0]) flavor_text = args.join(" ");
+    getTwitchInfo();
 
-    twitchServices.getTwitchInfo(streamerSearch.toLowerCase())
-    .then(streamer => getTrackers(streamer.data.data[0]))
-    .catch(err => {
-        if(err.response) message.channel.send('No Twitch User Found');
-        else errorHandler(bot, message, err, "Twitch API Error", "TwitchTracker");
-    });
+    async function getTwitchInfo() {
+        twitchServices.getTwitchInfo(streamerSearch.toLowerCase())
+        .then(streamer => getTrackers(streamer.data.data[0]))
+        .catch(err => {
+            if(err.response) {
+                if(err.response.status === 401) 
+                    return twitchTokenController.updateToken(() => getTwitchInfo());
+                else return message.channel.send('No Twitch User Found');
+            }
+            else errorHandler(bot, message, err, "Twitch API Error", "TwitchTracker");
+        });
+    }
 
     async function getTrackers(streamer) {
         if(!streamer) return message.channel.send("No Twitch User Found");

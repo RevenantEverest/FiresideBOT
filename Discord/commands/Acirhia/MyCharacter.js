@@ -7,7 +7,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options) => {
     });
 
     async function handleCharacterEmbed(character) {
-        let embed = new Discord.RichEmbed();
+        let embed = new Discord.MessageEmbed();
 
         embed
         .setColor(0xcc33ff)

@@ -15,13 +15,13 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
 
     async function handleUserPremium(record) {
         let isActive = moment(record.start_date).to(record.end_date).split(" ").includes("ago") ? false : true;
-        let embed = new Discord.RichEmbed();
+        let embed = new Discord.MessageEmbed();
         embed
         .setColor(isActive ? 0x00ff00 : 0xff0000)
-        .setAuthor(`Premium Status for ${message.author.username}#${message.author.discriminator}`, message.author.avatarURL)
+        .setAuthor(`Premium Status for ${message.author.username}#${message.author.discriminator}`, message.author.avatarURL({ dynamic: true }))
         .addField("Start Date:", moment(record.start_date).format("MMMM Do YYYY"), true)
         .addField("End Date:", moment(record.end_date).format("MMMM Do YYYY"), true)
-        .addField("Active:", isActive)
+        .addField("Active:", isActive ? "Yes" : "No")
         .setFooter(`User ID: ${message.author.id}`)
 
         message.channel.send(embed);
@@ -29,14 +29,14 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
 
     async function handleGuildPremium(record) {
         let isActive = moment(record.start_date).to(record.end_date).split(" ").includes("ago") ? false : true;
-        let issuedBy = bot.users.get(record.issued_by);
-        let embed = new Discord.RichEmbed();
+        let issuedBy = bot.users.resolve(record.issued_by);
+        let embed = new Discord.MessageEmbed();
         embed
         .setColor(isActive ? 0x00ff00 : 0xff0000)
-        .setAuthor(`Premium Status for ${message.guild.name}`, message.guild.iconURL)
+        .setAuthor(`Premium Status for ${message.guild.name}`, message.guild.iconURL({ dynamic: true }))
         .addField("Start Date:", moment(record.start_date).format("MMMM Do YYYY"), true)
         .addField("End Date:", moment(record.end_date).format("MMMM Do YYYY"), true)
-        .addField("Active:", isActive)
+        .addField("Active:", isActive ? "Yes" : "No")
         .addField("Issued By:", issuedBy ? `${issuedBy.username}#${issuedBy.discriminator}` : "Non Fireside User")
         .setFooter(`Guild ID: ${message.guild.id}`)
 

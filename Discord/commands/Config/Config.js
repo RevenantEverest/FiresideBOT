@@ -12,7 +12,7 @@ const pagination = require('../utils/pagination');
 module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     let settingsArr = [];
     let generalSettings = {};
-    let author = {text: message.guild.name, image: message.guild.iconURL};
+    let author = {text: message.guild.name, image: message.guild.iconURL({ dynamic: true })};
 
     welcomeMessageController.getByGuildId(bot, message, "Config", message.guild.id, handleWelcomeMessage, () => handleWelcomeMessage(false));
 
@@ -118,7 +118,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
         if(!settingsCategories.includes(args.join(" ").toLowerCase())) return message.channel.send("Invalid Config Category");
 
         let category = settingsArr.filter(el => el.id === args.join(" ").toLowerCase())[0];
-        let embed = new Discord.RichEmbed();
+        let embed = new Discord.MessageEmbed();
 
         console.log(category)
         embed

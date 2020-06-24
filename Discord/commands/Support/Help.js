@@ -102,7 +102,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     async function handleCommand() {
         let command = bot.commands.get(args[1].toLowerCase()) || bot.commands.get(bot.aliases.get(args[1].toLowerCase()));
         command = command.config;
-        let embed = new Discord.RichEmbed();
+        let embed = new Discord.MessageEmbed();
 
         embed
         .addField(`**${command.d_name}** - ${command.category} ${command.params ? (command.params.required ? '`<param>`' : '`[param]`') : ''}`, `${command.desc}`)
@@ -132,7 +132,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
 
     async function handleCategory() {
         let category = categories.filter(el => el.name.toLowerCase() === args[1].toLowerCase());
-        let embed = new Discord.RichEmbed();
+        let embed = new Discord.MessageEmbed();
         if(commands.filter(el => el.config.category === category[0].name).length > 5) {
             contentArr = [];
             categoryFilter = await parseCategoryFilter(category, commands);

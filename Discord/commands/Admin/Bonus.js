@@ -40,19 +40,20 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     };
 
     async function postLog(settings) {
-        let embed = new Discord.RichEmbed();
-        let recipient = bot.users.get(recipient_id);
+        let embed = new Discord.MessageEmbed();
+        let recipient = bot.users.resolve(recipient_id);
 
         embed
         .setColor(0x00ff00)
         .setAuthor(
-            `${message.author.username} #${message.author.discriminator} gave ${cSettings.currency_name}`,
-            message.author.avatarURL
+            `${message.author.username} #${message.author.discriminator} gave bonus currency`,
+            message.author.avatarURL({ dynamic: true })
         )
         .setDescription(`**Recipient:** ${recipient.username} #${recipient.discriminator}\n**Amount Given:** ${amount.toLocaleString()}`)
-        .setThumbnail(recipient.avatarURL)
+        .setThumbnail(recipient.avatarURL({ dynamic: true }))
+        .setFooter(`Member ID: ${recipient.id}`)
 
-        bot.channels.get(settings.channel_id).send(embed);
+        bot.channels.resolve(settings.channel_id).send(embed);
     };
 };
 

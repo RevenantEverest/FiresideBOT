@@ -25,12 +25,13 @@ async function handlePages(message, bot, songs, overallLength, author) {
 };
 
 async function handleSingle(message, songs, overallLength, author) {
-  let embed = new Discord.RichEmbed();
+  let embed = new Discord.MessageEmbed();
   
   embed.setTitle(`**QUEUE** (${overallLength})`).setColor(0x00ffff).setAuthor(author.text, author.image);
 
-  songs.forEach((el, idx) => {
-    embed.addField(`${(idx + 1)}. ${el.title}`, `Link: [Click Me](${el.link})\nRequested By: ${el.requestedBy.username}`);
+  await songs.forEach(async (el, idx) => {
+    let duration = await utils.timeParser(el.duration);
+    embed.addField(`${idx + 1}. ${el.title}`, `**Author**: ${el.author}\n**Duration**: ${duration}`);
   });
 
   message.channel.send(embed);
@@ -40,7 +41,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
   if(server.queue.queueInfo.length < 1) return message.channel.send("No other songs in queue");
 
   let songs = server.queue.queueInfo;
-  let author = { text: message.guild.name, image: message.guild.iconURL };
+  let author = { text: message.guild.name, image: message.guild.iconURL({ dynamic: true }) };
   let overallLength = 0;
   songs.forEach(el => overallLength += parseInt(el.duration, 10));
   overallLength = await utils.timeParser(overallLength);

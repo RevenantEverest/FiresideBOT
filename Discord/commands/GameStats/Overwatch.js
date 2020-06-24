@@ -62,7 +62,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
                 return message.channel.send('Player Not Found');
 
             let data = results.data;
-            let embed = new Discord.RichEmbed();
+            let embed = new Discord.MessageEmbed();
             embed
             .addField('**Overwatch Stats**', data.name)
             .setColor(0xff00ff)

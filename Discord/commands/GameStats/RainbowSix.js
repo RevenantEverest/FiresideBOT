@@ -129,7 +129,7 @@ async function handleSeasonal(args, platform, embed, message) {
 module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(!args[1]) return message.channel.send("Please Specify a Username / Platform and appropriate flag");
 
-    let embed = new Discord.RichEmbed();
+    let embed = new Discord.MessageEmbed();
     embed
     .setColor(0x6666ff)
     .setFooter("Stats Provided by R6Stats.com", `https://images-ext-1.discordapp.net/external/TAlrxiJSwZIAg34_tpPdQu7WfZ0JFxQVR47GP5EbYV8/https/r6stats.com/img/logos/r6stats-100.png`);

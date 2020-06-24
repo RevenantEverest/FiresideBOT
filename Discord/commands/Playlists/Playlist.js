@@ -29,7 +29,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
         if(discord_id && !playlist.public && discord_id !== message.author.id) return message.channel.send("That users playlist is **Private**");
         if(args.includes("-i")) return viewPlaylist.viewUserPlaylist(message, (discord_id ? discord_id : message.author.id), playlist, bot);
         if(options.updatePending) return message.channel.send("An Update is currently pending, features will resume upon Update");
-        if(!message.member.voiceChannel) return message.channel.send("You must be in a voice channel");
+        if(!message.member.voice.channel) return message.channel.send("You must be in a voice channel");
         userSongsController.getByPlaylistId(bot, message, "Playlist", playlist.playlist_id, handleUserSongs, handleNoSongs);
     };
 
@@ -37,17 +37,17 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
         if(args.includes("-s")) songs = await utils.shuffle(songs);
         songs.forEach((el, idx) => {
             server.queue.queueInfo.push({
-                title: el.title, link: el.link, author: el.author, duration: el.duration, thumbnail: el.thumbnail_url, requestedBy: message.author
+                title: el.title, link: el.link, author: el.author, duration: el.duration, thumbnail: el.thumbnail_url, requestedBy: message.author.username
             });
 
             if(idx === (songs.length - 1)) {
             message.channel.send(`Adding playlist **${playlistName}** to the queue`);
-            if(!message.guild.voiceConnection) 
-                message.member.voiceChannel.join()
+            if(!server.queue.connection) 
+                message.member.voice.channel.join()
                 .then(connection => playSong.playSong(bot, connection, message, server))
                 .catch(err => console.error(err));
             }
-            else if(message.guild.voiceConnection && !server.queue.isPlaying)
+            else if(server.queue.connection && !server.queue.isPlaying)
                 return playSong.playSong(bot, server.queue.connection, message, server);
         })
     };

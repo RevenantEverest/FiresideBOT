@@ -39,25 +39,25 @@ async function getRecords(bot, message, settings, ranks) {
 
 async function sendEmbed(bot, message, settings, ranks, records) {
     
-    let embed = new Discord.RichEmbed();
-    let topUser = await bot.fetchUser(records[0].discord_id);
+    let embed = new Discord.MessageEmbed();
+    let topUser = await bot.users.resolve(records[0].discord_id);
     let topTen = '';
 
     embed
     .setColor(0xff66b3)
-    .setThumbnail(`https://cdn.discordapp.com/avatars/${topUser.id}/${topUser.avatar}.png`)
-    .addField('Leaderboard', message.guild.name)
-    .addBlankField()
+    .setThumbnail(topUser.avatarURL({ dynamic: true }))
+    .setAuthor(`Leaderboards for ${message.guild.name}`, message.guild.iconURL({ dynamic: true }))
 
     await records.forEach(async (el, idx) => {
-        let user = await bot.fetchUser(el.discord_id);
+        let user = await bot.users.resolve(el.discord_id) || { username: "[Deleted User]" };
         let Level = await utils.calculateLevel(settings.complexity, (parseInt(el.xp, 10) + parseInt(settings.general_increase_rate, 10)));
         let RankName = ranks.length <= Level ?  ranks[ranks.length - 1].rank_name : ranks.filter(el => el.rank_number === Level)[0].rank_name;
         
         if(idx === 0)
             embed
-            .addField(`**Leader:**  ${user.username}`, `**Rank ${Level}**: ${RankName}\n**EXP:** ${parseInt(el.xp, 10).toLocaleString()}`)
-            .addBlankField();
+            .setTitle(`**Top Member**`)
+            .setDescription(`**Username:** ${user.username}\n**Rank ${Level}**: ${RankName}\n**EXP:** ${parseInt(el.xp, 10).toLocaleString()}`)
+            .addField("\u200B", "\u200B")
         else topTen += `**${idx + 1}. ${user.username}** ( EXP: ${parseInt(el.xp, 10).toLocaleString()} )\n`;
         
         if(idx === (records.length - 1)) {

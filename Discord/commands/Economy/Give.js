@@ -1,18 +1,24 @@
+const Discord = require('discord.js');
 const discordCurrencyController = require('../../controllers/dbControllers/discordCurrencyController');
 const currencyController = require('../../controllers/dbControllers/currencyController');
+const logSettingsController = require('../../controllers/dbControllers/guildLogSettingsController');
 
 module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(!args[1]) return message.channel.send('Please specify an a recipient and an amount');
     if(!args[2]) return message.channel.send('Please specify an amount to give');
-    if(!Number.isInteger(parseInt(args[2], 10))) return message.channel.send('Please specify an integer value to give');
-    if(!message.content.split(" ")[1].startsWith('<@')) return message.channel.send('Please specify a valid recipient');
-    if(parseInt(args[2], 10)< 1) return message.channel.send('Please specify an amount to give of at least 1 or higher');
+    if(!/<@!?(\d+)>/.exec(args.join(" "))) return message.channel.send('Please specify a valid recipient');
+    if(parseInt(args[2], 10) < 1) return message.channel.send('Please specify an amount to give of at least 1 or higher');
 
-    let amountGiven = Math.floor(parseInt(args[2], 10));
     let recipient_id = /<@!?(\d+)>/.exec(args.join(" "))[1];
     let cSettings = null;
     let userRecord = null;
     let recipientRecord = null;
+
+    args.splice(args.indexOf(`<@!${recipient_id}>`), 1);
+
+    if(!Number.isInteger(parseInt(args[1], 10))) return message.channel.send('Please specify an integer value to give');
+    
+    let amountGiven = Math.floor(parseInt(args[1], 10));
 
     if(message.author.id === recipient_id) return message.channel.send(`You can't give money to yourself`);
 
@@ -47,12 +53,26 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
         let recepientData = { discord_id: recipientRecord.discord_id, guild_id: message.guild.id, currency: updatedCurrency };
         discordCurrencyController.update(bot, message, "Give", userData, () => {
             discordCurrencyController.update(bot, message, "Give", recepientData, () => {
-                return message.channel.send(
-                    `**${message.author.username}** gave **${message.mentions.users.array()[0].username}**, ` +
+                message.channel.send(
+                    `${message.author} gave ${message.mentions.users.array()[0]}, ` +
                     `**${amountGiven.toLocaleString()} ${cSettings.currency_name}**`
                 );
+                logSettingsController.getByGuildId(bot, message, "Give", message.guild.id, sendLogEmbed, () => { return; });    
             });
         });
+    };
+
+    async function sendLogEmbed(settings) {
+        let embed = new Discord.MessageEmbed();
+        let recipient = bot.users.resolve(recipient_id);
+        embed
+        .setColor(0xff9900)
+        .setAuthor(`${message.author.username} #${message.author.discriminator} gave currency`, message.author.avatarURL({ dynamic: true }))
+        .setThumbnail(recipient.avatarURL({ dynamic: true }))
+        .setDescription(`**Recipient:** ${recipient.username} #${recipient.discriminator}\n**Amount:** ${amountGiven}`)
+        .setFooter(`Member ID: ${recipient_id}`)
+
+        bot.channels.resolve(settings.channel_id).send(embed);
     };
 };
 

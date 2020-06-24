@@ -36,7 +36,7 @@ async function handlePages(message, bot, playlist, songs, author, guildPlaylist)
 }
 
 async function handleSingle(message, playlist, songs, author, guildPlaylist) {
-    let embed = new Discord.RichEmbed();
+    let embed = new Discord.MessageEmbed();
     let overallLength = 0;
     let rolesText = '';
 
@@ -45,13 +45,14 @@ async function handleSingle(message, playlist, songs, author, guildPlaylist) {
 
     if(guildPlaylist && playlist.roles) {
         playlist.roles.forEach(el => rolesText += `<@&${el}> `);
-        embed.addField(`**${playlist.name}** (${overallLength})`, `**Roles**: ${playlist.roles ? rolesText : 'None'}`)
+        embed
+        .setTitle(`**${playlist.name}** (${overallLength})`)
+        .setDescription(`**Roles**: ${playlist.roles ? rolesText : 'None'}`)
     }
-    else embed.addField(`${playlist.name} (${overallLength})`, `${playlist.public ? 'Public' : 'Private'}`)
+    else embed.setTitle(`${playlist.name} (${overallLength})`).setDescription(`${playlist.public ? 'Public' : 'Private'}`)
 
     embed
     .setAuthor(author.text, author.image)
-    .addBlankField()
     .setColor(0xff3399)
     .setThumbnail('https://i.imgur.com/OpSJJxe.png')
 
@@ -69,10 +70,10 @@ module.exports = {
         });
 
         async function handleSongs(songs) {
-            let discordUser = bot.users.get(discord_id);
+            let discordUser = bot.users.resolve(discord_id);
             let author = {
                 text: `${discordUser.username}#${discordUser.discriminator}`,
-                image: `https://cdn.discordapp.com/avatars/${discordUser.id}/${discordUser.avatar}.png?size=2048`
+                image: discordUser.avatarURL({ dynamic: true })
             };
             if(songs.length >= 5) return handlePages(message, bot, playlist, songs, author, false);
             else return handleSingle(message, playlist, songs, author, false);   
@@ -86,7 +87,7 @@ module.exports = {
         async function handleSongs(songs) {
             let author = {
                 text: message.guild.name,
-                image: message.guild.iconURL
+                image: message.guild.iconURL({ dynamic: true })
             };
             if(songs.length >= 5) return handlePages(message, bot, playlist, songs, author, true);
             else return handleSingle(message, playlist, songs, author, true);

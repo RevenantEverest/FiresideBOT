@@ -5,6 +5,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
 
     let re = new RegExp(`${this.config.flags.join("|")}`, "ig");
     let matches = args.join(" ").match(re);
+    let moduleMessage = "";
 
     if(!matches) return message.channel.send("Invalid flag provided");
 
@@ -12,27 +13,35 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     matches.forEach(el => {
         switch(el) {
             case "-mrc":
+                moduleMessage = "**Member Role Change**";
                 modules.memberRoleChange = {enabled: true};
                 break;
             case "-mnc":
+                moduleMessage = "**Member Nickname Change**";
                 modules.memberNicknameChange = {enabled: true};
                 break;
             case "-ec":
+                moduleMessage = "**Emoji Create**";
                 modules.emojiCreate = {enabled: true};
                 break;
             case "-eu":
+                moduleMessage = "**Emoji Update**";
                 modules.emojiUpdate = {enabled: true};
                 break;
             case "-ed":
+                moduleMessage = "**Emoji Delete**";
                 modules.emojiDelete = {enabled: true};
                 break;
             case "-rc":
+                moduleMessage = "**Role Create**";
                 modules.roleCreate = {enabled: true};
                 break;
             case "-ru":
+                moduleMessage = "**Role Update**";
                 modules.roleUpdate = {enabled: true};
                 break;
             case "-rd":
+                moduleMessage = "**Role Delete**";
                 modules.roleDelete = {enabled: true};
                 break;
             default:
@@ -61,7 +70,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
         };
 
         logSettingsController.update(bot, message, "EnableServerLoggingModules", data, () => {
-            return message.channel.send("Server Logging Modules Updated");
+            return message.channel.send(`Server Logging Module ${moduleMessage} enabled`);
         });
     };
 };

@@ -5,13 +5,12 @@ const utils = require('../utils/utils');
 const errorHandler = require('../../controllers/errorHandler');
 
 async function handleEmbed(results, tempArr, index) {
-    let embed = new Discord.RichEmbed();
+    let embed = new Discord.MessageEmbed();
   
     embed
     .setThumbnail(results.album_art)
     .setColor(0xff3399)
     .setTitle('**Song Info**')
-    .addBlankField()
     .addField('Artist: ', results.artist, true)
     .addField('Album: ', results.album, true)
     .addField('Song: ', results.name, true)
@@ -46,9 +45,9 @@ async function handlePages(message, results, bot) {
         await msg.react("⏹");
         await msg.react("⏩");
   
-        const r_collector = new Discord.ReactionCollector(msg, r => r.users.array()[r.users.array().length - 1].id === message.author.id, { time: 60000 });
+        const r_collector = new Discord.ReactionCollector(msg, r => r.users.cache.array()[r.users.cache.array().length - 1].id === message.author.id, { time: 60000 });
         r_collector.on('collect', async (reaction, user) => {
-            if(reaction.users.array()[reaction.users.array().length - 1].id === bot.user.id) return;
+            if(reaction.users.cache.array()[reaction.users.cache.array().length - 1].id === bot.user.id) return;
             if(reaction.emoji.name === "⏹") r_collector.stop();
 
             if(reaction.emoji.name === "⏪") index === 0 ? index = (tempArr.length - 1) : index--;
@@ -57,19 +56,17 @@ async function handlePages(message, results, bot) {
             embed = await handleEmbed(results, tempArr, index);
 
             reaction.message.edit(embed);
-            reaction.remove(reaction.users.array()[reaction.users.array().length - 1].id);
         });
-        r_collector.on("end", () => msg.clearReactions());
+        r_collector.on("end", () => msg.reactions.removeAll());
     })
 };
 
 function handleSinglePage(message, results) {
-    let embed = new Discord.RichEmbed();
+    let embed = new Discord.MessageEmbed();
     embed
         .setThumbnail(results.album_art)
         .setColor(0xff3399)
         .setTitle('**Song Info**')
-        .addBlankField()
         .addField('Artist: ', results.artist, true)
         .addField('Album: ', results.album, true)
         .addField('Song: ', results.name, true)

@@ -9,9 +9,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
         return message.channel.send('Please specify a question and at least one answer. \n\n`Example: ?poll -q How is everyone? -a Good -a Alright`');
     if(args.includes('-q') && !args.includes('-a')) return message.channel.send('Please specify at least one question using the `-a` flag');
 
-    // Check if more than one Question is added
-
-    let embed = new Discord.RichEmbed();
+    let embed = new Discord.MessageEmbed();
     let re = /(?<=\s)(-[a-z0-9]+)([^\-]*)?/gi;
     var poll = { question: "", answers: [], options: { time: 300000 } };
     var m = re.exec(args.join(" "));
@@ -34,30 +32,35 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
         m = re.exec(message);
     }
 
+    if(poll.answers.length > 5) return message.channel.send("Poll answers limited to 5");
+
     embed
-    .addField(`**Poll:** ${poll.question}`, `Started By <@${message.author.username}>`)
-    .addBlankField()
+    .setAuthor(`${message.author.username} started a poll`, message.author.avatarURL({ dynamic: true }))
+    .setTitle(`${poll.question}`)
     .setColor(0x00ff00)
+    .setFooter(`Poll started in ${message.guild.name}`, message.guild.iconURL({ dynamic: true }))
 
     let firstAnswers = '';
     poll.answers.forEach((a, i) => firstAnswers += `${answerEmotes[i]}: **0%** ${a}\n`);
     embed.addField(`Answers:`, firstAnswers)
 
-    /* */
     message.channel.send(embed).then(async (msg) => {
         let totalVotes = 0;
         let voteInfo = [];
+        let usersVoted = [];
 
         for(let i = 0; i < poll.answers.length; i++) { 
             await msg.react(`${numberEmotes[i]}\u20E3`);
             voteInfo.push({ voteId: (i + 1), votes: 0 });
         };
 
-        const r_collector = new Discord.ReactionCollector(msg, r => r.users.array(), { time: poll.options.time });
+        const r_collector = new Discord.ReactionCollector(msg, r => r.users.cache.array(), { time: poll.options.time });
 
-        r_collector.on('collect', reaction => {
-            if(reaction.users.array()[reaction.users.array().length - 1].id === bot.user.id) return;        // Checks if reaction is made by Bot
-            let editEmbed = new Discord.RichEmbed();
+        r_collector.on('collect', (reaction, user) => {
+            if(reaction.users.cache.array()[reaction.users.cache.array().length - 1].id === bot.user.id) return;
+            if(usersVoted.includes(user.id)) return;
+            let editEmbed = new Discord.MessageEmbed();
+            usersVoted.push(user.id);
 
             /*
 
@@ -75,9 +78,10 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
                     voteInfo[i].votes++;
 
                     editEmbed
-                    .addField(`**Poll:** ${poll.question}`, `Started By ${message.author.username}`)
-                    .addBlankField()
+                    .setAuthor(`${message.author.username} started a poll`, message.author.avatarURL({ dynamic: true }))
+                    .setTitle(`${poll.question}`)
                     .setColor(0x00ff00)
+                    .setFooter(`Poll started in ${message.guild.name}`, message.guild.iconURL({ dynamic: true }))
                     
                     let answers = '';
                     poll.answers.forEach((a, idx) => answers += `${answerEmotes[idx]}: **${Math.round((voteInfo[idx].votes / totalVotes) * 100)}%** ${a}\n`);
@@ -87,14 +91,14 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
             }
         });
         r_collector.on('end', () => {
-            let pollEndEmbed = new Discord.RichEmbed();
+            let pollEndEmbed = new Discord.MessageEmbed();
             pollEndEmbed
             .setTitle('**Poll Has Ended**')
-            .addBlankField()
             .addField("Question:", poll.question, true)
             .addField("Asked By:", message.author.username, true)
             .addField("Total Votes:", totalVotes, true)
             .setColor(0x00ff99)
+            .setFooter(`Poll started in ${message.guild.name}`, message.guild.iconURL({ dynamic: true }))
             
             let results = '';
             if(totalVotes === 0)
@@ -105,6 +109,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
             pollEndEmbed.addField('Results:', results);
 
             msg.edit(pollEndEmbed);
+            msg.reactions.removeAll();
         });
     })
     .catch(err => console.error(err));

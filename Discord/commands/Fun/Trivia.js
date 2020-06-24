@@ -20,7 +20,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     async function handleQuestions(triviaQuestions) {
         questions = triviaQuestions;
         let currentQuestion = questions[0];
-        let embed = new Discord.RichEmbed();
+        let embed = new Discord.MessageEmbed();
 
         currentQuestion.question = await utils.replaceHTMLEntitiy(currentQuestion.question);
 
@@ -52,7 +52,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
         let answerInfo = [];
 
         let temp = "";
-        answers.forEach((el, idx) => temp += `${answerEmotes[idx]}: ${el} **0%**\n`);
+        answers.forEach((el, idx) => temp += `${answerEmotes[idx]} ${el} **0%**\n`);
         embed.addField("Answers:", temp);
         message.channel.send(embed)
         .then(async msg => {
@@ -63,9 +63,9 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
 
             await msg.react("▶️");
 
-            const r_collector = new Discord.ReactionCollector(msg, r => r.users.array(), { time: (1 * 60000) });
+            const r_collector = new Discord.ReactionCollector(msg, r => r.users.cache.array(), { time: (1 * 60000) });
             r_collector.on('collect', reaction => {
-                if(reaction.users.array()[reaction.users.array().length - 1].id === bot.user.id) return;
+                if(reaction.users.cache.array()[reaction.users.cache.array().length - 1].id === bot.user.id) return;
                 if(reaction.emoji.name === "▶️") return r_collector.stop();
                 let editEmbed = new Discord.RichEmbed();
     
@@ -84,14 +84,14 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
                         )
                         
                         temp = '';
-                        answers.forEach((a, idx) => temp += `${answerEmotes[idx]}: ${a} **${Math.round((answerInfo[idx].answersAmount / totalAnswers) * 100)}%**\n`);
+                        answers.forEach((a, idx) => temp += `${answerEmotes[idx]} ${a} **${Math.round((answerInfo[idx].answersAmount / totalAnswers) * 100)}%**\n`);
                         editEmbed.addField('Answers:', temp)
                         reaction.message.edit(editEmbed);
                     }
                 }
             });
             r_collector.on('end', () => {
-                let endEmbed = new Discord.RichEmbed();
+                let endEmbed = new Discord.MessageEmbed();
                 endEmbed
                 .setTitle(currentQuestion.question)
                 .setDescription(
@@ -112,7 +112,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
                 endEmbed.addField('Results:', results);
 
                 let permissions =  new Discord.Permissions(message.channel.permissionsFor(bot.user).bitfield);
-                if(permissions.has("MANAGE_MESSAGES")) msg.clearReactions();
+                if(permissions.has("MANAGE_MESSAGES")) msg.reactions.removeAll();
 
                 questions.shift();
 

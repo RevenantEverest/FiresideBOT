@@ -105,10 +105,10 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     };
 
     async function play() {
-        const r_collector = new Discord.ReactionCollector(player.message, r => r.users.array()[r.users.array().length - 1].id === message.author.id, { time: (options.time * 300000) });
+        const r_collector = new Discord.ReactionCollector(player.message, r => r.users.cache.array()[r.users.cache.array().length - 1].id === message.author.id, { time: (options.time * 300000) });
 
         r_collector.on('collect', async (reaction, user) => {
-            if(reaction.users.array()[reaction.users.array().length - 1].id === bot.user.id) return;
+            if(reaction.users.cache.array()[reaction.users.cache.array().length - 1].id === bot.user.id) return;
 
             if(reaction.emoji.name === "👇") {
                 await hit(false);
@@ -155,7 +155,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
             
             let permissions =  new Discord.Permissions(message.channel.permissionsFor(bot.user).bitfield);
             if(!permissions.has("MANAGE_MESSAGES")) return;
-            player.message.clearReactions();
+            player.message.reactions.removeAll();
         });
     };
 

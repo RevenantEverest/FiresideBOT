@@ -11,7 +11,7 @@ const likedSongController = require('../../controllers/dbControllers/likedSongsC
 const services = {};
 
 services.playSong = async (bot, connection, message, server) => {
-    let currentSongEmbed = new Discord.RichEmbed();
+    let currentSongEmbed = new Discord.MessageEmbed();
     let request = server.queue.queueInfo[0];
     server.queue.connection = connection;
 
@@ -24,12 +24,7 @@ services.playSong = async (bot, connection, message, server) => {
         Then sets the volume according to the servers saved volume
     */
 
-
-    if(!utils.isString(request.link)) {
-        console.log(request.link);
-        return message.channel.send("Incorrect URL parse, please try again");
-    }
-    server.dispatcher = connection.playStream(YTDL(request.link, { filter: 'audioonly', quality: 'highestaudio', highWaterMark: 1<<25 }));
+    server.dispatcher = connection.play(YTDL(request.link, { filter: 'audioonly', quality: 'highestaudio', highWaterMark: 1<<25 }));
     if(server.queue.options.volume) server.dispatcher.setVolume(server.queue.options.volume / 100)
     else guildSettingsController.getByGuildId(bot, message, "PlaySong", message.guild.id, (settings) => {
         server.queue.options.volume = settings.volume;
@@ -51,7 +46,7 @@ services.playSong = async (bot, connection, message, server) => {
     currentSongEmbed
     .setTitle('**CURRENT SONG**')
     .addField(request.title, request.author)
-    .addField('Link', `[Click Me](${request.link}) \nRequested By: ${request.requestedBy.username}`)
+    .addField('Link', `[Click Me](${request.link}) \nRequested By: ${request.requestedBy}`)
     .setThumbnail(request.thumbnail)
     .setFooter(`Length: ${await utils.timeParser(request.duration)}`)
     .setColor(0x0be289)
@@ -66,8 +61,9 @@ services.playSong = async (bot, connection, message, server) => {
 
     server.queue.queueInfo.shift();
 
-    server.dispatcher.once("end", () => {
-        if(server.queue.queueInfo[0] && message.guild.voiceConnection) services.playSong(bot, connection, message, server);
+    server.dispatcher.once("finish", () => {
+        if(server.queue.queueInfo[0] && message.guild.voice.connection) 
+            services.playSong(bot, connection, message, server);
         else {
             if(server.queue.options.recommendations) 
                 return message.channel.send("This feature has been temporarily removed until a better version is implemented")
@@ -92,19 +88,18 @@ services.handleLikedSong = async (bot, message, msg, data) => {
     let userReactions = [];
     await msg.react(chosenReact);
 
-    const r_collector = new Discord.ReactionCollector(msg, r => r.users.array(), { time: (data.duration >= 600 ? 120000 : data.duration * 1000) });
-    r_collector.on('collect', reaction => {
-        let whoReacted = reaction.users.array()[reaction.users.array().length - 1].id;
-        if(whoReacted === bot.user.id || userReactions.includes(whoReacted)) return;
+    const r_collector = new Discord.ReactionCollector(msg, r => r.users.cache.array(), { time: (data.duration >= 600 ? 120000 : data.duration * 1000) });
+    r_collector.on('collect', (reaction, user) => {
+        if(user.id === bot.user.id || userReactions.includes(user.id)) return;
 
         if(reaction.emoji.name === chosenReact) {
-            userReactions.push(reaction.users.array()[reaction.users.array().length - 1].id);
-            likedSongController.getByDiscordId(bot, message, "Utils: PlaySong", whoReacted, saveLikedSong, () => saveLikedSong(null));
+            userReactions.push(user.id);
+            likedSongController.getByDiscordId(bot, message, "Utils: PlaySong", user.id, saveLikedSong, () => saveLikedSong(null));
         }
 
         async function saveLikedSong(likedSongs) {
             if(likedSongs && likedSongs.map(el => el.link).includes(data.link)) return;
-            data.discord_id = whoReacted;
+            data.discord_id = user.id;
             likedSongController.save(bot, message, "Utils: PlaySong", data, () => {
                 msg.channel.send(`**${data.title}** added to Liked Songs`);
             });
@@ -115,7 +110,7 @@ services.handleLikedSong = async (bot, message, msg, data) => {
         
         let permissions =  new Discord.Permissions(message.channel.permissionsFor(bot.user).bitfield);
         if(!permissions.has("MANAGE_MESSAGES")) return;
-        msg.clearReactions();
+        msg.reactions.removeAll();
     });
 };
 

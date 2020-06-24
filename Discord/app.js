@@ -21,6 +21,7 @@ app.set('trust proxy', 'loopback');
 /* Routes */
 app.use("/status", require("./routes/statusCheckerRoutes"));
 app.use("/commands", require("./routes/commandRoutes"));
+app.use("/servers", require("./routes/serversArrayRoutes"));
 
 /* Default Routes */
 app.use("/", (req, res) => res.json({ message: "FiresideBOT" }));

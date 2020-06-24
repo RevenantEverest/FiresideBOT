@@ -7,11 +7,12 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     if(!message.channel.nsfw) return message.channel.send("NSFW can only be used in NSFW marked channels");
     ksoftServices.randomNSFW()
     .then(nsfw => {
-        let embed = new Discord.RichEmbed();
+        let embed = new Discord.MessageEmbed();
         embed
         .setColor(0xff3333)
         .setFooter(`Powered By KSoft.Si`, `https://cdn.ksoft.si/images/Logo1024-W.png`)
-        .addField(nsfw.data.author, `${nsfw.data.title}\n[Source](${nsfw.data.source})`)
+        .setTitle(nsfw.data.author)
+        .setDescription(`${nsfw.data.title}\n\n[Source](${nsfw.data.source})`)
         .setImage(nsfw.data.image_url)
 
         message.channel.send(embed);

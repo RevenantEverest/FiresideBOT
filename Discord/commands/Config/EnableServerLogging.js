@@ -9,7 +9,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     if(/<#?(\d+)>/.exec(args.join(" "))) channel_id = /<#?(\d+)>/.exec(args.join(" "))[1];
     else return message.channel.send("Please tag a Text Channel you'd like the Logs to be posted in");
 
-    let permissions = new Permissions(bot.channels.get(channel_id).permissionsFor(bot.user).bitfield);
+    let permissions = new Permissions(bot.channels.resolve(channel_id).permissionsFor(bot.user).bitfield);
     if(!permissions.has("SEND_MESSAGES")) return message.channel.send("Fireside doesn't have permission to post in that channel");
 
     logSettings.getByGuildId(bot, message, "EnableServerLogging", message.guild.id, updateSettings, () => {

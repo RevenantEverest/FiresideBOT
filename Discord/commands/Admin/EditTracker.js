@@ -15,7 +15,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     else if(/<@&?(\d+)>/.exec(args.join(" "))) role_id = /<@&?(\d+)>/.exec(args.join(" "))[1];
 
     if(channel_id) {
-        let permissions = new Permissions(bot.channels.get(channel_id).permissionsFor(bot.user).bitfield);
+        let permissions = new Permissions(bot.channels.resolve(channel_id).permissionsFor(bot.user).bitfield);
         if(!permissions.has("SEND_MESSAGES") || !permissions.has("EMBED_LINKS"))
             return message.channel.send("Fireside doesn't have permissions to post or embed links in that channel");
         args.splice(args.indexOf(`<#${channel_id}>`), 1);

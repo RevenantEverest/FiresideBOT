@@ -10,7 +10,7 @@ async function getDate() {
 
 async function logError(bot, message, err, errMsg, command) {
     console.error(err);
-    let embed = new Discord.RichEmbed();
+    let embed = new Discord.MessageEmbed();
     embed
     .setColor(0xff0000)
     .setTitle("**New Error**")
@@ -20,7 +20,7 @@ async function logError(bot, message, err, errMsg, command) {
     .addField("Error Message:", errMsg)
     .setFooter(await getDate());
 
-    bot.channels.get(process.env.ENVIRONMENT === "DEV" ? "624216968844804096" : "624755756079513621").send(embed);
+    bot.channels.resolve(process.env.ENVIRONMENT === "DEV" ? "624216968844804096" : "624755756079513621").send(embed);
 
     if(process.env.ENVIRONMENT === "DEV") return;
 
@@ -41,7 +41,7 @@ async function handleTicket(bot, message, err, errMsg, command) {
 };
 
 module.exports = async (bot, message, err, errMsg, command) => {
-    let embed = new Discord.RichEmbed();
+    let embed = new Discord.MessageEmbed();
     
     embed
     .setColor(0xff0000)
@@ -53,11 +53,11 @@ module.exports = async (bot, message, err, errMsg, command) => {
         
         logError(bot, message, err, errMsg, command);
 
-        const r_collector = new Discord.ReactionCollector(msg, r => r.users.array()[r.users.array().length - 1].id === message.author.id, { time: 60000 });
+        const r_collector = new Discord.ReactionCollector(msg, r => r.users.cache.array()[r.users.cache.array().length - 1].id === message.author.id, { time: 60000 });
 
         r_collector.on('collect', async (reaction, user) => {
-            embed = new Discord.RichEmbed();
-            if(reaction.users.array()[reaction.users.array().length - 1].id === bot.user.id) return;
+            embed = new Discord.MessageEmbed();
+            if(reaction.users.cache.array()[reaction.users.cache.array().length - 1].id === bot.user.id) return;
             if(reaction.emoji.name === "❌") return r_collector.stop();
 
             if(reaction.emoji.name === "✅") {
@@ -67,13 +67,12 @@ module.exports = async (bot, message, err, errMsg, command) => {
                 return r_collector.stop();
             }
 
-            reaction.remove(reaction.users.array()[reaction.users.array().length - 1].id);
+            reaction.remove(reaction.users.cache.array()[reaction.users.cache.array().length - 1].id);
         });
         r_collector.on('end', e => {
             let permissions = new Discord.Permissions(message.channel.permissionsFor(bot.user).bitfield);
             if(permissions && !permissions.has("MANAGE_MESSAGES")) return;
-            console.log(permissions, "Called for Clear Reactions");
-            msg.clearReactions();
+            msg.reactions.clearReactions();
         });
     });
 };

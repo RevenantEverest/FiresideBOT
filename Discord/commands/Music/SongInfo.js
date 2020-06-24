@@ -13,7 +13,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     if(!args[1] && server.queue.isPlaying) search = await utils.filter(server.queue.currentSongInfo.title, filterArr, { special: true });
     if(!args[1] && !server.queue.isPlaying) return message.channel.send('Please specify a song');
 
-    let embed = new Discord.RichEmbed();
+    let embed = new Discord.MessageEmbed();
 
     ksoftServices.getLyrics(search)
         .then(results => {
@@ -22,7 +22,6 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
             .setThumbnail(results.album_art)
             .setColor(0xff3399)
             .setTitle('**Song Info**')
-            .addBlankField()
             .addField('Artist: ', results.artist, true)
             .addField('Album: ', results.album, true)
             .addField('Song: ', results.name, true)
@@ -32,8 +31,11 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
             message.channel.send(embed);
         })
         .catch(err => {
-            if(err.response.status === 404)
-                return message.channel.send('Song not found');
+            if(err.response) {
+                if(err.response.status === 401)
+                    return message.channel.send('Song not found');
+                else return errorHandler(bot, message, err.response, "Ksoft API Error", "SongInfo");
+            }
             else errorHandler(bot, message, err, "Ksoft API Error", "SongInfo");
         })
 };

@@ -10,12 +10,12 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     async function handleFortunes(fortunes) {
         if(fortunes.fortunes.length > 5) return handlePagination(fortunes);
 
-        let embed = new Discord.RichEmbed();
+        let embed = new Discord.MessageEmbed();
         let fortuneStr = '';
 
         embed
         .setColor(0xcc33ff)
-        .setAuthor(message.guild.name, message.guild.iconURL)
+        .setAuthor(message.guild.name, message.guild.iconURL({ dynamic: true }))
         
         fortunes.fortunes.forEach((el, idx) => {
             fortuneStr += `${idx + 1}. ${el}\n`
@@ -29,7 +29,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
 
         let fieldValue = '';
         let category = 'Custom Fortunes';
-        let author = { text: message.guild.name, image: message.guild.iconURL };
+        let author = { text: message.guild.name, image: message.guild.iconURL({ dynamic: true }) };
         fortunes.fortunes.forEach((el, idx) => {
             fieldValue += `${idx + 1}. ${el}\n`
             if((idx + 1) % 5 === 0 && idx !== 0) {

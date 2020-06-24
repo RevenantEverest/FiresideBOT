@@ -1,10 +1,10 @@
 const Discord = require('discord.js');
 
 module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
-    let roles = message.guild.roles.array().map(el => {
+    let roles = message.guild.roles.cache.array().map(el => {
         return {id: el.id, name: el.name};
     });
-    let embed = new Discord.RichEmbed();
+    let embed = new Discord.MessageEmbed();
     let rolesStr = '';
     embed.setTitle(`**Roles**`).addField(`Number of Roles:`, roles.length);
     roles.forEach(el => {

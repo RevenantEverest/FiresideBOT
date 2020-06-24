@@ -30,7 +30,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
 
     gameStatServices.getApexStats({ platform: platform, profile: args[1]  })
         .then(results => {
-            let embed = new Discord.RichEmbed();
+            let embed = new Discord.MessageEmbed();
             let generalStats = results.data.data.stats[0];
             let characterStats = results.data.data.children[0];
             embed

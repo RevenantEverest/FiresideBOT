@@ -6,7 +6,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     if(!args[2]) return message.channel.send();
     if(!Number.isInteger(parseInt(args[2], 10))) return message.chennel.send();
 
-    let embed = new Discord.RichEmbed();
+    let embed = new Discord.MessageEmbed();
     let user_id = null;
     let reason = 'No Reason Given';
     let days = parseInt(args[2], 10);

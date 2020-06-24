@@ -9,7 +9,19 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
 
     async function updateLogSetting(settings) {
         if(!settings.enabled) return message.channel.send("Server Logging is already disabled");
-        let data = { guild_id: message.guild.id, enabled: false, channel_id: settings.channel_id };
+        let data = { 
+            guild_id: message.guild.id, 
+            enabled: false, 
+            channel_id: settings.channel_id,
+            member_role_change: settings.member_role_change,
+            member_nickname_change: settings.member_nickname_change,
+            emoji_create: settings.emoji_create,
+            emoji_update: settings.emoji_update,
+            emoji_delete: settings.emoji_delete,
+            role_create: settings.role_create,
+            role_update: settings.role_update,
+            role_delete: settings.role_delete
+        };
         logSettingsController.update(bot, message, "DisableServerLogging", data, () => {
             return message.channel.send("Server Logging is now **disabled**");
         });

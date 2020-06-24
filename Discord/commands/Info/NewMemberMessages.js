@@ -10,11 +10,11 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     async function handleNewMemberMessages(newMemberMessages) {
         if(newMemberMessages.messages.length > 5) return handlePagination(newMemberMessages);
 
-        let embed = new Discord.RichEmbed();
+        let embed = new Discord.MessageEmbed();
         let messagesStr = '';
         embed
         .setColor(0xcc33ff)
-        .setAuthor(message.guild.name, message.guild.iconURL)
+        .setAuthor(message.guild.name, message.guild.iconURL({ dynamic: true }))
 
         newMemberMessages.messages.forEach((el, idx) => {
             messagesStr += `${idx + 1}. ${el}\n`
@@ -27,7 +27,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
         let contentArr = [];
         let fieldValue = '';
         let category = 'New Member Messages';
-        let author = { text: message.guild.name, image: message.guild.iconURL };
+        let author = { text: message.guild.name, image: message.guild.iconURL({ dynamic: true }) };
         newMemberMessages.messages.forEach((el, idx) => {
             fieldValue += `${idx + 1}. ${el}\n`;
             if((idx + 1) % 5 === 0 && idx !== 0) {

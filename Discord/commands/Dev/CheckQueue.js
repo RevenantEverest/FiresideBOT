@@ -5,7 +5,7 @@ const utils = require('../utils/utils');
 module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(message.author.id !== "163346982709100546") return;
 
-    let embed = new Discord.RichEmbed();
+    let embed = new Discord.MessageEmbed();
     
     embed.setTitle('Queues In Progress').addBlankField()
 

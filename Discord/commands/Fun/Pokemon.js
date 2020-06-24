@@ -5,7 +5,7 @@ const errorHandler = require('../../controllers/errorHandler');
 
 async function getPokemon(message, args, id) {
     let pokemonPromises = [pokemonServices.getPokemon(id)];
-    let pokemonEmbed = new Discord.RichEmbed();
+    let pokemonEmbed = new Discord.MessageEmbed();
     // Flag Check
     if(args[1] === '-i' || args[2] === '-i') pokemonPromises.push(pokemonServices.getPokemonSpecies(id));
 

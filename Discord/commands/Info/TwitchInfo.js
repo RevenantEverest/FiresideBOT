@@ -45,7 +45,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     };
 
     async function handleEmbed() {
-        let embed = new Discord.RichEmbed();
+        let embed = new Discord.MessageEmbed();
         let broadcaster_type = info.broadcaster_type !== '' ? info.broadcaster_type : 'Standard';
 
         embed
@@ -66,7 +66,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
 
         embed
         .addField("Followers:", info.followers.toLocaleString(), true)
-        .addField("Total Views:", info.followers.toLocaleString(), true)
+        .addField("Total Views:", info.totalViews.toLocaleString(), true)
         .addField("Account Type:", broadcaster_type.charAt(0).toUpperCase() + broadcaster_type.substr(1), true)
         message.channel.send(embed);
     };

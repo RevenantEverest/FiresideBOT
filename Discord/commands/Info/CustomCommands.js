@@ -38,10 +38,10 @@ const errorHandler = require('../../controllers/errorHandler');
 
 async function parseData(bot, message, args, commands) {
     let category = `Custom Commands`;
-    let author = { text: message.guild.name, image: message.guild.iconURL };
+    let author = { text: message.guild.name, image: message.guild.iconURL({ dynamic: true }) };
     
     if(commands.length <= 5) {
-        let embed = new Discord.RichEmbed();
+        let embed = new Discord.MessageEmbed();
         embed
         .setAuthor(author.text, author.image)
         .setTitle(category)

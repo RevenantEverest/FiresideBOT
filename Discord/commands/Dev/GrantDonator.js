@@ -50,12 +50,13 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     };
 
     async function handleUserEmbed(record) {
-        let discordUser = bot.users.get(record.discord_id);
-        let embed = new Discord.RichEmbed();
+        let discordUser = bot.users.resolve(record.discord_id);
+        let embed = new Discord.MessageEmbed();
 
         embed
         .setColor(0x00ff00)
-        .addField("You Have Been Granted Fireside Premium!", `Your premium will end on ${moment(record.end_date).format("MMMM Do YYYY")}`)
+        .setTitle("You Have Been Granted Fireside Premium!")
+        .setDescription(`Your premium will end on ${moment(record.end_date).format("MMMM Do YYYY")}`)
 
         if(discordUser) discordUser.send(embed);
         message.channel.send("Donator Status Granted");
@@ -63,14 +64,15 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     };
 
     async function handleGuildEmbed(record) {
-        let guild =  bot.guilds.get(record.guild_id);
-        let channels = guild.channels.array();
+        let guild =  bot.guilds.resolve(record.guild_id);
+        let channels = guild.channels.cache.array();
         let notification = { general: null, channels: null };
-        let embed = new Discord.RichEmbed();
+        let embed = new Discord.MessageEmbed();
 
         embed
         .setColor(0x00ff00)
-        .addField(`Your Server Has Been Granted Fireside Premium!`, `Your premium will end on ${moment(record.end_date).format("MMMM Do YYYY")}`);
+        .setTitle(`Your Server Has Been Granted Fireside Premium!`)
+        .setDescription(`Your premium will end on ${moment(record.end_date).format("MMMM Do YYYY")}`);
 
         for(let i = 0; i < channels.length; i++) {
             if(channels[i].type !== 'text') continue;
@@ -82,13 +84,13 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
                 notification.channels = channels[i];
         }
     
-        notification.general ? bot.channels.get(notification.general.id).send(embed) : bot.channels.get(notification.channels.id).send(embed);
+        notification.general ? bot.channels.resolve(notification.general.id).send(embed) : bot.channels.resolve(notification.channels.id).send(embed);
         message.channel.send("Server Donator Status Granted");
         handleLogEmbed(record);
     };
 
     async function handleLogEmbed(record) {
-        let embed = new Discord.RichEmbed();
+        let embed = new Discord.MessageEmbed();
 
         embed
         .setColor(0xff33cc)
@@ -96,9 +98,9 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
         .addField(record.guild_id ? "Guild ID:" : "Discord ID:", record.guild_id ? record.guild_id : record.discord_id, true)
         .addField("Start Date:", moment(record.start_date).format("MMMM Do YYYY"), true)
         .addField("End Date:", moment(record.end_date).format("MMMM Do YYYY"), true)
-        .setFooter(`Granted By: ${message.author.username}`, message.author.avatarURL)
+        .setFooter(`Granted By: ${message.author.username}`, message.author.avatarURL({ dynamic: true }))
 
-        bot.channels.get("543862697742172179").send(embed);
+        bot.channels.resolve("543862697742172179").send(embed);
     };
 };
 

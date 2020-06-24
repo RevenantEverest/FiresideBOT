@@ -34,11 +34,12 @@ async function sendEmbed(message, settings, ranks, record) {
     let Level = await utils.calculateLevel(settings.complexity, (parseInt(record.xp, 10) + parseInt(settings.general_increase_rate, 10)));
     let RankName = ranks.length <= Level ?  ranks[ranks.length - 1].rank_name : ranks.filter(el => el.rank_number === Level)[0].rank_name;
 
-    let embed = new Discord.RichEmbed();
+    let embed = new Discord.MessageEmbed();
     embed
     .setColor(0xff66b3)
-    .setThumbnail(message.author.avatarURL)
-    .addField(`${message.author.username}'s Rank`, 
+    .setThumbnail(message.author.avatarURL({ dynamic: true }))
+    .setAuthor(`${message.author.username}'s Rank`, message.author.avatarURL({ dynamic: true }))
+    .setDescription( 
         `**Rank:** ${RankName}\n` + 
         `**Tier:** ${Level > ranks.length ? ranks.length : Level.toLocaleString()}\n` +
         `**EXP:** ${parseInt(record.xp, 10).toLocaleString()}`

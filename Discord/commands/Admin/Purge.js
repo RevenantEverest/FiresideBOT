@@ -18,13 +18,13 @@ async function checkLogSettings(bot, message, msg) {
 };
 
 async function sendEmbed(bot, message, msg, settings) {
-    let embed = new Discord.RichEmbed();
+    let embed = new Discord.MessageEmbed();
     embed
     .setColor(0xff0000)
     .addField('Bulk Message Delete', `**Amount**: ${msg.size}`)
-    .setFooter(`Used by: ${message.author.username} on ${await utils.getDate()}`, message.author.avatarURL)
+    .setFooter(`Used by: ${message.author.username} on ${await utils.getDate()}`, message.author.avatarURL({ dynamic: true }))
 
-    if(settings) return bot.channels.get(settings.channel_id).send(embed);
+    if(settings) return bot.channels.resolve(settings.channel_id).send(embed);
     else message.channel.send(embed);
 };
 
@@ -39,7 +39,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
 
     
     
-    message.channel.fetchMessages({ limit: messagecount })
+    message.channel.messages.fetch({ limit: messagecount })
     .then(messages => {
         let deleteMessages = messages;
         if(userId) deleteMessages = messages.array().filter(el => el.author.id === userId);

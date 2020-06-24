@@ -29,7 +29,7 @@ const Discord = require('discord.js');
 */
 
 async function handleEmbed(contentArr, options, index) {
-    let embed = new Discord.RichEmbed();
+    let embed = new Discord.MessageEmbed();
 
     if(options.title) embed.setTitle(`**${contentArr[index].category}**`);
     else if(!options.title) embed.addField(`**${contentArr[index].category[0]}**`, contentArr[index].category[1]);
@@ -51,10 +51,10 @@ async function handleMessage(message, msg, bot, contentArr, options, index) {
     await msg.react("⏹");
     await msg.react("⏩");
         
-    const r_collector = new Discord.ReactionCollector(msg, r => r.users.array()[r.users.array().length - 1].id === message.author.id, { time: (options.time * 60000) });
+    const r_collector = new Discord.ReactionCollector(msg, r => r.users.cache.array()[r.users.cache.array().length - 1].id === message.author.id, { time: (options.time * 60000) });
 
     r_collector.on('collect', async (reaction, user) => {
-        if(reaction.users.array()[reaction.users.array().length - 1].id === bot.user.id) return;
+        if(reaction.users.cache.array()[reaction.users.cache.array().length - 1].id === bot.user.id) return;
         if(reaction.emoji.name === "⏹") return r_collector.stop();
 
         if(reaction.emoji.name === "⏪") index === 0 ? index = (contentArr.length - 1) : index--;
@@ -69,7 +69,7 @@ async function handleMessage(message, msg, bot, contentArr, options, index) {
         
         let permissions =  new Discord.Permissions(message.channel.permissionsFor(bot.user).bitfield);
         if(!permissions.has("MANAGE_MESSAGES")) return;
-        msg.clearReactions();
+        msg.reactions.removeAll();
     });
 };
 

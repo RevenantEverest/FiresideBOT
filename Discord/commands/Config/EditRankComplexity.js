@@ -14,7 +14,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     async function updateSettings(settings) {
         let data = { guild_id: message.guild.id, general_increase_rate: settings.general_increase_rate, complexity: parseInt(args[1], 10), channel_id: settings.channel_id };
         rankSettingsController.update(bot, message, "EditRankComplexity", data, (newSettings) => {
-            return message.channel.send(`Server rank complexity updated to **${newSettings.complexity}**`);
+            return message.channel.send(`Server Rank Complexity updated to **${newSettings.complexity}**`);
         });
     };
 };

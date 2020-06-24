@@ -1,11 +1,11 @@
 const config = require('../config/config');
-const apiTokensContoller = require('./dbControllers/apiTokensController');
+const apiTokenContoller = require('./dbControllers/apiTokensController');
 const twitchServices = require('../services/twitchServices');
 const moment = require('moment');
 const services = {};
 
 services.getToken = (callback) => {
-    apiTokensContoller.getByService("twitch", handleToken, () => {
+    apiTokenContoller.getByService("twitch", handleToken, () => {
         services.generateToken(generatedToken => {
             services.save(generatedToken, handleToken);
         }); 
@@ -18,7 +18,7 @@ services.getToken = (callback) => {
 };
 
 services.updateToken = (callback) => {
-    apiTokensContoller.getByService("twitch", updateToken, () => {
+    apiTokenContoller.getByService("twitch", updateToken, () => {
         services.generateToken(generatedToken => {
             services.save(generatedToken, handleToken);
         }); 
@@ -26,7 +26,7 @@ services.updateToken = (callback) => {
 
     async function updateToken(token) {
         services.generateToken(generatedToken => {
-            services.update(generatedToken, callback)
+            services.update(token, generatedToken, callback)
         });
     };
 
@@ -50,7 +50,7 @@ services.save = (generatedToken, callback) => {
         expires_in: generatedToken.expires_in,
         date: moment()
     };
-    apiTokensContoller.save(data, handleToken);
+    apiTokenContoller.save(data, handleToken);
 
     async function handleToken(token) {
         config.accessTokens.twitch = token.token;
@@ -63,7 +63,7 @@ services.update = (token, generatedToken, callback) => {
     token.expires_in = generatedToken.expires_in;
     token.date = moment();
 
-    apiTokensContoller.update(data, handleToken);
+    apiTokenContoller.update(token, handleToken);
 
     async function handleToken(token) {
         config.accessTokens.twitch = token.token;

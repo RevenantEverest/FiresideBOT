@@ -57,8 +57,8 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     };
 
     async function handleUserEmbed(record) {
-        let discordUser = bot.users.get(record.discord_id);
-        let embed = new Discord.RichEmbed();
+        let discordUser = bot.users.resolve(record.discord_id);
+        let embed = new Discord.MessageEmbed();
 
         embed
         .setColor(0xff0000)
@@ -71,10 +71,10 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     };
 
     async function handleGuildEmbed(record) {
-        let guild =  bot.guilds.get(record.guild_id);
-        let channels = guild.channels.array();
+        let guild =  bot.guilds.resolve(record.guild_id);
+        let channels = guild.channels.cache.array();
         let notification = { general: null, channels: null };
-        let embed = new Discord.RichEmbed();
+        let embed = new Discord.MessageEmbed();
 
         embed
         .setColor(0xff0000)
@@ -91,13 +91,13 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
                 notification.channels = channels[i];
         }
     
-        notification.general ? bot.channels.get(notification.general.id).send(embed) : bot.channels.get(notification.channels.id).send(embed);
+        notification.general ? bot.channels.resolve(notification.general.id).send(embed) : bot.channels.resolve(notification.channels.id).send(embed);
         message.channel.send("Server Donator Status Revoked");
         handleLogEmbed(record);
     };
 
     async function handleLogEmbed(record) {
-        let embed = new Discord.RichEmbed();
+        let embed = new Discord.MessageEmbed();
 
         embed
         .setColor(0xff9900)
@@ -107,7 +107,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
         .addField("End Date:", moment(record.end_date).format("MMMM Do YYYY"), true)
         .setFooter(`Revoked By: ${message.author.username}`, message.author.avatarURL)
 
-        bot.channels.get("543862697742172179").send(embed);
+        bot.channels.resolve("543862697742172179").send(embed);
     };
 };
 

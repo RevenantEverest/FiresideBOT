@@ -7,7 +7,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     apiServices.getDadJoke()
     .then(joke => {
         if(args.includes("-i")) {
-            let embed = new Discord.RichEmbed();
+            let embed = new Discord.MessageEmbed();
             embed
             .setColor(0xff99cc)
             .setImage(`https://icanhazdadjoke.com/j/${joke.data.id}.png`);

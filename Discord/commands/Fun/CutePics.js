@@ -6,11 +6,12 @@ const errorHandler = require('../../controllers/errorHandler');
 module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     ksoftServices.randomCutePics()
     .then(cutePic => {
-        let embed = new Discord.RichEmbed();
+        let embed = new Discord.MessageEmbed();
         embed
         .setColor(0xff66cc)
         .setFooter(`Powered By KSoft.Si`, `https://cdn.ksoft.si/images/Logo1024-W.png`)
-        .addField(cutePic.data.author, `${cutePic.data.title}\n[Source](${cutePic.data.source})`)
+        .setTitle(cutePic.data.author)
+        .setDescription(`${cutePic.data.title}\n\n[Source](${cutePic.data.source})`)
         .setImage(cutePic.data.image_url)
 
         message.channel.send(embed);

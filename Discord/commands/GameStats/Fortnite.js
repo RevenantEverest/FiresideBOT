@@ -35,7 +35,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
 
             let username = results.data.epicUserHandle;
             let lifeStats = results.data.lifeTimeStats;
-            let embed = new Discord.RichEmbed();
+            let embed = new Discord.MessageEmbed();
             embed
             .setColor(0x00ffff)
             .setThumbnail('https://pbs.twimg.com/profile_images/1017458813199372289/QtGv1tyn_400x400.jpg')

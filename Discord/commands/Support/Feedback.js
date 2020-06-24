@@ -15,7 +15,7 @@ async function getDate() {
 
 module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(!args[1]) return message.channel.send('Please write a message to send as feedback');
-    let embed = new Discord.RichEmbed();
+    let embed = new Discord.MessageEmbed();
     args.splice(0, 1);
     if(args.join(" ").split("").length >= 1024) return message.channel.send("Please reduce message size to under 1024 characters.");
     embed
@@ -25,7 +25,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     .addField('ID: ', message.author.id, true)
     .addField('Message: ', args.join(" "))
     .setFooter(`Message received ${await getDate()}`)
-    bot.channels.get('542548055392780313').send(embed);
+    bot.channels.resolve('542548055392780313').send(embed);
     message.channel.send('Message sent! Thank you for your Feedback!');
 };
 

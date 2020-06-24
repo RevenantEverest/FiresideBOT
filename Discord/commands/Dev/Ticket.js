@@ -15,7 +15,7 @@ async function getTicket(id, bot, message) {
 async function displayOpenTickets(bot, args, message) {
     discordTicketsDB.findAll()
     .then(tickets => {
-        let embed = new Discord.RichEmbed();
+        let embed = new Discord.MessageEmbed();
         let ticketID = '';
         let mostRecent = null;
 
@@ -46,7 +46,7 @@ async function displayOpenTickets(bot, args, message) {
 async function displayClosedTickets(bot, args, message) {
     discordClosedTicketsDB.findAll()
     .then(tickets => {
-        let embed = new Discord.RichEmbed();
+        let embed = new Discord.MessageEmbed();
         let mostRecent = tickets[tickets.length - 1];
 
         embed
@@ -69,7 +69,7 @@ async function displayTicket(bot, args, message) {
     if(!Number.isInteger(parseInt(args[1], 10))) return message.channel.send("Please specify a valid Ticket ID");
 
     let ticket = await getTicket(parseInt(args[1], 10));
-    let embed = new Discord.RichEmbed();
+    let embed = new Discord.MessageEmbed();
 
     embed
     .setColor(0x00ff00)
@@ -85,7 +85,7 @@ async function displayTicket(bot, args, message) {
 
 async function respondToTicket(bot, args, message) {
     let ticket = await getTicket(parseInt(args[2], 10), bot, message);
-    let embed = new Discord.RichEmbed();
+    let embed = new Discord.MessageEmbed();
 
     if(!ticket) return message.channel.send("Ticket not found");
 

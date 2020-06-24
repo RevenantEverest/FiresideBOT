@@ -3,7 +3,7 @@ const utils = require('../utils/utils');
 
 async function handleVote(bot, message, server, memberData) {
     if(memberData.count <= 1) server.dispatcher.end();
-    let embed = new Discord.RichEmbed();
+    let embed = new Discord.MessageEmbed();
     let whoVoted = [];
     let voteData = { needed: Math.floor(memberData.count / 2), upvotes: 0 };
 
@@ -20,7 +20,7 @@ async function handleVote(bot, message, server, memberData) {
 
             reaction.users.array().forEach(el => {
                 if(!whoVoted.includes(el.id) && memberData.members.includes(el.id)) {
-                    let updateEmbed = new Discord.RichEmbed();
+                    let updateEmbed = new Discord.MessageEmbed();
                     whoVoted.push(el.id);
                     
                     if(reaction.emoji.name === "✅") {
@@ -54,8 +54,10 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
         };
         handleVote(bot, message, server, memberData);
     }
-    else if(server.dispatcher)
+    else if(server.dispatcher) {
+        // console.log(server.dispatcher.player.broadcast)
         server.dispatcher.end();
+    }
 };
 
 module.exports.config = {

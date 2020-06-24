@@ -19,14 +19,13 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     };
 
     async function sendEmbed(settings, userCurrency) {
-        let embed = new Discord.RichEmbed();
+        let embed = new Discord.MessageEmbed();
         embed
         .setColor(0xff6600)
-        .addField("Bank Records For:", `${message.author.username}`, true)
-        .addField("Server: ", `${message.guild.name}`, true)
-        .addBlankField()
-        .addField(`${settings.currency_name}:`, parseInt(userCurrency.currency, 10).toLocaleString())
+        .setAuthor(`Bank Records For ${message.author.username} #${message.author.discriminator}`, message.author.avatarURL({ dynamic: true }))
+        .setDescription(`**${settings.currency_name}:** ${parseInt(userCurrency.currency, 10).toLocaleString()}`)
         .setThumbnail('https://i.imgur.com/PzZmx1l.png')
+        .setFooter(message.guild.name, message.guild.iconURL({ dynamic: true }))
         message.channel.send(embed);
     };
 };

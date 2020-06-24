@@ -69,7 +69,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     };
 
     async function handleCompleteEmbed(character, stats, equipment) {
-        let embed = new Discord.RichEmbed();
+        let embed = new Discord.MessageEmbed();
 
         embed
         .setColor(0x00ff00)

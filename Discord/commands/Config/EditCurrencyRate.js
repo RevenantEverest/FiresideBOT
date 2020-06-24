@@ -13,7 +13,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     async function updateCurrencySettings(settings) {
         let data = { guild_id: message.guild.id, currency_name: settings.currency_name, currency_increase_rate: parseInt(args[1], 10) };
         currencyController.updateSettings(bot, message, "EditCurrencyRate", data, (newSettings) => {
-            return message.channel.send(`Server currency increase rate updated to **${newSettings.currency_increase_rate}**`);
+            return message.channel.send(`Server Currency Increase Rate per message updated to **${newSettings.currency_increase_rate}**`);
         });
     };
 };

@@ -45,14 +45,16 @@ async function handleRankInfo(bot, settings, rank, message) {
 };
 
 async function sendEmbed(settings, rank, rankMembers, message) {
-    let embed = new Discord.RichEmbed();
+    let embed = new Discord.MessageEmbed();
     embed
     .setColor(0xff66b3)
-    .addField(`**${rank.rank_name}**`,
-        `**Rank ID**: ${rank.id}\n` +
+    .setAuthor(`Rank Info`, message.guild.iconURL({ dynamic: true }))
+    .setTitle(rank.rank_name)
+    .setDescription(
         `**Tier**: ${rank.rank_number}\n` +
         `**Members At Rank**: ${rankMembers.length}`
     )
+    .setFooter(`Rank ID: ${rank.id}`)
 
     message.channel.send(embed);
 }

@@ -5,6 +5,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
 
     let re = new RegExp(`${this.config.flags.join("|")}`, "ig");
     let matches = args.join(" ").match(re);
+    let moduleMessage = "";
 
     if(!matches) return message.channel.send("Invalid flag provided");
 
@@ -12,27 +13,35 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     matches.forEach(el => {
         switch(el) {
             case "-mrc":
+                moduleMessage = "**Member Role Change**";
                 modules.memberRoleChange = {enabled: false};
                 break;
             case "-mnc":
+                moduleMessage = "**Member Nickname Change**";
                 modules.memberNicknameChange = {enabled: false};
                 break;
             case "-ec":
+                moduleMessage = "**Emoji Create**";
                 modules.emojiCreate = {enabled: false};
                 break;
             case "-eu":
+                moduleMessage = "**Emoji Update**";
                 modules.emojiUpdate = {enabled: false};
                 break;
             case "-ed":
+                moduleMessage = "**Emoji Delete**";
                 modules.emojiDelete = {enabled: false};
                 break;
             case "-rc":
+                moduleMessage = "**Role Create**";
                 modules.roleCreate = {enabled: false};
                 break;
             case "-ru":
+                moduleMessage = "**Role Update**";
                 modules.roleUpdate = {enabled: false};
                 break;
             case "-rd":
+                moduleMessage = "**Role Delete**";
                 modules.roleDelete = {enabled: false};
                 break;
             default:
@@ -62,7 +71,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
 
         console.log(data.member_role_change);
         logSettingsController.update(bot, message, "DisableServerLoggingModule", data, () => {
-            return message.channel.send("Server Logging Modules Updated");
+            return message.channel.send(`Server Logging Module ${moduleMessage} disabled`);
         });
     };
 };

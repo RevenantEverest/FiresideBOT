@@ -60,8 +60,8 @@ module.exports = {
     async openTicket(bot, message) {
         discordTicketsDB.save({ discord_id: message.author.id, initial_message: message.content, ticket_date: await getDate() })
             .then(ticket => {
-                let responseEmbed = new Discord.RichEmbed();
-                let serverEmbed = new Discord.RichEmbed();
+                let responseEmbed = new Discord.MessageEmbed();
+                let serverEmbed = new Discord.MessageEmbed();
                 responseEmbed
                 .setColor(0x00ff00)
                 .addField("Ticket Received", 'A member from out support team will be with your shortly')
@@ -77,12 +77,12 @@ module.exports = {
                 .setFooter(`Received ${ticket.ticket_date}`)
 
                 message.author.send(responseEmbed);
-                bot.channels.get('542561301302345760').send(serverEmbed);
+                bot.channels.resolve('542561301302345760').send(serverEmbed);
             })
             .catch(err => console.error(err));
     },
     async userResponse(bot, message, messageContent, ticket) {
-        let embed = new Discord.RichEmbed();
+        let embed = new Discord.MessageEmbed();
 
         embed
         .setColor(0xffff4d)
@@ -93,7 +93,7 @@ module.exports = {
         .addField('Message:', messageContent)
         .setFooter(`Received ${await getDate()}`)
 
-        bot.channels.get('542561301302345760').send(embed);
+        bot.channels.resolve('542561301302345760').send(embed);
         message.author.send('Message received')
     },
     async closeTicket(bot, message, ticket, reason) {
@@ -109,8 +109,8 @@ module.exports = {
         };
         discordClosedTicketsDB.save(data)
             .then(() => {
-                let userEmbed = new Discord.RichEmbed();
-                let serverEmbed = new Discord.RichEmbed();
+                let userEmbed = new Discord.MessageEmbed();
+                let serverEmbed = new Discord.MessageEmbed();
 
                 userEmbed
                 .setColor(0xff0000)
@@ -125,7 +125,7 @@ module.exports = {
                 .setFooter(`Closed by ${message.author.username} on ${data.close_date}`)
 
                 bot.users.get(ticket.discord_id).send(userEmbed);
-                bot.channels.get('542561301302345760').send(serverEmbed);
+                bot.channels.resolve('542561301302345760').send(serverEmbed);
             })
             .catch(err => console.error(err));
     }

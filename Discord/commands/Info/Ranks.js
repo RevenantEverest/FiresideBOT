@@ -8,16 +8,15 @@ const qrec = pgp.errors.queryResultErrorCode;
 const errorHandler = require('../../controllers/errorHandler');
 
 module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
-    let embed = new Discord.RichEmbed();
+    let embed = new Discord.MessageEmbed();
     embed
     .setColor(0xffd633)
-    .setThumbnail(message.guild.iconURL)
+    .setThumbnail(message.guild.iconURL({ dynamic: true }))
+    .setAuthor(`Available Ranks for ${message.guild.name}`, message.guild.iconURL({ dynamic: true }))
     db.findByGuildId(message.guild.id)
     .then(ranks => {
         let ranksField = '';
-        embed
-        .addField("Available Ranks", `**Total**: ${ranks.length}`)
-        .addBlankField();
+        embed.setDescription(`**Total Ranks:** ${ranks.length}`);
         ranks.forEach(el => ranksField += `${el.rank_number}. **${el.rank_name}** *ID*: ${el.id}\n`);
         embed.addField(`Ranks:`, ranksField)
         message.channel.send(embed);

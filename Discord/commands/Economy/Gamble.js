@@ -30,14 +30,14 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
         let data = { currency: newAmount, discord_id: message.author.id, guild_id: message.guild.id };
         discordCurrencyController.update(bot, message, "Gamble", data, () => {
             return message.channel.send(
-                `**${message.author.username}** rolled a **${RNG}** and ${RNG > 50 ? "won" : "lost"} **${(amountWagered * 2).toLocaleString()}** ` + 
+                `**${message.author.username}** rolled a **${RNG}** and ${RNG > 75 ? "won" : "lost"} **${(amountWagered * 2).toLocaleString()}** ` + 
                 `**${cSettings.currency_name}** and now has **${newAmount.toLocaleString()} ${cSettings.currency_name}**`
             );
         });
     };
 
     async function handleNoRecord() {
-        let data = { discord_id: message.author.id, guild_id: message.guild.id, currency: 0 }
+        let data = { discord_id: message.author.id, guild_id: message.guild.id, currency: 0 };
         discordCurrencyController.save(bot, message, "Balance", data, updateRecord);
     };
 };

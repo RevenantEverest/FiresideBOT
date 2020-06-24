@@ -7,7 +7,7 @@ async function updateUpdatePending(message, options) {
 };
 
 async function displayEnv(message, options) {
-    let embed = new Discord.RichEmbed();
+    let embed = new Discord.MessageEmbed();
 
     embed
     .setColor(0xffcc00)
