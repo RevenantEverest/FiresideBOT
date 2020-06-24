@@ -432,10 +432,10 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Params**: Number  
 **Example**: `?roll 20`  
 
-- [Thanos](https://help.firesidebot.com/commands/thanos)   
+- [ThanosQuote](https://help.firesidebot.com/commands/thanosquote)   
 **Desc**: Displays a random Thanos quote  
-**Aliases**:   
-**Example**: `?thanos`  
+**Aliases**: `tq`   
+**Example**: `?thanosquote`  
 
 - [Trivia](https://help.firesidebot.com/commands/trivia) `[param]`  
 **Desc**: Starts a trivia game  
@@ -695,11 +695,6 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Desc**: Redeem daily rewards  
 **Aliases**: `d`   
 **Example**: `?daily`  
-
-- [Emojis](https://help.firesidebot.com/commands/emojis)   
-**Desc**: Displays the servers custom emojis  
-**Aliases**:   
-**Example**: `?emojis`  
 
 - [Leave](https://help.firesidebot.com/commands/leave)   
 **Desc**: Removes Fireside from your server  
