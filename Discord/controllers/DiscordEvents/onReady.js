@@ -21,14 +21,9 @@ async function setBotActivity(bot) {
 module.exports = async (bot, getCommands) => {
 
     getCommands();
-    twitchTokensController.getToken(async () => {
-        if(process.env.ENVIRONMENT === "DEV") return console.log(chalk.hex('#ff9900')('[LOG]') +' Discord Tokens Set');
 
-        let embed = new Discord.MessageEmbed();
-        embed.setColor(0xff9900).setTitle("Discord Tokens Set").setFooter(await utils.getDate());
-
-        bot.channels.resolve("543862697742172179").send(embed);
-    });
+    if(!config.accessTokens.twitch) 
+        twitchTokensController.getToken(sendTokenSetEmbed);
     
     bot.user.setActivity("The Campfire | ?help", {type: "WATCHING"});
     setInterval(() => setBotActivity(bot), 7200000);
@@ -46,4 +41,13 @@ module.exports = async (bot, getCommands) => {
     embed.setColor(0xff9900).setTitle("FiresideBOT Ready").setFooter(await utils.getDate());
 
     bot.channels.resolve("543862697742172179").send(embed);
+
+    async function sendTokenSetEmbed() {
+        if(process.env.ENVIRONMENT === "DEV") return console.log(chalk.hex('#ff9900')('[LOG]') +' Discord Tokens Set');
+
+        let embed = new Discord.MessageEmbed();
+        embed.setColor(0xff9900).setTitle("Discord Tokens Set").setFooter(await utils.getDate());
+
+        bot.channels.resolve("543862697742172179").send(embed);
+    }
 }

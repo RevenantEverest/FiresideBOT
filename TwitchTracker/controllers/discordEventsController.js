@@ -13,7 +13,9 @@ async function getDate() {
 
 services.handleOnReady = async (bot) => {
 
-    tokenController.getToken(handleTrackers);
+    if(!config.accessTokens.twitch) tokenController.getToken(handleTrackers);
+    else handleTrackers();
+    
 
     // DEFAULT INTERVAL: 120000
     async function handleTrackers() {
