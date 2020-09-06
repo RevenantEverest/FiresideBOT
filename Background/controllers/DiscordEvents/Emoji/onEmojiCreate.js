@@ -19,7 +19,7 @@ module.exports = async (bot, emoji) => {
         let embed = new Discord.MessageEmbed();
         embed
         .setColor(0x00ff00)
-        .setAuthor(`Emoji created by ${executor.username}#${executor.discriminator}`, executor.avatarURL() ? executor.avatarURL() : "https://i.imgur.com/CBCTbyK.png")
+        .setAuthor(`Emoji created by ${executor.username}#${executor.discriminator}`, executor.avatarURL({ dynamic: true }) ? executor.avatarURL({ dynamic: true }) : "https://i.imgur.com/CBCTbyK.png")
         .setDescription(`**Emoji**: <:${emoji.name}:${emoji.id}>\n**Name**: ${emoji.name}`)
         .setFooter(`Emoji ID: ${emoji.id}`)
 

@@ -51,8 +51,8 @@ module.exports = async (bot, oldMember, newMember) => {
         let embed = new Discord.MessageEmbed();
         let executor = audit.executor;
         embed
-        .setAuthor(`Member Updated by ${executor.username}#${executor.discriminator}`, executor.avatarURL() ? executor.avatarURL() : "https://i.imgur.com/CBCTbyK.png")
-        .setThumbnail(newMember.user.avatarURL() ? newMember.user.avatarURL() : "https://i.imgur.com/CBCTbyK.png")
+        .setAuthor(`Member Updated by ${executor.username}#${executor.discriminator}`, executor.avatarURL({ dynamic: true }) ? executor.avatarURL({ dynamic: true }) : "https://i.imgur.com/CBCTbyK.png")
+        .setThumbnail(newMember.user.avatarURL({ dynamic: true }) ? newMember.user.avatarURL({ dynamic: true }) : "https://i.imgur.com/CBCTbyK.png")
         .setFooter(`Member ID: ${newMember.user.id}`)
         .setColor(0xff9900)
         .setDescription(updateText)

@@ -27,15 +27,15 @@ module.exports = async (bot, member) => {
             embed
             .setAuthor(
                 `Member Kicked by ${audit.executor.username}#${audit.executor.discriminator}`, 
-                audit.executor.avatarURL() ? audit.executor.avatarURL() : "https://i.imgur.com/CBCTbyK.png"
+                audit.executor.avatarURL({ dynamic: true }) ? audit.executor.avatarURL({ dynamic: true }) : "https://i.imgur.com/CBCTbyK.png"
             )
             if(audit.reason)
                 embed.setDescription(`**Reason**: ${audit.reason}`)
         }
-        else embed.setAuthor(`Member Left`, member.user.avatarURL() ? member.user.avatarURL() : "https://i.imgur.com/CBCTbyK.png")
+        else embed.setAuthor(`Member Left`, member.user.avatarURL({ dynamic: true }) ? member.user.avatarURL({ dynamic: true }) : "https://i.imgur.com/CBCTbyK.png")
 
         embed
-        .setThumbnail(member.user.avatarURL() ? member.user.avatarURL() : "https://i.imgur.com/CBCTbyK.png")
+        .setThumbnail(member.user.avatarURL({ dynamic: true }) ? member.user.avatarURL({ dynamic: true }) : "https://i.imgur.com/CBCTbyK.png")
         .setColor(0xff0000)
         .setDescription(`**Member:** ${member.user.username}#${member.user.discriminator}`)
         .setFooter(`Member ID: ${member.user.id}`)

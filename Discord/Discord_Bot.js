@@ -12,33 +12,32 @@ async function getCommands() {
     Discord_Bot.aliases = new Discord.Collection();
     Discord_Bot.config = new Discord.Collection();
 
-  /*
-      Pulls all files from the command directory
-      For each file sets the name in the config from that file as an element in Discord.Collection
-      For each file config, takes the aliases in the config and stores them in Discord.Collection
-  */
-    for(let i = 0; i < config.categories.length; i++) {
-        let path = `/commands/${config.categories[i].name}`;
-        fs.readdir(`.${path}`, async (err, files) => {
+    /*
+        Pulls all files from the command directory
+        For each file sets the name in the config from that file as an element in Discord.Collection
+        For each file config, takes the aliases in the config and stores them in Discord.Collection
+    */
+    config.commands = [];
+    config.categories.forEach((el, idx) => {
+        let path = `/commands/${el.name}`;
+        fs.readdir(`.${path}`, (err, files) => {
             if(err) console.error(err);
             let jsfile = files.filter(f => f.split(".").pop() === 'js');
-            if(jsfile.length <= 0) return console.error(chalk.hex('#ff9900')("[LOG]") + " Couldn't find Commands");
-            jsfile.forEach((f, i) => {
-                let pull = require(`.${path}/${f}`);
+            if(jsfile.length <= 0) 
+                return console.error(chalk.hex('#ff9900')("[LOG]") + " Couldn't find Commands");
+            
+            jsfile.forEach((file, idx) => {
+                let pull = require(`.${path}/${file}`);
                 Discord_Bot.commands.set(pull.config.name, pull);
                 config.commands.push(pull.config);
 
-                pull.config.aliases.forEach(alias => {
-                    Discord_Bot.aliases.set(alias, pull.config.name);
-                });
+                pull.config.aliases.forEach(alias => Discord_Bot.aliases.set(alias, pull.config.name))
             });
         });
-    };
+    });
 
     console.log(chalk.hex('#ff9900')("[LOG]") + " Commands Set");
-
-    // For Loop Doesn't wait to be finished, ReadMe won't properly update without waiting setTimeout
-    setTimeout(() => readmeController.write(), 2000);
+    readmeController.write();
 };
 
 Discord_Bot.on("ready", () => require('./controllers/DiscordEvents/onReady')(Discord_Bot, getCommands));

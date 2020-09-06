@@ -26,7 +26,7 @@ module.exports = async (bot, member) => {
 
         let embed = new Discord.MessageEmbed();
         embed
-        .setAuthor(`New Member ${member.user.username}#${member.user.discriminator}`, member.user.avatarURL() ? member.user.avatarURL() : "https://i.imgur.com/CBCTbyK.png")
+        .setAuthor(`New Member ${member.user.username}#${member.user.discriminator}`, member.user.avatarURL({ dynamic: true }) ? member.user.avatarURL({ dynamic: true }) : "https://i.imgur.com/CBCTbyK.png")
         .setColor(0x00ff00)
         .setFooter(`Member ID: ${member.user.id}`)
 

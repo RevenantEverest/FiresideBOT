@@ -8,7 +8,7 @@ module.exports = async (bot, guild) => {
     guildLogsController.getByGuildId(guild, sendIntroMessage);
 
     async function sendIntroMessage() {
-        const channels = guild.channels.array();
+        const channels = guild.channels.cache.array();
         let embed = new Discord.MessageEmbed();
         let welcome = { general: null, channels: null };
 

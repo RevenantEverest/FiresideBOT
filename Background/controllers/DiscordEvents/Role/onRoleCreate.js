@@ -20,7 +20,7 @@ module.exports = async (bot, role) => {
 
         embed
         .setColor(0x00ff00)
-        .setAuthor(`Role Created by ${executor.username}#${executor.discriminator}`, executor.avatarURL() ? executor.avatarURL() : "https://i.imgur.com/CBCTbyK.png")
+        .setAuthor(`Role Created by ${executor.username}#${executor.discriminator}`, executor.avatarURL({ dynamic: true }) ? executor.avatarURL({ dynamic: true }) : "https://i.imgur.com/CBCTbyK.png")
         .setFooter(`Role ID: ${role.id}`)
 
         bot.channels.resolve(settings.channel_id).send(embed);

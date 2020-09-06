@@ -23,7 +23,7 @@ module.exports = async (bot, oldEmoji, newEmoji) => {
         let embed = new Discord.MessageEmbed();
         embed
         .setColor(0xff9900)
-        .setAuthor(`Emoji Updated by ${executor.username}#${executor.discriminator}`, executor.avatarURL() ? executor.avatarURL() : "https://i.imgur.com/CBCTbyK.png")
+        .setAuthor(`Emoji Updated by ${executor.username}#${executor.discriminator}`, executor.avatarURL({ dynamic: true }) ? executor.avatarURL({ dynamic: true }) : "https://i.imgur.com/CBCTbyK.png")
         .setDescription(`**Emoji**: <:${oldEmoji.name}:${oldEmoji.id}>\n\n**Old Name**: ${oldEmoji.name}\n`+ infoText)
         .setFooter(`Emoji ID: ${oldEmoji.id}`)
         

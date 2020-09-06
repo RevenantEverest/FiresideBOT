@@ -21,7 +21,7 @@ module.exports = async (bot, role) => {
         let embed = new Discord.MessageEmbed();
         embed
         .setColor(0xff0000)
-        .setAuthor(`Role Deleted by ${executor.username}#${executor.discriminator}`, executor.avatarURL() ? executor.avatarURL() : "https://i.imgur.com/CBCTbyK.png")
+        .setAuthor(`Role Deleted by ${executor.username}#${executor.discriminator}`, executor.avatarURL({ dynamic: true }) ? executor.avatarURL({ dynamic: true }) : "https://i.imgur.com/CBCTbyK.png")
         .setDescription(`**Role:** ${role.name}`)
         .setFooter(`Role ID: ${role.id}`)
 

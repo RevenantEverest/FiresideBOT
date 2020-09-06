@@ -18,17 +18,19 @@ services.getByGuildId = async (bot, guild, member) => {
 
 services.parseMessage = async (bot, guild, member, newMemberMessages) => {
     if(!newMemberMessages.enabled) return;
+    if(newMemberMessages.length < 1) return;
 
     let randomIndex = Math.floor(Math.random() * newMemberMessages.messages.length - 1);
     let message = newMemberMessages.messages[randomIndex < 0 ? 0 : randomIndex];
 
+    if(message === "") return;
     if(/\${.*}/gi.test(message)) {
         let variables = message.match(/\${([^}]*)}/g);
 
         variables.forEach(async (el, idx) => {
             let exec = /\${([^}]*)}/.exec(el)[1];
 
-            if(exec.toLowerCase() === "user") message = message.replace("${" + exec + "}", member.user);
+            if(exec.toLowerCase() === "touser") message = message.replace("${" + exec + "}", member.user);
             
             if(exec.toLowerCase() === "membercount") {
                 let memberCount = bot.guilds.resolve(guild.id).memberCount.toString();
