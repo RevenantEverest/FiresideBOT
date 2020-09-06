@@ -72,7 +72,7 @@ module.exports = async (bot, message, err, errMsg, command) => {
         r_collector.on('end', e => {
             let permissions = new Discord.Permissions(message.channel.permissionsFor(bot.user).bitfield);
             if(permissions && !permissions.has("MANAGE_MESSAGES")) return;
-            msg.reactions.clearReactions();
+            msg.reactions.removeAll();
         });
     });
 };
