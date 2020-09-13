@@ -3,6 +3,7 @@ const usersDB = require('../models/UserModels/usersDB');
 const discord_tokenDB = require('../models/discord_tokenDB');
 const autodjDB = require('../models/autodjDB');
 const issueToken = require('../middleware/issueToken');
+const moment = require('moment');
 
 const usersController = require('./dbControllers/usersController');
 const discordTokensController = require('./dbControllers/discordTokensController');
@@ -38,7 +39,7 @@ services.handleLogout = (req, res, next) => {
 services.login = (req, res, next) => {
     const loginData = {};
 
-    discordServices.getToken(req.body.code)
+    discordServices.getToken(req.body.code, process.env.DISCORD_BACKEND_REDIRECT)
     .then(discordToken => getDiscordUserInfo(discordToken.data))
     .catch(err => console.error(err));
 
@@ -83,8 +84,16 @@ services.login = (req, res, next) => {
                 date: moment()
             };
             usersController.save(data, (user) => {
-                // Save Default Settings
-                // Call SendToken
+                autodjDB.save({
+                    user_id: user.user_id,
+                    redirect: 'f',
+                    guild_id: '0'
+                })
+                .then(() => sendToken(user))
+                .catch(err => {
+                    console.error(err);
+                    sendToken(user);
+                });
             });
         });
     };

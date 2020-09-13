@@ -1,5 +1,5 @@
-const db = require('../models/commandLogsDB');
-const utils = require('../utils/utils');
+const db = require('../../models/commandLogsDB');
+const utils = require('../../utils/utils');
 
 const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;

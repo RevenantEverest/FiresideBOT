@@ -1,5 +1,5 @@
-const db = require('../models/commandErrorLogsDB');
-const bot = require('../Discord_Bot');
+const db = require('../../models/commandErrorLogsDB');
+const bot = require('../../Discord_Bot');
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', ' August', 'September', 'October', 'November', 'December'];
 
 module.exports = {

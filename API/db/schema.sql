@@ -119,3 +119,4 @@ CREATE TABLE api_tokens (
     expires_in INT,
     date VARCHAR(255)
 );
+

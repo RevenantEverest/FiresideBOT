@@ -1,4 +1,4 @@
-const db = require('../models/workingChangelogsDB');
+const db = require('../../models/workingChangelogsDB');
 
 const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;

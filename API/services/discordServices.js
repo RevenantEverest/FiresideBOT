@@ -5,16 +5,17 @@ const qs = require('querystring');
 const btoa = require('btoa');
 const services = {};
 
-services.getToken = (data) => {
-    const code = data;
+services.getToken = (code, redirect) => {
     const creds = btoa(`${process.env.DISCORD_CLIENT_ID}:${process.env.DISCORD_CLIENT_SECRET}`);
-    return axios({
-        method: 'POST',
-        url: `https://discordapp.com/api/oauth2/token?grant_type=authorization_code&code=${code}&redirect_uri=${process.env.DISCORD_BACKEND_REDIRECT}`,
-        headers: {
-            Authorization: `Basic ${creds}`,
-        }
-    });
+    const data = {
+        grant_type: "authorization_code",
+        code: code,
+        redirect_uri: redirect
+    };
+    const config = {
+        headers: { "Authorization": `Basic ${creds}` }
+    };
+    return axios.post("https://discordapp.com/api/oauth2/token", qs.stringify(data), config);
 };
 
 services.refresh_token = (refresh_token) => {

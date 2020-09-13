@@ -1,8 +1,8 @@
 const express = require('express');
-const controller = require('../controllers/commandErrorLogsController');
+const controller = require('../../controllers/AdminControllers/guildsController');
 const router = express.Router();
 
 router.route("/")
-.get(controller.index)
+.get(controller.getBotGuilds)
 
 module.exports = router;

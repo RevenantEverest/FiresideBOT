@@ -1,5 +1,5 @@
 const express = require('express');
-const controller = require('../controllers/commandLogsController');
+const controller = require('../../controllers/AdminControllers/commandLogsController');
 const router = express.Router();
 
 router.route("/")

@@ -9,6 +9,7 @@ const cors = require('cors');
 const chalk = require('chalk');
 
 const verifyToken = require('./middleware/verifyToken');
+const verifyAdminToken = require('./middleware/verifyAdminToken');
 
 const app = express();
 
@@ -24,9 +25,10 @@ app.set('trust proxy', true);
 app.set('trust proxy', 'loopback');
 
 /* Routes */
-// app.use("/uploads", express.static("uploads"));
+app.use("/uploads", verifyToken, express.static("uploads"));
 
 app.use("/login", require('./routes/loginRoutes'));
+app.use("/login/admin", require('./routes/loginAdminRoutes'));
 app.use("/verify", require('./routes/verifyRoutes'));
 
 app.use("/users", verifyToken, require('./routes/UserRoutes/userRoutes'));
@@ -37,11 +39,12 @@ app.use("/guild/playlists", verifyToken, require('./routes/GuildRoutes/guildPlay
 app.use("/guild/songs", verifyToken, require('./routes/GuildRoutes/guildSongRoutes'));
 app.use("/guild/members/new", verifyToken, require('./routes/newGuildMembersRoutes'));
 app.use("/guilds/embed", verifyToken, require('./routes/GuildRoutes/guildEmbedRoutes.js'));
+
 app.use("/user/playlists", verifyToken, require('./routes/UserRoutes/userPlaylistRoutes'));
 app.use("/user/songs", verifyToken, require('./routes/UserRoutes/userSongRoutes'));
 
 app.use("/commands/custom", verifyToken, require('./routes/customCommandRoutes'));
-app.use("/commands/logs", verifyToken, require("./routes/commandLogRoutes"));
+
 app.use("/queue", verifyToken, require('./routes/queueRoutes'));
 app.use("/autodj", verifyToken, require('./routes/autodjRoutes'));
 app.use("/TBW", verifyToken, require('./routes/TBW_Routes'));
@@ -56,7 +59,13 @@ app.use("/welcome_message", verifyToken, require('./routes/welcomeMessageRoutes'
 app.use("/discord", require('./routes/discordAPIRoutes'));
 app.use("/commands", require("./routes/commandRoutes"));
 app.use("/changelogs", require('./routes/changelogRoutes'));
-app.use("/working_changelogs", verifyToken, require('./routes/workingChangelogRoutes'));
+
+/* Admin Routes */
+app.use("/admin/guilds", verifyAdminToken, require('./routes/AdminRoutes/guildRoutes'));
+app.use("/admin/commands/logs", verifyToken, require("./routes/AdminRoutes/commandLogRoutes"));
+app.use("/admin/working_changelogs", verifyAdminToken, require('./routes/AdminRoutes/workingChangelogRoutes'));
+app.use("/admin/system", verifyAdminToken, require('./routes/AdminRoutes/systemRoutes'));
+app.use("/admin/servers/array", verifyAdminToken, require('./routes/AdminRoutes/serverArrayRoutes'));
 
 /* Default Routes */
 app.use("/", (req, res) => res.json({ message: "Fireside API" }));
