@@ -28,13 +28,11 @@ async function generateQuery(trackers) {
 };
 
 services.run = async (bot) => {
-    console.log("Running...")
     db.findAll()
     .then(trackers => getStreamStatus(trackers))
     .catch(err => err instanceof QRE && err.code === qrec.noData ? console.log("No Trackers") : console.error(err));
 
     async function getStreamStatus(trackers) {
-        console.log("Inside Get Stream Status")
         let temp = [];
         trackers.forEach(el => {
             if(temp.map(tracker => tracker.twitch_id).includes(el.twitch_id)) return;
