@@ -2,3 +2,4 @@
 *.env
 nohup.out
 *.log
+Test.js
