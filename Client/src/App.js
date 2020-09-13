@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import { library } from '@fortawesome/fontawesome-svg-core';
 
 import { 
@@ -53,7 +53,6 @@ class App extends Component {
             displayApp: false,
             homePageRedirect: false
         }
-        this.getUserData = this.getUserData.bind(this);
         this.getManageServer = this.getManageServer.bind(this);
         this.handleLogout = this.handleLogout.bind(this);
         this.getChangelogs = this.getChangelogs.bind(this);
@@ -62,6 +61,7 @@ class App extends Component {
     componentDidMount() {
         this._isMounted = true;
         this.checkLogin();
+        if(window.location.search && !this.props.userData && !window.localStorage.getItem("token")) this.getToken();
     }
 
     componentWillUnmount = () => this._isMounted = false;
@@ -77,10 +77,21 @@ class App extends Component {
         });
     }
 
-    getUserData = (user) => this.setState({ userData: user }, () => this.componentDidMount());
-    getManageServer = (server) => this.setState({ manageServer: server }, () => this.componentDidMount());
-    getChangelogs = (changelogs) => this.setState({ changelogs: changelogs }, () => this.componentDidMount());
+    getManageServer = (server) => this.setState({ manageServer: server });
+    getChangelogs = (changelogs) => this.setState({ changelogs: changelogs });
     handleLogout = () => this.setState({ userData: null });
+
+    getToken() {
+        if(!this._isMounted) return;
+        let code = window.location.search.split("code=")[1];
+        loginServices.handleLogin(code)
+        .then(results => {
+            let userData = results.data.data;
+            window.localStorage.setItem('token', userData.token);
+            this.setState({ userData: userData, isLoggedIn: true });
+        })
+        .catch(err => console.error(err));
+    }
 
     render() {
         let { userData, manageServer } = this.state;
@@ -96,12 +107,13 @@ class App extends Component {
                     handleLogout={this.handleLogout} 
                     changelogs={this.state.changelogs} 
                     />
-                    <Route exact path="/" component={() => (<HomePage userData={userData} getUserData={this.getUserData} />)} />
+                    <Route exact path="/" component={() => (<HomePage userData={userData} />)} />
                     <Route exact path="/features" component={() => (<Features userData={userData} />)} />
                     <Route exact path="/premium" component={() => (<Premium userData={userData} />)} />
                     <Route exact path="/faq" component={() => (<FAQ userData={userData} />)} />
                     <ChangelogRouter userData={userData} getChangelogs={this.getChangelogs} />
                     <Footer />
+                    {this.state.isLoggedIn ? <Redirect to="/dashboard" /> : ''}
                     </div>
                 </Router>
             </div>

@@ -29,9 +29,12 @@ class HomeNav extends Component {
     }
 
     componentDidMount() {
+        this._isMounted = true;
         let filterArr = ["/", "/features", "/premium", "/faq", "/changelogs"];
         if(filterArr.includes(this.props.location.pathname)) this.props.getManageServer(null);
     }
+
+    componentWillUnmount = () => this._isMounted = false;
 
     toggleCollapse = () => this.setState({ isOpen: !this.state.isOpen });
     togglePostCollapse() {
