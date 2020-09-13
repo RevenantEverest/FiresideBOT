@@ -48,6 +48,8 @@ module.exports = {
         `\n` +
         `---  \n\n` +
         `# Feature Highlights  \n\n` + 
+        `#### Role Reactions:  \n` +
+        `- Allow users to react to an embed and gain a role you assigned. Unreacting removed the role  \n\n` +
         `#### User Playlists:  \n` +
         `- Create a playlist that spans across servers. Playlists can be public or private, and public playlists can be viewed and requested by other users  \n\n` +
         `#### Server Playlists:  \n` + 

@@ -16,6 +16,9 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 
 # Feature Highlights  
 
+#### Role Reactions:  
+- Allow users to react to an embed and gain a role you assigned. Unreacting removed the role  
+
 #### User Playlists:  
 - Create a playlist that spans across servers. Playlists can be public or private, and public playlists can be viewed and requested by other users  
 
