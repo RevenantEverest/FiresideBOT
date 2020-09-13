@@ -136,6 +136,12 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Params**: Message  
 **Example**: `?createnewmembermessage Welcome ${user} you're our ${membercount}`  
 
+- [CreateRoleReaction](https://help.firesidebot.com/commands/createrolereaction) `<param>`  
+**Desc**: Creates a new role embed in which when a member reacts to it, they'll receive that role  
+**Aliases**: `crr`   
+**Params**: @Role Tag, #text-channel-tag, emoji, optional title of embed, optional overwritable description  
+**Example**: `?createrolereaction @Gamers #general ❤️ React to this if you're a true gamer -d Taking this role will grant access to gaming channels`  
+
 - [DeleteCommand](https://help.firesidebot.com/commands/deletecommand) `<param>`  
 **Desc**: Delete a custom command  
 **Aliases**: `delcom`   
@@ -147,6 +153,12 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Aliases**: `df`   
 **Params**: Fortune Index  
 **Example**: `?deletefortune 4`  
+
+- [DeleteRoleReaction](https://help.firesidebot.com/commands/deleterolereaction) `<param>`  
+**Desc**: Deletes a role reaction embed  
+**Aliases**: `drr` `delrr`   
+**Params**: Role Reaction ID  
+**Example**: `?deleterolereaction 67`  
 
 - [DisableCommand](https://help.firesidebot.com/commands/disablecommand) `<param>`  
 **Desc**: Disables a Command  
@@ -176,6 +188,13 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Aliases**: `er`   
 **Params**: Rank ID and new Rank name  
 **Example**: `?editrank 92 NewRankName`  
+
+- [EditRoleReaction](https://help.firesidebot.com/commands/editrolereaction) `<param>`  
+**Desc**: Updates an existing Role Reaction  
+**Aliases**: `editrr` `urr`   
+**Params**: Role ID  
+**Flags**: `-d`   
+**Example**: `?editrolereaction 86 @New Role`  
 
 - [EditStreamerRole](https://help.firesidebot.com/commands/editstreamerrole) `<param>`  
 **Desc**: Edits Streamer Role that is given anyone who's streaming in you server  
@@ -256,6 +275,11 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Desc**: Remove the current Welcome Message (Also disables Welcome Message)  
 **Aliases**: `rwm`   
 **Example**: `?removewelcomemessage`  
+
+- [RoleReactions](https://help.firesidebot.com/commands/rolereactions)   
+**Desc**: Displays all Role Reactions  
+**Aliases**: `rolereaction`   
+**Example**: `?rolereactions`  
 
 - [TwitchTracker](https://help.firesidebot.com/commands/twitchtracker) `<param>`  
 **Desc**: Creates a tracker for a Twitch User that posts when they're live to a text channel  
@@ -390,6 +414,11 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 <a id="Fun"></a>  
 
 #### Fun  
+
+- [Choose](https://help.firesidebot.com/commands/choose)   
+**Desc**: Takes a list of choices separated by commas and returns a random choice  
+**Aliases**:   
+**Example**: `?choose`  
 
 - [CutePics](https://help.firesidebot.com/commands/cutepics)   
 **Desc**: Returns a random Cute Picture  

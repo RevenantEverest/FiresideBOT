@@ -4,7 +4,7 @@ const bot = require('../Discord_Bot');
 module.exports = {
     index(req, res, next) {
         let servers = config.servers.map(el => {
-            let guild = bot.guilds.get(el.id);
+            let guild = bot.guilds.resolve(el.id);
             return {
                 name: guild.name,
                 icon: guild.iconURL(),

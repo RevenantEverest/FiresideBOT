@@ -37,7 +37,7 @@ async function getCommands() {
     });
 
     console.log(chalk.hex('#ff9900')("[LOG]") + " Commands Set");
-    readmeController.write();
+    setTimeout(() => readmeController.write(), 2000);
 };
 
 Discord_Bot.on("ready", () => require('./controllers/DiscordEvents/onReady')(Discord_Bot, getCommands));
