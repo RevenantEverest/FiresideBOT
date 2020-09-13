@@ -1,0 +1,136 @@
+
+html { min-height: 100%; }
+body {
+  height: 100%;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #151515;
+  color: #cccccc;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+  color: orangered !important;
+  word-wrap: break-word !important;
+}
+
+pre {
+  box-shadow: 4px 5px 20px rgba(0, 0, 0, .3);
+  border-left: 4px solid orangered;
+  page-break-inside: avoid;
+  font-family: monospace;
+  font-size: 15px;
+  line-height: 1.6;
+  margin-bottom: 1.6em;
+  max-width: 100%;
+  overflow: auto;
+  padding: 1em 1.5em;
+  display: block;
+  word-wrap: break-word !important;
+}
+
+a{
+  text-decoration: none;
+  color: inherit;
+}
+
+a:visited, a:hover, a:focus, a:active {
+  text-decoration: none;
+  color: inherit;
+}
+
+tr, td, th { color: white; }
+
+.card-body, .modal-body { background: #1c1c1c; }
+.card-header, .modal-header { background: #2c2c2c !important; }
+.avatar-border { border: 5px solid #2c2c2c !important; background: #4c4c4c !important; }
+.app-page { min-height: 62vh; }
+.Button { 
+  background: orangered !important; 
+  color: white;
+  transition: .5s;
+}
+.Button-dark {
+  background: #A42700 !important; 
+  color: white;
+  transition: .5s;
+}
+
+.d-inline { display: inline; }
+
+.f-600 { font-weight: 600 !important; }
+.f-700 { font-weight: 700 !important; }
+.f-800 { font-weight: 800 !important; }
+.fireside-text { color: orangered; }
+
+.FontAwesomeIcon { display: inline; margin-right: 3.5%; }
+
+.breadcrumb-item.active { color: orangered; }
+
+.custom-select {
+  background: #151515;
+}
+
+.wp-200 { width: 200px; }
+.pointer { cursor: pointer; }
+
+.form-control {
+  background: transparent;
+  color: white;
+  border: 1px solid grey;
+}
+
+.form_input {
+  color: white !important;
+  background: transparent;
+}
+
+.form-control:focus {
+  background: transparent;
+  color: white;
+}
+
+.form_input:focus {
+  color: white !important;
+  background: transparent;
+  border: thin solid rgb(204, 23, 120) !important;
+  box-shadow: 0 1px 0 0 rgb(204, 23, 120) !important;
+}
+
+.form_inputIcon {
+  background: #2c2c2c;
+  color: white;
+  border: thin solid #8c8c8c;
+}
+
+.dropdown-content {
+  background: #151515;
+  padding-top: 20px;
+  left: 0px;
+}
+
+.select-wrapper > label.mdb-main-label.active {
+  color: orangered !important;
+}
+
+.dropdown-content li > a, .dropdown-content li > span, .select-wrapper span.caret, .md-form input[type="text"]:not(.browser-default) {
+  color: #cccccc;
+}
+
+.dropdown-content li:hover, .dropdown-content li.active {
+  background: #2c2c2c;
+}
+
+.select-dropdown li.disabled, .select-dropdown li.disabled > span, .select-dropdown li.optgroup {
+  color: orangered;
+}
