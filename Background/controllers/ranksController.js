@@ -85,7 +85,7 @@ services.handleEXP = async (bot, message) => {
         .setColor(0x66ff33)
         .addField("Level Up!", `<@${uRecord.discord_id}> is now Level: ${Level}`)
 
-        channel_id === "none" ? message.channel.send(embed) : bot.channels.fetch(channel_id).send(embed);
+        channel_id === "none" ? message.channel.send(embed) : bot.channels.resolve(channel_id).send(embed);
     };
 };
 
