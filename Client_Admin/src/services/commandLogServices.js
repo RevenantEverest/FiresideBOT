@@ -19,7 +19,7 @@ const services = {};
 services.getCommandLogs = () => {
     return axios({
         method: "GET",
-        url: `${env.TEST_API}/commands/logs`,
+        url: `${env.TEST_API}/admin/commands/logs`,
         headers: { "Authorization": `Bearer ${window.localStorage.token}` }
     });
 };
