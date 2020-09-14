@@ -106,7 +106,6 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
 
         embed
         .addField(`**${command.d_name}** - ${command.category} ${command.params ? (command.params.required ? '`<param>`' : '`[param]`') : ''}`, `${command.desc}`)
-        .addBlankField()
         
         if(command.params) embed.addField('Params: ', command.params.params, true)
 
