@@ -8,8 +8,8 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     server.queue.currentSongEmbed = {};
     server.queue.isPlaying = false;
     
-    if(message.guild.voiceConnection)
-        return message.guild.voiceConnection.disconnect();
+    if(message.guild.voice.connection)
+        return message.guild.voice.connection.disconnect();
 };
 
 module.exports.config = {
