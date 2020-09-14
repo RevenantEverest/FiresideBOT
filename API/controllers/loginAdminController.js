@@ -6,7 +6,7 @@ const services = {};
 services.loginAdmin = (req, res, next) => {
     let loginData = {};
 
-    discordServices.getToken(req.body.code, process.env.DISCORD_BACKEND_REDIRECT)
+    discordServices.getToken(req.body.code, process.env.DISCORD_ADMIN_BACKEND_REDIRECT)
     .then(discordToken => getDiscordUserInfo(discordToken.data))
     .catch(err => console.error(err));
 
