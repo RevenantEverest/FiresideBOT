@@ -4,7 +4,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     let infoEmbed = new Discord.MessageEmbed();
     let user = null;
     if(args[1])
-        if(args[1].startsWith('<@')) user = bot.users.get(/<@!?(\d+)>/.exec(args.join(" "))[1]);
+        if(args[1].startsWith('<@')) user = bot.users.resolve(/<@!?(\d+)>/.exec(args.join(" "))[1]);
     let accountCreated = user ? user.createdAt.toString().split(" ") : message.author.createdAt.toString().split(" ");
     user ? user : user = message.author;
 
