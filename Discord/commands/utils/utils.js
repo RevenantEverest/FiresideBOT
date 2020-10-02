@@ -174,29 +174,37 @@ module.exports = {
         });
     },
     async YTDL_GetInfo(message, args, server, link, callback) {
-        YTDL.getBasicInfo(link, (err, info) => {
-            if(err) {
-                console.log(err.toString());
-                if(err.toString() === "Error: This video is unavailable.") 
-                    return message.channel.send("This video is unavailable");
-                else if(err.toString().split(":")[0] === "TypeError")
-                    return message.channel.send("Invalid search request");
-                else 
-                    return errorHandler(Discord_Bot, message, err, "YTDL Error", "Utils")
-            };
-            if(info.player_response.videoDetails === undefined) return message.channel.send(`Invalid Video Details`);
 
-            info = info.player_response.videoDetails;
-            let thumbnails = info.thumbnail.thumbnails;
-            let songInfo = { 
-                title: info.title, 
-                link: link, 
-                author: info.author, 
-                duration: info.lengthSeconds, 
-                thumbnail: thumbnails[thumbnails.length - 1].url, 
-                requestedBy: message.author.username
-            }
-            callback(songInfo);
-        });
+        /*
+        
+            Possible Errors:
+
+            if(err.toString() === "Error: This video is unavailable.") 
+                return message.channel.send("This video is unavailable");
+            else if(err.toString().split(":")[0] === "TypeError")
+                return message.channel.send("Invalid search request");
+            else 
+                return errorHandler(Discord_Bot, message, err, "YTDL Error", "Utils")
+
+        */
+
+        let info = await YTDL.getBasicInfo(link);
+
+        if(!info) 
+            return errorHandler(Discord_Bot, message, err, "YTDL Error", "Utils")
+        if(info.player_response.videoDetails === undefined) 
+            return message.channel.send(`Invalid Video Details`);
+
+        info = info.player_response.videoDetails;
+        let thumbnails = info.thumbnail.thumbnails;
+        let songInfo = { 
+            title: info.title, 
+            link: link, 
+            author: info.author, 
+            duration: info.lengthSeconds, 
+            thumbnail: thumbnails[thumbnails.length - 1].url, 
+            requestedBy: message.author.username
+        }
+        callback(songInfo);
     }
 };
