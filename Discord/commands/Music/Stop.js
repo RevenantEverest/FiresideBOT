@@ -7,6 +7,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     server.queue.currentSongInfo = {};
     server.queue.currentSongEmbed = {};
     server.queue.isPlaying = false;
+    server.queue.connection = null;
     
     if(message.guild.voice.connection)
         return message.guild.voice.connection.disconnect();
