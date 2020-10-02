@@ -7,13 +7,28 @@ const answerEmotes = ['1️⃣', '2️⃣','3️⃣', '4️⃣', '5️⃣', '6�
 const numberEmotes = ['\u0031', '\u0032', '\u0033', '\u0034', '\u0035', '\u0036', '\u0037', '\u0038', '\u0039', '\u1F51F'];
 
 module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
-    let amount = 1;
     let questions = null;
+    let queryData = {
+        amount: 1
+    };
+    
+    let re = /(?<=\s)(-[a-z0-9]+)([^\-]*)?/gi;
+    let m = re.exec(args.join(" "));
+
+    while(m != null) {
+        if(m[1] === "-easy" || m[1] === "-medium" || m[1] === "-hard") {
+            queryData.difficulty = m[1].replace("-", "");
+        }
+
+        args.splice(args.indexOf(m[1]), 1);
+        m = re.exec(message);
+    }
+
     if(args[1] && !Number.isInteger(parseInt(args[1], 10))) 
         return message.channel.send("Please valid specify a trivia length");
-    else if(args[1] && Number.isInteger(parseInt(args[1], 10))) amount = parseInt(args[1], 10);
+    else if(args[1] && Number.isInteger(parseInt(args[1], 10))) queryData.amount = parseInt(args[1], 10);
 
-    triviaServices.basicTrivia({ amount: amount })
+    triviaServices.basicTrivia(queryData)
     .then(questions => handleQuestions(questions.data.results))
     .catch(err => errorHandler(bot, message, err, "OpenTrivia API Error", "Trivia"));
 
@@ -37,7 +52,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
         if(currentQuestion.type === "multiple") {
             answers = [await utils.replaceHTMLEntitiy(currentQuestion.correct_answer)];
             answers = await utils.shuffle(answers);
-            currentQuestion.incorrect_answers.forEach(async el => {
+            await currentQuestion.incorrect_answers.forEach(async el => {
                 el = await utils.replaceHTMLEntitiy(el);
                 answers.push(el);
             });
@@ -67,7 +82,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
             r_collector.on('collect', reaction => {
                 if(reaction.users.cache.array()[reaction.users.cache.array().length - 1].id === bot.user.id) return;
                 if(reaction.emoji.name === "▶️") return r_collector.stop();
-                let editEmbed = new Discord.RichEmbed();
+                let editEmbed = new Discord.MessageEmbed();
     
                 for(let i = 0; i < answerInfo.length; i++) {
                     if(answerInfo[i].id === parseInt(reaction.emoji.name, 10)) {
@@ -117,7 +132,10 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
                 questions.shift();
 
                 msg.edit(endEmbed).then(() => {
-                    if(questions.length > 0) return handleQuestions(questions);
+                    if(questions.length > 0) {
+                        message.channel.send("Time for the next question...");
+                        return handleQuestions(questions);
+                    }
                 });
             });
         })
