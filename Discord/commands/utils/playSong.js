@@ -10,6 +10,23 @@ const likedSongController = require('../../controllers/dbControllers/likedSongsC
 
 const services = {};
 
+async function clearQueue(server, message, connection) {
+    if(server.queue.options.recommendations) 
+        message.channel.send("This feature has been temporarily removed until a better version is implemented");
+
+    server.queue.queueInfo, server.queue.genres = [];
+    server.queue.currentSongEmbed, server.queue.currentSongInfo = {};
+    
+    server.queue.isPlaying = false;
+    message.channel.send('Queue concluded.');
+    server.queue.disconnectTimer = setTimeout(() => {
+        if(!server.queue.isPlaying) {
+            server.queue.connection = null;
+            return connection.disconnect();
+        }
+    }, 300000);
+};
+
 services.playSong = async (bot, connection, message, server) => {
     let currentSongEmbed = new Discord.MessageEmbed();
     let request = server.queue.queueInfo[0];
@@ -18,6 +35,7 @@ services.playSong = async (bot, connection, message, server) => {
     if(server.queue.isPaused === true) server.queue.isPaused = false;
     if(server.queue.isPlaying === false) server.queue.isPlaying = true;
     if(!request) return;
+    if(server.queue.disconnectTimer) clearTimeout(server.queue.disconnectTimer);
 
     /*
         Creates the dispatcher object from the Discord connection object.playStream
@@ -64,21 +82,8 @@ services.playSong = async (bot, connection, message, server) => {
     server.dispatcher.once("finish", () => {
         if(server.queue.queueInfo[0] && message.guild.voice.connection) 
             services.playSong(bot, connection, message, server);
-        else {
-            if(server.queue.options.recommendations) 
-                return message.channel.send("This feature has been temporarily removed until a better version is implemented")
-            else {
-                server.queue.queueInfo, server.queue.genres = [];
-                server.queue.currentSongEmbed, server.queue.currentSongInfo = {};
-                
-                server.queue.isPlaying = false;
-                message.channel.send('Queue concluded.');
-                setTimeout(() => {
-                    if(!server.queue.isPlaying)
-                        return connection.disconnect();
-                }, 300000);
-            }
-        }
+        else 
+            clearQueue(server, message, connection);
     });
 };
 
