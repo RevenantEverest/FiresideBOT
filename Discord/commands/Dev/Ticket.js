@@ -29,10 +29,8 @@ async function displayOpenTickets(bot, args, message) {
         embed
         .setColor(0x00ff00)
         .addField(`**Open Tickets**`, `**Amount:** ${tickets.length}`)
-        .addBlankField()
         .addField(`Ticket ID's:`, ticketID, true)
-        .addBlankField()
-        .addField('Most Recent:', `**ID:** ${mostRecent.id}\n**User:** ${bot.users.get(mostRecent.discord_id)}\n**Date Received:** ${mostRecent.ticket_date}`)
+        .addField('Most Recent:', `**ID:** ${mostRecent.id}\n**User:** ${bot.users.resolve(mostRecent.discord_id)}\n**Date Received:** ${mostRecent.ticket_date}`)
             
         message.channel.send(embed);
     })
@@ -52,8 +50,7 @@ async function displayClosedTickets(bot, args, message) {
         embed
         .setColor(0x00ff00)
         .setTitle(`**Closed Tickets**`, `**Amount:** ${tickets.length}`)
-        .addBlankField()
-        .addField('Most Recent:', `**ID:** ${mostRecent.ticket_id}\n**User:** ${bot.users.get(mostRecent.discord_id)}\n` + 
+        .addField('Most Recent:', `**ID:** ${mostRecent.ticket_id}\n**User:** ${bot.users.resolve(mostRecent.discord_id)}\n` + 
                                       `**Closed By:** ${mostRecent.closed_by}\n**Date Closed:** ${mostRecent.close_date}`)
 
         message.channel.send(embed);
@@ -74,8 +71,7 @@ async function displayTicket(bot, args, message) {
     embed
     .setColor(0x00ff00)
     .addField('Ticket', `ID: ${ticket.id}`)
-    .addBlankField()
-    .addField('User:', bot.users.get(ticket.discord_id).username, true)
+    .addField('User:', bot.users.resolve(ticket.discord_id).username, true)
     .addField('Discord ID:', ticket.discord_id, true)
     .addField('Message:', ticket.initial_message)
     .setFooter(`Received ${ticket.ticket_date}`)
@@ -100,7 +96,7 @@ async function respondToTicket(bot, args, message) {
     .addField('Message:', args.join(" "))
     .setFooter(`Message sent ${await utils.getDate()}`)
 
-    bot.users.get(ticket.discord_id).send(embed);
+    bot.users.resolve(ticket.discord_id).send(embed);
     message.channel.send(`Response sent by **${message.author.username}** to Ticket **#${ticket.id}** on ${await utils.getDate()}`);
 };
 
