@@ -1,6 +1,6 @@
 {
   "name": "discord",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "description": "",
   "main": "server-discord.js",
   "scripts": {
@@ -26,6 +26,6 @@
     "nodemon": "^1.19.3",
     "pg-promise": "^8.7.2",
     "rainbowsix-api-node": "0.0.1",
-    "ytdl-core": "^2.1.7"
+    "ytdl-core": "^3.2.2"
   }
 }
