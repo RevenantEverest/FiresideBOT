@@ -51,16 +51,19 @@ services.getProcessInfo = (req, res, next) => {
     runCommand(res, command, parseData);
 
     function parseData(stdout) {
-        stdout = stdout.replace("┌─────┬───────────────┬─────────────┬─────────┬─────────┬──────────┬────────┬──────┬───────────┬──────────┬──────────┬──────────┬──────────┐", "");
+        stdout = stdout.replace("┌─────┬──────────────────┬─────────────┬─────────┬─────────┬──────────┬────────┬──────┬───────────┬──────────┬──────────┬──────────┬──────────┐", "");
         stdout = stdout.replace("│", "");
-        stdout = stdout.replace("└─────┴───────────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘", "");
+        stdout = stdout.replace("└─────┴──────────────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘", "");
         stdout = stdout.replace(/\r?\n|\r/g, "");
-        stdout = stdout.split("├─────┼───────────────┼─────────────┼─────────┼─────────┼──────────┼────────┼──────┼───────────┼──────────┼──────────┼──────────┼──────────┤");
-        if(!stdout[1]) return res.status(500).json({ error: "Error Parsing Output" })
+        stdout = stdout.split("├─────┼──────────────────┼─────────────┼─────────┼─────────┼──────────┼────────┼──────┼───────────┼──────────┼──────────┼──────────┼──────────┤");
+        if(!stdout[1]) {
+            console.log(stdout); 
+            return res.status(500).json({ error: "Error Parsing Output" });
+        }
         stdout = stdout[1].split("││");
         stdout[0] = stdout[0].split("");
         stdout[0].splice(0, 1);
-        stdout[0] = stdout[0].join("")
+        stdout[0] = stdout[0].join("");
         stdout = stdout.map((el, idx) => {
             el = el.split("│");
             return { 
@@ -76,6 +79,7 @@ services.getProcessInfo = (req, res, next) => {
                 mem: el[10].trim()  
             };
         }).filter(Boolean);
+
         return res.json({ data: stdout });
     }
 };
