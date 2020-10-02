@@ -1,8 +1,9 @@
 module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
-    if(!args[1]) return message.channel.send(`You rolled a **${(Math.floor(Math.random() * 100))}**`);
+    if(!args[1]) return message.channel.send(`You rolled a **${(Math.floor(Math.random() * 100 + 1))}**`);
     if(args[1].toLowerCase().split("").includes("d")) return handleMulti();
     if(!Number.isInteger(parseInt(args[1], 10)) && args[1] != " ") return message.channel.send("Please specify a number.");
-    if(Number.isInteger(parseInt(args[1], 10))) return message.channel.send(`You rolled a **${(Math.floor(Math.random() * args[1]).toLocaleString())}**`);
+    if(Number.isInteger(parseInt(args[1], 10)) < 1) return message.channel.send("Cannot roll less then 1");
+    if(Number.isInteger(parseInt(args[1], 10))) return message.channel.send(`You rolled a **${(Math.floor(Math.random() * args[1] + 1).toLocaleString())}**`);
 
     async function handleMulti() {
         let rollArgs = args[1].split("d");
