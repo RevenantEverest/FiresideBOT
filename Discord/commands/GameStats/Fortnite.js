@@ -37,10 +37,10 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
             let lifeStats = results.data.lifeTimeStats;
             let embed = new Discord.MessageEmbed();
             embed
+            .setAuthor(`${message.author.username} #${message.author.discriminator}`, message.author.avatarURL({ dynamic: true }))
             .setColor(0x00ffff)
             .setThumbnail('https://pbs.twimg.com/profile_images/1017458813199372289/QtGv1tyn_400x400.jpg')
             .addField('**Fortnite Stats**', username)
-            .addBlankField()
             .addField('Wins:', lifeStats[8].value.toLocaleString(), true)
             .addField('Win Percentage:', lifeStats[9].value, true)
             .addField('Kills:', lifeStats[10].value.toLocaleString(), true)

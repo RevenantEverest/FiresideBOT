@@ -34,10 +34,10 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
             let generalStats = results.data.data.stats[0];
             let characterStats = results.data.data.children[0];
             embed
+            .setAuthor(`${message.author.username} #${message.author.discriminator}`, message.author.avatarURL({ dynamic: true }))
             .setColor(0xff3300)
             .addField('**APEX Legends Stats**', results.data.data.metadata.platformUserHandle)
             .setThumbnail(characterStats.metadata.icon)
-            .addBlankField()
             .addField('Level:', generalStats.value, true)
             .addField('Last Legend:', characterStats.metadata.legend_name, true)
             .addField(`${characterStats.metadata.legend_name} Kills:`, characterStats.stats[0].value.toLocaleString())

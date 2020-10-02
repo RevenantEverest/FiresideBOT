@@ -67,7 +67,6 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
             .addField('**Overwatch Stats**', data.name)
             .setColor(0xff00ff)
             .setThumbnail(data.icon)
-            .addBlankField()
             .addField('Level:', data.level, true)
             .addField('Prestige:', data.prestige, true)
             .addField('Endorsements:', data.endorsement)
