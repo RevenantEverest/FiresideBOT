@@ -70,7 +70,6 @@ module.exports = {
                 serverEmbed
                 .setColor(0x00ff00)
                 .addField('New Ticket', `ID: ${ticket.id}`)
-                .addBlankField()
                 .addField('User:', message.author.username, true)
                 .addField('Discord ID:', message.author.id, true)
                 .addField('Message:', ticket.initial_message)
@@ -87,7 +86,6 @@ module.exports = {
         embed
         .setColor(0xffff4d)
         .addField('Response', `ID: ${ticket.id}`)
-        .addBlankField()
         .addField('User:', message.author.username, true)
         .addField('Discord ID:', message.author.id, true)
         .addField('Message:', messageContent)
