@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Redirect, Route } from 'react-router-dom';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { 
@@ -86,8 +86,11 @@ class App extends Component {
         loginServices.verify(window.localStorage.token)
         .then(user => this.setState({ userData: user.data.data }))
         .catch(err => {
-            window.localStorage.clear();
-            console.error(err);
+            this.setState({ homePageRedirect: true }, () => {
+                window.localStorage.clear();
+                console.error(err);
+            });
+            
         });
     }
 
@@ -102,6 +105,7 @@ class App extends Component {
                 <div className="App_Contents">
                 <Route exact path="/" component={() => (<HomePage userData={userData} getUser={this.getUser} />)} />
                 <Route exact path={this._AppRoutes} component={() => (<SideNav userData={userData} manageGuild={manageGuild} getManageGuild={this.getManageGuild} />)} />
+                {this.state.homePageRedirect ? <Redirect to="/" /> : ''}
                 </div>
             </Router>
             </div>
