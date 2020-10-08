@@ -18,7 +18,8 @@ class CommandLogsTable extends Component {
             pagesAmount={this.props.data.length} 
             data={this.props.data} 
             searchTop 
-            searchBottom={false} />
+            searchBottom={false}
+            order={['id', 'desc']} />
             </div>
         );
     }
