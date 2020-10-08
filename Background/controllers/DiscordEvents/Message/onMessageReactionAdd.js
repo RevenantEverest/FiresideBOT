@@ -11,14 +11,16 @@ module.exports = async (bot, reaction, user) => {
             reaction = fullReaction;
             getRoleReaction();
         })
-        .catch(err => errorHandler({ controller: "onMessageReactionAdd Controller", message: "Error Fetching Partial Reaction", error: err }));
+        .catch(err => {
+            errorHandler({ controller: "onMessageReactionAdd Controller", message: "Error Fetching Partial Reaction", error: err })
+        });
     else 
         getRoleReaction();
     
     async function getRoleReaction() {
         guild = reaction.message.channel.guild;
         roleReactionsController.getByGuildIdAndMessageId({ guild_id: guild.id, message_id: reaction.message.id }, handleRoleReaction);
-    }
+    };
 
     async function handleRoleReaction(roleReaction) {
         if(roleReaction.emoji_id !== reaction._emoji.id) return;
