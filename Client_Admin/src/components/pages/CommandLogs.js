@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../css/CommandLogs.css';
 
 import { Container, Row, Col } from 'react-bootstrap';
+import { MDBBtn } from 'mdbreact';
 
 import Breadcrumb from '../sections/Breadcrumb';
 import Spinner from '../sections/Spinner';
@@ -23,16 +24,17 @@ class CommandLogs extends Component {
             label: 'ID',
             field: 'id',
             width: 50,
+            sort: 'desc',
             attributes: {
-            'aria-controls': 'DataTable',
-            'aria-label': 'ID',
+                'aria-controls': 'DataTable',
+                'aria-label': 'ID',
             },
         },
         { label: 'Command', field: 'command', width: 50 },
-        { label: 'Args', field: 'args', width: 100 },
-        { label: 'Discord ID', field: 'discord_id', sort: 'asc', width: 100 },
-        { label: 'Guild ID', field: 'guild_id', sort: 'asc', width: 100 },
-        { label: 'Date', field: 'date', sort: 'disabled', width: 100 },
+        { label: 'Args', field: 'args', width: 50 },
+        { label: 'Discord ID', field: 'discord_id', width: 60 },
+        { label: 'Guild ID', field: 'guild_id', width: 60 },
+        { label: 'Date', field: 'date', sort: 'disabled', width: 60 },
     ];
 
     constructor(props) {
@@ -50,7 +52,7 @@ class CommandLogs extends Component {
     getLogs() {
         if(!this._isMounted) return;
         commandLogServices.getCommandLogs()
-        .then(logs => this.setState({ logs: logs.data.data, dataReceived: true }, () => console.log(logs.data.data.length)))
+        .then(logs => this.setState({ logs: logs.data.data, dataReceived: true }))
         .catch(err => console.error(err));
     }
 
@@ -60,8 +62,8 @@ class CommandLogs extends Component {
                 id: parseInt(el.id, 10),
                 command: el.command,
                 args: el.args,
-                discord_id: el.discord_id,
-                guild_id: el.guild_id,
+                discord_id: <MDBBtn color="elegant" size="md">{el.discord_id}</MDBBtn>,
+                guild_id: <MDBBtn color="elegant" size="md">{el.guild_id}</MDBBtn>,
                 date: el.date
             }
         });
