@@ -114,7 +114,7 @@ module.exports = {
                 .setColor(0xff0000)
                 .addField(`Ticket Closed`, `ID: ${ticket.id}\n\nA member from our support team has closed your Ticket.\nIf this was a mistake, please send us another message`)
                 .addField('Reason:', data.reason)
-                .setFooter(`Closed On: ${data.close_date} by ${bot.users.get(data.closed_by).username}`)
+                .setFooter(`Closed On: ${data.close_date} by ${bot.users.resolve(data.closed_by).username}`)
 
                 serverEmbed
                 .setColor(0xff0000)
@@ -122,7 +122,7 @@ module.exports = {
                 .addField('Reason:', reason)
                 .setFooter(`Closed by ${message.author.username} on ${data.close_date}`)
 
-                bot.users.get(ticket.discord_id).send(userEmbed);
+                bot.users.resolve(ticket.discord_id).send(userEmbed);
                 bot.channels.resolve('542561301302345760').send(serverEmbed);
             })
             .catch(err => console.error(err));
