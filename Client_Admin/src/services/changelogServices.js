@@ -82,7 +82,9 @@ services.publish = (data) => {
         data: {
             content: data.content,
             version: data.version,
-            type: data.type
+            type: data.type,
+            send_embed: data.send_embed,
+            flavor_text: data.flavor_text
         },
         headers: { "Authorization": `Bearer ${window.localStorage.token}` }
     });

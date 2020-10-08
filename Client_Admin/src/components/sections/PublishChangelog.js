@@ -10,9 +10,12 @@ import {
     MDBCardHeader,
     MDBCardBody,
     MDBBtn,
+    MDBInput,
     toast,
     ToastContainer
 } from 'mdbreact';
+
+import changelogServices from '../../services/changelogServices';
 
 class PublishChangelog extends Component {
 
@@ -20,14 +23,36 @@ class PublishChangelog extends Component {
         super(props);
         this.state = {};
         this.handleChange = this.handleChange.bind(this);
+        this.getSendEmbedValue = this.getSendEmbedValue.bind(this);
+        this.getPostTweetValue = this.getPostTweetValue.bind(this);
+        this.getFacebookPostValue = this.getFacebookPostValue.bind(this);
+        this.getInstagramPostValue = this.getInstagramPostValue.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleChange = (e) => this.setState({ [e.target.name]: e.target.value });
+    getSendEmbedValue = (value) => this.setState({ sendEmbed: value });
+    getPostTweetValue = (value) => this.setState({ postTweet: value });
+    getFacebookPostValue = (value) => this.setState({ facebookPost: value });
+    getInstagramPostValue = (value) => this.setState({ instagramPost: value });
 
     handleSubmit(e) {
         e.preventDefault();
 
+        let data = {
+            content: this.props.changelog.content,
+            version: this.props.changelog.version,
+            type: this.props.changelog.type,
+            flavor_text: this.state.flavor_text ? this.state.flavor_text : "",
+            send_embed: this.state.sendEmbed
+        };
+
+        changelogServices.publish(data)
+        .then()
+        .catch(err => {
+            console.error(err);
+            this.toggleFailureNotify("Could not publish changelog");
+        });
     }
 
     toggleFailureNotify = (reason) => toast.error(`${reason}`, { position: "top-center", autoClose: 5000 });
@@ -66,11 +91,23 @@ class PublishChangelog extends Component {
                         </Col>
                         <Col>
                         <h5 className="h5 mb-4">Publishing Options</h5>
-                        <div class="custom-control custom-checkbox mb-2">
-                            <input type="checkbox" class="custom-control-input" id="SendEmbed" />
-                            <label class="custom-control-label" for="SendEmbed">Send Embed</label>
+                        <div>
+                            <MDBInput containerClass="form-check checkbox-rounded" labelClass="form-check-label" label="Send Embed"
+                            type="checkbox" className="checkbox-rounded" id="SendEmbed" filled getValue={this.getSendEmbedValue} />
                         </div>
-                        <div class="custom-control custom-checkbox mb-2">
+                        <div>
+                            <MDBInput containerClass="form-check checkbox-rounded" labelClass="form-check-label" label="Post Tweet"
+                            type="checkbox" className="checkbox-rounded" id="PostTweet" filled getValue={this.getPostTweetValue} />
+                        </div>
+                        <div>
+                            <MDBInput containerClass="form-check checkbox-rounded" labelClass="form-check-label" label="Facebook Post"
+                            type="checkbox" className="checkbox-rounded" id="FacebookPost" filled getValue={this.getFacebookPostValue} />
+                        </div>
+                        <div>
+                            <MDBInput containerClass="form-check checkbox-rounded" labelClass="form-check-label" label="Instagram Post"
+                            type="checkbox" className="checkbox-rounded" id="InstagramPost" filled getValue={this.getInstagramPostValue} />
+                        </div>
+                        {/* <div class="custom-control custom-checkbox mb-2">
                             <input type="checkbox" class="custom-control-input" id="PostTweet" />
                             <label class="custom-control-label" for="PostTweet">Post Tweet</label>
                         </div>
@@ -81,7 +118,7 @@ class PublishChangelog extends Component {
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox" class="custom-control-input" id="InstagramPost" disabled />
                             <label class="custom-control-label" for="InstagramPost">InstagramPost</label>
-                        </div>
+                        </div> */}
                         </Col>
                     </Row>
                     <Row className="mb-4">
