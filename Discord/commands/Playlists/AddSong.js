@@ -44,7 +44,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     }
     else request = args.join(" ");
     
-    if(server.queue.isPlaying && !args[1]) placeholder(server.queue.currentSongInfo);
+    if(server.queue.isPlaying && !args[0]) placeholder(server.queue.currentSongInfo);
     else utils.youtubeSearch(message, args, server, request, { isLink: isLink }, (songInfo) => placeholder(songInfo));
 
     async function placeholder(info) {
