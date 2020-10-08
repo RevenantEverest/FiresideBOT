@@ -43,7 +43,7 @@ class MusicMonitor extends Component {
             <div id="MusicMonitor">
                 <Container fluid>
                 <Breadcrumb routes={this._Routes} />
-                <Row className="mb-4">
+                <Row className="mb-2">
                     <Col>
                     {this.state.dataReceived ? <ServerQueueDetails servers={this.state.servers} /> : <Spinner dataReceived={this.state.dataReceived} />}
                     </Col>

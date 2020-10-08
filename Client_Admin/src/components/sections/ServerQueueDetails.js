@@ -36,7 +36,7 @@ class ServerQueueDetails extends Component {
 
         return(
             <Row className="mt-4">
-                <Col>
+                <Col lg={4} sm={12} className="mb-4">
                 <MDBCard>
                 <MDBCardHeader>Queues In Progress</MDBCardHeader>
                 <MDBCardBody>
@@ -44,7 +44,7 @@ class ServerQueueDetails extends Component {
                 </MDBCardBody>
                 </MDBCard>
                 </Col>
-                <Col>
+                <Col lg={4} sm={12} className="mb-4">
                 <MDBCard>
                 <MDBCardHeader>Overall Length</MDBCardHeader>
                 <MDBCardBody>
@@ -52,7 +52,7 @@ class ServerQueueDetails extends Component {
                 </MDBCardBody>
                 </MDBCard>
                 </Col>
-                <Col>
+                <Col lg={4} sm={12} className="mb-4">
                 <MDBCard>
                 <MDBCardHeader>Songs In Queue</MDBCardHeader>
                 <MDBCardBody>

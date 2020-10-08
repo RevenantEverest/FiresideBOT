@@ -109,7 +109,7 @@ class Moderation extends Component {
                     </MDBCard>
                     </Col>
                 </Row>
-                <Row className="mt-4">
+                <Row className="mt-4 mb-5">
                     <Col>
                     <MDBBtn color="elegant ml-0" size="md">
                         View All Bans

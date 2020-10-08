@@ -63,6 +63,7 @@ class SideNav extends Component {
         this._isMounted = false;
         window.removeEventListener("resize", this.handleResize);
     }
+    
     handleResize = () => this.setState({ windowWidth: window.innerWidth });
     handleToggleClickA = () => this.setState({ toggleStateA: !this.state.toggleStateA });
     handleSwitchChange = nr => () => this.setState({ [`switch${nr}`]: !this.state[`switch${nr}`] });
@@ -166,9 +167,6 @@ class SideNav extends Component {
                     >
                     <MDBIcon icon="bars" color="white" size="2x" />
                     </div>
-                </MDBNavItem>
-                <MDBNavItem>
-                <h5 className="mt-1">Fireside Admin Panel</h5>
                 </MDBNavItem>
                 </MDBNavbarNav>
                 <MDBNavbarNav right style={specialCaseNavbarStyles}>
