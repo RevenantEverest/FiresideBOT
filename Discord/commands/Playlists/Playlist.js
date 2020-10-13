@@ -5,6 +5,7 @@ const utils = require('../utils/utils');
 
 const userPlaylistsController = require('../../controllers/dbControllers/userPlaylistsController');
 const userSongsController = require('../../controllers/dbControllers/userSongsController');
+const likedSongsController = require('../../controllers/dbControllers/likedSongsController');
 
 module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(!args[1]) return myPlaylists.findMyPlaylists(message, args, message.author.id, bot);
@@ -23,7 +24,12 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     playlistName = args[1] === "-s" || args[1] === '-i' ? args[2] : args[1];
 
     let playlistData = { discord_id: (discord_id ? discord_id : message.author.id), name: playlistName }
-    userPlaylistsController.getByDiscordIdAndPlaylistName(bot, message, "Playlist", playlistData, handleUserPlaylists, handleNoPlaylist);
+    if(playlistName.toLowerCase() === "likedsongs" || playlistName.toLowerCase() === "liked_songs") {
+        playlistName = "LikedSongs (Default Playlist)";
+        playlistData.name = playlistName;
+        likedSongsController.getByDiscordId(bot, message, "Playlist", playlistData.discord_id, handleLikedSongs, handleNoLikedSongs);
+    }
+    else userPlaylistsController.getByDiscordIdAndPlaylistName(bot, message, "Playlist", playlistData, handleUserPlaylists, handleNoPlaylist);
 
     async function handleUserPlaylists(playlist) {
         if(discord_id && !playlist.public && discord_id !== message.author.id) return message.channel.send("That users playlist is **Private**");
@@ -47,7 +53,17 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
         });
     };
 
+    async function handleLikedSongs(likedSongs) {
+        likedSongs.forEach(el => el.song_id = el.id);
+        playlistData.songs = likedSongs;
+        playlistData.public = true;
+        if(args.includes("-i")) return viewPlaylist.viewUserPlaylist(message, playlistData.discord_id, playlistData, bot);
+        if(!message.member.voice.channel) return message.channel.send("You must be in a voice channel");
+        handleUserSongs(likedSongs);
+    };
+
     async function handleNoPlaylist() { return message.channel.send("No Playlist Found"); }
+    async function handleNoLikedSongs() { return message.channel.send("No liked songs. Use the heart react on a current song to add to your Liked Songs playlist!"); }
     async function handleNoSongs() { return message.channel.send(`No songs found in playlist **${playlistName}**`); }
 };
 
