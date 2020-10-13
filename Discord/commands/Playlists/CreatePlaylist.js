@@ -14,6 +14,8 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
 
     async function handleUserPlaylist(playlists) {
         if(!userstate.premium && playlists.length >= 5) return message.channel.send("Playlists limited to 5");
+        if(args[1].toLowerCase() === "likedsongs" || args[1].toLowerCase() === "liked_songs")
+            return message.channel.send("Liked Songs is a default playlist");
         if(playlists.map(el => el.name).includes(args[1].toString())) return message.channel.send("No Duplicate Playlist Names");
         else userController.save(bot, message, "CreatePlaylist", { name: args[1], discord_id: message.author.id, public: true }, (playlist) => {
             message.channel.send(`New playlist **${playlist.name}** created`);
