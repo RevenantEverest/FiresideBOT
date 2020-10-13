@@ -8,31 +8,51 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     if(!message.member.voice.channel) return message.channel.send("You must be in a voice channel");
     if(options.updatePending) return message.channel.send("An Update is currently pending, features will resume upon Update")
 
-    const requestFilter = ['http://', 'https://', '\.com', 'watch\?v=', 'watch\?V=', 'youtube', 'www\.youtube', 'youtu\.be', '/'];
+        let isLink = false;
+    let isPlaylist = false; 
     let request = '';
-    let isLink = false;
+    const requestFilter = ['youtube', 'youtu\.be', '\/watch\?v='];
+    const youtubePlaylistRequestFilter = ['\/?playlist\?', '&\?list='];
     args.splice(0, 1);
 
     if(await utils.checkString(args[0], requestFilter)) {
         request = await utils.filter(args[0], { special: false });
-        isLink = true;
+
+        if(await utils.checkString(request, youtubePlaylistRequestFilter)) {
+            request = await utils.filter(request, { youtubePlaylist: true });
+            isPlaylist = true;
+        }
+        else 
+            isLink = true;
     }
     else request = args.join(" ");
 
-    utils.youtubeSearch(message, args, server, request, { isLink: isLink }, (songInfo) => {
+    if(isPlaylist) 
+        return utils.youtubePlaylistSearch(message, args, server, request, playlistSongHandler, addSingleToQueue);
+    else 
+        return utils.youtubeSearch(message, args, server, request, { isLink: isLink }, addSingleToQueue);
+
+    async function playlistSongHandler(playlistInfo) {
+        let counter = 0;
+
+        for(let i = 0; i < playlistInfo.length; i++) {
+            if(!userstate.premium && songInfo.duration >= 3600) counter++;
+            server.queue.queueInfo.splice(i + 1, 0, playlistInfo[i]);
+        }
+
+        if(counter > 0) message.channel.send(`${counter} song(s) couldn't be added because non premium requests are limited to 1 hour`);
+        message.channel.send(`Added ${playlistInfo.length} other song(s) to the queue`);
+    };
+
+    async function addSingleToQueue(songInfo) {
         if(!userstate.premium && songInfo.duration >= 3600)
             return message.channel.send("Non premium requests limited to 1 hour");
-
+        
         server.queue.queueInfo.splice(0, 0, songInfo);
         message.channel.send(`**${songInfo.title}** was added to the queue. In position **#1**`);
-        
-        if(!server.queue.connection)
-            message.member.voice.channel.join()
-            .then((connection) => playSong.playSong(bot, connection, message, server))
-            .catch(err => errorHandler(bot, message, err, "Join Voice Channel Error", "PlayNext"));
-        else if(server.queue.connection && !server.queue.isPlaying)
-            return playSong.playSong(bot, server.queue.connection, message, server);
-    });
+
+        utils.createConnection(server, message);
+    }
 };
 
 module.exports.config = {

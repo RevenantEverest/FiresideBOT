@@ -1,5 +1,6 @@
 const youtubeServices = require('../../services/youtubeServices');
 const YTDL = require('ytdl-core');
+const playSong = require('./playSong');
 const Discord_Bot = require('../../Discord_Bot');
 const errorHandler = require('../../controllers/errorHandler');
 
@@ -16,6 +17,20 @@ const htmlEntities = [
     {key: "&#034;", value: '"'},
     {key: "&quot;", value: '"'}
 ];
+
+async function youtubeErrorHandler(err, message) {
+    if(err.response) {
+        switch(err.response.status) {
+            case 403:
+                errorHandler(Discord_Bot, message, err, "YouTube Search Error 403: Forbidden", "Utils");
+                break;
+            default:
+                errorHandler(Discord_Bot, message, err, "YouTube Search Error", "Utils");
+                break;
+        };
+    }
+    else errorHandler(Discord_Bot, message, err, "YouTube Search Error", "Utils");
+};
 
 module.exports = {
     fortunes: [
@@ -52,16 +67,21 @@ module.exports = {
         "You have my respect, Stark. When I’m done, half of humanity will still be alive. I hope they remember you."
     ],
     async checkString(str, arr) {
-        const re = new RegExp(`\\b(?:${arr.join("|")})\\b|[^a-z0-9 ]`, "gi");
+        const re = new RegExp(`(?:${arr.join("|")})`, "gi");
         return re.test(str);
     },
     async filter(str, options) {
         let re = null;
-        if(options.special) re =  /(?:https?:\/\/(?:www\.)?(?:youtu\.be|youtube\.com)\/(?:watch\?v=)?([^ ]*))|([a-z0-9 _]*)/i;
-        else re =  /(?:https?:\/\/(?:www\.)?(?:youtu\.be|youtube\.com)\/(?:watch\?v=)?([^ ]*))/i;
-        let ret = re.exec(str);
-        if(!ret) return str;
-        return ret[2] || ret[1];
+        if(options.youtubePlaylist) {
+            re = /(?:(?:list=))([\w\d]{34})(?:&?)/gi;
+            str = re.exec(str)[1];
+        }
+        else {
+            re = /https?\:\/\/w{3}?\.?(youtube\.com|youtu\.be)\/(watch\?v=)/gi;
+            str = str.replace(re, "");
+        }
+        
+        return str;
     },
     async replaceHTMLEntitiy(str) {
         let re = new RegExp(`${htmlEntities.map(el => el.key).join("|")}`, "gi");
@@ -149,6 +169,26 @@ module.exports = {
     async isString(x) {
         return Object.prototype.toString.call(x) === "[object String]"
     },
+    async youtubePlaylistSearch(message, args, server, playlistID, callback, initialCallback) {
+        youtubeServices.youtubePlaylistSearch(playlistID)
+        .then(async playlist => {
+            if(playlist.data.items.length < 1) return message.channel.send("No results found");
+            
+            let playlistInfo = [];
+            message.channel.send("Adding playlist to queue...");
+
+            let playlistItems = playlist.data.items
+            for(let i = 0; i < playlistItems.length; i++) {
+                let link = `https://www.youtube.com/watch?v=${playlistItems[i].snippet.resourceId.videoId}`;
+                let songInfo = await this.YTDL_GetInfo(message, args, server, link);
+                if(i === 1) initialCallback(songInfo);
+                else playlistInfo.push(songInfo);
+            }
+
+            callback(playlistInfo);
+        })
+        .catch(err => youtubeErrorHandler(err, message));
+    },
     async youtubeSearch(message, args, server, songRequest, options, callback) {
         let link = options.isLink ? `https://www.youtube.com/watch?v=${songRequest}` : '';
         if(options.isLink) return this.YTDL_GetInfo(message, args, server, link, callback);
@@ -159,19 +199,7 @@ module.exports = {
             link = `https://www.youtube.com/watch?v=${results.data.items[0].id.videoId}`;
             this.YTDL_GetInfo(message, args, server, link, callback);
         })
-        .catch(err => {
-            if(err.response) {
-                switch(err.response.status) {
-                    case 403:
-                        errorHandler(Discord_Bot, message, err, "YouTube Search Error 403: Forbidden", "Utils");
-                        break;
-                    default:
-                        errorHandler(Discord_Bot, message, err, "YouTube Search Error", "Utils");
-                        break;
-                };
-            }
-            else errorHandler(Discord_Bot, message, err, "YouTube Search Error", "Utils");
-        });
+        .catch(err => youtubeErrorHandler(err, message));
     },
     async YTDL_GetInfo(message, args, server, link, callback) {
 
@@ -205,6 +233,15 @@ module.exports = {
             thumbnail: thumbnails[thumbnails.length - 1].url, 
             requestedBy: message.author.username
         }
-        callback(songInfo);
+        if(callback) return callback(songInfo);
+        else return songInfo;
+    },
+    createConnection(server, message) {
+        if(!server.queue.connection)
+            message.member.voice.channel.join()
+            .then(connection => playSong.playSong(Discord_Bot, connection, message, server, this.timeParser))
+            .catch(err => errorHandler(Discord_Bot, message, err, "Join Voice Channel Error", "Play"));
+        else if(server.queue.connection && !server.queue.isPlaying)
+            return playSong.playSong(Discord_Bot, server.queue.connection, message, server, this.timeParser);
     }
 };

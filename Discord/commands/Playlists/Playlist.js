@@ -41,15 +41,10 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
             });
 
             if(idx === (songs.length - 1)) {
-            message.channel.send(`Adding playlist **${playlistName}** to the queue`);
-            if(!server.queue.connection) 
-                message.member.voice.channel.join()
-                .then(connection => playSong.playSong(bot, connection, message, server))
-                .catch(err => console.error(err));
+                message.channel.send(`Adding playlist **${playlistName}** to the queue`);
+                utils.createConnection(server, message);
             }
-            else if(server.queue.connection && !server.queue.isPlaying)
-                return playSong.playSong(bot, server.queue.connection, message, server);
-        })
+        });
     };
 
     async function handleNoPlaylist() { return message.channel.send("No Playlist Found"); }

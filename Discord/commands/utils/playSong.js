@@ -27,7 +27,7 @@ async function clearQueue(server, message, connection) {
     }, 300000);
 };
 
-services.playSong = async (bot, connection, message, server) => {
+services.playSong = async (bot, connection, message, server, timeParser) => {
     let currentSongEmbed = new Discord.MessageEmbed();
     let request = server.queue.queueInfo[0];
     server.queue.connection = connection;
@@ -66,7 +66,7 @@ services.playSong = async (bot, connection, message, server) => {
     .addField(request.title, request.author)
     .addField('Link', `[Click Me](${request.link}) \nRequested By: ${request.requestedBy}`)
     .setThumbnail(request.thumbnail)
-    .setFooter(`Length: ${await utils.timeParser(request.duration)}`)
+    .setFooter(`Length: ${await timeParser(request.duration)}`)
     .setColor(0x0be289)
     message.channel.send(currentSongEmbed).then(msg => services.handleLikedSong(bot, message, msg, data));
 
@@ -81,7 +81,7 @@ services.playSong = async (bot, connection, message, server) => {
 
     server.dispatcher.once("finish", () => {
         if(server.queue.queueInfo[0] && message.guild.voice.connection) 
-            services.playSong(bot, connection, message, server);
+            services.playSong(bot, connection, message, server, timeParser);
         else 
             clearQueue(server, message, connection);
     });
