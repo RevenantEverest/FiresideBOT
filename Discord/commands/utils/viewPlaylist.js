@@ -65,7 +65,8 @@ async function handleSingle(message, playlist, songs, author, guildPlaylist) {
 
 module.exports = {
     async viewUserPlaylist(message, discord_id, playlist, bot) {
-        userSongsController.getByPlaylistId(bot, message, "ViewPlaylist", playlist.playlist_id, handleSongs, () => {
+        if(playlist.name === "Liked Songs") handleSongs(playlist.songs);
+        else userSongsController.getByPlaylistId(bot, message, "ViewPlaylist", playlist.playlist_id, handleSongs, () => {
             return message.channel.send(`No songs found in playlist **${playlist.name}**`);
         });
 
