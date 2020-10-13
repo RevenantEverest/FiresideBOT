@@ -789,12 +789,24 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Flags**: `-s` `-p`   
 **Example**: `?editplaylist Chillstep MyPlaylist`  
 
+- [LikedSongs](https://help.firesidebot.com/commands/likedsongs) `[param]`  
+**Desc**: Displays your LikedSongs playlist  
+**Aliases**: `playlists`   
+**Params**: @User Tag  
+**Example**: `?likedsongs`  
+
 - [Playlist](https://help.firesidebot.com/commands/playlist) `[param]`  
 **Desc**: Displays available playlists or requests your Playlist to the queue  
 **Aliases**: `playlists`   
 **Params**: Playlist Name  
 **Flags**: `-i` `-s`   
 **Example**: `?playlist Chillstep -s`  
+
+- [RemoveLikedSong](https://help.firesidebot.com/commands/removelikedsong) `<param>`  
+**Desc**: Removes a liked song from the default LikedSongs playlist  
+**Aliases**: `rls`   
+**Params**: ID  
+**Example**: `?removelikedsong 189`  
 
 - [RemovePlaylistRoles](https://help.firesidebot.com/commands/removeplaylistroles) `<param>`  
 **Desc**: Removes roles added to a server playlist, will no longer allow members with that role to add songs to that playlist  
