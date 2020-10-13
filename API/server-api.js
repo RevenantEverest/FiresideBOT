@@ -38,7 +38,8 @@ app.use("/guilds/settings", verifyToken, require('./routes/GuildRoutes/guildSett
 app.use("/guild/playlists", verifyToken, require('./routes/GuildRoutes/guildPlaylistRoutes'));
 app.use("/guild/songs", verifyToken, require('./routes/GuildRoutes/guildSongRoutes'));
 app.use("/guild/members/new", verifyToken, require('./routes/newGuildMembersRoutes'));
-app.use("/guilds/embed", verifyToken, require('./routes/GuildRoutes/guildEmbedRoutes.js'));
+app.use("/guilds/embed", verifyToken, require('./routes/GuildRoutes/guildEmbedRoutes'));
+app.use("/guild/analytics", verifyToken, require('./routes/GuildRoutes/guildAnalyticsRoutes'));
 
 app.use("/user/playlists", verifyToken, require('./routes/UserRoutes/userPlaylistRoutes'));
 app.use("/user/songs", verifyToken, require('./routes/UserRoutes/userSongRoutes'));
