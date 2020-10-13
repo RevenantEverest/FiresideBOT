@@ -33,6 +33,15 @@ services.getByDiscordId = async (bot, message, command, data, callback, qrecCall
     });
 };
 
+services.getByDiscordIdAndSongId = async (bot, message, command, data, callback, qrecCallback) => {
+    db.findByDiscordIdAndSongId(data)
+    .then(likedSong => callback(likedSong))
+    .catch(err => {
+        if(err instanceof QRE && err.code === qrec.noData) return qrecCallback();
+        else errorHandler(bot, message, err, "Error Finding Liked Songs", command);
+    });
+};
+
 services.save = async (bot, message, command, data, callback) => {
     db.save(data)
     .then(likedSong => callback(likedSong))

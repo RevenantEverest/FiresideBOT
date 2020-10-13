@@ -10,6 +10,9 @@ module.exports = {
     findByDiscordId(id) {
         return db.many('SELECT * FROM liked_songs WHERE discord_id = $1', id);
     },
+    findByDiscordIdAndSongId(likedSong) {
+        return db.one('SELECT * FROM liked_songs WHERE discord_id = $/discord_id/ AND id = $/id/', likedSong);
+    },
     save(song) {
         return db.one(`INSERT INTO liked_songs (discord_id, title, author, link, duration, thumbnail_url, date)
         VALUES ($/discord_id/, $/title/, $/author/, $/link/, $/duration/, $/thumbnail_url/, $/date/)
