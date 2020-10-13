@@ -4,8 +4,8 @@ const bot = require('../Discord_Bot');
 module.exports = {
     index(req, res, next) {
         let servers = config.servers.map(el => {
-            let guild = bot.guilds.resolve(el.id);
-            if(!guild) return console.log(guild);
+            let guild = bot.guilds.resolve(el.id) || null;
+            if(!guild) return null;
             else 
                 return {
                     name: guild.name,
@@ -26,7 +26,7 @@ module.exports = {
                     },
                     premium: el.premium
                 }
-        });
+        }).filter(Boolean);
         
         res.json({ data: servers });
     }
