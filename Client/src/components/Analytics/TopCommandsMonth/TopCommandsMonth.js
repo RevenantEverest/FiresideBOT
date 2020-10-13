@@ -4,7 +4,7 @@ import './TopCommandsMonth.css';
 import Spinner from 'react-bootstrap/Spinner';
 import PieChart from '../Charts/PieChart/PieChart';
 
-import commandLogServices from '../../../services/commandLogServices';
+import guildAnalyticsServices from '../../../services/GuildServices/guildAnalyticsServices';
 
 class TopCommandsMonth extends Component {
 
@@ -25,7 +25,7 @@ class TopCommandsMonth extends Component {
 
 	getTopCommandsMonth() {
 		if(!this._isMounted) return;
-		commandLogServices.getTopCommandsMonthByGuild(this.props.manageServer.id)
+		guildAnalyticsServices.getTopCommandsThisMonth(this.props.manageServer.id)
 		.then(logsThisMonth => this.setState({ logsThisMonth: logsThisMonth.data.data, dataReceived: true }))
 		.catch(err => console.error(err));
 	}

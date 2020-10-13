@@ -4,7 +4,7 @@ import './TopCommandsToday.css';
 import Spinner from 'react-bootstrap/Spinner';
 import PieChart from '../Charts/PieChart/PieChart';
 
-import commandLogServices from '../../../services/commandLogServices';
+import guildAnalyticsServices from '../../../services/GuildServices/guildAnalyticsServices';
 
 class TopCommandsToday extends Component {
 
@@ -25,7 +25,7 @@ class TopCommandsToday extends Component {
 
 	getTopCommandsToday() {
 		if(!this._isMounted) return;
-		commandLogServices.getTopCommandsTodayByGuild(this.props.manageServer.id)
+		guildAnalyticsServices.getTopCommandsToday(this.props.manageServer.id)
 		.then(logsToday => this.setState({ logsToday: logsToday.data.data, dataReceived: true }))
 		.catch(err => console.error(err));
 	}
@@ -34,6 +34,7 @@ class TopCommandsToday extends Component {
         const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', ' August', 'September', 'October', 'November', 'December'];
         const today = new Date();
         const date = { day: today.getDate(), month: today.getMonth(), year: today.getFullYear() };
+        console.log(this.state);
 		let logsToday = this.state.logsToday;
 
         let data = {

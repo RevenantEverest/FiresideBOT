@@ -4,7 +4,7 @@ import './CommandsOvertime.css';
 import Spinner from 'react-bootstrap/Spinner';
 import LineChart from '../Charts/LineChart/LineChart';
 
-import commandLogServices from '../../../services/commandLogServices';
+import guildAnalyticsServices from '../../../services/GuildServices/guildAnalyticsServices';
 
 class CommandsOvertine extends Component {
 
@@ -26,11 +26,8 @@ class CommandsOvertine extends Component {
     
     getCommandsOvertime() {
         if(!this._isMounted) return;
-        commandLogServices.getCommandsOvertimeByGuild(this.props.manageServer.id)
-        .then(logsOvertime => {
-            console.log(logsOvertime.data);
-            this.setState({ logsOvertime: logsOvertime.data.data, dataReceived: true })
-        })
+        guildAnalyticsServices.getCommandsOvertime(this.props.manageServer.id)
+        .then(logsOvertime => this.setState({ logsOvertime: logsOvertime.data.data, dataReceived: true }))
         .catch(err => console.error(err));
     }
 

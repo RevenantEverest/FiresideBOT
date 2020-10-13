@@ -9,7 +9,7 @@ import {
     MDBCardHeader
 } from 'mdbreact';
 
-import commandLogServices from '../../../services/commandLogServices';
+import guildAnalyticsServices from '../../../services/GuildServices/guildAnalyticsServices';
 import newGuildMemberServices from '../../../services/newGuildMemberServices';
 
 class WeeklyWrapup extends Component {
@@ -30,14 +30,14 @@ class WeeklyWrapup extends Component {
     getLogsThisMonth() {
         if(!this.props.manageServer) return;
         if(!this._isMounted) return setTimeout(() => this.getLogsThisMonth(), 2000);
-        commandLogServices.getCommandsWeekByGuild(this.props.manageServer.id)
+        guildAnalyticsServices.getCommandsThisWeek(this.props.manageServer.id)
         .then(logsThisWeek => this.setState({ logsThisWeek: logsThisWeek.data.data }, () => this.getNewGuildMembers()))
         .catch(err => console.error(err));
     }
 
     getNewGuildMembers() {
         newGuildMemberServices.getNewGuildMembers(this.props.manageServer.id)
-        .then(newMembers => this.setState({ newMembers: newMembers.data.data, dataReceived: true }))
+        .then(newMembers => this.setState({ newMembers: newMembers.data.data, dataReceived: true }, () => console.log(this.state)))
         .catch(err => console.error(err));
     }
 
