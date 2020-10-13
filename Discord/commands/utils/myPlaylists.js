@@ -3,6 +3,7 @@ const utils = require('./utils');
 
 const userPlaylistsController = require('../../controllers/dbControllers/userPlaylistsController');
 const userSongsController = require('../../controllers/dbControllers/userSongsController');
+const likedSongsController = require('../../controllers/dbControllers/likedSongsController');
 
 const guildPlaylistsController = require('../../controllers/dbControllers/guildPlaylistsController');
 const guildSongsController = require('../../controllers/dbControllers/guildSongsController');
@@ -47,15 +48,30 @@ module.exports = {
         playlists.forEach((el, idx) => {
             userSongsController.getByPlaylistId(bot, message, "MyPlaylists", el.playlist_id, (songs) => {
                 songData.push(songs);
-                if((idx + 1) === playlists.length) return handleEmbed(message, args, bot, discord_id, playlists, songData, false);
+                if((idx + 1) === playlists.length) return handleLikedSongs(playlists, songData);
             }, () => {
                 songData.push([]);
-                if((idx + 1) === playlists.length) return handleEmbed(message, args, bot, discord_id, playlists, songData, false);
+                if((idx + 1) === playlists.length) return handleLikedSongs(playlists, songData);
             });
         });
     };
+
+    async function handleLikedSongs(playlists, songData) {
+        likedSongsController.getByDiscordId(bot, message, "MyPlaylists", discord_id, (likedSongs) => {
+            playlists.push({ playlist_id: discord_id, discord_id: discord_id, name: "LikedSongs (Default Playlist)", public: true });
+            for(let i = 0; i < likedSongs.length; i++) {
+                likedSongs[i].playlist_id = discord_id;
+            }
+            songData.push(likedSongs);
+            handleEmbed(message, args, bot, discord_id, playlists, songData, false);
+        }, handleNoLikedSongs);
+    };
+
+    async function handleNoLikedSongs() {
+        handleEmbed(message, args, bot, discord_id, playlists, songData, false);
+    };
   },
-  async findServerPlaylists(message, args, bot) {;
+  async findServerPlaylists(message, args, bot) {
     guildPlaylistsController.getByGuildId(bot, message, "MyPlaylists", message.guild.id, getPlaylistSongs, () => {
         return message.channel.send("No Playlists Found");
     });
