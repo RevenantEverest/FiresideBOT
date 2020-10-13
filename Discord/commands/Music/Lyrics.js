@@ -86,6 +86,9 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
         search = await utils.filter(server.queue.currentSongInfo.title, filterArr, { special: true });
     else if(!args[1] && !server.queue.isPlaying) 
         return message.channel.send('Please specify a song');
+
+    let re = /([a-z -]*)?(?:(?:\(?(?:official music video|official video)\)?)?)/gi
+    search = re.exec(search)[1];
     
     ksoftServices.getLyrics(search)
         .then(results => {
