@@ -18,7 +18,7 @@ services.loginAdmin = (req, res, next) => {
     };
 
     function validateUser(discordUser) {
-        let supportServerMembers = bot.guilds.get("510673248107757579").members.array();
+        let supportServerMembers = bot.guilds.resolve("510673248107757579").members.cache.array();
         let serverMember = supportServerMembers.filter(el => el.user.id === discordUser.id)[0];
 
         if(!serverMember) return res.status(403).json({ error: "Unauthorized User" });

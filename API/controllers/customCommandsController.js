@@ -31,7 +31,7 @@ module.exports = {
         .then(commands => {
             let commandData = [];
             commands.forEach(el => {
-                let discordUser = bot.guilds.get(req.params.id).members.get(el.created_by) || null;
+                let discordUser = bot.guilds.resolve(req.params.id).members.resolve(el.created_by) || null;
                 let discord_username = null;
                 let avatarURL = null;
                 if(discordUser) {

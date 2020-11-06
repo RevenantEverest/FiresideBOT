@@ -22,7 +22,7 @@ module.exports = {
         }
 
         try {
-            bot.channels.get(req.body.channel_id).send(embed);
+            bot.channels.resolve(req.body.channel_id).send(embed);
             res.status(200).send("Embed Sent");
         }
         catch(err) {
