@@ -18,16 +18,20 @@ services.loginAdmin = (req, res, next) => {
     };
 
     function validateUser(discordUser) {
-        let supportServerMembers = bot.guilds.resolve("510673248107757579").members.cache.array();
-        let serverMember = supportServerMembers.filter(el => el.user.id === discordUser.id)[0];
+        bot.guilds.resolve("510673248107757579").members.fetch({ user: discordUser.id, cache: true })
+        .then(serverMember => {
+            if(!serverMember) return res.status(403).json({ error: "Unauthorized User" });
+            
+            if(serverMember._roles.includes("518336120677728263")) discordUser.userstate = "admin";
+            else if(serverMember._roles.includes("539817857681195029")) discordUser.userstate = "support";
+            else return res.status(403).json({ error: "Unauthorized User" });
 
-        if(!serverMember) return res.status(403).json({ error: "Unauthorized User" });
-        
-        if(serverMember._roles.includes("518336120677728263")) discordUser.userstate = "admin";
-        else if(serverMember._roles.includes("539817857681195029")) discordUser.userstate = "support";
-        else return res.status(403).json({ error: "Unauthorized User" });
-
-        sendToken(discordUser);
+            sendToken(discordUser);
+        })
+        .catch(err => {
+            console.error(err);
+            res.sendStatus(403).json({ error: "Unknown Error" });
+        });
     };
 
     function sendToken(discordUser) {
