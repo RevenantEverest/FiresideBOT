@@ -16,7 +16,7 @@ module.exports = (req, res, next) => {
             return res.status(403).json({ error: "Invalid Token" });
         }
 
-        let supportServerMembers = bot.guilds.get("510673248107757579").members.array();
+        let supportServerMembers = bot.guilds.resolve("510673248107757579").members.cache.array();
         let serverMember = supportServerMembers.filter(el => el.user.id === authData.discord_id);
         
         if(!serverMember) return;
