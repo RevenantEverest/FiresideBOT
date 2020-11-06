@@ -6,7 +6,6 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
 
     if(!args[1]) {
         embed
-        .addBlankField()
         .setThumbnail('https://i.imgur.com/Xalu0fX.png')
         .setTitle('**Music Options**')
         .addField('Volume: ', `${server.queue.options.volume}`, true)
