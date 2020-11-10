@@ -120,3 +120,18 @@ CREATE TABLE api_tokens (
     date VARCHAR(255)
 );
 
+CREATE TABLE articles (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(255),
+    author_id BIGINT,
+    content TEXT,
+    tags INT[],
+    published TIMESTAMP,
+    last_edited TIMESTAMP
+);
+
+CREATE TABLE tags (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255)
+);
+
