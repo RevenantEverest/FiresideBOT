@@ -203,23 +203,26 @@ module.exports = {
     },
     async YTDL_GetInfo(message, args, server, link, callback) {
 
-        /*
+        let info = null;
         
-            Possible Errors:
-
-            if(err.toString() === "Error: This video is unavailable.") 
+        try {
+            info = await YTDL.getBasicInfo(link);
+        }
+        catch(err) {
+            if(err.toString() === "TypeError: Cannot read property 'status' of undefined")
+                return message.channel.send("**YouTube** might be down, please check https://downdetector.com/status/youtube/ for more info");
+            else if(err.toString() === "Error: This video is unavailable.") 
                 return message.channel.send("This video is unavailable");
-            else if(err.toString().split(":")[0] === "TypeError")
+            else if(err.toString().split(":")[0] === "TypeError") {
+                console.log("[YTDL TypeError]: ", err.toString());
                 return message.channel.send("Invalid search request");
+            }
             else 
-                return errorHandler(Discord_Bot, message, err, "YTDL Error", "Utils")
-
-        */
-
-        let info = await YTDL.getBasicInfo(link);
+                return errorHandler(Discord_Bot, message, "Info is Null", "YTDL Error", "Utils");
+        }
 
         if(!info) 
-            return errorHandler(Discord_Bot, message, err, "YTDL Error", "Utils")
+            return errorHandler(Discord_Bot, message, "Info is Null", "YTDL Error", "Utils")
         if(info.player_response.videoDetails === undefined) 
             return message.channel.send(`Invalid Video Details`);
 
