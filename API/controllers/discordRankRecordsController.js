@@ -29,9 +29,9 @@ module.exports = {
             records.forEach(el => {
                 let discord_username = null;
                 let avatarURL = null;
-                if(Discord_Bot.guilds.get(req.params.id).members.get(el.discord_id) !== undefined) {
-                    discord_username = Discord_Bot.guilds.get(req.params.id).members.get(el.discord_id).user.username;
-                    avatarURL = Discord_Bot.guilds.get(req.params.id).members.get(el.discord_id).user.avatar;
+                if(Discord_Bot.guilds.resolve(req.params.id).members.resolve(el.discord_id) !== undefined) {
+                    discord_username = Discord_Bot.guilds.resolve(req.params.id).members.resolve(el.discord_id).user.username;
+                    avatarURL = Discord_Bot.guilds.resolve(req.params.id).members.resolve(el.discord_id).user.avatar;
                 }
                 recordsData.push({ 
                     id: el.id, xp: el.xp, 

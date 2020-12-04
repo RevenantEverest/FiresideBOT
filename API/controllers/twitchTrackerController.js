@@ -1,4 +1,3 @@
-const Discord_Bot = require('../Discord_Bot');
 const db = require('../models/twitchTrackerDB');
 const twitchServices = require('../services/twitchServices');
 const twitchTokensController = require('./twitchTokensController');

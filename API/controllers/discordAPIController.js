@@ -46,12 +46,12 @@ services.getBotUserSize = (req, res, next) => {
 };
 
 services.getGuildTextChannels = (req, res, next) => {
-    let channels = Discord_Bot.guilds.get(req.params.id).channels.array().filter(el => el.type === "text").map(el => { return { id: el.id, name: el.name } });
+    let channels = Discord_Bot.guilds.resolve(req.params.id).channels.cache.array().filter(el => el.type === "text").map(el => { return { id: el.id, name: el.name } });
     res.json({ message: "Getting Guild Text Channels", data: channels });
 };
 
 services.getGuildRoles = (req, res, next) => {
-    let roles = Discord_Bot.guilds.get(req.params.id).roles.array().map(el => { return {name: el.name, id: el.id} })
+    let roles = Discord_Bot.guilds.resolve(req.params.id).roles.cache.array().map(el => { return {name: el.name, id: el.id} })
     res.json({ message: "Getting Guild Roles", data: roles });
 };
 

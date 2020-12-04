@@ -11,11 +11,14 @@ module.exports = (req, res, next) => {
     const bearerToken = bearer[1];
 
     jwt.verify(bearerToken, process.env.TOKEN_SECRET, (err, authData)  => {
-        if(err) return res.status(403).json({ error: "Invalid Token" });
+        if(err) {
+            console.error(err);
+            return res.status(403).json({ error: "Invalid Token" });
+        }
 
-        let supportServerMembers = bot.guilds.get("510673248107757579").members.array();
+        let supportServerMembers = bot.guilds.resolve("510673248107757579").members.cache.array();
         let serverMember = supportServerMembers.filter(el => el.user.id === authData.discord_id);
-
+        
         if(!serverMember) return;
         
         if(serverMember[0]._roles.includes("518336120677728263")) return next();
