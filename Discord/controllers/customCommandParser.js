@@ -1,3 +1,5 @@
+const errorHandler = require('./errorHandler');
+
 module.exports = async (bot, message, customCommand) => {
     /*
         ${Choice1, Choice2, Choice3} returns one of the choices separated by commas
@@ -27,7 +29,10 @@ module.exports = async (bot, message, customCommand) => {
 
             /* Random User */
             if(exec.toLowerCase() === "randomuser") {
-                let guildMembers = message.guild.members.array();
+                let guildMembers = [];
+                await message.guild.members.fetch()
+                .then(members => guildMembers = members.array())
+                .catch(err => errorHandler(bot, message, err, "Error Parsing Custom Command", "Custom Command parser"))
                 guildMembers = guildMembers.filter(gm => !gm.bot);
                 output = output.replace("${" + exec + "}", guildMembers[Math.floor(Math.random() * guildMembers.length)]);
             }
