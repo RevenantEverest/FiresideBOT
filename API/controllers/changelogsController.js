@@ -44,7 +44,7 @@ module.exports = {
 
             if(!req.body.send_embed) return res.json({ message: "Saving Changelog", data: changelog });
 
-            bot.channels.get(process.env.ENVIRONMENT === "DEV" ? "624360349700980745" : "584830720992608286").send(
+            bot.channels.resolve(process.env.ENVIRONMENT === "DEV" ? "624360349700980745" : "584830720992608286").send(
                 `<@&${process.env.ENVIRONMENT === "DEV" ? "653928780217319424" : "653928224069255169"}> ` +
                 `${req.body.type.toLowerCase() === "release" ? "Update" : "Patch"} v${req.body.version} is ready for release\n\n` +
                 (req.body.flavor_text ? req.body.flavor_text + "\n\n" : "") +

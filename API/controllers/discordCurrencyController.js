@@ -27,9 +27,9 @@ module.exports = {
       results.forEach(el => {
         let discord_username = null;
         let avatarURL = null;
-        if(Discord_Bot.guilds.get(req.params.id).members.get(el.discord_id) !== undefined) {
-          discord_username = Discord_Bot.guilds.get(req.params.id).members.get(el.discord_id).user.username;
-          avatarURL = Discord_Bot.guilds.get(req.params.id).members.get(el.discord_id).user.avatar;
+        if(Discord_Bot.guilds.resolve(req.params.id).members.resolve(el.discord_id) !== undefined) {
+          discord_username = Discord_Bot.guilds.resolve(req.params.id).members.resolve(el.discord_id).user.username;
+          avatarURL = Discord_Bot.guilds.resolve(req.params.id).members.resolve(el.discord_id).user.avatar;
         }
         currencyData.push({ 
           id: el.id, currency: parseInt(el.currency, 10).toLocaleString(), 

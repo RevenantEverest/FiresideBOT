@@ -217,8 +217,11 @@ module.exports = {
                 console.log("[YTDL TypeError]: ", err.toString());
                 return message.channel.send("Invalid search request");
             }
+            else if(err.toString() === "MinigetError: Status code: 429") {
+                errorHandler(Discord_Bot, message, err, "YTDL 429 Error", "Utils");
+            }
             else 
-                return errorHandler(Discord_Bot, message, "Info is Null", "YTDL Error", "Utils");
+                return errorHandler(Discord_Bot, message, err, "YTDL Error", "Utils");
         }
 
         if(!info) 
