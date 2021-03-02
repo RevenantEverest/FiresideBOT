@@ -15,5 +15,5 @@ module.exports = async (err) => {
 
     let channel = await bot.channels.fetch(process.env.ENVIRONMENT === "DEV" ? "624216968844804096" : "624755756079513621");
     if(channel) return channel.send(embed).then(() => console.error(err.error));
-    else return console.error(err.error);
+    else return console.error(`[${err.message}] => `, err.error);
 };
