@@ -1,7 +1,7 @@
-const Discord = require('discord.js');
 const streamerRolesController = require('./streamerRolesController');
 const currentLive = [];
 const services = {};
+const errorHandler = require('./errorHandler');
 
 async function arrayObjectIndex(arr, guild_id, discord_id) {
     for(let i = 0; i < arr.length; i++) {
@@ -24,7 +24,11 @@ services.checkLive = async (bot) => {
         if(!guild.me.hasPermission("SEND_MESSAGES")) return;
         if(!guild.me.hasPermission("MANAGE_ROLES")) return;
         
-        let guildMembers = guild.members.cache.array().filter(el => el.presence.activities);
+        let guildMembers = [];
+        await guild.members.fetch()
+        .then(members => guildMembers = members.array().filter(el => el.presence.activities))
+        .catch(err => errorHandler({ controller: "Is Live Controller", message: "Error Fetching Guild Members", error: err }));
+
         let isStreaming = guildMembers.filter(el => el.presence.activities.map(a => a.name).includes("Twitch"));
         let guildCurrentLive = currentLive.filter(el => el.guild_id === guild.id); 
 
@@ -32,7 +36,7 @@ services.checkLive = async (bot) => {
             if(guildCurrentLive.map(el => el.discord_id).includes(el.user.id)) return;
 
             el.roles.add(settings.role_id, 'Fireside isLive Role')
-            .catch(err => console.error(err));
+            .catch(err => errorHandler({ controller: "Is Live Controller", message: "Error Granting Role", error: err }));
 
             currentLive.push({ guild_id: guild.id, discord_id: el.user.id, member: el });
         });
@@ -44,7 +48,7 @@ services.checkLive = async (bot) => {
             currentLive.splice(index, 1);
 
             el.member.roles.remove(settings.role_id, 'Fireside isLive Role')
-            .catch(err => console.error(err));
+            .catch(err => errorHandler({ controller: "Is Live Controller", message: "Error Removing Role", error: err }));
         });
     };
 };
