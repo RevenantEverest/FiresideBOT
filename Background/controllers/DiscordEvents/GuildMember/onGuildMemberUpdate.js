@@ -17,6 +17,7 @@ module.exports = async (bot, oldMember, newMember) => {
         let auditLogs = await bot.guilds.resolve(newMember.guild.id).fetchAuditLogs();
         let audit = auditLogs.entries.array()[0];
 
+        if(!audit) return console.error("No Audit => ", auditLogs);
         if(audit.reason)
             if(audit.reason === "Fireside isLive Role") return;
 
