@@ -8,7 +8,7 @@ module.exports =async (flavorText, trackerData, streamer) => {
             if(exec.toLowerCase() === "streamer") flavorText = flavorText.replace("${" + exec + "}", streamer);
 
             if(exec.toLowerCase() === "role" && trackerData.role_id !== "none") 
-                flavorText = flavorText.replace("${" + exec + "}", `<@&${role_id}>`);
+                flavorText = flavorText.replace("${" + exec + "}", `<@&${trackerData.role_id}>`);
             else if(exec.toLowerCase() === "role" && trackerData.role_id === "none")
                 flavorText = flavorText.replace("${" + exec + "}", "");
         });
