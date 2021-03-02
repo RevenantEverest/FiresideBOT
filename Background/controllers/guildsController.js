@@ -33,7 +33,7 @@ services.checkGuilds = async (bot) => {
     async function checkForAddedGuilds(dbGuilds) {
         botGuilds.forEach((el, idx) => {
             if(!dbGuilds.map(guild => guild.guild_id).includes(el.id))
-                services.saveGuild(bot, {name: el.name, id: el.id, memberCount: bot.guilds.get(el.id).memberCount});
+                services.saveGuild(bot, {name: el.name, id: el.id, memberCount: bot.guilds.resolve(el.id).memberCount});
             
             if(idx === (botGuilds.length - 1)) return checkForRemovedGuilds(dbGuilds);
         });
