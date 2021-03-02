@@ -22,20 +22,24 @@ module.exports = {
   },
   getByGuildId(req, res, next) {
     currencyDB.findByGuildId(req.params.id)
-    .then(results => {
+    .then(async results => {
       let currencyData = [];
+      let guild = Discord_Bot.guilds.resolve(req.params.id);
+      let guildMembers = [];
+
+      await guild.members.fetch()
+      .then(members => guildMembers = members.array())
+      .catch(err => errorHandler(bot, message, err, "Error Parsing Custom Command", "Custom Command parser"));
+
       results.forEach(el => {
-        let discord_username = null;
-        let avatarURL = null;
-        if(Discord_Bot.guilds.resolve(req.params.id).members.resolve(el.discord_id) !== undefined) {
-          discord_username = Discord_Bot.guilds.resolve(req.params.id).members.resolve(el.discord_id).user.username;
-          avatarURL = Discord_Bot.guilds.resolve(req.params.id).members.resolve(el.discord_id).user.avatar;
-        }
-        currencyData.push({ 
-          id: el.id, currency: parseInt(el.currency, 10).toLocaleString(), 
-          discord_username: discord_username, discord_id: el.discord_id, 
-          guild_id: el.guild_id, avatarUrl: avatarURL
-        })
+        let discordUser = guildMembers.filter(member => member.user.id === el.discord_id)[0];
+        if(discordUser && discordUser !== undefined) {
+          currencyData.push({ 
+            id: el.id, currency: parseInt(el.currency, 10).toLocaleString(), 
+            discord_username: discordUser.user.username, discord_id: el.discord_id, 
+            guild_id: el.guild_id, avatarUrl: discordUser.user.avatar
+          })
+        }        
       })
       res.json({ message: 'Getting Discord Currency By Guild Id', data: currencyData });
     })
