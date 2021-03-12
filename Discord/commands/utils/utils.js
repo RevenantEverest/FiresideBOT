@@ -77,7 +77,7 @@ module.exports = {
             str = re.exec(str)[1];
         }
         else {
-            re = /https?\:\/\/w{3}?\.?(youtube\.com|youtu\.be)\/(watch\?v=)/gi;
+            re = /https?\:\/\/(w{3})?\.?(youtube\.com|youtu\.be)\/(watch\?v=)?/gi;
             str = str.replace(re, "");
         }
         
