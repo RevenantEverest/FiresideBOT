@@ -24,18 +24,18 @@ services.handleOnReady = async (bot) => {
     
     if(process.env.ENVIRONMENT === "DEV") return console.log(chalk.hex('#ff9900')('[LOG]') + ' Twitch-Tracker Ready');
 
-    let embed = new Discord.RichEmbed();
+    let embed = new Discord.MessageEmbed();
     embed.setColor(0xff9900).setTitle("Twitch Tracker Starting up...").setFooter(await getDate());
-    bot.channels.get("543862697742172179").send(embed);
+    bot.channels.resolve("543862697742172179").send(embed);
 };
 
 services.handleOnError = async (bot, err) => {
     if(process.env.ENVIRONMENT === "DEV") return console.log(chalk.hex('#ff0000')('[ERROR]') +' CLIENT ERROR', err);
 
-    let embed = new Discord.RichEmbed();
+    let embed = new Discord.MessageEmbed();
     embed.setColor(0xff0000).setTitle("**[CLIENT ERROR]**: Twitch Tracker").setFooter(await getDate());
 
-    bot.channels.get("543862697742172179").send(embed);
+    bot.channels.resolve("543862697742172179").send(embed);
 };
 
 module.exports = services;

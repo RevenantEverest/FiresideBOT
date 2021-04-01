@@ -142,10 +142,10 @@ services.run = async (bot) => {
     function sendEmbed(trackerData) {
         trackerData.forEach(el => {
             // Create Cron Job To Purge Image Channel Every 14 days
-            bot.channels.get("684308884139016210").send(`Attachment for ${el.display_name}`, { files: [el.thumbnail_url] })
+            bot.channels.resolve("684308884139016210").send(`Attachment for ${el.display_name}`, { files: [el.thumbnail_url] })
             .then(msg => {
 
-                let embed = new Discord.RichEmbed();
+                let embed = new Discord.MessageEmbed();
 
                 embed
                 .setAuthor(`${el.display_name} is now LIVE`, el.logo)
@@ -158,8 +158,8 @@ services.run = async (bot) => {
                 .setFooter('Powered By Twitch API', 'https://i.imgur.com/DwmLOBU.png')
 
                 el.guildInfo.forEach(async guild => {
-                    if(!bot.guilds.get(guild.guild_id)) return;
-                    else if(!bot.guilds.get(guild.guild_id).channels.get(guild.channel_id)) return console.log("Invalid Channel");
+                    if(!bot.guilds.resolve(guild.guild_id)) return;
+                    else if(!bot.guilds.resolve(guild.guild_id).channels.resolve(guild.channel_id)) return console.log("Invalid Channel");
 
                     let role_mention = "";
 
@@ -170,7 +170,7 @@ services.run = async (bot) => {
                     else if(guild.role_id && guild.role_id === "none") role_mention = " ";
                     else if(guild.role_id) role_mention = `<@&${guild.role_id}>`;
                     
-                    bot.guilds.get(guild.guild_id).channels.get(guild.channel_id).send(role_mention ? role_mention : guild.flavor_text, embed);
+                    bot.guilds.resolve(guild.guild_id).channels.resolve(guild.channel_id).send(role_mention ? role_mention : guild.flavor_text, embed);
                 });
             });
         });
