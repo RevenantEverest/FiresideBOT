@@ -159,7 +159,7 @@ services.run = async (bot) => {
 
                 el.guildInfo.forEach(async guild => {
                     if(!bot.guilds.resolve(guild.guild_id)) return;
-                    else if(!bot.guilds.resolve(guild.guild_id).channels.resolve(guild.channel_id)) return console.log("Invalid Channel");
+                    else if(!bot.guilds.resolve(guild.guild_id).channels.resolve(guild.channel_id)) return console.log("Invalid Channel", guild);
 
                     let role_mention = "";
 
