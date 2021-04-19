@@ -30,7 +30,7 @@ services.handleOnReady = async (bot) => {
 };
 
 services.handleOnError = async (bot, err) => {
-    if(process.env.ENVIRONMENT === "DEV") return console.log(chalk.hex('#ff0000')('[ERROR]') +' CLIENT ERROR', err);
+    if(process.env.ENVIRONMENT === "DEV") return console.log(chalk.hex('#ff0000')('[ERROR]') + ' CLIENT ERROR', err);
 
     let embed = new Discord.MessageEmbed();
     embed.setColor(0xff0000).setTitle("**[CLIENT ERROR]**: Twitch Tracker").setFooter(await getDate());
