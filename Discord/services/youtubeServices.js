@@ -12,4 +12,8 @@ services.youtubePlaylistSearch = (data) => {
   return axios.get(encodeURI(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=10&playlistId=${data}&key=${process.env.GOOGLE_KEY}`));
 };
 
+services.getChannelPage = (data) => {
+  return axios.get(encodeURI(data));
+};
+
 module.exports = services;
