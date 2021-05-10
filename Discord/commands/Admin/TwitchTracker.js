@@ -19,8 +19,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     else role_id = "none";
 
     args.splice(args.indexOf("<#" + channel_id + ">"), 1);
-    
-    if(role_id !== "none") args.splice(args.indexOf((role_id === "@everyone" ? "@everyone" : `<#${role_id}>`), 1));
+    if(role_id !== "none") args.splice(args.indexOf(role_id === "@everyone" ? "@everyone" : `<@&${role_id}>`), 1);
 
     let permissions = new Permissions(bot.channels.resolve(channel_id).permissionsFor(bot.user).bitfield);
     if(!permissions.has("SEND_MESSAGES") || !permissions.has("EMBED_LINKS"))
