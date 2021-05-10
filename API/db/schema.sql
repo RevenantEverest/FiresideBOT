@@ -111,6 +111,16 @@ CREATE TABLE twitch_queue (
     duration VARCHAR(255)
 );
 
+CREATE TABLE youtube_trackers (
+    id SERIAL PRIMARY KEY,
+    guild_id VARCHAR(255),
+    youtube_channel_id VARCHAR(255),
+    youtube_channel_name VARCHAR(255),
+    channel_id VARCHAR(255),
+    role_id VARCHAR(255),
+    flavor_text VARCHAR(255)
+);
+
 CREATE TABLE api_tokens (
     id SERIAL PRIMARY KEY,
     service VARCHAR(255),
