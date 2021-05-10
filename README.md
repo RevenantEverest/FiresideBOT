@@ -271,7 +271,7 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Desc**: Deletes a Tracker  
 **Aliases**: `rtracker` `rt`   
 **Params**: Tracker ID  
-**Flags**: `-t`   
+**Flags**: `-t` `-yt`   
 **Example**: `?removetracker -t 53`  
 
 - [RemoveWelcomeMessage](https://help.firesidebot.com/commands/removewelcomemessage)   
@@ -294,6 +294,12 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Desc**: Get sent an example of your server's welcome message in a DM  
 **Aliases**: `vwm`   
 **Example**: `?viewwelcomemessage`  
+
+- [YouTubeTracker](https://help.firesidebot.com/commands/youtubetracker) `<param>`  
+**Desc**: Creates a tracker for a YouTube channel that posts when they're streaming to a text channel  
+**Aliases**: `ytt` `yttracker`   
+**Params**: YouTube Channel Link / #Channel Tag / Optional @Role Tag  
+**Example**: `?youtubetracker https://www.youtube.com/user/PewDiePie #general Hello ${role}! ${streamer} is now live!`  
 
 - [CustomCommands](https://help.firesidebot.com/commands/customcommands)   
 **Desc**: Custom Command  
