@@ -6,7 +6,7 @@ const youtubeTrackerController = require('../youtubeTrackerController');
 
 async function handleTrackers(bot) {
     youtubeTrackerController.run(bot);
-    setInterval(() => youtubeTrackerController.run(bot), 120000);
+    setInterval(() => youtubeTrackerController.run(bot), 300000);
 };
 
 module.exports = async (bot) => {
