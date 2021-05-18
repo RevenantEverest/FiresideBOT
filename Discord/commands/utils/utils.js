@@ -73,7 +73,7 @@ module.exports = {
     async filter(str, options) {
         let re = null;
         if(options.youtubePlaylist) {
-            re = /(?:(?:list=))([\w\d]{34})(?:&?)/gi;
+            re = /(?<=list=)(.*?)(?=\&|\/|$)/gi;
             str = re.exec(str)[1];
         }
         else {
