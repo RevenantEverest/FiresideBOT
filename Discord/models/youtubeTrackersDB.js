@@ -16,7 +16,7 @@ module.exports = {
         RETURNING *`, tracker);
     },
     update(tracker) {
-        return db.one(`UPDATE youtube_tracker
+        return db.one(`UPDATE youtube_trackers
         SET
         guild_id = $/guild_id/,
         youtube_channel_id = $/youtube_channel_id/,
