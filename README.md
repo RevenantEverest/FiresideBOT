@@ -209,7 +209,7 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Desc**: Edit an existing tracker  
 **Aliases**: `et`   
 **Params**: Flag / Tracker ID / #Channel-Tag and/or @Role Tag  
-**Flags**: `-t`   
+**Flags**: `-t` `-yt`   
 **Example**: `?edittracker -t 108 #general @everyone`  
 
 - [EditWelcomeMessage](https://help.firesidebot.com/commands/editwelcomemessage) `<param>`  
