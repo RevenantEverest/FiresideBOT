@@ -142,7 +142,7 @@ services.run = async (bot) => {
     function sendEmbed(trackerData) {
         trackerData.forEach(el => {
             // Create Cron Job To Purge Image Channel Every 14 days
-            bot.channels.resolve("684308884139016210").send(`Attachment for ${el.display_name}`, { files: [el.thumbnail_url] })
+            bot.channels.resolve("684308884139016210").send(`Attachment for ${el.display_name}`, { files: [encodeURI(el.thumbnail_url)] })
             .then(msg => {
 
                 let embed = new Discord.MessageEmbed();
@@ -164,6 +164,7 @@ services.run = async (bot) => {
                     let role_mention = "";
 
                     if(process.env.ENVIRONMENT === "DEV" && guild.guild_id !== "427883469092159490") return;
+
                     if(guild.flavor_text && guild.flavor_text !== "") 
                         guild.flavor_text = await flavorTextParser(guild.flavor_text, guild, el.display_name);
                     else if(guild.role_id && guild.role_id === "@everyone") role_mention = "@everyone";
@@ -172,7 +173,8 @@ services.run = async (bot) => {
                     
                     bot.guilds.resolve(guild.guild_id).channels.resolve(guild.channel_id).send(role_mention ? role_mention : guild.flavor_text, embed);
                 });
-            });
+            })
+            .catch(() => console.error("Error sending to channel. Here's the trackerData element => ", el));
         });
     };
 };
