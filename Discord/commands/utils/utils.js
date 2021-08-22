@@ -169,25 +169,54 @@ module.exports = {
     async isString(x) {
         return Object.prototype.toString.call(x) === "[object String]"
     },
-    async youtubePlaylistSearch(message, args, server, playlistID, callback, initialCallback) {
-        youtubeServices.youtubePlaylistSearch(playlistID)
-        .then(async playlist => {
-            if(playlist.data.items.length < 1) return message.channel.send("No results found");
-            
-            let playlistInfo = [];
-            message.channel.send("Adding playlist to queue...");
+    async youtubePlaylistSearch(message, args, server, userstate, playlistID, callback, initialCallback) {
+        let sendInitialCallback = true;
+        let ytdlGetInfo = this.YTDL_GetInfo;
+        let playlistInfo = [];
+        let data = {
+            playlist_id: playlistID,
+            maxResults: userstate.premium ? 50 : 10
+        };
 
-            let playlistItems = playlist.data.items
+        requestPlaylistItems();
+
+        async function requestPlaylistItems() {
+            youtubeServices.youtubePlaylistSearch(data)
+            .then(playlist => parseData(playlist))
+            .catch(err => youtubeErrorHandler(err, message));
+        };
+
+        async function parseData(playlist) {
+            console.log("Parsing data...");
+            if(playlist.data.items.length < 1) return message.channel.send("No results found");
+            if(playlist.data.nextPageToken) data.pageToken = playlist.data.nextPageToken;
+            else data.pageToken = null; 
+            
+            if(sendInitialCallback) 
+                message.channel.send(
+                    "Adding playlist to queue. \n" +
+                    "This may take a minute or two depending on playlist length." + 
+                    "Enjoy the first song in the meantime!"
+                );
+
+            let playlistItems = playlist.data.items;
             for(let i = 0; i < playlistItems.length; i++) {
                 let link = `https://www.youtube.com/watch?v=${playlistItems[i].snippet.resourceId.videoId}`;
-                let songInfo = await this.YTDL_GetInfo(message, args, server, link);
-                if(i === 1) initialCallback(songInfo);
-                else playlistInfo.push(songInfo);
+                let songInfo = await ytdlGetInfo(message, args, server, link);
+                if(songInfo !== undefined) {
+                    if(i === 1 && sendInitialCallback) {
+                        initialCallback(songInfo);
+                        sendInitialCallback = false;
+                    }
+                    else playlistInfo.push(songInfo);
+                }
             }
 
-            callback(playlistInfo);
-        })
-        .catch(err => youtubeErrorHandler(err, message));
+            if(data.pageToken) 
+                requestPlaylistItems();
+            else 
+                return callback(playlistInfo);
+        };
     },
     async youtubeSearch(message, args, server, songRequest, options, callback) {
         let link = options.isLink ? `https://www.youtube.com/watch?v=${songRequest}` : '';
@@ -202,26 +231,29 @@ module.exports = {
         .catch(err => youtubeErrorHandler(err, message));
     },
     async YTDL_GetInfo(message, args, server, link, callback) {
-
         let info = null;
         
         try {
             info = await YTDL.getBasicInfo(link);
         }
         catch(err) {
-            if(err.toString() === "TypeError: Cannot read property 'status' of undefined")
-                return message.channel.send("**YouTube** might be down, please check https://downdetector.com/status/youtube/ for more info");
-            else if(err.toString() === "Error: This video is unavailable.") 
-                return message.channel.send("This video is unavailable");
-            else if(err.toString().split(":")[0] === "TypeError") {
+            if(err.toString().split(":")[0] === "TypeError") {
                 console.log("[YTDL TypeError]: ", err.toString());
                 return message.channel.send("Invalid search request");
             }
-            else if(err.toString() === "MinigetError: Status code: 429") {
-                errorHandler(Discord_Bot, message, err, "YTDL 429 Error", "Utils");
+
+            switch(err.toString()) {
+                case "TypeError: Cannot read property 'status' of undefined":
+                    return message.channel.send("**YouTube** might be down, please check https://downdetector.com/status/youtube/ for more info");
+                case "Error: This video is unavailable.":
+                    return message.channel.send("This video is unavailable");
+                case "Error: Video unavailable":
+                    return message.channel.send("Video is unavailable");
+                case "MinigetError: Status code: 429":
+                    return errorHandler(Discord_Bot, message, err, "YTDL 429 Error", "Utils");
+                default:
+                    return errorHandler(Discord_Bot, message, err, "YTDL Error", "Utils");
             }
-            else 
-                return errorHandler(Discord_Bot, message, err, "YTDL Error", "Utils");
         }
 
         if(!info) 

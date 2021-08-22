@@ -27,14 +27,14 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     else request = args.join(" ");
 
     if(isPlaylist) 
-        return utils.youtubePlaylistSearch(message, args, server, request, playlistSongHandler, addSingleToQueue);
+        return utils.youtubePlaylistSearch(message, args, server, userstate, request, playlistSongHandler, addSingleToQueue);
     else 
         return utils.youtubeSearch(message, args, server, request, { isLink: isLink }, addSingleToQueue);
 
     async function playlistSongHandler(playlistInfo) {
         let counter = 0;
         await playlistInfo.forEach(el => {
-            if(!userstate.premium && songInfo.duration >= 3600) counter++;
+            if(!userstate.premium && el.duration >= 3600) counter++;
             server.queue.queueInfo.push(el);
         });
 

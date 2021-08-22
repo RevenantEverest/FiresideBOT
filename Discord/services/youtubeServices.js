@@ -9,7 +9,10 @@ services.youtubeSearch = (data) => {
 };
 
 services.youtubePlaylistSearch = (data) => {
-  return axios.get(encodeURI(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=10&playlistId=${data}&key=${process.env.GOOGLE_KEY}`));
+  let URL = encodeURI(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=${data.maxResults}&playlistId=${data.playlist_id}&key=${process.env.GOOGLE_KEY}`);
+  if(data.pageToken)
+    URL = encodeURI(URL + `&pageToken=${data.pageToken}`);
+  return axios.get(URL);
 };
 
 services.getChannelPage = (data) => {
