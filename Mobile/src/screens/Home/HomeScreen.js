@@ -1,13 +1,23 @@
 import React from 'react';
 import { View } from 'react-native';
-import { Text } from 'react-native-elements';
+import { makeStyles } from 'react-native-elements';
 
 function HomeScreen() {
+
+    const styles = useStyles();
+
     return(
-        <View>
-        <Text>Hello World</Text>
+        <View style={styles.container}>
         </View>
     );
 };
+
+const useStyles = makeStyles((theme, props) => ({
+    container: {
+        flex: 1,
+        paddingTop: 50,
+        backgroundColor: theme.colors.background
+    }
+}));
 
 export default HomeScreen;
