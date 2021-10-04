@@ -9,12 +9,10 @@ import Navigation from './src/navigation/Navigation';
 
 function App() {
 
-    console.log(Theme);
-
     return (
         <ThemeProvider useDark={true} theme={Theme}>
             {/* <Provider store={store}> */}
-                <Navigation colorScheme={"dark"} />
+                <Navigation />
                 <StatusBar />
             {/* </Provider> */}
         </ThemeProvider>
