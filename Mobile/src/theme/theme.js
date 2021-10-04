@@ -7,7 +7,8 @@ const theme = {
         text: "#ffffff",
         mutedText: '#636363',
         transparent: "rgba(0,0,0,0)",
-        background: "#151515"
+        background: "#151515",
+        header: "#222222"
     }
 };
 
