@@ -28,7 +28,7 @@ module.exports = {
     save(req, res, next) {
         db.save({ content: req.body.content, version: req.body.version, type: req.body.type, release_date: moment().format("DD MMM YYYY") })
         .then(changelog => {
-            let embed = new Discord.RichEmbed;
+            let embed = new Discord.MessageEmbed();
             let description = "";
             let contentCharArr = req.body.content.split(" ");
             contentCharArr.splice(1, 1);

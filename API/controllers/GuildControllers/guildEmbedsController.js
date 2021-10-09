@@ -4,7 +4,7 @@ const bot = require('../../Discord_Bot');
 module.exports = {
     sendEmbed(req, res, next) {
 
-        let embed = new Discord.RichEmbed();
+        let embed = new Discord.MessageEmbed();
         
         if(req.body.color) embed.setColor(req.body.color);
         if(req.body.title) embed.setTitle(req.body.title);
@@ -27,7 +27,7 @@ module.exports = {
         }
         catch(err) {
             res.status(500).send("Error Sending Embed");
-            console.log(err);
+            console.error(err);
         }
         
     }

@@ -27,7 +27,7 @@ services.updateChangelog = (data) => {
 services.deleteChangelog = (data) => {
     return axios({
         method: "DELETE",
-        url: `${env.api}/changelogs/id/${data}`,
+        url: `${env.API}/changelogs/id/${data}`,
         headers: { "Authorization": `Bearer ${window.localStorage.token}` }
     });
 };
