@@ -3,6 +3,7 @@ export { default as AnalyticsContainer } from './Analytics/AnalyticsContainer';
 export { default as CustomCommandsContainer } from './CustomCommands/CustomCommandsContainer';
 export { default as DashboardContainer } from './Dashboard/DashboardContainer';
 export { default as EconomyContainer } from './Economy/EconomyContainer';
+export { default as ModerationContainer } from './Moderation/ModerationContainer';
 export { default as RanksContainer } from './Ranks/RanksContainer';
 
 
