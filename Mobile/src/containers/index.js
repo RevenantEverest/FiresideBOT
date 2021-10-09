@@ -6,7 +6,7 @@ export { default as EconomyContainer } from './Economy/EconomyContainer';
 export { default as ModerationContainer } from './Moderation/ModerationContainer';
 export { default as RanksContainer } from './Ranks/RanksContainer';
 export { default as TrackersContainer } from './Trackers/TrackersContainer';
-
+export { default as ServerSettingsContainer } from './ServerSettings/ServerSettingsContainer';
 
 export { default as HomeContainer } from './Home/HomeContainer';
 export { default as LoginContainer } from './Login/LoginContainer';
