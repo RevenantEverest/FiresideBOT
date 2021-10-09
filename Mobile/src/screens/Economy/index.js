@@ -1,0 +1,1 @@
+export { default as EconomyScren } from './EconomyScreen';
