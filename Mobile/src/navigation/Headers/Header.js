@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import { Icon, Text, makeStyles, useTheme } from 'react-native-elements';
+import { Icon, makeStyles, useTheme } from 'react-native-elements';
 
 function Header({ route, navigation }) {
 
@@ -9,11 +9,11 @@ function Header({ route, navigation }) {
 
     return(
         <View style={styles.container}>
-            <View style={{ flexDirection: "row" }}>
+            <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
                 <Icon
                 name="bars"
                 type="font-awesome-5"
-                size={22}
+                size={24}
                 containerStyle={styles.iconContainer}
                 iconStyle={styles.icon}
                 color={theme.colors.primary}
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme, props) => ({
         backgroundColor: theme.colors.header
     },
     iconContainer: {
-        marginLeft: 15,
+        marginRight: 15,
         marginBottom: 15
     },
     icon: {
