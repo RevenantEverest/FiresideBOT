@@ -1,1 +1,1 @@
-export { default as EconomyScren } from './EconomyScreen';
+export { default as EconomyScreen } from './EconomyScreen';
