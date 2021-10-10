@@ -23,7 +23,7 @@
     "moment": "^2.29.1",
     "morgan": "^1.10.0",
     "node-opus": "^0.3.3",
-    "nodemon": "^1.19.3",
+    "nodemon": "^2.0.13",
     "pg-promise": "^8.7.5",
     "rainbowsix-api-node": "0.0.1",
     "ytdl-core": "^4.9.1"
