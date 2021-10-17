@@ -1,4 +1,8 @@
 /node_modules/
+/Client_old/
+
 *.env
-nohup.out
 *.sh
+
+nohup.out
+
