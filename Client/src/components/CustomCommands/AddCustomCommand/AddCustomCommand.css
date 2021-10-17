@@ -1,7 +1,0 @@
-#AddCustomCommand-Input-Col > div, #AddCustomCommand-Output-Col > div {
-    margin: 0;
-}
-
-#AddCustomCommand-Input-Col > div > input, #AddCustomCommand-Output-Col > div > input {
-    padding: 0;
-}
