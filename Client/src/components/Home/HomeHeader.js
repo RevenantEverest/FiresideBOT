@@ -1,5 +1,4 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { makeStyles, useTheme } from '@fluentui/react-theme-provider';
 import {
     MDBContainer as Container,
@@ -11,12 +10,13 @@ import {
     MDBBtn,
     MDBIcon
 } from 'mdbreact';
+import UserSizeNumber from './UserSizeNumber';
 
 import Logo from '../../assets/images/logo_trans.png';
 import Embers from '../../assets/images/embers.png';
 import Campfire from '../../assets/images/Campfire.jpg';
 
-function HomeHeader() {
+function HomeHeader({ api }) {
 
     const theme = useTheme();
     const styles = useStyles();
@@ -42,13 +42,17 @@ function HomeHeader() {
                         </div>
                         <div className="text-center">
                         <MDBAnimation type="fadeIn" duration="1s" delay="1s">
-                            <MDBBtn className={[styles.button, styles.userSizeButton].join(" ")} color={theme.colors.mdb.primary} size="md">
-                                Serving ... users
-                            </MDBBtn>
-                            <MDBBtn className={[styles.button, styles.discordButton].join(" ")} color="mdb-color lighten-2" size="md">
-                                <MDBIcon className="mr-2" fab icon="discord" />
-                                Add To Discord
-                            </MDBBtn>
+                        <MDBBtn color="orange" className={[styles.button, theme.classNames.button].join(" ")} size="md">
+                            <div className="d-flex flex-row">
+                                Serving
+                                <UserSizeNumber className="ml-1 mr-1" api={api} delay={1} />
+                                users
+                            </div>
+                        </MDBBtn>
+                        <MDBBtn color="blue" className={[styles.button, "discord-color"].join(" ")} size="md">
+                            <MDBIcon className="mr-2" fab icon="discord" />
+                            Add To Discord
+                        </MDBBtn>
                         </MDBAnimation>
                         </div>
                     </div>
@@ -74,9 +78,6 @@ const useStyles = makeStyles((theme) => ({
     },
     button: {
         width: "180px"
-    },
-    discordButton: {
-        backgroundColor: `red !important`
     }
 }));
 
