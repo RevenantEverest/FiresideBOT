@@ -14,6 +14,10 @@ const colors = {
     mutedText: "#666666"
 };
 
+const classNames = {
+    button: "fireside-button-dark"
+};
+
 const gradients = {
     primary: `linear-gradient(40deg, ${colors.secondary}, ${colors.primary})`,
     secondary: `linear-gradient(40deg, ${colors.primary}, ${colors.secondary})`
@@ -22,7 +26,8 @@ const gradients = {
 const darkTheme = {
     name: "dark",
     colors: colors,
-    gradients: gradients
+    gradients: gradients,
+    classNames: classNames
 };
 
 export default darkTheme;
