@@ -49,7 +49,7 @@ function Footer({ changeTheme }) {
             <Col md="3" lg="4" xl="3" className="mb-4">
                 <div className="d-flex">
                     <img className={"img-fluid mb-2 " + styles.logo} src={Logo} alt="logo" />
-                    <h6 className="text-uppercase font-weight-bold">
+                    <h6 className="fireside-text text-uppercase">
                         <strong>FiresideBOT</strong>
                     </h6>
                 </div>
@@ -129,7 +129,7 @@ const useStyles = makeStyles((theme) => ({
         background: theme.colors.dark
     },
     logo: {
-        marginTop: -12,
+        marginTop: -22,
         width: 40
     },
     hr: {
