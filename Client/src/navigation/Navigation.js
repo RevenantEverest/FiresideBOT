@@ -1,31 +1,19 @@
 import React from 'react';
 import { Route, withRouter } from 'react-router-dom';
 import { makeStyles } from '@fluentui/react-theme-provider';
-
-import { HomeNavbar, Navbar } from './Navbar';
-
+import { Navbar } from './Navbar';
+import { Footer } from './Footer';
 import {
     HomeContainer
 } from '../containers';
 
-import { Footer } from './Footer';
-
 function Navigation(props) {
 
-    const styles = useStyles();
-
-    const renderNavbar = () => {
-        switch(props.location.pathname) {
-            case "/":
-                return <HomeNavbar {...props} />
-            default:
-                return <Navbar {...props} />
-        };
-    };
+    const styles = useStyles();;
 
     return(
         <div className={"app " + styles.app}>
-            {renderNavbar()}
+            <Navbar {...props} />
             <Route exact path="/" component={HomeContainer} />
             <Footer {...props} />
         </div>

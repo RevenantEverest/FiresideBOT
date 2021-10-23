@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles, useTheme } from '@fluentui/react-theme-provider';
 import {
     MDBContainer as Container,
@@ -15,6 +15,7 @@ import {
 import ThemeChanger from '../../components/ThemeChanger/ThemeChanger';
 
 import Logo from '../../assets/images/logo_trans.png';
+import { _HomeRoutes } from '../_Routes';
 
 function Navbar({ location, changeTheme }) {
 
@@ -22,52 +23,57 @@ function Navbar({ location, changeTheme }) {
     const styles = useStyles();
 
     const [collapse, setCollapse] = useState(false);
+    const [scrollPosition, setScrollPosition] = useState(0);
+    const isTransparent = collapse && location.pathname !== "/" ? true : false;
+    const navbarClass = scrollPosition > 50 || isTransparent ? styles.gradient : styles.transparent;
 
-    const toggleCollapse = () => setCollapse(!collapse);
+    const handleScroll = () => {
+        const position = window.pageYOffset;
+        setScrollPosition(position);
+    };
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll, { passive: true });
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+
+    const toggleCollapse = () => {
+        return setCollapse(!collapse);
+    };
 
     const isActive = (path) => {
         return location.pathname.split("/")[1] === path;
-    }
+    };
+
+    const renderRoutes = () => {
+        return _HomeRoutes.map(route => (
+            <MDBNavItem active={isActive(route.path)} key={route.path}>
+                <MDBNavLink to={route.path} className={styles.navLink}>
+                    {route.icon ? <route.icon className="mr-1" /> : ""}
+                    {route.title}
+                </MDBNavLink>
+            </MDBNavItem>
+        ));
+    };
 
     return(
-        <MDBNavbar className={styles.gradient} fixed="top" dark expand="md" scrolling>
+        <MDBNavbar className={navbarClass} fixed="top" dark expand="md" scrolling transparent={isTransparent}>
             <Container>
             <MDBNavbarBrand href="/">
                 <img className={styles.logo} src={Logo} alt="logo" />
             </MDBNavbarBrand>
             <MDBNavbarToggler onClick={toggleCollapse} />
             <MDBCollapse isOpen={collapse} navbar>
-            <MDBNavbarNav left>
-                <MDBNavItem active={isActive("/")}>
-                    <MDBNavLink to="/" className={styles.navLink}>
-                        Getting Started
-                    </MDBNavLink>
-                </MDBNavItem>
-                <MDBNavItem active={isActive("/")}>
-                    <MDBNavLink to="/features" className={styles.navLink}>
-                        Features
-                    </MDBNavLink>
-                </MDBNavItem>
-                <MDBNavItem active={isActive("/")}>
-                    <MDBNavLink to="/" className={styles.navLink}>
-                        Commands
-                    </MDBNavLink>
-                </MDBNavItem>
-                <MDBNavItem active={isActive("/")}>
-                    <MDBNavLink to="/premium" className={styles.navLink}>
-                        Premium
-                    </MDBNavLink>
-                </MDBNavItem>
-                <MDBNavItem active={isActive("/")}>
-                    <MDBNavLink to="/" className={styles.navLink}>
-                        Support Server
-                    </MDBNavLink>
-                </MDBNavItem>
-            </MDBNavbarNav>
-            <MDBNavbarNav right>
+                <MDBNavbarNav left>
+                    {renderRoutes()}
+                </MDBNavbarNav>
+                <MDBNavbarNav right>
                 <MDBNavItem>
                     <MDBNavLink to="/login">
-                    <MDBBtn color={theme.colors.mdb.primary} rounded size="md">
+                    <MDBBtn className={theme.classNames.button} rounded size="sm">
                         Login
                     </MDBBtn>
                     </MDBNavLink>
@@ -77,7 +83,7 @@ function Navbar({ location, changeTheme }) {
                         <ThemeChanger changeTheme={changeTheme} />
                     </div>
                 </MDBNavItem>
-            </MDBNavbarNav>
+                </MDBNavbarNav>
             </MDBCollapse>
             </Container>
         </MDBNavbar>
@@ -89,8 +95,11 @@ const useStyles = makeStyles((theme) => ({
         marginTop: -20,
         width: 42
     },
+    transparent: {
+        background: "transparent"
+    },
     gradient: {
-        background: `${theme.gradients.primary} !important`,
+        background: `${theme.gradients.secondary} !important`,
     },
     navLink: {
         fontWeight: 600,
