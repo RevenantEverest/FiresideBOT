@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import CountUp from 'react-countup';
 
-function UserSizeButton({ api, delay=1, ...props }) {
+function UserSizeNumber({ api, delay=1, ...props }) {
 
     const timeoutDuration = delay * 1000;
     const [userSize, setUserSize] = useState(0);
@@ -37,4 +37,4 @@ function UserSizeButton({ api, delay=1, ...props }) {
     );
 };
 
-export default UserSizeButton;
+export default UserSizeNumber;
