@@ -27,3 +27,7 @@ code {
 }
 
 .fireside-text { font-family: 'NexaRustSlab', sans-serif; }
+.fireside-button-dark { background-color: #A62F03 !important; }
+.fireside-button-light { background-color: #A62F03 !important; }
+
+.discord-color { background-color: #5865F2 !important; }
