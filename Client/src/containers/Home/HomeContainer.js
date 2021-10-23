@@ -1,5 +1,22 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { discordServices } from '../../api';
 import { HomePage } from '../../pages/Home';
+
+function mapStateToProps(state) {
+
+    console.log("State => ", state);
+
+    return {};
+};
+
+function mapDispatchToProps(dispatch) {
+    return {
+        api: {
+            ...discordServices
+        }
+    };
+};
 
 function HomeContainer(props) {
     return(
@@ -7,4 +24,7 @@ function HomeContainer(props) {
     );
 };
 
-export default HomeContainer;
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(HomeContainer);
