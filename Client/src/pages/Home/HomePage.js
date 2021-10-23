@@ -7,13 +7,14 @@ import {
 
 import { HomeHeader } from '../../components/Home';
 
-function HomePage() {
+function HomePage({ api }) {
+
     return(
         <div id="HomePage">
             <Container className="pl-0 pr-0 overflow-hidden" fluid>
             <Row>
                 <Col>
-                    <HomeHeader />
+                    <HomeHeader api={api} />
                 </Col>
             </Row>
             <Row>
