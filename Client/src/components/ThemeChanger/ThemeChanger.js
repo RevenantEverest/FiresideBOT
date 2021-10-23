@@ -26,6 +26,7 @@ function ThemeChanger({ changeTheme }) {
             domElement
             material
             placement="top"
+            key={theme.name}
             >
                 <div
                 key={theme.name}
