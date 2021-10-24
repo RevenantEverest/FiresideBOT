@@ -24,7 +24,7 @@ function Navbar({ location, changeTheme }) {
 
     const [collapse, setCollapse] = useState(false);
     const [scrollPosition, setScrollPosition] = useState(0);
-    const isTransparent = collapse && location.pathname !== "/" ? true : false;
+    const isTransparent = !collapse && location.pathname !== "/" || collapse ? true : false;
     const navbarClass = scrollPosition > 50 || isTransparent ? styles.gradient : styles.transparent;
 
     const handleScroll = () => {
