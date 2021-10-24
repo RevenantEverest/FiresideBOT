@@ -4,7 +4,8 @@ import { makeStyles } from '@fluentui/react-theme-provider';
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
 import {
-    HomeContainer
+    HomeContainer,
+    GettingStartedContainer
 } from '../containers';
 
 function Navigation(props) {
@@ -15,6 +16,7 @@ function Navigation(props) {
         <div className={"app " + styles.app}>
             <Navbar {...props} />
             <Route exact path="/" component={HomeContainer} />
+            <Route exact path="/getting_started" component={GettingStartedContainer} />
             <Footer {...props} />
         </div>
     );
