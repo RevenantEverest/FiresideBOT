@@ -22,7 +22,7 @@ function UserSizeNumber({ api, delay=1, ...props }) {
         return () => {
             clearTimeout(timeout);
         };
-    }, [userSize]);
+    }, [userSize, timeoutDuration]);
 
     return(
         <div 
