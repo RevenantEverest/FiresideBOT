@@ -4,9 +4,6 @@ import { discordServices } from '../../api';
 import { HomePage } from '../../pages/Home';
 
 function mapStateToProps(state) {
-
-    console.log("State => ", state);
-
     return {};
 };
 
