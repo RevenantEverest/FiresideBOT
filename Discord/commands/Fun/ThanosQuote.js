@@ -1,7 +1,7 @@
-const quotes = require('../utils/utils').thanosQuotes;
+const { quotes } = require("../../utils");
 
 module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
-    message.channel.send("<:Thanos:725130467401138186> " + quotes[Math.floor(Math.random() * quotes.length)]);
+    message.channel.send("<:Thanos:725130467401138186> " + quotes.thanosQuotes[Math.floor(Math.random() * quotes.thanosQuotes.length)]);
 };
 
 module.exports.config = {

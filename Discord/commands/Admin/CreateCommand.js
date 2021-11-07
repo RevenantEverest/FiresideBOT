@@ -1,6 +1,6 @@
 const config = require('../../config/config');
 const customCommandsController = require('../../controllers/dbControllers/customCommandsController');
-const utils = require('../utils/utils');
+const { dates } = reuqire("../../utils");
 
 module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(!args[1]) return message.channel.send("Please specify a command name and a command output. Names can only be 1 word and outputs can be up to 1024 characters.");
@@ -29,7 +29,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     };
 
     async function saveCommand() {
-        let data = { guild_id: message.guild.id, created_by: message.author.id, input: commandName, output: commandOutput, date: await utils.getDate() };
+        let data = { guild_id: message.guild.id, created_by: message.author.id, input: commandName, output: commandOutput, date: await dates.getDate() };
         customCommandsController.save(bot, message, "CreateCommand", data, (newCommand) => {
             return message.channel.send(
                 `New command **${newCommand.input.charAt(0).toUpperCase() + newCommand.input.slice(1)}** ` + 

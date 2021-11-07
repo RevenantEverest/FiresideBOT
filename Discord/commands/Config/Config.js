@@ -7,7 +7,7 @@ const currencyController = require('../../controllers/dbControllers/currencyCont
 const rankSettingsController = require('../../controllers/dbControllers/rankSettingsController');
 const logSettingsController = require('../../controllers/dbControllers/guildLogSettingsController');
 
-const pagination = require('../utils/pagination');
+const { pagination } = require("../../utils");
 
 module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     let settingsArr = [];
@@ -147,7 +147,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
         });
 
         settingsArr.forEach(el => contentArr.push(el));
-        pagination(message, bot, contentArr, {title: true, color: 0xff3300});
+        pagination.createPagination(message, bot, contentArr, {title: true, color: 0xff3300});
     };
 };
 

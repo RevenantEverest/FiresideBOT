@@ -1,7 +1,7 @@
-const utils = require('../utils/utils');
+const { arrays } = require("../../utils");
 
 module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
-    server.queue.queueInfo = await utils.shuffle(server.queue.queueInfo);
+    server.queue.queueInfo = await arrays.shuffle(server.queue.queueInfo);
     return message.channel.send("Queue shuffled");
 };
 

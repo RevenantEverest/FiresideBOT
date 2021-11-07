@@ -1,7 +1,7 @@
 const playSong = require('../utils/playSong');
-const utils = require('../utils/utils');
 const myPlaylists = require('../utils/myPlaylists');
 const viewPlaylist = require('../utils/viewPlaylist');
+const { arrays } = require("../../utils");
 
 const guildPlaylistsController = require('../../controllers/dbControllers/guildPlaylistsController');
 const guildSongsController = require('../../controllers/dbControllers/guildSongsController');
@@ -23,7 +23,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     };
 
     async function handleGuildSongs(songs) {
-        if(args.includes("-s")) songs = await utils.shuffle(songs);
+        if(args.includes("-s")) songs = await arrays.shuffle(songs);
         songs.forEach(el => {
             server.queue.queueInfo.push({
                 title: el.title, link: el.link, author: el.author, duration: el.duration, thumbnail: el.thumbnail_url,requestedBy: message.author.username
