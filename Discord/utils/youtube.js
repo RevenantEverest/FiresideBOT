@@ -72,20 +72,20 @@ services.YTDL_GetInfo = async (message, args, server, link, callback) => {
 
 services.youtubeSearch = async (message, args, server, songRequest, options, callback) => {
     let link = options.isLink ? `https://www.youtube.com/watch?v=${songRequest}` : '';
-    if(options.isLink) return this.YTDL_GetInfo(message, args, server, link, callback);
+    if(options.isLink) return services.YTDL_GetInfo(message, args, server, link, callback);
     
     youtubeServices.youtubeSearch(songRequest)
     .then(results => {
         if(results.data.items.length < 1) return message.channel.send("No results found");
         link = `https://www.youtube.com/watch?v=${results.data.items[0].id.videoId}`;
-        this.YTDL_GetInfo(message, args, server, link, callback);
+        services.YTDL_GetInfo(message, args, server, link, callback);
     })
     .catch(err => youtubeErrorHandler(err, message));
 };
 
 services.youtubePlaylistSearch = async (message, args, server, userstate, playlistID, callback, initialCallback) => {
     let sendInitialCallback = true;
-    let ytdlGetInfo = this.YTDL_GetInfo;
+    let ytdlGetInfo = services.YTDL_GetInfo;
     let playlistInfo = [];
     let data = {
         playlist_id: playlistID,
