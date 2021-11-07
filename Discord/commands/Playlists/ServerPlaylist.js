@@ -1,7 +1,7 @@
 const playSong = require('../utils/playSong');
 const myPlaylists = require('../utils/myPlaylists');
 const viewPlaylist = require('../utils/viewPlaylist');
-const { arrays } = require("../../utils");
+const { arrays, time } = require("../../utils");
 
 const guildPlaylistsController = require('../../controllers/dbControllers/guildPlaylistsController');
 const guildSongsController = require('../../controllers/dbControllers/guildSongsController');
@@ -33,7 +33,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
       
         if(!message.guild.voiceConnection) 
             message.member.voiceChannel.join()
-            .then((connection) => playSong.playSong(bot, connection, message, server))
+            .then((connection) => playSong.playSong(bot, connection, message, server, time.timeParser))
             .catch(err => console.error(err));
     };
 
