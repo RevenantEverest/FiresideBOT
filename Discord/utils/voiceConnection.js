@@ -1,4 +1,4 @@
-const playSong = require('./playSong');
+const playSong = require('../commands/utils/playSong');
 const services = {};
 
 services.createConnection = (server, message) => {

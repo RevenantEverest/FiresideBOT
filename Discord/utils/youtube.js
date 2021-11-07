@@ -1,7 +1,7 @@
 const YTDL = require('ytdl-core');
-const Discord_Bot = require('../../Discord_Bot');
-const youtubeServices = require('../../services/youtubeServices');
-const errorHandler = require('../../controllers/errorHandler');
+const Discord_Bot = require('../Discord_Bot');
+const youtubeServices = require('../services/youtubeServices');
+const errorHandler = require('../controllers/errorHandler');
 const services = {};
 
 async function handleYTDLErrors(message, err) {

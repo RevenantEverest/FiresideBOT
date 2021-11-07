@@ -1,6 +1,6 @@
 const config = require('../../config/config');
 const customCommandsController = require('../../controllers/dbControllers/customCommandsController');
-const { dates } = reuqire("../../utils");
+const { dates } = require("../../utils");
 
 module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(!args[1]) return message.channel.send("Please specify a command name and a command output. Names can only be 1 word and outputs can be up to 1024 characters.");
