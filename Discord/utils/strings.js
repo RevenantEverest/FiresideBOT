@@ -44,4 +44,4 @@ services.replaceHTMLEntitiy = async (str) => {
     return str;
 };
 
-module.export = services;
+module.exports = services;
