@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const newMemberMessagesController = require('../../controllers/dbControllers/newMemberMesssagesController');
-const pagination = require('../utils/pagination');
+const { pagination } = require("../../utils");
 
 module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     newMemberMessagesController.getByGuildId(bot, message, this.config.d_name, message.guild.id, handleNewMemberMessages, () => {
@@ -38,7 +38,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
                 contentArr.push({ category: category, author: author, fields: [{ field: "Messages", value: fieldValue }] });
         });
 
-        pagination(message, bot, contentArr, { title: true, color: 0xcc33ff });
+        pagination.createPagination(message, bot, contentArr, { title: true, color: 0xcc33ff });
     };
 };
 

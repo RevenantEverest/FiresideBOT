@@ -1,6 +1,4 @@
-const playSong = require('../utils/playSong');
-const utils = require('../utils/utils');
-const errorHandler = require('../../controllers/errorHandler');
+const { strings, youtube, voiceConnection } = require("../../utils");
 
 module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
 
@@ -15,11 +13,11 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     const youtubePlaylistRequestFilter = ['\/?playlist\?', '&\?list='];
     args.splice(0, 1);
 
-    if(await utils.checkString(args[0], requestFilter)) {
-        request = await utils.filter(args[0], { special: false });
+    if(await strings.checkString(args[0], requestFilter)) {
+        request = await strings.filter(args[0], { special: false });
 
-        if(await utils.checkString(request, youtubePlaylistRequestFilter)) {
-            request = await utils.filter(request, { youtubePlaylist: true });
+        if(await strings.checkString(request, youtubePlaylistRequestFilter)) {
+            request = await strings.filter(request, { youtubePlaylist: true });
             isPlaylist = true;
         }
         else 
@@ -28,9 +26,9 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     else request = args.join(" ");
 
     if(isPlaylist) 
-        return utils.youtubePlaylistSearch(message, args, server, request, playlistSongHandler, addSingleToQueue);
+        return youtube.youtubePlaylistSearch(message, args, server, request, playlistSongHandler, addSingleToQueue);
     else 
-        return utils.youtubeSearch(message, args, server, request, { isLink: isLink }, addSingleToQueue);
+        return youtube.youtubeSearch(message, args, server, request, { isLink: isLink }, addSingleToQueue);
 
     async function playlistSongHandler(playlistInfo) {
         let counter = 0;
@@ -51,7 +49,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
         server.queue.queueInfo.splice(0, 0, songInfo);
         message.channel.send(`**${songInfo.title}** was added to the queue. In position **#1**`);
 
-        utils.createConnection(server, message);
+        voiceConnection.createConnection(server, message);
     }
 };
 

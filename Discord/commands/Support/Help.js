@@ -1,6 +1,6 @@
 const config = require('../../config/config');
 const Discord = require('discord.js');
-const pagination = require('../utils/pagination');
+const { pagination } = require("../../utils");
 const disabledCommandsDB = require('../../models/disabledCommandsDB');
 
 const pgp = require('pg-promise')();
@@ -93,7 +93,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     contentArr.splice(0, 0, introMessage);
 
     if(!args[1]) 
-        return pagination(message, bot, contentArr, { flavorText: flavorText, color: 0xcc00ff });
+        return pagination.createPagination(message, bot, contentArr, { flavorText: flavorText, color: 0xcc00ff });
     else if(categories.filter(el => el.name.toLowerCase() === args[1].toLowerCase()).length > 0) 
         return handleCategory();
     else if(bot.commands.get(args[1].toLowerCase()) || bot.commands.get(bot.aliases.get(args[1].toLowerCase()))) 
@@ -137,7 +137,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
             categoryFilter = await parseCategoryFilter(category, commands);
             contentArr = await parseContentArr(contentArr, categoryFilter, dCommands);
 
-            return pagination(message, bot, contentArr, { flavorText: flavorText, color: 0xcc00ff });
+            return pagination.createPagination(message, bot, contentArr, { flavorText: flavorText, color: 0xcc00ff });
         }
 
         embed

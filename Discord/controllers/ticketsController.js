@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const pagination = require('../commands/utils/pagination');
+const { pagination } = require("../utils");
 const discordTicketsDB = require('../models/discordTicketsDB');
 const discordClosedTicketsDB = require('../models/discordClosedTicketsDB');
 
@@ -28,7 +28,7 @@ async function handleMultiTicket(bot, message, ticket) {
         }
         contentArr.push(content);
     })
-    pagination(message, bot, contentArr, { dm: true, color: 0xffff4d });
+    pagination.createPagination(message, bot, contentArr, { dm: true, color: 0xffff4d });
 };
 
 module.exports = {

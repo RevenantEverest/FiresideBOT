@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const config = require('../../config/config');
-const utils = require('../utils/utils');
+const { time } = require("../../utils");
 
 module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(message.author.id !== "163346982709100546") return;
@@ -24,7 +24,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
 
         console.log("Original Queue Length In Seconds => ", queueLengthInSeconds)
         queueSongAmount = [].concat.apply([], config.servers.map(el => el.queue.queueInfo)).length;
-        queueLengthInSeconds = await utils.timeParser(queueLengthInSeconds);
+        queueLengthInSeconds = await time.timeParser(queueLengthInSeconds);
     }
 
     queuesInProgress ? embed.setColor(0x00ff00) : embed.setColor(0xff0000);

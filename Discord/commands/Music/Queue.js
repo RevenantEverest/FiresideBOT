@@ -1,6 +1,5 @@
 const Discord = require('discord.js');
-const utils = require('../utils/utils');
-const pagination = require('../utils/pagination');
+const { time, pagination } = require("../../utils");
 
 async function handlePages(message, bot, songs, overallLength, author) {
   let contentArr = [];
@@ -9,7 +8,7 @@ async function handlePages(message, bot, songs, overallLength, author) {
     
   for(let i = 0; i < songs.length; i++) {
     counter++;
-    let duration = await utils.timeParser(songs[i].duration);
+    let duration = await time.timeParser(songs[i].duration);
     fields.push({ field: `${i + 1}. ${songs[i].title}`, value: `**Author**: ${songs[i].author}\n**Duration**: ${duration}` });
     if(counter === 5) {
         contentArr.push({ category: `Queue (${overallLength})`, author: author, fields: fields });
@@ -19,7 +18,7 @@ async function handlePages(message, bot, songs, overallLength, author) {
                   
     if(i === (songs.length - 1)) {
         contentArr.push({ category: `Queue (${overallLength})`, author: author, fields: fields });
-        pagination(message, bot, contentArr, { thumbnail: 'https://i.imgur.com/OpSJJxe.png', title: true, color: 0x00ffff });
+        pagination.createPagination(message, bot, contentArr, { thumbnail: 'https://i.imgur.com/OpSJJxe.png', title: true, color: 0x00ffff });
     }
   }  
 };
@@ -30,7 +29,7 @@ async function handleSingle(message, songs, overallLength, author) {
   embed.setTitle(`**QUEUE** (${overallLength})`).setColor(0x00ffff).setAuthor(author.text, author.image);
 
   await songs.forEach(async (el, idx) => {
-    let duration = await utils.timeParser(el.duration);
+    let duration = await time.timeParser(el.duration);
     embed.addField(`${idx + 1}. ${el.title}`, `**Author**: ${el.author}\n**Duration**: ${duration}`);
   });
 
@@ -44,7 +43,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
   let author = { text: message.guild.name, image: message.guild.iconURL({ dynamic: true }) };
   let overallLength = 0;
   songs.forEach(el => overallLength += parseInt(el.duration, 10));
-  overallLength = await utils.timeParser(overallLength);
+  overallLength = await time.timeParser(overallLength);
 
   if(songs.length >= 5) handlePages(message, bot, songs, overallLength, author)
   else handleSingle(message, songs, overallLength, author);

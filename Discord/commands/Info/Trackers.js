@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const twitchTrackersController = require('../../controllers/dbControllers/twitchTrackerController');
 const youtubeTrackersController = require('../../controllers/dbControllers/youtubeTrackersController');
 
-const pagination = require('../utils/pagination');
+const { pagination } = require("../../utils");
 
 module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(!args[0]) return message.channel.send("Please specify a relevant flag");
@@ -86,7 +86,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
             if((trackers.length - 1) === idx) contentArr.push({ category: category, author: author, fields: fields });
         });
 
-        pagination(message, bot, contentArr, { title: true, color: color });
+        pagination.createPagination(message, bot, contentArr, { title: true, color: color });
     };
 };
 

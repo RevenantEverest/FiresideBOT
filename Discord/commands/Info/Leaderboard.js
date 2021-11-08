@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const ranksDB = require('../../models/discordRanksDB');
 const settingsDB = require('../../models/discordRankSettingsDB');
 const recordsDB = require('../../models/discordRankRecordsDB');
-const utils = require('../utils/utils');
+const { rankUtils } = require("../../utils");
 
 const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
@@ -50,7 +50,7 @@ async function sendEmbed(bot, message, settings, ranks, records) {
 
     await records.forEach(async (el, idx) => {
         let user = await bot.users.resolve(el.discord_id) || { username: "[Deleted User]" };
-        let Level = await utils.calculateLevel(settings.complexity, (parseInt(el.xp, 10) + parseInt(settings.general_increase_rate, 10)));
+        let Level = await rankUtils.calculateLevel(settings.complexity, (parseInt(el.xp, 10) + parseInt(settings.general_increase_rate, 10)));
         let RankName = ranks.length <= Level ?  ranks[ranks.length - 1].rank_name : ranks.filter(el => el.rank_number === Level)[0].rank_name;
         
         if(idx === 0)

@@ -4,16 +4,16 @@ const userSongsController = require('../../controllers/dbControllers/userSongsCo
 const guildPlaylistsController = require('../../controllers/dbControllers/guildPlaylistsController');
 const guildSongsController = require('../../controllers/dbControllers/guildSongsController');
 
-const utils = require('../utils/utils');
+const { strings, youtube } = require("../../utils");
 
 async function checkForDuplicates(songs, info) {
     let arr = [];
     await songs.forEach(async el => {
-        let video_id = await utils.filter(el.link, {special: false});
+        let video_id = await strings.filter(el.link, {special: false});
         arr.push(video_id);
     });
 
-    let video_id = await utils.filter(info.link, {special: false});
+    let video_id = await strings.filter(info.link, {special: false});
     if(arr.includes(video_id)) return true;
     else return false;
 };
@@ -38,14 +38,14 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     args.splice(1, 1);
     args.splice(0, 1);
 
-    if(await utils.checkString(args[0], requestFilter)) {
-        request = await utils.filter(args[0], { special: false });
+    if(await strings.checkString(args[0], requestFilter)) {
+        request = await strings.filter(args[0], { special: false });
         isLink = true;
     }
     else request = args.join(" ");
     
     if(server.queue.isPlaying && !args[0]) placeholder(server.queue.currentSongInfo);
-    else utils.youtubeSearch(message, args, server, request, { isLink: isLink }, (songInfo) => placeholder(songInfo));
+    else youtube.youtubeSearch(message, args, server, request, { isLink: isLink }, (songInfo) => placeholder(songInfo));
 
     async function placeholder(info) {
         let playlist = null;

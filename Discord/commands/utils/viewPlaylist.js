@@ -1,6 +1,5 @@
 const Discord = require('discord.js');
-const utils = require('./utils');
-const pagination = require('../utils/pagination');
+const { time, pagination } = require("../../utils");
 
 const userSongsController = require('../../controllers/dbControllers/userSongsController');
 const guildSongsController = require('../../controllers/dbControllers/guildSongsController');
@@ -10,7 +9,7 @@ async function handlePages(message, bot, playlist, songs, author, guildPlaylist)
     let contentArr = [];
     let overallLength = 0;
     songs.forEach(el => overallLength += parseInt(el.duration, 10));
-    overallLength = await utils.timeParser(overallLength);
+    overallLength = await time.timeParser(overallLength);
     let fields = [];
     let counter = 0;
     let rolesText = '';
@@ -20,7 +19,7 @@ async function handlePages(message, bot, playlist, songs, author, guildPlaylist)
     
     for(let i = 0; i < songs.length; i++) {
         counter++;
-        let duration = await utils.timeParser(songs[i].duration);
+        let duration = await time.timeParser(songs[i].duration);
         fields.push({ field: `${i + 1}. ${songs[i].title}`, value: `**Author**: ${songs[i].author}\n**Duration**: ${duration}\n**ID**: ${songs[i].song_id}` });
         if(counter === 5) {
             contentArr.push({ category: category, author: author, fields: fields });
@@ -30,7 +29,7 @@ async function handlePages(message, bot, playlist, songs, author, guildPlaylist)
                     
         if(i === (songs.length - 1)) {
             if(counter !== 0) contentArr.push({ category: category, author: author, fields: fields });
-            pagination(message, bot, contentArr, { thumbnail: 'https://i.imgur.com/OpSJJxe.png', title: false, color: 0xcc00ff });
+            pagination.createPagination(message, bot, contentArr, { thumbnail: 'https://i.imgur.com/OpSJJxe.png', title: false, color: 0xcc00ff });
         }
     }                                    
 }
@@ -41,7 +40,7 @@ async function handleSingle(message, playlist, songs, author, guildPlaylist) {
     let rolesText = '';
 
     songs.forEach(el => overallLength += parseInt(el.duration, 10));
-    overallLength = await utils.timeParser(overallLength);
+    overallLength = await time.timeParser(overallLength);
 
     if(guildPlaylist && playlist.roles) {
         playlist.roles.forEach(el => rolesText += `<@&${el}> `);
@@ -57,7 +56,7 @@ async function handleSingle(message, playlist, songs, author, guildPlaylist) {
     .setThumbnail('https://i.imgur.com/OpSJJxe.png')
 
     for(let i = 0; i < songs.length; i++) {
-        let duration = await utils.timeParser(songs[i].duration);
+        let duration = await time.timeParser(songs[i].duration);
         embed.addField(`**${i + 1}. ${songs[i].title}**`, `**Author**: ${songs[i].author}\n**Duration**: ${duration}\n**ID**: ${songs[i].song_id}`);
     }
     message.channel.send(embed);

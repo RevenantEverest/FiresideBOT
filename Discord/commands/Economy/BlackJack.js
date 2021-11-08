@@ -1,7 +1,6 @@
 const Discord = require('discord.js');
 const currencyRecordsController = require('../../controllers/dbControllers/discordCurrencyController');
-const playingCards = require('../utils/playingCards');
-const utils = require('../utils/utils');
+const { playingCards, arrays } = require("../../utils");
 
 module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(!args[1]) return message.channel.send("Please specify an amount to wager");
@@ -32,7 +31,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     async function getDeck() {
         let deck = [];
         playingCards.cards.forEach(el => deck.push(el));
-        return utils.shuffle(deck);
+        return arrays.shuffle(deck);
     };
 
     async function deal() {

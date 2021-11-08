@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const roleReactionsController = require('../../controllers/dbControllers/roleReactionsController');
-const pagination = require('../utils/pagination');
+const { pagination } = require("../../utils");
 
 module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     roleReactionsController.getByGuildId(bot, message, "RoleReactions", message.guild.id, handleRoleReactions, () => {
@@ -58,7 +58,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
 
         if(temp.length > 0) contentArr.push({ category: category, author: author, fields: temp });
 
-        pagination(message, bot, contentArr, options);
+        pagination.createPagination(message, bot, contentArr, options);
     };
 };
 

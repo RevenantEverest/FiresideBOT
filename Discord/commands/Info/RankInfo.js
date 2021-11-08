@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const ranksDB = require('../../models/discordRanksDB');
 const recordsDB = require('../../models/discordRankRecordsDB');
 const settingsDB = require('../../models/discordRankSettingsDB');
-const utils = require('../utils/utils');
+const { rankUtils } = require("../../utils");
 
 const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
@@ -29,7 +29,7 @@ async function handleRankInfo(bot, settings, rank, message) {
     .then(async records => {
         let rankMembers = [];
         await records.forEach(async (el, idx) => {
-            let Level = await utils.calculateLevel(settings.complexity, parseInt(el.xp, 10));
+            let Level = await rankUtils.calculateLevel(settings.complexity, parseInt(el.xp, 10));
 
             if(rank.rank_number <= Level) rankMembers.push(el);
             else if(Level === parseInt(rank.rank_number, 10)) rankMembers.push(el);
