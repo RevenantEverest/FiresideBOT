@@ -37,7 +37,9 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
         });
 
         if(counter > 0) message.channel.send(`${counter} song(s) couldn't be added because non premium requests are limited to 1 hour`);
-        message.channel.send(`Added ${playlistInfo.length} other song(s) to the queue`);
+
+        const searchErrors = server.queue.playlistSearchErrors ? server.queue.playlistSearchErrors : [];
+        message.channel.send(`Added ${playlistInfo.length} other song(s) to the queue with ${searchErrors.length} errors`);
     };
 
     async function addSingleToQueue(songInfo) {
