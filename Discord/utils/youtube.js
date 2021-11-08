@@ -21,11 +21,12 @@ async function handleYTDLErrors(message, err, options) {
             return message.channel.send("This video is unavailable");
         case "Error: Video unavailable":
             return message.channel.send("Video is unavailable");
-        case "MinigetError: Status code: 429":
+        case "Error: Status code: 429":
             return errorHandler(Discord_Bot, message, err, "YTDL 429 Error", "Utils");
-        case "MinigetError: Status code: 410":
+        case "Error: Status code: 410":
             return errorHandler(Discord_Bot, message, err, "YTDL 410 Error", "Utils");
         default:
+            console.log("To String => ", err.toString());
             return errorHandler(Discord_Bot, message, err, "YTDL Error", "Utils");
     };
 };
@@ -44,19 +45,19 @@ async function youtubeErrorHandler(err, message) {
     else errorHandler(Discord_Bot, message, err, "YouTube Search Error", "Utils");
 };
 
-services.YTDL_GetInfo = async (message, args, server, link, callback, options) => {
+services.YTDL_GetInfo = async (message, args, server, link, callback, options={}) => {
     let info = null;
     
     try {
         info = await YTDL.getBasicInfo(link);
     }
     catch(err) {
-        handleYTDLErrors(message, err, options);
+        return handleYTDLErrors(message, err, options);
     }
 
     if(!info && options.playlistSearch)
         return options.songErrors.push("Info Is Null");
-    else if(!info) 
+    else if(!info && !options.playlistSearch) 
         return errorHandler(Discord_Bot, message, "Info is Null", "YTDL Error", "Utils");
 
     if(info.player_response.videoDetails === undefined) 
