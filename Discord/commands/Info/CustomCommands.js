@@ -5,36 +5,8 @@ const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
 const qrec = pgp.errors.queryResultErrorCode;
 
-const pagination = require('../utils/pagination');
+const { pagination } = require("../../utils");
 const errorHandler = require('../../controllers/errorHandler');
-
-/*
-  ContentArr Parsing Example:
-
-  contentArr = [
-    {
-      category: '',
-      fields: [
-        {
-          field: '',
-          value: ''
-        }
-      ]
-    }
-  ]
-
-  Options Parsing Example:
-
-  options = {
-    time: 1,
-    thumbnail: '',
-    flavorText: '',
-    color: 0xff0000,
-    title: true,
-    author: true
-  }
-
-*/
 
 async function parseData(bot, message, args, commands) {
     let category = `Custom Commands`;
@@ -72,7 +44,7 @@ async function parseData(bot, message, args, commands) {
 
         if(i === (commands.length - 1)) {
             contentArr.push({ category: category, author: author, fields: fields });
-            pagination(message, bot, contentArr, { title: true, color: 0xff66b3 })
+            pagination.createPagination(message, bot, contentArr, { title: true, color: 0xff66b3 })
         }
     }
 };

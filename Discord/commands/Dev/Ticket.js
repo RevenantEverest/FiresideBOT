@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const utils = require('../utils/utils');
+const { dates } = require("../../utils");
 const discordTicketsDB = require('../../models/discordTicketsDB');
 const discordClosedTicketsDB = require('../../models/discordClosedTicketsDB');
 const ticketsController = require('../../controllers/ticketsController');
@@ -94,10 +94,10 @@ async function respondToTicket(bot, args, message) {
     .setTitle('**RESPONSE**')
     .addField('Support Member:', message.author.username)
     .addField('Message:', args.join(" "))
-    .setFooter(`Message sent ${await utils.getDate()}`)
+    .setFooter(`Message sent ${await dates.getDate()}`)
 
     bot.users.resolve(ticket.discord_id).send(embed);
-    message.channel.send(`Response sent by **${message.author.username}** to Ticket **#${ticket.id}** on ${await utils.getDate()}`);
+    message.channel.send(`Response sent by **${message.author.username}** to Ticket **#${ticket.id}** on ${await dates.getDate()}`);
 };
 
 async function closeTicket(bot, args, message) {

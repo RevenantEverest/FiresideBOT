@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const fortunesController = require('../../controllers/dbControllers/fortunesController');
-const pagination = require('../utils/pagination');
+const { pagination } = require("../../utils");
 
 module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     fortunesController.getByGuildId(bot, message, "Fortunes", message.guild.id, handleFortunes, () => {
@@ -40,7 +40,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
                 contentArr.push({ category: category, author: author, fields: [{ field: "Fortunes", value: fieldValue }] });
         });
 
-        pagination(message, bot, contentArr, { title: true, color: 0xcc33ff });
+        pagination.createPagination(message, bot, contentArr, { title: true, color: 0xcc33ff });
     };
 };
 

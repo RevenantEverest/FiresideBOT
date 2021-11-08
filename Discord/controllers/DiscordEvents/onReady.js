@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const chalk = require('chalk');
 const twitchTokensController = require('../twitchTokensController');
-const utils = require('../../commands/utils/utils');
+const { dates } = require("../../utils");
 
 const config = require('../../config/config');
 const customCommandsChecker = require('../customCommandsChecker');
@@ -38,7 +38,7 @@ module.exports = async (bot, getCommands) => {
     if(process.env.ENVIRONMENT === "DEV") return console.log(chalk.hex('#00ff00')('[LOG]') +' FiresideBOT Ready');
 
     let embed = new Discord.MessageEmbed();
-    embed.setColor(0xff9900).setTitle("FiresideBOT Ready").setFooter(await utils.getDate());
+    embed.setColor(0xff9900).setTitle("FiresideBOT Ready").setFooter(await dates.getDate());
 
     bot.channels.resolve("543862697742172179").send(embed);
 
@@ -46,7 +46,7 @@ module.exports = async (bot, getCommands) => {
         if(process.env.ENVIRONMENT === "DEV") return console.log(chalk.hex('#ff9900')('[LOG]') +' Discord Tokens Set');
 
         let embed = new Discord.MessageEmbed();
-        embed.setColor(0xff9900).setTitle("Discord Tokens Set").setFooter(await utils.getDate());
+        embed.setColor(0xff9900).setTitle("Discord Tokens Set").setFooter(await dates.getDate());
 
         bot.channels.resolve("543862697742172179").send(embed);
     }

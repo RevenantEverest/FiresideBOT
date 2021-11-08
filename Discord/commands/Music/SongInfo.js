@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const ksoftServices = require('../../services/ksoftServices');
-const utils = require('../utils/utils');
+const { strings } = require("../../utils");
 
 const errorHandler = require('../../controllers/errorHandler');
 
@@ -10,7 +10,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     let search = args;
     let filterArr = ['official', 'music', 'video', 'lyric', 'lyrics', 'audio', 'monstercat', 'release', 'version', 'HD'];
 
-    if(!args[1] && server.queue.isPlaying) search = await utils.filter(server.queue.currentSongInfo.title, filterArr, { special: true });
+    if(!args[1] && server.queue.isPlaying) search = await strings.filter(server.queue.currentSongInfo.title, filterArr, { special: true });
     if(!args[1] && !server.queue.isPlaying) return message.channel.send('Please specify a song');
 
     let embed = new Discord.MessageEmbed();

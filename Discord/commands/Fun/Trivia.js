@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const triviaServices = require('../../services/openTriviaServices');
 const errorHandler = require('../../controllers/errorHandler');
-const utils = require('../utils/utils');
+const { strings, arrays } = require("../../utils");
 
 const answerEmotes = ['1️⃣', '2️⃣','3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '🔟'];
 const numberEmotes = ['\u0031', '\u0032', '\u0033', '\u0034', '\u0035', '\u0036', '\u0037', '\u0038', '\u0039', '\u1F51F'];
@@ -37,7 +37,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
         let currentQuestion = questions[0];
         let embed = new Discord.MessageEmbed();
 
-        currentQuestion.question = await utils.replaceHTMLEntitiy(currentQuestion.question);
+        currentQuestion.question = await strings.replaceHTMLEntitiy(currentQuestion.question);
 
         embed
         .setColor(0xff0fab)
@@ -50,10 +50,10 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
         let answers = null;
 
         if(currentQuestion.type === "multiple") {
-            answers = [await utils.replaceHTMLEntitiy(currentQuestion.correct_answer)];
-            answers = await utils.shuffle(answers);
+            answers = [await strings.replaceHTMLEntitiy(currentQuestion.correct_answer)];
+            answers = await arrays.shuffle(answers);
             await currentQuestion.incorrect_answers.forEach(async el => {
-                el = await utils.replaceHTMLEntitiy(el);
+                el = await strings.replaceHTMLEntitiy(el);
                 answers.push(el);
             });
         }

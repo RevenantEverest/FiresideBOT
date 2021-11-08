@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const logSettings = require('../../models/GuildModels/guildLogSettingsDB');
-const utils = require('../utils/utils');
+const { dates } = require("../../utils");
 const errorHandler = require('../../controllers/errorHandler');
 
 const pgp = require('pg-promise')();
@@ -22,7 +22,7 @@ async function sendEmbed(bot, message, msg, settings) {
     embed
     .setColor(0xff0000)
     .addField('Bulk Message Delete', `**Amount**: ${msg.size}`)
-    .setFooter(`Used by: ${message.author.username} on ${await utils.getDate()}`, message.author.avatarURL({ dynamic: true }))
+    .setFooter(`Used by: ${message.author.username} on ${await dates.getDate()}`, message.author.avatarURL({ dynamic: true }))
 
     if(settings) return bot.channels.resolve(settings.channel_id).send(embed);
     else message.channel.send(embed);

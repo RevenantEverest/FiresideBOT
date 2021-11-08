@@ -1,5 +1,4 @@
 const Discord = require('discord.js');
-const utils = require('../utils/utils');
 
 async function handleVote(bot, message, server, memberData) {
     if(memberData.count <= 1) server.dispatcher.end();
@@ -55,7 +54,6 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
         handleVote(bot, message, server, memberData);
     }
     else if(server.dispatcher) {
-        // console.log(server.dispatcher.player.broadcast)
         server.dispatcher.end();
     }
 };

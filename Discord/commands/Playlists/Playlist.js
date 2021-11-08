@@ -1,7 +1,6 @@
-const playSong = require('../utils/playSong');
 const myPlaylists = require('../utils/myPlaylists');
 const viewPlaylist = require('../utils/viewPlaylist');
-const utils = require('../utils/utils');
+const { arrays, voiceConnection } = require("../../utils");
 
 const userPlaylistsController = require('../../controllers/dbControllers/userPlaylistsController');
 const userSongsController = require('../../controllers/dbControllers/userSongsController');
@@ -40,7 +39,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     };
 
     async function handleUserSongs(songs) {
-        if(args.includes("-s")) songs = await utils.shuffle(songs);
+        if(args.includes("-s")) songs = await arrays.shuffle(songs);
         songs.forEach((el, idx) => {
             server.queue.queueInfo.push({
                 title: el.title, link: el.link, author: el.author, duration: el.duration, thumbnail: el.thumbnail_url, requestedBy: message.author.username
@@ -48,7 +47,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
 
             if(idx === (songs.length - 1)) {
                 message.channel.send(`Adding playlist **${playlistName}** to the queue`);
-                utils.createConnection(server, message);
+                voiceConnection.createConnection(server, message);
             }
         });
     };

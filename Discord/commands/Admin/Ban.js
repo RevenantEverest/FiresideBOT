@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const utils = require('../utils/utils');
+const { dates } = require("../../utils");
 
 module.exports.run = async (PREFIX, message, args, server, bot, options, userstate) => {
     if(!args[1]) return message.channel.send();
@@ -24,7 +24,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
     .addField('Banned User', `${bot.users.get(user_id).username}\n`)
     .addField('Length (Days):', days, true)
     .addField('Reason:', reason, true)
-    .setFooter(`Banned by: ${message.author.username} on ${await utils.getDate()}`)
+    .setFooter(`Banned by: ${message.author.username} on ${await dates.getDate()}`)
 
     message.guild.ban(user_id, { days: days, reason: reason })
     .then(() => message.channel.send(embed))

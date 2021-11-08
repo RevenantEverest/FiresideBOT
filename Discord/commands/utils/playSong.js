@@ -2,7 +2,6 @@ const Discord = require('discord.js');
 const config = require('../../config/config');
 const YTDL = require('ytdl-core');
 const moment = require('moment');
-const utils = require('./utils');
 
 const guildSettingsController = require('../../controllers/dbControllers/guildSettingsController');
 const musicLogsController = require('../../controllers/dbControllers/musicLogsController');

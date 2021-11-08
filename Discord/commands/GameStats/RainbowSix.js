@@ -1,6 +1,6 @@
 const gameStatServices = require('../../services/gameStatServices');
 const Discord = require('discord.js');
-const utils = require('../utils/utils');
+const { time } = require("../../utils");
 
 const errorHandler = require('../../controllers/errorHandler');
 
@@ -29,7 +29,7 @@ async function handleGeneric(username, platform, embed, message) {
         .setThumbnail(stats.avatar_url_256)
         .addField("About:", 
             `**Level**: ${stats.progression.level.toLocaleString()}\n` +
-            `**Playtime**: ${await utils.timeParser(stats.stats.general.playtime)}\n` +
+            `**Playtime**: ${await time.timeParser(stats.stats.general.playtime)}\n` +
             `**Lootbox Change**: ${stats.progression.lootbox_probability}\n` + 
             `**Total XP**: ${stats.progression.total_xp.toLocaleString()}`,
             true
