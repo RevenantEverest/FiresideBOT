@@ -8,7 +8,7 @@ async function handlePages(message, bot, songs, overallLength, author) {
     
   for(let i = 0; i < songs.length; i++) {
     counter++;
-    let duration = await utils.timeParser(songs[i].duration);
+    let duration = await time.timeParser(songs[i].duration);
     fields.push({ field: `${i + 1}. ${songs[i].title}`, value: `**Author**: ${songs[i].author}\n**Duration**: ${duration}` });
     if(counter === 5) {
         contentArr.push({ category: `Queue (${overallLength})`, author: author, fields: fields });
