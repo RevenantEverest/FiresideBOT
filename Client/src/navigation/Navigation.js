@@ -7,7 +7,8 @@ import { Footer } from './Footer';
 import {
     DashboardContainer,
     GettingStartedContainer,
-    HomeContainer
+    HomeContainer,
+    LoginContainer
 } from '../containers';
 
 import { _HomeRoutes, _DashboardRoutes } from './_Routes';
@@ -36,6 +37,7 @@ function Navigation(props) {
             <Navbar {...props} />
             <Route exact path="/" component={HomeContainer} />
             <Route exact path="/getting_started" component={GettingStartedContainer} />
+            <Route exact path="/login" component={LoginContainer} />
             <Footer {...props} />
         </div>
     );
