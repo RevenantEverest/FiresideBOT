@@ -11,6 +11,7 @@ import {
     MDBIcon
 } from 'mdbreact';
 import UserSizeNumber from './UserSizeNumber';
+import { INVITE_LINK } from '../../constants';
 
 import Logo from '../../assets/images/logo_trans.png';
 import Embers from '../../assets/images/embers.png';
@@ -49,10 +50,12 @@ function HomeHeader({ api }) {
                                 users
                             </div>
                         </MDBBtn>
+                        <a href={INVITE_LINK} target="_blank" rel="noopener noreferrer">
                         <MDBBtn color="blue" className={[styles.button, "discord-color"].join(" ")} size="md">
                             <MDBIcon className="mr-2" fab icon="discord" />
                             Add To Discord
                         </MDBBtn>
+                        </a>
                         </MDBAnimation>
                         </div>
                     </div>
