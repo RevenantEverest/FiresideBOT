@@ -2,7 +2,7 @@ import axios from 'axios';
 import env from '../../environment';
 const services = {};
 
-services.handleLogin = (data) => {
+services.login = (data) => {
     return axios({
         method: 'POST',
         url: `${env.API}/login/discord/token`,
