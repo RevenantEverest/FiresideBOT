@@ -14,9 +14,12 @@
     "axios": "^0.23.0",
     "dayjs": "^1.10.7",
     "formik": "^2.2.9",
+    "framer-motion": "4.1.17",
+    "lottie-react-web": "^2.2.2",
     "mdbreact": "file:mdbreact-5.0.1.tgz",
     "react": "17.0.1",
     "react-chartjs-2": "^3.0.5",
+    "react-circular-progressbar": "^2.0.4",
     "react-color": "^2.19.3",
     "react-countup": "^6.0.0",
     "react-dom": "17.0.1",
@@ -26,6 +29,9 @@
     "react-scripts": "4.0.1",
     "react-scroll": "^1.8.4",
     "redux": "^4.1.1",
+    "redux-devtools-extension": "^2.13.9",
+    "redux-thunk": "^2.4.0",
+    "typed.js": "^2.0.12",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
