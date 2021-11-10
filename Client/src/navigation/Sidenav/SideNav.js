@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import '../../css/SideNav.css';
-import { makeStyles } from "@fluentui/react-theme-provider";
 import { 
     MDBContainer as Container,
     MDBSideNavNav, 
     MDBSideNavLink,
-    MDBSideNavItem, 
     MDBSideNavCat, 
     MDBSideNav 
 } from "mdbreact";
@@ -16,8 +14,6 @@ import _Images from '../../assets/images/_Images';
 import TopNav from "./TopNav";
 
 function SideNav(props) {
-
-    const styles = useStyles();
 
     const [toggleState, setToggleState] = useState(false);
     const [windowWidth, setWindowWidth] = useState(0);
@@ -100,8 +96,5 @@ function SideNav(props) {
         </div>
     );
 };
-
-const useStyles = makeStyles((theme) => ({
-}));
 
 export default SideNav;
