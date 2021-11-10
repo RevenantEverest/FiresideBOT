@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 import { DashboardPage } from '../../pages/Dashboard';
 
 function mapStateToProps(state) {
-    return {};
+    return {
+        userData: state.auth.user
+    };
 };
 
 function mapDispatchToProps(dispatch) {

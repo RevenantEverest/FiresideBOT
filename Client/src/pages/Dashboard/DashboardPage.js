@@ -1,6 +1,7 @@
 import React from 'react';
 
-function DashboardPage() {
+function DashboardPage({ userData }) {
+    
     return(
         <div className="app-page">
         </div>
