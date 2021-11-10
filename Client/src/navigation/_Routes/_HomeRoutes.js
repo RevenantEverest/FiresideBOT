@@ -22,6 +22,10 @@ const _HomeRoutes = [
         icon: (props) => <MDBIcon icon="crown" {...props} />,
         path: "/premium"
     },
+    {
+        title: "Login",
+        path: "/login"
+    },
 ];
 
 export default _HomeRoutes;
