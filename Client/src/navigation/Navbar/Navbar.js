@@ -17,7 +17,7 @@ import ThemeChanger from '../../components/ThemeChanger/ThemeChanger';
 import Logo from '../../assets/images/logo_trans.png';
 import { _HomeRoutes } from '../_Routes';
 
-function Navbar({ location, changeTheme }) {
+function Navbar({ location, changeTheme, userData }) {
 
     const theme = useTheme();
     const styles = useStyles();
@@ -49,7 +49,7 @@ function Navbar({ location, changeTheme }) {
     };
 
     const renderRoutes = () => {
-        return _HomeRoutes.map(route => (
+        return _HomeRoutes.filter(route => route.displayNav).map(route => (
             <MDBNavItem active={isActive(route.path)} key={route.path}>
                 <MDBNavLink to={route.path} className={styles.navLink}>
                     {route.icon ? <route.icon className="mr-1" /> : ""}
@@ -72,9 +72,9 @@ function Navbar({ location, changeTheme }) {
                 </MDBNavbarNav>
                 <MDBNavbarNav right>
                 <MDBNavItem>
-                    <MDBNavLink to="/login">
+                    <MDBNavLink to={userData ? "/dashboard" : "/login"}>
                     <MDBBtn className={theme.classNames.button} rounded size="sm">
-                        Login
+                        {userData ? "Go To Dashboard" : "Login"}
                     </MDBBtn>
                     </MDBNavLink>
                 </MDBNavItem>
