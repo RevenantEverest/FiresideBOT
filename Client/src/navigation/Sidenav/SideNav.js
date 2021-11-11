@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import '../../css/SideNav.css';
+import { Redirect } from "react-router-dom";
 import { 
     MDBContainer as Container,
     MDBSideNavNav, 
@@ -17,9 +18,10 @@ function SideNav(props) {
 
     const [toggleState, setToggleState] = useState(false);
     const [windowWidth, setWindowWidth] = useState(0);
+    const [homeRedirect, setHomeRedirect] = useState(false);
 
-    const children = props.children.filter(child => child.type.name !== "Footer");
-    const footerChild = props.children.filter(child => child.type.name === "Footer");
+    const children = props?.children.filter(child => child?.type?.name !== "Footer") ?? [];
+    const footerChild = props?.children.filter(child => child?.type?.name === "Footer") ?? [];
 
     const mainStyle = {
         margin: "0 6%",
@@ -45,7 +47,7 @@ function SideNav(props) {
     };
 
     const renderRoutes = () => {
-        return _DashboardRoutes.map(route => {
+        return _DashboardRoutes.filter(route => route.displayNav).map(route => {
             if(route.subRoutes)
                 return renderDropdown(route);
             else 
@@ -54,16 +56,16 @@ function SideNav(props) {
     };
 
     const renderLink = (route) => (
-        <MDBSideNavLink className="font-weight-bold" to={route.path}>
+        <MDBSideNavLink className="font-weight-bold" to={route.path} key={route.path}>
             {route.icon && <route.icon className="mr-2" />}
             {route.title}
         </MDBSideNavLink>
     );
 
     const renderDropdown = (route) => (
-        <MDBSideNavCat className="font-weight-bold" name={route.title} id={route.title + "-cat"} icon={route.icon}>
+        <MDBSideNavCat className="font-weight-bold" name={route.title} id={route.title + "-cat"} icon={route.icon} key={route.path}>
             {route.subRoutes.map(subRoute => (
-                <MDBSideNavLink className="font-weight-bold" to={subRoute.path}>
+                <MDBSideNavLink className="font-weight-bold" to={subRoute.path} key={subRoute.title}>
                     {subRoute.title}
                 </MDBSideNavLink>
             ))}
@@ -79,9 +81,10 @@ function SideNav(props) {
             bg={_Images.sideNavBackground}
             mask="strong"
             fixed
+            onClick={() => setHomeRedirect(true)}
             >
                 <MDBSideNavNav>
-                {renderRoutes()}
+                    {renderRoutes()}
                 </MDBSideNavNav>
             </MDBSideNav>
 
@@ -93,6 +96,7 @@ function SideNav(props) {
                 </Container>
             </main>
             {footerChild}
+            {homeRedirect && <Redirect exact to="/" />}
         </div>
     );
 };
