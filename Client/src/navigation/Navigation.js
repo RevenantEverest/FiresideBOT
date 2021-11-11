@@ -1,11 +1,23 @@
 import React from 'react';
-import { Route, withRouter } from 'react-router-dom';
+import { Route, Redirect, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { makeStyles } from '@fluentui/react-theme-provider';
 import { Navbar } from './Navbar';
 import { SideNav } from './Sidenav';
 import { Footer } from './Footer';
 import { _HomeRoutes, _DashboardRoutes } from './_Routes';
 import { PageNotFoundContainer } from '../containers';
+
+function mapStateToProps(state) {
+    return {
+        auth: state.auth,
+        userData: state.auth.user
+    };
+};
+
+function mapDispatchToProps(dispatch) {
+    return {};
+};
 
 function Navigation(props) {
 
@@ -22,15 +34,17 @@ function Navigation(props) {
 
         if(homeRoutes.map(path => `/${path.split("/")[1]}`).includes(mainPath))
             return renderHomeRoutes();
-        else if(dashboardRoutes.map(path => `/${path.split("/")[1]}`).includes(mainPath))
-            return renderDashboardRoutes();
+        else if(dashboardRoutes.map(path => `/${path.split("/")[1]}`).includes(mainPath)) {
+            if(props.userData) return renderDashboardRoutes();
+            else return <Redirect to="/login" />
+        }
         else 
             return <PageNotFoundContainer />;
     };
 
     const renderHomeRoutes = () => {
         const HomeRoutes = _HomeRoutes.map((route) => (
-            <Route exact path={route.path} component={route.component} />
+            <Route exact path={route.path} component={route.component} key={route.title} />
         ));
 
         return(
@@ -44,7 +58,7 @@ function Navigation(props) {
 
     const renderDashboardRoutes = () => {
         const DashboardRoutes = _DashboardRoutes.map((route) => (
-            <Route exact path={route.path} component={route.component} />
+            <Route exact path={route.path} component={route.component} key={route.title} />
         ));
         
         return(
@@ -70,4 +84,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default withRouter(Navigation);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(withRouter(Navigation));
