@@ -4,7 +4,9 @@ import { discordServices } from '../../api';
 import { HomePage } from '../../pages/Home';
 
 function mapStateToProps(state) {
-    return {};
+    return {
+        userData: state.auth.user
+    };
 };
 
 function mapDispatchToProps(dispatch) {
