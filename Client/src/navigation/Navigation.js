@@ -4,14 +4,8 @@ import { makeStyles } from '@fluentui/react-theme-provider';
 import { Navbar } from './Navbar';
 import { SideNav } from './Sidenav';
 import { Footer } from './Footer';
-import {
-    DashboardContainer,
-    GettingStartedContainer,
-    HomeContainer,
-    LoginContainer
-} from '../containers';
-
 import { _HomeRoutes, _DashboardRoutes } from './_Routes';
+import { PageNotFoundContainer } from '../containers';
 
 function Navigation(props) {
 
@@ -30,26 +24,38 @@ function Navigation(props) {
             return renderHomeRoutes();
         else if(dashboardRoutes.map(path => `/${path.split("/")[1]}`).includes(mainPath))
             return renderDashboardRoutes();
+        else 
+            return <PageNotFoundContainer />;
     };
 
-    const renderHomeRoutes = () => (
-        <div>
-            <Navbar {...props} />
-            <Route exact path="/" component={HomeContainer} />
-            <Route exact path="/getting_started" component={GettingStartedContainer} />
-            <Route exact path="/login" component={LoginContainer} />
-            <Footer {...props} />
-        </div>
-    );
+    const renderHomeRoutes = () => {
+        const HomeRoutes = _HomeRoutes.map((route) => (
+            <Route exact path={route.path} component={route.component} />
+        ));
 
-    const renderDashboardRoutes = () => (
-        <div>
-        <SideNav {...props}>
-            <Route exact path="/dashboard" component={DashboardContainer} />
-            <Footer {...props} />
-        </SideNav>
-        </div>
-    );
+        return(
+            <div>
+                <Navbar {...props} />
+                    {HomeRoutes}
+                <Footer {...props} />
+            </div>
+        );
+    };
+
+    const renderDashboardRoutes = () => {
+        const DashboardRoutes = _DashboardRoutes.map((route) => (
+            <Route exact path={route.path} component={route.component} />
+        ));
+        
+        return(
+            <div>
+            <SideNav {...props}>
+                {DashboardRoutes}
+                <Footer {...props} />
+            </SideNav>
+            </div>
+        );
+    };
 
     return(
         <div className={"app " + styles.app}>

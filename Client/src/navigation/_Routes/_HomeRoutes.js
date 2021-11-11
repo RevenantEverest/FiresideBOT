@@ -1,30 +1,49 @@
 import { MDBIcon } from "mdbreact";
+import {
+    HomeContainer,
+    GettingStartedContainer,
+    FeaturesContainer,
+    CommandsContainer,
+    PremiumContainer,
+    LoginContainer,
+} from '../../containers';
 
 const _HomeRoutes = [
     {
         title: "Home",
-        path: "/"
+        path: "/",
+        component: HomeContainer,
+        displayNav: true
     },
     {
         title: "Getting Started",
-        path: "/getting_started"
+        path: "/getting_started",
+        component: GettingStartedContainer,
+        displayNav: true
     },
     {
         title: "Features",
-        path: "/features"
+        path: "/features",
+        component: FeaturesContainer,
+        displayNav: true
     },
     {
         title: "Commands",
-        path: "/commands"
+        path: "/commands",
+        component: CommandsContainer,
+        displayNav: true
     },
     {
         title: "Premium",
         icon: (props) => <MDBIcon icon="crown" {...props} />,
-        path: "/premium"
+        path: "/premium",
+        component: PremiumContainer,
+        displayNav: true
     },
     {
         title: "Login",
-        path: "/login"
+        path: "/login",
+        component: LoginContainer
     },
 ];
 
