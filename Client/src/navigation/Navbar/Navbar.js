@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { makeStyles, useTheme } from '@fluentui/react-theme-provider';
+import { makeStyles } from '@fluentui/react-theme-provider';
 import {
     MDBContainer as Container,
     MDBNavbar,
@@ -8,10 +8,9 @@ import {
     MDBNavbarNav,
     MDBNavItem,
     MDBNavLink,
-    MDBCollapse,
-    MDBBtn
+    MDBCollapse
 } from 'mdbreact';
-
+import { FirBtn } from '../../components/Common';
 import ThemeChanger from '../../components/ThemeChanger/ThemeChanger';
 
 import Logo from '../../assets/images/logo_trans.png';
@@ -19,7 +18,6 @@ import { _HomeRoutes } from '../_Routes';
 
 function Navbar({ location, changeTheme, userData }) {
 
-    const theme = useTheme();
     const styles = useStyles();
 
     const [collapse, setCollapse] = useState(false);
@@ -73,9 +71,9 @@ function Navbar({ location, changeTheme, userData }) {
                 <MDBNavbarNav right>
                 <MDBNavItem>
                     <MDBNavLink to={userData ? "/dashboard" : "/login"}>
-                    <MDBBtn className={theme.classNames.button} rounded size="sm">
+                    <FirBtn rounded size="sm">
                         {userData ? "Go To Dashboard" : "Login"}
-                    </MDBBtn>
+                    </FirBtn>
                     </MDBNavLink>
                 </MDBNavItem>
                 <MDBNavItem>

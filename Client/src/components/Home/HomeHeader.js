@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles, useTheme } from '@fluentui/react-theme-provider';
+import { makeStyles } from '@fluentui/react-theme-provider';
 import {
     MDBContainer as Container,
     MDBRow as Row,
@@ -10,6 +10,7 @@ import {
     MDBBtn,
     MDBIcon
 } from 'mdbreact';
+import { FirBtn } from '../Common';
 import UserSizeNumber from './UserSizeNumber';
 import { INVITE_LINK } from '../../constants';
 
@@ -19,7 +20,6 @@ import Campfire from '../../assets/images/Campfire.jpg';
 
 function HomeHeader({ api }) {
 
-    const theme = useTheme();
     const styles = useStyles();
 
     return(
@@ -43,13 +43,13 @@ function HomeHeader({ api }) {
                         </div>
                         <div className="text-center">
                         <MDBAnimation type="fadeIn" duration="1s" delay="1s">
-                        <MDBBtn color="orange" className={[styles.button, theme.classNames.button].join(" ")} size="md">
+                        <FirBtn className={styles.button}>
                             <div className="d-flex flex-row">
                                 Serving
                                 <UserSizeNumber className="ml-1 mr-1" api={api} delay={1} />
                                 users
                             </div>
-                        </MDBBtn>
+                        </FirBtn>
                         <a href={INVITE_LINK} target="_blank" rel="noopener noreferrer">
                         <MDBBtn color="blue" className={[styles.button, "discord-color"].join(" ")} size="md">
                             <MDBIcon className="mr-2" fab icon="discord" />
