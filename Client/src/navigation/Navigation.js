@@ -58,9 +58,14 @@ function Navigation(props) {
     };
 
     const renderDashboardRoutes = () => {
-        const DashboardRoutes = _DashboardRoutes.map((route) => (
-            <Route exact path={route.path} component={route.component} key={route.title} />
-        ));
+        const DashboardRoutes = _DashboardRoutes.map((route) => {
+            if(route.subRoutes) {
+                return route.subRoutes.map((subRoute) => (
+                    <Route exact path={subRoute.path} component={subRoute.component} key={subRoute.title} />
+                ));
+            }
+            return <Route exact path={route.path} component={route.component} key={route.title} />;
+        });
         
         return(
             <div>
