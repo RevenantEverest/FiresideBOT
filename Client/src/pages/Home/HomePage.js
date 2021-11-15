@@ -2,7 +2,8 @@ import React from 'react';
 import {
     MDBContainer as Container,
     MDBRow as Row,
-    MDBCol as Col
+    MDBCol as Col,
+    MDBAnimation
 } from 'mdbreact';
 
 import { HomeHeader } from '../../components/Home';
@@ -16,12 +17,16 @@ function HomePage({ api }) {
             <HomeHeader api={api} />
             <Row className="my-5">
                 <Col>
-                <WhyChooseUs />
+                <MDBAnimation reveal type="fadeInUp" duration="1s">
+                    <WhyChooseUs />
+                </MDBAnimation>
                 </Col>
             </Row>
             <Row className="my-5">
                 <Col>
-                <WhatWeOffer />
+                <MDBAnimation reveal type="fadeInUp" duration="1s">
+                    <WhatWeOffer />
+                </MDBAnimation>
                 </Col>
             </Row>
             </Container>
