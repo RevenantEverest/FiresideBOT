@@ -15,4 +15,5 @@ export { default as RanksContainer } from './Ranks/RanksContainer';
 export { default as ServerSettingsContainer } from './ServerSettings/ServerSettingsContainer';
 export { default as TrackersContainer } from './Trackers/TrackersContainer';
 
+export { default as RootContainer } from './RootContainer/RootContainer';
 export { default as PageNotFoundContainer } from './PageNotFound/PageNotFoundContainer';
