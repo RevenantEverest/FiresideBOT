@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { RouteAnimation } from '../../components/Common';
 import { DashboardPage } from '../../pages/Dashboard';
+import { motion } from 'framer-motion';
 
 function mapStateToProps(state) {
     return {
@@ -18,7 +20,9 @@ function mapDispatchToProps(dispatch) {
 
 function DashboardContainer(props) {
     return(
-        <DashboardPage {...props} />
+        <RouteAnimation>
+            <DashboardPage {...props} />
+        </RouteAnimation>
     );
 };
 

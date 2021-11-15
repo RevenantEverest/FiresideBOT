@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { RouteAnimation } from '../../components/Common';
 import { PlaylistsPage } from '../../pages/Playlists';
 
 function mapStateToProps(state) {
@@ -18,7 +19,9 @@ function mapDispatchToProps(dispatch) {
 
 function PlaylistsContainer(props) {
     return(
-        <PlaylistsPage {...props} />
+        <RouteAnimation>
+            <PlaylistsPage {...props} />
+        </RouteAnimation>
     );
 };
 

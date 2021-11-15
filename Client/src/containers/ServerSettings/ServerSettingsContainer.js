@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { RouteAnimation } from '../../components/Common';
 import { ServerSettingsPage } from '../../pages/ServerSettings';
 
 function mapStateToProps(state) {
@@ -18,7 +19,9 @@ function mapDispatchToProps(dispatch) {
 
 function ServerSettingsContainer(props) {
     return(
-        <ServerSettingsPage {...props} />
+        <RouteAnimation>
+            <ServerSettingsPage {...props} />
+        </RouteAnimation>
     );
 };
 

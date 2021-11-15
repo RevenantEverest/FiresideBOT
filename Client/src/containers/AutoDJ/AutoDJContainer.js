@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { RouteAnimation } from '../../components/Common';
 import { AutoDJPage } from '../../pages/AutoDJ';
 
 function mapStateToProps(state) {
@@ -18,7 +19,9 @@ function mapDispatchToProps(dispatch) {
 
 function AutoDJContainer(props) {
     return(
-        <AutoDJPage {...props} />
+        <RouteAnimation>
+            <AutoDJPage {...props} />
+        </RouteAnimation>
     );
 };
 

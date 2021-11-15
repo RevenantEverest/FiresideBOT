@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { RouteAnimation } from '../../components/Common';
 import { ModerationPage } from '../../pages/Moderation';
 
 function mapStateToProps(state) {
@@ -18,7 +19,9 @@ function mapDispatchToProps(dispatch) {
 
 function ModerationContainer(props) {
     return(
-        <ModerationPage {...props} />
+        <RouteAnimation>
+            <ModerationPage {...props} />
+        </RouteAnimation>
     );
 };
 

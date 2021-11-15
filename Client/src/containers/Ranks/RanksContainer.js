@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { RouteAnimation } from '../../components/Common';
 import { RanksPage } from '../../pages/Ranks';
 
 function mapStateToProps(state) {
@@ -18,7 +19,9 @@ function mapDispatchToProps(dispatch) {
 
 function RanksContainer(props) {
     return(
-        <RanksPage {...props} />
+        <RouteAnimation>
+            <RanksPage {...props} />
+        </RouteAnimation>
     );
 };
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { RouteAnimation } from '../../components/Common';
 import { TrackersPage } from '../../pages/Trackers';
 
 function mapStateToProps(state) {
@@ -18,7 +19,9 @@ function mapDispatchToProps(dispatch) {
 
 function TrackersContainer(props) {
     return(
-        <TrackersPage {...props} />
+        <RouteAnimation>
+            <TrackersPage {...props} />
+        </RouteAnimation>
     );
 };
 

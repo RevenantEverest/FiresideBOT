@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { RouteAnimation } from '../../components/Common';
 import { EconomyPage } from '../../pages/Economy';
 
 function mapStateToProps(state) {
@@ -18,7 +19,9 @@ function mapDispatchToProps(dispatch) {
 
 function EconomyContainer(props) {
     return(
-        <EconomyPage {...props} />
+        <RouteAnimation>
+            <EconomyPage {...props} />
+        </RouteAnimation>
     );
 };
 

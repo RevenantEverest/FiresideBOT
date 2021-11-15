@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { RouteAnimation } from '../../components/Common';
 import { CustomCommandsPage } from '../../pages/CustomCommands';
 
 function mapStateToProps(state) {
@@ -18,7 +19,9 @@ function mapDispatchToProps(dispatch) {
 
 function CustomCommandsContainer(props) {
     return(
-        <CustomCommandsPage {...props} />
+        <RouteAnimation>
+            <CustomCommandsPage {...props} />
+        </RouteAnimation>
     );
 };
 
