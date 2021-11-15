@@ -1,16 +1,23 @@
 import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import { persistStore } from 'redux-persist';
 import thunk from 'redux-thunk';
 import rootReducer from './reducers.js';
 
 import { actions as authActions } from './auth';
+import { actions as themeActions } from './theme';
 
 const store = createStore(
     rootReducer, 
     composeWithDevTools(applyMiddleware(thunk))
 );
 
+const persistor = persistStore(store);
+
 export {
-    authActions
+    authActions,
+    themeActions,
+
+    store, 
+    persistor
 };
-export default store;
