@@ -25,6 +25,7 @@ const gradients = {
 
 const darkTheme = {
     name: "dark",
+    maskStrength: "strong",
     colors: colors,
     gradients: gradients,
     classNames: classNames

@@ -6,7 +6,7 @@ const colors = {
     secondary: "#D97A07",
     dark: "#1C1C1C",
     darkLight: "#3E3E3E",
-    background: "#F6F6F6",
+    background: "#F8F8F8",
     card: "#F3F3F3",
     cardLight: "#FFFFFF",
     button: "#992300",
@@ -25,6 +25,7 @@ const gradients = {
 
 const lightTheme = {
     name: "light",
+    maskStrength: "light",
     colors: colors,
     gradients: gradients,
     classNames: classNames
