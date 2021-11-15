@@ -41,3 +41,10 @@ code {
 .fireside-button-light { background-color: #A62F03 !important; }
 
 .discord-color { background-color: #5865F2 !important; }
+
+.black-skin .side-nav .collapsible li a:not(.collapsible-header):hover, 
+.black-skin .side-nav .collapsible li a:not(.collapsible-header).active, 
+.black-skin .side-nav .collapsible li a:not(.collapsible-header):active {
+    background-color: transparent !important;
+    color: inherit !important;
+}
