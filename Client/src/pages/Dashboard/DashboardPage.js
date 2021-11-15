@@ -4,7 +4,7 @@ import {
     MDBRow as Row,
     MDBCol as Col
 } from 'mdbreact';
-import { Header, Breadcrumb } from '../../components/Common';
+import { Breadcrumb } from '../../components/Common';
 
 function DashboardPage({ userData }) {
     
@@ -12,6 +12,10 @@ function DashboardPage({ userData }) {
         <div className="dashboard-page">
             <Container fluid>
             <Breadcrumb routes={[ { title: "Dashboard", path: "/dashboard" } ]} />
+            <Row>
+                <Col>
+                </Col>
+            </Row>
             </Container>
         </div>
     );
