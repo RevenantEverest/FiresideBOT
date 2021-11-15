@@ -15,6 +15,7 @@ body {
         sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
 }
 
 code {
@@ -29,6 +30,10 @@ code {
 .app-page {
     min-height: 60vh;
     padding-top: 100px;
+}
+
+.dashboard-page {
+    min-height: 60vh;
 }
 
 .fireside-text { font-family: 'NexaRustSlab', sans-serif; }
