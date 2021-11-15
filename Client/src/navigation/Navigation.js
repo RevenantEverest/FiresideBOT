@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Redirect, withRouter } from 'react-router-dom';
+import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { makeStyles } from '@fluentui/react-theme-provider';
 import { Navbar } from './Navbar';
@@ -7,6 +7,7 @@ import { SideNav } from './Sidenav';
 import { Footer } from './Footer';
 import { _HomeRoutes, _DashboardRoutes } from './_Routes';
 import { PageNotFoundContainer } from '../containers';
+import { AnimatePresence } from 'framer-motion';
 
 function mapStateToProps(state) {
     return {
@@ -64,7 +65,11 @@ function Navigation(props) {
         return(
             <div>
             <SideNav {...props}>
-                {DashboardRoutes}
+                <AnimatePresence exitBeforeEnter>
+                    <Switch location={props.location} key={props.location.key}>
+                    {DashboardRoutes}
+                    </Switch>
+                </AnimatePresence>
                 <Footer {...props} />
             </SideNav>
             </div>
