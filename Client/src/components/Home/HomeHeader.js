@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@fluentui/react-theme-provider';
+import { makeStyles, useTheme } from '@fluentui/react-theme-provider';
 import {
     MDBContainer as Container,
     MDBRow as Row,
@@ -20,11 +20,12 @@ import Campfire from '../../assets/images/Campfire.jpg';
 
 function HomeHeader({ api }) {
 
+    const theme = useTheme();
     const styles = useStyles();
 
     return(
         <MDBView src={Campfire}>
-        <MDBMask overlay="black-strong">
+        <MDBMask overlay={`black-${theme.maskStrength}`}>
             <MDBView src={Embers}>
             <MDBMask overlay="black-slight" className="flex-center flex-column text-white">
             <Container>
