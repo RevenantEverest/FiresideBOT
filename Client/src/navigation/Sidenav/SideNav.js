@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import '../../css/SideNav.css';
+import { makeStyles } from "@fluentui/react-theme-provider";
 import { Redirect } from "react-router-dom";
 import { 
     MDBContainer as Container,
@@ -10,15 +11,20 @@ import {
 } from "mdbreact";
 import { SIDENAV_BREAK_POINT } from '../../constants';
 import { _DashboardRoutes } from '../_Routes';
+import { colors } from "../../utils";
 import _Images from '../../assets/images/_Images';
 
 import TopNav from "./TopNav";
 
 function SideNav(props) {
 
+    const styles = useStyles();
+
     const [toggleState, setToggleState] = useState(false);
     const [windowWidth, setWindowWidth] = useState(0);
     const [homeRedirect, setHomeRedirect] = useState(false);
+
+    const currentPath = `/${props.location.pathname.split("/")[1]}`;
 
     const children = props?.children.filter(child => child?.type?.name !== "Footer") ?? [];
     const footerChild = props?.children.filter(child => child?.type?.name === "Footer") ?? [];
@@ -46,6 +52,11 @@ function SideNav(props) {
         setToggleState(!toggleState);
     };
 
+    const isActive = (path) => {
+        console.log(path, currentPath, path === currentPath);
+        return path === currentPath ? styles.active : "";
+    };
+
     const renderRoutes = () => {
         return _DashboardRoutes.filter(route => route.displayNav).map(route => {
             if(route.subRoutes)
@@ -56,16 +67,16 @@ function SideNav(props) {
     };
 
     const renderLink = (route) => (
-        <MDBSideNavLink className="font-weight-bold" to={route.path} key={route.path}>
+        <MDBSideNavLink className={["font-weight-bold", styles.route, isActive(route.path)].join(" ")} to={route.path} key={route.path}>
             {route.icon && <route.icon className="mr-2" />}
             {route.title}
         </MDBSideNavLink>
     );
 
     const renderDropdown = (route) => (
-        <MDBSideNavCat className="font-weight-bold" name={route.title} id={route.title + "-cat"} icon={route.icon} key={route.path}>
+        <MDBSideNavCat className={"font-weight-bold " + styles.dropdown} name={route.title} id={route.title + "-cat"} icon={route.icon} key={route.path}>
             {route.subRoutes.map(subRoute => (
-                <MDBSideNavLink className="font-weight-bold" to={subRoute.path} key={subRoute.title}>
+                <MDBSideNavLink className={["font-weight-bold", styles.dropdownElement, isActive(subRoute.path)].join(" ")} to={subRoute.path} key={subRoute.title}>
                     {subRoute.title}
                 </MDBSideNavLink>
             ))}
@@ -100,5 +111,30 @@ function SideNav(props) {
         </div>
     );
 };
+
+const useStyles = makeStyles((theme) => ({
+    route: {
+        backgroundColor: `rgba(0,0,0,0) !important`,
+        ':hover': {
+            backgroundColor: `${colors.hexToRgba(theme.colors.primary, .3)} !important`
+        }
+    },
+    dropdown: {
+        backgroundColor: `rgba(0,0,0,0) !important`
+    },
+    dropdownElement: {
+        ':hover': {
+            '>span': {
+                color: `${theme.colors.secondary} !important`
+            }
+        }
+    },
+    active: {
+        backgroundColor: `${colors.hexToRgba(theme.colors.primary, .2)} !important`,
+        '>span': {
+            color: `${theme.colors.secondary} !important`
+        }
+    }
+}));
 
 export default SideNav;
