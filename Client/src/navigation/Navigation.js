@@ -2,12 +2,15 @@ import React from 'react';
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { makeStyles } from '@fluentui/react-theme-provider';
+import { AnimatePresence } from 'framer-motion';
+
 import { Navbar } from './Navbar';
 import { SideNav } from './Sidenav';
 import { Footer } from './Footer';
 import { _HomeRoutes, _DashboardRoutes } from './_Routes';
 import { PageNotFoundContainer } from '../containers';
-import { AnimatePresence } from 'framer-motion';
+
+import { ScrollToTop } from '../components/Common';
 
 function mapStateToProps(state) {
     return {
@@ -51,7 +54,7 @@ function Navigation(props) {
         return(
             <div>
                 <Navbar {...props} />
-                    {HomeRoutes}
+                {HomeRoutes}
                 <Footer {...props} />
             </div>
         );
@@ -68,7 +71,6 @@ function Navigation(props) {
         });
         
         return(
-            <div>
             <SideNav {...props}>
                 <AnimatePresence exitBeforeEnter>
                     <Switch location={props.location} key={props.location.key}>
@@ -77,13 +79,14 @@ function Navigation(props) {
                 </AnimatePresence>
                 <Footer {...props} />
             </SideNav>
-            </div>
         );
     };
 
     return(
         <div className={"app " + styles.app}>
-            {calculateNavbar()}
+            <ScrollToTop>
+                {calculateNavbar()}
+            </ScrollToTop>
         </div>
     );
 };
