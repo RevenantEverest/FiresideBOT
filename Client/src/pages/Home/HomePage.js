@@ -6,20 +6,22 @@ import {
 } from 'mdbreact';
 
 import { HomeHeader } from '../../components/Home';
+import { WhyChooseUs, WhatWeOffer } from '../../components/Features';
 
 function HomePage({ api }) {
 
     return(
         <div id="HomePage">
             <Container className="pl-0 pr-0 overflow-hidden" fluid>
-            <Row>
+            <HomeHeader api={api} />
+            <Row className="my-5">
                 <Col>
-                    <HomeHeader api={api} />
+                <WhyChooseUs />
                 </Col>
             </Row>
-            <Row>
+            <Row className="my-5">
                 <Col>
-                    <div className="mt-5 mb-5" />
+                <WhatWeOffer />
                 </Col>
             </Row>
             </Container>
