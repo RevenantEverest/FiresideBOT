@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles, useTheme } from '@fluentui/react-theme-provider';
+import { makeStyles } from '@fluentui/react-theme-provider';
 import { Link } from 'react-router-dom';
 import { MDBBreadcrumb, MDBBreadcrumbItem } from 'mdbreact';
 
