@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { RouteAnimation } from '../../components/Common';
 import { DashboardPage } from '../../pages/Dashboard';
-import { motion } from 'framer-motion';
 
 function mapStateToProps(state) {
     return {
