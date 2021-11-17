@@ -10,8 +10,8 @@ const colors = {
     card: "#2A2A2A",
     cardLight: "#3E3E3E",
     button: "#992300",
-    text: "#FFFFFF",
-    mutedText: "#666666"
+    text: "#F6F6F6",
+    mutedText: "#999999"
 };
 
 const classNames = {

@@ -6,12 +6,12 @@ const colors = {
     secondary: "#D97A07",
     dark: "#1C1C1C",
     darkLight: "#3E3E3E",
-    background: "#F8F8F8",
-    card: "#F3F3F3",
+    background: "#F6F6F6",
+    card: "#F1F1F1",
     cardLight: "#FFFFFF",
     button: "#992300",
     text: "#000000",
-    mutedText: "#666666"
+    mutedText: "#333333"
 };
 
 const classNames = {
