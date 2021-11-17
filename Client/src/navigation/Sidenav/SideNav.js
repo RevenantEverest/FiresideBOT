@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import '../../css/SideNav.css';
-import { makeStyles } from "@fluentui/react-theme-provider";
+import { makeStyles, useTheme } from "@fluentui/react-theme-provider";
 import { Redirect } from "react-router-dom";
 import { 
     MDBContainer as Container,
@@ -18,6 +18,7 @@ import TopNav from "./TopNav";
 
 function SideNav(props) {
 
+    const theme = useTheme();
     const styles = useStyles();
 
     const [toggleState, setToggleState] = useState(false);
@@ -54,7 +55,7 @@ function SideNav(props) {
 
     const isActive = (path) => {
         console.log(path, currentPath, path === currentPath);
-        return path === currentPath ? styles.active : "";
+        return path === currentPath ? styles.active : styles.nonActiveRoute;
     };
 
     const renderRoutes = () => {
@@ -67,7 +68,7 @@ function SideNav(props) {
     };
 
     const renderLink = (route) => (
-        <MDBSideNavLink className={["font-weight-bold", styles.route, isActive(route.path)].join(" ")} to={route.path} key={route.path}>
+        <MDBSideNavLink className={["font-weight-bold", isActive(route.path)].join(" ")} to={route.path} key={route.path}>
             {route.icon && <route.icon className="mr-2" />}
             {route.title}
         </MDBSideNavLink>
@@ -86,11 +87,12 @@ function SideNav(props) {
     return(
         <div id="SideNav" className="fixed-sn black-skin">
             <MDBSideNav
+            className={styles.sideNav}
             logo={_Images.logo}
             triggerOpening={toggleState}
             breakWidth={SIDENAV_BREAK_POINT}
             bg={_Images.sideNavBackground}
-            mask="strong"
+            mask={theme.maskStrength}
             fixed
             onClick={() => setHomeRedirect(true)}
             >
@@ -112,29 +114,43 @@ function SideNav(props) {
     );
 };
 
-const useStyles = makeStyles((theme) => ({
-    route: {
-        backgroundColor: `rgba(0,0,0,0) !important`,
-        ':hover': {
-            backgroundColor: `${colors.hexToRgba(theme.colors.primary, .3)} !important`
-        }
-    },
-    dropdown: {
-        backgroundColor: `rgba(0,0,0,0) !important`
-    },
-    dropdownElement: {
-        ':hover': {
+const useStyles = makeStyles((theme) => {
+
+    const darkMode = theme.maskStrength === "strong";
+    const hoverBackground = colors.hexToRgba(theme.colors.primary, (darkMode ? .3 : .4));
+
+    return({
+        sideNav: {
+            '.sidenav-bg::after': {
+                backgroundColor: `rgba(0, 0, 0, ${darkMode ? ".8" : ".5"}) !important`
+            }
+        },
+        dropdown: {
+            backgroundColor: `rgba(0,0,0,0) !important`,
+            ':hover': {
+                background: `${hoverBackground} !important`
+            }
+        },
+        dropdownElement: {
+            ':hover': {
+                '>span': {
+                    color: `${theme.colors.secondary} !important`
+                }
+            }
+        },
+        nonActiveRoute: {
+            backgroundColor: `rgba(0,0,0,0) !important`,
+            ':hover': {
+                background: `${hoverBackground} !important`
+            }
+        },
+        active: {
+            backgroundColor: `${hoverBackground} !important`,
             '>span': {
                 color: `${theme.colors.secondary} !important`
             }
         }
-    },
-    active: {
-        backgroundColor: `${colors.hexToRgba(theme.colors.primary, .2)} !important`,
-        '>span': {
-            color: `${theme.colors.secondary} !important`
-        }
-    }
-}));
+    });
+});
 
 export default SideNav;
