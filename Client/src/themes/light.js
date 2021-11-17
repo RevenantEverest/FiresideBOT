@@ -9,6 +9,7 @@ const colors = {
     background: "#F6F6F6",
     card: "#F1F1F1",
     cardLight: "#FFFFFF",
+    cardDark: "#D7D7D7",
     button: "#992300",
     text: "#000000",
     mutedText: "#333333"
