@@ -23,9 +23,13 @@ function WhatWeOffer() {
                             <MDBIcon className={"mr-3 " + styles.icon} icon={feature.iconName} />
                             {feature.title}
                         </h3>
-                        <p className={"lead mb-5 " + styles.subText}>
-                            {feature.description}
-                        </p>
+                        <div className={index % 2 !== 0 && "d-flex justify-content-end"}>
+                            <Col md="9" className="pl-0 pr-0">
+                                <p className={"lead mb-5 " + styles.subText}>
+                                    {feature.description}
+                                </p>
+                            </Col>`
+                        </div>
                     </div>
                 </Col>
                 <Col className={index % 2 !== 0 && "order-first"} md="5">
