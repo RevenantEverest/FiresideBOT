@@ -10,7 +10,7 @@ const _Features = [
             a specific channel for the embeds to be posted in as well as a role to 
             tag and custom flavor text!
         `,
-        images: [_Images.features.trackersCommand, _Images.features.trackersPost]
+        images: [_Images.features.trackersPost]
     },
     {
         title: "Economy",
@@ -22,7 +22,7 @@ const _Features = [
             There are a couple casino type games to use the currency on like Black Jack 
             and standard gambling.
         `,
-        images: [_Images.features.economyOne, _Images.features.economyTwo]
+        images: [_Images.features.economyTwo]
     },
     {
         title: "Ranks",
@@ -34,7 +34,7 @@ const _Features = [
             how hard it is for members to rank up.\n\n
             See how you compare against your friends!
         `,
-        images: [_Images.features.ranksOne, _Images.features.ranksTwo]
+        images: [_Images.features.ranksTwo]
     },
     {
         title: "Auto Role",
@@ -68,7 +68,7 @@ const _Features = [
             access to the rest of the server.\n\n
             Or for MMO communities that want to know what role is preferred by each member (Tank, DPS, Healer).
         `,
-        images: [_Images.features.roleReactionsCommand, _Images.features.roleReactionsPost]
+        images: [_Images.features.roleReactionsPost]
     },
     {
         title: "Welcome Message",
