@@ -8,6 +8,7 @@ import {
 
 import { HomeHeader } from '../../components/Home';
 import { WhyChooseUs, WhatWeOffer } from '../../components/Features';
+import { Testimonials } from '../../components/Testimonials';
 
 function HomePage({ api }) {
 
@@ -27,6 +28,11 @@ function HomePage({ api }) {
                 <MDBAnimation reveal type="fadeInUp" duration="1s">
                     <WhatWeOffer />
                 </MDBAnimation>
+                </Col>
+            </Row>
+            <Row className="my-5">
+                <Col>
+                    <Testimonials />
                 </Col>
             </Row>
             </Container>
