@@ -27,7 +27,7 @@ function TopNav({ windowWidth, handleToggleState }) {
         if(avatar)
             return /* <Image className={styles.avatar} src={avatar} roundedCircle /> */
         else 
-            return <MDBIcon className="mr-5" icon="user" />
+            return <MDBIcon className="mr-2" icon="user" />
     };
 
     return(
@@ -45,23 +45,23 @@ function TopNav({ windowWidth, handleToggleState }) {
                     <MDBDropdownToggle nav caret>
                     {renderAvatar()}
                     </MDBDropdownToggle>
-                    <MDBDropdownMenu right={windowWidth > 800 ? true : false} className="dropdown-default SideNav-TopNav__DropDownMenu">
-                    <MDBDropdownItem className="SideNav-TopNav-Dropdown-Item-User" style={{ padding: "10px 15px 10px 15px" }}>
-                            <span className="SideNav-TopNav-Dropdown-Item-Span">
+                    <MDBDropdownMenu right={windowWidth > 800 ? true : false}>
+                    <MDBDropdownItem style={{ padding: "10px 15px 10px 15px" }}>
+                            <span>
                                 {/* {this.state.discordUser ? `${this.state.discordUser.username}#${this.state.discordUser.discriminator}` : ''} */}
                             </span>
                     </MDBDropdownItem>
                     <MDBDropdownItem divider />
                     <MDBNavLink to="/account" style={{ padding: 0 }}>
-                    <MDBDropdownItem className="SideNav-TopNav-Dropdown-Item" style={{ padding: "10px 15px 10px 15px" }}>
+                    <MDBDropdownItem style={{ padding: "10px 15px 10px 15px" }}>
                             <MDBIcon icon="user-alt" />
-                            <span className="SideNav-TopNav-Dropdown-Item-Span">Account</span>
+                            <span>Account</span>
                     </MDBDropdownItem>
                     </MDBNavLink>
                     <MDBDropdownItem divider />
-                    <MDBDropdownItem className="SideNav-TopNav-Dropdown-Item" onClick={() => this.handleLogout()}>
+                    <MDBDropdownItem onClick={() => this.handleLogout()}>
                         <MDBIcon icon="sign-out-alt" />
-                        <span className="SideNav-TopNav-Dropdown-Item-Span">Logout</span>
+                        <span>Logout</span>
                     </MDBDropdownItem>
                     </MDBDropdownMenu>
                 </MDBDropdown>
