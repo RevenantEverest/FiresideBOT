@@ -10,7 +10,8 @@ const _Features = [
             a specific channel for the embeds to be posted in as well as a role to 
             tag and custom flavor text!
         `,
-        images: [_Images.features.trackersPost]
+        images: [_Images.features.trackersPost],
+        colWidth: "5"
     },
     {
         title: "Economy",
@@ -22,7 +23,8 @@ const _Features = [
             There are a couple casino type games to use the currency on like Black Jack 
             and standard gambling.
         `,
-        images: [_Images.features.economyTwo]
+        images: [_Images.features.economyTwo],
+        colWidth: "6"
     },
     {
         title: "Ranks",
@@ -34,7 +36,8 @@ const _Features = [
             how hard it is for members to rank up.\n\n
             See how you compare against your friends!
         `,
-        images: [_Images.features.ranksTwo]
+        images: [_Images.features.ranksTwo],
+        colWidth: "5"
     },
     {
         title: "Auto Role",
@@ -43,7 +46,8 @@ const _Features = [
             Auto Role is the simpilest feature to explain! It allows server admins to assign 
             a role to be given to new server members.
         `,
-        images: [_Images.features.autoRole]
+        images: [_Images.features.autoRole],
+        colWidth: "6"
     },
     {
         title: "Custom Commands",
@@ -55,7 +59,8 @@ const _Features = [
             what they do and an example of how to use them. Variables will always be contained 
             within the syntax \${} for example having the touser variable look like \${touser}.
         `,
-        images: [_Images.features.customCommands]
+        images: [_Images.features.customCommands],
+        colWidth: "5"
     },
     {
         title: "Role Reactions",
@@ -68,7 +73,8 @@ const _Features = [
             access to the rest of the server.\n\n
             Or for MMO communities that want to know what role is preferred by each member (Tank, DPS, Healer).
         `,
-        images: [_Images.features.roleReactionsPost]
+        images: [_Images.features.roleReactionsPost],
+        colWidth: "5"
     },
     {
         title: "Welcome Message",
@@ -77,7 +83,8 @@ const _Features = [
             The Welcome Message feature allows you to send a DM to a new server member. Use this feature if you 
             want to thank new members for joining and/or help them navigate the server!
         `,
-        images: [_Images.features.welcomeMessage]
+        images: [_Images.features.welcomeMessage],
+        colWidth: "6"
     },
     {
         title: "Music",
@@ -91,7 +98,8 @@ const _Features = [
             Like a song that's currently playing and want to quickly save it for later? Click on the heart reaction 
             on the current song embed and save the song to your default "Liked Songs" playlist!
         `,
-        images: [_Images.features.music]
+        images: [_Images.features.music],
+        colWidth: "5"
     },
 ];
 
