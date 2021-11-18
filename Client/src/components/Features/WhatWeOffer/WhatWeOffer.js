@@ -7,7 +7,8 @@ import {
     MDBIcon,
     MDBAnimation
 } from 'mdbreact';
-import { _Features } from '../../res';
+import WhatWeOfferImageCard from './WhatWeOfferImageCard';
+import { _Features } from '../../../res';
 
 function WhatWeOffer() {
 
@@ -32,10 +33,14 @@ function WhatWeOffer() {
                         </div>
                     </div>
                 </Col>
-                <Col className={index % 2 !== 0 && "order-first"} md="5">
+                <Col className={index % 2 !== 0 && "order-first"} md={feature.colWidth}>
                     {
                         feature.images.map((image, imageIndex) => (
-                            <img className="img-fluid mb-4" src={image} alt={`${feature.title}-${imageIndex}`} key={`${feature.title}-${imageIndex}`} />
+                            <WhatWeOfferImageCard 
+                            image={image} 
+                            alt={`${feature.title}-${imageIndex}`} 
+                            key={`${feature.title}-${imageIndex}`} 
+                            />
                         ))
                     }
                 </Col>
