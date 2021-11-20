@@ -33,8 +33,10 @@ function MostRecentChangelog({ changelog }) {
         <MDBCardBody className={styles.cardBody}>
             <MDBCardTitle tag="div" className={styles.title}>
                 <h4 className="h4">Changelog v{changelog.version} </h4>
-                <h6 className="h6 display-inline">Release Date: </h6>
-                <MDBBadge color="dark" className="display-inline">{changelog.release_date}</MDBBadge>
+                <div className="d-flex">
+                    <h6 className="h6">Release Date: </h6>
+                    <MDBBadge color="dark" className="align-self-center ml-2">{changelog.release_date}</MDBBadge>
+                </div>
             </MDBCardTitle>
             <MDBCardText tag="div" className="mt-4">
                 <Markdown>
