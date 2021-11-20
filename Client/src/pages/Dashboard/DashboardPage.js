@@ -1,18 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
     MDBContainer as Container,
     MDBRow as Row,
     MDBCol as Col
 } from 'mdbreact';
 import { Breadcrumb, CascadingCard } from '../../components/Common';
+import { MostRecentChangelog } from '../../components/Changelogs';
 
-function DashboardPage({ userData }) {
+function DashboardPage({ api, userData, changelogs }) {
+
+    useEffect(() => {
+        api.getChangelogs();
+    }, [api]);
+
+    console.log(changelogs);
     
     return(
-        <div className="dashboard-page">
+        <div className="dashboard-page mb-5">
             <Container fluid>
             <Breadcrumb routes={[ { title: "Dashboard", path: "/dashboard" } ]} />
-            <Row className="my-5">
+            <Row className="mt-5 mb-4">
                 <Col md="4" className="mb-4">
                     <CascadingCard 
                     title="New Guild Members" 
@@ -36,6 +43,11 @@ function DashboardPage({ userData }) {
                     iconName="music" 
                     color="#CC8218" 
                     />
+                </Col>
+            </Row>
+            <Row>
+                <Col>
+                    <MostRecentChangelog changelog={Array.isArray(changelogs) && changelogs[0]} />
                 </Col>
             </Row>
             </Container>
