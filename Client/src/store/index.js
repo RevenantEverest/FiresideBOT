@@ -5,6 +5,7 @@ import thunk from 'redux-thunk';
 import rootReducer from './reducers.js';
 
 import { actions as authActions } from './auth';
+import { actions as changelogActions } from './changelogs';
 import { actions as themeActions } from './theme';
 
 const store = createStore(
@@ -16,6 +17,7 @@ const persistor = persistStore(store);
 
 export {
     authActions,
+    changelogActions,
     themeActions,
 
     store, 

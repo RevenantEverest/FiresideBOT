@@ -3,6 +3,7 @@ import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
 import auth from './auth';
+import changelogs from './changelogs';
 import theme from './theme';
 
 const persistConfig = {
@@ -13,6 +14,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
     auth: auth,
+    changelogs: changelogs,
     theme: theme
 });
 
