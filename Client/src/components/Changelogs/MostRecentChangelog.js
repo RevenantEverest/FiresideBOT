@@ -10,8 +10,7 @@ import {
     MDBIcon,
     MDBBadge
 } from 'mdbreact';
-import ReactMarkdown from 'react-markdown';
-import { FirBtn } from '../Common';
+import { FirBtn, Markdown } from '../Common';
 import { text } from '../../utils';
 
 function MostRecentChangelog({ changelog }) {
@@ -22,7 +21,7 @@ function MostRecentChangelog({ changelog }) {
 
     const contentArr = changelog.content.split(" ");
     const content = contentArr.slice(6, contentArr.length - 1).join(" ");
-    const description = text.truncateText("# " + content, 300)
+    const description = text.truncateText("## " + content, 300)
 
 
     return(
@@ -37,10 +36,10 @@ function MostRecentChangelog({ changelog }) {
                 <h6 className="h6 display-inline">Release Date: </h6>
                 <MDBBadge color="dark" className="display-inline">{changelog.release_date}</MDBBadge>
             </MDBCardTitle>
-            <MDBCardText tag="div" className={styles.text}>
-                <ReactMarkdown>
+            <MDBCardText tag="div" className="mt-4">
+                <Markdown>
                     {description}
-                </ReactMarkdown>
+                </Markdown>
             </MDBCardText>
             <Link to={`/changelogs/${changelog.version}`}>
                 <FirBtn>View Full Changelog</FirBtn>
