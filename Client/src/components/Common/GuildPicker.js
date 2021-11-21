@@ -18,6 +18,9 @@ function GuildPicker({ api, managedGuild, guilds, size }) {
     };
 
     const renderGuilds = () => {
+        if(guilds.length <= 0) 
+            return renderNoGuilds();
+
         return guilds.items.map(guild => (
             <MDBDropdownItem key={guild.name} onClick={() => handleChange(guild)}>
                 {renderGuildImage(guild)}
