@@ -20,11 +20,11 @@ services.getUserData = (data) => {
     });
 };
 
-services.verify = (data) => {
+services.verify = (token) => {
     return axios({
         method: "POST",
         url: `${env.API}/verify`,
-        headers: { "Authorization": `Bearer ${window.localStorage.token}` }
+        headers: { "Authorization": `Bearer ${token}` }
     });
 };
 
