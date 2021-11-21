@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ThemeProvider } from '@fluentui/react-theme-provider';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fab } from '@fortawesome/free-brands-svg-icons';
@@ -8,7 +8,12 @@ import Navigation from './navigation/Navigation';
 
 library.add(fab);
 
-function App({ theme, api }) {
+function App({ api, userData, theme }) {
+
+    useEffect(() => {
+        if(userData)
+            api.verify(userData.token);
+    }, [api, userData]);
 
     const changeTheme = (themeType) => {
         switch(themeType) {
