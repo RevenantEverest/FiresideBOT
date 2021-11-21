@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { themeActions } from '../../store';
+import { themeActions, authActions } from '../../store';
 import App from '../../App';
 
 function mapStateToProps(state) {
     return {
+        userData: state.auth.user,
         theme: state.theme
     };
 };
@@ -12,7 +13,12 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         api: {
-            updateTheme: (theme) => dispatch(themeActions.updateTheme(theme))
+            updateTheme: (theme) => {
+                return dispatch(themeActions.updateTheme(theme));
+            },
+            verify: (token) => {
+                return dispatch(authActions.verify(token));
+            }
         }
     };
 };
