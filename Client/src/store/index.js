@@ -6,6 +6,7 @@ import rootReducer from './reducers.js';
 
 import { actions as authActions } from './auth';
 import { actions as changelogActions } from './changelogs';
+import { actions as guildActions } from './guilds';
 import { actions as themeActions } from './theme';
 
 const store = createStore(
@@ -18,6 +19,7 @@ const persistor = persistStore(store);
 export {
     authActions,
     changelogActions,
+    guildActions,
     themeActions,
 
     store, 
