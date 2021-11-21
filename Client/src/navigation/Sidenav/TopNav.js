@@ -11,21 +11,22 @@ import {
     MDBDropdownItem, 
     MDBIcon
 } from "mdbreact";
+import { GuildPicker } from '../../components/Common';
 import { SIDENAV_BREAK_POINT } from '../../constants';
+import { discord } from '../../utils';
 
-function TopNav({ windowWidth, handleToggleState }) {
+function TopNav({ api, userData, guilds, managedGuild, windowWidth, handleToggleState }) {
 
     const theme = useTheme();
     const styles = useStyles();
-    const avatar = false;
 
     const navStyle = {
         paddingLeft: windowWidth > SIDENAV_BREAK_POINT ? "210px" : "16px"
     };
 
     const renderAvatar = () => {
-        if(avatar)
-            return /* <Image className={styles.avatar} src={avatar} roundedCircle /> */
+        if(userData.avatar)
+            return <img className={styles.avatar} src={discord.avatarUrl(userData)} alt={userData.username} />;
         else 
             return <MDBIcon className="mr-2" icon="user" />
     };
@@ -38,8 +39,10 @@ function TopNav({ windowWidth, handleToggleState }) {
                     <MDBIcon icon="bars" color={theme.colors.text} style={{  }} />
                     </div>
                 </MDBNavItem>
+                {(windowWidth > 800) && <GuildPicker api={api} guilds={guilds} managedGuild={managedGuild} />}
             </MDBNavbarNav>
             <MDBNavbarNav right>
+                {(windowWidth < 800) && <GuildPicker api={api} guilds={guilds} managedGuild={managedGuild} />}
                 <MDBNavItem>
                 <MDBDropdown>
                     <MDBDropdownToggle nav caret>
@@ -48,19 +51,19 @@ function TopNav({ windowWidth, handleToggleState }) {
                     <MDBDropdownMenu right={windowWidth > 800 ? true : false}>
                     <MDBDropdownItem style={{ padding: "10px 15px 10px 15px" }}>
                             <span>
-                                {/* {this.state.discordUser ? `${this.state.discordUser.username}#${this.state.discordUser.discriminator}` : ''} */}
+                                {userData ? `${userData.username} #${userData.discriminator}` : ''}
                             </span>
                     </MDBDropdownItem>
                     <MDBDropdownItem divider />
                     <MDBNavLink to="/account" style={{ padding: 0 }}>
                     <MDBDropdownItem style={{ padding: "10px 15px 10px 15px" }}>
-                            <MDBIcon icon="user-alt" />
+                            <MDBIcon icon="user-alt" className="mr-2" />
                             <span>Account</span>
                     </MDBDropdownItem>
                     </MDBNavLink>
                     <MDBDropdownItem divider />
                     <MDBDropdownItem onClick={() => this.handleLogout()}>
-                        <MDBIcon icon="sign-out-alt" />
+                        <MDBIcon icon="sign-out-alt" className="mr-2" />
                         <span>Logout</span>
                     </MDBDropdownItem>
                     </MDBDropdownMenu>
@@ -74,7 +77,8 @@ function TopNav({ windowWidth, handleToggleState }) {
 const useStyles = makeStyles((theme) => ({
     avatar: {
         height: "32px", 
-        border: "solid 3px #151515"
+        border: "solid 3px #151515",
+        borderRadius: 50
     },
     sideNavToggle: {
         lineHeight: "20px",
