@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { guildActions } from '../store';
 import { makeStyles } from '@fluentui/react-theme-provider';
 import { AnimatePresence } from 'framer-motion';
 
@@ -15,12 +16,23 @@ import { ScrollToTop } from '../components/Common';
 function mapStateToProps(state) {
     return {
         auth: state.auth,
-        userData: state.auth.user
+        userData: state.auth.user,
+        guilds: state.guilds,
+        managedGuild: state.guilds.managedGuild
     };
 };
 
 function mapDispatchToProps(dispatch) {
-    return {};
+    return {
+        api: {
+            getGuilds: (discordID) => {
+                return dispatch(guildActions.getGuilds(discordID));
+            },
+            updateManagedGuild: (guild) => {
+                return dispatch(guildActions.updateManagedGuild(guild));
+            }
+        }
+    };
 };
 
 function Navigation(props) {
