@@ -15,7 +15,7 @@ function mapDispatchToProps(dispatch) {
     return {
         api: {
             getChangelogs: () => {
-                dispatch(changelogActions.getChangelogs());
+                return dispatch(changelogActions.getChangelogs());
             }
         }
     };
