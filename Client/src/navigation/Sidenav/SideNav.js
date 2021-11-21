@@ -1,29 +1,29 @@
 import React, { useState, useEffect } from "react";
 import '../../css/SideNav.css';
 import { makeStyles, useTheme } from "@fluentui/react-theme-provider";
-import { Redirect } from "react-router-dom";
 import { 
     MDBContainer as Container,
     MDBSideNavNav, 
     MDBSideNavLink,
     MDBSideNavCat, 
-    MDBSideNav 
+    MDBSideNav
 } from "mdbreact";
 import { SIDENAV_BREAK_POINT } from '../../constants';
 import { _DashboardRoutes } from '../_Routes';
 import { colors } from "../../utils";
 import _Images from '../../assets/images/_Images';
 
-import TopNav from "./TopNav";
+import TopNav from './TopNav';
 
 function SideNav(props) {
+
+    const { api, userData } = props;
 
     const theme = useTheme();
     const styles = useStyles();
 
     const [toggleState, setToggleState] = useState(false);
     const [windowWidth, setWindowWidth] = useState(0);
-    const [homeRedirect, setHomeRedirect] = useState(false);
 
     const currentPath = `/${props.location.pathname.split("/")[1]}`;
 
@@ -40,10 +40,12 @@ function SideNav(props) {
         handleResize();
         window.addEventListener("resize", handleResize);
 
+        api.getGuilds(userData.discord_id);
+
         return () => {
             window.removeEventListener("resize", handleResize);
         };
-    }, []);
+    }, [api, userData.discord_id]);
 
     const handleResize = () => {
         setWindowWidth(window.innerWidth);
@@ -87,6 +89,7 @@ function SideNav(props) {
     return(
         <div id="SideNav" className="fixed-sn black-skin">
             <MDBSideNav
+            href="/"
             className={styles.sideNav}
             logo={_Images.logo}
             triggerOpening={toggleState}
@@ -94,14 +97,20 @@ function SideNav(props) {
             bg={_Images.sideNavBackground}
             mask={theme.maskStrength}
             fixed
-            onClick={() => setHomeRedirect(true)}
             >
                 <MDBSideNavNav>
                     {renderRoutes()}
                 </MDBSideNavNav>
             </MDBSideNav>
 
-            <TopNav windowWidth={windowWidth} handleToggleState={handleToggleState} />
+            <TopNav 
+            api={api}
+            userData={userData} 
+            guilds={props.guilds}
+            managedGuild={props.managedGuild} 
+            windowWidth={windowWidth} 
+            handleToggleState={handleToggleState}
+            />
 
             <main style={mainStyle}>
                 <Container fluid className="mt-5">
@@ -109,7 +118,6 @@ function SideNav(props) {
                 </Container>
             </main>
             {footerChild}
-            {homeRedirect && <Redirect exact to="/" />}
         </div>
     );
 };
