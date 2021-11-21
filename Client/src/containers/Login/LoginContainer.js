@@ -14,7 +14,7 @@ function mapDispatchToProps(dispatch) {
     return {
         api: {
             login: (code) => {
-                dispatch(authActions.login(code));
+                return dispatch(authActions.login(code));
             }
         }
     };
