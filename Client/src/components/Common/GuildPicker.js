@@ -93,7 +93,7 @@ GuildPicker.defaultProps = {
 GuildPicker.propTypes = {
     size: PropTypes.string,
     managedGuild: PropTypes.object,
-    guilds: PropTypes.array
+    guilds: PropTypes.object
 };
 
 export default GuildPicker;

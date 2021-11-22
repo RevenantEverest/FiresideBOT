@@ -10,8 +10,9 @@ function Breadcrumb({ routes }) {
     const renderBreadcrumbRoutes = () => {
         return routes.map((route, index) => {
             const lastRoute = (routes.length - 1) === index;
+            const className = lastRoute ? styles.active : styles.breadcrumbItem;
             return(
-                <MDBBreadcrumbItem className={lastRoute ? styles.active : styles.breadcrumbItem} active={lastRoute}>
+                <MDBBreadcrumbItem className={className} active={lastRoute} key={`breadcrumb-${index}`}>
                     {lastRoute ? route.title : <Link to={route.path} className={styles.link}>{route.title}</Link>}
                 </MDBBreadcrumbItem>
             );

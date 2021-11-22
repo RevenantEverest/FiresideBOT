@@ -16,15 +16,15 @@ function WhatWeOffer() {
 
     const renderFeatures = () => {
         return _Features.map((feature, index) => (
-            <MDBAnimation reveal type="fadeInUp" duration=".8s">
-            <Row className="my-5" key={feature.title}>
+            <MDBAnimation reveal type="fadeInUp" duration=".8s" key={feature.title}>
+            <Row className="my-5">
                 <Col className={`d-flex ${index % 2 !== 0 && "text-right"}`}>
                     <div className="align-self-center">
                         <h3 className={"font-weight-bold " + styles.title}>
                             <MDBIcon className={"mr-3 " + styles.icon} icon={feature.iconName} />
                             {feature.title}
                         </h3>
-                        <div className={index % 2 !== 0 && "d-flex justify-content-end"}>
+                        <div className={index % 2 !== 0 ? "d-flex justify-content-end" : ""}>
                             <Col md="9" className="pl-0 pr-0">
                                 <p className={"lead mb-5 " + styles.subText}>
                                     {feature.description}
@@ -33,7 +33,7 @@ function WhatWeOffer() {
                         </div>
                     </div>
                 </Col>
-                <Col className={index % 2 !== 0 && "order-first"} md={feature.colWidth}>
+                <Col className={index % 2 !== 0 ? "order-first" : ""} md={feature.colWidth}>
                     {
                         feature.images.map((image, imageIndex) => (
                             <WhatWeOfferImageCard 

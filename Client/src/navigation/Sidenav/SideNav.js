@@ -56,7 +56,6 @@ function SideNav(props) {
     };
 
     const isActive = (path) => {
-        console.log(path, currentPath, path === currentPath);
         return path === currentPath ? styles.active : styles.nonActiveRoute;
     };
 
@@ -70,14 +69,14 @@ function SideNav(props) {
     };
 
     const renderLink = (route) => (
-        <MDBSideNavLink className={["font-weight-bold", isActive(route.path)].join(" ")} to={route.path} key={route.path}>
+        <MDBSideNavLink className={["font-weight-bold", isActive(route.path)].join(" ")} to={route.path} key={`sideNav-link-${route.path}`}>
             {route.icon && <route.icon className="mr-2" />}
             {route.title}
         </MDBSideNavLink>
     );
 
     const renderDropdown = (route) => (
-        <MDBSideNavCat className={"font-weight-bold " + styles.dropdown} name={route.title} id={route.title + "-cat"} icon={route.icon} key={route.path}>
+        <MDBSideNavCat className={"font-weight-bold " + styles.dropdown} name={route.title} id={route.title + "-cat"} icon={route.icon} key={`sideNav-cat-${route.path}`}>
             {route.subRoutes.map(subRoute => (
                 <MDBSideNavLink className={["font-weight-bold", styles.dropdownElement, isActive(subRoute.path)].join(" ")} to={subRoute.path} key={subRoute.title}>
                     {subRoute.title}

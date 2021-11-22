@@ -23,10 +23,11 @@ function TestimonialCard({ testimonial }) {
     const renderStars = () => {
         let stars = [];
         for(let i = 0; i < testimonial.stars; i++) {
+            const key = `${testimonial.title}-stars-${i}`;
             if((i + 1) > testimonial.stars && numbers.isFloat(testimonial.stars))
-                stars.push(<MDBIcon icon="star-half" className={"mx-1 " + styles.icon} />);
+                stars.push(<MDBIcon icon="star-half" className={"mx-1 " + styles.icon} key={key} />);
             else 
-                stars.push(<MDBIcon icon="star" className={"mx-1 " + styles.icon} />);
+                stars.push(<MDBIcon icon="star" className={"mx-1 " + styles.icon} key={key} />);
         }
 
         return stars;

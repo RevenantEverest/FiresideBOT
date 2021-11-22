@@ -12,8 +12,6 @@ function DashboardPage({ api, userData, changelogs }) {
     useEffect(() => {
         api.getChangelogs();
     }, [api]);
-
-    console.log(changelogs);
     
     return(
         <div className="dashboard-page mb-5">

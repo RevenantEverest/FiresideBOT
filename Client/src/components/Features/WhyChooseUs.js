@@ -14,8 +14,8 @@ function WhyChooseUs() {
 
     const renderContentRow = (contentArr, animationType) => {
         return contentArr.map((content, index) => (
-            <MDBAnimation reveal type={animationType} duration=".8s" delay={content.delay}>
-                <Row className="mb-3" key={index.toString()}>
+            <MDBAnimation reveal type={animationType} duration=".8s" delay={content.delay} key={index.toString()}>
+                <Row className="mb-3">
                 <Col size="2">
                     <MDBIcon className={styles.icon} icon={content.iconName} size="2x" />
                 </Col>

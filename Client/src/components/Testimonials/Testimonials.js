@@ -26,7 +26,7 @@ function Testimonials() {
         let temp = [];
         for(let i = 0; i < itemAmount; i++) {
             temp.push(
-                <MDBCarouselItem itemId={(i + 1).toString()}>
+                <MDBCarouselItem itemId={(i + 1).toString()} key={`carouselItem-${i}`}>
                     <div className="d-flex justify-content-center">
                     {TestimonialCards.slice(i * amountPerItem, ((i + 1) * amountPerItem))}
                     </div>
