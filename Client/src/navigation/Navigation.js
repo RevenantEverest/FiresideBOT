@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { guildActions } from '../store';
+import { authActions, guildActions } from '../store';
 import { makeStyles } from '@fluentui/react-theme-provider';
 import { AnimatePresence } from 'framer-motion';
 
@@ -25,6 +25,10 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         api: {
+            logout: () => {
+                dispatch(guildActions.updateManagedGuild(null));
+                return dispatch(authActions.logout());
+            },
             getGuilds: (discordID) => {
                 return dispatch(guildActions.getGuilds(discordID));
             },
@@ -52,7 +56,7 @@ function Navigation(props) {
             return renderHomeRoutes();
         else if(dashboardRoutes.map(path => `/${path.split("/")[1]}`).includes(mainPath)) {
             if(props.userData) return renderDashboardRoutes();
-            else return <Redirect to="/login" />
+            else return <Redirect to="/" />
         }
         else 
             return <PageNotFoundContainer />;
