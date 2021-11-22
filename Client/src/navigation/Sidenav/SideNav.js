@@ -47,24 +47,14 @@ function SideNav(props) {
         };
     }, [api, userData.discord_id]);
 
-    const handleResize = () => {
-        setWindowWidth(window.innerWidth);
-    };
-
-    const handleToggleState = () => {
-        setToggleState(!toggleState);
-    };
-
-    const isActive = (path) => {
-        return path === currentPath ? styles.active : styles.nonActiveRoute;
-    };
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    const handleToggleState = () => setToggleState(!toggleState);
+    const isActive = (path) => path === currentPath ? styles.active : styles.nonActiveRoute;
 
     const renderRoutes = () => {
         return _DashboardRoutes.filter(route => route.displayNav).map(route => {
-            if(route.subRoutes)
-                return renderDropdown(route);
-            else 
-                return renderLink(route);
+            if(route.subRoutes) return renderDropdown(route);
+            else return renderLink(route);
         });
     };
 
