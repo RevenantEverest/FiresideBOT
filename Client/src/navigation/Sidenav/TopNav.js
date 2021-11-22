@@ -62,7 +62,7 @@ function TopNav({ api, userData, guilds, managedGuild, windowWidth, handleToggle
                     </MDBDropdownItem>
                     </MDBNavLink>
                     <MDBDropdownItem divider />
-                    <MDBDropdownItem onClick={() => this.handleLogout()}>
+                    <MDBDropdownItem onClick={api.logout}>
                         <MDBIcon icon="sign-out-alt" className="mr-2" />
                         <span>Logout</span>
                     </MDBDropdownItem>
