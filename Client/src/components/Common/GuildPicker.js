@@ -49,7 +49,7 @@ function GuildPicker({ api, managedGuild, guilds, size }) {
         <MDBDropdown onChange={handleChange} className={"ml-4 " + styles.dropdown}>
         <MDBDropdownToggle className={"w-100 " + styles.dropdownToggle} caret color="elegant" size={size}>
             {managedGuild ? renderGuildImage(managedGuild, true) : '' }
-            {managedGuild ? text.truncateText(managedGuild.name) : 'Select Server' }
+            {managedGuild ? text.truncateText(managedGuild.name, 15) : 'Select Server' }
         </MDBDropdownToggle>
         <MDBDropdownMenu className={" " + styles.dropdownMenu}>
             {Array.isArray(guilds.items) && renderGuilds()}
