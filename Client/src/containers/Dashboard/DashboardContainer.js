@@ -7,7 +7,7 @@ import { DashboardPage } from '../../pages/Dashboard';
 function mapStateToProps(state) {
     return {
         userData: state.auth.user,
-        changelogs: state.changelogs.changelogs
+        changelogs: state.changelogs
     };
 };
 
