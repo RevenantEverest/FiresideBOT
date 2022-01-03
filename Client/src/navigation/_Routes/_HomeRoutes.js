@@ -1,11 +1,12 @@
 import { MDBIcon } from "mdbreact";
 import {
-    HomeContainer,
-    GettingStartedContainer,
-    FeaturesContainer,
+    ChangelogsContainer,
     CommandsContainer,
-    PremiumContainer,
+    FeaturesContainer,
+    GettingStartedContainer,
+    HomeContainer,
     LoginContainer,
+    PremiumContainer
 } from '../../containers';
 
 const _HomeRoutes = [
@@ -44,6 +45,11 @@ const _HomeRoutes = [
         title: "Login",
         path: "/login",
         component: LoginContainer
+    },
+    {
+        title: "Changelogs",
+        path: "/changelogs",
+        component: ChangelogsContainer
     },
 ];
 
