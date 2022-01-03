@@ -3,7 +3,7 @@ import * as actions from './actions';
 
 const initialState = {
     loading: false,
-    changelogs: null,
+    items: null,
     error: null
 };
 
@@ -17,7 +17,7 @@ const reducer = (state = initialState, action) => {
         case types.GET_CHANGELOGS_SUCCESS: 
             return {
                 ...state,
-                changelogs: action.payload,
+                items: action.payload,
                 loading: false
             };
         case types.GET_CHANGELOGS_FAILURE:
