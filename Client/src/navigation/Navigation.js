@@ -1,7 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { authActions, guildActions } from '../store';
 import { makeStyles } from '@fluentui/react-theme-provider';
 import { AnimatePresence } from 'framer-motion';
 
@@ -9,40 +7,20 @@ import { Navbar } from './Navbar';
 import { SideNav } from './Sidenav';
 import { Footer } from './Footer';
 import { _HomeRoutes, _DashboardRoutes } from './_Routes';
-import { PageNotFoundContainer } from '../containers';
+import { PageNotFoundContainer, ChangelogDetailsContainer } from '../containers';
 
 import { ScrollToTop } from '../components/Common';
 
-function mapStateToProps(state) {
-    return {
-        auth: state.auth,
-        userData: state.auth.user,
-        guilds: state.guilds,
-        managedGuild: state.guilds.managedGuild
-    };
-};
-
-function mapDispatchToProps(dispatch) {
-    return {
-        api: {
-            logout: () => {
-                dispatch(guildActions.updateManagedGuild(null));
-                return dispatch(authActions.logout());
-            },
-            getGuilds: (discordID) => {
-                return dispatch(guildActions.getGuilds(discordID));
-            },
-            updateManagedGuild: (guild) => {
-                return dispatch(guildActions.updateManagedGuild(guild));
-            }
-        }
-    };
-};
-
 function Navigation(props) {
+
+    const { api, changelogs } = props;
 
     const styles = useStyles();
     const mainPath = `/${props.location.pathname.split("/")[1]}`;
+
+    useEffect(() => {
+        api.getChangelogs();
+    }, [api]);
 
     const calculateNavbar = () => {
         const homeRoutes = _HomeRoutes.map(({ path, subRoutes }) => {
@@ -70,6 +48,7 @@ function Navigation(props) {
         return(
             <div>
                 <Navbar {...props} />
+                {changelogs.items && routeChangelogs()}
                 {HomeRoutes}
                 <Footer {...props} />
             </div>
@@ -98,6 +77,12 @@ function Navigation(props) {
         );
     };
 
+    const routeChangelogs = () => {
+        return changelogs.items.map((changelog, index) => (
+            <Route exact path={`/changelogs/${changelog.version}`} component={ChangelogDetailsContainer} />
+        ));
+    };
+
     return(
         <div className={"app " + styles.app}>
             <ScrollToTop>
@@ -113,7 +98,4 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(withRouter(Navigation));
+export default withRouter(Navigation);
