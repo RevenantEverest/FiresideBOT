@@ -4,7 +4,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 
 import { dark, light } from './themes';
-import Navigation from './navigation/Navigation';
+import { NavigationContainer } from './containers';
 
 library.add(fab);
 
@@ -29,7 +29,7 @@ function App({ api, userData, theme }) {
     return(
         <div>
         <ThemeProvider id="App" theme={theme}>
-            <Navigation changeTheme={changeTheme} />
+            <NavigationContainer changeTheme={changeTheme} />
         </ThemeProvider>
         </div>
     );
