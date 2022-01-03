@@ -45,7 +45,7 @@ function DashboardPage({ api, userData, changelogs }) {
             </Row>
             <Row>
                 <Col>
-                    <MostRecentChangelog changelog={Array.isArray(changelogs) && changelogs[0]} />
+                    <MostRecentChangelog changelog={Array.isArray(changelogs.items) && changelogs.items[0]} />
                 </Col>
             </Row>
             </Container>
