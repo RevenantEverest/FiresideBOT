@@ -1,5 +1,5 @@
 const userSongsDB = require('../../models/UserModels/userSongsDB');
-const utils = require('../../utils/utils');
+const { strings, youtubeUtils } = require('../../utils');
 
 const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
@@ -34,13 +34,13 @@ module.exports = {
         let isLink = false;
         let request = '';
 
-        if(await utils.checkString(req.body.request, requestFilter)) {
-            request = await utils.filter(req.body.request, { special: false });
+        if(await strings.checkString(req.body.request, requestFilter)) {
+            request = await strings.filter(req.body.request, { special: false });
             isLink = true;
         }
         else request = req.body.request;
 
-        utils.youtubeSearch(request, { isLink: isLink }, checkForDuplicate, () => {
+        youtubeUtils.youtubeSearch(request, { isLink: isLink }, checkForDuplicate, () => {
             return res.status(500).send("Utils Error");
         });
 
