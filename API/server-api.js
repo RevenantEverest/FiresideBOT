@@ -68,6 +68,9 @@ app.use("/admin/working_changelogs", verifyAdminToken, require('./routes/AdminRo
 app.use("/admin/system", verifyAdminToken, require('./routes/AdminRoutes/systemRoutes'));
 app.use("/admin/servers/array", verifyAdminToken, require('./routes/AdminRoutes/serverArrayRoutes'));
 
+/* Linear App Webhook */
+app.use("/linear", require('./routes/linearRoutes'));
+
 /* Default Routes */
 app.use("/", (req, res) => res.json({ message: "Fireside API" }));
 
