@@ -27,6 +27,10 @@ services.getDate = async () => {
     return `${date.toLocaleString('en-US', options)} EST`;
 };
 
+services.sortByDate = async (arr) => {
+    return arr.sort((a, b) => new Date(b.date) - new Date(a.date));
+};
+
 services.formatDate = (timestamp, dateFormat="ddd MMM Do YYYY", timeFormat="h:mma") => {
     let timestampFormats = ["YYYY-MM-DDTHH:mm:ssZZ"]
     let parsedDate = dayjs(timestamp, timestampFormats).utc();
