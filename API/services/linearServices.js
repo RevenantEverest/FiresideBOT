@@ -10,7 +10,7 @@ services.getIssueActor = (issueId) => {
             query: `
                 query Issue($issueId: String!) {
                     issue(id: $issueId) {
-                        history(orderBy: updatedAt, last: 5) {
+                        history(first: 10) {
                             nodes {
                                 updatedAt
                                 actor {
