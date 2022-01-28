@@ -22,6 +22,12 @@ function Navigation(props) {
         api.getChangelogs();
     }, [api]);
 
+    const routeChangelogs = () => {
+        return changelogs.items.map((changelog, index) => (
+            <Route exact path={`/changelogs/${changelog.version}`} key={changelog.version} component={ChangelogDetailsContainer} />
+        ));
+    };
+
     const calculateNavbar = () => {
         const homeRoutes = _HomeRoutes.map(({ path, subRoutes }) => {
             return path || subRoutes.map(subRoute => subRoute.path);
@@ -75,12 +81,6 @@ function Navigation(props) {
                 <Footer {...props} />
             </SideNav>
         );
-    };
-
-    const routeChangelogs = () => {
-        return changelogs.items.map((changelog, index) => (
-            <Route exact path={`/changelogs/${changelog.version}`} component={ChangelogDetailsContainer} />
-        ));
     };
 
     return(
