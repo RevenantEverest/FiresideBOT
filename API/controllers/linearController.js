@@ -16,20 +16,21 @@ services.handleWebhook = async (req, res, next) => {
     .setFooter(`${createdAt.date} at ${createdAt.time} EST`, "https://i.imgur.com/hnL8LTj.png")
     .setThumbnail("https://i.imgur.com/hnL8LTj.png")
 
-    console.log(linearIssue);
-
     switch(linearIssue.action) {
         case "create":
             return handleIssueCreate();
         case "update":
-            return handleIssueUpdate();
+            if(linearIssue.updatedFrom.stateId)
+                return handleIssueUpdate();
+            else
+                return;
         case "remove": 
             return handleIssueRemove();
         case "restore":
             return handleIssueRestore();
         default:
             return;
-    }
+    };
 
     async function handleIssueCreate() {
 
@@ -58,25 +59,10 @@ services.handleWebhook = async (req, res, next) => {
     };
 
     async function handleIssueUpdate() {
-        if(!linearIssue.updatedFrom.stateId) return checkForIntegrationUpdate();
-
-        const author = await linear.getLinearUserDiscord(bot, issueData.creatorId);
-        const toState = issueData.state;
-        const title = `**${author.username}** changed status to **${toState.name}** for ${issueData.team.key}-${issueData.number} ${issueData.title}`;
-
-        embed
-        .setColor(toState.color)
-        .setAuthor(`Issue Status Changed`, author.avatarURL({ dynamic: true }))
-        .setTitle(title)
-
-        sendEmbed();
-    };
-
-    async function checkForIntegrationUpdate() {
         linearServices.getIssueActor(issueData.id)
         .then(async results => {
             
-            const mostRecentIssueHistory = results.data.data.issue.history.nodes.reverse()[0];
+            const mostRecentIssueHistory = results.data.data.issue.history.nodes.filter(el => el.toState)[0];
             const issueActor = mostRecentIssueHistory.actor;
             const fromState = mostRecentIssueHistory.fromState;
             const toState = mostRecentIssueHistory.toState;
