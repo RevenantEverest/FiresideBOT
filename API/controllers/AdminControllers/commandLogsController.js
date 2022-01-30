@@ -1,5 +1,5 @@
 const db = require('../../models/commandLogsDB');
-const utils = require('../../utils/utils');
+const { logUtils } = require('../../utils');
 
 const pgp = require('pg-promise')();
 const QRE = pgp.errors.QueryResultError;
@@ -36,8 +36,8 @@ module.exports = {
     getTopGuildsToday(req, res, next) {
         db.findAll()
         .then(async logs => {
-            let logsToday = await utils.getLogsToday(logs);
-            let parsedLogs = await utils.parseTopGuildsToday(logsToday);
+            let logsToday = await logUtils.getLogsToday(logs);
+            let parsedLogs = await logUtils.parseTopGuildsToday(logsToday);
             res.json({ message: "Getting Logs Today", data: parsedLogs });
         })
         .catch(err => {
@@ -49,8 +49,8 @@ module.exports = {
     getTopCommandsTodayByGuild(req, res, next) {
         db.findByGuildId(req.params.id)
         .then(async logs => {
-            let logsToday = await utils.getLogsToday(logs);
-            let parsedLogs = await utils.parseTopLogsToday(logsToday);
+            let logsToday = await logUtils.getLogsToday(logs);
+            let parsedLogs = await logUtils.parseTopLogsToday(logsToday);
             res.json({ message: "Getting Logs Today By Guild", data: parsedLogs });
         })
         .catch(err => {
@@ -62,8 +62,8 @@ module.exports = {
     getTopCommandsMonthByGuild(req, res, next) {
         db.findByGuildId(req.params.id)
         .then(async logs =>  {
-            let logsThisMonth = await utils.getLogsThisMonth(logs);
-            let parsedLogs = await utils.parseTopLogsMonth(logsThisMonth);
+            let logsThisMonth = await logUtils.getLogsThisMonth(logs);
+            let parsedLogs = await logUtils.parseTopLogsMonth(logsThisMonth);
             res.json({ message: "Getting Logs This Month By Guild", data: parsedLogs });
         })
         .catch(err => {
@@ -75,8 +75,8 @@ module.exports = {
     getCommandsOverTimeByGuild(req, res, next) {
         db.findByGuildId(req.params.id)
         .then(async logs => {
-            let logsOverThreeMonths = await utils.getLogsOverThreeMonths(logs);
-            let parsedLogs = await utils.parseLogsOvertime(logsOverThreeMonths);
+            let logsOverThreeMonths = await logUtils.getLogsOverThreeMonths(logs);
+            let parsedLogs = await logUtils.parseLogsOvertime(logsOverThreeMonths);
             res.json({ message: "Getting Logs Overtime By Guild", data: parsedLogs });
         })
         .catch(err => {
@@ -88,7 +88,7 @@ module.exports = {
     getCommandsMonthByGuild(req, res, next) {
         db.findByGuildId(req.params.id)
         .then(async logs => {
-            let logsThisMonth = await utils.getLogsThisMonth(logs);
+            let logsThisMonth = await logUtils.getLogsThisMonth(logs);
             res.json({ message: "Getting Logs This Month By Guild", data: logsThisMonth });
         })
         .catch(err => {
@@ -100,7 +100,7 @@ module.exports = {
     getCommandsWeekByGuild(req, res, next) {
         db.findByGuildId(req.params.id)
         .then(async logs => {
-            let logsThisWeek = await utils.getLogsThisWeek(logs);
+            let logsThisWeek = await logUtils.getLogsThisWeek(logs);
             res.json({ message: "Getting Logs Today By Guild", data: logsThisWeek });
         })
         .catch(err => {
@@ -112,7 +112,7 @@ module.exports = {
     getCommandsTodayByGuild(req, res, next) {
         db.findByGuildId(req.params.id)
         .then(async logs => {
-            let logsToday = await utils.getLogsToday(logs);
+            let logsToday = await logUtils.getLogsToday(logs);
             res.json({ message: "Getting Logs Today By Guild", data: logsToday });
         })
         .catch(err => {
@@ -124,8 +124,8 @@ module.exports = {
     getTopGuildsMonth(req, res, next) {
         db.findAll()
         .then(async logs => {
-            let logsThisMonth = await utils.getLogsThisMonth(logs);
-            let parsedLogs = await utils.parseTopGuildMonth(logsThisMonth);
+            let logsThisMonth = await logUtils.getLogsThisMonth(logs);
+            let parsedLogs = await logUtils.parseTopGuildMonth(logsThisMonth);
             res.json({ message: "Getting Logs Today", data: parsedLogs });
         })
         .catch(err => {
@@ -137,8 +137,8 @@ module.exports = {
     getTopCommandsToday(req, res, next) {
         db.findAll()
         .then(async logs => {
-            let logsToday = await utils.getLogsToday(logs);
-            let parsedLogs = await utils.parseTopLogsToday(logsToday);
+            let logsToday = await logUtils.getLogsToday(logs);
+            let parsedLogs = await logUtils.parseTopLogsToday(logsToday);
             res.json({ message: "Getting Logs Today", data: parsedLogs });
         })
         .catch(err => {
@@ -150,8 +150,8 @@ module.exports = {
     getTopCommandsMonth(req, res, next) {
         db.findAll()
         .then(async logs => {
-            let logsThisMonth = await utils.getLogsThisMonth(logs);
-            let parsedLogs = await utils.parseTopLogsMonth(logsThisMonth);
+            let logsThisMonth = await logUtils.getLogsThisMonth(logs);
+            let parsedLogs = await logUtils.parseTopLogsMonth(logsThisMonth);
             res.json({ message: "Getting Logs Today", data: parsedLogs });
         })
         .catch(err => {
@@ -163,8 +163,8 @@ module.exports = {
     getCommandsOverTime(req, res, next) {
         db.findAll()
         .then(async logs => {
-            let logsOverThreeMonths = await utils.getLogsOverThreeMonths(logs);
-            let parsedLogs = await utils.parseLogsOvertime(logsOverThreeMonths);
+            let logsOverThreeMonths = await logUtils.getLogsOverThreeMonths(logs);
+            let parsedLogs = await logUtils.parseLogsOvertime(logsOverThreeMonths);
             res.json({ message: "Getting Logs Overtime", data: parsedLogs });
         })
         .catch(err => next(err));
@@ -172,7 +172,7 @@ module.exports = {
     getCommandsMonth(req, res, next) {
         db.findAll()
         .then(async logs => {
-            let logsThisMonth = await utils.getLogsThisMonth(logs);
+            let logsThisMonth = await logUtils.getLogsThisMonth(logs);
             res.json({ message: "Getting Logs This Month", data: logsThisMonth });
         })
         .catch(err => {
@@ -184,7 +184,7 @@ module.exports = {
     getCommandsWeek(req, res, next) {
         db.findAll()
         .then(async logs => {
-            let logsThisWeek = await utils.getLogsThisWeek(logs);
+            let logsThisWeek = await logUtils.getLogsThisWeek(logs);
             res.json({ message: "Getting Logs Today", data: logsThisWeek });
         })
         .catch(err => {
@@ -196,7 +196,7 @@ module.exports = {
     getCommandsToday(req, res, next) {
         db.findAll()
         .then(async logs => {
-            let logsToday = await utils.getLogsToday(logs);
+            let logsToday = await logUtils.getLogsToday(logs);
             res.json({ message: "Getting Logs Today", data: logsToday });
         })
         .catch(err => {
