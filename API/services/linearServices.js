@@ -2,7 +2,6 @@ const axios = require('axios');
 const services = {};
 
 services.getIssueActor = (issueId) => {
-    console.log("Querying...");
     return axios({
         url: `https://api.linear.app/graphql`,
         method: "POST",
