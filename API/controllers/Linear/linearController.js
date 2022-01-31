@@ -4,6 +4,9 @@ const { dateUtils } = require('../../utils');
 const services = {};
 
 services.handleWebhook = (req, res, next) => {
+
+    res.sendStatus(200);
+
     const linearIssue = req.body;
     const issueData = linearIssue.data;
     const embed = new Discord.MessageEmbed();
