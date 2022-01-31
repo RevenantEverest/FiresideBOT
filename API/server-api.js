@@ -71,6 +71,9 @@ app.use("/admin/servers/array", verifyAdminToken, require('./routes/AdminRoutes/
 /* Linear App Webhook */
 app.use("/linear", require('./routes/linearRoutes'));
 
+/* Top.gg Webhook */
+app.use("/topgg", require('./routes/topggRoutes'));
+
 /* Default Routes */
 app.use("/", (req, res) => res.json({ message: "Fireside API" }));
 
