@@ -2,7 +2,7 @@ const config = require('./config/config');
 const Discord = require('discord.js');
 const bot = new Discord.Client();
 const { AutoPoster } = require('topgg-autoposter');
-const ap = process.env.ENVIRONMENT !== "DEV" ? AutoPoster(process.env.TOPGG_TOKEN, bot) : null;
+const ap = process.env.ENVIRONMENT !== "DEV" ? AutoPoster(process.env.TOPGG_TOKEN, bot, { interval: 7200000 }) : null;
 
 const chalk = require('chalk');
 
@@ -44,7 +44,7 @@ bot.on("error", async () => {
 if(ap) {
     ap.on("posted", async () => {
         let embed = new Discord.MessageEmbed();
-        embed.setColor(0xff9900).setTitle("API Ready").setFooter(await dateUtils.getDate());
+        embed.setColor(0xFF3366).setTitle("Top.gg Stats Posted").setFooter(await dateUtils.getDate());
 
         if(process.env.ENVIRONMENT === "DEV")
             return console.log(chalk.hex('#ff9900')("[LOG]") + " Top.gg Stats Posted!")
@@ -54,7 +54,7 @@ if(ap) {
 
     ap.on("error", async (err) => {
         let embed = new Discord.MessageEmbed();
-        embed.setColor(0xff0000).setTitle("CLIENT ERROR - API").setFooter(await dateUtils.getDate());
+        embed.setColor(0xff0000).setTitle("AutoPoster Error").setFooter(await dateUtils.getDate());
 
         console.error(chalk.hex('#ff9900')("[ERROR]") + " Top.gg AutoPoster Error", err);
 
