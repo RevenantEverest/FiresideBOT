@@ -8,8 +8,6 @@ const colors = [0xffcc00, 0x00ff00, 0xff0066, 0xcc66ff, 0x1affff, 0x009900, 0xcc
 const services = {};
 
 services.handleWebhook = async (vote) => {
-    console.log("Vote Received", vote);
-
     let date = await dateUtils.getDate();
 
     voteRecordsController.getByDiscordId(vote.user, updateVoteRecord, () => {
