@@ -1,4 +1,10 @@
 {
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "decorators": true
+        }
+    },
     "env": {
         "targets": {
             "node": 17
