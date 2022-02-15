@@ -10,9 +10,11 @@ export default {
     entities: [
         "dist/**/entities/*.js"
     ],
-    migrations: ["src/**/migrations/*.js"],
+    migrations: [
+        "dist/**/migrations/*.js"
+    ],
     subscribers: [
-        "src/subscribers/*.ts"
+        "dist/**/subscribers/*.ts"
     ],
     cli: {
         entitiesDir: "src/entities",
