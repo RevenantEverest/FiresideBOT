@@ -26,7 +26,7 @@
     "pg": "^8.7.1",
     "reflect-metadata": "^0.1.13",
     "topgg-autoposter": "^2.0.1",
-    "typeorm": "file:typeorm-0.2.41.tgz",
+    "typeorm": "^0.2.42",
     "ytdl-core": "^4.10.0"
   },
   "devDependencies": {
