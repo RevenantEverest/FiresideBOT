@@ -2,3 +2,4 @@
 *.env
 nohup.out
 *.sh
+/postgres_data/
