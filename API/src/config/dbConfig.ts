@@ -1,11 +1,11 @@
 import dotenv from 'dotenv';
-import TypeORM from 'typeorm';
+import { ConnectionOptions } from 'typeorm';
 
 dotenv.config();
 
 const DB_PORT = parseInt(process.env.DB_PORT!, 10);
 
-const dbConfig: TypeORM.ConnectionOptions = {
+const dbConfig: ConnectionOptions = {
     type: "postgres",
     host: process.env.DB_HOST!,
     port: DB_PORT,
@@ -15,18 +15,18 @@ const dbConfig: TypeORM.ConnectionOptions = {
     synchronize: true,
     logging: false,
     entities: [
-        "../dist/**/entities/*.js"
+        "dist/entities/**/*"
     ],
     migrations: [
-        "../dist/**/migrations/*.js"
+        "dist/migrations/**/*"
     ],
     subscribers: [
-        "../dist/**/subscribers/*.ts"
+        "dist/subscribers/**/*"
     ],
     cli: {
-        entitiesDir: "../entities",
-        migrationsDir: "../migrations",
-        subscribersDir: "../subscribers"
+        entitiesDir: "dist/entities",
+        migrationsDir: "dist/migrations",
+        subscribersDir: "dist/subscribers"
     }
 };
 
