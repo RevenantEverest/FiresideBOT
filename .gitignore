@@ -1,5 +1,5 @@
 /node_modules/
 *.env
 nohup.out
-*.sh
 /postgres_data/
+/old_scripts/
