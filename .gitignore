@@ -2,4 +2,5 @@
 *.env
 nohup.out
 /postgres_data/
+/pgadmin_data/
 /old_scripts/
