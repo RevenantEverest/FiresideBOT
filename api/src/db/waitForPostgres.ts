@@ -5,6 +5,7 @@ async function waitForPostgres(createConnection:Function, dbConfig:ConnectionOpt
     while(retries) {
         try {
             await createConnection(dbConfig);
+            console.log("Connected to Postgres");
             break;
         }
         catch(err) {
