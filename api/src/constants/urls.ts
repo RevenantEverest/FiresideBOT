@@ -1,0 +1,1 @@
+export const DISCORD = "https://discordapp.com/api";
