@@ -1,7 +1,9 @@
 import { Response } from 'express';
 import JWT from 'jsonwebtoken';
 
-interface User {
+import { ENV } from '../constants/index.js';
+
+interface Payload {
     id: number,
     username: string,
     discriminator: number,
@@ -10,19 +12,14 @@ interface User {
     token?: string
 };
 
-const tokenSecret = process.env.TOKEN_SECRET as string;
-
-async function issueToken(res: Response, user: User) {
+async function issueToken(res: Response, payload: Payload) {
     const options = {
         expiresIn: "12h"
     };
 
-    const token = JWT.sign(user, tokenSecret, options);
+    const token = JWT.sign(payload, ENV.TOKEN_SECRET, options);
 
-    const payload = {
-        ...user,
-        token: token
-    };
+    payload.token = token;
 
     return res.json({ results: payload });
 };
