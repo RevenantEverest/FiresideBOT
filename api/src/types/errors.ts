@@ -1,13 +1,8 @@
 import { Response, NextFunction } from 'express';
 
-export interface PromiseErrorOptions {
-    next: NextFunction,
-    err: Error,
-    message?: string
-};
-
-export interface InternalErrorResponseOptions {
+export interface SendResponseOptions {
     res: Response,
+    next?: NextFunction,
     err?: Error,
     message?: string
 };
