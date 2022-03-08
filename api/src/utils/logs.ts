@@ -9,9 +9,9 @@ export async function log({ color, type="LOG", message="" }: logTypes.LogOptions
     return console.log(chalk.hex(color.toString())(logType) + " " + message);
 };
 
-export async function error({ color, type="ERROR", message="" }: logTypes.ErrorLogOptions) {
+export async function error({ color, type="ERROR", message="", err }: logTypes.ErrorLogOptions) {
     const logType = "[" + type + "]";
-    return console.error(chalk.hex(color.toString())(logType) + " " + message)
+    return console.error(chalk.hex(color.toString())(logType) + " " + message, err);
 };
 
 export async function postToLogsChannel({ bot, color, title }: logTypes.PostToLogsChannelOptions) {
