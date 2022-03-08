@@ -1,6 +1,7 @@
 export const IS_DEV = process.env.ENVIRONMENT === "DEV";
 
 export const API_PORT = process.env.API_PORT as string;
+export const TOKEN_SECRET = process.env.TOKEN_SECRET as string;
 
 export const DISCORD = {
     CLIENT_ID: process.env.DISCORD_CLIENT_ID as string,
