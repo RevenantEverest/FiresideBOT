@@ -1,0 +1,24 @@
+#PlaylistSelect {
+    min-height: 62vh;
+    display: flex;
+    align-items: center;
+}
+
+.PlaylistSelect-Dropdown-Item-Span {
+    color: #cccccc;
+    font-weight: 600;
+}
+
+.PlaylistSelect-DropDown {
+    width: 500px
+}
+
+.PlaylistSelect__DropDownMenu {
+    background: #3B3B3B;
+    border-color: #3B3B3B;
+    width: 500px;
+}
+
+.dropdown-item:hover {
+    background: #1a1a1a !important;
+}

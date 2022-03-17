@@ -1,0 +1,7 @@
+#EditCustomCommand-Input-Col > div, #EditCustomCommand-Output-Col > div {
+    margin: 0;
+}
+
+#EditCustomCommand-Input-Col > div > input, #EditCustomCommand-Output-Col > div > input {
+    padding: 0;
+}

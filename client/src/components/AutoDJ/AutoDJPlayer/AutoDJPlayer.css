@@ -1,0 +1,28 @@
+.AutoDJPlayer-Play {
+    font-size: 60px;
+    margin-right: 10px;
+}
+
+.AutoDJPlayer-Next {
+    position: relative;
+    font-size: 40px;
+    top: -8px;
+}
+
+.AutoDJPlayer-Controls:hover {
+    color: orange;
+}
+
+.range-field input[type="range"] {
+    border: none;
+    margin: 3px 0;
+}
+
+.range-field input[type="range"] + .thumb {
+    background: orange !important;
+}
+
+div .range-field input[type="range"] + .thumb .value, div .range-field input[type="range"] + .thumb.active .value {
+    font-size: 12px;
+}
+

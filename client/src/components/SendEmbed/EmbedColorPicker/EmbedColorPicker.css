@@ -1,0 +1,10 @@
+.chrome-picker {
+    background: #2c2c2c !important;
+    
+}
+
+.chrome-picker > div > div > div > div > div > input {
+    color: #cccccc !important;
+    background: #0d0d0d;
+    box-shadow: none !important;
+}

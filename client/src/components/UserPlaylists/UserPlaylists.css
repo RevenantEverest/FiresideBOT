@@ -1,0 +1,17 @@
+#UserPlaylists {
+    min-height: 55vh;
+    background: #151515;
+};
+
+.UserPlaylists-Card {
+    background: #363636;
+    color: #cccccc;
+}
+
+.UserPlaylists-Trash {
+    transition: .5s;
+}
+
+.UserPlaylists-Trash:hover {
+    color: orange;
+}

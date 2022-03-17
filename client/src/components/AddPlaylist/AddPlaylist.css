@@ -1,0 +1,7 @@
+#AddPlaylist-Name-Col > div {
+    margin: 0;
+}
+
+#AddPlaylist-Name-Col > div > input {
+    padding: 0;
+}

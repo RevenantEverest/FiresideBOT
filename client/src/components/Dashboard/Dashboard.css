@@ -1,0 +1,8 @@
+#Dashboard {
+    min-height: 55vh;
+}
+
+.Dashboard-Card {
+    background: #363636;
+    color: #cccccc;
+}

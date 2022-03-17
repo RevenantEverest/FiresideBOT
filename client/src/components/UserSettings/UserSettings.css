@@ -1,0 +1,21 @@
+.UserSettings_Avatar {
+    height: 120px !important;
+    width: 120px !important;
+    border-color: #3c3c3c !important;
+    background: #3c3c3c !important;
+}
+
+.UserSettings_Username {
+    position: relative;
+    top: 35px;
+    left: 20px;
+    font-weight: 600;
+}
+
+.testimonial-card .card-up {
+    height: 160px;
+}
+
+.testimonial-card .avatar {
+    margin-top: -60px !important;
+}

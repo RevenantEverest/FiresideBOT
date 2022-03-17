@@ -1,0 +1,7 @@
+#AddRank-RankName-Col > div {
+    margin: 0;
+}
+
+#AddRank-RankName-Col > div > input {
+    padding: 0;
+}
