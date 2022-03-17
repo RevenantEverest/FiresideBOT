@@ -1,0 +1,1 @@
+export type OperationReturn<T> = Promise<[T | undefined, Error | undefined]>;
