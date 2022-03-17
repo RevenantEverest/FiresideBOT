@@ -32,7 +32,7 @@ class DiscordToken extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ type: "varchar", length: 20 })
+    @Column({ type: "varchar", length: 20, unique: true })
     discord_id: string;
 
     @Column({ type: "varchar", length: 30 })
