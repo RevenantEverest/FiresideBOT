@@ -36,10 +36,10 @@ class User extends BaseEntity {
     @Column({ type: "varchar", length: 255 })
     email: string;
 
-    @Column({  type: "varchar", length: 20  })
+    @Column({  type: "varchar", length: 20, unique: true, nullable: true })
     discord_id: string;
 
-    @Column({ type: "varchar", length: 20, nullable: true })
+    @Column({ type: "varchar", length: 20, unique: true, nullable: true })
     twitch_id: string;
 
     @CreateDateColumn()
