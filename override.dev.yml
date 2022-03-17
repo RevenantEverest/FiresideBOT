@@ -25,7 +25,7 @@ services:
       - ./postgres_data:/var/lib/postgresql/data
   pgadmin:
     container_name: fireside_pgadmin
-    image: dpage/pgadmin4:6.5
+    image: dpage/pgadmin4:6.7
     restart: always
     environment:
       - PGADMIN_DEFAULT_EMAIL=admin@admin.com
