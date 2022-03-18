@@ -7,7 +7,7 @@ import User from '../../entities/User.js';
 import { promises, entities, errors } from '../../utils/index.js';
 import issueToken from '../../middleware/issueToken.js';
 
-export async function login(req: Request, res: Response, next: NextFunction) {
+export async function login(req: Request, res: Response, next: NextFunction): Promise<void> {
     const { code } = req.body;
     const redirectUri = process.env.DISCORD_BACKEND_REDIRECT as string;
 
