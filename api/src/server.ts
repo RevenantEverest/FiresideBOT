@@ -11,6 +11,7 @@ import waitForPostgres from './db/waitForPostgres.js';
 import bot from './discordBot.js';
 
 import { logs, colors } from './utils/index.js';
+import { authRoutes } from './routes/index.js';
 
 dotenv.config();
 
@@ -27,6 +28,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 app.set("trust proxy", true);
 app.set("trust proxy", "loopback");
+
+app.use("/auth", authRoutes)
 
 app.listen(PORT, () => {
     return logs.log({ color: colors.success, type: "HTTP", message: `Fireside-API: Listening on port ${PORT}` });
