@@ -48,7 +48,7 @@ class User extends BaseEntity {
     /* Relations */
     @OneToMany(
         () => UserPlaylist,
-        (playlist:UserPlaylist) => playlist.user
+        (playlist: UserPlaylist) => playlist.user
     )
     playlists: UserPlaylist[];
 };
