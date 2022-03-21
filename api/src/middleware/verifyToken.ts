@@ -18,8 +18,6 @@ async function verifyToken(req: Request, res: Response, next: NextFunction) {
             return res.status(403).json({ message: "Invalid Token" });
         }
 
-        console.log(authData);
-
         return next();
     });
 };
