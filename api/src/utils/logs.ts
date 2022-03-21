@@ -1,22 +1,38 @@
-import Discord, { TextChannel } from 'discord.js';
+import Discord, { AnyChannel, TextChannel } from 'discord.js';
 import chalk from 'chalk';
+
 import { LOG_CHANNELS } from '../constants/index.js';
-import * as dates from './dates.js';
 import { logTypes } from '../types/index.js';
 
-export async function log({ color, type="LOG", message="" }: logTypes.LogOptions) {
+import * as promises from './promises.js';
+import * as colors from './colors.js';
+import * as dates from './dates.js';
+
+type LogOptions = logTypes.LogOptions;
+type ErrorLogOptions = logTypes.ErrorLogOptions;
+type PostToLogsChannelOptions = logTypes.PostToLogsChannelOptions;
+
+export async function log({ color, type="LOG", message="" }: LogOptions) {
     const logType = "[" + type + "]";
     return console.log(chalk.hex(color.toString())(logType) + " " + message);
 };
 
-export async function error({ color, type="ERROR", message="", err }: logTypes.ErrorLogOptions) {
+export async function error({ color=colors.error, type="ERROR", message="", err }: ErrorLogOptions) {
     const logType = "[" + type + "]";
     return console.error(chalk.hex(color.toString())(logType) + " " + message, err);
 };
 
-export async function postToLogsChannel({ bot, color, title }: logTypes.PostToLogsChannelOptions) {
+export async function postToLogsChannel({ bot, color, title, channelId=LOG_CHANNELS.LOGS }: PostToLogsChannelOptions) {
     const { date, time } = await dates.getTimestampAndFormat();
-    const logChannel = await bot.channels.fetch(LOG_CHANNELS.LOGS) as TextChannel;
+    const [logChannel, logChannelErr] = await promises.handle<AnyChannel | null>(bot.channels.fetch(channelId));
+
+    if(logChannelErr) {
+        return error({ err: logChannelErr, message: "Error Fetching Log Channel" });
+    }
+
+    if(!logChannel) {
+        return error({ message: "No Log Channel" });
+    }
 
     const embed = new Discord.MessageEmbed({ 
         color: color, 
@@ -24,5 +40,5 @@ export async function postToLogsChannel({ bot, color, title }: logTypes.PostToLo
         footer: { text: `${date} at ${time}` } 
     });
 
-    return logChannel.send({ embeds: [embed] });
+    return (logChannel as TextChannel).send({ embeds: [embed] });
 };
