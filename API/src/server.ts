@@ -11,27 +11,30 @@ import waitForPostgres from './db/waitForPostgres.js';
 import bot from './discordBot.js';
 
 import { logs, colors } from './utils/index.js';
-import { authRoutes } from './routes/index.js';
+import { authRoutes, webhookRoutes } from './routes/index.js';
 
 dotenv.config();
 
-waitForPostgres(createConnection, dbConfig);
+(async function main() {
+    await waitForPostgres(createConnection, dbConfig);
 
-bot.login(process.env.DISCORD_KEY);
+    bot.login(process.env.DISCORD_KEY);
 
-const PORT = process.env.API_PORT || 3001;
-const app = express();
+    const PORT = process.env.API_PORT || 3001;
+    const app = express();
 
-app.use(morgan("dev"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cors());
-app.set("trust proxy", true);
-app.set("trust proxy", "loopback");
+    app.use(morgan("dev"));
+    app.use(express.json());
+    app.use(express.urlencoded({ extended: false }));
+    app.use(cors());
+    app.set("trust proxy", true);
+    app.set("trust proxy", "loopback");
 
-app.use("/auth", authRoutes)
+    app.use("/auth", authRoutes);
+    app.use("/webhooks", webhookRoutes);
 
-app.listen(PORT, () => {
-    return logs.log({ color: colors.success, type: "HTTP", message: `Fireside-API: Listening on port ${PORT}` });
-});
+    app.listen(PORT, () => {
+        return logs.log({ color: colors.success, type: "HTTP", message: `Fireside-API: Listening on port ${PORT}` });
+    });
+})();
 
