@@ -1,4 +1,4 @@
-import { Client } from 'discord.js';
+import { Client, MessageEmbed } from 'discord.js';
 
 export type LogColor = number | string;
 export type EmbedColor = number;
@@ -10,7 +10,7 @@ export interface LogOptions {
 };
 
 export interface ErrorLogOptions {
-    color: LogColor,
+    color?: LogColor,
     type?: string,
     message?: string,
     err?: Error 
@@ -19,5 +19,7 @@ export interface ErrorLogOptions {
 export interface PostToLogsChannelOptions {
     bot: Client,
     color: EmbedColor,
-    title: string
+    title: string,
+    channelId?: string,
+    embed?: MessageEmbed
 };
