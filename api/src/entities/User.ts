@@ -3,10 +3,8 @@ import {
     BaseEntity, 
     PrimaryGeneratedColumn, 
     Column, 
-    CreateDateColumn, 
-    OneToMany 
+    CreateDateColumn
 } from 'typeorm';
-import UserPlaylist from './UserPlaylist.js';
 
 @Entity('users')
 class User extends BaseEntity {
@@ -16,9 +14,7 @@ class User extends BaseEntity {
         email: string,
         discord_id: string,
         twitch_id: string,
-        created_at: Date,
-
-        playlists: UserPlaylist[]
+        created_at: Date
     ) {
         super();
         this.id = id;
@@ -26,8 +22,6 @@ class User extends BaseEntity {
         this.discord_id = discord_id;
         this.twitch_id = twitch_id;
         this.created_at = created_at;
-        
-        this.playlists = playlists;
     };
 
     @PrimaryGeneratedColumn("uuid")
@@ -44,13 +38,6 @@ class User extends BaseEntity {
 
     @CreateDateColumn()
     created_at: Date;
-
-    /* Relations */
-    @OneToMany(
-        () => UserPlaylist,
-        (playlist: UserPlaylist) => playlist.user
-    )
-    playlists: UserPlaylist[];
 };
 
 export default User;

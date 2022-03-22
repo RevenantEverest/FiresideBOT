@@ -9,7 +9,6 @@ import {
     JoinColumn,
     OneToMany
 } from 'typeorm';
-import User from './User.js';
 import UserSong from './UserSong.js';
 
 @Entity('user_playlists')
@@ -17,7 +16,7 @@ class UserPlaylist extends BaseEntity {
 
     constructor(
         id: number,
-        user: User,
+        discord_id: string,
         name: string,
         created_at: Date,
         updated_at: Date,
@@ -26,7 +25,7 @@ class UserPlaylist extends BaseEntity {
     ) {
         super();
         this.id = id;
-        this.user = user;
+        this.discord_id = discord_id;
         this.name = name;
         this.created_at = created_at;
         this.updated_at = updated_at;
@@ -37,12 +36,8 @@ class UserPlaylist extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @ManyToOne(
-        () => User,
-        (user: User) => user.playlists
-    )
-    @JoinColumn({ name: "user_id" })
-    user: User;
+    @Column({ type: "varchar", length: 20 })
+    discord_id: string;
 
     @Column({ type: "varchar", length: 255 })
     name: string;
