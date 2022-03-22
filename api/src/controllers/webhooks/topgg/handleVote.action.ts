@@ -8,8 +8,7 @@ import VoteLog from '../../../entities/VoteLog.js';
 import { dates, promises, entities, logs, colors, discord } from '../../../utils/index.js';
 import { LOG_CHANNELS } from '../../../constants/index.js';
 
-export async function handleVote(vote: WebhookPayload): Promise<void> {
-    
+async function handleVote(vote: WebhookPayload): Promise<void> {
     const voteRecordConditional = {
         discord_id: vote.user
     };
@@ -95,3 +94,5 @@ export async function handleVote(vote: WebhookPayload): Promise<void> {
 
     logChannel.send({ embeds: [logEmbed] });
 };
+
+export default handleVote;

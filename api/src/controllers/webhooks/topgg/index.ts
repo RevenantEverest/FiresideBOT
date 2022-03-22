@@ -1,0 +1,1 @@
+export { default as handleVote } from './handleVote.action.js';

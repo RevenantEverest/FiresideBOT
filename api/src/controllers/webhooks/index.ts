@@ -1,1 +1,1 @@
-export * as topggController from './topgg/topggController.js';
+export * as topggController from './topgg/index.js';
