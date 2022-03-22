@@ -1,13 +1,13 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response } from 'express';
 import { AxiosResponse } from 'axios';
-import { discordServices } from '../../services/index.js';
-import DiscordToken from '../../entities/DiscordToken.js';
-import User from '../../entities/User.js';
+import { discordServices } from '../../../services/index.js';
+import DiscordToken from '../../../entities/DiscordToken.js';
+import User from '../../../entities/User.js';
 
-import { promises, entities, errors } from '../../utils/index.js';
-import issueToken from '../../middleware/issueToken.js';
+import { promises, entities, errors } from '../../../utils/index.js';
+import issueToken from '../../../middleware/issueToken.js';
 
-export async function login(req: Request, res: Response, next: NextFunction): Promise<void> {
+async function login(req: Request, res: Response): Promise<void> {
     const { code } = req.body;
     const redirectUri = process.env.DISCORD_BACKEND_REDIRECT as string;
 
@@ -58,3 +58,5 @@ export async function login(req: Request, res: Response, next: NextFunction): Pr
 
     issueToken(res, payload);
 };
+
+export default login;
