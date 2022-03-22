@@ -1,1 +1,1 @@
-export * as loginController from './loginController.js';
+export * as loginController from './login/index.js';
