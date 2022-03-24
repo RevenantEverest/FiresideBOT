@@ -1,4 +1,5 @@
 import { ConnectionOptions, getConnection } from 'typeorm';
+import { ERRORS } from '../constants/index.js';
 import { logs, colors } from '../utils/index.js';
 
 function handleError(err: Error) {
@@ -26,7 +27,7 @@ async function waitForPostgres(createConnection:Function, dbConfig:ConnectionOpt
     };
 
     if(!getConnection()) {
-        throw new Error("Postgres failed to start...");
+        throw new Error(ERRORS.POSTGRES_FAILED_TO_START);
     }
 };
 
