@@ -1,7 +1,8 @@
-import { BaseEntity, EntityTarget, getManager, DeepPartial } from 'typeorm';
+import TypeORM, { BaseEntity, EntityTarget, getManager, DeepPartial, getRepository } from 'typeorm';
 import * as promises from './promises.js';
+import * as errors from './errors.js';
 import { entityTypes, promiseTypes } from '../types';
-import { DEFAULTS } from '../constants/index.js';
+import { DEFAULTS, ERRORS } from '../constants/index.js';
 
 type OperationReturn<T> = entityTypes.OperationReturn<T>;
 type HandleReturn<T> = promiseTypes.HandleReturn<T>;
@@ -9,72 +10,63 @@ type Target<T> = EntityTarget<T>;
 type Data<T> = DeepPartial<T>;
 type IndexOptions = entityTypes.IndexOptions;
 
-export async function save<T extends BaseEntity>(entity: Target<T>, data: Data<T>): Promise<T> {
-    const manager = getManager();
-    const entityObject = manager.create<T>(entity, data);
-    
-    return await entityObject.save();
-};
+export async function findOne<T extends BaseEntity>(entity: Target<T>, conditional: object): Promise<HandleReturn<T>> {
 
-export async function insert<T extends BaseEntity>(entity: Target<T>, data: Data<T>): OperationReturn<T> {
-    try {
-        const res = await save<T>(entity, data);
-        return [res, undefined];
-    }
-    catch(err) {
-        const error = err as Error;
+    const repository = getRepository(entity);
+
+    const promise = repository.findOne({
+        where: conditional
+    });
+    const [res, err] = await promises.handle<T | undefined>(promise);
+
+    if(err || !res) {
+        const error = errors.handleTuple<T>({ res, err, errMsg: ERRORS.ENTITY_UNDEFINED });
         return [undefined, error];
     }
-};
 
-export async function update<T extends BaseEntity>(entity: Target<T>, data: Data<T>): OperationReturn<T> {
-    try {
-        const res = await save<T>(entity, data);
-        return [res, undefined];
-    }
-    catch(err) {
-        const error = err as Error;
-        return [undefined, error];
-    }
-};
-
-export async function findAndSaveOrUpdate<T extends BaseEntity>(entity: Target<T>, conditional: object, data: Data<T>): Promise<HandleReturn<T>> {
-    const manager = getManager();
-
-    const promise = manager.findOne(entity, { where: conditional });
-    const [findRes, findErr] = await promises.handle<object | undefined>(promise);
-
-    if(findErr) {
-        return [undefined, findErr];
-    }
-    if(!findRes) {
-        return await insert(entity, data);
-    }
-
-    return await update(entity, findRes as Data<T>);
-};
-
-export async function findOrSave<T extends BaseEntity>(entity: Target<T>, conditional: object, data: Data<T>): Promise<HandleReturn<T>> {
-    const manager = getManager();
-
-    const promise = manager.findOne(entity, { where: conditional });
-    const [findRes, findErr] = await promises.handle<object | undefined>(promise);
-
-    if(findErr) {
-        return [undefined, findErr];
-    }
-    if(!findRes) {
-        return await insert(entity, data);
-    }
-
-    const entityObject = manager.create(entity, findRes as Data<T>);
+    const entityObject = repository.create(res as Data<T>);
     return [entityObject, undefined];
 };
 
-export async function index<T extends BaseEntity>(entity: Target<T>, options: IndexOptions): Promise<HandleReturn<T[]>> {
-    const manager = getManager();
+export async function findAndSaveOrUpdate<T extends BaseEntity>(entity: Target<T>, conditional: object, data: Data<T>): Promise<HandleReturn<T>> {
 
-    const promise = manager.find(entity, {
+    const promise = findOne(entity, conditional);
+    const [res, err] = await promises.handle<object | undefined>(promise);
+
+    if(err) {
+        return [undefined, err];
+    }
+    if(!res) {
+        return await insert(entity, data);
+    }
+
+    return await save(entity, res as Data<T>);
+};
+
+export async function findOrSave<T extends BaseEntity>(entity: Target<T>, conditional: object, data: Data<T>): Promise<HandleReturn<T>> {
+
+    const repository = getRepository(entity);
+
+    const promise = findOne<T>(entity, conditional);
+    const [res, err] = await promises.handle<T>(promise);
+
+    if(err) {
+        return [undefined, err];
+    }
+
+    if(!res) {
+        return await insert(entity, data);
+    }
+
+    const entityObj = repository.create(res as Data<T>);
+    return [entityObj, undefined];
+};
+
+export async function index<T extends BaseEntity>(entity: Target<T>, options: IndexOptions): Promise<HandleReturn<T[]>> {
+
+    const repository = getRepository(entity);
+
+    const promise = repository.find({
         skip: options.offset ?? 0,
         take: options.limit ?? DEFAULTS.LIMIT
     });
@@ -88,9 +80,10 @@ export async function index<T extends BaseEntity>(entity: Target<T>, options: In
 };
 
 export async function indexAndCount<T extends BaseEntity>(entity: Target<T>, options: IndexOptions): Promise<HandleReturn<[T[], number]>> {
-    const manager = getManager();
 
-    const promise = manager.findAndCount<T>(entity, {
+    const repository = getRepository(entity);
+
+    const promise = repository.findAndCount({
         skip: options.offset ?? 0,
         take: options.limit ?? DEFAULTS.LIMIT
     });
@@ -103,18 +96,66 @@ export async function indexAndCount<T extends BaseEntity>(entity: Target<T>, opt
     return [res, undefined];
 };
 
-export async function findOne<T extends BaseEntity>(entity: Target<T>, conditional: object): Promise<HandleReturn<T>> {
-    const manager = getManager();
+export async function insert<T extends BaseEntity>(entity: Target<T>, data: Data<T>): OperationReturn<T> {
 
-    const promise = manager.findOne(entity, {
-        where: conditional
+    try {
+        return await save<T>(entity, data);
+    }
+    catch(err) {
+        const error = err as Error;
+        return [undefined, error];
+    }
+};
+
+export async function save<T extends BaseEntity>(entity: Target<T>, data: Data<T>): Promise<OperationReturn<T>> {
+
+    try {
+        const repository = getRepository(entity);
+        const entityObject = repository.create(data);
+        const res = await entityObject.save();
+        return [res, undefined];
+    }
+    catch(err) {
+        const error = err as Error;
+        return [undefined, error];
+    }
+};
+
+export async function update<T extends BaseEntity>(entity: Target<T>, id: string | number, data: Data<T>): OperationReturn<T> {
+
+    const repository = getRepository(entity);
+    
+    const [findRes, findErr] = await findOne<T>(entity, {
+        id: id
     });
-    const [res, err] = await promises.handle<object | undefined>(promise);
 
-    if(err) {
-        return [undefined, err];
+    if(findErr || !findRes) {
+        return [undefined, findErr];
     }
 
-    const entityObject = res ? manager.create(entity, res as Data<T>) : undefined;
-    return [entityObject, undefined];
-}
+    if(!findRes) {
+        return [undefined, new Error(ERRORS.ENTITY_NOT_FOUND)]
+    }
+
+    const entityObj = repository.create({
+        ...findRes,
+        ...data
+    });
+
+    console.log("Entity Object => ", findRes);
+
+    return await save<T>(entity, (entityObj as Data<T>));
+};
+
+/*
+
+    Find One function is causing an issue with returning the tuple []
+    For some reason when assigning it to the [res, err] res will be the full tuple return 
+
+    Find One Return:
+    [
+        [Entity, undefined]
+    ]
+
+*/
+
