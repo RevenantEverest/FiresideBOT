@@ -2,8 +2,12 @@ import * as logs from './logs.js';
 import * as colors from './colors.js';
 import { errorTypes } from '../types/index.js';
 
-export function sendResponse({ res, next, err, message }: errorTypes.SendResponseOptions) {
-    const logOptions: errorTypes.ErrorLogOptions = {
+type SendResponseOptions = errorTypes.SendResponseOptions;
+type ErrorLogOptions = errorTypes.ErrorLogOptions;
+type HandleTupleOptions<T> = errorTypes.HandleTupleOptions<T>;
+
+export function sendResponse({ res, next, err, message }: SendResponseOptions): void {
+    const logOptions: ErrorLogOptions = {
         color: colors.error
     };
 
@@ -25,4 +29,15 @@ export function sendResponse({ res, next, err, message }: errorTypes.SendRespons
     else {
         res.status(500).json({ error: true, message });
     }
+};
+
+export function handleTuple<T>({res, err, errMsg}: HandleTupleOptions<T>): Error | undefined {    
+    if(err) {
+        return err;
+    }
+    else if(!res) {
+        return new Error(errMsg);
+    }
+ 
+    return undefined;
 };
