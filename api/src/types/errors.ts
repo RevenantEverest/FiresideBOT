@@ -12,3 +12,9 @@ export interface ErrorLogOptions {
     message?: string,
     err?: Error 
 };
+
+export interface HandleTupleOptions<T> {
+    res: T | undefined,
+    err: Error | undefined,
+    errMsg: string
+};
