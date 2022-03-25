@@ -4,6 +4,7 @@ export interface SendResponseOptions {
     res: Response,
     next?: NextFunction,
     err?: Error,
+    status?: number,
     message?: string
 };
 
