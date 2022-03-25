@@ -6,7 +6,7 @@ type SendResponseOptions = errorTypes.SendResponseOptions;
 type ErrorLogOptions = errorTypes.ErrorLogOptions;
 type HandleTupleOptions<T> = errorTypes.HandleTupleOptions<T>;
 
-export function sendResponse({ res, next, err, message }: SendResponseOptions): void {
+export function sendResponse({ res, next, err, status=500, message }: SendResponseOptions): void {
     const logOptions: ErrorLogOptions = {
         color: colors.error
     };
@@ -27,7 +27,7 @@ export function sendResponse({ res, next, err, message }: SendResponseOptions): 
         next(err);
     }
     else {
-        res.status(500).json({ error: true, message });
+        res.status(status).json({ error: true, message });
     }
 };
 
