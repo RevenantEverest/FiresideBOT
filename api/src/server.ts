@@ -11,7 +11,8 @@ import waitForPostgres from './db/waitForPostgres.js';
 import bot from './discordBot.js';
 
 import { logs, colors } from './utils/index.js';
-import { authRoutes, webhookRoutes } from './routes/index.js';
+import { verifyToken } from './middleware/index.js';
+import { authRoutes, playlistRoutes, webhookRoutes } from './routes/index.js';
 
 dotenv.config();
 
@@ -31,6 +32,7 @@ dotenv.config();
     app.set("trust proxy", "loopback");
 
     app.use("/auth", authRoutes);
+    app.use("/playlists", verifyToken, playlistRoutes);
     app.use("/webhooks", webhookRoutes);
 
     app.listen(PORT, () => {
