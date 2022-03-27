@@ -16,7 +16,21 @@ async function verifyToken(req: Request, res: Response, next: NextFunction) {
 
     JWT.verify(bearerToken, ENV.TOKEN_SECRET, (err, authData) => {
         if(err) {
-            return errors.sendResponse({ res, next, err, status: 403, message: "Invalid Token" });
+            switch(err.toString()) {
+                case "TokenExpiredError: jwt expired":
+                    return errors.sendResponse({ 
+                        res, 
+                        status: 403, 
+                        message: "Token Expired"
+                    });
+                default:
+                    return errors.sendResponse({ 
+                        res, 
+                        err, 
+                        status: 403, 
+                        message: "Invalid Token" 
+                    });
+            };
         }
 
         res.locals.auth = authData;
