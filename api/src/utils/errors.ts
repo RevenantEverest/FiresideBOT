@@ -19,7 +19,7 @@ export function sendResponse({ res, next, err, status=500, message }: SendRespon
         logOptions.message = message;
     }
 
-    if(err || message) {
+    if(err && message) {
         logs.error(logOptions);
     }
 
