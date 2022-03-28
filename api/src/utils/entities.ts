@@ -23,6 +23,42 @@ export async function destroy<T extends BaseEntity>(entity: Target<T>, data: Dat
     }
 };
 
+export async function find<T extends BaseEntity>(entity: Target<T>, conditional: object, options: IndexOptions): Promise<HandleReturn<T[]>> {
+
+    const repository = getRepository(entity);
+
+    const promise = repository.find({
+        skip: options.offset ?? 0,
+        take: options.limit ?? DEFAULTS.LIMIT,
+        where: conditional ?? {}
+    });
+    const [res, err] = await promises.handle<T[]>(promise);
+
+    if(err) {
+        return [undefined, err];
+    }
+
+    return [res, undefined];
+};
+
+export async function findAndCount<T extends BaseEntity>(entity: Target<T>, conditional: object, options: IndexOptions): Promise<HandleReturn<[T[], number]>> {
+
+    const repository = getRepository(entity);
+
+    const promise = repository.findAndCount({
+        skip: options.offset ?? 0,
+        take: options.limit ?? DEFAULTS.LIMIT,
+        where: conditional ?? {}
+    });
+    const [res, err] = await promises.handle<[T[], number]>(promise);
+
+    if(err) {
+        return [undefined, err];
+    }
+
+    return [res, undefined];
+};
+
 export async function findOne<T extends BaseEntity>(entity: Target<T>, conditional: object): Promise<HandleReturn<T>> {
 
     const repository = getRepository(entity);
