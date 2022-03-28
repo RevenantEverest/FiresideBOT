@@ -1,0 +1,1 @@
+export * as userPlaylistsController from './userPlaylists/index.js';
