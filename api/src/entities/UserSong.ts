@@ -17,7 +17,7 @@ class UserSong extends BaseEntity {
         playlist: UserPlaylist,
         title: string,
         author: string,
-        link: string,
+        video_id: string,
         duration: number,
         thumbnail_url: string,
         created_at: Date
@@ -27,7 +27,7 @@ class UserSong extends BaseEntity {
         this.playlist = playlist;
         this.title = title;
         this.author = author;
-        this.link = link;
+        this.video_id = video_id;
         this.duration = duration;
         this.thumbnail_url = thumbnail_url;
         this.created_at = created_at;
@@ -49,8 +49,8 @@ class UserSong extends BaseEntity {
     @Column({ type: "varchar", length: 255 })
     author: string;
 
-    @Column({ type: "varchar", length: 255 })
-    link: string;
+    @Column({ type: "varchar", length: 11 })
+    video_id: string;
 
     @Column({ type: "int" })
     duration: number;
