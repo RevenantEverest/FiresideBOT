@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { paginationTypes } from '../types/index.js';
 
-function paginateResponse(req: Request, res: Response, results:Array<object | number>): object {
+export function paginateResponse(req: Request, res: Response, results:Array<object | number>): object {
 
     const { page, limit } = res.locals;
     const regEx:RegExp = /(?=\?)(.*)/gi;
@@ -26,5 +26,3 @@ function paginateResponse(req: Request, res: Response, results:Array<object | nu
         results: results[0]
     };
 };
-
-export default { paginateResponse };
