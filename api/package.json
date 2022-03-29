@@ -27,6 +27,7 @@
     "reflect-metadata": "^0.1.13",
     "topgg-autoposter": "^2.0.1",
     "typeorm": "^0.2.42",
+    "validate.js": "^0.13.1",
     "ytdl-core": "^4.11.0"
   },
   "devDependencies": {
