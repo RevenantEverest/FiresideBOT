@@ -13,3 +13,5 @@ export const DISCORD = {
 
 export const TOPGG_TOKEN = process.env.TOPGG_TOKEN as string;
 export const TOPGG_WEBHOOK_AUTH = process.env.TOPGG_WEBHOOK_AUTH as string;
+
+export const GOOGLE_KEY = process.env.GOOGLE_KEY as string;
