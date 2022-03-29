@@ -6,8 +6,10 @@ import { entities, errors } from '../../../utils/index.js';
 async function create(req: Request, res: Response, next: NextFunction) {
     
     const [userPlaylist, err] = await entities.findOne<UserPlaylist>(UserPlaylist, {
-        discord_id: res.locals.auth.discord_id,
-        name: req.body.name
+        where: {
+            discord_id: res.locals.auth.discord_id,
+            name: req.body.name
+        }
     });
 
     if(err) {
@@ -18,7 +20,10 @@ async function create(req: Request, res: Response, next: NextFunction) {
         return errors.sendResponse({ res, next, message: "Playlist Name Already Exists" });
     } 
 
-    const [upInsert, upInsertErr] = await entities.insert<UserPlaylist>(UserPlaylist, req.body);
+    const [upInsert, upInsertErr] = await entities.insert<UserPlaylist>(UserPlaylist, {
+        discord_id: res.locals.auth.discord_id,
+        name: req.body.name
+    });
 
     if(upInsertErr) {
         return errors.sendResponse({ res, next, err: upInsertErr, message: "Error Saving UserPlaylist" });

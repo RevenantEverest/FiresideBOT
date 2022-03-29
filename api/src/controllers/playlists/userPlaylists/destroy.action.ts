@@ -8,8 +8,10 @@ async function destroy(req: Request, res: Response, next: NextFunction) {
     const { id } = res.locals.params;
 
     const [userPlaylist, findErr] = await entities.findOne<UserPlaylist>(UserPlaylist, {
-        id: id,
-        discord_id: res.locals.auth.discord_id
+        where: {
+            id: id,
+            discord_id: res.locals.auth.discord_id
+        }
     });
 
     if(findErr) {
