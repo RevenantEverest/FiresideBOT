@@ -12,7 +12,7 @@ export async function getToken(code: string, redirect: string): Promise<AxiosRes
         ["redirect_uri", redirect] 
     ]);
 
-    return axios.post(`${URLS.DISCORD}/oauth2/token`, data.toString(), {
+    return axios.post(`${URLS.API.DISCORD}/oauth2/token`, data.toString(), {
         headers: {
             "Content-Type": "application/x-www-form-urlencoded"
         }
@@ -22,7 +22,7 @@ export async function getToken(code: string, redirect: string): Promise<AxiosRes
 export async function refreshToken(refreshToken: string, redirect: string): Promise<AxiosResponse> {
     return axios({
         method: "POST",
-        url: `${URLS.DISCORD}/oauth2/token`,
+        url: `${URLS.API.DISCORD}/oauth2/token`,
         params: {
             grant_type: "refresh_token",
             client_id: ENV.DISCORD.CLIENT_ID,
@@ -40,7 +40,7 @@ export async function refreshToken(refreshToken: string, redirect: string): Prom
 export async function getUserInfo(token: string): Promise<AxiosResponse> {
     return axios({
         method: "GET",
-        url: `${URLS.DISCORD}/users/@me`,
+        url: `${URLS.API.DISCORD}/users/@me`,
         headers: {
             "Authorization": `Bearer ${token}`
         }
@@ -50,7 +50,7 @@ export async function getUserInfo(token: string): Promise<AxiosResponse> {
 export async function getUserGuilds(token: string): Promise<AxiosResponse> {
     return axios({
         method: "GET",
-        url: `${URLS.DISCORD}/users/@me/guilds`,
+        url: `${URLS.API.DISCORD}/users/@me/guilds`,
         headers: {
             "Authorization": `Bearer ${token}`
         }

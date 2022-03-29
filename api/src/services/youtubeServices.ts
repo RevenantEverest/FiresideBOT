@@ -13,5 +13,5 @@ export async function search(query: string): Promise<AxiosResponse> {
         ["key", ENV.GOOGLE_KEY]
     ]);
 
-    return axios.get(`${URLS.YOUTUBE}/search?` + data.toString());
+    return axios.get(`${URLS.API.YOUTUBE}/search?` + data.toString());
 };
