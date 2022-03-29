@@ -1,4 +1,4 @@
-import { BaseEntity, EntityTarget, DeepPartial, getRepository } from 'typeorm';
+import { BaseEntity, EntityTarget, DeepPartial, getRepository, FindOneOptions } from 'typeorm';
 import * as promises from './promises.js';
 import { entityTypes, promiseTypes } from '../types';
 import { DEFAULTS, ERRORS } from '../constants/index.js';
@@ -59,13 +59,11 @@ export async function findAndCount<T extends BaseEntity>(entity: Target<T>, cond
     return [res, undefined];
 };
 
-export async function findOne<T extends BaseEntity>(entity: Target<T>, conditional: object): Promise<HandleReturn<T>> {
+export async function findOne<T extends BaseEntity>(entity: Target<T>, findOptions?: FindOneOptions<T>): Promise<HandleReturn<T>> {
 
     const repository = getRepository(entity);
 
-    const promise = repository.findOne({
-        where: conditional
-    });
+    const promise = repository.findOne(findOptions);
     const [res, err] = await promises.handle<T | undefined>(promise);
 
     if(err) {
@@ -75,9 +73,9 @@ export async function findOne<T extends BaseEntity>(entity: Target<T>, condition
     return [res, undefined];
 };
 
-export async function findAndSaveOrUpdate<T extends BaseEntity>(entity: Target<T>, conditional: object, data: Data<T>): Promise<HandleReturn<T>> {
+export async function findAndSaveOrUpdate<T extends BaseEntity>(entity: Target<T>, findOptions: FindOneOptions<T>, data: Data<T>): Promise<HandleReturn<T>> {
 
-    const [res, err] =  await findOne<T>(entity, conditional);
+    const [res, err] =  await findOne<T>(entity, findOptions);
 
     if(err) {
         return [undefined, err];
@@ -90,11 +88,11 @@ export async function findAndSaveOrUpdate<T extends BaseEntity>(entity: Target<T
     return await save(entity, res as Data<T>);
 };
 
-export async function findAndUpdate<T extends BaseEntity>(entity: Target<T>, conditional: object, data: Data<T>): OperationReturn<T> {
+export async function findAndUpdate<T extends BaseEntity>(entity: Target<T>, findOptions: FindOneOptions<T>, data: Data<T>): OperationReturn<T> {
 
     const repository = getRepository(entity);
     
-    const [findRes, findErr] = await findOne<T>(entity, conditional);
+    const [findRes, findErr] = await findOne<T>(entity, findOptions);
 
     if(findErr || !findRes) {
         return [undefined, findErr];
@@ -112,11 +110,11 @@ export async function findAndUpdate<T extends BaseEntity>(entity: Target<T>, con
     return await save<T>(entity, (entityObj as Data<T>));
 };
 
-export async function findOrSave<T extends BaseEntity>(entity: Target<T>, conditional: object, data: Data<T>): Promise<HandleReturn<T>> {
+export async function findOrSave<T extends BaseEntity>(entity: Target<T>, findOptions: FindOneOptions<T>, data: Data<T>): Promise<HandleReturn<T>> {
 
     const repository = getRepository(entity);
 
-    const [res, err] = await findOne<T>(entity, conditional);
+    const [res, err] = await findOne<T>(entity, findOptions);
 
     if(err) {
         return [undefined, err];
