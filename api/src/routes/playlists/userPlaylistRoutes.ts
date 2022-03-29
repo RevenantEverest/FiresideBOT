@@ -9,6 +9,7 @@ router.route("/")
 .post(userPlaylistsController.create)
 
 router.route("/id/:id")
+.get(validateId, userPlaylistsController.getOne)
 .put(validateId, userPlaylistsController.update)
 .delete(validateId, userPlaylistsController.destroy)
 
