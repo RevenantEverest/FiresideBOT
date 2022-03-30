@@ -4,11 +4,17 @@ import UserPlaylist from '../../../entities/UserPlaylist.js';
 import { entities, errors } from '../../../utils/index.js';
 
 async function create(req: Request, res: Response, next: NextFunction) {
+
+    const playlistName: string = req.body.name;
+
+    if(playlistName.includes(" ")) {
+        return errors.sendResponse({ res, status: 400, message: "Playlist Name Cannot Contain White Space" });
+    }
     
     const [userPlaylist, err] = await entities.findOne<UserPlaylist>(UserPlaylist, {
         where: {
             discord_id: res.locals.auth.discord_id,
-            name: req.body.name
+            name: playlistName
         }
     });
 
@@ -17,12 +23,12 @@ async function create(req: Request, res: Response, next: NextFunction) {
     }
 
     if(userPlaylist) {
-        return errors.sendResponse({ res, next, message: "Playlist Name Already Exists" });
+        return errors.sendResponse({ res, status: 400, message: "Playlist Name Already Exists" });
     } 
 
     const [upInsert, upInsertErr] = await entities.insert<UserPlaylist>(UserPlaylist, {
         discord_id: res.locals.auth.discord_id,
-        name: req.body.name
+        name: playlistName
     });
 
     if(upInsertErr) {
