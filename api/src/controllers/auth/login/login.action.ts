@@ -27,7 +27,9 @@ async function login(req: Request, res: Response): Promise<void> {
 
     /* Grab Discord Token from DB */
     const discordTokenConditional = {
-        discord_id: discordUser.data.id
+        where: {
+            discord_id: discordUser.data.id
+        }
     };
     const [discordToken, discordTokenErr] = await entities.findAndSaveOrUpdate<DiscordToken>(DiscordToken, discordTokenConditional, {
         ...token.data,
@@ -38,7 +40,9 @@ async function login(req: Request, res: Response): Promise<void> {
     if(!discordToken) return errors.sendResponse({ res, message: "No Discord Token Response" });
 
     const userConditional = {
-        discord_id: discordUser.data.id
+        where: {
+            discord_id: discordUser.data.id
+        }
     };
     const [user, userErr] = await entities.findOrSave<User>(User, userConditional, {
         ...userConditional,
@@ -53,7 +57,7 @@ async function login(req: Request, res: Response): Promise<void> {
         discord_id: discordUser.data.id,
         username: discordUser.data.username,
         discriminator: discordUser.data.discriminator,
-        avatarUrl: discordUser.data.avatar
+        avatar: discordUser.data.avatar
     };
 
     issueToken(res, payload);
