@@ -8,7 +8,7 @@ interface Payload {
     username: string,
     discriminator: number,
     discord_id: string,
-    avatarUrl: string,
+    avatar: string,
     token?: string
 };
 
