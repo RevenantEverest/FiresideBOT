@@ -3,16 +3,12 @@ import { dbConfig } from "./config/index.js";
 
 import dotenv from 'dotenv';
 import { createConnection } from 'typeorm';
-import express from 'express';
-import morgan from 'morgan';
-import cors from 'cors';
 
 import waitForPostgres from './db/waitForPostgres.js';
 import bot from './discordBot.js';
+import initializeApp from './app.js';
 
 import { logs, colors } from './utils/index.js';
-import { verifyToken } from './middleware/index.js';
-import { authRoutes, playlistRoutes, webhookRoutes } from './routes/index.js';
 
 dotenv.config();
 
@@ -22,18 +18,8 @@ dotenv.config();
     bot.login(process.env.DISCORD_KEY);
 
     const PORT = process.env.API_PORT || 3001;
-    const app = express();
 
-    app.use(morgan("dev"));
-    app.use(express.json());
-    app.use(express.urlencoded({ extended: false }));
-    app.use(cors());
-    app.set("trust proxy", true);
-    app.set("trust proxy", "loopback");
-
-    app.use("/auth", authRoutes);
-    app.use("/playlists", verifyToken, playlistRoutes);
-    app.use("/webhooks", webhookRoutes);
+    const app = initializeApp();
 
     app.listen(PORT, () => {
         return logs.log({ color: colors.success, type: "HTTP", message: `Fireside-API: Listening on port ${PORT}` });
