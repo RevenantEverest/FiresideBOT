@@ -25,7 +25,7 @@ async function getOne(req: Request, res: Response, next: NextFunction) {
     if(!userPlaylist) {
         return errors.sendResponse({
             res,
-            status: 400,
+            status: 404,
             message: "No UserPlaylist Find One Return"
         });
     }
