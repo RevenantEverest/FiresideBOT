@@ -23,7 +23,7 @@ async function getByDiscordId(req: Request, res: Response, next: NextFunction) {
     }
 
     if(!userPlaylists) {
-        return errors.sendResponse({ res, next, message: "No userPlaylists" });
+        return errors.sendResponse({ res, status: 404, message: "No userPlaylists" });
     }
 
     const response = pagination.paginateResponse(req, res, userPlaylists);
