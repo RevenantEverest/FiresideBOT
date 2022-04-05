@@ -27,7 +27,7 @@
     "pg": "^8.7.1",
     "reflect-metadata": "^0.1.13",
     "topgg-autoposter": "^2.0.1",
-    "typeorm": "^0.2.42",
+    "typeorm": "0.2.45",
     "validate.js": "^0.13.1",
     "ytdl-core": "^4.11.0"
   },
@@ -39,7 +39,7 @@
     "@types/cors": "^2.8.12",
     "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.13",
-    "@types/jest": "^27.4.0",
+    "@types/jest": "^27.4.1",
     "@types/jsonwebtoken": "^8.5.8",
     "@types/morgan": "^1.9.3",
     "@types/node": "^17.0.14",
