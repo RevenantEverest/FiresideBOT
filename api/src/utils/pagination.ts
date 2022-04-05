@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { paginationTypes } from '../types/index.js';
+import { ENV } from '../constants/index.js';
 
 export function paginateResponse(req: Request, res: Response, results:Array<object | number>): object {
 
@@ -12,11 +13,11 @@ export function paginateResponse(req: Request, res: Response, results:Array<obje
     let prev:paginationTypes.PaginationUrl = null;
 
     if((page * limit) < count) {
-        next = process.env.BASE_URL! + requestedUrl + `?page=${page + 1}`;
+        next = ENV.BASE_URL! + requestedUrl + `?page=${page + 1}`;
     }
 
     if(page > 1) {
-        prev = process.env.BASE_URL! + requestedUrl + `?page=${page - 1}`;
+        prev = ENV.BASE_URL! + requestedUrl + `?page=${page - 1}`;
     }
 
     return {
