@@ -15,7 +15,7 @@ async function index(req: Request, res: Response, next: NextFunction) {
     }
 
     if(!userPlaylists) {
-        return errors.sendResponse({ res, next, message: "No User Playlists" });
+        return errors.sendResponse({ res, status: 404, message: "No User Playlists" });
     }
 
     const response = pagination.paginateResponse(req, res, userPlaylists);
