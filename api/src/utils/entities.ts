@@ -1,4 +1,4 @@
-import { BaseEntity, EntityTarget, DeepPartial, getRepository, FindOneOptions } from 'typeorm';
+import { BaseEntity, EntityTarget, DeepPartial, getRepository, FindOneOptions, FindOptionsUtils } from 'typeorm';
 import * as promises from './promises.js';
 import { entityTypes, promiseTypes } from '../types';
 import { DEFAULTS, ERRORS } from '../constants/index.js';
@@ -23,14 +23,14 @@ export async function destroy<T extends BaseEntity>(entity: Target<T>, data: Dat
     }
 };
 
-export async function find<T extends BaseEntity>(entity: Target<T>, conditional: object, options: IndexOptions): Promise<HandleReturn<T[]>> {
+export async function find<T extends BaseEntity>(entity: Target<T>, findOptions: FindOneOptions<T>, options: IndexOptions): Promise<HandleReturn<T[]>> {
 
     const repository = getRepository(entity);
 
     const promise = repository.find({
         skip: options.offset ?? 0,
         take: options.limit ?? DEFAULTS.LIMIT,
-        where: conditional ?? {}
+        ...findOptions
     });
     const [res, err] = await promises.handle<T[]>(promise);
 
@@ -41,14 +41,14 @@ export async function find<T extends BaseEntity>(entity: Target<T>, conditional:
     return [res, undefined];
 };
 
-export async function findAndCount<T extends BaseEntity>(entity: Target<T>, conditional: object, options: IndexOptions): Promise<HandleReturn<[T[], number]>> {
+export async function findAndCount<T extends BaseEntity>(entity: Target<T>, findOptions: FindOneOptions<T>, options: IndexOptions): Promise<HandleReturn<[T[], number]>> {
 
     const repository = getRepository(entity);
 
     const promise = repository.findAndCount({
         skip: options.offset ?? 0,
         take: options.limit ?? DEFAULTS.LIMIT,
-        where: conditional ?? {}
+        ...findOptions
     });
     const [res, err] = await promises.handle<[T[], number]>(promise);
 
