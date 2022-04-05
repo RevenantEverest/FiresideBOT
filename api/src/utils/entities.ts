@@ -1,4 +1,4 @@
-import { BaseEntity, EntityTarget, DeepPartial, getRepository, FindOneOptions, FindOptionsUtils } from 'typeorm';
+import { BaseEntity, EntityTarget, DeepPartial, getRepository, FindOneOptions } from 'typeorm';
 import * as promises from './promises.js';
 import { entityTypes, promiseTypes } from '../types';
 import { DEFAULTS, ERRORS } from '../constants/index.js';
