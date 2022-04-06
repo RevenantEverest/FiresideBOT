@@ -19,7 +19,7 @@ async function destroy(req: Request, res: Response, next: NextFunction) {
     }
 
     if(!userPlaylist) {
-        return errors.sendResponse({ res, next, status: 404, message: "No UserPlaylist Found" });
+        return errors.sendResponse({ res, status: 404, message: "No UserPlaylist Found" });
     }
 
     const [deletedUserPlaylist, deleteErr] = await entities.destroy<UserPlaylist>(UserPlaylist, userPlaylist);
