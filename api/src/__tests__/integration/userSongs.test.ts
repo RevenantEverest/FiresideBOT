@@ -43,4 +43,13 @@ describe("user songs", () => {
     describe("get user song route", () => {
     
     });
+
+    /*
+    
+        DELETE
+    
+    */
+    describe("delete user song route", () => {
+
+    });
 });
