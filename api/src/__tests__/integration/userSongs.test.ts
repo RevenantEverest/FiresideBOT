@@ -37,15 +37,6 @@ describe("user songs", () => {
 
     /*
     
-        UPDATE
-    
-    */
-    describe("update user song route", () => {
-    
-    });
-
-    /*
-    
         GET
     
     */
