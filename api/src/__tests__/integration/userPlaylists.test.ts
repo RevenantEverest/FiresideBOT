@@ -5,7 +5,7 @@ import initializeApp from '../../app.js';
 import waitForPostgres from '../../db/waitForPostgres.js';
 import issueToken from '../support/login.support.js';
 import dbConfig from '../support/dbConfig.support.js';
-import UserPlaylist from 'src/entities/UserPlaylist.js';
+import UserPlaylist from '../../entities/UserPlaylist.js';
 
 const authPayload = issueToken();
 const authHeader = {
@@ -29,7 +29,7 @@ const validUpdatePayload = {
 
 let createdPlaylist: UserPlaylist;
 
-describe("user playlist", () => {
+describe("user playlists", () => {
 
     beforeAll(async () => {
         await waitForPostgres(createConnection, dbConfig);
