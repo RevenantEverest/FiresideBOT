@@ -1,0 +1,49 @@
+version: "3.5"
+
+services:
+  api:
+    container_name: fireside_api
+    stdin_open: true
+    build:
+      dockerfile: ./docker/dev/Dockerfile
+    depends_on:
+      - db
+      - testing_db
+      - pgadmin
+    volumes:
+      - ./api:/app
+      - /app/node_modules
+  db:
+    container_name: fireside_db
+    image: postgres
+    environment:
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    ports:
+      - 5432:5432
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+  testing_db:
+    container_name: fireside_testing_db
+    image: postgres
+    environment:
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    ports:
+      - 5678:5432
+    volumes:
+      - ./postgres_testing_data:/var/lib/postgresql/data
+  pgadmin:
+    container_name: fireside_pgadmin
+    image: dpage/pgadmin4:6.7
+    restart: always
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=secret
+      - PGADMIN_LISTEN_PORT=80
+    ports:
+      - "8080:80"
+    volumes:
+      - ./pgadmin_data:/var/lib/pgadmin  
