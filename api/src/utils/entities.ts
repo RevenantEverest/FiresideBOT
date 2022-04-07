@@ -1,13 +1,11 @@
 import { BaseEntity, EntityTarget, DeepPartial, getRepository, FindOneOptions } from 'typeorm';
 import * as promises from './promises.js';
-import { entityTypes, promiseTypes } from '../types';
+import { OperationReturn, IndexOptions } from '../types/entities.js';
+import { HandleReturn } from '../types/promises.js';
 import { DEFAULTS, ERRORS } from '../constants/index.js';
 
-type OperationReturn<T> = entityTypes.OperationReturn<T>;
-type HandleReturn<T> = promiseTypes.HandleReturn<T>;
 type Target<T> = EntityTarget<T>;
 type Data<T> = DeepPartial<T>;
-type IndexOptions = entityTypes.IndexOptions;
 
 export async function destroy<T extends BaseEntity>(entity: Target<T>, data: Data<T>): Promise<HandleReturn<T>> {
     const repository = getRepository(entity);

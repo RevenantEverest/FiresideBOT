@@ -1,7 +1,5 @@
 import { Client, AnyChannel, TextChannel } from 'discord.js';
-import { discordTypes } from '../types/index.js';
-
-type TextChannelReturn = discordTypes.TextChannelReturn;
+import { TextChannelReturn } from '../types/discord';
 
 export async function getTextChannel(bot: Client, channelId: string): TextChannelReturn {
     try {
