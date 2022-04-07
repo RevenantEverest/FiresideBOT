@@ -2,11 +2,12 @@ import { AxiosResponse, AxiosError } from 'axios';
 import ytdl from 'ytdl-core';
 
 import * as promises from './promises.js';
-import { HandleReturn } from '../types/promises.js';
-import { SongInfo } from '../types/youtube.js';
+import { promiseTypes, youtubeTypes } from '../types/index.js';
 import { youtubeServices } from '../services/index.js';
 import { URLS } from '../constants/index.js';
 
+type SongInfo = youtubeTypes.SongInfo;
+type HandleReturn<T> = promiseTypes.HandleReturn<T>;
 const youtubeRegex = /(?:https?:\/\/)?(?:www\.)?youtu\.?be(?:\.com)?\/?.*(?:watch|embed)?(?:.*v=|v\/|\/)([\w-_]+)/gi;
 
 export async function isValidLink(str: string): Promise<boolean> {

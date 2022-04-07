@@ -2,11 +2,15 @@ import Discord, { AnyChannel, TextChannel } from 'discord.js';
 import chalk from 'chalk';
 
 import { LOG_CHANNELS } from '../constants/index.js';
-import { LogOptions, ErrorLogOptions, PostToLogsChannelOptions } from '../types/logs.js';
+import { logTypes } from '../types/index.js';
 
 import * as promises from './promises.js';
 import * as colors from './colors.js';
 import * as dates from './dates.js';
+
+type LogOptions = logTypes.LogOptions;
+type ErrorLogOptions = logTypes.ErrorLogOptions;
+type PostToLogsChannelOptions = logTypes.PostToLogsChannelOptions;
 
 export async function log({ color, type="LOG", message="" }: LogOptions) {
     const logType = "[" + type + "]";

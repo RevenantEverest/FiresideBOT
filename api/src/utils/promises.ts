@@ -1,4 +1,6 @@
-import { HandleReturn } from '../types/promises';
+import { promiseTypes } from '../types/index.js';
+
+type HandleReturn<T> = promiseTypes.HandleReturn<T>;
 
 export async function handle<T>(promise: Promise<T>): HandleReturn<T> {
     return promise
