@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import { FindOneOptions } from 'typeorm';
+
 import UserPlaylist from '../../../entities/UserPlaylist.js';
+import { PaginatedResponse } from '../../../types/pagination.js';
 
 import { entities, errors, pagination } from '../../../utils/index.js';
 
@@ -26,7 +28,7 @@ async function getByDiscordId(req: Request, res: Response, next: NextFunction) {
         return errors.sendResponse({ res, status: 404, message: "No UserPlaylist Found" });
     }
 
-    const response = pagination.paginateResponse(req, res, userPlaylists);
+    const response: PaginatedResponse<UserPlaylist> = pagination.paginateResponse(req, res, userPlaylists);
 
     return res.json(response);
 };

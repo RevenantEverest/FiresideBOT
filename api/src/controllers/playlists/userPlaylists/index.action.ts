@@ -1,5 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
+
 import UserPlaylist from '../../../entities/UserPlaylist.js';
+import { PaginatedResponse } from '../../../types/pagination.js';
 
 import { entities, pagination, errors } from '../../../utils/index.js';
 
@@ -18,7 +20,7 @@ async function index(req: Request, res: Response, next: NextFunction) {
         return errors.sendResponse({ res, status: 404, message: "No User Playlists" });
     }
 
-    const response = pagination.paginateResponse(req, res, userPlaylists);
+    const response: PaginatedResponse<UserPlaylist> = pagination.paginateResponse(req, res, userPlaylists);
 
     return res.json(response);
 };

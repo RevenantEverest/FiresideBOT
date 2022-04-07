@@ -3,9 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 import UserSong from '../../../entities/UserSong.js';
 
 import { youtube, errors, entities } from '../../../utils/index.js';
-import { youtubeTypes } from '../../../types/index.js';
-
-type SongInfo = youtubeTypes.SongInfo;
+import { SongInfo } from '../../../types/youtube.js';
 
 async function create(req: Request, res: Response, next: NextFunction) {
 

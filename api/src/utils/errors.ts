@@ -1,10 +1,7 @@
 import * as logs from './logs.js';
 import * as colors from './colors.js';
-import { errorTypes } from '../types/index.js';
 
-type SendResponseOptions = errorTypes.SendResponseOptions;
-type ErrorLogOptions = errorTypes.ErrorLogOptions;
-type HandleTupleOptions<T> = errorTypes.HandleTupleOptions<T>;
+import { SendResponseOptions, ErrorLogOptions, HandleTupleOptions } from '../types/errors.js';
 
 export function sendResponse({ res, next, err, status=500, message }: SendResponseOptions): void {
     const logOptions: ErrorLogOptions = {
