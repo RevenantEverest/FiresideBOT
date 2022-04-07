@@ -280,4 +280,13 @@ describe("user playlists", () => {
             });
         });
     });
+
+    /*
+    
+        DELETE
+
+    */
+    describe("delete user playlist route", () => {
+        
+    });
 });
