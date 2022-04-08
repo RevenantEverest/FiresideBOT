@@ -17,7 +17,6 @@ jobs:
           TESTING_DB_NAME: ${{ secrets.TESTING_DB_NAME }}
           TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}
           TOPGG_TOKEN: ${{ secrets.TOPGG_TOKEN }}
-          SOMETHING: "SomethingHere"
         run: |
           touch .env
           echo DB_PASSWORD="$DB_PASSWORD" >> .env
@@ -28,8 +27,12 @@ jobs:
           echo TESTING_DB_NAME="$TESTING_DB_NAME" >> .env
           echo TOKEN_SECRET="$TOKEN_SECRET" >> .env
           echo TOPGG_TOKEN="$TOPGG_TOKEN" >> .env
-          echo SOMETHING="$SOMETHING" >> .env
           cp .env ./api/.env
+
+          if [ "$DB_TYPE" == "postgres" ]
+          then
+            echo "It matches"
+          fi
         
       - name: Run docker-compose script
         run: |
