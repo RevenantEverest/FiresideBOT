@@ -9,4 +9,4 @@ jobs:
         
       - name: Run docker-compose script
         run: |
-          docker-compose -f docker-compose.yml -f override.dev.yml build api && docker-compose -f docker-compose.yml -f override.dev.yml up api
+          docker-compose -f docker-compose.yml -f override.test.yml build api && docker-compose -f docker-compose.yml -f override.test.yml up api
