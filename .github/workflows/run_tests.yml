@@ -18,14 +18,14 @@ jobs:
           TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}
           TOPGG_TOKEN: ${{ secrets.TOPGG_TOKEN }}
         run: |
-          touch /api/.env
-          echo DB_PASSWORD="$DB_PASSWORD" >> /api/.env
-          echo DB_PORT="$DB_PORT" >> /api/.env
-          echo DB_TYPE="$DB_TYPE" >> /api/.env
-          echo DB_USERNAME="$DB_USERNAME" >> /api/.env
-          echo TESTING_DB_HOST="$TESTING_DB_HOST" >> /api/.env
-          echo TESTING_DB_NAME="$TESTING_DB_NAME" >> /api/.env
-          echo TOKEN_SECRET="$TOKEN_SECRET" >> /api/.env
-          echo TOPGG_TOKEN="$TOPGG_TOKEN" >> /api/.env
+          touch ./api/.env
+          echo DB_PASSWORD="$DB_PASSWORD" >> ./api/.env
+          echo DB_PORT="$DB_PORT" >> ./api/.env
+          echo DB_TYPE="$DB_TYPE" >> ./api/.env
+          echo DB_USERNAME="$DB_USERNAME" >> ./api/.env
+          echo TESTING_DB_HOST="$TESTING_DB_HOST" >> ./api/.env
+          echo TESTING_DB_NAME="$TESTING_DB_NAME" >> ./api/.env
+          echo TOKEN_SECRET="$TOKEN_SECRET" >> ./api/.env
+          echo TOPGG_TOKEN="$TOPGG_TOKEN" >> ./api/.env
 
           echo "$(<~/api/.env )"
