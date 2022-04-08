@@ -1,5 +1,5 @@
 name: test
-on: [push, pull_request]
+on: [pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -9,4 +9,4 @@ jobs:
         
       - name: Run docker-compose script
         run: |
-          ./scripts/start_dev.sh
+          docker-compose -f docker-compose.yml -f override.dev.yml build api && docker-compose -f docker-compose.yml -f override.dev.yml up api
