@@ -30,4 +30,5 @@ jobs:
           cp .env ./api/.env
 
           cd ./api/
+          echo "$(<.env )"
           ls -A
