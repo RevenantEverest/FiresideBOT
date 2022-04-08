@@ -1,7 +1,16 @@
 name: test
 on: [pull_request]
+env:
+  - DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+  - DB_PORT: ${{ secrets.DB_PORT }}
+  - DB_TYPE: ${{ secrets.DB_TYPE }}
+  - DB_USERNAME: ${{ secrets.DB_USERNAME }}
+  - TESTING_DB_HOST: ${{ secrets.TESTING_DB_HOST }}
+  - TESTING_DB_NAME: ${{ secrets.TESTING_DB_NAME }}
+  - TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}
+  - TOPGG_TOKEN: ${{ secrets.TOPGG_TOKEN }}
 jobs:
-  build:
+  test_api:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
