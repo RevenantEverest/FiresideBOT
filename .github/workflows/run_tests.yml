@@ -18,13 +18,4 @@ jobs:
           TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}
           TOPGG_TOKEN: ${{ secrets.TOPGG_TOKEN }}
         run: |
-          touch .env
-          echo DB_PASSWORD=$DB_PASSWORD >> .env
-          echo DB_PORT=$DB_PORT >> .env
-          echo DB_TYPE=$DB_TYPE >> .env
-          echo DB_USERNAME=$DB_USERNAME >> .env
-          echo TESTING_DB_HOST=$TESTING_DB_HOST >> .env
-          echo TESTING_DB_NAME=$TESTING_DB_NAME >> .env
-          echo TOKEN_SECRET=$TOKEN_SECRET >> .env
-          echo TOPGG_TOKEN=$TOPGG_TOKEN >> .env
-          docker-compose -f docker-compose.yml -f override.test.yml build api && docker-compose -f docker-compose.yml -f override.test.yml up api
+          docker-compose -f docker-compose.yml -f override.test.yml build --build-arg DB_PASSWORD=$DB_PASSWORD --build-arg DB_PORT=$DB_PORT --build-arg DB_TYPE=$DB_TYPE --build-arg DB_USERNAME=$DB_USERNAME --build-arg TESTING_DB_HOST=$TESTING_DB_HOST --build-arg TESTING_DB_NAME=$TESTING_DB_NAME --build-arg TOKEN_SECRET=$TOKEN_SECRET --build-arg TOPGG_TOKEN=$TOPGG_TOKEN api && docker-compose -f docker-compose.yml -f override.test.yml up api
