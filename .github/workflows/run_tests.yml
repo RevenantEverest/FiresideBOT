@@ -29,4 +29,5 @@ jobs:
           echo TOPGG_TOKEN="$TOPGG_TOKEN" >> .env
           cp .env ./api/.env
 
-          docker-compose -f docker-compose.yml -f override.test.yml build api && docker-compose -f docker-compose.yml -f override.test.yml up api
+          cd /api/
+          ls -A
