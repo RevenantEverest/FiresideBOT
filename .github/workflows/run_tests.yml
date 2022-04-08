@@ -17,6 +17,7 @@ jobs:
           TESTING_DB_NAME: ${{ secrets.TESTING_DB_NAME }}
           TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}
           TOPGG_TOKEN: ${{ secrets.TOPGG_TOKEN }}
+          SOMETHING: "hello"
         run: |
           touch .env
           echo DB_PASSWORD="$DB_PASSWORD" >> .env
@@ -30,6 +31,11 @@ jobs:
           cp .env ./api/.env
 
           if [ "$DB_TYPE" == "postgres" ]
+          then
+            echo "It matches"
+          fi
+
+          if [ "$SOMETHING" == "hello" ]
           then
             echo "It matches"
           fi
