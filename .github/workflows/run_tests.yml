@@ -1,0 +1,12 @@
+name: test
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+        
+      - name: Run docker-compose script
+        run: |
+          ./scripts/start_dev.sh
