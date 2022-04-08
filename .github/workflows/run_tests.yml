@@ -28,4 +28,4 @@ jobs:
           echo TOKEN_SECRET="$TOKEN_SECRET" >> .env
           echo TOPGG_TOKEN="$TOPGG_TOKEN" >> .env
 
-          docker-compose -f docker-compose.yml -f override.test.yml build api && docker-compose -f docker-compose.yml -f override.test.yml up api
+          echo "$(<.env )"
