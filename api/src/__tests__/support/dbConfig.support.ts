@@ -9,7 +9,7 @@ import VoteRecord from '../../entities/VoteRecord.js';
 
 dotenv.config();
 
-const TESTING_DB_PORT = parseInt(process.env.TESTING_DB_PORT!, 10);
+const TESTING_DB_PORT = parseInt(process.env.DB_PORT!, 10);
 
 const dbConfig: ConnectionOptions = {
     type: "postgres",
