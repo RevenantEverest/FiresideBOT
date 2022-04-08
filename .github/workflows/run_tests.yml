@@ -5,9 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
-      - uses: actions/checkout@master
-        with:
-          ref: ${{ github.ref }}
+        uses: actions/checkout@v2
         
       - name: Run docker-compose script
         run: |
