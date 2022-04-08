@@ -1,9 +1,0 @@
-.CommandCount-Row {
-    margin-bottom: 3%;
-}
-
-@media (max-width: 800px) {
-    .CommandCount-Col {
-        margin-bottom: 5%;
-    }
-}
