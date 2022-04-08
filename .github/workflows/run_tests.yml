@@ -6,8 +6,8 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v2
-        
-      - name: Run docker-compose script
+
+      - name: Create env files
         env:
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           DB_PORT: ${{ secrets.DB_PORT }}
@@ -29,6 +29,7 @@ jobs:
           echo TOPGG_TOKEN="$TOPGG_TOKEN" >> .env
           cp .env ./api/.env
 
-          cd ./api/
-          echo "$(<.env )"
-          ls -A
+          sudo ./scripts/start_test.sh
+        
+      - name: Run docker-compose script
+
