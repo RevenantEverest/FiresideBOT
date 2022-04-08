@@ -29,4 +29,4 @@ jobs:
           echo TOPGG_TOKEN="$TOPGG_TOKEN" >> .env
           cp .env ./api/.env
 
-          echo "$(<./api/.env )"
+          ./scripts/start_test.sh
