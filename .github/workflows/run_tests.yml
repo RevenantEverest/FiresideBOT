@@ -1,21 +1,21 @@
 name: test
 on: [pull_request]
-env:
-  DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-  DB_PORT: ${{ secrets.DB_PORT }}
-  DB_TYPE: ${{ secrets.DB_TYPE }}
-  DB_USERNAME: ${{ secrets.DB_USERNAME }}
-  TESTING_DB_HOST: ${{ secrets.TESTING_DB_HOST }}
-  TESTING_DB_NAME: ${{ secrets.TESTING_DB_NAME }}
-  TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}
-  TOPGG_TOKEN: ${{ secrets.TOPGG_TOKEN }}
 jobs:
   test_api:
     runs-on: ubuntu-latest
+    env:
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      DB_PORT: ${{ secrets.DB_PORT }}
+      DB_TYPE: ${{ secrets.DB_TYPE }}
+      DB_USERNAME: ${{ secrets.DB_USERNAME }}
+      TESTING_DB_HOST: ${{ secrets.TESTING_DB_HOST }}
+      TESTING_DB_NAME: ${{ secrets.TESTING_DB_NAME }}
+      TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}
+      TOPGG_TOKEN: ${{ secrets.TOPGG_TOKEN }}
     steps:
       - name: Check out code
         uses: actions/checkout@v2
         
       - name: Run docker-compose script
         run: |
-          docker-compose -f docker-compose.yml -f override.test.yml build api && docker-compose -f docker-compose.yml -f override.test.yml up api
+          echo $DB_TYPE
