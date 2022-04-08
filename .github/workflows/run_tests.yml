@@ -17,5 +17,6 @@ jobs:
           TESTING_DB_NAME: ${{ secrets.TESTING_DB_NAME }}
           TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}
           TOPGG_TOKEN: ${{ secrets.TOPGG_TOKEN }}
+          SOMETHING: "hello world"
         run: |
-          echo my type $DB_TYPE
+          echo secret $DB_TYPE or $SOMETHING
