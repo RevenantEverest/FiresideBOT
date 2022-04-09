@@ -52,4 +52,8 @@ describe("user songs", () => {
     describe("delete user song route", () => {
 
     });
+
+    it("fake test", () => {
+        expect(200).toBe(200);
+    });
 });
