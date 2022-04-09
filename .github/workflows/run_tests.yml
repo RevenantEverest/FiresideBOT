@@ -7,7 +7,7 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
 
-      - name: Run docker-compose
+      - name: Create env files
         env:
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           DB_PORT: ${{ secrets.DB_PORT }}
@@ -17,6 +17,20 @@ jobs:
           TESTING_DB_NAME: ${{ secrets.TESTING_DB_NAME }}
           TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}
           TOPGG_TOKEN: ${{ secrets.TOPGG_TOKEN }}
+          SOMETHING: "hello"
+        run: |
+          touch .env
+          echo DB_PASSWORD="$DB_PASSWORD" >> .env
+          echo DB_PORT="$DB_PORT" >> .env
+          echo DB_TYPE="$DB_TYPE" >> .env
+          echo DB_USERNAME="$DB_USERNAME" >> .env
+          echo TESTING_DB_HOST="$TESTING_DB_HOST" >> .env
+          echo TESTING_DB_NAME="$TESTING_DB_NAME" >> .env
+          echo TOKEN_SECRET="$TOKEN_SECRET" >> .env
+          echo TOPGG_TOKEN="$TOPGG_TOKEN" >> .env
+          cp .env ./api/.env
+        
+      - name: Run docker-compose script
         run: |
           docker-compose -f docker-compose.yml -f override.test.yml build api && docker-compose -f docker-compose.yml -f override.test.yml up api
 
