@@ -17,7 +17,6 @@ jobs:
           TESTING_DB_NAME: ${{ secrets.TESTING_DB_NAME }}
           TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}
           TOPGG_TOKEN: ${{ secrets.TOPGG_TOKEN }}
-          SOMETHING: "hello"
         run: |
           touch .env
           echo DB_PASSWORD="$DB_PASSWORD" >> .env
