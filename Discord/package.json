@@ -23,6 +23,6 @@
     "nodemon": "^2.0.14",
     "pg-promise": "^10.11.1",
     "rainbowsix-api-node": "0.0.1",
-    "ytdl-core": "^4.9.1"
+    "ytdl-core": "^4.11.0"
   }
 }
