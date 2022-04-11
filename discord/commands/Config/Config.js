@@ -119,8 +119,7 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
 
         let category = settingsArr.filter(el => el.id === args.join(" ").toLowerCase())[0];
         let embed = new Discord.MessageEmbed();
-
-        console.log(category)
+        
         embed
         .setColor(0xff3300)
         .setTitle(category.category)

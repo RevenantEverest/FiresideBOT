@@ -75,7 +75,7 @@ async function handleMessage(message, msg, bot, contentArr, options, index) {
 };
 
 services.createPagination = async (message, bot, contentArr, options) => {
-    if(!options.time) options.time = 1;
+    if(!options.time) options.time = 5;
 
     let index = 0;
 

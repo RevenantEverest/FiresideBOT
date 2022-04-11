@@ -51,6 +51,15 @@ services.getByGuildIdAndRoleId = async (bot, message, command, data, callback, q
     });
 };
 
+services.getByGuildIdAndMessageIdAndRoleId = async (bot, message, command, data, callback, qrecCallback) => {
+    db.findByGuildIdAndMessageIdAndRoleId(data)
+    .then(roleReaction => callback(roleReaction))
+    .catch(err => {
+        if(err instanceof QRE && err.code === qrec.noData) return qrecCallback();
+        else errorHandler(bot, message, err, "Error Finding Role Reaction", command);
+    });
+};
+
 services.save = async (bot, message, command, data, callback) => {
     db.save(data)
     .then(roleReaction => callback(roleReaction))
