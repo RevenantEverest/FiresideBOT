@@ -19,11 +19,20 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
         .setThumbnail(message.guild.iconURL({ dynamic: true }))
 
         roleReactions.forEach((el, idx) => {
+
+            const emoji = /[\d]{18}/gi.test(el.emoji_id) ? bot.emojis.resolve(el.emoji_id) : el.emoji_id;
+            const isDefaultEmoji = Boolean(!emoji.id);
+
+            const isAnimated = isDefaultEmoji ? false : emoji.animated;
+            const emojiReaction = isDefaultEmoji ? emoji : `<${isAnimated ? "a" : ""}:${emoji.name}:${emoji.id}>`;
+
             let role = message.guild.roles.resolve(el.role_id);
-            let emoji = bot.emojis.resolve(el.emoji_id);
             embed.addField(
                 `${idx + 1}. @${role.name}`, 
-                `**Emoji:** <:${emoji.name}:${emoji.id}>\n**Channel:** <#${el.channel_id}>\n**ID:** ${el.id}`
+                `**Emoji:** ${emojiReaction}\n` + 
+                `**Channel:** <#${el.channel_id}>\n` +
+                `**Message Link:** [Message](https://discord.com/channels/${message.guild.id}/${el.channel_id}/${el.message_id})\n` + 
+                `**ID:** ${el.id}`
             );
         });
 
@@ -48,11 +57,19 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
                 temp = [];
             }
             
+            const emoji = /[\d]{18}/gi.test(el.emoji_id) ? bot.emojis.resolve(el.emoji_id) : el.emoji_id;
+            const isDefaultEmoji = Boolean(!emoji.id);
+
+            const isAnimated = isDefaultEmoji ? false : emoji.animated;
+            const emojiReaction = isDefaultEmoji ? emoji : `<${isAnimated ? "a" : ""}:${emoji.name}:${emoji.id}>`;
+
             let role = message.guild.roles.resolve(el.role_id);
-            let emoji = bot.emojis.resolve(el.emoji_id);
             temp.push({ 
                 field: `${idx + 1}. ${role.name}`, 
-                value:  `**Emoji:** <:${emoji.name}:${emoji.id}>\n**Channel:** <#${el.channel_id}>\n**ID:** ${el.id}`
+                value:  `**Emoji:** ${emojiReaction}\n` + 
+                        `**Channel:** <#${el.channel_id}>\n` + 
+                        `**Message Link:** [Message](https://discord.com/channels/${message.guild.id}/${el.channel_id}/${el.message_id})\n` + 
+                        `**ID:** ${el.id}`
             });
         });
 
