@@ -20,12 +20,27 @@ module.exports = async (bot, reaction, user) => {
         roleReactionsController.getByGuildIdAndMessageId({ guild_id: guild.id, message_id: reaction.message.id }, handleRoleReaction);
     };
 
-    async function handleRoleReaction(roleReaction) {
-        if(roleReaction.emoji_id !== reaction._emoji.id) return;
+    async function handleRoleReaction(roleReactions) {
+        const reactionEmoji = reaction._emoji;
+        const isDefaultEmoji = Boolean(!reactionEmoji.id);
+        const matchingRoleReactions = roleReactions.filter((roleReaction) => {
+            const emoji_id = roleReaction.emoji_id;
 
-        let guildMember = guild.members.resolve(user.id);
+            if(isDefaultEmoji && emoji_id === reactionEmoji.name || !isDefaultEmoji && emoji_id === reactionEmoji.id)
+                return roleReaction;
+        }).filter(Boolean);
 
-        guildMember.roles.remove(roleReaction.role_id)
-        .catch(err => errorHandler({ controller: "onMessageReactionRemove Controller", message: "Error Granting Role", error: err }));
+        if(matchingRoleReactions.length <= 0) 
+            return;
+
+        try {
+            const guildMember = await guild.members.fetch(user.id);
+            matchingRoleReactions.forEach(async (roleReaction) => {
+                await guildMember.roles.remove(roleReaction.role_id);
+            });
+        }
+        catch(err) {
+            return errorHandler({ controller: "onMessageReactionRemove Controller", message: "Error Removing Role", error: err });
+        }
     };
 };

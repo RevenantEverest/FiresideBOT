@@ -14,7 +14,6 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
             return message.channel.send("Invalid Role Reaction ID");
         
         
-        console.log(roleReaction.id);
         roleReactionsController.delete(bot, message, "DeleteRoleReaction", roleReaction.id, () => {
             return message.channel.send(`Role Reaction **${roleReaction.id}** successfully deleted`);
         });

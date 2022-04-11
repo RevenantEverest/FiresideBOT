@@ -52,6 +52,15 @@ services.getByGuildIdAndRoleId = async (data, callback) => {
     });
 };
 
+services.getByGuildIdAndMessageIdAndRoleId = async (data, callback, qrecCallback) => {
+    db.findByGuildIdAndMessageIdAndRoleId(data)
+    .then(roleReaction => callback(roleReaction))
+    .catch(err => {
+        if(err instanceof QRE && err.code === qrec.noData) return qrecCallback();
+        else errorHandler({ controller: "Role Reactions Controller", message: "Error Finding Role Reaction", error: err });
+    });
+};
+
 services.delete = async (data, message) => {
     db.delete(data)
     .then(() => handleDeletedRoleReaction(message))
