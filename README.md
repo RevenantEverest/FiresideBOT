@@ -101,6 +101,12 @@ A Music, Economy, & Admin Discord Bot written in Node.js
 **Params**: Rank Name  
 **Example**: `?addrank NewRank`  
 
+- [AddRoleReaction](https://help.firesidebot.com/commands/addrolereaction) `<param>`  
+**Desc**: Add role reaction to existing embed or message  
+**Aliases**: `arr`   
+**Params**: @Role Tag, #text-channel-tag, emoji  
+**Example**: `?addrolereaction <Message ID or Message Link Here> @Gamers #general ❤️`  
+
 - [AutoRole](https://help.firesidebot.com/commands/autorole) `<param>`  
 **Desc**: Assign a role to give new server members when they join  
 **Aliases**: `ar`   
