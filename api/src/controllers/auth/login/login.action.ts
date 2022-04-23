@@ -33,7 +33,7 @@ async function login(req: Request, res: Response): Promise<void> {
     };
     const [discordToken, discordTokenErr] = await entities.findAndSaveOrUpdate<DiscordToken>(DiscordToken, discordTokenConditional, {
         ...token.data,
-        ...discordTokenConditional
+        discord_id: discordUser.data.id
     });
 
     if(discordTokenErr) return errors.sendResponse({ res, err: discordTokenErr, message: "Discord Token DB Error" });
