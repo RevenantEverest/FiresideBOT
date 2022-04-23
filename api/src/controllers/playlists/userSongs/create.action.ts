@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 
 import UserSong from '../../../entities/UserSong.js';
+import UserPlaylist from '../../../entities/UserPlaylist.js';
 
 import { youtube, errors, entities } from '../../../utils/index.js';
 import { youtubeTypes } from '../../../types/index.js';
@@ -20,6 +21,21 @@ async function create(req: Request, res: Response, next: NextFunction) {
         }
 
         request = videoId;
+    }
+
+    const [playlist, findPlaylistErr] = await entities.findOne<UserPlaylist>(UserPlaylist, {
+        where: {
+            id: req.body.playlist_id,
+            discord_id: res.locals.auth.discord_id
+        }
+    });
+
+    if(findPlaylistErr) {
+        return errors.sendResponse({ res, next, err: findPlaylistErr, message: "Error Finding UserPlaylist" });
+    }
+
+    if(!playlist) {
+        return errors.sendResponse({ res, status: 404, message: "No UserPlaylist Found" });
     }
 
     const [youtubeSearchRes, youtubeSearchErr] = await youtube.handleSearch(request, isLink);
@@ -42,6 +58,7 @@ async function create(req: Request, res: Response, next: NextFunction) {
         where: {
             playlist: {
                 id: req.body.playlist_id,
+                discord_id: res.locals.auth.discord_id
             },
             video_id: songInfo.videoId
         }
