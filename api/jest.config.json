@@ -10,6 +10,7 @@
             "@swc/jest"
         ]
     },
+    "testSequencer": "./jestTestSequencer.cjs",
     "resolver": "ts-jest-resolver",
     "verbose": true,
     "forceExit": true,
