@@ -4,9 +4,8 @@ import UserSong from '../../../entities/UserSong.js';
 import UserPlaylist from '../../../entities/UserPlaylist.js';
 
 import { youtube, errors, entities } from '../../../utils/index.js';
-import { youtubeTypes } from '../../../types/index.js';
-
-type SongInfo = youtubeTypes.SongInfo;
+import { SongInfo } from '../../../types/youtube.js';
+import { PREMIUM_LIMITS } from '../../../constants/index.js';
 
 async function create(req: Request, res: Response, next: NextFunction) {
 
@@ -50,7 +49,7 @@ async function create(req: Request, res: Response, next: NextFunction) {
 
     const songInfo: SongInfo = youtubeSearchRes;
 
-    if(songInfo.duration > (60 * 10)) {
+    if(songInfo.duration > PREMIUM_LIMITS.SONG_DURATION) {
         return errors.sendResponse({ res, status: 400, message: "Non Premium Playlist Songs Limited To 10 Minutes" });
     }
 
