@@ -5,8 +5,11 @@ import initializeApp from '../../app.js';
 import waitForPostgres from '../../db/waitForPostgres.js';
 import issueToken from '../support/login.support.js';
 import dbConfig from '../support/dbConfig.support.js';
-import UserSong from '../../entities/UserSong.js';
 import { SongInfo } from '../../types/youtube.js';
+import { youtube } from '../../utils/index.js';
+import { HandleReturn } from 'src/types/promises.js';
+
+type HandleSearchReturn = Promise<HandleReturn<SongInfo>>;
 
 const authPayload = issueToken();
 const authHeader = {
@@ -14,10 +17,10 @@ const authHeader = {
 };
 
 const app = initializeApp();
-const baseEndpoint = "/playlists/user/";
+const baseEndpoint = "/playlists/user";
 
 const invalidPayload = {
-    playlist_id: 10,
+    playlist_id: 99875,
     request: "fake request"
 };
 
@@ -30,19 +33,13 @@ const validUpdatePayload = {
 
 };
 
-jest.mock('../../utils/youtube.js', () => ({
-    handleSearch: jest.fn(() => {
-        const returnPayload: SongInfo = {
-            title: "TestTrack",
-            videoId: "d7hGaK98sHH",
-            author: "Jest",
-            duration: 312,
-            thumbnail_url: "thumbnail_image"
-        };
-
-        return [returnPayload, undefined];
-    })
-}));
+const returnPayload: SongInfo = {
+    title: "TestTrack",
+    videoId: "d7hGaK98sHH",
+    author: "Jest",
+    duration: 123,
+    thumbnail_url: "thumbnail_image"
+};
 
 describe("user songs", () => {
 
@@ -53,6 +50,16 @@ describe("user songs", () => {
     afterAll(() => {
         const connection = getConnection();
         connection.close();
+        jest.clearAllMocks();
+    });
+
+    beforeEach(() => {
+        const handleSearchMock = jest.spyOn(youtube, 'handleSearch');
+        handleSearchMock.mockImplementation(async (): HandleSearchReturn => ([returnPayload, undefined]));
+    });
+
+    afterEach(() => {
+        jest.clearAllMocks();
     });
 
     /*
@@ -73,7 +80,7 @@ describe("user songs", () => {
             describe("given an incorrect playlist id", () => {
                 it("should return a 404 status", async () => {
                     await supertest(app)
-                    .post(baseEndpoint)
+                    .post(`${baseEndpoint}/songs`)
                     .set(authHeader)
                     .send(invalidPayload)
                     .expect(404)
@@ -82,7 +89,31 @@ describe("user songs", () => {
 
             describe("given the correct payload", () => {
                 it("should return a 200 status and the user song", async () => {
+                    const { body, statusCode } = await supertest(app)
+                    .post(`${baseEndpoint}/songs`)
+                    .set(authHeader)
+                    .send(validCreatePayload)
 
+                    expect(statusCode).toBe(200);
+                    expect(body.results).not.toBe(null);
+
+                    const { results } = body;
+
+                    expect(results.id).not.toBe(null);
+                    expect(results.created_at).not.toBe(null);
+
+                    expect(results).toEqual({
+                        id: results.id,
+                        playlist: {
+                            id: validCreatePayload.playlist_id
+                        },
+                        title: returnPayload.title,
+                        author: returnPayload.author,
+                        video_id: returnPayload.videoId,
+                        duration: returnPayload.duration,
+                        thumbnail_url: returnPayload.thumbnail_url,
+                        created_at: results.created_at
+                    });
                 });
             });
         });
