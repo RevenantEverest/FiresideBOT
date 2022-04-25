@@ -3,9 +3,11 @@ import supertest from 'supertest';
 
 import initializeApp from '../../app.js';
 import waitForPostgres from '../../db/waitForPostgres.js';
+import UserPlaylist from '../../entities/UserPlaylist.js';
+
 import issueToken from '../support/login.support.js';
 import dbConfig from '../support/dbConfig.support.js';
-import UserPlaylist from '../../entities/UserPlaylist.js';
+import * as PAYLOADS from '../support/payloads/userPlaylist.payloads.js';
 
 const authPayload = issueToken();
 const authHeader = {
@@ -14,18 +16,6 @@ const authHeader = {
 
 const app = initializeApp();
 const baseEndpoint = "/playlists/user";
-
-const invalidPayload = {
-    name: "Hello World"
-};
-
-const validCreatePayload = {
-    name: "MyPlaylist"
-};
-
-const validUpdatePayload = {
-    name: "MyNewPlaylist"
-};
 
 let createdPlaylist: UserPlaylist;
 
@@ -60,7 +50,7 @@ describe("user playlists", () => {
                     await supertest(app)
                     .post(baseEndpoint)
                     .set(authHeader)
-                    .send(invalidPayload)
+                    .send(PAYLOADS.INVALID)
                     .expect(400)
                 });
             });
@@ -71,7 +61,7 @@ describe("user playlists", () => {
                         const { body, statusCode } = await supertest(app)
                         .post(baseEndpoint)
                         .set(authHeader)
-                        .send(validCreatePayload)
+                        .send(PAYLOADS.VALID_CREATE)
         
                         expect(statusCode).toBe(200);
                         expect(body.results).not.toBeNull();
@@ -85,7 +75,7 @@ describe("user playlists", () => {
                         expect(results).toEqual({
                             id: results.id,
                             discord_id: authPayload.discord_id,
-                            name: validCreatePayload.name,
+                            name: PAYLOADS.VALID_CREATE.name,
                             created_at: results.created_at,
                             updated_at: results.updated_at
                         });
@@ -99,7 +89,7 @@ describe("user playlists", () => {
                         await supertest(app)
                         .post(baseEndpoint)
                         .set(authHeader)
-                        .send(validCreatePayload)
+                        .send(PAYLOADS.VALID_CREATE)
                         .expect(400);
                     });
                 });
@@ -129,7 +119,7 @@ describe("user playlists", () => {
                     await supertest(app)
                     .put(apiEndpoint)
                     .set(authHeader)
-                    .send(invalidPayload)
+                    .send(PAYLOADS.INVALID)
                     .expect(400)
                 });
             });
@@ -140,7 +130,7 @@ describe("user playlists", () => {
                     await supertest(app)
                     .put(apiEndpoint)
                     .set(authHeader)
-                    .send(validCreatePayload)
+                    .send(PAYLOADS.VALID_CREATE)
                     .expect(400)
                 });
             });
@@ -151,7 +141,7 @@ describe("user playlists", () => {
                     const { body, statusCode } = await supertest(app)
                     .put(apiEndpoint)
                     .set(authHeader)
-                    .send(validUpdatePayload)
+                    .send(PAYLOADS.VALID_UPDATE)
 
                     expect(statusCode).toBe(200);
 
@@ -164,7 +154,7 @@ describe("user playlists", () => {
                     expect(results).toEqual({
                         id: createdPlaylist.id,
                         discord_id: authPayload.discord_id,
-                        name: validUpdatePayload.name,
+                        name: PAYLOADS.VALID_UPDATE.name,
                         created_at: createdPlaylist.created_at,
                         updated_at: results.updated_at
                     });
@@ -225,7 +215,7 @@ describe("user playlists", () => {
                             name: createdPlaylist.name,
                             created_at: createdPlaylist.created_at,
                             updated_at: results.updated_at,
-                            songs: []
+                            songs: results.songs
                         });
                     });
                 });
