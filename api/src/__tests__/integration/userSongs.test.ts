@@ -1,6 +1,6 @@
-import { createConnection, getConnection } from 'typeorm';
 import supertest from 'supertest';
 
+import AppDataSource from '../../db/dataSource.js';
 import initializeApp from '../../app.js';
 import waitForPostgres from '../../db/waitForPostgres.js';
 import UserSong from '../../entities/UserSong.js';
@@ -29,12 +29,12 @@ let createdSong: UserSong;
 describe("user songs", () => {
 
     beforeAll(async () => {
-        await waitForPostgres(createConnection, dbConfig);
+        AppDataSource.setOptions(dbConfig);
+        await waitForPostgres(AppDataSource);
     }, 5 * 5000);
 
     afterAll(() => {
-        const connection = getConnection();
-        connection.close();
+        AppDataSource.destroy();
         jest.clearAllMocks();
     });
 
