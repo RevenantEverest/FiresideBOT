@@ -27,7 +27,7 @@
     "pg": "^8.7.1",
     "reflect-metadata": "^0.1.13",
     "topgg-autoposter": "^2.0.1",
-    "typeorm": "0.2.45",
+    "typeorm": "^0.3.6",
     "validate.js": "^0.13.1",
     "ytdl-core": "^4.11.0"
   },
