@@ -1,6 +1,7 @@
 import { createConnection, getConnection } from 'typeorm';
 import supertest from 'supertest';
 
+import AppDataSource from '../../db/dataSource.js';
 import initializeApp from '../../app.js';
 import waitForPostgres from '../../db/waitForPostgres.js';
 import issueToken from '../support/login.support.js';
@@ -32,12 +33,12 @@ let createdPlaylist: UserPlaylist;
 describe("user playlists", () => {
 
     beforeAll(async () => {
-        await waitForPostgres(createConnection, dbConfig);
+        AppDataSource.setOptions(dbConfig);
+        await waitForPostgres(AppDataSource);
     }, 5 * 5000);
 
     afterAll(() => {
-        const connection = getConnection();
-        connection.close();
+        AppDataSource.destroy();
     });
 
     /*
