@@ -40,7 +40,7 @@ export async function handleSearch(request: string, isLink: boolean): Promise<Ha
             return [undefined, new Error("No Results Found")];
         }
 
-        const videoId = res.data.items[0].id.videoId
+        const videoId = res.data.items[0].id.videoId;
         youtubeLink = URLS.YOUTUBE_VIDEO + videoId;
     }
 

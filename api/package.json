@@ -7,7 +7,7 @@
     "build-dev": "yarn build && NODE_ENV=development node --inspect dist/server.js",
     "dev": "nodemon -L --ext ts --exec \"yarn build-dev\"",
     "start": "yarn build && NODE_ENV=production node dist/server.js",
-    "test": "NODE_ENV=test jest --setupFiles dotenv/config",
+    "test": "NODE_ENV=test jest --setupFiles dotenv/config --runInBand",
     "reset:npm": "rm -rf node_modules && yarn install"
   },
   "type": "module",
