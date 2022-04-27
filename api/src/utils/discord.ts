@@ -14,7 +14,7 @@ import { HandleReturn } from '../types/promises.js';
 type CheckPermissionsReturn = Promise<HandleReturn<boolean>>;
 
 export function isValidId(idString: string): boolean {
-    if(!idString || typeof idString !== "string" || idString.length > 20 || idString.length < 18) {
+    if(!idString || typeof idString !== "string" || idString.length > 20 || idString.length <= 18) {
         return true;
     }
     
