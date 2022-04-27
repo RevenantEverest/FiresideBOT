@@ -1,9 +1,9 @@
-import { PermissionResolvable, TextChannel } from 'discord.js';
+import { PermissionResolvable, GuildResolvable, UserResolvable, TextChannel } from 'discord.js';
 
 export type TextChannelReturn = Promise<[TextChannel | undefined, Error | undefined]>;
 
 export interface CheckGuildMemberPermissionsOptions {
-    guildId: string,
-    discordId: string,
+    guildId: GuildResolvable,
+    discordId: UserResolvable,
     permission: PermissionResolvable
 };
