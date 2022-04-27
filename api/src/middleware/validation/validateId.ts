@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { errors, common } from '../utils/index.js';
+import { errors, common } from '../../utils/index.js';
 
 function testKey(key: string): boolean {
     const re: RegExp = new RegExp("({*.+}?)?((Id|_id)$|(^id$))", "gi");
