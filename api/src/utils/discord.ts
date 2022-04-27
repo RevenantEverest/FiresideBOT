@@ -2,8 +2,7 @@ import {
     AnyChannel, 
     TextChannel, 
     Guild, 
-    GuildMember,
-    PermissionResolvable
+    GuildMember
 } from 'discord.js';
 import bot from '../discordBot.js';
 
@@ -13,6 +12,14 @@ import { TextChannelReturn, CheckGuildMemberPermissionsOptions } from '../types/
 import { HandleReturn } from '../types/promises.js';
 
 type CheckPermissionsReturn = Promise<HandleReturn<boolean>>;
+
+export function isValidId(idString: string): boolean {
+    if(!idString || typeof idString !== "string" || idString.length > 20 || idString.length < 18) {
+        return true;
+    }
+    
+    return false;
+};
 
 export async function getTextChannel(channelId: string): TextChannelReturn {
     try {
@@ -30,12 +37,20 @@ export async function getTextChannel(channelId: string): TextChannelReturn {
     }
 };
 
-export async function checkGuildMemberPermissions({ guildId, discordId, permission }: CheckGuildMemberPermissionsOptions): CheckPermissionsReturn {
-    const guildPromise = bot.guilds.fetch(guildId);
+export async function checkMemberPermissions({ guildId, discordId, permission }: CheckGuildMemberPermissionsOptions): CheckPermissionsReturn {
+    const guildPromise = bot.guilds.fetch({
+        guild: guildId
+    });
     const [guild, guildFetchErr] = await promises.handle<Guild>(guildPromise);
 
     if(guildFetchErr) {
-        return [undefined, guildFetchErr];
+        if(guildFetchErr.message === "Missing Access") {
+            return [undefined, new Error("Guild not reachable by Fireside")];
+        }
+        else {
+            console.log("Erroring Here");
+            return [undefined, guildFetchErr];
+        }
     }
 
     if(!guild) {
