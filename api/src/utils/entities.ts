@@ -1,4 +1,4 @@
-import { BaseEntity, EntityTarget, DeepPartial, FindOneOptions } from 'typeorm';
+import { BaseEntity, EntityTarget, DeepPartial, FindOneOptions, FindManyOptions } from 'typeorm';
 import AppDataSource from '../db/dataSource.js';
 
 import * as promises from './promises.js';
@@ -8,6 +8,19 @@ import { DEFAULTS, ERRORS } from '../constants/index.js';
 
 type Target<T> = EntityTarget<T>;
 type Data<T> = DeepPartial<T>;
+
+export async function count<T extends BaseEntity>(entity: Target<T>, findOptions?: FindManyOptions<T>): Promise<HandleReturn<number>> {
+    const repository = AppDataSource.getRepository(entity);
+
+    try {
+        const count = await repository.count(findOptions);
+        return [count, undefined];
+    }
+    catch(err) {
+        const error = err as Error;
+        return [undefined, error];
+    }
+};
 
 export async function destroy<T extends BaseEntity>(entity: Target<T>, data: Data<T>): Promise<HandleReturn<T>> {
     const repository = AppDataSource.getRepository(entity);
