@@ -4,6 +4,8 @@ import JWT from 'jsonwebtoken';
 import { ENV } from '../constants/index.js';
 import { errors } from '../utils/index.js';
 
+import { AuthPayload } from '../types/auth.js';
+
 async function verifyToken(req: Request, res: Response, next: NextFunction) {
     const bearerHeader = req.headers['authorization'];
 
@@ -33,7 +35,7 @@ async function verifyToken(req: Request, res: Response, next: NextFunction) {
             };
         }
 
-        res.locals.auth = authData;
+        res.locals.auth = authData as AuthPayload;
 
         return next();
     });
