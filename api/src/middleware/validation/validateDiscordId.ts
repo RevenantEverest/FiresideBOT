@@ -6,6 +6,10 @@ async function validateDiscordId(req: Request, res: Response, next: NextFunction
     const discordId: string = req.params.discordId;
     const isValidId: boolean = discord.isValidId(discordId);
 
+    if(!res.locals.params) {
+        res.locals.params = {};
+    }
+
     if(!isValidId) {
         return errors.sendResponse({ res, status: 400, message: "Invalid ID Parameter" });
     }
@@ -14,7 +18,7 @@ async function validateDiscordId(req: Request, res: Response, next: NextFunction
         return errors.sendResponse({ res, status: 403, message: "Unauthorized" });
     }
 
-    res.locals.params = { discordId };
+    res.locals.params["discordId"] = discordId;
     next();
 };
 
