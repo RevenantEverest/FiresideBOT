@@ -1,15 +1,7 @@
 import JWT from 'jsonwebtoken';
 
 import { ENV } from '../../constants/index.js';
-
-export interface AuthPayload {
-    id: string,
-    username: string,
-    discriminator: number,
-    discord_id: string,
-    avatar: string,
-    token?: string
-};
+import { AuthPayload } from '../../types/auth.js';
 
 const authPayload: AuthPayload = {
     id: "2c00407c-6f8b-40c1-801d-818f847f99ad",
