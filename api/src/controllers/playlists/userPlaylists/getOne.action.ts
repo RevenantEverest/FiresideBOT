@@ -7,8 +7,8 @@ async function getOne(req: Request, res: Response, next: NextFunction) {
 
     const [userPlaylist, err] = await entities.findOne<UserPlaylist>(UserPlaylist, {
         where: {
-            discord_id: res.locals.auth.discord_id,
-            id: req.params.id
+            id: res.locals.params.id,
+            discord_id: res.locals.auth.discord_id
         },
         relations: ["songs"]
     });
