@@ -6,9 +6,13 @@ function testKey(key: string): boolean {
     return re.test(key);
 };
 
+const exclude: string[] = ["guildId", "discordId"];
+
 async function validateId(req: Request, res: Response, next: NextFunction) {
 
-    res.locals.params = {};
+    if(!res.locals.params) {
+        res.locals.params = {};
+    }
 
     const errorFunc: Function = () => {
         return errors.sendResponse({ 
@@ -19,7 +23,7 @@ async function validateId(req: Request, res: Response, next: NextFunction) {
     };
 
     const paramKeys: Array<string> = Object.keys(req.params).map((key: string) => {
-        if(!testKey(key)) return null;
+        if(!testKey(key) || exclude.includes(key)) return null;
         return key;
     }).filter(common.truthy);
 
