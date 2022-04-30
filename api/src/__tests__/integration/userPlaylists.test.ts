@@ -1,4 +1,3 @@
-import { createConnection, getConnection } from 'typeorm';
 import supertest from 'supertest';
 
 import AppDataSource from '../../db/dataSource.js';
