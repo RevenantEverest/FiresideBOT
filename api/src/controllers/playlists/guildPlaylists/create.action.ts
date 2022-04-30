@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 
 import { GuildPlaylist } from '../../../entities/index.js';
-import { LocalsParams } from 'src/types/responseLocals.js';
+import { ResponseLocalsParams } from '../../../types/responseLocals.js';
 
 import { errors, entities } from '../../../utils/index.js';
 
@@ -9,7 +9,7 @@ async function create(req: Request, res: Response, next: NextFunction) {
 
     const playlistName: string = req.body.name;
 
-    const { guildId }: LocalsParams = res.locals.params;
+    const { guildId }: ResponseLocalsParams = res.locals.params;
 
     if(playlistName.includes(" ")) {
         return errors.sendResponse({ res, status: 400, message: "Playlist Name Cannot Contain White Space" });

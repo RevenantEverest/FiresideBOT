@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 
 import { GuildPlaylist } from '../../../entities/index.js';
-import { LocalsParams } from '../../../types/responseLocals.js';
+import { ResponseLocalsParams } from '../../../types/responseLocals.js';
 
 import { errors, entities } from '../../../utils/index.js';
 
@@ -13,7 +13,7 @@ async function update(req: Request, res: Response, next: NextFunction) {
         return errors.sendResponse({ res, status: 400, message: "Playlist Name Cannot Contain White Space" });
     }
 
-    const { guildId, id }: LocalsParams = res.locals.params;
+    const { guildId, id }: ResponseLocalsParams = res.locals.params;
 
     const [findRes, findErr] = await entities.findOne<GuildPlaylist>(GuildPlaylist, {
         where: {
