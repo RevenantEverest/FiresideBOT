@@ -9,11 +9,9 @@ import UserPlaylist from '../../entities/UserPlaylist.js';
 import issueToken from '../support/login.support.js';
 import dbConfig from '../support/dbConfig.support.js';
 import * as PAYLOADS from '../support/payloads/userPlaylist.payloads.js';
+import * as AUTH_PAYLOADS from '../support/payloads/auth.payloads.js';
 
-const authPayload = issueToken();
-const authHeader = {
-    "Authorization": `Bearer ${authPayload.token}`
-};
+const authPayload = issueToken(AUTH_PAYLOADS.MAIN);
 
 const app = initializeApp();
 const baseEndpoint = "/playlists/user";
@@ -50,7 +48,7 @@ describe("user playlists", () => {
                 it("should return a 400 status", async () => {
                     await supertest(app)
                     .post(baseEndpoint)
-                    .set(authHeader)
+                    .set(authPayload.header)
                     .send(PAYLOADS.INVALID)
                     .expect(400)
                 });
@@ -61,7 +59,7 @@ describe("user playlists", () => {
                     it("should return a 200 status and the user playlist", async () => {
                         const { body, statusCode } = await supertest(app)
                         .post(baseEndpoint)
-                        .set(authHeader)
+                        .set(authPayload.header)
                         .send(PAYLOADS.VALID_CREATE)
         
                         expect(statusCode).toBe(200);
@@ -89,7 +87,7 @@ describe("user playlists", () => {
                     it("should return a 400 status", async () => {
                         await supertest(app)
                         .post(baseEndpoint)
-                        .set(authHeader)
+                        .set(authPayload.header)
                         .send(PAYLOADS.VALID_CREATE)
                         .expect(400);
                     });
@@ -119,7 +117,7 @@ describe("user playlists", () => {
                     const apiEndpoint = `${baseEndpoint}/id/${createdPlaylist.id}`;
                     await supertest(app)
                     .put(apiEndpoint)
-                    .set(authHeader)
+                    .set(authPayload.header)
                     .send(PAYLOADS.INVALID)
                     .expect(400)
                 });
@@ -130,7 +128,7 @@ describe("user playlists", () => {
                     const apiEndpoint = `${baseEndpoint}/id/${createdPlaylist.id}`;
                     await supertest(app)
                     .put(apiEndpoint)
-                    .set(authHeader)
+                    .set(authPayload.header)
                     .send(PAYLOADS.VALID_CREATE)
                     .expect(400)
                 });
@@ -141,7 +139,7 @@ describe("user playlists", () => {
                     const apiEndpoint = `${baseEndpoint}/id/${createdPlaylist.id}`;
                     const { body, statusCode } = await supertest(app)
                     .put(apiEndpoint)
-                    .set(authHeader)
+                    .set(authPayload.header)
                     .send(PAYLOADS.VALID_UPDATE)
 
                     expect(statusCode).toBe(200);
@@ -188,7 +186,7 @@ describe("user playlists", () => {
                         const apiEndpoint = `${baseEndpoint}/id/123123`;
                         await supertest(app)
                         .get(apiEndpoint)
-                        .set(authHeader)
+                        .set(authPayload.header)
                         .send()
                         .expect(404)
                     });
@@ -199,7 +197,7 @@ describe("user playlists", () => {
                         const apiEndpoint = `${baseEndpoint}/id/1`;
                         const { body, statusCode } = await supertest(app)
                         .get(apiEndpoint)
-                        .set(authHeader)
+                        .set(authPayload.header)
                         .send()
         
                         expect(statusCode).toBe(200);
@@ -228,7 +226,7 @@ describe("user playlists", () => {
                         const apiEndpoint = `${baseEndpoint}/discord_id/123456789123456789`;
                         await supertest(app)
                         .get(apiEndpoint)
-                        .set(authHeader)
+                        .set(authPayload.header)
                         .send()
                         .expect(403);
                     });
@@ -239,7 +237,7 @@ describe("user playlists", () => {
                         const apiEndpoint = `${baseEndpoint}/discord_id/${authPayload.discord_id}`;
                         const { body, statusCode } = await supertest(app)
                         .get(apiEndpoint)
-                        .set(authHeader)
+                        .set(authPayload.header)
                         .send()
         
                         expect(statusCode).toBe(200);

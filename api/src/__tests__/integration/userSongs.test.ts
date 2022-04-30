@@ -8,6 +8,7 @@ import UserSong from '../../entities/UserSong.js';
 import issueToken from '../support/login.support.js';
 import dbConfig from '../support/dbConfig.support.js';
 import * as PAYLOADS from '../support/payloads/userSongs.payloads.js';
+import * as AUTH_PAYLOADS from '../support/payloads/auth.payloads.js';
 
 import { youtube } from '../../utils/index.js';
 
@@ -16,10 +17,7 @@ import { HandleReturn } from '../../types/promises.js';
 
 type HandleSearchReturn = Promise<HandleReturn<SongInfo>>;
 
-const authPayload = issueToken();
-const authHeader = {
-    "Authorization": `Bearer ${authPayload.token}`
-};
+const authPayload = issueToken(AUTH_PAYLOADS.MAIN);
 
 const app = initializeApp();
 const baseEndpoint = "/playlists/user";
@@ -61,7 +59,7 @@ describe("user songs", () => {
                 it("should return a 404 status", async () => {
                     await supertest(app)
                     .post(`${baseEndpoint}/songs`)
-                    .set(authHeader)
+                    .set(authPayload.header)
                     .send(PAYLOADS.INVALID)
                     .expect(404)
                 });
@@ -74,7 +72,7 @@ describe("user songs", () => {
 
                     const { body, statusCode } = await supertest(app)
                     .post(`${baseEndpoint}/songs`)
-                    .set(authHeader)
+                    .set(authPayload.header)
                     .send(PAYLOADS.VALID_CREATE)
 
                     expect(statusCode).toBe(200);
@@ -109,7 +107,7 @@ describe("user songs", () => {
 
                     const { statusCode } = await supertest(app)
                     .post(`${baseEndpoint}/songs`)
-                    .set(authHeader)
+                    .set(authPayload.header)
                     .send(PAYLOADS.VALID_CREATE)
 
                     expect(statusCode).toBe(400);
@@ -127,7 +125,7 @@ describe("user songs", () => {
 
                         const { statusCode } = await supertest(app)
                         .post(`${baseEndpoint}/songs`)
-                        .set(authHeader)
+                        .set(authPayload.header)
                         .send(PAYLOADS.VALID_CREATE)
 
                         expect(statusCode).toBe(400);
@@ -144,7 +142,7 @@ describe("user songs", () => {
 
                         const { statusCode } = await supertest(app)
                         .post(`${baseEndpoint}/songs`)
-                        .set(authHeader)
+                        .set(authPayload.header)
                         .send(PAYLOADS.VALID_CREATE)
 
                         expect(statusCode).toBe(200);
@@ -177,7 +175,7 @@ describe("user songs", () => {
                         const endpoint = `${baseEndpoint}/id/${playlistId}/songs/id/${songId}`;
                         await supertest(app)
                         .get(endpoint)
-                        .set(authHeader)
+                        .set(authPayload.header)
                         .send()
                         .expect(404)
                     });
@@ -190,7 +188,7 @@ describe("user songs", () => {
                         const endpoint = `${baseEndpoint}/id/${playlistId}/songs/id/${songId}`;
                         const { body, statusCode } = await supertest(app)
                         .get(endpoint)
-                        .set(authHeader)
+                        .set(authPayload.header)
                         .send()
 
                         expect(statusCode).toBe(200);
@@ -214,7 +212,7 @@ describe("user songs", () => {
                     const endpoint = `${baseEndpoint}/id/${playlistId}/songs`;
                     const { body, statusCode } = await supertest(app)
                     .get(endpoint)
-                    .set(authHeader)
+                    .set(authPayload.header)
                     .send()
 
                     expect(statusCode).toBe(200);
