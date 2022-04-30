@@ -25,11 +25,11 @@ async function update(req: Request, res: Response, next: NextFunction) {
     }
 
     if(!findRes) {
-        return errors.sendResponse({ res, next, message: "UserPlaylist doesn't exist" });
+        return errors.sendResponse({ res, status: 404, message: "UserPlaylist Not Found" });
     }
 
     if(findRes.name === playlistName) {
-        return errors.sendResponse({ res, status: 400, next, message: "Playlist name already exists" });
+        return errors.sendResponse({ res, status: 400, message: "Playlist name already exists" });
     }
 
     const [updatedUserPlaylist, updateErr] = await entities.update<UserPlaylist>(UserPlaylist, {
@@ -46,7 +46,7 @@ async function update(req: Request, res: Response, next: NextFunction) {
         return errors.sendResponse({ res, next, message: "No Updated UserPlaylist Returned" });
     } 
 
-    res.json({ results: updatedUserPlaylist });
+    return res.json({ results: updatedUserPlaylist });
 };
 
 export default update;
