@@ -2,11 +2,12 @@ import supertest from 'supertest';
 
 import AppDataSource from '../../db/dataSource.js';
 import initializeApp from '../../app.js';
-import waitForPostgres from '../../db/waitForPostgres.js';
 import UserPlaylist from '../../entities/UserPlaylist.js';
 
 import issueToken from '../support/login.support.js';
-import dbConfig from '../support/dbConfig.support.js';
+import { connectToTestingDatabase } from '../support/database.support.js';
+import { DB_TIMEOUT } from '../support/constants/database.js';
+
 import * as PAYLOADS from '../support/payloads/userPlaylist.payloads.js';
 import * as AUTH_PAYLOADS from '../support/payloads/auth.payloads.js';
 
@@ -20,9 +21,8 @@ let createdPlaylist: UserPlaylist;
 describe("user playlists", () => {
 
     beforeAll(async () => {
-        AppDataSource.setOptions(dbConfig);
-        await waitForPostgres(AppDataSource);
-    }, 5 * 5000);
+        await connectToTestingDatabase();
+    }, DB_TIMEOUT);
 
     afterAll(() => {
         AppDataSource.destroy();
