@@ -8,7 +8,11 @@ import bot from '../discordBot.js';
 
 import * as promises from './promises.js';
 
-import { TextChannelReturn, CheckGuildMemberPermissionsOptions } from '../types/discord';
+import { 
+    TextChannelReturn, 
+    CheckGuildMemberPermissionsOptions, 
+    isGuildMemberOptions 
+} from '../types/discord';
 import { HandleReturn } from '../types/promises.js';
 
 type CheckPermissionsReturn = Promise<HandleReturn<boolean>>;
@@ -48,7 +52,6 @@ export async function checkMemberPermissions({ guildId, discordId, permission }:
             return [undefined, new Error("Guild not reachable by Fireside")];
         }
         else {
-            console.log("Erroring Here");
             return [undefined, guildFetchErr];
         }
     }
@@ -71,4 +74,40 @@ export async function checkMemberPermissions({ guildId, discordId, permission }:
     const hasPermission = guildMember.permissions.has(permission);
 
     return [hasPermission, undefined];
+};
+
+export async function isGuildMember({ guildId, discordId }: isGuildMemberOptions): Promise<HandleReturn<boolean>> {
+    const guildPromise = bot.guilds.fetch({
+        guild: guildId
+    });
+    const [guild, guildErr] = await promises.handle(guildPromise);
+
+    if(guildErr) {
+        if(guildErr.message === "Missing Access") {
+            return [undefined, new Error("Guild not reachable by Fireside")];
+        }
+
+        return [undefined, guildErr];
+    }
+
+    if(!guild) {
+        return [undefined, new Error("No Guild Returned From Fetch")];
+    }
+
+    const guildMemberPromise = guild.members.fetch(discordId);
+    const [guildMember, guildMemberErr] = await promises.handle(guildMemberPromise);
+
+    if(guildMemberErr) {
+        if(guildMemberErr.message === "Unknown Member") {
+            return [false, undefined];
+        }
+        
+        return [undefined, guildMemberErr];
+    }
+
+    if(!guildMember) {
+        return [false, undefined];
+    }
+
+    return [true, undefined];
 };

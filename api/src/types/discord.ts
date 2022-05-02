@@ -7,3 +7,8 @@ export interface CheckGuildMemberPermissionsOptions {
     discordId: UserResolvable,
     permission: PermissionResolvable
 };
+
+export interface isGuildMemberOptions {
+    guildId: GuildResolvable,
+    discordId: UserResolvable
+};
