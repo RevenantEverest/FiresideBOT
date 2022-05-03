@@ -1,4 +1,3 @@
-import { Request, Response, NextFunction } from 'express';
 import supertest from 'supertest';
 
 import AppDataSource from '../../db/dataSource.js';
