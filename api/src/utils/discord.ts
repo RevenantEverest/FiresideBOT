@@ -4,9 +4,12 @@ import {
     Guild, 
     GuildMember
 } from 'discord.js';
+import BigNumber from 'bignumber.js';
+
 import bot from '../discordBot.js';
 
 import * as promises from './promises.js';
+import { NUMBERS } from '../constants/index.js';
 
 import { 
     TextChannelReturn, 
@@ -18,7 +21,9 @@ import { HandleReturn } from '../types/promises.js';
 type CheckPermissionsReturn = Promise<HandleReturn<boolean>>;
 
 export function isValidId(idString: string): boolean {
-    if(!idString || typeof idString !== "string" || idString.length > 20 || idString.length <= 18) {
+    const id = new BigNumber(idString);
+
+    if(!id.isNaN() || !id.isGreaterThan(NUMBERS.MAX_BIGINT)) {
         return true;
     }
     
