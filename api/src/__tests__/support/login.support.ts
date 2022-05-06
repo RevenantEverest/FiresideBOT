@@ -6,7 +6,7 @@ import { AuthPayload } from '../../types/auth.js';
 interface AuthHeader {
     Authorization: string
 };
-interface AuthTestingPayload extends AuthPayload {
+export interface AuthTestingPayload extends AuthPayload {
     header: AuthHeader
 }
 
