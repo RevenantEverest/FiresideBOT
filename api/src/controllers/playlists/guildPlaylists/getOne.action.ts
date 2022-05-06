@@ -10,8 +10,6 @@ async function getOne(req: Request, res: Response, next: NextFunction) {
     const guildId: string = res.locals.params.guildId;
     const id: number = res.locals.params.id;
 
-    console.log(guildId, req.params.guildId);
-
     const [hasPermission, hasPermissionErr] = await discord.checkMemberPermissions({
         guildId: guildId,
         discordId: res.locals.auth.discord_id,
@@ -30,7 +28,8 @@ async function getOne(req: Request, res: Response, next: NextFunction) {
         where: {
             id: id,
             guild_id: guildId
-        }
+        },
+        relations: ["songs"]
     });
 
     if(err) {
