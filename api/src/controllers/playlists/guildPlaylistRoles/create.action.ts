@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 
 import { GuildPlaylist, GuildPlaylistRole } from '../../../entities/index.js';
-import { ResponseLocals, ResponseLocalsParams } from '../../../types/responseLocals.js';
+import { ResponseLocalsParams } from '../../../types/responseLocals.js';
 
 import { errors, entities, discord } from '../../../utils/index.js';
 
@@ -28,6 +28,24 @@ async function create(req: Request, res: Response, next: NextFunction) {
 
     if(!guildPlaylist) {
         return errors.sendResponse({ res, status: 404, message: "GuildPlaylist Not Found" });
+    }
+
+    const [gprFind, gprFindErr] = await entities.findOne<GuildPlaylistRole>(GuildPlaylistRole, {
+        where: {
+            playlist: {
+                guild_id: guildId,
+                id: id
+            },
+            role_id: roleId
+        }
+    });
+
+    if(gprFindErr) {
+        return errors.sendResponse({ res, status: 500, message: "Error Checking GuildPlaylistRoles" });
+    }
+
+    if(gprFind) {
+        return errors.sendResponse({ res, status: 400, message: "Role Already Exists For GuildPlaylist" });
     }
 
     const [gprInsert, gprInsertErr] = await entities.insert<GuildPlaylistRole>(GuildPlaylistRole, {
