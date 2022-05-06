@@ -10,20 +10,6 @@ async function getOne(req: Request, res: Response, next: NextFunction) {
     const guildId: string = res.locals.params.guildId;
     const id: number = res.locals.params.id;
 
-    const [hasPermission, hasPermissionErr] = await discord.checkMemberPermissions({
-        guildId: guildId,
-        discordId: res.locals.auth.discord_id,
-        permission: Permissions.FLAGS.ADMINISTRATOR
-    });
-
-    if(hasPermissionErr) {
-        return errors.sendResponse({ res, status: 500, err: hasPermissionErr, message: hasPermissionErr.message });
-    }
-
-    if(!hasPermission) {
-        return errors.sendResponse({ res, status: 403, message: "Unauthorized" });
-    }
-
     const [guildPlaylist, err] = await entities.findOne<GuildPlaylist>(GuildPlaylist, {
         where: {
             id: id,
