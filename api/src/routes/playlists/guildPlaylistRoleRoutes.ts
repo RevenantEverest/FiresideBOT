@@ -10,7 +10,7 @@ router.route("/roles")
 .get(extractPaginationParams, guildPlaylistRolesController.index)
 
 router.route("/:guildId/id/:id/roles")
-.get(extractPaginationParams, validationMiddleware, permissions.isGuildMember, guildPlaylistRolesController.getByGuildId)
+.get(extractPaginationParams, validationMiddleware, permissions.isGuildMember, guildPlaylistRolesController.getByGuildIdAndPlaylistId)
 .post(validationMiddleware, permissions.isGuildAdmin, guildPlaylistRolesController.create)
 
 router.route("/:guildId/id/:playlistId/roles/id/:id")
