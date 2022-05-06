@@ -1,10 +1,10 @@
 import express from 'express';
 import { guildPlaylistRolesController } from '../../controllers/playlists/index.js';
-import { extractPaginationParams, permissions, validateGuildId, validateId } from '../../middleware/index.js';
+import { extractPaginationParams, permissions, validation } from '../../middleware/index.js';
 
 const router = express.Router();
 
-const validationMiddleware = [validateGuildId, validateId];
+const validationMiddleware = [validation.guildId, validation.id];
 
 router.route("/roles")
 .get(extractPaginationParams, guildPlaylistRolesController.index)

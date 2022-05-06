@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 
 import { errors, discord } from '../../utils/index.js';
 
-async function validateGuildId(req: Request, res: Response, next: NextFunction) {
+async function guildId(req: Request, res: Response, next: NextFunction) {
     const guildId: string = req.params.guildId;
     const isValidId: boolean = discord.isValidId(guildId);
 
@@ -18,4 +18,4 @@ async function validateGuildId(req: Request, res: Response, next: NextFunction) 
     next();
 };
 
-export default validateGuildId;
+export default guildId;

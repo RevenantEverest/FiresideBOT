@@ -3,9 +3,7 @@ export { default as issueToken } from './issueToken.js';
 export { default as verifyToken } from './verifyToken.js';
 
 /* Validation Middleware */
-export { default as validateId } from './validation/validateId.js';
-export { default as validateDiscordId } from './validation/validateDiscordId.js';
-export { default as validateGuildId } from './validation/validateGuildId.js';
+export * as validation from './validation/index.js';
 
 /* Permission Middleware */
 export * as permissions from './permissions/index.js';

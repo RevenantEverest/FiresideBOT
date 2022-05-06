@@ -8,7 +8,7 @@ function testKey(key: string): boolean {
 
 const exclude: string[] = ["guildId", "discordId"];
 
-async function validateId(req: Request, res: Response, next: NextFunction) {
+async function id(req: Request, res: Response, next: NextFunction) {
 
     if(!res.locals.params) {
         res.locals.params = {};
@@ -44,4 +44,4 @@ async function validateId(req: Request, res: Response, next: NextFunction) {
     next();
 };
 
-export default validateId;
+export default id;
