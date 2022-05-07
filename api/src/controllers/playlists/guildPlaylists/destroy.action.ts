@@ -21,7 +21,7 @@ async function destroy(req: Request, res: Response, next: NextFunction) {
     }
 
     if(!guildPlaylist) {
-        return errors.sendResponse({ res, status: 500, message: "No GuildPlaylist Found" });
+        return errors.sendResponse({ res, status: 404, message: "No GuildPlaylist Found" });
     }
 
     const [deletedGuildPlaylist, deleteErr] = await entities.destroy<GuildPlaylist>(GuildPlaylist, guildPlaylist);
