@@ -2,13 +2,7 @@ import JWT from 'jsonwebtoken';
 
 import { ENV } from '../../constants/index.js';
 import { AuthPayload } from '../../types/auth.js';
-
-interface AuthHeader {
-    Authorization: string
-};
-export interface AuthTestingPayload extends AuthPayload {
-    header: AuthHeader
-}
+import { AuthTestingPayload } from './types/auth.js';
 
 function issueToken(authPayload: AuthPayload): AuthTestingPayload {
     const token = JWT.sign(authPayload, ENV.TOKEN_SECRET, {
