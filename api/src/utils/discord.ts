@@ -23,7 +23,7 @@ type CheckPermissionsReturn = Promise<HandleReturn<boolean>>;
 export function isValidId(idString: string): boolean {
     const id = new BigNumber(idString);
 
-    if(!id.isNaN() || !id.isGreaterThan(NUMBERS.MAX_BIGINT)) {
+    if(!id.isNaN() && !id.isGreaterThan(NUMBERS.MAX_BIGINT)) {
         return true;
     }
     
