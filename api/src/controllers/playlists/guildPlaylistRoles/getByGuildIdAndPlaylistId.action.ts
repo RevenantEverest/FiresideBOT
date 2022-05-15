@@ -14,8 +14,8 @@ async function getByGuildIdAndPlaylistId(req: Request, res: Response, next: Next
     const findOptions: FindOneOptions<GuildPlaylistRole> = {
         where: {
             playlist: {
-                guild_id: guildId,
-                id: id
+                id: id,
+                guild_id: guildId
             }
         }
     };
