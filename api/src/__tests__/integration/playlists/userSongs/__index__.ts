@@ -1,9 +1,6 @@
-import AppDataSource from '../../../../db/dataSource.js';
 import initializeApp from '../../../../app.js';
 
 import issueToken from '../../../support/login.support.js';
-import { connectToTestingDatabase } from '../../../support/database.support.js';
-import { DB_TIMEOUT } from '../../../support/constants/database.js';
 
 import * as AUTH_PAYLOADS from '../../../support/payloads/auth.payloads.js';
 
@@ -32,33 +29,23 @@ const extraParams: UserSongExtraParams = {
     }
 };
 
-describe("user songs", () => {
-
-    beforeAll(async () => {
-        await connectToTestingDatabase();
-    }, DB_TIMEOUT);
-
-    afterAll(() => {
-        AppDataSource.destroy();
-        jest.clearAllMocks();
-    });
-
+export default () => {
     afterEach(() => {
         jest.clearAllMocks();
-    });
+    })
 
     /* POST */
-    describe("create user song route", () => {
+    describe("create route", () => {
         postRouteSpec(baseEndpoint, app, authPayload, extraParams);
     });
 
     /* GET */
-    describe("get user song route", () => {
+    describe("get route", () => {
         getRouteSpec(baseEndpoint, app, authPayload, extraParams);
     });
 
     /* DELETE */
-    describe("delete user song route", () => {
+    describe("delete route", () => {
 
     });
-});
+};
