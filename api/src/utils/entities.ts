@@ -36,15 +36,20 @@ export async function destroy<T extends BaseEntity>(entity: Target<T>, data: Dat
     }
 };
 
-export async function find<T extends BaseEntity>(entity: Target<T>, findOptions: FindOneOptions<T>, options: IndexOptions): Promise<HandleReturn<T[]>> {
+export async function find<T extends BaseEntity>(entity: Target<T>, findOptions: FindOneOptions<T>, options?: IndexOptions): Promise<HandleReturn<T[]>> {
 
     const repository = AppDataSource.getRepository(entity);
 
-    const promise = repository.find({
-        skip: options.offset ?? 0,
-        take: options.limit ?? DEFAULTS.LIMIT,
-        ...findOptions
-    });
+    const findManyOptions: FindManyOptions<T> = {
+        ...findOptions,
+        skip: options?.offset ?? 0
+    };
+
+    if(options?.limit && options.limit > 0) {
+        findManyOptions.take = options.limit;
+    }
+
+    const promise = repository.find(findManyOptions);
     const [res, err] = await promises.handle<T[]>(promise);
 
     if(err) {
@@ -54,15 +59,20 @@ export async function find<T extends BaseEntity>(entity: Target<T>, findOptions:
     return [res, undefined];
 };
 
-export async function findAndCount<T extends BaseEntity>(entity: Target<T>, findOptions: FindOneOptions<T>, options: IndexOptions): Promise<HandleReturn<[T[], number]>> {
+export async function findAndCount<T extends BaseEntity>(entity: Target<T>, findOptions: FindOneOptions<T>, options?: IndexOptions): Promise<HandleReturn<[T[], number]>> {
 
     const repository = AppDataSource.getRepository(entity);
 
-    const promise = repository.findAndCount({
-        skip: options.offset ?? 0,
-        take: options.limit ?? DEFAULTS.LIMIT,
-        ...findOptions
-    });
+    const findManyOptions: FindManyOptions<T> = {
+        ...findOptions,
+        skip: options?.offset ?? 0
+    };
+
+    if(options?.limit && options.limit > 0) {
+        findManyOptions.take = options.limit;
+    }
+
+    const promise = repository.findAndCount(findManyOptions);
     const [res, err] = await promises.handle<[T[], number]>(promise);
 
     if(err) {
