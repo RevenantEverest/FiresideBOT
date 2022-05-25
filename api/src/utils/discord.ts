@@ -2,7 +2,9 @@ import {
     AnyChannel, 
     TextChannel, 
     Guild, 
-    GuildMember
+    GuildMember,
+    Role,
+    GuildResolvable
 } from 'discord.js';
 import BigNumber from 'bignumber.js';
 
@@ -14,7 +16,8 @@ import { NUMBERS } from '../constants/index.js';
 import { 
     TextChannelReturn, 
     CheckGuildMemberPermissionsOptions, 
-    isGuildMemberOptions 
+    GuildMemberOptions,
+    HasRoleOptions
 } from '../types/discord';
 import { HandleReturn } from '../types/promises.js';
 
@@ -81,17 +84,27 @@ export async function checkMemberPermissions({ guildId, discordId, permission }:
     return [hasPermission, undefined];
 };
 
-export async function isGuildMember({ guildId, discordId }: isGuildMemberOptions): Promise<HandleReturn<boolean>> {
+export async function getGuild(guildId: GuildResolvable): Promise<HandleReturn<Guild>> {
     const guildPromise = bot.guilds.fetch({
         guild: guildId
     });
-    const [guild, guildErr] = await promises.handle(guildPromise);
 
-    if(guildErr) {
-        if(guildErr.message === "Missing Access") {
+    const [guild, err] = await promises.handle(guildPromise);
+
+    if(err) {
+        if(err.message === "Missing Access") {
             return [undefined, new Error("Guild not reachable by Fireside")];
         }
+        return [undefined, err];
+    }
 
+    return [guild, undefined];
+};
+
+export async function getGuildMember({ guildId, discordId }: GuildMemberOptions): Promise<HandleReturn<GuildMember>> {
+    const [guild, guildErr] = await getGuild(guildId);
+
+    if(guildErr) {
         return [undefined, guildErr];
     }
 
@@ -100,14 +113,25 @@ export async function isGuildMember({ guildId, discordId }: isGuildMemberOptions
     }
 
     const guildMemberPromise = guild.members.fetch(discordId);
-    const [guildMember, guildMemberErr] = await promises.handle(guildMemberPromise);
+    const [guildMember, err] = await promises.handle(guildMemberPromise);
 
-    if(guildMemberErr) {
-        if(guildMemberErr.message === "Unknown Member") {
+    if(err) {
+        return [undefined, err];
+    }
+
+    return [guildMember, undefined];
+};
+
+export async function isGuildMember({ guildId, discordId }: GuildMemberOptions): Promise<HandleReturn<boolean>> {
+
+    const [guildMember, err] = await getGuildMember({ guildId, discordId });
+
+    if(err) {
+        if(err.message === "Unknown Member") {
             return [false, undefined];
         }
         
-        return [undefined, guildMemberErr];
+        return [undefined, err];
     }
 
     if(!guildMember) {
@@ -115,4 +139,25 @@ export async function isGuildMember({ guildId, discordId }: isGuildMemberOptions
     }
 
     return [true, undefined];
+};
+
+export async function hasRole({ guildId, discordId, roles }: HasRoleOptions): Promise<HandleReturn<boolean>> {
+    const [guildMember, err] = await getGuildMember({ guildId, discordId });
+
+    if(err) {
+        if(err.message === "Unknown Member") {
+            return [false, undefined];
+        }
+        
+        return [undefined, err];
+    }
+
+    if(!guildMember) {
+        return [false, undefined];
+    }
+
+    const memberRoles = guildMember.roles.cache.map((memberRole: Role) => memberRole.id);
+    const hasRole = memberRoles.filter((memberRole: string) => roles.includes(memberRole)).length > 0;
+
+    return [hasRole, undefined];
 };
