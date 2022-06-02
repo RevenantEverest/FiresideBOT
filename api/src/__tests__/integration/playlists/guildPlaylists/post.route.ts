@@ -4,7 +4,7 @@ import { Application } from 'express';
 import * as PAYLOADS from '../../../support/payloads/guildPlaylists.payloads.js';
 
 import { AuthTestingPayload } from '../../../support/types/auth.js';
-import { GuildPlaylistExtraParams } from '../../../support/types/extraParams.js';
+import { GuildPlaylistExtraParams } from '../../../support/types/extraParams/index.js';
 
 function postRoute(baseEndpoint: string, app: Application, authPayload: AuthTestingPayload, extraParams: GuildPlaylistExtraParams) {
     describe("given the user is not logged in", () => {

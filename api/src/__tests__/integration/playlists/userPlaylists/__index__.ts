@@ -4,7 +4,7 @@ import issueToken from '../../../support/login.support.js';
 
 import * as AUTH_PAYLOADS from '../../../support/payloads/auth.payloads.js';
 
-import { UserPlaylistExtraParams } from '../../../support/types/extraParams.js';
+import { UserPlaylistExtraParams } from '../../../support/types/extraParams/index.js';
 
 import getRouteSpec from './get.route.js';
 import postRouteSpec from './post.route.js';

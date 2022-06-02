@@ -4,7 +4,7 @@ import { Application } from 'express';
 import * as PAYLOADS from '../../../support/payloads/userSongs.payloads.js';
 
 import { AuthTestingPayload } from '../../../support/types/auth.js';
-import { UserSongExtraParams } from '../../../support/types/extraParams.js';
+import { UserSongExtraParams } from '../../../support/types/extraParams/index.js';
 
 function postRoute(baseEndpoint: string, app: Application, authPayload: AuthTestingPayload, extraParams: UserSongExtraParams) {
     describe("given the user is not logged in", () => {

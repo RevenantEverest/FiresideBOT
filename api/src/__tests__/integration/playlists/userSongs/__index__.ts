@@ -8,7 +8,7 @@ import { youtube } from '../../../../utils/index.js';
 
 import { SongInfo } from '../../../../types/youtube.js';
 import { HandleReturn } from '../../../../types/promises.js';
-import { UserSongExtraParams } from '../../../support/types/extraParams.js';
+import { UserSongExtraParams } from '../../../support/types/extraParams/index.js';
 
 import postRouteSpec from './post.route.js';
 import getRouteSpec from './get.route.js';

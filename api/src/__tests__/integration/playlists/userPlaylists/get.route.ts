@@ -2,7 +2,7 @@ import supertest from 'supertest';
 import { Application } from 'express';
 
 import { AuthTestingPayload } from '../../../support/types/auth.js';
-import { UserPlaylistExtraParams } from '../../../support/types/extraParams.js';
+import { UserPlaylistExtraParams } from '../../../support/types/extraParams/index.js';
 
 function getRoute(baseEndpoint: string, app: Application, authPayload: AuthTestingPayload, extraParams: UserPlaylistExtraParams) {
     describe("given the user is not logged in", () => {

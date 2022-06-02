@@ -8,7 +8,7 @@ import * as AUTH_PAYLOADS from '../../../support/payloads/auth.payloads.js';
 import { discord } from '../../../../utils/index.js';
 
 import { HandleReturn } from '../../../../types/promises.js';
-import { GuildPlaylistExtraParams } from '../../../support/types/extraParams.js';
+import { GuildPlaylistExtraParams } from '../../../support/types/extraParams/index.js';
 
 import postRouteSpec from './post.route.js';
 import updateRouteSpec from './update.route.js';

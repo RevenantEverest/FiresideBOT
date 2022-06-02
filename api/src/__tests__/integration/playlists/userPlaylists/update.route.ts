@@ -4,7 +4,7 @@ import { Application } from 'express';
 import * as PAYLOADS from '../../../support/payloads/userPlaylists.payloads.js';
 
 import { AuthTestingPayload } from '../../../support/types/auth.js';
-import { UserPlaylistExtraParams } from '../../../support/types/extraParams.js';
+import { UserPlaylistExtraParams } from '../../../support/types/extraParams/index.js';
 
 function updateRoute(baseEndpoint: string, app: Application, authPayload: AuthTestingPayload, extraParams: UserPlaylistExtraParams) {
     describe("given the user is not logged in", () => {
