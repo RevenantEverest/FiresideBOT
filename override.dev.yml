@@ -13,6 +13,16 @@ services:
     volumes:
       - ./api:/app
       - /app/node_modules
+  discord: 
+    container_name: fireside_discord
+    stdin_open: true
+    build:
+      dockerfile: ./docker/dev/Dockerfile
+    depends_on:
+      - api
+    volumes: 
+      - ./discord:/app
+      - /app/node_modules
   db:
     container_name: fireside_db
     image: postgres

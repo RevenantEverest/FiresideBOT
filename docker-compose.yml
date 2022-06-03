@@ -16,3 +16,10 @@ services:
       context: ./api
     ports:
       - "3001:3001"
+  discord:
+    image: ${DOCKER_REGISTRY:-}discord${DEPLOY_TAG:-}
+    <<: *env
+    build:
+      context: ./discord
+    ports: 
+      - "3002:3002"
