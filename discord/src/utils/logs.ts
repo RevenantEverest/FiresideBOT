@@ -15,7 +15,7 @@ export async function log({ color, type="LOG", message="" }: LogOptions) {
 
 export async function error({ color=colors.error, type="ERROR", message="", err }: ErrorLogOptions) {
     const logType = "[" + type + "]";
-    return console.error(chalk.hex(color.toString())(logType) + " " + message, err);
+    return console.error(chalk.hex(color.toString())(logType) + " " + message, err ?? "");
 };
 
 export async function postToLogsChannel({ bot, color, title, channelId=LOG_CHANNELS.LOGS }: PostToLogsChannelOptions) {
