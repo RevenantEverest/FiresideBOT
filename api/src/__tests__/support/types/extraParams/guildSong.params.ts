@@ -4,7 +4,7 @@ import { GuildSong } from '../../../../entities/index.js';
 export interface GuildSongMocks {
     hasPermission: Function,
     isGuildMember: Function,
-    hasGuildPlaylistRole: Function,
+    hasRole: Function,
     handleSearch: Function
 };
 
