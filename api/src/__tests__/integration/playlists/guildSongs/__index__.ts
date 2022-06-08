@@ -33,8 +33,9 @@ const extraParams: GuildSongExtraParams = {
             const spy = jest.spyOn(discord, "isGuildMember");
             spy.mockImplementation(async (): MockReturn<boolean> => [value, undefined]);
         },
-        hasGuildPlaylistRole: () => {
-
+        hasRole: (value: boolean) => {
+            const spy = jest.spyOn(discord, "hasRole");
+            spy.mockImplementation(async (): MockReturn<boolean> => [value, undefined]);
         },
         handleSearch: (payload: SongInfo) => {
             const spy = jest.spyOn(youtube, "handleSearch");
