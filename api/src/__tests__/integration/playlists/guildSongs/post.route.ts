@@ -41,9 +41,10 @@ function postRoute(baseEndpoint: string, app: Application, authPayload: AuthTest
             });
         });
 
-        describe("given the correct payload", () => {
+        describe("given the correct payload and user is not a guild admin but has a guild playlist role", () => {
             it("should return a 200 and the guild song", async () => {
-                extraParams.mocks.hasPermission(true);
+                extraParams.mocks.hasPermission(false);
+                extraParams.mocks.hasRole(true);
                 extraParams.mocks.handleSearch(PAYLOADS.MOCK_RETURN);
                 
                 const { body, statusCode } = await supertest(app)
