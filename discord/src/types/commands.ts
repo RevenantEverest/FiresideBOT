@@ -1,6 +1,6 @@
 import { Client, Message } from 'discord.js';
-import { Server } from './server';
-import { UserState } from './user';
+import { Server } from './server.js';
+import { UserState } from './user.js';
 
 export interface CommandOptions {
 
@@ -40,8 +40,11 @@ export interface CommandFileImport {
     default: Function
 };
 
-export interface CommandCategory {
+export interface CommandCategoryConfig {
     name: string,
-    description: string,
+    description: string
+};
+
+export interface CommandCategory extends CommandCategoryConfig {
     commands: CommandFile[]
 };
