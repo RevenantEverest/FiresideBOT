@@ -57,6 +57,44 @@ function getRoute(baseEndpoint: string, app: Application, authPayload: AuthTesti
                     });
                 });
 
+                describe("given the role id as a param", () => {
+                    describe("given the role id doesn't exist", () => {
+                        it("should return a 404 status", async () => {
+                            extraParams.mocks.isGuildMember(true);
+
+                            const endpoint = `${baseEndpoint}/${extraParams.guildId}/id/1/roles/id/918273`;
+                            await supertest(app)
+                            .get(endpoint)
+                            .set(authPayload.header)
+                            .expect(404)
+                        });
+                    });
+
+                    describe("given the role id exists", () => {
+                        it("should return the guild playlist role", async () => {
+                            extraParams.mocks.isGuildMember(true);
+
+                            const endpoint = `${baseEndpoint}/${extraParams.guildId}/id/1/roles/id/1`;
+                            const { body, statusCode } = await supertest(app)
+                            .get(endpoint)
+                            .set(authPayload.header)
+                            .send()
+
+                            expect(statusCode).toBe(200);
+                            expect(body.results).not.toBeNull();
+                            
+
+                            const { results } = body;
+
+                            expect(results).toEqual({
+                                id: extraParams.guildPlaylistRole?.id,
+                                role_id: extraParams.guildPlaylistRole?.role_id,
+                                created_at: extraParams.guildPlaylistRole?.created_at
+                            })
+                        });
+                    });
+                });
+
                 it("should return a 200 status and paginated playlist roles", async () => {
                     extraParams.mocks.isGuildMember(true);
 
