@@ -31,5 +31,5 @@ jobs:
         
       - name: Run docker-compose script
         run: |
-          docker-compose -f docker-compose.yml -f override.test.yml build api && docker-compose -f docker-compose.yml -f override.test.yml up --exit-code-from api
+          cd scripts/ && ./start_test.sh
 
