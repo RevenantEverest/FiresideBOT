@@ -31,5 +31,5 @@ jobs:
         
       - name: Run docker-compose script
         run: |
-          cd scripts/ && ./start_test.sh
+          cd scripts/ && ./start_api_test.sh
 
