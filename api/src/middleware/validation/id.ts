@@ -1,14 +1,18 @@
 import { Request, Response, NextFunction } from 'express';
-import { errors, common } from '../utils/index.js';
+import { errors, common } from '../../utils/index.js';
 
 function testKey(key: string): boolean {
     const re: RegExp = new RegExp("({*.+}?)?((Id|_id)$|(^id$))", "gi");
     return re.test(key);
 };
 
-async function validateId(req: Request, res: Response, next: NextFunction) {
+const exclude: string[] = ["guildId", "discordId"];
 
-    res.locals.params = {};
+async function id(req: Request, res: Response, next: NextFunction) {
+
+    if(!res.locals.params) {
+        res.locals.params = {};
+    }
 
     const errorFunc: Function = () => {
         return errors.sendResponse({ 
@@ -19,7 +23,7 @@ async function validateId(req: Request, res: Response, next: NextFunction) {
     };
 
     const paramKeys: Array<string> = Object.keys(req.params).map((key: string) => {
-        if(!testKey(key)) return null;
+        if(!testKey(key) || exclude.includes(key)) return null;
         return key;
     }).filter(common.truthy);
 
@@ -40,4 +44,4 @@ async function validateId(req: Request, res: Response, next: NextFunction) {
     next();
 };
 
-export default validateId;
+export default id;

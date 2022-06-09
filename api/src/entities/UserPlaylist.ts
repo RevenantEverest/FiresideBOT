@@ -5,8 +5,6 @@ import {
     Column,
     CreateDateColumn, 
     UpdateDateColumn,
-    ManyToOne,
-    JoinColumn,
     OneToMany
 } from 'typeorm';
 import UserSong from './UserSong.js';

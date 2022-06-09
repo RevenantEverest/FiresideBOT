@@ -1,2 +1,2 @@
 
-export type HandleReturn<T> = Promise<[T | undefined, Error | undefined]>;
+export type HandleReturn<T> = Promise<[T | null | undefined, Error | undefined]>;

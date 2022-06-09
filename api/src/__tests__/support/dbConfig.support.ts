@@ -1,17 +1,12 @@
 import dotenv from 'dotenv';
-import { ConnectionOptions } from 'typeorm';
-import DiscordToken from '../../entities/DiscordToken.js';
-import User from '../../entities/User.js';
-import UserPlaylist from '../../entities/UserPlaylist.js';
-import UserSong from '../../entities/UserSong.js';
-import VoteLog from '../../entities/VoteLog.js';
-import VoteRecord from '../../entities/VoteRecord.js';
+import { DataSourceOptions } from 'typeorm';
+import * as Entities from '../../entities/index.js';
 
 dotenv.config();
 
 const TESTING_DB_PORT = parseInt(process.env.DB_PORT!, 10);
 
-const dbConfig: ConnectionOptions = {
+const dbConfig: DataSourceOptions = {
     type: "postgres",
     host: process.env.TESTING_DB_HOST!,
     port: TESTING_DB_PORT,
@@ -20,9 +15,7 @@ const dbConfig: ConnectionOptions = {
     password: process.env.DB_PASSWORD!,
     synchronize: true,
     logging: false,
-    entities: [
-        DiscordToken, User, UserPlaylist, UserSong, VoteLog, VoteRecord
-    ]
+    entities: Entities
 };
 
 export default dbConfig;

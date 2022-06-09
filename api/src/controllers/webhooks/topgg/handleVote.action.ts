@@ -10,7 +10,9 @@ import { LOG_CHANNELS } from '../../../constants/index.js';
 
 async function handleVote(vote: WebhookPayload): Promise<void> {
     const voteRecordConditional = {
-        discord_id: vote.user
+        where: {
+            discord_id: vote.user
+        }
     };
     const [voteRecord, voteRecordErr] = await entities.findOrSave<VoteRecord>(VoteRecord, voteRecordConditional, {
         discord_id: vote.user,
@@ -82,7 +84,7 @@ async function handleVote(vote: WebhookPayload): Promise<void> {
         discordUser.send({ embeds: [voteEmbed] });
     }
 
-    const [logChannel, logChannelErr] = await discord.getTextChannel(bot, LOG_CHANNELS.VOTES);
+    const [logChannel, logChannelErr] = await discord.getTextChannel(LOG_CHANNELS.VOTES);
 
     if(logChannelErr) {
         return logs.error({ err: logChannelErr, message: "Error Getting Log Channel" });
