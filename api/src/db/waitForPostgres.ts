@@ -1,34 +1,30 @@
-import { ConnectionOptions, getConnection } from 'typeorm';
-import { ERRORS } from '../constants/index.js';
+import { DataSource } from 'typeorm';
 import { logs, colors } from '../utils/index.js';
 
 function handleError(err: Error) {
     logs.error({ color: colors.warning, type: "DB", err });
+    return process.exit(1);
 };
 
-async function waitForPostgres(createConnection:Function, dbConfig:ConnectionOptions) {
+async function waitForPostgres(AppDataSource: DataSource): Promise<void | Error> {
     let retries = 5;
     while(retries) {
         try {
-            await createConnection(dbConfig);
+            await AppDataSource.initialize();
             logs.log({ color: colors.success, message: "Connected to Postgres! 💅✨" });
             break;
         }
         catch(err) {
             const error = err as Error;
             retries -= 1;
-            logs.log({ color: colors.warning, type: "DB", message: `Retries left: ${retries}` });
+            logs.log({ color: colors.warning, type: "DB", message: `Retries left: ${retries + 1}` });
             await new Promise(res => setTimeout(res, 5000));
 
-            if(retries === 5) {
+            if(retries === 0) {
                 handleError(error);
             }
         }
     };
-
-    if(!getConnection()) {
-        throw new Error(ERRORS.POSTGRES_FAILED_TO_START);
-    }
 };
 
 export default waitForPostgres;

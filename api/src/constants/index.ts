@@ -4,3 +4,4 @@ export * as ENV from './environment.js';
 export * as URLS from './urls.js';
 export * as ERRORS from './errorMessages.js';
 export * as PREMIUM_LIMITS from './premiumLimits.js';
+export * as NUMBERS from './numbers.js';

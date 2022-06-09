@@ -1,9 +1,8 @@
 import "reflect-metadata";
-import { dbConfig } from "./config/index.js";
 
 import dotenv from 'dotenv';
-import { createConnection } from 'typeorm';
 
+import AppDataSource from './db/dataSource.js';
 import waitForPostgres from './db/waitForPostgres.js';
 import bot from './discordBot.js';
 import initializeApp from './app.js';
@@ -13,7 +12,7 @@ import { logs, colors } from './utils/index.js';
 dotenv.config();
 
 (async function main() {
-    await waitForPostgres(createConnection, dbConfig);
+    await waitForPostgres(AppDataSource);
 
     bot.login(process.env.DISCORD_KEY);
 

@@ -1,0 +1,1 @@
+export const DB_TIMEOUT = 5 * 5000;
