@@ -1,6 +1,8 @@
 import { Client, Message } from 'discord.js';
+import { GuildSetting } from './entities/GuildSetting.js';
 import { Server } from './server.js';
 import { UserState } from './user.js';
+import { GuildMessage } from './message.js';
 
 export interface CommandOptions {
 
@@ -9,11 +11,12 @@ export interface CommandOptions {
 export interface CommandParams {
     PREFIX: string,
     bot: Client,
-    message: Message,
+    message: GuildMessage,
     args: string[],
     server: Server,
     options: CommandOptions,
-    userState: UserState
+    userState: UserState,
+    guildSettings: GuildSetting
 };
 
 export interface CommandConfigParams {
