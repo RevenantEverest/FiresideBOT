@@ -1,4 +1,4 @@
-import { BaseEntity, EntityTarget, DeepPartial, FindOneOptions, FindManyOptions } from 'typeorm';
+import { BaseEntity, EntityTarget, DeepPartial, FindOneOptions, FindManyOptions, QueryFailedError } from 'typeorm';
 import AppDataSource from '../db/dataSource.js';
 
 import * as promises from './promises.js';
@@ -17,7 +17,7 @@ export async function count<T extends BaseEntity>(entity: Target<T>, findOptions
         return [count, undefined];
     }
     catch(err) {
-        const error = err as Error;
+        const error = err as QueryFailedError;
         return [undefined, error];
     }
 };
@@ -31,7 +31,7 @@ export async function destroy<T extends BaseEntity>(entity: Target<T>, data: Dat
         return [res, undefined];
     }
     catch(err) {
-        const error = err as Error;
+        const error = err as QueryFailedError;
         return [undefined, error];
     }
 };
@@ -205,7 +205,7 @@ export async function save<T extends BaseEntity>(entity: Target<T>, data: Data<T
         return [res, undefined];
     }
     catch(err) {
-        const error = err as Error;
+        const error = err as QueryFailedError;
         return [undefined, error];
     }
 };
