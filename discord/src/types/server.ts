@@ -1,3 +1,4 @@
+import { GuildResolvable } from 'discord.js';
 import { SongInfo } from './youtube';
 
 export interface ServerQueueOptions {
@@ -17,7 +18,7 @@ export interface ServerQueue {
 };
 
 export interface Server {
-    id: string | number,
+    id: string | number | GuildResolvable,
     premium: boolean,
     queue: ServerQueue
 };
