@@ -1,5 +1,5 @@
-import { Client, Message } from 'discord.js';
-import { GuildSetting } from './entities/GuildSetting.js';
+import { Client } from 'discord.js';
+import { GuildSettings } from './entities/GuildSettings.js';
 import { Server } from './server.js';
 import { UserState } from './user.js';
 import { GuildMessage } from './message.js';
@@ -16,7 +16,7 @@ export interface CommandParams {
     server: Server,
     options: CommandOptions,
     userState: UserState,
-    guildSettings: GuildSetting
+    guildSettings: GuildSettings
 };
 
 export interface CommandConfigParams {
