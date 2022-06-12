@@ -1,31 +1,35 @@
 import { Client, Message } from 'discord.js';
-import { CommandFile } from '../../types/commands.js';
+import { CommandFile, CommandParams } from '../../types/commands.js';
+import { GuildMessage } from '../../types/message.js';
 
 import config from '../../config/index.js';
 
-const PREFIX = "?";
+import { guildSettingServices } from '../../api/index.js';
 
-function onMessage(bot: Client, message: Message) {
-    if(!PREFIX || !message.guild || !message.content.startsWith(PREFIX)) 
+import { DEFAULTS } from '../../constants/index.js';
+import { logs, colors } from '../../utils/index.js';
+
+async function onMessage(bot: Client, message: Message) {
+
+    if(!message.guild || message.author.bot) return;
+
+    const [guildSettings, err] = await guildSettingServices.getGuildSettings(message.guild.id, message);
+
+    if(err) {
+        return logs.error({ color: colors.error, type: "COMMAND-ERROR", err, message: "Error Getting Guild Settings" });
+    }
+
+    if(!guildSettings) {
+        return logs.error({ color: colors.error, type: "COMMAND-ERROR", message: "No Guild Settings Returned" });
+    }
+
+    const PREFIX = guildSettings.prefix;
+
+    if(!PREFIX || !message.content.startsWith(PREFIX)) 
         return;
 
     if(!config.servers.map(server => server.id).includes(message.guild.id)) {
-        config.servers.push({
-            id: message.guild.id,
-            premium: false,
-            queue: {
-                playing: false,
-                info: [],
-                currentSongEmbed: [],
-                genres: [],
-                options: {
-                    volume: 50,
-                    loop: false,
-                    recommendations: false,
-                    voteToSkip: false
-                }
-            }
-        });
+        DEFAULTS.generateDefaultServer(message.guild.id);
     }
 
     const args = message.content.substring(PREFIX.length).split(" ");
@@ -42,9 +46,18 @@ function onMessage(bot: Client, message: Message) {
     if(!commandFile) {
         return;
     }
-    else {
-        commandFile.run({PREFIX, bot, message, args, server, options, userState});
-    }
+    
+    const params: CommandParams = {
+        PREFIX, 
+        bot, 
+        message: message as GuildMessage, 
+        args, 
+        server, 
+        options, 
+        userState, 
+        guildSettings
+    };
+    commandFile.run(params);
 };
 
 export default onMessage;
