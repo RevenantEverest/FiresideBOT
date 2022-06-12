@@ -4,12 +4,14 @@ import { discordServices } from '../../../services/index.js';
 import DiscordToken from '../../../entities/DiscordToken.js';
 import User from '../../../entities/User.js';
 
-import { promises, entities, errors } from '../../../utils/index.js';
 import issueToken from '../../../middleware/issueToken.js';
+
+import { ENV } from '../../../constants/index.js';
+import { promises, entities, errors } from '../../../utils/index.js';
 
 async function login(req: Request, res: Response): Promise<void> {
     const { code } = req.body;
-    const redirectUri = process.env.DISCORD_BACKEND_REDIRECT as string;
+    const redirectUri = ENV.DISCORD.REDIRECT_URI as string;
 
     /* Get Auth Token */
     const tokenPromise = discordServices.getToken(code, redirectUri);
