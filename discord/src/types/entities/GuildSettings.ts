@@ -1,4 +1,4 @@
-export interface GuildSetting {
+export interface GuildSettings {
     id: number,
     guild_id: string,
     prefix: string,
