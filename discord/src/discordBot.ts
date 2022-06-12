@@ -18,8 +18,8 @@ const options: ClientOptions = {
 };
 const bot = new Discord.Client(options);
 
-bot.on("ready", () => onReady(bot));
-bot.on("messageCreate", (message: Message) => onMessage(bot, message));
-bot.on("error", (err: Error) => onError(bot, err));
+bot.on("ready", async () => onReady(bot));
+bot.on("messageCreate", async (message: Message) => onMessage(bot, message));
+bot.on("error", async (err: Error) => onError(bot, err));
 
 export default bot;
