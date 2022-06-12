@@ -3,7 +3,12 @@ import morgan from 'morgan';
 import cors from 'cors';
 
 import { verifyToken } from './middleware/index.js';
-import { authRoutes, playlistRoutes, webhookRoutes } from './routes/index.js';
+import { 
+    authRoutes, 
+    playlistRoutes, 
+    settingsRoutes, 
+    webhookRoutes 
+} from './routes/index.js';
 
 function initializeApp(): Application {
     const app = express();
@@ -17,6 +22,7 @@ function initializeApp(): Application {
 
     app.use("/auth", authRoutes);
     app.use("/playlists", verifyToken, playlistRoutes);
+    app.use("/settings", verifyToken, settingsRoutes);
     app.use("/webhooks", webhookRoutes);
 
     return app;
