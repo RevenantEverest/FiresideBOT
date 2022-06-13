@@ -23,14 +23,25 @@ module.exports.run = async (PREFIX, message, args, server, bot, options, usersta
         if(record.currency < amountWagered) return message.channel.send(`You can't gamble what you don't have`);
         
         let RNG = Math.floor(Math.random() * 100);
+        let isWinner = RNG > 75;
         let newAmount = 0;
-        
-        RNG > 50 ? newAmount = parseInt(record.currency, 10) + (amountWagered * 2) : newAmount = record.currency - amountWagered;
+        const updatedWager = amountWagered * 2;
+
+        if(isWinner) {
+            newAmount = parseInt(record.currency, 10) + updatedWager;
+        }
+        else {
+            newAmount = record.currency - updatedWager;
+        }
+
+        if(newAmount < 0) {
+            newAmount = 0;
+        }
 
         let data = { currency: newAmount, discord_id: message.author.id, guild_id: message.guild.id };
         discordCurrencyController.update(bot, message, "Gamble", data, () => {
             return message.channel.send(
-                `**${message.author.username}** rolled a **${RNG}** and ${RNG > 75 ? "won" : "lost"} **${(amountWagered * 2).toLocaleString()}** ` + 
+                `**${message.author.username}** rolled a **${RNG}** and ${isWinner ? "won" : "lost"} **${updatedWager.toLocaleString()}** ` + 
                 `**${cSettings.currency_name}** and now has **${newAmount.toLocaleString()} ${cSettings.currency_name}**`
             );
         });
