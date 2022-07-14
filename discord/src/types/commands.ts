@@ -46,9 +46,12 @@ export interface CommandFileImport {
     default: Function
 };
 
-export interface CommandCategoryConfig {
-    name: string,
+export interface CommandCategoryFileConfig {
     description: string
+};
+
+export interface CommandCategoryConfig extends CommandCategoryFileConfig {
+    name: string
 };
 
 export interface CommandCategory extends CommandCategoryConfig {
