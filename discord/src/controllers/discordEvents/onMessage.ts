@@ -1,10 +1,10 @@
 import { Client, Message } from 'discord.js';
-import { CommandFile, CommandParams } from '../../types/commands.js';
+import { CommandFile, CommandOptions, CommandParams } from '../../types/commands.js';
 import { GuildMessage } from '../../types/message.js';
 
 import config from '../../config/index.js';
 
-import { guildSettingServices } from '../../api/index.js';
+import * as api from '../../api/index.js';
 
 import { DEFAULTS } from '../../constants/index.js';
 import { logs, colors } from '../../utils/index.js';
@@ -13,7 +13,7 @@ async function onMessage(bot: Client, message: Message) {
 
     if(!message.guild || message.author.bot) return;
 
-    const [guildSettings, err] = await guildSettingServices.getGuildSettings(message.guild.id, message);
+    const [guildSettings, err] = await api.guildSettings.get(message.guild.id, message);
 
     if(err) {
         return logs.error({ color: colors.error, type: "COMMAND-ERROR", err, message: "Error Getting Guild Settings" });
@@ -29,23 +29,30 @@ async function onMessage(bot: Client, message: Message) {
         return;
 
     if(!config.servers.map(server => server.id).includes(message.guild.id)) {
-        DEFAULTS.generateDefaultServer(message.guild.id);
+        DEFAULTS.generateDefaultServer(message.guild.id, guildSettings);
     }
 
     const args = message.content.substring(PREFIX.length).split(" ");
     const server = config.servers[config.servers.map(server => server.id).indexOf(message.guild?.id)];
-    const options = config.updatePending;
+    const options: CommandOptions = {
+        updatePending: config.updatePending
+    };
     const disabledCommands = null;
-    const userState = {};
+    const userState = {
+        premium: false
+    };
 
     const commandFile = config.commands.filter((command: CommandFile) => {
-        if(command.name === args[0].toLowerCase() || command.aliases && command.aliases.includes(args[0].toLowerCase()))
+        if(command.name === args[0].toLowerCase() || command.aliases && command.aliases.includes(args[0].toLowerCase())) {
             return command;
+        }
     })[0];
 
     if(!commandFile) {
         return;
     }
+
+    args.splice(0, 1); // Remove Command Name From Args
     
     const params: CommandParams = {
         PREFIX, 
