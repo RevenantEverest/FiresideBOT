@@ -25,7 +25,7 @@ async function getCategoryConfig(path: string): HandleReturn<CommandCategory> {
         return [undefined, err];
     }
 
-    return [(res.default as CommandCategory), undefined];
+    return [{ ...res.default, name: path.split("/").pop() }, undefined];
 };
 
 async function getCommandFile(path: string): HandleReturn<CommandFileImport> {
@@ -100,7 +100,13 @@ async function setCommands() {
                 });
             }
 
-            config.commands.push({ ...commandFile.config, run: commandFile.default });
+            config.commands.push({ 
+                ...commandFile.config,
+                name: commandDir.toLocaleLowerCase(),
+                displayName: commandDir,
+                category: categoryPath.split("/").pop() as string,
+                run: commandFile.default 
+            });
         };
     };
 
