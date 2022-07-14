@@ -1,1 +1,1 @@
-export * as guildSettingServices from './settings/guildSettings.js';
+export * as guildSettings from './settings/guildSettings.js';
