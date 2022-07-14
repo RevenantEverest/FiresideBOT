@@ -1,6 +1,12 @@
 export * as colors from './colors.js';
 export * as common from './common.js';
 export * as dates from './dates.js';
+export * as errors from './errors.js';
 export * as fileSystem from './fileSystem.js';
 export * as logs from './logs.js';
 export * as promises from './promises.js';
+export * as youtube from './youtube.js';
+export * as voiceConnection from './voiceConnection.js';
+export * as audio from './audio.js';
+export * as embeds from './embeds.js';
+export * as queue from './queue.js';
