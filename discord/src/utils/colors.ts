@@ -7,6 +7,9 @@ export const error: number = 0xff0000;
 export const topgg: number = 0xff3366;
 export const banana: number = 0xffcc00;
 
+export const songEmbed: number = 0x0be289;
+export const queueEmbed: number = 0x00ffff;
+
 export function random(this: object): number {
     const self = this;
 
