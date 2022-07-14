@@ -1,6 +1,7 @@
-import { Message, Guild } from 'discord.js';
+import { Message, Guild, GuildMember } from 'discord.js';
 
 export interface GuildMessage extends Message {
     guild: Guild,
-    guildId: string
+    guildId: string,
+    member: GuildMember
 };

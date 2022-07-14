@@ -5,7 +5,7 @@ import { UserState } from './user.js';
 import { GuildMessage } from './message.js';
 
 export interface CommandOptions {
-
+    updatePending: boolean
 };
 
 export interface CommandParams {
@@ -23,15 +23,18 @@ export interface CommandConfigParams {
 
 };
 
-export interface CommandConfig {
-    name: string,
-    displayName: string,
+export interface CommandConfigParams {
     aliases: string[],
     flags?: string[],
     params?: CommandConfigParams,
-    category: string,
     description: string,
     example: string,
+}
+
+export interface CommandConfig extends CommandConfigParams {
+    name: string,
+    displayName: string,
+    category: string,
 };
 
 export interface CommandFile extends CommandConfig {
