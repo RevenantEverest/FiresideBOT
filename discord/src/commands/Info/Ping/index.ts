@@ -1,14 +1,11 @@
-import { CommandParams, CommandConfig } from '../../../types/commands.js';
+import { CommandParams, CommandConfigParams } from '../../../types/commands.js';
 
 function Ping({ message }: CommandParams) {
-    return message.channel.send("Pong");
+    return message.reply("Pong");
 };
 
-export const config: CommandConfig = {
-    name: "ping",
-    displayName: "Ping",
+export const config: CommandConfigParams = {
     aliases: [],
-    category: "Info",
     description: "",
     example: ""
 };
