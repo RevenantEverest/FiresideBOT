@@ -1,7 +1,9 @@
+import * as ENV from './environment.js';
+
 export const LIMIT = 10; // Pagination Limit
 
 export const GENERAL_SETTINGS = {
-    PREFIX: "?",
+    PREFIX: ENV.IS_DEV ? "*" : "?",
     VOLUME: 50
 };
 
