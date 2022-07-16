@@ -10,6 +10,8 @@ export const API_PORT = process.env.API_PORT as string;
 
 export const TOKEN_SECRET = process.env.TOKEN_SECRET as string;
 
+export const YOUTUBE_COOKIE = process.env.YOUTUBE_COOKIE as string;
+
 export const DISCORD = {
     CLIENT_ID: process.env.DISCORD_CLIENT_ID as string,
     CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET as string,
