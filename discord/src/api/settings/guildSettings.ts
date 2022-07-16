@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
-import { Message } from 'discord.js';
+import { GuildResolvable, Message } from 'discord.js';
+import { CommandDispatch } from 'src/types/commands.js';
 import { GuildSettings } from '../../types/entities/GuildSettings.js';
 import { HandleReturn } from '../../types/promises.js';
 
@@ -10,8 +11,8 @@ import { promises } from '../../utils/index.js';
 
 const baseEndpoint = ENV.API_URL + "/settings/guild";
 
-export async function get(guildId: string, message: Message): HandleReturn<GuildSettings> {
-    const token = await issueToken(message);
+export async function get(guildId: GuildResolvable, dispatch: CommandDispatch): HandleReturn<GuildSettings> {
+    const token = await issueToken(dispatch);
     
     const request = axios.get(`${baseEndpoint}/${guildId}`, {
         headers: {
@@ -32,8 +33,8 @@ export async function get(guildId: string, message: Message): HandleReturn<Guild
     return [(res.data.results as GuildSettings), undefined];
 };
 
-export async function update(guildId: string, message: Message, guildSettings: GuildSettings): HandleReturn<GuildSettings> {
-    const token = await issueToken(message);
+export async function update(guildId: GuildResolvable, dispatch: CommandDispatch, guildSettings: GuildSettings): HandleReturn<GuildSettings> {
+    const token = await issueToken(dispatch);
 
     const request = axios.put(`${baseEndpoint}/${guildId}`, guildSettings, {
         headers: {
