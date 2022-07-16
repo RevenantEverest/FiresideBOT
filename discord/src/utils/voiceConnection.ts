@@ -1,25 +1,25 @@
 import { joinVoiceChannel, entersState, VoiceConnectionStatus } from '@discordjs/voice';
 
 import { Client } from 'discord.js';
-import { GuildMessage } from 'src/types/message';
-import { Server } from 'src/types/server';
+import { CommandDispatch } from '../types/commands.js';
+import { Server } from '../types/server.js';
 
 import * as audio from './audio.js';
 
-export function createConnection(bot: Client, message: GuildMessage, server: Server,) {
+export function createConnection(bot: Client, dispatch: CommandDispatch, server: Server,) {
     if(!server.queue.connection) {
-        if(!message.member.voice.channel) {
-            return message.reply("Voice Channel is unavailable");
+        if(!dispatch.member.voice.channel) {
+            return dispatch.reply("Voice Channel is unavailable");
         }
 
-        if(!message.member.voice.channel.joinable) {
-            return message.reply("Fireside is unable to join this voice channel");
+        if(!dispatch.member.voice.channel.joinable) {
+            return dispatch.reply("Fireside is unable to join this voice channel");
         }
 
         const connection = joinVoiceChannel({
-            guildId: message.guildId,
-            channelId: message.member.voice.channel.id,
-            adapterCreator: message.guild.voiceAdapterCreator
+            guildId: dispatch.guildId,
+            channelId: dispatch.member.voice.channel.id,
+            adapterCreator: dispatch.guild.voiceAdapterCreator
         });
 
         server.queue.connection = connection;
@@ -27,7 +27,7 @@ export function createConnection(bot: Client, message: GuildMessage, server: Ser
 
     handleConnection(server);
 
-    return audio.stream(bot, message, server);
+    return audio.stream(bot, dispatch, server);
 };
 
 export function handleConnection(server: Server) {

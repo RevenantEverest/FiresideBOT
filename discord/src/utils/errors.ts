@@ -1,5 +1,6 @@
 import Discord, { Client, Message, PartialMessage } from 'discord.js';
 import { GuildMessage } from '../types/message.js';
+import { CommandDispatch } from '../types/commands.js';
 import { CommandConfig } from '../types/commands.js';
 
 import { ERROR_MESSAGES } from '../constants/index.js';
@@ -7,13 +8,13 @@ import * as colors from './colors.js';
 
 interface HandlerOptions {
     bot: Client,
-    message: GuildMessage,
+    dispatch: CommandDispatch,
     err?: Error,
     errMessage: string,
     commandName: string
 };
 
-export async function handler({ bot, message, err, errMessage, commandName }: HandlerOptions) {
+export async function handler({ bot, dispatch, err, errMessage, commandName }: HandlerOptions) {
     const embed = new Discord.MessageEmbed({
         color: colors.error,
         fields: [{ 
@@ -24,7 +25,7 @@ export async function handler({ bot, message, err, errMessage, commandName }: Ha
 
     logError(bot, );
 
-    const returnMessage: Message = await message.channel.send({ embeds: [embed] });
+    const returnMessage: Message = await dispatch.channel.send({ embeds: [embed] });
     
     if(!returnMessage) return;
 

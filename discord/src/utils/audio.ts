@@ -10,13 +10,13 @@ import DYTDL from 'discord-ytdl-core';
 
 import { Client } from 'discord.js';
 import { Server } from 'src/types/server.js';
-import { GuildMessage } from '../types/message.js';
+import { CommandDispatch } from '../types/commands.js';
 
 import { URLS } from '../constants/index.js';
 import * as embeds from './embeds.js';
 import * as queue from './queue.js';
 
-export async function stream(bot: Client, message: GuildMessage, server: Server) {
+export async function stream(bot: Client, dispatch: CommandDispatch, server: Server) {
     if(!server.queue.connection) return;
 
     try {
@@ -30,12 +30,12 @@ export async function stream(bot: Client, message: GuildMessage, server: Server)
         connection.subscribe(player);
         player.play(resource);
 
-        embeds.createCurrentSongEmbed(message, server);
+        embeds.createCurrentSongEmbed(dispatch, server);
 
         player.on(AudioPlayerStatus.Idle, () => {
             if(!server.queue.playing) return;
 
-            queue.nextInQueue(bot, message, server);
+            queue.nextInQueue(bot, dispatch, server);
         });
 
         player.on(AudioPlayerStatus.Playing, () => {
@@ -44,7 +44,7 @@ export async function stream(bot: Client, message: GuildMessage, server: Server)
         });
 
         player.on(AudioPlayerStatus.Buffering, () => {
-            message.channel.send("Buffering...");
+            dispatch.channel.send("Buffering...");
         });
 
         player.on("error", (err: AudioPlayerError) => {

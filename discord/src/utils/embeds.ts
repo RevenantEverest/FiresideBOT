@@ -1,13 +1,13 @@
 import Discord, { MessageEmbed } from 'discord.js';
 
-import { GuildMessage } from '../types/message.js';
+import { CommandDispatch } from '../types/commands.js';
 import { Server } from '../types/server.js';
 
 import { URLS } from '../constants/index.js';
 import * as colors from './colors.js';
 import * as dates from './dates.js';
 
-export function createCurrentSongEmbed(message: GuildMessage, server: Server) {
+export function createCurrentSongEmbed(dispatch: CommandDispatch, server: Server) {
     const currentSong = server.queue.info[0];
     const embed = new Discord.MessageEmbed({
         color: colors.songEmbed,
@@ -17,7 +17,7 @@ export function createCurrentSongEmbed(message: GuildMessage, server: Server) {
         },
         fields: [
             { name: currentSong.title, value: currentSong.author },
-            { name: "Link", value: URLS.YOUTUBE_VIDEO + currentSong.videoId + `\nRequested By: ${currentSong.requestedBy}` },
+            { name: "Link", value: `[Click Me](${URLS.YOUTUBE_VIDEO + currentSong.videoId}) \nRequested By: ${currentSong.requestedBy}` },
         ],
         footer: {
             text: `Length ${dates.parseSeconds(currentSong.duration)}`
@@ -25,10 +25,10 @@ export function createCurrentSongEmbed(message: GuildMessage, server: Server) {
     });
 
     server.queue.currentSongEmbed = embed;
-    message.channel.send({ embeds: [embed] });
+    dispatch.channel.send({ embeds: [embed] });
 };
 
-export function createPaginatedEmbed(message: GuildMessage, embeds: MessageEmbed[], options: Object) {
+export function createPaginatedEmbed(dispatch: CommandDispatch, embeds: MessageEmbed[], options: Object) {
 
     const index = 0;
     // const embed = 

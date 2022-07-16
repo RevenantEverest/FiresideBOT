@@ -1,16 +1,16 @@
 import JWT from 'jsonwebtoken';
-import { Message } from 'discord.js';
 
+import { CommandDispatch } from '../types/commands.js';
 import { AuthPayload } from '../types/authPayload.js';
 
 import { ENV } from '../constants/index.js';
 
-async function issueToken(message: Message) {
+async function issueToken(dispatch: CommandDispatch) {
     const authPayload: AuthPayload = {
-        username: message.author.username,
-        discord_id: message.author.id,
-        discriminator: parseInt(message.author.discriminator, 10),
-        avatar: message.author.avatar
+        username: dispatch.author.username,
+        discord_id: dispatch.author.id,
+        discriminator: parseInt(dispatch.author.discriminator, 10),
+        avatar: dispatch.author.avatar
     };
 
     return JWT.sign(authPayload, ENV.TOKEN_SECRET, {
