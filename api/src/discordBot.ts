@@ -1,4 +1,4 @@
-import Discord, { ClientOptions, Emoji, Message, Role } from 'discord.js';
+import Discord, { ClientOptions, Emoji, Message, Guild, Role } from 'discord.js';
 import { AutoPoster } from 'topgg-autoposter';
 
 import { 
@@ -19,7 +19,8 @@ import {
     onRoleDelete,
     onEmojiCreate,
     onEmojiUpdate,
-    onEmojiDelete
+    onEmojiDelete,
+    onGuildCreate
 } from './controllers/discordEvents/index.js';
 import * as topggEvents from './controllers/topggEvents/index.js';
 
@@ -54,6 +55,8 @@ bot.on("messageReactionAdd", async (message: PotentialMessageReaction, user: Pot
 bot.on("messageReactionRemove", async (message: PotentialMessageReaction, user: PotentialDiscordUser) => {
     return onMessageReactionRemove(bot, message, user);
 });
+
+bot.on("guildCreate", async (guild: Guild) =>  onGuildCreate(bot, guild));
 
 bot.on("roleCreate", async (role: Role) => onRoleCreate(bot, role));
 bot.on("roleUpdate", async (role: Role) => onRoleUpdate(bot, role));
