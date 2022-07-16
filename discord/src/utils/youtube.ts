@@ -1,10 +1,7 @@
-import { AxiosResponse } from 'axios';
-import ytdl from 'ytdl-core';
+import playdl from 'play-dl';
 
-import * as promises from './promises.js';
 import { HandleReturn } from '../types/promises.js';
 import { SongInfo } from '../types/youtube.js';
-import { youtubeServices } from '../services/index.js';
 import { URLS } from '../constants/index.js';
 
 const youtubeRegex = /(?:https?:\/\/)?(?:www\.)?youtu\.?be(?:\.com)?\/?.*(?:watch|embed)?(?:.*v=|v\/|\/)([\w-_]+)/gi;
@@ -29,40 +26,41 @@ export async function handleSearch(request: string, isLink: boolean): Promise<Ha
     let youtubeLink = request;
 
     if(!isLink) {
-        const promise = youtubeServices.search(request);
-        const [res, err] = await promises.handle<AxiosResponse>(promise);
+        const search = await playdl.search(request, { 
+            source: { youtube: "video" },
+            limit: 1
+        });
 
-        if(err) {
-            return [undefined, err];
-        }
-
-        if(!res || res.data.items.length < 1) {
+        if(!search || search.length < 1) {
             return [undefined, new Error("No Results Found")];
         }
 
-        const videoId = res.data.items[0].id.videoId;
+        const videoId = search[0].id;
         youtubeLink = URLS.YOUTUBE_VIDEO + videoId;
     }
 
-    return await ytdlGetInfo(youtubeLink);
+    return await getSongInfo(youtubeLink);
 };
 
-export async function ytdlGetInfo(link: string): Promise<HandleReturn<SongInfo>> {
-    const info = await ytdl.getBasicInfo(link);
+export async function getSongInfo(link: string): Promise<HandleReturn<SongInfo>> {
+    const info = await playdl.video_basic_info(link);
 
     if(!info) {
         return [undefined, new Error("Info is Undefined")];
     }
 
-    const { title, videoId, author, lengthSeconds, thumbnail } = info.player_response.videoDetails;
-    const thumbnail_url = thumbnail.thumbnails[thumbnail.thumbnails.length - 1].url;
-    const duration = parseInt(lengthSeconds, 10);
+    const { id, title, channel, durationInSec, thumbnails } = info.video_details;
+    const thumbnail_url = thumbnails[thumbnails.length - 1].url;
+
+    if(!id || !title || !channel?.name) {
+        return [undefined, new Error("Missing Info Elements")];
+    }
 
     const songInfo: SongInfo = {
         title,
-        videoId,
-        author,
-        duration,
+        videoId: id,
+        author: channel.name,
+        duration: durationInSec,
         thumbnail_url
     };
 
