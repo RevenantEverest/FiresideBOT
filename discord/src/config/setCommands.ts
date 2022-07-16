@@ -1,7 +1,10 @@
-import { CommandCategory, CommandFileImport } from '../types/commands.js';
+import { CommandCategory, CommandConfig, CommandFileImport } from '../types/commands.js';
+import { REST } from '@discordjs/rest';
+import { Routes } from 'discord-api-types/v10';
 
 import config from './index.js';
 
+import { ENV } from '../constants/index.js';
 import { logs, colors, promises, fileSystem } from '../utils/index.js';
 import { HandleReturn } from 'src/types/promises.js';
 
@@ -105,10 +108,24 @@ async function setCommands() {
                 name: commandDir.toLocaleLowerCase(),
                 displayName: commandDir,
                 category: categoryPath.split("/").pop() as string,
+                slashCommand: commandFile.slashCommand,
                 run: commandFile.default 
             });
         };
     };
+
+    /* Set Slash Commands */
+    const rest = new REST({ version: "10" }).setToken(ENV.DISCORD.KEY);
+    const slashCommands = config.commands.map((command) => {
+        if(command.slashCommand) {
+            return command.slashCommand.toJSON();
+        }
+    }).filter(Boolean);
+
+    await rest.put(
+        Routes.applicationCommands(ENV.DISCORD.CLIENT_ID),
+        { body: slashCommands }
+    );
 
     logs.log({ color: colors.success, type: "LOG", message: "Commands Set" })
 };
