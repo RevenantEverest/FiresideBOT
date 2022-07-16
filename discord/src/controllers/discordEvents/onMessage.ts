@@ -1,5 +1,5 @@
-import { Client, Message } from 'discord.js';
-import { CommandFile, CommandOptions, CommandParams } from '../../types/commands.js';
+import { Client, GuildResolvable, Message, TextBasedChannel, ReplyMessageOptions, GuildMember } from 'discord.js';
+import { CommandFile, CommandOptions, CommandParams, CommandDispatch } from '../../types/commands.js';
 import { GuildMessage } from '../../types/message.js';
 
 import config from '../../config/index.js';
@@ -13,7 +13,16 @@ async function onMessage(bot: Client, message: Message) {
 
     if(!message.guild || message.author.bot) return;
 
-    const [guildSettings, err] = await api.guildSettings.get(message.guild.id, message);
+    const guildMessage: CommandDispatch = {
+        guildId: message.guildId as GuildResolvable,
+        author: message.author,
+        member: message.member as GuildMember,
+        guild: message.guild,
+        channel: message.channel as TextBasedChannel,
+        reply: (options: ReplyMessageOptions) => message.reply(options)
+    };
+
+    const [guildSettings, err] = await api.guildSettings.get(message.guild.id, guildMessage);
 
     if(err) {
         return logs.error({ color: colors.error, type: "COMMAND-ERROR", err, message: "Error Getting Guild Settings" });
@@ -57,7 +66,8 @@ async function onMessage(bot: Client, message: Message) {
     const params: CommandParams = {
         PREFIX, 
         bot, 
-        message: message as GuildMessage, 
+        dispatch: guildMessage, 
+        message: message as GuildMessage,
         args, 
         server, 
         options, 
