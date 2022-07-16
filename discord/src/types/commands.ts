@@ -1,8 +1,20 @@
-import { Client } from 'discord.js';
+import { Client, Guild, GuildMember, User, TextBasedChannel, GuildResolvable } from 'discord.js';
+import { SlashCommandBuilder } from '@discordjs/builders';
+
 import { GuildSettings } from './entities/GuildSettings.js';
 import { Server } from './server.js';
 import { UserState } from './user.js';
 import { GuildMessage } from './message.js';
+import { GuildInteraction } from './interaction.js';
+
+export interface CommandDispatch {
+    guildId: GuildResolvable,
+    guild: Guild,
+    member: GuildMember,
+    author: User,
+    channel: TextBasedChannel,
+    reply: Function
+};
 
 export interface CommandOptions {
     updatePending: boolean
@@ -11,7 +23,9 @@ export interface CommandOptions {
 export interface CommandParams {
     PREFIX: string,
     bot: Client,
-    message: GuildMessage,
+    dispatch: CommandDispatch,
+    interaction?: GuildInteraction,
+    message?: GuildMessage,
     args: string[],
     server: Server,
     options: CommandOptions,
@@ -34,15 +48,17 @@ export interface CommandConfigParams {
 export interface CommandConfig extends CommandConfigParams {
     name: string,
     displayName: string,
-    category: string,
+    category: string
 };
 
 export interface CommandFile extends CommandConfig {
+    slashCommand?: SlashCommandBuilder,
     run: Function
 };
 
 export interface CommandFileImport {
     config: CommandConfig,
+    slashCommand?: SlashCommandBuilder,
     default: Function
 };
 
