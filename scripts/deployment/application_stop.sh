@@ -1,3 +1,8 @@
 #!/bin/bash
 echo "Stopping Docker Containers..."
-docker stop $(docker container ls -q) && docker system prune -a -f && docker volume prune
+
+if [ $( docker ps -a | wc -l ) -gt 1 ]; then
+  echo docker stop $(docker container ls -q) && docker system prune -a -f
+else
+  echo "No docker containers running, skipping..."
+fi
