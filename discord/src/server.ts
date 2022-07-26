@@ -18,7 +18,7 @@ import { logs, colors } from './utils/index.js';
 
     bot.login(ENV.DISCORD.KEY);
 
-    const PORT = ENV.API_PORT || 3002;
+    const PORT = ENV.DISCORD_PORT || 3002;
     const app = initializeApp();
 
     app.listen(PORT, () => {
