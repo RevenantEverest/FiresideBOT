@@ -1,8 +1,8 @@
 #!/bin/bash
 echo "Stopping Docker Containers..."
 cd /home/ubuntu/
-cp .env FiresideBOT/
-cp .env FiresideBOT/api
-cp .env FiresideBOT/discord
+sudo cp .env FiresideBOT/
+sudo cp .env FiresideBOT/api
+sudo cp .env FiresideBOT/discord
 cd home/ubuntu/FiresideBOT/scripts
-./start_staging.sh
+sudo ./start_staging.sh
