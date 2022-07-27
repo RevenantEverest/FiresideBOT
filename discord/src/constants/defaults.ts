@@ -2,6 +2,7 @@ import { GuildResolvable } from 'discord.js';
 import { GuildSettings } from '../types/entities/GuildSettings.js';
 import config from '../config/index.js';
 
+export const PAGINATED_EMBED_TIME = 5;
 export const VOLUME = 50;
 
 export async function generateDefaultServer(guildId: GuildResolvable, guildSettings: GuildSettings) {
