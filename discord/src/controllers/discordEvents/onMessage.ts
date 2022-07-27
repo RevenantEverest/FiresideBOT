@@ -19,7 +19,7 @@ async function onMessage(bot: Client, message: Message) {
         member: message.member as GuildMember,
         guild: message.guild,
         channel: message.channel as TextBasedChannel,
-        reply: (options: ReplyMessageOptions) => message.reply(options)
+        reply: async (options: ReplyMessageOptions) => message.reply(options)
     };
 
     const [guildSettings, err] = await api.guildSettings.get(message.guild.id, guildMessage);

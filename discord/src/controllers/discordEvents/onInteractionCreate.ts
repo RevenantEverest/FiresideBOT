@@ -48,7 +48,7 @@ async function onInteractionCreate(bot: Client, interaction: Interaction) {
         guild: guild,
         member: guildMember,
         channel: channel as TextBasedChannel,
-        reply: (options: InteractionReplyOptions) => interaction.reply(options)
+        reply: async (options: InteractionReplyOptions) => interaction.reply(options)
     };
 
     const [guildSettings, err] = await api.guildSettings.get(interaction.guildId, guildInteraction);
