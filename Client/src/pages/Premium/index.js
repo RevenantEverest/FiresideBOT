@@ -1,0 +1,1 @@
+export { default as PremiumPage } from './PremiumPage';

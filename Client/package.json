@@ -3,24 +3,37 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.25",
-    "@fortawesome/free-brands-svg-icons": "^5.11.2",
-    "@fortawesome/free-solid-svg-icons": "^5.11.2",
-    "@fortawesome/react-fontawesome": "^0.1.7",
-    "axios": "^0.19.0",
-    "mdbreact": "file:mdbreact-4.25.1.tgz",
-    "react": "^16.12.0",
-    "react-animated-number": "^0.4.4",
-    "react-bootstrap": "^1.0.0-beta.16",
-    "react-chartjs-2": "^2.8.0",
-    "react-color": "^2.18.0",
-    "react-dom": "^16.12.0",
-    "react-helmet": "^5.2.1",
-    "react-markdown": "^4.2.2",
-    "react-router-dom": "^5.1.2",
-    "react-scripts": "3.2.0",
-    "react-scroll": "^1.7.14",
-    "react-youtube": "^7.9.0"
+    "@fluentui/react-theme-provider": "^0.18.5",
+    "@fortawesome/fontawesome-svg-core": "^1.2.36",
+    "@fortawesome/free-brands-svg-icons": "^5.15.4",
+    "@fortawesome/free-solid-svg-icons": "^5.15.4",
+    "@fortawesome/react-fontawesome": "^0.1.15",
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "axios": "^0.23.0",
+    "dayjs": "^1.10.7",
+    "formik": "^2.2.9",
+    "framer-motion": "4.1.17",
+    "lottie-react-web": "^2.2.2",
+    "mdbreact": "file:mdbreact-5.0.1.tgz",
+    "react": "17.0.1",
+    "react-chartjs-2": "^3.0.5",
+    "react-circular-progressbar": "^2.0.4",
+    "react-color": "^2.19.3",
+    "react-countup": "^6.0.0",
+    "react-dom": "17.0.1",
+    "react-markdown": "^7.0.1",
+    "react-redux": "^7.2.5",
+    "react-router-dom": "^5.3.0",
+    "react-scripts": "4.0.1",
+    "react-scroll": "^1.8.4",
+    "redux": "^4.1.1",
+    "redux-devtools-extension": "^2.13.9",
+    "redux-persist": "^6.0.0",
+    "redux-thunk": "^2.4.0",
+    "typed.js": "^2.0.12",
+    "web-vitals": "^1.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -29,7 +42,10 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
   },
   "browserslist": {
     "production": [
