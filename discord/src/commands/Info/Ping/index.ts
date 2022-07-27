@@ -2,7 +2,7 @@ import { SlashCommandBuilder } from '@discordjs/builders';
 import { CommandParams, CommandConfigParams } from '../../../types/commands.js';
 
 async function Ping({ dispatch }: CommandParams) {
-    return await dispatch.reply("Pong");
+    return await dispatch.reply("Pong - Updated...");
 };
 
 export const config: CommandConfigParams = {
