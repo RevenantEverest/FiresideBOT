@@ -3,6 +3,7 @@ import { connectToTestingDatabase } from '../support/database.support.js';
 import { DB_TIMEOUT } from '../support/constants/database.js';
 
 import playlistTests from './playlists/__index__.js';
+import settingsTests from './settings/__index__.js';
 
 describe("Integration Tests", () => {
     beforeAll(async () => {
@@ -20,4 +21,5 @@ describe("Integration Tests", () => {
 
     
     describe("playlist routes", playlistTests);
+    describe("settings routes", settingsTests);
 });
