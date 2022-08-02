@@ -1,4 +1,3 @@
-
 import express from 'express';
 import { guildSettingsController } from '../../controllers/settings/index.js';
 import { extractPaginationParams, permissions, validation } from '../../middleware/index.js';
