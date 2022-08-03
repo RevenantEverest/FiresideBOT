@@ -5,6 +5,7 @@ import cors from 'cors';
 import { verifyToken } from './middleware/index.js';
 import { 
     authRoutes, 
+    customRoutes,
     playlistRoutes, 
     settingsRoutes, 
     webhookRoutes 
@@ -21,8 +22,11 @@ function initializeApp(): Application {
     app.set("trust proxy", "loopback");
 
     app.use("/auth", authRoutes);
+
+    app.use("/custom", verifyToken, customRoutes);
     app.use("/playlists", verifyToken, playlistRoutes);
     app.use("/settings", verifyToken, settingsRoutes);
+
     app.use("/webhooks", webhookRoutes);
 
     return app;
