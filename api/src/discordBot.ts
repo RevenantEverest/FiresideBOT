@@ -1,8 +1,30 @@
-import Discord, { ClientOptions } from 'discord.js';
+import Discord, { ClientOptions, Emoji, Message, Guild, Role } from 'discord.js';
 import { AutoPoster } from 'topgg-autoposter';
 
+import { 
+    PotentialMessage, 
+    PotentialMessageReaction,
+    PotentialDiscordUser
+} from './types/discordEvents.js';
+
+import { 
+    onReady, 
+    onError,
+    onMessageCreate,
+    onMessageDelete,
+    onMessageReactionAdd,
+    onMessageReactionRemove,
+    onRoleCreate,
+    onRoleUpdate,
+    onRoleDelete,
+    onEmojiCreate,
+    onEmojiUpdate,
+    onEmojiDelete,
+    onGuildCreate
+} from './controllers/discordEvents/index.js';
+import * as topggEvents from './controllers/topggEvents/index.js';
+
 import { ENV } from './constants/index.js';
-import { colors, logs } from './utils/index.js';
 
 const options:ClientOptions = {
     intents: [
@@ -21,49 +43,33 @@ const options:ClientOptions = {
 const bot = new Discord.Client(options);
 const autoPoster = !ENV.IS_DEV ? AutoPoster(ENV.TOPGG_TOKEN, bot, { interval: 7200000 }) : null;
 
-bot.on("ready", async () => {
+bot.on("ready", async () => onReady(bot));
+bot.on("error", async (err: Error) => onError(bot, err));
 
-    if(ENV.IS_DEV) {
-        return logs.log({ color: colors.success, message: "Discord bot ready" });
-    }
+bot.on("messageCreate", async (message: Message) => onMessageCreate(bot, message));
+bot.on("messageDelete", async (message: PotentialMessage) => onMessageDelete(bot, message));
 
-    logs.postToLogsChannel({ bot: bot, color: colors.success, title: "API Ready" });
+bot.on("messageReactionAdd", async (message: PotentialMessageReaction, user: PotentialDiscordUser) => {
+    return onMessageReactionAdd(bot, message, user);
+});
+bot.on("messageReactionRemove", async (message: PotentialMessageReaction, user: PotentialDiscordUser) => {
+    return onMessageReactionRemove(bot, message, user);
 });
 
-bot.on("error", async (err:Error) => {
+bot.on("guildCreate", async (guild: Guild) =>  onGuildCreate(bot, guild));
 
-    const message = "CLIENT ERROR - API";
-    
-    logs.error({ color: colors.error, err, message: message });
+bot.on("roleCreate", async (role: Role) => onRoleCreate(bot, role));
+bot.on("roleUpdate", async (role: Role) => onRoleUpdate(bot, role));
+bot.on("roleDelete", async (role: Role) => onRoleDelete(bot, role));
 
-    if(ENV.IS_DEV) return;
-
-    logs.postToLogsChannel({ bot: bot, color: colors.error, title: "CLIENT ERROR - API" });
-});
+bot.on("emojiCreate", async (emoji: Emoji) => onEmojiCreate(bot, emoji));
+bot.on("emojiUpdate", async (emoji: Emoji) => onEmojiUpdate(bot, emoji));
+bot.on("emojiDelete", async (emoji: Emoji) => onEmojiDelete(bot, emoji));
 
 /* Top.gg AutoPoster events */
 if(autoPoster) {
-    autoPoster.on("posted", async () => {
-
-        const title = "Top.gg Stats Posted";
-
-        if(ENV.IS_DEV) {
-            return logs.log({ color: colors.warning, type: "TOPGG", message: title });
-        }
-
-        logs.postToLogsChannel({ bot: bot, color: colors.topgg, title: title });
-    });
-
-    autoPoster.on("error", async (err: Error) => {
-
-        const message = "Top.gg AutoPoster Error";
-
-        logs.error({ color: colors.error, err, message: message });
-
-        if(ENV.IS_DEV) return;
-
-        logs.postToLogsChannel({ bot: bot, color: colors.error, title: message });
-    });
+    autoPoster.on("posted", async () => topggEvents.onPosted(bot));
+    autoPoster.on("error", async (err: Error) => topggEvents.onError(bot, err));
 };
 
 export default bot;

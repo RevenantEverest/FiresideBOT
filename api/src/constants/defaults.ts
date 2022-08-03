@@ -1,1 +1,19 @@
-export const LIMIT = 10;
+import * as ENV from './environment.js';
+
+export const LIMIT = 10; // Pagination Limit
+
+export const GENERAL_SETTINGS = {
+    PREFIX: ENV.IS_DEV ? "*" : "?",
+    VOLUME: 50
+};
+
+export const RANK_SETTINGS = {
+    GENERAL_INCREASE_RATE: 10,
+    COMPLEXITY: 2,
+    RANK_CHANNEL: null
+};
+
+export const ECONOMY_SETTINGS = {
+    CURRENCY_NAME: "Kindling",
+    INCREASE_RATE: 10
+};

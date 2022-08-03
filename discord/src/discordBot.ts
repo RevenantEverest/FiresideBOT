@@ -1,6 +1,6 @@
-import Discord, { ClientOptions, Message } from 'discord.js';
+import Discord, { ClientOptions, Interaction, Message } from 'discord.js';
 
-import { onReady, onMessage, onError } from './controllers/discordEvents/index.js';
+import { onReady, onMessage, onInteractionCreate, onError } from './controllers/discordEvents/index.js';
 
 const options: ClientOptions = {
     intents: [
@@ -18,8 +18,9 @@ const options: ClientOptions = {
 };
 const bot = new Discord.Client(options);
 
-bot.on("ready", () => onReady(bot));
-bot.on("messageCreate", (message: Message) => onMessage(bot, message));
-bot.on("error", (err: Error) => onError(bot, err));
+bot.on("ready", async () => onReady(bot));
+bot.on("messageCreate", async (message: Message) => onMessage(bot, message));
+bot.on("interactionCreate", async (interaction: Interaction) => onInteractionCreate(bot, interaction));
+bot.on("error", async (err: Error) => onError(bot, err));
 
 export default bot;

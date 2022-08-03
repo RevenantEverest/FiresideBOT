@@ -1,22 +1,19 @@
 import "reflect-metadata";
 
-import dotenv from 'dotenv';
-
 import AppDataSource from './db/dataSource.js';
 import waitForPostgres from './db/waitForPostgres.js';
 import bot from './discordBot.js';
 import initializeApp from './app.js';
 
+import { ENV } from './constants/index.js';
 import { logs, colors } from './utils/index.js';
-
-dotenv.config();
 
 (async function main() {
     await waitForPostgres(AppDataSource);
 
-    bot.login(process.env.DISCORD_KEY);
+    bot.login(ENV.DISCORD.KEY);
 
-    const PORT = process.env.API_PORT || 3001;
+    const PORT = ENV.API_PORT || 3001;
 
     const app = initializeApp();
 

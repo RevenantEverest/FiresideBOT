@@ -1,3 +1,5 @@
+import play from 'play-dl';
+
 import bot from './discordBot.js';
 import initializeApp from './app.js';
 import setCommands from './config/setCommands.js';
@@ -8,10 +10,15 @@ import { logs, colors } from './utils/index.js';
 (async function main() {
 
     await setCommands();
+    await play.setToken({
+        youtube: {
+            cookie: ENV.YOUTUBE_COOKIE
+        }
+    })
 
     bot.login(ENV.DISCORD.KEY);
 
-    const PORT = ENV.API_PORT || 3002;
+    const PORT = ENV.DISCORD_PORT || 3002;
     const app = initializeApp();
 
     app.listen(PORT, () => {

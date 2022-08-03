@@ -1,16 +1,18 @@
-import { CommandParams, CommandConfig } from '../../../types/commands.js';
+import { SlashCommandBuilder } from '@discordjs/builders';
+import { CommandParams, CommandConfigParams } from '../../../types/commands.js';
 
-function Ping({ message }: CommandParams) {
-    return message.channel.send("Pong");
+async function Ping({ dispatch }: CommandParams) {
+    return await dispatch.reply("Pong");
 };
 
-export const config: CommandConfig = {
-    name: "ping",
-    displayName: "Ping",
+export const config: CommandConfigParams = {
     aliases: [],
-    category: "Info",
-    description: "",
+    description: "Check Fireside's ping",
     example: ""
 };
+
+export const slashCommand = new SlashCommandBuilder()
+.setName("ping")
+.setDescription(config.description);
 
 export default Ping;

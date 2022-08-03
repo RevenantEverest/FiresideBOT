@@ -15,7 +15,7 @@ async function isGuildMember(req: Request, res: Response, next: NextFunction) {
     }
 
     if(!isMember) {
-        return errors.sendResponse({ res, status: 401, message: "Unauthorized" });
+        return errors.sendResponse({ res, status: 403, message: "Forbidden" });
     }
 
     next();
