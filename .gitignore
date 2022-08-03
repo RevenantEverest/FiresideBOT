@@ -1,4 +1,7 @@
 /node_modules/
 *.env
 nohup.out
-*.sh
+/postgres_data/
+/postgres_testing_data/
+/pgadmin_data/
+/old_scripts/

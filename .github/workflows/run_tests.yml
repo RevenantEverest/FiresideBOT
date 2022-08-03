@@ -1,0 +1,35 @@
+name: test
+on: [pull_request]
+jobs:
+  test_api:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Create env files
+        env:
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_PORT: ${{ secrets.DB_PORT }}
+          DB_TYPE: ${{ secrets.DB_TYPE }}
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          TESTING_DB_HOST: ${{ secrets.TESTING_DB_HOST }}
+          TESTING_DB_NAME: ${{ secrets.TESTING_DB_NAME }}
+          TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}
+          TOPGG_TOKEN: ${{ secrets.TOPGG_TOKEN }}
+        run: |
+          touch .env
+          echo DB_PASSWORD="$DB_PASSWORD" >> .env
+          echo DB_PORT="$DB_PORT" >> .env
+          echo DB_TYPE="$DB_TYPE" >> .env
+          echo DB_USERNAME="$DB_USERNAME" >> .env
+          echo TESTING_DB_HOST="$TESTING_DB_HOST" >> .env
+          echo TESTING_DB_NAME="$TESTING_DB_NAME" >> .env
+          echo TOKEN_SECRET="$TOKEN_SECRET" >> .env
+          echo TOPGG_TOKEN="$TOPGG_TOKEN" >> .env
+          cp .env ./api/.env
+        
+      - name: Run docker-compose script
+        run: |
+          cd scripts/ && ./start_api_test.sh
+

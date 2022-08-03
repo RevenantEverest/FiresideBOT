@@ -1,0 +1,25 @@
+x-env: &env
+  environment:
+    - DB_NAME=${DB_NAME}
+    - DB_USERNAME=${DB_USERNAME}
+    - DB_PASSWORD=${DB_PASSWORD}
+    - DB_HOST=${DB_HOST}
+    - DB_PORT=${DB_PORT-5432}
+    - PORT=${API_PORT}
+
+version: "3.5"
+services:
+  api:
+    image: ${DOCKER_REGISTRY:-}api${DEPLOY_TAG:-}
+    <<: *env
+    build:
+      context: ./api
+    ports:
+      - "3001:3001"
+  discord:
+    image: ${DOCKER_REGISTRY:-}discord${DEPLOY_TAG:-}
+    <<: *env
+    build:
+      context: ./discord
+    ports: 
+      - "3002:3002"
