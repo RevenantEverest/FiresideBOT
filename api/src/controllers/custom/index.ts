@@ -1,0 +1,1 @@
+export * as fortunesController from './fortunes/index.js';
