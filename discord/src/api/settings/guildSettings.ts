@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import { GuildResolvable, Message } from 'discord.js';
+import { GuildResolvable } from 'discord.js';
 import { CommandDispatch } from 'src/types/commands.js';
 import { GuildSettings } from '../../types/entities/GuildSettings.js';
 import { HandleReturn } from '../../types/promises.js';
