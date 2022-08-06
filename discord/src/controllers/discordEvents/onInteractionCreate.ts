@@ -1,13 +1,11 @@
-import { Client, GuildMember, Interaction, InteractionReplyOptions, TextBasedChannel } from 'discord.js';
+import { Client, Interaction, InteractionReplyOptions, TextBasedChannel } from 'discord.js';
 
-import { CommandOptions, CommandFile, CommandParams, CommandDispatch } from '../../types/commands.js';
+import { CommandParams, CommandDispatch } from '../../types/commands.js';
 import { GuildInteraction } from 'src/types/interaction.js';
 
-import config from '../../config/index.js';
 import * as api from '../../api/index.js';
 
-import { DEFAULTS } from '../../constants/index.js';
-import { colors, logs, promises } from '../../utils/index.js';
+import { colors, logs, promises, commands } from '../../utils/index.js';
 
 async function onInteractionCreate(bot: Client, interaction: Interaction) {
     if(!interaction.isCommand() || !interaction.inGuild()) return;
@@ -42,7 +40,7 @@ async function onInteractionCreate(bot: Client, interaction: Interaction) {
         return logs.error({ color: colors.error, type: "INTERACTION-ERROR", message: "No Guild Member Returned" });
     }
 
-    const guildInteraction: CommandDispatch = {
+    const dispatch: CommandDispatch = {
         guildId: interaction.guildId,
         author: interaction.user,
         guild: guild,
@@ -51,7 +49,7 @@ async function onInteractionCreate(bot: Client, interaction: Interaction) {
         reply: async (options: InteractionReplyOptions) => interaction.reply(options)
     };
 
-    const [guildSettings, err] = await api.guildSettings.get(interaction.guildId, guildInteraction);
+    const [guildSettings, err] = await api.guildSettings.get(interaction.guildId, dispatch);
 
     if(err) {
         return logs.error({ color: colors.error, type: "INTERACTION-ERROR", err, message: "Error Getting Guild Settings" });
@@ -63,20 +61,16 @@ async function onInteractionCreate(bot: Client, interaction: Interaction) {
 
     const PREFIX = guildSettings.prefix;
 
-    if(!config.servers.map(server => server.id).includes(interaction.guildId)) {
-        DEFAULTS.generateDefaultServer(interaction.guildId, guildSettings);
-    }
+    const { server, options, commandFile } = await commands.getOptions({ 
+        guildId: dispatch.guildId,
+        commandResolvable: interaction.commandName, 
+        guildSettings 
+    });
 
-    const server = config.servers[config.servers.map(server => server.id).indexOf(interaction.guildId)];
-    const options: CommandOptions = {
-        updatePending: config.updatePending
-    };
     const disabledCommands = null;
     const userState = {
         premium: false
     };
-
-    const commandFile = config.commands.filter((command: CommandFile) => command.name === interaction.commandName)[0];
 
     if(!commandFile) {
         return;
@@ -86,7 +80,7 @@ async function onInteractionCreate(bot: Client, interaction: Interaction) {
         PREFIX, 
         bot, 
         args: [],
-        dispatch: guildInteraction,
+        dispatch,
         interaction: interaction as GuildInteraction,
         server, 
         options, 

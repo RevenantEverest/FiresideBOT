@@ -1,19 +1,16 @@
 import { Client, GuildResolvable, Message, TextBasedChannel, ReplyMessageOptions, GuildMember } from 'discord.js';
-import { CommandFile, CommandOptions, CommandParams, CommandDispatch } from '../../types/commands.js';
+import { CommandParams, CommandDispatch } from '../../types/commands.js';
 import { GuildMessage } from '../../types/message.js';
-
-import config from '../../config/index.js';
 
 import * as api from '../../api/index.js';
 
-import { DEFAULTS } from '../../constants/index.js';
-import { logs, colors } from '../../utils/index.js';
+import { logs, colors, commands } from '../../utils/index.js';
 
 async function onMessage(bot: Client, message: Message) {
 
     if(!message.guild || message.author.bot) return;
 
-    const guildMessage: CommandDispatch = {
+    const dispatch: CommandDispatch = {
         guildId: message.guildId as GuildResolvable,
         author: message.author,
         member: message.member as GuildMember,
@@ -22,7 +19,7 @@ async function onMessage(bot: Client, message: Message) {
         reply: async (options: ReplyMessageOptions) => message.reply(options)
     };
 
-    const [guildSettings, err] = await api.guildSettings.get(message.guild.id, guildMessage);
+    const [guildSettings, err] = await api.guildSettings.get(message.guild.id, dispatch);
 
     if(err) {
         return logs.error({ color: colors.error, type: "COMMAND-ERROR", err, message: "Error Getting Guild Settings" });
@@ -37,25 +34,18 @@ async function onMessage(bot: Client, message: Message) {
     if(!PREFIX || !message.content.startsWith(PREFIX)) 
         return;
 
-    if(!config.servers.map(server => server.id).includes(message.guild.id)) {
-        DEFAULTS.generateDefaultServer(message.guild.id, guildSettings);
-    }
-
     const args = message.content.substring(PREFIX.length).split(" ");
-    const server = config.servers[config.servers.map(server => server.id).indexOf(message.guild?.id)];
-    const options: CommandOptions = {
-        updatePending: config.updatePending
-    };
+    
+    const { server, commandFile, options } = await commands.getOptions({
+        guildId: dispatch.guildId,
+        commandResolvable: args[0],
+        guildSettings
+    });
+
     const disabledCommands = null;
     const userState = {
         premium: false
     };
-
-    const commandFile = config.commands.filter((command: CommandFile) => {
-        if(command.name === args[0].toLowerCase() || command.aliases && command.aliases.includes(args[0].toLowerCase())) {
-            return command;
-        }
-    })[0];
 
     if(!commandFile) {
         return;
@@ -66,7 +56,7 @@ async function onMessage(bot: Client, message: Message) {
     const params: CommandParams = {
         PREFIX, 
         bot, 
-        dispatch: guildMessage, 
+        dispatch, 
         message: message as GuildMessage,
         args, 
         server, 
