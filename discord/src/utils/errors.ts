@@ -14,7 +14,7 @@ interface HandlerOptions {
     commandName: string
 };
 
-export async function handler({ bot, dispatch, err, errMessage, commandName }: HandlerOptions) {
+export async function command({ bot, dispatch, err, errMessage, commandName }: HandlerOptions) {
     const embed = new Discord.MessageEmbed({
         color: colors.error,
         fields: [{ 
@@ -33,7 +33,7 @@ export async function handler({ bot, dispatch, err, errMessage, commandName }: H
     await returnMessage.react("❌");
 };
 
-export function internalHandler() {
+export function internal() {
 
 };
 
