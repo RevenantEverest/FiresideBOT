@@ -59,13 +59,13 @@ export async function create(guildId: GuildResolvable, dispatch: CommandDispatch
         return [undefined, new Error("No Fortune returned")];
     }
 
-    return [(res.data as Fortune), undefined];
+    return [(res.data.results as Fortune), undefined];
 };
 
-export async function destroy(guildId: GuildResolvable, dispatch: CommandDispatch, fortune: Fortune): HandleReturn<boolean> {
+export async function destroy(guildId: GuildResolvable, dispatch: CommandDispatch, fortuneId: number): HandleReturn<boolean> {
     const token = await issueToken(dispatch);
 
-    const request = axios.delete(`${baseEndpoint}/guild/${guildId}/id/${fortune.id}`, {
+    const request = axios.delete(`${baseEndpoint}/guild/${guildId}/id/${fortuneId}`, {
         headers: {
             Authorization: `Bearer ${token}`
         }
