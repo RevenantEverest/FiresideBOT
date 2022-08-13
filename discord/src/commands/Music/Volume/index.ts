@@ -4,14 +4,13 @@ import { CommandParams, CommandConfigParams } from '../../../types/commands.js';
 import * as api from '../../../api/index.js';
 
 import { ERROR_MESSAGES } from '../../../constants/index.js';
-import { errors, voiceConnection } from '../../../utils/index.js';
 
-async function Volume({ args, dispatch, interaction, server, guildSettings }: CommandParams) {
+async function Volume({ args, dispatch, server, guildSettings }: CommandParams) {
     if(!dispatch.member.voice.channel) {
         return dispatch.reply(ERROR_MESSAGES.COMMANDS.NOT_IN_VOICE_CHANNEL);
     }
 
-    const volumeInput = interaction?.options.getNumber("volume") || parseInt(args[0], 10);
+    const volumeInput = dispatch.interaction?.options.getNumber("volume") || parseInt(args[0], 10);
 
     if(!volumeInput) {
         return dispatch.reply(`Current Volume: **${server.queue.options.volume}**`);
