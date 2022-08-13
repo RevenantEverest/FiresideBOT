@@ -4,3 +4,7 @@ export interface ApiPaginatedResponse<T> {
     previous: string | null,
     results: T[]
 };
+
+export interface ApiPaginationParams {
+    page?: number
+};

@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 import { GuildResolvable } from 'discord.js';
 import { CommandDispatch } from '../../types/commands.js';
-import { ApiPaginatedResponse } from '../../types/api.js';
+import { ApiPaginatedResponse, ApiPaginationParams } from '../../types/api.js';
 import { Fortune } from '../../types/entities/Fortune.js';
 import { HandleReturn } from '../../types/promises.js';
 
@@ -14,10 +14,10 @@ const baseEndpoint = ENV.API_URL + "/custom/fortunes";
 
 type GetByGuildIdReturn = HandleReturn<ApiPaginatedResponse<Fortune>>;
 
-export async function getByGuildId(guildId: GuildResolvable, dispatch: CommandDispatch): GetByGuildIdReturn {
+export async function getByGuildId(guildId: GuildResolvable, dispatch: CommandDispatch, params: ApiPaginationParams): GetByGuildIdReturn {
     const token = await issueToken(dispatch);
 
-    const request = axios.get(`${baseEndpoint}/guild/${guildId}`, {
+    const request = axios.get(`${baseEndpoint}/guild/${guildId}/?page=${params.page ?? 1}`, {
         headers: {
             Authorization: `Bearer ${token}`
         }
