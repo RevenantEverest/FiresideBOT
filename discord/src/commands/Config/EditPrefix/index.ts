@@ -6,12 +6,12 @@ import * as api from '../../../api/index.js';
 import { ERROR_MESSAGES } from '../../../constants/index.js';
 import { errors } from '../../../utils/index.js';
 
-async function EditPrefix({ args, dispatch, interaction, guildSettings }: CommandParams) {
-    if(!interaction && !args[0]) {
+async function EditPrefix({ args, dispatch, guildSettings }: CommandParams) {
+    if(!dispatch.interaction && !args[0]) {
         return dispatch.reply(ERROR_MESSAGES.COMMANDS.EDIT_PREFIX.NO_ARGS);
     }
 
-    const newPrefix = interaction?.options.getString("prefix") || args[0];
+    const newPrefix = dispatch.interaction?.options.getString("prefix") || args[0];
 
     if(newPrefix.split("").includes(" ")) {
         return dispatch.reply(ERROR_MESSAGES.COMMANDS.EDIT_PREFIX.WHITESPACE_FOUND);
