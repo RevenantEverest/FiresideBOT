@@ -1,9 +1,13 @@
 export * as colors from './colors.js';
+export * as commands from './commands.js';
 export * as common from './common.js';
 export * as dates from './dates.js';
+export * as dispatch from './dispatch.js';
 export * as errors from './errors.js';
 export * as fileSystem from './fileSystem.js';
 export * as logs from './logs.js';
+export * as numbers from './numbers.js';
+export * as pagination from './pagination.js';
 export * as promises from './promises.js';
 export * as youtube from './youtube.js';
 export * as voiceConnection from './voiceConnection.js';
