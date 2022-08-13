@@ -1,4 +1,4 @@
-import { Client, Guild, GuildMember, User, TextBasedChannel, GuildResolvable } from 'discord.js';
+import { Client, Guild, GuildMember, User, TextBasedChannel, GuildResolvable, Message } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 
 import { GuildSettings } from './entities/GuildSettings.js';
@@ -13,6 +13,8 @@ export interface CommandDispatch {
     member: GuildMember,
     author: User,
     channel: TextBasedChannel,
+    interaction?: GuildInteraction,
+    message?: Message,
     reply: Function
 };
 
@@ -24,7 +26,6 @@ export interface CommandParams {
     PREFIX: string,
     bot: Client,
     dispatch: CommandDispatch,
-    interaction?: GuildInteraction,
     message?: GuildMessage,
     args: string[],
     server: Server,
