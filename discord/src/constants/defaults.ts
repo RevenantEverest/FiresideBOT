@@ -2,6 +2,9 @@ import { GuildResolvable } from 'discord.js';
 import { GuildSettings } from '../types/entities/GuildSettings.js';
 import config from '../config/index.js';
 
+export const API_PAGINATION = {
+    LIMIT: 10
+};
 export const PAGINATED_EMBED_TIME = 5;
 export const VOLUME = 50;
 
