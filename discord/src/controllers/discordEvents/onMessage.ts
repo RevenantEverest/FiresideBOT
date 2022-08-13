@@ -5,6 +5,7 @@ import { GuildMessage } from '../../types/message.js';
 import * as api from '../../api/index.js';
 
 import { logs, colors, commands } from '../../utils/index.js';
+import * as dispatchUtils from '../../utils/dispatch.js';
 
 async function onMessage(bot: Client, message: Message) {
 
@@ -15,8 +16,11 @@ async function onMessage(bot: Client, message: Message) {
         author: message.author,
         member: message.member as GuildMember,
         guild: message.guild,
+        message,
         channel: message.channel as TextBasedChannel,
-        reply: async (options: ReplyMessageOptions) => message.reply(options)
+        reply: async (content: ReplyMessageOptions, deferredReply?: boolean) => {
+            return dispatchUtils.sendReply(dispatch, content, deferredReply);
+        }
     };
 
     const [guildSettings, err] = await api.guildSettings.get(message.guild.id, dispatch);
@@ -44,7 +48,7 @@ async function onMessage(bot: Client, message: Message) {
 
     const disabledCommands = null;
     const userState = {
-        premium: false
+        premium: true
     };
 
     if(!commandFile) {

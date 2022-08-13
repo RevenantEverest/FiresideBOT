@@ -1,11 +1,11 @@
 import { Client, Interaction, InteractionReplyOptions, TextBasedChannel } from 'discord.js';
 
 import { CommandParams, CommandDispatch } from '../../types/commands.js';
-import { GuildInteraction } from 'src/types/interaction.js';
 
 import * as api from '../../api/index.js';
 
 import { colors, logs, promises, commands } from '../../utils/index.js';
+import * as dispatchUtils from '../../utils/dispatch.js';
 
 async function onInteractionCreate(bot: Client, interaction: Interaction) {
     if(!interaction.isCommand() || !interaction.inGuild()) return;
@@ -40,16 +40,20 @@ async function onInteractionCreate(bot: Client, interaction: Interaction) {
         return logs.error({ color: colors.error, type: "INTERACTION-ERROR", message: "No Guild Member Returned" });
     }
 
+    const { guildId, user } = interaction;
     const dispatch: CommandDispatch = {
-        guildId: interaction.guildId,
-        author: interaction.user,
+        guildId,
+        author: user,
         guild: guild,
         member: guildMember,
+        interaction,
         channel: channel as TextBasedChannel,
-        reply: async (options: InteractionReplyOptions) => interaction.reply(options)
+        reply: async (content: InteractionReplyOptions, deferredReply?: boolean) => {
+            return dispatchUtils.sendReply(dispatch, content, deferredReply);
+        }
     };
 
-    const [guildSettings, err] = await api.guildSettings.get(interaction.guildId, dispatch);
+    const [guildSettings, err] = await api.guildSettings.get(guildId, dispatch);
 
     if(err) {
         return logs.error({ color: colors.error, type: "INTERACTION-ERROR", err, message: "Error Getting Guild Settings" });
@@ -62,14 +66,14 @@ async function onInteractionCreate(bot: Client, interaction: Interaction) {
     const PREFIX = guildSettings.prefix;
 
     const { server, options, commandFile } = await commands.getOptions({ 
-        guildId: dispatch.guildId,
+        guildId: guildId,
         commandResolvable: interaction.commandName, 
         guildSettings 
     });
 
     const disabledCommands = null;
     const userState = {
-        premium: false
+        premium: true
     };
 
     if(!commandFile) {
@@ -81,7 +85,6 @@ async function onInteractionCreate(bot: Client, interaction: Interaction) {
         bot, 
         args: [],
         dispatch,
-        interaction: interaction as GuildInteraction,
         server, 
         options, 
         userState, 
