@@ -7,8 +7,7 @@ import { ApiPaginationOptions, GetPageResponse } from '../../../types/pagination
 
 import * as api from '../../../api/index.js';
 
-import { colors, embeds, pagination, arrays, errors } from '../../../utils/index.js';
-import { DEFAULTS } from '../../../constants/index.js';
+import { colors, embeds, pagination, errors } from '../../../utils/index.js';
 
 async function Fortunes({ bot, dispatch }: CommandParams) {
 
@@ -27,14 +26,6 @@ async function Fortunes({ bot, dispatch }: CommandParams) {
     const amountPerPage: number = 5;
     const paginatedEmbed: PaginatedEmbed = generatePaginatedEmbed(fortunes.results);
 
-    function setFieldName(fortune: Fortune, index: number, startIndex: number): string {
-        return `${(startIndex + index) + 1}. ${fortune.fortune} (ID: ${fortune.id})`;
-    };
-
-    function setFieldValue(fortune: Fortune): string {
-        return `**Created By:** ${fortune.created_by}`;
-    };
-
     function generatePaginatedEmbed(fortunes: Fortune[]): PaginatedEmbed {
         return {
             title: `**Fortunes**`,
@@ -46,8 +37,12 @@ async function Fortunes({ bot, dispatch }: CommandParams) {
             content: embeds.generatePaginatedEmbedFields<Fortune>({
                 data: fortunes, 
                 amountPerPage, 
-                setFieldName, 
-                setFieldValue
+                setFieldName: (fortune: Fortune, index: number, startIndex: number): string => {
+                    return `${(startIndex + index) + 1}. ${fortune.fortune} (ID: ${fortune.id})`;
+                }, 
+                setFieldValue: (fortune: Fortune): string => {
+                    return `**Created By:** ${fortune.created_by}`;
+                }
             })
         };
     };
@@ -57,7 +52,7 @@ async function Fortunes({ bot, dispatch }: CommandParams) {
         ...partialOptions,
         amountPerPage,
         getPage: async (page: number, data: Fortune[]): HandleReturn<GetPageResponse<Fortune>> => {
-            const [res, err] = await api.fortunes.getByGuildId(dispatch.guildId, dispatch, {
+            const [paginatedRes, err] = await api.fortunes.getByGuildId(dispatch.guildId, dispatch, {
                 page
             });
     
@@ -66,20 +61,13 @@ async function Fortunes({ bot, dispatch }: CommandParams) {
                 return [undefined, err];
             }
         
-            if(!res) {
+            if(!paginatedRes) {
                 return [undefined, new Error("No Fortunes Found")];
             }
 
-            const maxDataFromPage = page * DEFAULTS.API_PAGINATION.LIMIT;
-            const spliceStartIndex = Math.ceil(maxDataFromPage - DEFAULTS.API_PAGINATION.LIMIT);
-            res.results = arrays.replaceElements(data, spliceStartIndex, res.results);
+            const getPageRes = pagination.formatGetPageResponse({ page, data, paginatedRes, generatePaginatedEmbed });
 
-            const partialOptions = pagination.generateBasicPagiationOptions<Fortune>(res);
-    
-            return [{
-                ...partialOptions,
-                paginatedEmbed: generatePaginatedEmbed(data)
-            }, undefined];
+            return [getPageRes, undefined];
         }
     };
 
