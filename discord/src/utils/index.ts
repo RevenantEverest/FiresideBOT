@@ -1,3 +1,4 @@
+export * as arrays from './arrays.js';
 export * as colors from './colors.js';
 export * as commands from './commands.js';
 export * as common from './common.js';
