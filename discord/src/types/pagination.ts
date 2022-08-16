@@ -5,8 +5,7 @@ export interface PartialApiPaginationOptions<T> {
     hasMore: boolean,
     data: T[],
     count: number,
-    nextPageIndex: number | null,
-    prevPageIndex: number | null
+    requestedPages?: number[]
 };
 
 export interface ApiPaginationOptions<T> extends PartialApiPaginationOptions<T> {
