@@ -2,6 +2,8 @@ import { URLSearchParams } from 'url';
 import { ApiPaginatedResponse } from '../types/api.js';
 import { PartialApiPaginationOptions } from '../types/pagination.js';
 
+import * as arrays from './arrays.js';
+
 export function getPageIndex(paginationURL: string | null): number | null {
     if(!paginationURL) {
         return null;
@@ -20,12 +22,10 @@ export function getPageIndex(paginationURL: string | null): number | null {
 
 export function generateBasicPagiationOptions<T>(paginatedRes: ApiPaginatedResponse<T>): PartialApiPaginationOptions<T> {
     const hasMore = Boolean(paginatedRes.next);
-    const data = paginatedRes.results;
+    const data = arrays.generatedFixedArray<T>(paginatedRes.count, paginatedRes.results);
     const count = paginatedRes.count;
-    const nextPageIndex = getPageIndex(paginatedRes.next);
-    const prevPageIndex = getPageIndex(paginatedRes.previous);
 
     return {
-        hasMore, data, count, nextPageIndex, prevPageIndex
+        hasMore, data, count
     };
 };
