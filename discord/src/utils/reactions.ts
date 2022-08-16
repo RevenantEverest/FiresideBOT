@@ -97,7 +97,7 @@ export async function createReactionNavigator<T>(message: Message, index: number
             case navigatorEmojis.next:
 
                 const nextPage = getPageToRequest(index + 1, amountPerPage);
-                const hasRequestedNextPage = requestedPages.includes(nextPage);
+                const hasRequestedNextPage = requestedPages.includes(nextPage) || nextPage === 1;
 
                 if(paginationOptions && shouldRequestApiPage({ index, apiRequestInterval, paginatedEmbed, paginationOptions }) && !hasRequestedNextPage) {
                     const apiRes = await apiNavigation<T>(nextPage, paginationOptions);
@@ -116,7 +116,7 @@ export async function createReactionNavigator<T>(message: Message, index: number
 
                 const adjustedIndex = index === 0 ? getContentLength({ paginatedEmbed, paginationOptions }) : index - 1;
                 const prevPage = getPageToRequest(adjustedIndex, amountPerPage);
-                const hasRequestedPrevPage = requestedPages.includes(prevPage);
+                const hasRequestedPrevPage = requestedPages.includes(prevPage) || prevPage === 1;
 
                 if(paginationOptions && shouldRequestApiPage({ index: adjustedIndex, apiRequestInterval, paginatedEmbed, paginationOptions }) && !hasRequestedPrevPage) {
                     const apiRes = await apiNavigation<T>(prevPage, paginationOptions);
