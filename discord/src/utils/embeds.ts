@@ -24,12 +24,12 @@ export function generatePaginatedEmbedFields<T>({ data, amountPerPage, setFieldN
     for(let i = 0; i < Math.ceil(data.length / amountPerPage); i++) {
         const startIndex = ((i + 1) * amountPerPage) - amountPerPage;
         const endIndex = ((i + 1) * amountPerPage);
-        
+
         arr.push({
             fields: data.slice(startIndex, endIndex).map((element: T, index: number) => {
                 return{
-                    name: setFieldName(element, index, startIndex, endIndex),
-                    value: setFieldValue(element, index, startIndex, endIndex)
+                    name: element ? setFieldName(element, index, startIndex, endIndex) : "",
+                    value: element ? setFieldValue(element, index, startIndex, endIndex) : ""
                 }
             })
         });
@@ -75,6 +75,7 @@ export function generateEmbed<T>(index: number, paginatedEmbed: PaginatedEmbed, 
     }
 
     if(paginatedEmbed.content.length > 1) {
+        let currentPage = index + 1;
         let maxLength = paginatedEmbed.content.length;
         
         if(paginationOptions?.count) {
@@ -82,11 +83,10 @@ export function generateEmbed<T>(index: number, paginatedEmbed: PaginatedEmbed, 
         }
 
         embed.setFooter({
-            text: `Page ${index + 1}/${maxLength}`
+            text: `Page ${currentPage}/${maxLength}`
         });
     }
 
-    // console.log("Inside embeds => ", index, paginatedEmbed.content[index] && paginatedEmbed.content[index].fields?.length);
     paginatedEmbed.content[index].fields?.forEach(field => embed.addField(field.name, field.value, field.inline));
 
     return embed;
