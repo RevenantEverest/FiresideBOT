@@ -5,24 +5,69 @@ import { ApiPaginationOptions, GetPageResponse } from '../types/pagination.js';
 import { DEFAULTS } from '../constants/index.js';
 import * as embeds from './embeds.js';
 
+interface ShouldRequestApiPageParams<T> {
+    index: number,
+    apiRequestInterval: number,
+    paginatedEmbed: PaginatedEmbed,
+    paginationOptions: ApiPaginationOptions<T>
+}
+interface GetContentLengthParams<T> {
+    paginatedEmbed: PaginatedEmbed,
+    paginationOptions?: ApiPaginationOptions<T>,
+};
+
+interface ApiNavigationReturn<T> {
+    paginationOptions: ApiPaginationOptions<T>,
+    paginatedEmbed: PaginatedEmbed
+};
+
+function getPageToRequest(index: number, amountPerPage: number): number {
+    return Math.ceil(Math.ceil((index + 1) * amountPerPage) / DEFAULTS.API_PAGINATION.LIMIT);
+};
+
+function shouldRequestApiPage<T>({ index, apiRequestInterval, paginatedEmbed, paginationOptions }: ShouldRequestApiPageParams<T>): boolean {
+    const contentLength = getContentLength({ paginatedEmbed, paginationOptions })
+    return index === contentLength ? true : (index % apiRequestInterval) - 1 === 0;
+};
+
+async function apiNavigation<T>(pageToRequest: number, paginationOptions: ApiPaginationOptions<T>): Promise<ApiNavigationReturn<T> | null>  {
+    const [res, err] = await paginationOptions.getPage(pageToRequest, paginationOptions.data);
+
+    if(!res || err) {
+        return null;
+    }
+
+    const requestedPages = paginationOptions.requestedPages ?? [];
+    requestedPages.push(pageToRequest);
+
+    return {
+        paginatedEmbed: res.paginatedEmbed,
+        paginationOptions: {
+            ...setUpdatedPaginationOptions<T>(res, paginationOptions),
+            requestedPages
+        }
+    };
+};
+
 function setUpdatedPaginationOptions<T>(getPageRes: GetPageResponse<T>, paginationOptions: ApiPaginationOptions<T>): ApiPaginationOptions<T> {
-    const { hasMore, data, nextPageIndex, prevPageIndex } = getPageRes;
+    const { hasMore, data } = getPageRes;
 
     return {
         ...paginationOptions,
         hasMore, 
-        data, 
-        nextPageIndex, 
-        prevPageIndex
+        data
     };
 };
 
-function getContentLength<T>(paginatedEmbed: PaginatedEmbed, paginationOptions?: ApiPaginationOptions<T>): number {
+function getContentLength<T>({ paginatedEmbed, paginationOptions }: GetContentLengthParams<T>): number {
+    const maxApiPaginationPages = Math.ceil(((paginationOptions?.count ?? 0) / (paginationOptions?.amountPerPage ?? 0)) - 1);
+    const contentLength = paginatedEmbed.content.length - 1;
+    
     if(paginationOptions) {
-        return Math.ceil(paginationOptions?.count / paginationOptions?.amountPerPage) - 1;
+        return maxApiPaginationPages;
     }
 
-    return paginatedEmbed.content.length - 1;
+    return contentLength;
 };
 
 export async function createReactionNavigator<T>(message: Message, index: number, paginatedEmbed: PaginatedEmbed, paginationOptions?: ApiPaginationOptions<T>) {
@@ -42,57 +87,49 @@ export async function createReactionNavigator<T>(message: Message, index: number
 
     collector.on("collect", async (reaction: MessageReaction, user: User) => {
         if(user.bot) return;
+
+        const amountPerPage = paginationOptions?.amountPerPage ?? 0;
+        const requestedPages = paginationOptions?.requestedPages ?? [];
         
-        const apiRequestInterval = Math.ceil(DEFAULTS.API_PAGINATION.LIMIT / (paginationOptions?.amountPerPage ?? 0));
+        const apiRequestInterval = Math.ceil(DEFAULTS.API_PAGINATION.LIMIT / amountPerPage);
 
         switch(reaction.emoji.name) {
             case navigatorEmojis.next:
 
-                if(index % apiRequestInterval - 1 === 0 && paginationOptions?.hasMore && paginationOptions.nextPageIndex) {
-                    const { nextPageIndex } = paginationOptions;
+                const nextPage = getPageToRequest(index + 1, amountPerPage);
+                const hasRequestedNextPage = requestedPages.includes(nextPage);
 
-                    const [res, err] = await paginationOptions.getPage(nextPageIndex, paginationOptions.data);
+                if(paginationOptions && shouldRequestApiPage({ index, apiRequestInterval, paginatedEmbed, paginationOptions }) && !hasRequestedNextPage) {
+                    const apiRes = await apiNavigation<T>(nextPage, paginationOptions);
 
-                    if(!res || err) {
+                    if(!apiRes) {
                         return collector.stop();
                     }
 
-                    paginationOptions = setUpdatedPaginationOptions<T>(res, paginationOptions);
-                    paginatedEmbed = res.paginatedEmbed;
+                    paginatedEmbed = apiRes.paginatedEmbed;
+                    paginationOptions = apiRes.paginationOptions;
                 }
 
-                index === getContentLength(paginatedEmbed, paginationOptions) ? index = 0 : index++;
+                index === getContentLength({ paginatedEmbed, paginationOptions }) ? index = 0 : index++;
                 break;
             case navigatorEmojis.prev:
 
-                /*
-                
-                    Edge Case:
+                const adjustedIndex = index === 0 ? getContentLength({ paginatedEmbed, paginationOptions }) : index - 1;
+                const prevPage = getPageToRequest(adjustedIndex, amountPerPage);
+                const hasRequestedPrevPage = requestedPages.includes(prevPage);
 
-                    If a user naviagtes backwards, handle getting proper pagination page
+                if(paginationOptions && shouldRequestApiPage({ index: adjustedIndex, apiRequestInterval, paginatedEmbed, paginationOptions }) && !hasRequestedPrevPage) {
+                    const apiRes = await apiNavigation<T>(prevPage, paginationOptions);
 
-                    If the user coninues to scroll back get more updated pages
-                    Try to find a way to keep track of the pages called by checking against highest 
-                
-                */
-                const adjustedIndex = index === getContentLength(paginatedEmbed, paginationOptions) ? 0 : index + 1;
-                const shouldRequestPage = apiRequestInterval % adjustedIndex === 0;
-
-                console.log("Checking conditonal => ", adjustedIndex, shouldRequestPage);
-                console.log("Second check => ", paginationOptions?.data.length, paginationOptions?.count);
-
-                if(paginationOptions && paginationOptions.data.length !== paginationOptions.count || shouldRequestPage && paginationOptions?.hasMore) {
-                    const [res, err] = await paginationOptions.getPage(2, paginationOptions.data);
-
-                    if(!res || err) {
+                    if(!apiRes) {
                         return collector.stop();
                     }
 
-                    paginationOptions = setUpdatedPaginationOptions<T>(res, paginationOptions);
-                    paginatedEmbed = res.paginatedEmbed;
+                    paginatedEmbed = apiRes.paginatedEmbed;
+                    paginationOptions = apiRes.paginationOptions;
                 }
 
-                index === 0 ? index = getContentLength(paginatedEmbed, paginationOptions) : index--;
+                index = adjustedIndex;
                 break;
             case navigatorEmojis.stop: 
                 return collector.stop();
