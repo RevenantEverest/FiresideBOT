@@ -1,8 +1,17 @@
 import { URLSearchParams } from 'url';
 import { ApiPaginatedResponse } from '../types/api.js';
-import { PartialApiPaginationOptions } from '../types/pagination.js';
+import { PartialApiPaginationOptions, GetPageResponse } from '../types/pagination.js';
+import { PaginatedEmbed } from '../types/embeds.js';
 
 import * as arrays from './arrays.js';
+import { DEFAULTS } from '../constants/index.js';
+
+interface FormatGetPageResponseParams<T> {
+    page: number,
+    data: T[],
+    paginatedRes: ApiPaginatedResponse<T>,
+    generatePaginatedEmbed: (data: T[]) => PaginatedEmbed
+};
 
 export function getPageIndex(paginationURL: string | null): number | null {
     if(!paginationURL) {
@@ -27,5 +36,18 @@ export function generateBasicPagiationOptions<T>(paginatedRes: ApiPaginatedRespo
 
     return {
         hasMore, data, count
+    };
+};
+
+export function formatGetPageResponse<T>({ page, data, paginatedRes, generatePaginatedEmbed }: FormatGetPageResponseParams<T>): GetPageResponse<T> {
+    const maxDataFromPage = page * DEFAULTS.API_PAGINATION.LIMIT;
+    const spliceStartIndex = Math.ceil(maxDataFromPage - DEFAULTS.API_PAGINATION.LIMIT);
+    paginatedRes.results = arrays.replaceElements(data, spliceStartIndex, paginatedRes.results);
+
+    const partialOptions = generateBasicPagiationOptions<T>(paginatedRes);
+
+    return {
+        ...partialOptions,
+        paginatedEmbed: generatePaginatedEmbed(data)
     };
 };
