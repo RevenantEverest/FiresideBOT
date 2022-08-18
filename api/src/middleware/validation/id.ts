@@ -31,15 +31,16 @@ async function id(req: Request, res: Response, next: NextFunction) {
         return errorFunc();
     }
 
-    paramKeys.forEach((key: string) => {
+    for(let i = 0; i < paramKeys.length; i++) {
+        const key: string = paramKeys[i];
         const id: number = parseInt(req.params[key], 10);
 
         if(!id || !Number.isInteger(id)) {
             return errorFunc();
         }
 
-        res.locals.params[key] = id; 
-    });
+        res.locals.params[key] = id;
+    }
 
     next();
 };
