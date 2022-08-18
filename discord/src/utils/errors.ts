@@ -54,5 +54,5 @@ export function internal({ err, errMessage, resourceName }: InternalErrorOptions
 };
 
 export function logError({ bot, err, errMessage, resourceName }: LogErrorOptions) {
-    logs.error({ color: colors.error, type: "ERROR", message: errMessage });
+    logs.error({ color: colors.error, type: `ERROR - ${resourceName}`, message: errMessage });
 };
