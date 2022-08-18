@@ -30,6 +30,20 @@ function destroyRoute(baseEndpoint: string, app: Application, authPayload: AuthT
         });
 
         describe("given the user is a guild admin", () => {
+            describe("given an invalid id as a param", () => {
+                it("should return a 400 status", async () => {
+                    extraParams.mocks.hasPermission(true);
+                    extraParams.mocks.isGuildMember(true);
+
+                    const endpoint = `${baseEndpoint}/guild/${extraParams.guildId}/id/dflkjashdl`;
+                    await supertest(app)
+                    .delete(endpoint)
+                    .set(authPayload.header)
+                    .send()
+                    .expect(400)
+                });
+            });
+
             it("should return a 200 status", async () => {
                 extraParams.mocks.hasPermission(true);
                 extraParams.mocks.isGuildMember(true);
