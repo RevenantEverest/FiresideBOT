@@ -8,7 +8,6 @@ services:
       dockerfile: ./docker/prod/Dockerfile
     depends_on:
       - db
-      - pgadmin
     volumes:
       - ./api:/app
       - /app/node_modules
