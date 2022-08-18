@@ -1,30 +1,147 @@
-import Discord, { MessageReaction, User } from 'discord.js';
-import { GuildMessage } from '../types/message';
+import Discord, { MessageReaction, User, Message } from 'discord.js';
+import { PaginatedEmbed } from '../types/embeds.js';
+import { ApiPaginationOptions, GetPageResponse } from '../types/pagination.js';
 
-export async function createReactionNavigator(message: GuildMessage, handleNext: Function, handlePrev: Function) {
+import { DEFAULTS } from '../constants/index.js';
+import * as embeds from './embeds.js';
 
-    const navigatorEmojis = {
-        next: "◀️",
-        stop: "⏹️",
-        prev: "▶️"
+interface ShouldRequestApiPageParams<T> {
+    index: number,
+    apiRequestInterval: number,
+    paginatedEmbed: PaginatedEmbed,
+    paginationOptions: ApiPaginationOptions<T>
+}
+interface GetContentLengthParams<T> {
+    paginatedEmbed: PaginatedEmbed,
+    paginationOptions?: ApiPaginationOptions<T>,
+};
+
+interface ApiNavigationReturn<T> {
+    paginationOptions: ApiPaginationOptions<T>,
+    paginatedEmbed: PaginatedEmbed
+};
+
+function getPageToRequest(index: number, amountPerPage: number): number {
+    return Math.ceil(Math.ceil((index + 1) * amountPerPage) / DEFAULTS.API_PAGINATION.LIMIT);
+};
+
+function shouldRequestApiPage<T>({ index, apiRequestInterval, paginatedEmbed, paginationOptions }: ShouldRequestApiPageParams<T>): boolean {
+    const contentLength = getContentLength({ paginatedEmbed, paginationOptions })
+    return index === contentLength ? true : (index % apiRequestInterval) - 1 === 0;
+};
+
+async function apiNavigation<T>(pageToRequest: number, paginationOptions: ApiPaginationOptions<T>): Promise<ApiNavigationReturn<T> | null>  {
+    const [res, err] = await paginationOptions.getPage(pageToRequest, paginationOptions.data);
+
+    if(!res || err) {
+        return null;
+    }
+
+    const requestedPages = paginationOptions.requestedPages ?? [];
+    requestedPages.push(pageToRequest);
+
+    return {
+        paginatedEmbed: res.paginatedEmbed,
+        paginationOptions: {
+            ...setUpdatedPaginationOptions<T>(res, paginationOptions),
+            requestedPages
+        }
     };
-    const collector = new Discord.ReactionCollector(message);
+};
+
+function setUpdatedPaginationOptions<T>(getPageRes: GetPageResponse<T>, paginationOptions: ApiPaginationOptions<T>): ApiPaginationOptions<T> {
+    const { hasMore, data } = getPageRes;
+
+    return {
+        ...paginationOptions,
+        hasMore, 
+        data
+    };
+};
+
+function getContentLength<T>({ paginatedEmbed, paginationOptions }: GetContentLengthParams<T>): number {
+    const maxApiPaginationPages = Math.ceil(((paginationOptions?.count ?? 0) / (paginationOptions?.amountPerPage ?? 0)) - 1);
+    const contentLength = paginatedEmbed.content.length - 1;
+    
+    if(paginationOptions) {
+        return maxApiPaginationPages;
+    }
+
+    return contentLength;
+};
+
+export async function createReactionNavigator<T>(message: Message, index: number, paginatedEmbed: PaginatedEmbed, paginationOptions?: ApiPaginationOptions<T>) {
+    const navigatorEmojis = {
+        next: "▶️",
+        stop: "⏹️",
+        prev: "◀️"
+    };
+
+    await message.react(navigatorEmojis.prev);
+    await message.react(navigatorEmojis.stop);
+    await message.react(navigatorEmojis.next);
+
+    const collector = new Discord.ReactionCollector(message, { 
+        time: (paginatedEmbed.time ?? DEFAULTS.PAGINATED_EMBED_TIME) * 60000 
+    });
 
     collector.on("collect", async (reaction: MessageReaction, user: User) => {
-        await message.react(navigatorEmojis.prev);
-        await message.react(navigatorEmojis.stop);
-        await message.react(navigatorEmojis.next);
+        if(user.bot) return;
+
+        const amountPerPage = paginationOptions?.amountPerPage ?? 0;
+        const requestedPages = paginationOptions?.requestedPages ?? [];
+        
+        const apiRequestInterval = Math.ceil(DEFAULTS.API_PAGINATION.LIMIT / amountPerPage);
 
         switch(reaction.emoji.name) {
             case navigatorEmojis.next:
-                return handleNext();
+
+                const nextPage = getPageToRequest(index + 1, amountPerPage);
+                const hasRequestedNextPage = requestedPages.includes(nextPage) || nextPage === 1;
+
+                if(paginationOptions && shouldRequestApiPage({ index, apiRequestInterval, paginatedEmbed, paginationOptions }) && !hasRequestedNextPage) {
+                    const apiRes = await apiNavigation<T>(nextPage, paginationOptions);
+
+                    if(!apiRes) {
+                        return collector.stop();
+                    }
+
+                    paginatedEmbed = apiRes.paginatedEmbed;
+                    paginationOptions = apiRes.paginationOptions;
+                }
+
+                index === getContentLength({ paginatedEmbed, paginationOptions }) ? index = 0 : index++;
+                break;
             case navigatorEmojis.prev:
-                return handlePrev();
+
+                const adjustedIndex = index === 0 ? getContentLength({ paginatedEmbed, paginationOptions }) : index - 1;
+                const prevPage = getPageToRequest(adjustedIndex, amountPerPage);
+                const hasRequestedPrevPage = requestedPages.includes(prevPage) || prevPage === 1;
+
+                if(paginationOptions && shouldRequestApiPage({ index: adjustedIndex, apiRequestInterval, paginatedEmbed, paginationOptions }) && !hasRequestedPrevPage) {
+                    const apiRes = await apiNavigation<T>(prevPage, paginationOptions);
+
+                    if(!apiRes) {
+                        return collector.stop();
+                    }
+
+                    paginatedEmbed = apiRes.paginatedEmbed;
+                    paginationOptions = apiRes.paginationOptions;
+                }
+
+                index = adjustedIndex;
+                break;
             case navigatorEmojis.stop: 
                 return collector.stop();
             default:
                 return;
         };
+
+        const embed = embeds.generateEmbed(index, paginatedEmbed, paginationOptions);
+        reaction.message.edit({
+            content: paginatedEmbed.flavorText,
+            embeds: [embed]
+        });
     });   
     
     collector.on("end", async () => {

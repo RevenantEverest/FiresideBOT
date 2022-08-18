@@ -6,8 +6,8 @@ import { SongInfo } from '../../../types/youtube.js';
 import { ERROR_MESSAGES, PREMIUM_LIMITS } from '../../../constants/index.js';
 import { youtube, errors, voiceConnection } from '../../../utils/index.js';
 
-async function Play({ bot, args, dispatch, interaction, server, options, userState }: CommandParams) {
-    if(!interaction && !args[0]) {
+async function Play({ bot, args, dispatch, server, options, userState }: CommandParams) {
+    if(!dispatch.interaction && !args[0]) {
         return dispatch.reply(ERROR_MESSAGES.COMMANDS.PLAY.NO_ARGS);
     }
 
@@ -19,14 +19,18 @@ async function Play({ bot, args, dispatch, interaction, server, options, userSta
         return dispatch.reply(ERROR_MESSAGES.UPDATE_PENDING);
     }
 
-    let request = interaction?.options.getString("request") || args.join(" ");
+    if(dispatch.interaction) {
+        dispatch.interaction.deferReply();
+    }
+
+    let request = dispatch.interaction?.options.getString("request") || args.join(" ");
     const isLink: boolean = await youtube.isValidLink(args[0] || request);
 
     if(isLink) {
         const videoId = await youtube.extractVideoId(request);
 
         if(!videoId) {
-            return dispatch.reply("No Video ID");
+            return dispatch.reply("No Video ID", true);
         }
 
         request = videoId;        
@@ -35,7 +39,7 @@ async function Play({ bot, args, dispatch, interaction, server, options, userSta
     const [youtubeSearchRes, youtubeSearchErr] = await youtube.handleSearch(request, isLink);
 
     if(youtubeSearchErr) {
-        return errors.handler({ 
+        return errors.command({ 
             bot, 
             dispatch,
             err: youtubeSearchErr,
@@ -45,7 +49,7 @@ async function Play({ bot, args, dispatch, interaction, server, options, userSta
     }
 
     if(!youtubeSearchRes) {
-        return errors.handler({
+        return errors.command({
             bot, 
             dispatch,
             errMessage: "No Search Results Returned",
@@ -56,17 +60,17 @@ async function Play({ bot, args, dispatch, interaction, server, options, userSta
     const songInfo: SongInfo = youtubeSearchRes;
 
     if(!userState.premium && songInfo.duration > PREMIUM_LIMITS.REQUEST_DURATION) {
-        return dispatch.reply(ERROR_MESSAGES.PREMIUM.REQUEST_DURATION);
+        return dispatch.reply(ERROR_MESSAGES.PREMIUM.REQUEST_DURATION, true);
     }
 
     server.queue.info.push({
         ...songInfo,
         requestedBy: `${dispatch.author.username} #${dispatch.author.discriminator}`
     });
-    dispatch.reply(`**${songInfo.title}** was added to the queue in position **${server.queue.info.length}**`);
+    dispatch.reply(`**${songInfo.title}** was added to the queue in position **${server.queue.info.length}**`, true);
 
     if(!server.queue.playing) {
-        return voiceConnection.createConnection(bot, dispatch, server);
+        return voiceConnection.createConnection(bot, dispatch, server, true);
     }
 };
 

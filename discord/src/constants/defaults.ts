@@ -2,6 +2,9 @@ import { GuildResolvable } from 'discord.js';
 import { GuildSettings } from '../types/entities/GuildSettings.js';
 import config from '../config/index.js';
 
+export const API_PAGINATION = {
+    LIMIT: 10
+};
 export const PAGINATED_EMBED_TIME = 5;
 export const VOLUME = 50;
 
@@ -23,3 +26,18 @@ export async function generateDefaultServer(guildId: GuildResolvable, guildSetti
         }
     });
 };
+
+export const FORTUNES: string[] = [
+    "Yes",
+    "No",
+    "Maybe",
+    "If you believe hard enough",
+    "Try asking again",
+    "Sure",
+    "Fair Enough",
+    "Please stop",
+    "Incorrect",
+    "You got it",
+    "Mhm",
+    "這都是中文的。當然"
+];

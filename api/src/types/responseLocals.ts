@@ -9,5 +9,10 @@ export interface ResponseLocalsParams {
 
 export interface ResponseLocals {
     params?: ResponseLocalsParams,
-    auth?: AuthPayload
+    limit?: number,
+    offset?: number
+};
+
+export interface AuthenticatedResponseLocals extends ResponseLocals {
+    auth: AuthPayload
 };
