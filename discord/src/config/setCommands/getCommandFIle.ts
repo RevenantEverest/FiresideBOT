@@ -6,7 +6,6 @@ async function getCommandFile(path: string): HandleReturn<CommandFileImport> {
     const dirSyncFiles = await fileSystem.getDirectoryFileNamesList(path);
     const commandFile = dirSyncFiles.filter((file) => {
         const fileNameArr = file.split(".");
-        console.log(fileNameArr);
         if(fileNameArr[0] === "index" && fileNameArr[1] === "command") {
             return file;
         }
