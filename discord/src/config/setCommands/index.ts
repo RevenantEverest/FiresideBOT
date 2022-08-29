@@ -1,53 +1,12 @@
-import { CommandCategory, CommandConfig, CommandFileImport } from '../types/commands.js';
 import { REST } from '@discordjs/rest';
 import { Routes } from 'discord-api-types/v10';
 
-import config from './index.js';
+import config from '../index.js';
+import getCategoryConfig from './getCategoryConfig.js';
+import getCommandFile from './getCommandFIle.js';
 
-import { ENV } from '../constants/index.js';
-import { logs, colors, promises, fileSystem } from '../utils/index.js';
-import { HandleReturn } from 'src/types/promises.js';
-
-async function getCategoryConfig(path: string): HandleReturn<CommandCategory> {
-    const dirSyncFiles = await fileSystem.getDirectoryFileNamesList(path);
-    const dirSyncConfigFiles = dirSyncFiles.filter((file) => {
-        const fileNameArr = file.split(".");
-        if(fileNameArr[0] === "index" && fileNameArr[1] === "config") {
-            return file;
-        }
-    });
-
-    if(dirSyncFiles.length <= 0) {
-        return [undefined, new Error("No Config File")];
-    }
-
-    const filePath = "../../" + path + "/" + dirSyncConfigFiles[0];
-    const [res, err] = await promises.handle(import(`${filePath}`));
-
-    if(err) {
-        return [undefined, err];
-    }
-
-    return [{ ...res.default, name: path.split("/").pop() }, undefined];
-};
-
-async function getCommandFile(path: string): HandleReturn<CommandFileImport> {
-    const dirSyncFiles = await fileSystem.getDirectoryFileNamesList(path);
-    const commandFile = dirSyncFiles.filter((file) => file.split(".")[0] === "index")[0];
-
-    if(!commandFile) {
-        return [undefined, new Error("No Command File")];
-    }
-
-    const filePath = "../../" + path + "/" + commandFile;
-    const [res, err] = await promises.handle(import(`${filePath}`));
-
-    if(err) {
-        return [undefined, err];
-    }
-
-    return [res, undefined];
-};
+import { ENV } from '../../constants/index.js';
+import { logs, colors, fileSystem } from '../../utils/index.js';
 
 async function setCommands() {
     const categoryList: string[] = await fileSystem.getDirectoryNameList("./dist/commands");

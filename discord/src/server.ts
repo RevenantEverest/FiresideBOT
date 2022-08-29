@@ -2,7 +2,7 @@ import play from 'play-dl';
 
 import bot from './discordBot.js';
 import initializeApp from './app.js';
-import setCommands from './config/setCommands.js';
+import setCommands from './config/setCommands/index.js';
 
 import { ENV } from './constants/index.js';
 import { logs, colors } from './utils/index.js';
