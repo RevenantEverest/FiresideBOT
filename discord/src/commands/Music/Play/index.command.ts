@@ -76,8 +76,8 @@ async function Play({ bot, args, dispatch, server, options, userState }: Command
 
 export const config: CommandConfigParams = {
     aliases: ["p"],
-    description: "Plays Music",
-    example: ""
+    description: "Requests song and plays it or adds it to the music queue",
+    example: "play https://www.youtube.com/watch?v=dQw4w9WgXcQ"
 };
 
 export const slashCommand = new SlashCommandBuilder()
