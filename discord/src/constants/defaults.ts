@@ -14,15 +14,21 @@ export async function generateDefaultServer(guildId: GuildResolvable, guildSetti
         premium: false,
         queue: {
             playing: false,
+            isPaused: false,
             info: [],
             currentSongEmbed: null,
+            currentSongInfo: null,
             genres: [],
             options: {
                 volume: guildSettings.volume ? guildSettings.volume : VOLUME,
                 loop: false,
                 recommendations: false,
                 voteToSkip: false
-            }
+            },
+            connection: null,
+            resource: null,
+            player: null,
+            disconnectTimer: null
         }
     });
 };

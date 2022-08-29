@@ -15,14 +15,16 @@ export interface ServerSongInfo extends SongInfo {
 
 export interface ServerQueue {
     playing: boolean,
+    isPaused: boolean,
     info: ServerSongInfo[],
-    currentSongInfo?: ServerSongInfo,
+    currentSongInfo: ServerSongInfo | null,
     currentSongEmbed: MessageEmbed | null,
     genres: string[],
     options: ServerQueueOptions,
-    connection?: VoiceConnection,
-    resource?: AudioResource,
-    player?: AudioPlayer
+    connection: VoiceConnection | null,
+    resource: AudioResource | null,
+    player: AudioPlayer | null,
+    disconnectTimer: NodeJS.Timeout | null
 };
 
 export interface Server {
