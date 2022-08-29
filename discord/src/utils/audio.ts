@@ -42,6 +42,9 @@ export async function stream(bot: Client, dispatch: CommandDispatch, server: Ser
         player.on(AudioPlayerStatus.Playing, () => {
             server.queue.playing = true;
             server.queue.info.shift();
+            if(server.queue.disconnectTimer) {
+                queue.handleDisconnectTimer(server);
+            }
         });
 
         player.on(AudioPlayerStatus.Buffering, () => {
@@ -50,7 +53,7 @@ export async function stream(bot: Client, dispatch: CommandDispatch, server: Ser
 
         player.on("error", (err: AudioPlayerError) => {
             server.queue.playing = false;
-            console.log(err);
+            console.log(err); 
         });
 
         await entersState(player, AudioPlayerStatus.Playing, 5e3);
