@@ -2,21 +2,27 @@ import Discord from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { CommandParams, CommandConfigParams } from '../../../types/commands.js';
 
-import { colors } from '../../../utils/index.js';
+import { colors, boolean } from '../../../utils/index.js';
 
 async function Loop({ dispatch, server }: CommandParams) {
     const currentLoopState = server.queue.options.loop;
     server.queue.options.loop = !currentLoopState;
 
-    if(server.queue.currentSongInfo) {
+    if(currentLoopState && server.queue.currentSongInfo) {
+        console.log("Adding...");
         server.queue.info.push(server.queue.currentSongInfo);
     }
+
+    const currentLoopStateDisplay = boolean.onOrOff(!currentLoopState, { 
+        withCapitalization: true, 
+        withEmojis: true 
+    });
 
     const embed = new Discord.MessageEmbed({
         color: colors.fuchsia,
         fields: [{
             name: "Music Options",
-            value: `Looping is now **${!currentLoopState ? "On 🟢" : "Off 🔴"}**`
+            value: `Looping is now **${currentLoopStateDisplay}**`
         }]
     });
 
