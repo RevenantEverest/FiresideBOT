@@ -5,6 +5,8 @@ import { CommandDispatch } from '../types/commands.js';
 import { Server } from '../types/server.js';
 
 import * as audio from './audio.js';
+import * as errors from './errors.js';
+import * as queue from './queue.js';
 
 export function createConnection(bot: Client, dispatch: CommandDispatch, server: Server,  deferredReply?: boolean) {
     if(!server.queue.connection) {
@@ -37,16 +39,20 @@ export function handleConnection(server: Server) {
 
     connection.on(VoiceConnectionStatus.Disconnected, async (oldState, newState) => {
         try {
-            await entersState(connection, VoiceConnectionStatus.Signalling, 5_000);
-            await entersState(connection, VoiceConnectionStatus.Connecting, 5_000);
+            const statePromises = [
+                entersState(connection, VoiceConnectionStatus.Signalling, 5_000),
+                entersState(connection, VoiceConnectionStatus.Connecting, 5_000)
+            ];
+
+            await Promise.race(statePromises);
         }
         catch(err) {
+            const error = err as Error;
             connection.destroy();
-            console.error(err);
+            server.queue.connection = null;
+            errors.internal({ err: error, errMessage: error.message, resourceName: "VoiceConnection - HandleConnection" });
         }
     });
 
-    connection.on(VoiceConnectionStatus.Destroyed, async () => {
-        server.queue.info = [];
-    });
+    connection.on(VoiceConnectionStatus.Destroyed, () => queue.resetQueue(server, true));
 };
