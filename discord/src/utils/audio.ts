@@ -43,7 +43,7 @@ export async function stream(bot: Client, dispatch: CommandDispatch, server: Ser
             server.queue.playing = true;
             server.queue.info.shift();
             if(server.queue.disconnectTimer) {
-                queue.handleDisconnectTimer(server);
+                queue.handleDisconnectTimer(server, dispatch);
             }
         });
 

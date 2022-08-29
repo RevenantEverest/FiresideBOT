@@ -15,7 +15,7 @@ export function nextInQueue(bot: Client, dispatch: CommandDispatch, server: Serv
         }
         else {
             resetQueue(server);
-            handleDisconnectTimer(server);
+            handleDisconnectTimer(server, dispatch);
             dispatch.channel.send("Queue concluded");
         }
     }
@@ -24,7 +24,7 @@ export function nextInQueue(bot: Client, dispatch: CommandDispatch, server: Serv
     }
 };
 
-export function handleDisconnectTimer(server: Server) {
+export function handleDisconnectTimer(server: Server, dispatch: CommandDispatch) {
     if(server.queue.disconnectTimer) {
         clearTimeout(server.queue.disconnectTimer);
         server.queue.disconnectTimer = null;
@@ -33,6 +33,7 @@ export function handleDisconnectTimer(server: Server) {
     if(server.queue.playing) return;
 
     server.queue.disconnectTimer = setTimeout(() => {
+        dispatch.channel.send("Looks like you're done listening, goodbye!");
         return resetQueue(server, true);
     }, 10000);
 };
