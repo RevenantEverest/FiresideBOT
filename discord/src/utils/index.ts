@@ -1,4 +1,5 @@
 export * as arrays from './arrays.js';
+export * as boolean from './boolean.js';
 export * as colors from './colors.js';
 export * as commands from './commands.js';
 export * as common from './common.js';
@@ -10,6 +11,8 @@ export * as logs from './logs.js';
 export * as numbers from './numbers.js';
 export * as pagination from './pagination.js';
 export * as promises from './promises.js';
+export * as reactions from './reactions.js';
+export * as text from './text.js';
 export * as youtube from './youtube.js';
 export * as voiceConnection from './voiceConnection.js';
 export * as audio from './audio.js';
