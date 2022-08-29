@@ -17,4 +17,16 @@ export function replaceElements<T>(arr: T[], startIndex: number, data: T[]): T[]
     return arr;
 };
 
+export function shuffle<T>(arr: T[]): T[] {
+    for(let i = arr.length - 1; i > 0; i--) {
+        const randomIndex = Math.floor(Math.random() * (i + 1));
+        const element = arr[i];
+
+        arr[i] = arr[randomIndex];
+        arr[randomIndex] = element;
+    };
+
+    return arr;
+};
+
 
