@@ -3,10 +3,10 @@ import { SlashCommandBuilder } from '@discordjs/builders';
 import { CommandParams, CommandConfigParams } from '../../../types/commands.js';
 import { queue } from '../../../utils/index.js';
 
-async function Skip({ bot, dispatch, interaction, server}: CommandParams) {
+async function Skip({ bot, dispatch, server}: CommandParams) {
     if(!server.queue.player) return;
     
-    if(interaction) {
+    if(dispatch.interaction) {
         dispatch.reply("Skipping...");
     }
 
