@@ -3,7 +3,7 @@ import { Routes } from 'discord-api-types/v10';
 
 import config from '../index.js';
 import getCategoryConfig from './getCategoryConfig.js';
-import getCommandFile from './getCommandFIle.js';
+import getCommandFile from './getCommandFile.js';
 
 import { ENV } from '../../constants/index.js';
 import { logs, colors, fileSystem } from '../../utils/index.js';
