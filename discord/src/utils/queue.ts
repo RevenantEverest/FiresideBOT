@@ -35,7 +35,7 @@ export function handleDisconnectTimer(server: Server, dispatch: CommandDispatch)
     server.queue.disconnectTimer = setTimeout(() => {
         dispatch.channel.send("Looks like you're done listening, goodbye!");
         return resetQueue(server, true);
-    }, 10000);
+    }, 5 * 60000);
 };
 
 export function resetQueue(server: Server, withConnection?: boolean) {
