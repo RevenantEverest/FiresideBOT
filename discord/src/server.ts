@@ -19,8 +19,10 @@ import { logs, colors, promises } from './utils/index.js';
     })
 
     bot.login(ENV.DISCORD.KEY);
-    
-    await promises.waitFor(() => bot.isReady(), 2000);
+
+    await promises.waitFor(() => bot.isReady(), {
+        intervalLength: 2000
+    });
 
     getUserCount();
     setInterval(getUserCount, 5 * 60000);
