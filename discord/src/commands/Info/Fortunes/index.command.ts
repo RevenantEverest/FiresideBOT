@@ -28,13 +28,13 @@ async function Fortunes({ bot, dispatch }: CommandParams) {
 
     function generatePaginatedEmbed(fortunes: Fortune[]): PaginatedEmbed {
         return {
-            title: `**Fortunes**`,
-            author: {
-                iconURL: dispatch.guild.iconURL() ?? "",
-                name: dispatch.guild.name
-            },
-            color: colors.steelPink,
-            content: embeds.generatePaginatedEmbedFields<Fortune>({
+            pages: embeds.generatePaginatedEmbedPages<Fortune>({
+                title: `**Fortunes**`,
+                author: {
+                    iconURL: dispatch.guild.iconURL() ?? "",
+                    name: dispatch.guild.name
+                },
+                color: colors.steelPink,
                 data: fortunes, 
                 amountPerPage, 
                 setFieldName: (fortune: Fortune, index: number, startIndex: number): string => {
