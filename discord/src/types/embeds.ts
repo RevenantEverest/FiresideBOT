@@ -3,13 +3,14 @@ import { MessageEmbedAuthor, MessageEmbedOptions, ColorResolvable } from 'discor
 
 export interface PaginatedEmbedPage {
     title?: string,
+    description?: string,
     author?: MessageEmbedAuthor,
     thumbnail?: string,
     color: ColorResolvable,
-    content: MessageEmbedOptions[],
+    content: MessageEmbedOptions,
 };
 export interface PaginatedEmbed {
-    pages: PaginatedEmbedPage,
+    pages: PaginatedEmbedPage[],
     flavorText?: string,
     time?: number
 };
