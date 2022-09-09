@@ -1,54 +1,46 @@
+import Discord, { Client, MessageEmbedAuthor } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandParams, CommandConfigParams, CommandFile } from '../../../types/commands.js';
-import { PaginatedEmbed } from '../../../types/embeds.js';
+import { CommandParams, CommandConfigParams, CommandFile, CommandDispatch } from '../../../types/commands.js';
+import { PaginatedEmbed, PaginatedEmbedPage } from '../../../types/embeds.js';
+
+import sendFullHelpList from './sendFullHelpList/index.js';
 
 import botConfig from '../../../config/index.js';
 import { colors, embeds } from '../../../utils/index.js';
+import sendCommandCategoryList from './sendCommandCategoryList/index.js';
+import sendSingleCommand from './sendSingleCommand/index.js';
 
-async function Help({ dispatch }: CommandParams) {
+async function Help({ PREFIX, bot, dispatch, args }: CommandParams) {
 
-    const commandCategories = botConfig.categories;
-    const amountPerPage: number = 5;
+    const helpSearch: string | undefined = dispatch.interaction?.options.getString("command") ?? args[0];
+    const flavorText: string = "`<param>` is a required param and `[param]` is an optional param. For more information on a command use ?help <command>";
 
-    const paginatedEmbedArr: PaginatedEmbed[] = [];
+    if(!helpSearch) {
+        return sendFullHelpList(bot, dispatch, flavorText);
+    }
 
-    for(let i = 0; i < commandCategories.length; i++) {
-        const category = commandCategories[i];
-        const commands = botConfig.commands.filter(command => command.category === category.name);
-
-        if(category.name === "Dev" || commands.length < 1) {
-            continue;
+    const category = botConfig.categories.filter(category => {
+        if(helpSearch.toLocaleLowerCase() === category.name.toLowerCase()) {
+            return category;
         }
+    })[0];
 
-        const title = `Help - ${category.name}`;
-        const color = colors.fuchsia;
-        const commandContent = embeds.generatePaginatedEmbedFields<CommandFile>({
-            data: commands,
-            amountPerPage,
-            setFieldName: (command: CommandFile): string => {
-                return command.displayName;
-            },
-            setFieldValue: (command: CommandFile): string => {
-                return command.description;
-            }
-        });
-
-        for(let x = 0; x < commandContent.length; x++) {
-            paginatedEmbedArr.push({ title, color, content: [commandContent[x]] });
+    const command = botConfig.commands.filter(command => {
+        if(helpSearch.toLocaleLowerCase() === command.name.toLowerCase()) {
+            return command;
         }
-    };
+    })[0];
 
-    return embeds.pagination<CommandFile>(dispatch, paginatedEmbedArr);
+    if(category && !command) {
+        return sendCommandCategoryList(bot, dispatch, category, flavorText);
+    }
+    else if(command && !category) {
+        return sendSingleCommand(PREFIX, bot, dispatch, command, flavorText);
+    }
+    else {
+        console.log("Edge Case...");
+    }
 };
-
-/*
-
-    Got tired here was my current train of thought:
-
-    Update PaginatedEmbed type to use [pages] key that stores each page's embed content
-    Update all areas to use this new pages key (ie embeds, reactions, fortunes, queue, etc)
-
-*/
 
 export const config: CommandConfigParams = {
     aliases: [],
@@ -59,5 +51,11 @@ export const config: CommandConfigParams = {
 export const slashCommand = new SlashCommandBuilder()
 .setName("help")
 .setDescription(config.description.split(".")[0]) // Slash Command description length cannot exceed 100 characters
+.addStringOption(option =>
+    option
+    .setName("command")
+    .setDescription("Command or Category to display category command list or more information on a specific command")
+    .setRequired(false)
+);
 
 export default Help;
