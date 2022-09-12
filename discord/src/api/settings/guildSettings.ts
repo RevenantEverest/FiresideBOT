@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { Axios, AxiosError, AxiosResponse } from 'axios';
 import { GuildResolvable } from 'discord.js';
 import { CommandDispatch } from 'src/types/commands.js';
 import { GuildSettings } from '../../types/entities/GuildSettings.js';
@@ -11,10 +11,10 @@ import { promises } from '../../utils/index.js';
 
 const baseEndpoint = ENV.API_URL + "/settings/guild";
 
-export async function get(guildId: GuildResolvable, dispatch: CommandDispatch): HandleReturn<GuildSettings> {
+export async function get(dispatch: CommandDispatch): HandleReturn<GuildSettings> {
     const token = await issueToken(dispatch);
     
-    const request = axios.get(`${baseEndpoint}/${guildId}`, {
+    const request = axios.get(`${baseEndpoint}/${dispatch.guildId}`, {
         headers: {
             Authorization: `Bearer ${token}`
         }
@@ -31,6 +31,37 @@ export async function get(guildId: GuildResolvable, dispatch: CommandDispatch): 
     }
 
     return [(res.data.results as GuildSettings), undefined];
+};
+
+export async function getOrSave(dispatch: CommandDispatch): HandleReturn<GuildSettings> {
+    const [findRes, findErr] = await get(dispatch);
+
+    if(findRes) {
+        return [findRes, undefined];
+    }
+
+    if((findErr as AxiosError).response?.status !== 404) {
+        return [undefined, findErr];
+    }
+
+    const token = await issueToken(dispatch);
+    const request = axios.post(`${baseEndpoint}/${dispatch.guildId}`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+
+    const [postRes, postErr] = await promises.handle(request);
+
+    if(postErr) {
+        return [undefined, postErr];
+    }
+
+    if(!postRes || !postRes.data.results) {
+        return [undefined, new Error("No Guild Settings Returned")];
+    }
+
+    return [(postRes.data.results as GuildSettings), undefined];
 };
 
 export async function update(guildId: GuildResolvable, dispatch: CommandDispatch, guildSettings: GuildSettings): HandleReturn<GuildSettings> {
