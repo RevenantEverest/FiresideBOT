@@ -9,7 +9,7 @@ router.route("/")
 
 router.route("/:guildId")
 .get(validation.guildId, permissions.isGuildMember, guildSettingsController.getByGuildId)
-.post(validation.guildId, permissions.isGuildAdmin, guildSettingsController.create)
+.post(validation.guildId, permissions.isGuildMember, guildSettingsController.create)
 .put(validation.guildId, permissions.isGuildAdmin, guildSettingsController.update)
 
 router.route("/:guildId/id/:id")
