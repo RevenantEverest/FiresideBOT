@@ -80,7 +80,7 @@ async function onInteractionCreate(bot: Client, interaction: Interaction) {
         }
     };
 
-    const [guildSettings, err] = await api.guildSettings.get(guildId, dispatch);
+    const [guildSettings, err] = await api.guildSettings.getOrSave(dispatch);
 
     if(err) {
         return logs.error({ 
