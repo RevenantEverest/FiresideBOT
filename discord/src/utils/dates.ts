@@ -28,3 +28,18 @@ export function parseSeconds(durationInSeconds: number): string {
 
     return formatedDuration.replace(/\b0+[a-z]+\s*/gi, '').trim();
 };
+
+export function format(timestamp: string | Date, options?: DateFormatOptions): FormattedDate {
+
+    if(timestamp instanceof Date && Object.prototype.toString.call(timestamp) === "[object Date]") {
+        timestamp = timestamp.toISOString();
+    }
+
+    const timestampFormat = ["YYYY-MM-DDTHH:mm:ssZZ"];
+    const parsedDate = dayjs(timestamp, timestampFormat).utc();
+
+    const date = dayjs(parsedDate).utc().format(options?.dateFormat ?? "ddd MMM Do YYYY");
+    const time = dayjs(parsedDate).utc().format(options?.timeFormat ?? "h:mma");
+
+    return { date, time };
+};

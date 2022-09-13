@@ -16,14 +16,14 @@ async function Queue({ dispatch, server}: CommandParams) {
 
     const amountPerPage: number = 5;
     const paginatedEmbed: PaginatedEmbed = {
-        title: `**Queue** (${dates.parseSeconds(overalLength)})`,
-        author: {
-            iconURL: dispatch.guild.iconURL({ dynamic: true }) ?? "",
-            name: dispatch.guild.name
-            
-        },
-        color: colors.queueEmbed,
-        content: embeds.generatePaginatedEmbedFields<ServerSongInfo>({
+        pages: embeds.generatePaginatedEmbedPages<ServerSongInfo>({
+            title: `**Queue** (${dates.parseSeconds(overalLength)})`,
+            author: {
+                iconURL: dispatch.guild.iconURL({ dynamic: true }) ?? "",
+                name: dispatch.guild.name
+                
+            },
+            color: colors.queueEmbed,
             data: queue,
             amountPerPage,
             setFieldName: (songInfo: ServerSongInfo, index: number, startIndex: number): string => {
@@ -34,7 +34,7 @@ async function Queue({ dispatch, server}: CommandParams) {
                 return `**Author:** ${author}\n**Duration:** ${dates.parseSeconds(duration)}`;
             }
         })
-    }
+    };
 
     return embeds.pagination<ServerSongInfo>(dispatch, paginatedEmbed);
 };
