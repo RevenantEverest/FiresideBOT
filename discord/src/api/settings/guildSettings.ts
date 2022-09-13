@@ -34,6 +34,7 @@ export async function get(dispatch: CommandDispatch): HandleReturn<GuildSettings
 };
 
 export async function getOrSave(dispatch: CommandDispatch): HandleReturn<GuildSettings> {
+
     const [findRes, findErr] = await get(dispatch);
 
     if(findRes) {
@@ -45,7 +46,7 @@ export async function getOrSave(dispatch: CommandDispatch): HandleReturn<GuildSe
     }
 
     const token = await issueToken(dispatch);
-    const request = axios.post(`${baseEndpoint}/${dispatch.guildId}`, {
+    const request = axios.post(`${baseEndpoint}/${dispatch.guildId}`, null, {
         headers: {
             Authorization: `Bearer ${token}`
         }
