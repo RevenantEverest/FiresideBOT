@@ -1,9 +1,8 @@
 import Discord, { 
     Message, 
     MessageEmbed, 
-    MessageEmbedOptions, 
     MessageEmbedAuthor, 
-    ColorResolvable 
+    ColorResolvable
 } from 'discord.js';
 
 import { CommandDispatch } from '../types/commands.js';
@@ -23,8 +22,8 @@ interface GeneratePaginatedEmbedPagesParams<T> {
     title?: string | SetTitleElement,
     description?: string,
     author?: MessageEmbedAuthor,
-    thumbnail?: string,
     color: ColorResolvable,
+    thumbnail?: string, 
     data: T[],
     amountPerPage: number,
     setFieldName: SetFieldElement<T>,
@@ -36,7 +35,7 @@ interface GeneratePaginatedEmbedPagesOptions {
     blankFieldAfterDescription?: boolean
 };
 
-export function generatePaginatedEmbedPages<T>({ title, description, author, color, data, amountPerPage, setFieldName, setFieldValue, options }: GeneratePaginatedEmbedPagesParams<T>): PaginatedEmbedPage[] {
+export function generatePaginatedEmbedPages<T>({ title, description, author, thumbnail, color, data, amountPerPage, setFieldName, setFieldValue, options }: GeneratePaginatedEmbedPagesParams<T>): PaginatedEmbedPage[] {
     const pages: PaginatedEmbedPage[] = [];
     for(let i = 0; i < Math.ceil(data.length / amountPerPage); i++) {
         const startIndex = ((i + 1) * amountPerPage) - amountPerPage;
@@ -54,15 +53,22 @@ export function generatePaginatedEmbedPages<T>({ title, description, author, col
             fields.splice(0, 0, { name: "\u200b", value: "\u200b" });
         }
 
-        pages.push({
+        const newPage = {
             title: typeof title === "function" ? title(i, startIndex, endIndex) : title,
             description,
             author,
+            thumbnail,
             color,
             content: {
                 fields
             }
-        })
+        };
+
+        if(thumbnail) {
+            newPage.thumbnail = thumbnail;
+        }
+
+        pages.push(newPage);
     };
     return pages;
 };
