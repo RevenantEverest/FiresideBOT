@@ -21,6 +21,7 @@ import { logs, colors, promises } from './utils/index.js';
     bot.login(ENV.DISCORD.KEY);
 
     await promises.waitFor(() => bot.isReady(), {
+        retries: 10,
         intervalLength: 2000
     });
 
