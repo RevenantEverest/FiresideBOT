@@ -13,10 +13,6 @@ async function discordId(req: Request, res: Response, next: NextFunction) {
     if(!isValidId) {
         return errors.sendResponse({ res, status: 400, message: "Invalid ID Parameter" });
     }
-    
-    if(discordId !== res.locals.auth.discord_id) {
-        return errors.sendResponse({ res, status: 403, message: "Unauthorized" });
-    }
 
     res.locals.params["discordId"] = discordId;
     next();
