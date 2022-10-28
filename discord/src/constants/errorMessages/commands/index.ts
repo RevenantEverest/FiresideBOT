@@ -1,5 +1,7 @@
 export * as CREATE_FORTUNE from './createFortune.js';
+export * as CREATE_PLAYLIST from './createPlaylist.js';
 export * as EDIT_PREFIX from './editPrefix.js';
+export * as EDIT_PLAYLIST from './editPlaylist.js';
 export * as EIGHT_BALL from './eightBall.js';
 export * as PLAY from './play.js';
 export * as PROMOTE from './promote.js';
