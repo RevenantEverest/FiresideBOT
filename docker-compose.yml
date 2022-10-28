@@ -12,6 +12,7 @@ services:
   api:
     image: ${DOCKER_REGISTRY:-}api${DEPLOY_TAG:-}
     <<: *env
+    restart: always
     build:
       context: ./api
     ports:
@@ -19,6 +20,7 @@ services:
   discord:
     image: ${DOCKER_REGISTRY:-}discord${DEPLOY_TAG:-}
     <<: *env
+    restart: always
     build:
       context: ./discord
     ports: 
