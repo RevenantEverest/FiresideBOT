@@ -99,6 +99,59 @@ function getRoute(baseEndpoint: string, app: Application, authPayload: AuthTesti
                 });
             });
         });
+
+        describe("given the discord id and playlist name as a param", () => {
+            describe("given the discord id doesn't exist", () => {
+                it("should return a 403 status", async () => {
+                    const apiEndpoint = `${baseEndpoint}/discord_id/123456789123456789/name/${extraParams.createdPlaylist?.name}`;
+                    await supertest(app)
+                    .get(apiEndpoint)
+                    .set(authPayload.header)
+                    .send()
+                    .expect(403);
+                });
+            });
+
+            describe("given the discord id does exist", () => {
+                describe("given the playlist name doesn't exist", () => {
+                    it("should return a 404 status", async () => {
+                        const apiEndpoint = `${baseEndpoint}/discord_id/${authPayload.discord_id}/name/${extraParams.createdPlaylist?.name}`;
+                        await supertest(app)
+                        .get(apiEndpoint)
+                        .set(authPayload.header)
+                        .send()
+                        .expect(404);
+                    });
+                });
+
+                describe("given the playlist name does exist", () => {
+                    it("should return a 200 status and the playlist", async () => {
+                        const apiEndpoint = `${baseEndpoint}/discord_id/${authPayload.discord_id}/name/${extraParams.createdPlaylist?.name}`;
+                        const { body, statusCode } = await supertest(app)
+                        .get(apiEndpoint)
+                        .set(authPayload.header)
+                        .send()
+        
+                        expect(statusCode).toBe(200);
+        
+                        const { results } = body;
+        
+                        expect(results.id).not.toBeNull();
+                        expect(results.created_at).not.toBeNull();
+                        expect(results.updated_at).not.toBeNull();
+        
+                        expect(results).toEqual({
+                            id: extraParams.createdPlaylist?.id,
+                            discord_id: authPayload.discord_id,
+                            name: extraParams.createdPlaylist?.name,
+                            created_at: extraParams.createdPlaylist?.created_at,
+                            updated_at: results.updated_at,
+                            songs: results.songs
+                        });
+                    });
+                });
+            });
+        });
     });
 };
 
