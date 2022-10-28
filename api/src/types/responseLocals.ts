@@ -1,3 +1,4 @@
+import { Response } from 'express';
 import { AuthPayload } from './auth.js';
 
 export interface ResponseLocalsParams {
@@ -9,10 +10,15 @@ export interface ResponseLocalsParams {
 
 export interface ResponseLocals {
     params?: ResponseLocalsParams,
+    expand?: string[],
     limit?: number,
     offset?: number
 };
 
 export interface AuthenticatedResponseLocals extends ResponseLocals {
     auth: AuthPayload
+};
+
+export interface AuthenticatedResponse extends Response {
+    locals: AuthenticatedResponseLocals
 };
