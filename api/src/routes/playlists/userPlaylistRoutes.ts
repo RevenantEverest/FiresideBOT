@@ -16,4 +16,7 @@ router.route("/id/:id")
 router.route("/discord_id/:discordId")
 .get(extractPaginationParams, validation.discordId, userPlaylistsController.getByDiscordId)
 
+router.route("/discord_id/:discordId/name/:name")
+.get(validation.discordId, userPlaylistsController.getByDiscordIdAndPlaylistName)
+
 export default router;
