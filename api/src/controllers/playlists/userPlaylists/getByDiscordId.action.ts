@@ -10,10 +10,21 @@ async function getByDiscordId(req: Request, res: Response, next: NextFunction) {
     const { limit, offset } = res.locals;
 
     const findOptions: FindOneOptions<UserPlaylist> = {
+        select: {
+            songs: {
+                id: true,
+                duration: true
+            }
+        },
         where: {
-            discord_id: discordId
-        }
+            discord_id: discordId,
+            ...(res.locals.auth.discord_id !== discordId ? { is_public: true } : {})
+        },
+        relations: ["songs"]
     };
+
+
+
     const [userPlaylists, err] = await entities.findAndCount<UserPlaylist>(UserPlaylist, findOptions, {
         limit, offset
     });
@@ -26,7 +37,17 @@ async function getByDiscordId(req: Request, res: Response, next: NextFunction) {
         return errors.sendResponse({ res, status: 404, message: "No UserPlaylist Found" });
     }
 
-    const response = pagination.paginateResponse(req, res, userPlaylists);
+    const results = userPlaylists[0].map((userPlaylist) => {
+        const { songs, ...playlist } = userPlaylist;
+
+        return {
+            ...playlist,
+            duration: userPlaylist.duration,
+            songCount: userPlaylist.songCount
+        };
+    });
+
+    const response = pagination.paginateResponse(req, res, [results, userPlaylists[1]]);
 
     return res.json(response);
 };
