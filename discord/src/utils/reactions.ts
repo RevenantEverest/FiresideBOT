@@ -2,7 +2,7 @@ import Discord, { MessageReaction, User, Message } from 'discord.js';
 import { PaginatedEmbed } from '../types/embeds.js';
 import { ApiPaginationOptions, GetPageResponse } from '../types/pagination.js';
 
-import { DEFAULTS } from '../constants/index.js';
+import { DEFAULTS, EMOJIS } from '../constants/index.js';
 import * as embeds from './embeds.js';
 
 interface ShouldRequestApiPageParams<T> {
@@ -72,9 +72,9 @@ function getContentLength<T>({ paginatedEmbed, paginationOptions }: GetContentLe
 
 export async function createReactionNavigator<T>(message: Message, index: number, paginatedEmbed: PaginatedEmbed, paginationOptions?: ApiPaginationOptions<T>) {
     const navigatorEmojis = {
-        next: "▶️",
-        stop: "⏹️",
-        prev: "◀️"
+        next: EMOJIS.NEXT,
+        stop: EMOJIS.STOP,
+        prev: EMOJIS.PREV
     };
 
     await message.react(navigatorEmojis.prev);
