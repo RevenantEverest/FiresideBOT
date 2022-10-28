@@ -1,55 +1,93 @@
-import axios, { AxiosResponse } from 'axios';
-import { Message } from 'discord.js';
-import { GuildSettings } from '../../types/entities/GuildSettings.js';
-import { HandleReturn } from '../../types/promises.js';
+import axios from 'axios';
+import { CommandDispatch } from '../../types/commands.js';
+import { HandleAxiosReturn } from '../../types/promises.js';
+import { AxiosApiResponse, AxiosPaginatedApiResponse, ApiPaginatedResponse, ApiPaginationParams } from 'src/types/api.js';
+
+import { UserPlaylist } from '../../types/entities/UserPlaylist.js';
 
 import { issueToken } from '../../middleware/index.js';
 
 import { ENV } from '../../constants/index.js';
 import { promises } from '../../utils/index.js';
 
-const baseEndpoint = ENV.API_URL + "/settings/guild";
+type ApiResponse = AxiosApiResponse<UserPlaylist>;
+type PaginatedApiResponse = AxiosPaginatedApiResponse<UserPlaylist>;
 
-export async function get(guildId: string, message: Message): HandleReturn<GuildSettings> {
-    const token = await issueToken(message);
-    
-    const request = axios.get(`${baseEndpoint}/${guildId}`, {
+type GetByDiscordIdReturn = HandleAxiosReturn<ApiPaginatedResponse<UserPlaylist>>;
+
+const baseEndpoint = ENV.API_URL + "/playlists/user";
+
+export async function getByDiscordIdAndName(dispatch: CommandDispatch, discordId: string, playlistName: string): HandleAxiosReturn<UserPlaylist> {
+    const token = await issueToken(dispatch);
+
+    const request = axios.get(`${baseEndpoint}/discord_id/${discordId}/name/${playlistName}`, {
         headers: {
             Authorization: `Bearer ${token}`
         }
     });
 
-    const [res, err] = await promises.handle<AxiosResponse>(request);
+    const [res, err] = await promises.handleApi<ApiResponse>(request);
 
     if(err) {
         return [undefined, err];
     }
 
-    if(!res || !res.data.results) {
-        return [undefined, new Error("No Guild Settings Returned")];
-    }
-
-    return [(res.data.results as GuildSettings), undefined];
+    return [res?.data.results, undefined];
 };
 
-export async function update(guildId: string, message: Message, guildSettings: GuildSettings): HandleReturn<GuildSettings> {
-    const token = await issueToken(message);
+export async function getByDiscordId(dispatch: CommandDispatch, discordId: string, params: ApiPaginationParams): GetByDiscordIdReturn {
+    const token = await issueToken(dispatch);
 
-    const request = axios.put(`${baseEndpoint}/${guildId}`, guildSettings, {
+    const request = axios.get(`${baseEndpoint}/discord_id/${discordId}?page=${params.page ?? 1}`, {
         headers: {
             Authorization: `Bearer ${token}`
         }
     });
 
-    const [res, err] = await promises.handle<AxiosResponse>(request);
+    const [res, err] = await promises.handleApi<PaginatedApiResponse>(request);
 
     if(err) {
         return [undefined, err];
     }
 
-    if(!res || !res.data.results) {
-        return [undefined, new Error("No Guild Settings Returned")];
+    return [res?.data, undefined];
+};
+
+export async function update(dispatch: CommandDispatch, playlist: UserPlaylist): HandleAxiosReturn<UserPlaylist> {
+    const token = await issueToken(dispatch);
+
+    const request = axios.put(`${baseEndpoint}/id/${playlist.id}`, playlist, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+
+    const [res, err] = await promises.handleApi<ApiResponse>(request);
+
+    if(err) {
+        return [undefined, err];
     }
 
-    return [(res.data.results as GuildSettings), undefined];
+    return [res?.data.results, undefined];
+};
+
+export async function create(dispatch: CommandDispatch, playlistName: string): HandleAxiosReturn<UserPlaylist> {
+    const token = await issueToken(dispatch);
+
+    const data = {
+        name: playlistName
+    };
+    const request = axios.post(`${baseEndpoint}`, data, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+
+    const [res, err] = await promises.handleApi<ApiResponse>(request);
+
+    if(err) {
+        return [undefined, err];
+    }
+
+    return [res?.data.results, undefined];
 };
