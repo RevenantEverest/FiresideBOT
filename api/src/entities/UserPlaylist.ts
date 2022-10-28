@@ -16,6 +16,7 @@ class UserPlaylist extends BaseEntity {
         id: number,
         discord_id: string,
         name: string,
+        is_public: boolean,
         created_at: Date,
         updated_at: Date,
 
@@ -25,6 +26,7 @@ class UserPlaylist extends BaseEntity {
         this.id = id;
         this.discord_id = discord_id;
         this.name = name;
+        this.is_public = is_public;
         this.created_at = created_at;
         this.updated_at = updated_at;
 
@@ -40,6 +42,9 @@ class UserPlaylist extends BaseEntity {
     @Column({ type: "varchar", length: 255 })
     name: string;
 
+    @Column({ type: "boolean", default: true })
+    is_public: boolean;
+
     @CreateDateColumn()
     created_at: Date;
 
@@ -53,6 +58,14 @@ class UserPlaylist extends BaseEntity {
         { onDelete: "CASCADE" }
     )
     songs: UserSong[];
+
+    public get duration(): number {
+        return this.songs.map(song => song.duration).reduce((a, b) => a + b, 0);
+    };
+
+    public get songCount(): number {
+        return this.songs.length;
+    };
 };
 
 export default UserPlaylist;
