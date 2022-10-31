@@ -61,7 +61,7 @@ function setUpdatedPaginationOptions<T>(getPageRes: GetPageResponse<T>, paginati
 
 function getContentLength<T>({ paginatedEmbed, paginationOptions }: GetContentLengthParams<T>): number {
     const maxApiPaginationPages = Math.ceil(((paginationOptions?.count ?? 0) / (paginationOptions?.amountPerPage ?? 0)) - 1);
-    const contentLength = paginatedEmbed.content.length - 1;
+    const contentLength = paginatedEmbed.pages.length - 1;
     
     if(paginationOptions) {
         return maxApiPaginationPages;
@@ -82,10 +82,17 @@ export async function createReactionNavigator<T>(message: Message, index: number
     await message.react(navigatorEmojis.next);
 
     const collector = new Discord.ReactionCollector(message, { 
-        time: (paginatedEmbed.time ?? DEFAULTS.PAGINATED_EMBED_TIME) * 60000 
+        time: (paginatedEmbed.time ?? DEFAULTS.PAGINATED_EMBED_TIME) * 60000,
+        dispose: true
     });
 
-    collector.on("collect", async (reaction: MessageReaction, user: User) => {
+    collector.on("remove", handleReaction)
+    collector.on("collect", handleReaction);   
+    collector.on("end", async () => {
+        message.reactions.removeAll();
+    });
+
+    async function handleReaction(reaction: MessageReaction, user: User) {
         if(user.bot) return;
 
         const amountPerPage = paginationOptions?.amountPerPage ?? 0;
@@ -142,9 +149,5 @@ export async function createReactionNavigator<T>(message: Message, index: number
             content: paginatedEmbed.flavorText,
             embeds: [embed]
         });
-    });   
-    
-    collector.on("end", async () => {
-        message.reactions.removeAll();
-    });
+    }
 };

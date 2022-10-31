@@ -23,7 +23,7 @@ async function onMessage(bot: Client, message: Message) {
         }
     };
 
-    const [guildSettings, err] = await api.guildSettings.get(message.guild.id, dispatch);
+    const [guildSettings, err] = await api.guildSettings.getOrSave(dispatch);
 
     if(err) {
         return logs.error({ color: colors.error, type: "COMMAND-ERROR", err, message: "Error Getting Guild Settings" });
