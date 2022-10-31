@@ -25,7 +25,7 @@ services:
       - /app/node_modules
   db:
     container_name: fireside_db
-    image: postgres
+    image: 'postgres:14.5'
     environment:
       - POSTGRES_USER=${DB_USERNAME}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
@@ -36,7 +36,7 @@ services:
       - ./postgres_data:/var/lib/postgresql/data
   testing_db:
     container_name: fireside_testing_db
-    image: postgres
+    image: 'postgres:14.5'
     environment:
       - POSTGRES_USER=${DB_USERNAME}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
