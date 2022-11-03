@@ -1,5 +1,6 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { CommandParams, CommandConfigParams } from '../../../types/commands.js';
+import { UserPlaylistUpdate } from '../../../types/entities/UserPlaylist.js';
 
 import * as api from '../../../api/index.js';
 import { ERROR_MESSAGES, EMOJIS } from '../../../constants/index.js';
@@ -26,7 +27,10 @@ async function EditPlaylist({ bot, args, dispatch }: CommandParams) {
         return dispatch.reply("No Playlist found");
     }
 
-    const playlistToUpdate = userPlaylist;
+    const playlistToUpdate: UserPlaylistUpdate = { 
+        id: userPlaylist.id, 
+        discord_id: userPlaylist.discord_id
+    };
     const flags = dispatch.interaction?.options.getString("flags") ?? regex.parseCommandFlags(args.join(" "));
 
     if(flags && flags.includes("p")) {
@@ -55,17 +59,12 @@ async function EditPlaylist({ bot, args, dispatch }: CommandParams) {
         return dispatch.reply("Playlist failed to update");
     }
 
-    const didNameUpdate: boolean = Boolean(userPlaylist.name !== updatedPlaylist.name);
-    const didPublicUpdate: boolean = userPlaylist.is_public !== updatedPlaylist.is_public;
+    const didNameUpdate: boolean = Boolean(updatedPlaylistName);
+    const didPublicUpdate: boolean = Boolean(userPlaylist.is_public !== updatedPlaylist.is_public);
 
-    const didNameUpdateText = didNameUpdate ? `updated to **${updatedPlaylist.name}**` : '';
-    const publicPrivateText = updatedPlaylist.is_public ? `${EMOJIS.UNLOCKED} **Public**` : `${EMOJIS.LOCKED} **Private**`;
-
-    console.log({
-        didNameUpdate,
-        didPublicUpdate,
-        publicPrivateText
-    });
+    const didNameUpdateText = didNameUpdate ? ` updated to **${updatedPlaylist.name}**` : '';
+    const publicPrivateText = updatedPlaylist.is_public ? `${EMOJIS.UNLOCKED}**Public**` : `${EMOJIS.LOCKED}**Private**`;
+    
     return dispatch.reply(
         `**${userPlaylist.name}**` + 
         didNameUpdateText + 
