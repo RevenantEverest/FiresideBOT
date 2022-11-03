@@ -9,3 +9,7 @@ export const VALID_CREATE = {
 export const VALID_UPDATE = {
     name: "MyNewPlaylist"
 };
+
+export const VALID_PUBLIC_UPDATE = {
+    is_public: false
+};
