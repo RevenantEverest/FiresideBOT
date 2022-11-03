@@ -1,8 +1,11 @@
 import { UserSong } from './UserSong';
 
-export interface UserPlaylist {
+export interface UserPlaylistCommon {
     id: number,
-    discord_id: string,
+    discord_id: string
+};
+
+export interface UserPlaylist extends UserPlaylistCommon {
     name: string,
     is_public: boolean,
     created_at: Date,
@@ -10,4 +13,9 @@ export interface UserPlaylist {
     duration: number,
     songCount: number,
     songs?: UserSong[]
+};
+
+export interface UserPlaylistUpdate extends UserPlaylistCommon {
+    name?: string,
+    is_public?: boolean
 };
