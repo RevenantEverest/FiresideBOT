@@ -7,7 +7,7 @@ async function update(req: Request, res: Response, next: NextFunction) {
 
     const playlistName: string = req.body.name;
 
-    if(playlistName.includes(" ")) {
+    if(playlistName && playlistName.includes(" ")) {
         return errors.sendResponse({ res, status: 400, message: "Playlist Name Cannot Contain White Space" });
     }
 
@@ -35,7 +35,8 @@ async function update(req: Request, res: Response, next: NextFunction) {
     const [updatedUserPlaylist, updateErr] = await entities.update<UserPlaylist>(UserPlaylist, {
         ...findRes,
         discord_id: res.locals.auth.discord_id,
-        name: playlistName
+        name: playlistName,
+        is_public: req.body.is_public
     });
 
     if(updateErr) {
