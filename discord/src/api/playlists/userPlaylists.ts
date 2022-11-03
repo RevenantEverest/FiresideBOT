@@ -3,7 +3,7 @@ import { CommandDispatch } from '../../types/commands.js';
 import { HandleAxiosReturn } from '../../types/promises.js';
 import { AxiosApiResponse, AxiosPaginatedApiResponse, ApiPaginatedResponse, ApiPaginationParams } from 'src/types/api.js';
 
-import { UserPlaylist } from '../../types/entities/UserPlaylist.js';
+import { UserPlaylist, UserPlaylistUpdate } from '../../types/entities/UserPlaylist.js';
 
 import { issueToken } from '../../middleware/index.js';
 
@@ -53,7 +53,7 @@ export async function getByDiscordId(dispatch: CommandDispatch, discordId: strin
     return [res?.data, undefined];
 };
 
-export async function update(dispatch: CommandDispatch, playlist: UserPlaylist): HandleAxiosReturn<UserPlaylist> {
+export async function update(dispatch: CommandDispatch, playlist: UserPlaylistUpdate): HandleAxiosReturn<UserPlaylist> {
     const token = await issueToken(dispatch);
 
     const request = axios.put(`${baseEndpoint}/id/${playlist.id}`, playlist, {
