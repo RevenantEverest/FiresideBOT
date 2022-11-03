@@ -60,7 +60,37 @@ function updateRoute(baseEndpoint: string, app: Application, authPayload: AuthTe
                     discord_id: authPayload.discord_id,
                     name: PAYLOADS.VALID_UPDATE.name,
                     created_at: extraParams.createdPlaylist?.created_at,
-                    updated_at: results.updated_at
+                    updated_at: results.updated_at,
+                    is_public: extraParams.createdPlaylist?.is_public
+                });
+
+                extraParams.createdPlaylist = results;
+            });
+        });
+
+        describe("given the public value changes", () => {
+            it("should return a 200 status and the updated playlist", async () => {
+                const endpoint = `${baseEndpoint}/id/${extraParams.createdPlaylist?.id}`;
+                const { body, statusCode } = await supertest(app)
+                .put(endpoint)
+                .set(authPayload.header)
+                .send(PAYLOADS.VALID_PUBLIC_UPDATE)
+
+                expect(statusCode).toBe(200);
+
+                const { results } = body;
+
+                expect(results.id).not.toBeNull();
+                expect(results.created_at).not.toBeNull();
+                expect(results.updated_at).not.toBeNull();
+
+                expect(results).toEqual({
+                    id: extraParams.createdPlaylist?.id,
+                    discord_id: authPayload.discord_id,
+                    name: PAYLOADS.VALID_UPDATE.name,
+                    created_at: extraParams.createdPlaylist?.created_at,
+                    updated_at: results.updated_at,
+                    is_public: PAYLOADS.VALID_PUBLIC_UPDATE
                 });
 
                 extraParams.createdPlaylist = results;
