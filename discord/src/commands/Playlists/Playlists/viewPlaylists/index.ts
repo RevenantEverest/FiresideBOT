@@ -7,7 +7,7 @@ import { HandleReturn } from '../../../../types/promises.js';
 
 
 import * as api from '../../../../api/index.js';
-import { IMAGE_RESOURCES } from '../../../../constants/index.js';
+import { EMOJIS, IMAGE_RESOURCES } from '../../../../constants/index.js';
 import { colors, embeds, pagination, dates, errors } from '../../../../utils/index.js';
 
 async function viewPlaylists(bot: Client, dispatch: CommandDispatch, discordId: string) {
@@ -45,7 +45,8 @@ async function viewPlaylists(bot: Client, dispatch: CommandDispatch, discordId: 
                 data: playlists,
                 amountPerPage,
                 setFieldName(playlist: UserPlaylist, index: number, startIndex: number) {
-                    return `${(startIndex + index) + 1}. ${playlist.name} (${dates.parseSeconds(playlist.duration)})`
+                    const duration = dates.parseSeconds(playlist.duration);
+                    return `${(startIndex + index) + 1}. ${playlist.name} (${duration}) ${playlist.is_public ? "" : EMOJIS.LOCKED}`
                 },
                 setFieldValue(playlist: UserPlaylist) {
                     return `${playlist.songCount} songs`;
