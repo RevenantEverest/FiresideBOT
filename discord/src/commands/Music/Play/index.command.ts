@@ -4,7 +4,7 @@ import { CommandParams, CommandConfigParams } from '../../../types/commands.js';
 import { SongInfo } from '../../../types/youtube.js';
 
 import { ERROR_MESSAGES, PREMIUM_LIMITS } from '../../../constants/index.js';
-import { youtube, errors, voiceConnection } from '../../../utils/index.js';
+import { songRequests, errors, voiceConnection } from '../../../utils/index.js';
 
 async function Play({ bot, args, dispatch, server, options, userState }: CommandParams) {
     if(!dispatch.interaction && !args[0]) {
@@ -19,24 +19,8 @@ async function Play({ bot, args, dispatch, server, options, userState }: Command
         return dispatch.reply(ERROR_MESSAGES.UPDATE_PENDING);
     }
 
-    if(dispatch.interaction) {
-        dispatch.interaction.deferReply();
-    }
-
     let request = dispatch.interaction?.options.getString("request") || args.join(" ");
-    const isLink: boolean = await youtube.isValidLink(args[0] || request);
-
-    if(isLink) {
-        const videoId = await youtube.extractVideoId(request);
-
-        if(!videoId) {
-            return dispatch.reply("No Video ID", true);
-        }
-
-        request = videoId;        
-    }
-
-    const [youtubeSearchRes, youtubeSearchErr] = await youtube.handleSearch(request, isLink);
+    const [youtubeSearchRes, youtubeSearchErr] = await songRequests.requestSong(request ?? args[0]);
 
     if(youtubeSearchErr) {
         return errors.command({ 
@@ -67,6 +51,7 @@ async function Play({ bot, args, dispatch, server, options, userState }: Command
         ...songInfo,
         requestedBy: `${dispatch.author.username} #${dispatch.author.discriminator}`
     });
+    
     dispatch.reply(`**${songInfo.title}** was added to the queue in position **${server.queue.info.length}**`, true);
 
     if(!server.queue.playing) {

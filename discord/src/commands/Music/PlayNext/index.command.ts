@@ -3,7 +3,7 @@ import { CommandParams, CommandConfigParams } from '../../../types/commands.js';
 import { SongInfo } from '../../../types/youtube.js';
 
 import { ERROR_MESSAGES, PREMIUM_LIMITS } from '../../../constants/index.js';
-import { youtube, errors, voiceConnection } from '../../../utils/index.js';
+import { songRequests, errors, voiceConnection } from '../../../utils/index.js';
 import { ServerSongInfo } from 'src/types/server';
 
 async function PlayNext({ bot, args, dispatch, server, options, userState }: CommandParams) {
@@ -19,38 +19,22 @@ async function PlayNext({ bot, args, dispatch, server, options, userState }: Com
         return dispatch.reply(ERROR_MESSAGES.UPDATE_PENDING);
     }
 
-    if(dispatch.interaction) {
-        dispatch.interaction.deferReply();
-    }
-
     let request = dispatch.interaction?.options.getString("request") || args.join(" ");
-    const isLink: boolean = await youtube.isValidLink(args[0] || request);
-
-    if(isLink) {
-        const videoId = await youtube.extractVideoId(request);
-
-        if(!videoId) {
-            return dispatch.reply("No Video ID", true);
-        }
-
-        request = videoId;
-    }
-
-    const [youtubeSearchRes, youtubeSearchErr] = await youtube.handleSearch(request, isLink);
+    const [youtubeSearchRes, youtubeSearchErr] = await songRequests.requestSong(request ?? args[0]);
 
     if(youtubeSearchErr) {
-        return errors.command({
-            bot,
+        return errors.command({ 
+            bot, 
             dispatch,
             err: youtubeSearchErr,
-            errMessage: youtubeSearchErr.message,
+            errMessage: "",
             commandName: "PlayNext"
         });
     }
 
     if(!youtubeSearchRes) {
         return errors.command({
-            bot,
+            bot, 
             dispatch,
             errMessage: "No Search Results Returned",
             commandName: "PlayNext"

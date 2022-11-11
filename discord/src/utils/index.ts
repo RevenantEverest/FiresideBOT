@@ -13,6 +13,7 @@ export * as pagination from './pagination.js';
 export * as promises from './promises.js';
 export * as reactions from './reactions.js';
 export * as regex from './regex.js';
+export * as songRequests from './songRequests.js';
 export * as text from './text.js';
 export * as youtube from './youtube.js';
 export * as voiceConnection from './voiceConnection.js';
