@@ -1,3 +1,4 @@
+export * as ADD_SONG from './addSong.js';
 export * as CREATE_FORTUNE from './createFortune.js';
 export * as CREATE_PLAYLIST from './createPlaylist.js';
 export * as EDIT_PREFIX from './editPrefix.js';
