@@ -6,7 +6,7 @@ import { HandleReturn } from '../../../../types/promises.js';
 import { ApiPaginationOptions, GetPageResponse } from '../../../../types/pagination.js';
 
 import * as api from '../../../../api/index.js';
-import { IMAGE_RESOURCES } from '../../../../constants/index.js';
+import { IMAGE_RESOURCES, EMOJIS } from '../../../../constants/index.js';
 import { colors, embeds, pagination, dates, errors } from '../../../../utils/index.js';
 
 async function viewSinglePlaylist(bot: Client, dispatch: CommandDispatch, discordId: string, playlistName: string) {
@@ -50,7 +50,7 @@ async function viewSinglePlaylist(bot: Client, dispatch: CommandDispatch, discor
         return {
             pages: embeds.generatePaginatedEmbedPages<UserSong>({
                 title: `**${userPlaylist?.name}**`,
-                description: `Public\n\u200b`,
+                description: `${userPlaylist?.is_public ? "Public" : `${EMOJIS.LOCKED}Private`}\n\u200b`,
                 author: {
                     iconURL: dispatch.author.avatarURL({ dynamic: true }) ?? "",
                     name: `${dispatch.author.username} #${dispatch.author.discriminator}`
