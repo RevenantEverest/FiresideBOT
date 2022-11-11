@@ -18,8 +18,8 @@ async function onMessage(bot: Client, message: Message) {
         guild: message.guild,
         message,
         channel: message.channel as TextBasedChannel,
-        reply: async (content: ReplyMessageOptions, deferredReply?: boolean) => {
-            return dispatchUtils.sendReply(dispatch, content, deferredReply);
+        reply: async (content: ReplyMessageOptions) => {
+            return dispatchUtils.sendReply(dispatch, content);
         }
     };
 
@@ -42,7 +42,7 @@ async function onMessage(bot: Client, message: Message) {
     
     const { server, commandFile, options } = await commands.getOptions({
         guildId: dispatch.guildId,
-        commandResolvable: args[0],
+        commandResolvable: args[0].toLowerCase(),
         guildSettings
     });
 

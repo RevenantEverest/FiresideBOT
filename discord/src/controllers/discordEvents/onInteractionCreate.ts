@@ -10,6 +10,9 @@ import * as dispatchUtils from '../../utils/dispatch.js';
 async function onInteractionCreate(bot: Client, interaction: Interaction) {
     if(!interaction.isCommand() || !interaction.inGuild()) return;
 
+    /* Defer reply on event fire to prevent 3s timeout fatal error */
+    interaction.deferReply();
+
     const [guild, guildErr] = await promises.handle(bot.guilds.fetch(interaction.guildId));
 
     if(guildErr) {
@@ -75,8 +78,8 @@ async function onInteractionCreate(bot: Client, interaction: Interaction) {
         member: guildMember,
         interaction,
         channel: channel as TextBasedChannel,
-        reply: async (content: InteractionReplyOptions, deferredReply?: boolean) => {
-            return dispatchUtils.sendReply(dispatch, content, deferredReply);
+        reply: async (content: InteractionReplyOptions) => {
+            return dispatchUtils.sendReply(dispatch, content);
         }
     };
 

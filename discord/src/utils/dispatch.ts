@@ -5,16 +5,13 @@ import * as errors from './errors.js';
 
 type ReplyContent = ReplyMessageOptions | InteractionReplyOptions;
 
-export async function sendReply(dispatch: CommandDispatch, content: ReplyContent, deferredReply?: boolean) {
+export async function sendReply(dispatch: CommandDispatch, content: ReplyContent) {
 
     const { interaction, message } = dispatch;
 
     try {
         if(interaction) {
-            if(deferredReply) {
-                return interaction.editReply(content);
-            }
-            return interaction.reply(content as InteractionReplyOptions);
+            return interaction.editReply(content as InteractionReplyOptions);
         }
     
         if(message) {
