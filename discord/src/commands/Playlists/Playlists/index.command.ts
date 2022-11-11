@@ -40,7 +40,7 @@ async function Playlists({ bot, args, dispatch }: CommandParams) {
 
 export const config: CommandConfigParams = {
     aliases: ['playlist'],
-    description: "Reqwuest or display Playlist information",
+    description: "Request or display Playlist information",
     example: "playlists Revenant -s"
 };
 
