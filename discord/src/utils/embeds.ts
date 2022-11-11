@@ -37,6 +37,20 @@ interface GeneratePaginatedEmbedPagesOptions {
 
 export function generatePaginatedEmbedPages<T>({ title, description, author, thumbnail, color, data, amountPerPage, setFieldName, setFieldValue, options }: GeneratePaginatedEmbedPagesParams<T>): PaginatedEmbedPage[] {
     const pages: PaginatedEmbedPage[] = [];
+
+    if(data.length < 1) {
+        pages.push({
+            title: typeof title === "function" ? title(0, 0, 0) : title,
+            description,
+            author,
+            thumbnail,
+            color,
+            content: {
+                fields: []
+            }
+        })
+    }
+
     for(let i = 0; i < Math.ceil(data.length / amountPerPage); i++) {
         const startIndex = ((i + 1) * amountPerPage) - amountPerPage;
         const endIndex = ((i + 1) * amountPerPage);
@@ -70,6 +84,7 @@ export function generatePaginatedEmbedPages<T>({ title, description, author, thu
 
         pages.push(newPage);
     };
+
     return pages;
 };
 
