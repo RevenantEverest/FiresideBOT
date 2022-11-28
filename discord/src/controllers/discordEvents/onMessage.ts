@@ -48,7 +48,7 @@ async function onMessage(bot: Client, message: Message) {
 
     const disabledCommands = null;
     const userState = {
-        premium: true
+        premium: false
     };
 
     if(!commandFile) {
@@ -66,7 +66,8 @@ async function onMessage(bot: Client, message: Message) {
         server, 
         options, 
         userState, 
-        guildSettings
+        guildSettings,
+        commandFile
     };
     commandFile.run(params);
 };

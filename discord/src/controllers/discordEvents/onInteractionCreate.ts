@@ -127,7 +127,8 @@ async function onInteractionCreate(bot: Client, interaction: Interaction) {
         server, 
         options, 
         userState, 
-        guildSettings
+        guildSettings,
+        commandFile
     };
     commandFile.run(params);
 };

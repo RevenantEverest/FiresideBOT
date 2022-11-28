@@ -31,7 +31,8 @@ export interface CommandParams {
     server: Server,
     options: CommandOptions,
     userState: UserState,
-    guildSettings: GuildSettings
+    guildSettings: GuildSettings,
+    commandFile: CommandFile
 };
 
 export interface CommandConfigParams {
