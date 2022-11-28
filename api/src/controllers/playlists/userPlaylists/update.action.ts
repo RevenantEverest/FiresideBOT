@@ -1,13 +1,19 @@
 import { Request, Response, NextFunction } from 'express';
+import { DeepPartial } from 'typeorm';
 import UserPlaylist from '../../../entities/UserPlaylist.js';
 
 import { entities, errors } from '../../../utils/index.js';
 
+interface RequestBody {
+    name?: string,
+    is_public?: boolean
+};
+
 async function update(req: Request, res: Response, next: NextFunction) {
 
-    const playlistName: string = req.body.name;
+    const body: RequestBody = req.body;
 
-    if(playlistName && playlistName.includes(" ")) {
+    if(body.name && body.name.includes(" ")) {
         return errors.sendResponse({ res, status: 400, message: "Playlist Name Cannot Contain White Space" });
     }
 
@@ -28,16 +34,17 @@ async function update(req: Request, res: Response, next: NextFunction) {
         return errors.sendResponse({ res, status: 404, message: "UserPlaylist Not Found" });
     }
 
-    if(findRes.name === playlistName) {
+    if(findRes.name === body.name) {
         return errors.sendResponse({ res, status: 400, message: "Playlist name already exists" });
     }
 
-    const [updatedUserPlaylist, updateErr] = await entities.update<UserPlaylist>(UserPlaylist, {
+    const data: DeepPartial<UserPlaylist> = {
         ...findRes,
-        discord_id: res.locals.auth.discord_id,
-        name: playlistName,
-        is_public: req.body.is_public
-    });
+        ...(body.name !== undefined && { name: body.name }),
+        ...(body.is_public !== undefined && { is_public: body.is_public })
+    };
+
+    const [updatedUserPlaylist, updateErr] = await entities.update<UserPlaylist>(UserPlaylist, data);
 
     if(updateErr) {
         return errors.sendResponse({ res, next, err: updateErr, message: "Error Updating UserPlaylist" });
