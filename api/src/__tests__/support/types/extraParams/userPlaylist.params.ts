@@ -1,5 +1,6 @@
 import { UserPlaylist } from '../../../../entities/index.js';
 
 export interface UserPlaylistExtraParams {
-    createdPlaylist?: UserPlaylist
+    createdPlaylist?: UserPlaylist,
+    secondaryPlaylist?: UserPlaylist
 };
