@@ -1,5 +1,5 @@
-import { AxiosResponse, AxiosError } from 'axios';
-import ytdl from 'ytdl-core';
+import { AxiosResponse } from 'axios';
+import playdl from 'play-dl';
 
 import * as promises from './promises.js';
 import { HandleReturn } from '../types/promises.js';
@@ -44,25 +44,28 @@ export async function handleSearch(request: string, isLink: boolean): Promise<Ha
         youtubeLink = URLS.YOUTUBE_VIDEO + videoId;
     }
 
-    return await ytdlGetInfo(youtubeLink);
+    return await getSongInfo(youtubeLink);
 };
 
-export async function ytdlGetInfo(link: string): Promise<HandleReturn<SongInfo>> {
-    const info = await ytdl.getBasicInfo(link);
+export async function getSongInfo(link: string): Promise<HandleReturn<SongInfo>> {
+    const info = await playdl.video_basic_info(link);
 
     if(!info) {
         return [undefined, new Error("Info is Undefined")];
     }
 
-    const { title, videoId, author, lengthSeconds, thumbnail } = info.player_response.videoDetails;
-    const thumbnail_url = thumbnail.thumbnails[thumbnail.thumbnails.length - 1].url;
-    const duration = parseInt(lengthSeconds, 10);
+    const { id, title, channel, durationInSec, thumbnails } = info.video_details;
+    const thumbnail_url = thumbnails[thumbnails.length - 1].url;
+
+    if(!id || !title || !channel?.name) {
+        return [undefined, new Error("Missing Info Elements")];
+    }
 
     const songInfo: SongInfo = {
         title,
-        videoId,
-        author,
-        duration,
+        videoId: id,
+        author: channel.name,
+        duration: durationInSec,
         thumbnail_url
     };
 
