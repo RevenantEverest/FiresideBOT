@@ -7,3 +7,8 @@ export interface UserSong {
     thumbnail_url: string,
     created_at: Date
 };
+
+export interface UserSongCreate {
+    playlist_id: number,
+    request: string
+};
