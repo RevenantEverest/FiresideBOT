@@ -20,7 +20,7 @@ describe("Integration Tests", () => {
         jest.clearAllMocks();
     });
 
-    describe("custom routes", customTests);    
+    // describe("custom routes", customTests);    
     describe("playlist routes", playlistTests);
-    describe("settings routes", settingsTests);
+    // describe("settings routes", settingsTests);
 });
