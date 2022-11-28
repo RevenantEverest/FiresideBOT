@@ -6,6 +6,10 @@ export const VALID_CREATE = {
     name: "MyPlaylist"
 };
 
+export const VALID_CREATE_ALT = {
+    name: "MyPublicPlaylist"
+};
+
 export const VALID_UPDATE = {
     name: "MyNewPlaylist"
 };
