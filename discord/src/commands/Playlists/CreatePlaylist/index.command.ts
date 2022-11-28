@@ -6,7 +6,7 @@ import * as api from '../../../api/index.js';
 import { ERROR_MESSAGES } from '../../../constants/index.js';
 import { errors } from '../../../utils/index.js';
 
-async function CreatePlaylist({ bot, args, dispatch }: CommandParams) {
+async function CreatePlaylist({ bot, args, dispatch, commandFile }: CommandParams) {
 
     if(!dispatch.interaction) {
         if(!args[0]) {
@@ -27,7 +27,7 @@ async function CreatePlaylist({ bot, args, dispatch }: CommandParams) {
             return dispatch.reply(responseData.message);
         }
 
-        return errors.command({ bot, dispatch, err, errMessage: err.message, commandName: "" });
+        return errors.command({ bot, dispatch, err, errMessage: err.message, commandName: commandFile.displayName });
     }
 
     if(!userPlaylist) {

@@ -6,7 +6,7 @@ import { SongInfo } from '../../../types/youtube.js';
 import { ERROR_MESSAGES, PREMIUM_LIMITS } from '../../../constants/index.js';
 import { songRequests, errors, voiceConnection } from '../../../utils/index.js';
 
-async function Play({ bot, args, dispatch, server, options, userState }: CommandParams) {
+async function Play({ bot, args, dispatch, server, options, userState, commandFile }: CommandParams) {
     if(!dispatch.interaction && !args[0]) {
         return dispatch.reply(ERROR_MESSAGES.COMMANDS.PLAY.NO_ARGS);
     }
@@ -28,7 +28,7 @@ async function Play({ bot, args, dispatch, server, options, userState }: Command
             dispatch,
             err: youtubeSearchErr,
             errMessage: "",
-            commandName: "Play"
+            commandName: commandFile.displayName
         });
     }
 
@@ -37,7 +37,7 @@ async function Play({ bot, args, dispatch, server, options, userState }: Command
             bot, 
             dispatch,
             errMessage: "No Search Results Returned",
-            commandName: "Play"
+            commandName: commandFile.displayName
         });
     }
 

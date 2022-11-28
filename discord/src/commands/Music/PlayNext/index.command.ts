@@ -1,12 +1,12 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { CommandParams, CommandConfigParams } from '../../../types/commands.js';
 import { SongInfo } from '../../../types/youtube.js';
+import { ServerSongInfo } from '../../../types/server';
 
 import { ERROR_MESSAGES, PREMIUM_LIMITS } from '../../../constants/index.js';
 import { songRequests, errors, voiceConnection } from '../../../utils/index.js';
-import { ServerSongInfo } from 'src/types/server';
 
-async function PlayNext({ bot, args, dispatch, server, options, userState }: CommandParams) {
+async function PlayNext({ bot, args, dispatch, server, options, userState, commandFile }: CommandParams) {
     if(!dispatch.interaction && !args[0]) {
         return dispatch.reply(ERROR_MESSAGES.COMMANDS.PLAY.NO_ARGS);
     }
@@ -28,7 +28,7 @@ async function PlayNext({ bot, args, dispatch, server, options, userState }: Com
             dispatch,
             err: youtubeSearchErr,
             errMessage: "",
-            commandName: "PlayNext"
+            commandName: commandFile.displayName
         });
     }
 
@@ -37,7 +37,7 @@ async function PlayNext({ bot, args, dispatch, server, options, userState }: Com
             bot, 
             dispatch,
             errMessage: "No Search Results Returned",
-            commandName: "PlayNext"
+            commandName: commandFile.displayName
         });
     }
 
