@@ -1,9 +1,8 @@
 import axios from 'axios';
 import { CommandDispatch } from '../../types/commands.js';
 import { HandleAxiosReturn } from '../../types/promises.js';
-import { UserSong } from '../../types/entities/UserSong.js';
+import { UserSong, UserSongCreate } from '../../types/entities/UserSong.js';
 import { UserPlaylist } from '../../types/entities/UserPlaylist.js';
-import { SongInfo } from '../../types/youtube.js';
 import { 
     ApiPaginatedResponse, 
     ApiPaginationParams, 
@@ -41,10 +40,28 @@ export async function getByPlaylistId(dispatch: CommandDispatch, playlist: UserP
     return [res?.data, undefined];
 };
 
-export async function create(dispatch: CommandDispatch, songInfo: SongInfo): HandleAxiosReturn<UserSong> {
+export async function create(dispatch: CommandDispatch, songInfo: UserSongCreate): HandleAxiosReturn<UserSong> {
     const token = await issueToken(dispatch);
 
     const request = axios.post(`${baseEndpoint}/songs`, songInfo, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+
+    const [res, err] = await promises.handleApi<ApiResponse>(request);
+
+    if(err) {
+        return [undefined, err];
+    }
+
+    return [res?.data.results, undefined];
+};
+
+export async function destroy(dispatch: CommandDispatch, playlistID: number, id: number): HandleAxiosReturn<UserSong> {
+    const token = await issueToken(dispatch);
+
+    const request = axios.delete(`${baseEndpoint}/id/${playlistID}/songs/id/${id}`, {
         headers: {
             Authorization: `Bearer ${token}`
         }
