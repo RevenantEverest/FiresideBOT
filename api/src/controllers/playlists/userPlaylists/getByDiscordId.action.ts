@@ -18,12 +18,10 @@ async function getByDiscordId(req: Request, res: Response, next: NextFunction) {
         },
         where: {
             discord_id: discordId,
-            ...(res.locals.auth.discord_id !== discordId ? { is_public: true } : {})
+            ...(res.locals.auth.discord_id !== discordId && { is_public: true })
         },
         relations: ["songs"]
     };
-
-
 
     const [userPlaylists, err] = await entities.findAndCount<UserPlaylist>(UserPlaylist, findOptions, {
         limit, offset
