@@ -9,6 +9,7 @@ import { issueToken } from '../../middleware/index.js';
 
 import { ENV } from '../../constants/index.js';
 import { promises } from '../../utils/index.js';
+import { UserResolvable } from 'discord.js';
 
 type ApiResponse = AxiosApiResponse<UserPlaylist>;
 type PaginatedApiResponse = AxiosPaginatedApiResponse<UserPlaylist>;
@@ -17,7 +18,7 @@ type GetByDiscordIdReturn = HandleAxiosReturn<ApiPaginatedResponse<UserPlaylist>
 
 const baseEndpoint = ENV.API_URL + "/playlists/user";
 
-export async function getByDiscordIdAndName(dispatch: CommandDispatch, discordId: string, playlistName: string): HandleAxiosReturn<UserPlaylist> {
+export async function getByDiscordIdAndName(dispatch: CommandDispatch, discordId: UserResolvable, playlistName: string): HandleAxiosReturn<UserPlaylist> {
     const token = await issueToken(dispatch);
 
     const request = axios.get(`${baseEndpoint}/discord_id/${discordId}/name/${playlistName}`, {
