@@ -11,7 +11,7 @@ async function onInteractionCreate(bot: Client, interaction: Interaction) {
     if(!interaction.isCommand() || !interaction.inGuild()) return;
 
     /* Defer reply on event fire to prevent 3s timeout fatal error */
-    interaction.deferReply();
+    await interaction.deferReply();
 
     const [guild, guildErr] = await promises.handle(bot.guilds.fetch(interaction.guildId));
 
