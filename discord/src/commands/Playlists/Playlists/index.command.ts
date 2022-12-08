@@ -6,7 +6,7 @@ import viewSinglePlaylist from './viewSinglePlaylist/index.js';
 
 import { regex } from '../../../utils/index.js';
 
-async function Playlists({ bot, args, dispatch }: CommandParams) {
+async function Playlists({ bot, args, server, dispatch, options }: CommandParams) {
 
     const interaction = dispatch.interaction;
 
@@ -20,7 +20,7 @@ async function Playlists({ bot, args, dispatch }: CommandParams) {
         const userMentionParse = regex.parseUserTag(args.join(" "));
 
         if(userMentionParse) {
-            args = args.join(" ").replace(regex.userRegex, "").split(" ");
+            args = args.join(" ").replace(regex.userRegex, "").split(" ").filter(el => el !== "");
             const guildMember = await dispatch.guild.members.fetch(userMentionParse);
             userMention = guildMember.user;
         }
@@ -30,12 +30,28 @@ async function Playlists({ bot, args, dispatch }: CommandParams) {
 
     if(userMention) {
         if(playlistName) {
-            return viewSinglePlaylist(bot, dispatch, userMention.id, playlistName);
+            return viewSinglePlaylist({ 
+                bot, 
+                dispatch, 
+                args, 
+                server, 
+                options,
+                playlistName,
+                discordId: userMention.id
+            });
         }
         return viewPlaylists(bot, dispatch, userMention.id);
     }
 
-    return viewSinglePlaylist(bot, dispatch, dispatch.author.id, playlistName);
+    return viewSinglePlaylist({ 
+        bot, 
+        dispatch, 
+        args, 
+        server, 
+        options,
+        playlistName,
+        discordId: dispatch.author.id
+    });
 };
 
 export const config: CommandConfigParams = {
