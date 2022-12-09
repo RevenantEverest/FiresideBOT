@@ -23,7 +23,7 @@ export async function stream(bot: Client, dispatch: CommandDispatch, server: Ser
     try {
         const connection = server.queue.connection;
         const resource = await createResource(server);        
-        const player = createAudioPlayer();
+        const player = server.queue.player ?? createAudioPlayer();
 
         server.queue.resource = resource;
         server.queue.player = player;
@@ -32,6 +32,7 @@ export async function stream(bot: Client, dispatch: CommandDispatch, server: Ser
         player.play(resource);
 
         embeds.createCurrentSongEmbed(dispatch, server);
+        server.queue.info.shift();
 
         player.on(AudioPlayerStatus.Idle, () => {
             if(!server.queue.playing) return;
@@ -41,14 +42,18 @@ export async function stream(bot: Client, dispatch: CommandDispatch, server: Ser
 
         player.on(AudioPlayerStatus.Playing, () => {
             server.queue.playing = true;
-            server.queue.info.shift();
             if(server.queue.disconnectTimer) {
                 queue.handleDisconnectTimer(server, dispatch);
             }
         });
 
         player.on(AudioPlayerStatus.Buffering, () => {
-            dispatch.channel.send("Buffering...");
+            /*
+
+                Create timeout similar to hanelDisconnectTimer
+                that checks for 2 seconds to pass before posting the buffering message
+
+            */
         });
 
         player.on("error", (err: AudioPlayerError) => {
