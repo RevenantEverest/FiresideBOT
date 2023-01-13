@@ -18,7 +18,7 @@ import * as reactions from './reactions.js';
 type SetFieldElement<T> = (element: T, index: number, startIndex: number, endIndex: number) => string;
 type SetTitleElement = (index: number, startIndex: number, endIndex: number) =>  string;
 
-interface GeneratePaginatedEmbedPagesParams<T> {
+interface PaginatedEmbedPageOptions<T> {
     title?: string | SetTitleElement,
     description?: string,
     author?: MessageEmbedAuthor,
@@ -35,7 +35,7 @@ interface GeneratePaginatedEmbedPagesOptions {
     blankFieldAfterDescription?: boolean
 };
 
-export function generatePaginatedEmbedPages<T>({ title, description, author, thumbnail, color, data, amountPerPage, setFieldName, setFieldValue, options }: GeneratePaginatedEmbedPagesParams<T>): PaginatedEmbedPage[] {
+export function generatePaginatedEmbedPages<T>({ title, description, author, thumbnail, color, data, amountPerPage, setFieldName, setFieldValue, options }: PaginatedEmbedPageOptions<T>): PaginatedEmbedPage[] {
     const pages: PaginatedEmbedPage[] = [];
 
     if(data.length < 1) {
@@ -88,6 +88,11 @@ export function generatePaginatedEmbedPages<T>({ title, description, author, thu
     return pages;
 };
 
+/**
+ * Creates and sends an embed to the text channel the command was used in containing the current song info
+ * @param dispatch CommandDispatch
+ * @param server Server
+ */
 export function createCurrentSongEmbed(dispatch: CommandDispatch, server: Server) {
     const currentSong = server.queue.info[0];
     const embed = new Discord.MessageEmbed({
