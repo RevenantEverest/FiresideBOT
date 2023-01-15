@@ -73,7 +73,7 @@ function postRoute(baseEndpoint: string, app: Application, authPayload: AuthTest
 
                 expect(results).toEqual({
                     id: results.id,
-                    guild_id: extraParams.guildId,
+                    guild_id: extraParams.altGuildId,
                     prefix: DEFAULTS.GENERAL_SETTINGS.PREFIX,
                     volume: DEFAULTS.GENERAL_SETTINGS.VOLUME,
                     rank_increase_rate: DEFAULTS.RANK_SETTINGS.GENERAL_INCREASE_RATE,
