@@ -34,10 +34,12 @@ jobs:
         run: |
           cd scripts/ && ./start_api_test.sh
       
-      - name: Setup Node / Run Tests
+      - name: Setup Node
         uses: actions/setup-node@v2
         with: 
           node-version: 17.5.0
           cache: 'npm'
-      - run: cd api/ && npm ci && npm run test
+      
+      - name: Run Api Tests
+        run: cd api/ && yarn install && yarn test
 
