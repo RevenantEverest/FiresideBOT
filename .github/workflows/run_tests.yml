@@ -43,5 +43,5 @@ jobs:
       
       - name: Run Api Tests
         run: |
-          cd api/ && yarn install && yarn test
+          cp .env api/ && cd api/ && yarn install && yarn test
 
