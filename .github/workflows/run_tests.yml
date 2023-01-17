@@ -39,5 +39,5 @@ jobs:
         with: 
           node-version: 17.5.0
           cache: 'npm'
-      - run: cd ~/api && npm ci && npm run test
+      - run: cd api/ && npm ci && npm run test
 
