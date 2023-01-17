@@ -41,5 +41,6 @@ jobs:
           cache: 'npm'
       
       - name: Run Api Tests
-        run: cd api/ && yarn install && yarn test
+        run: |
+          cd api/ && yarn install && yarn test
 
