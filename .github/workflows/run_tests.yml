@@ -39,6 +39,7 @@ jobs:
         with: 
           node-version: 17.5.0
           cache: 'npm'
+          cache-dependency-path: api/yarn.lock
       
       - name: Run Api Tests
         run: |
