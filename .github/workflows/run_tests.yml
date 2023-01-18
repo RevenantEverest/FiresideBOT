@@ -30,18 +30,7 @@ jobs:
           echo TOPGG_TOKEN="$TOPGG_TOKEN" >> .env
           cp .env ./api/.env
         
-      - name: Create Postgres Docker Image
+      - name: Run Api Test Script
         run: |
           cd scripts/ && ./start_api_test.sh
-      
-      - name: Setup Node
-        uses: actions/setup-node@v2
-        with: 
-          node-version: 17.5.0
-          cache: 'npm'
-          cache-dependency-path: api/yarn.lock
-      
-      - name: Run Api Tests
-        run: |
-          cp .env api/ && cd api/ && yarn install && yarn test
 
