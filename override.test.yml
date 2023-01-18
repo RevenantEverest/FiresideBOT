@@ -8,6 +8,7 @@ services:
       dockerfile: ./docker/test/Dockerfile
     depends_on:
       - testing_db
+    profiles: ['api', 'backend']
     volumes:
       - ./api:/app
       - /app/node_modules
@@ -22,6 +23,7 @@ services:
     volumes:
       - ./discord:/app
       - /app/node_modules
+    profiles: ['discord', 'backend']
   testing_db:
     container_name: fireside_testing_db
     image: 'postgres:14.5'
