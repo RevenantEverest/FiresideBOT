@@ -9,7 +9,6 @@ async function Loop({ dispatch, server }: CommandParams) {
     server.queue.options.loop = !currentLoopState;
 
     if(currentLoopState && server.queue.currentSongInfo) {
-        console.log("Adding...");
         server.queue.info.push(server.queue.currentSongInfo);
     }
 

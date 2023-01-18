@@ -27,7 +27,6 @@ async function getByUserPlaylistId(req: Request, res: Response, next: NextFuncti
     }
 
     /* Check if non playlist owner is attempting to request a private playlist */
-    console.log("Test here...", userPlaylist, res.locals.auth)
     if(userPlaylist.discord_id !== res.locals.auth.discord_id && !userPlaylist.is_public) {
         return errors.sendResponse({ res, status: 400, message: "User's Playlist is private" });
     }

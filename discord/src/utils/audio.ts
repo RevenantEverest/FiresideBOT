@@ -58,7 +58,6 @@ export async function stream(bot: Client, dispatch: CommandDispatch, server: Ser
 
         player.on("error", (err: AudioPlayerError) => {
             server.queue.playing = false;
-            console.log(err); 
         });
 
         await entersState(player, AudioPlayerStatus.Playing, 5e3);

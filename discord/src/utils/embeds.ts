@@ -63,7 +63,6 @@ export function generatePaginatedEmbedPages<T>({ title, description, author, thu
         });
 
         if(options?.blankFieldAfterDescription) {
-            console.log("Adding blank field...");
             fields.splice(0, 0, { name: "\u200b", value: "\u200b" });
         }
 

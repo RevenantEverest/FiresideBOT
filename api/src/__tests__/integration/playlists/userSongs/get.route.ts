@@ -102,7 +102,6 @@ function getRoute(baseEndpoint: string, app: Application, authPayload: AuthTesti
                     const endpoint = `${baseEndpoint}/id/${playlistId}/songs`;
                     
                     const nonOwnerAuth: AuthTestingPayload = issueToken(AUTH_PAYLOADS.ALT);
-                    console.log("Check here...", nonOwnerAuth);
 
                     await supertest(app)
                     .get(endpoint)

@@ -93,8 +93,6 @@ function updateRoute(baseEndpoint: string, app: Application, authPayload: AuthTe
                     is_public: PAYLOADS.VALID_PUBLIC_UPDATE.is_public
                 });
 
-                console.log("Playlist Updated => ", results);
-
                 extraParams.createdPlaylist = results;
             });
         });
