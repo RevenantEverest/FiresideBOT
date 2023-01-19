@@ -32,5 +32,5 @@ jobs:
         
       - name: Run Api Test Script
         run: |
-          cd scripts/ && ./start_api_test.sh
+          docker-compose -f docker-compose.yml -f override.test.yml --profile api build api && docker-compose -f docker-compose.yml -f override.test.yml --profile api up --exit-code-from api
 
