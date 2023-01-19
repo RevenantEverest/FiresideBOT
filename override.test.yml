@@ -32,6 +32,6 @@ services:
       - POSTGRES_DB=${DB_NAME}
     ports:
       - 5678:5432
-    profiles: ['api', 'discord', 'db', 'backend']
+    profiles: ['api', 'db', 'backend']
     volumes:
       - ./postgres_testing_data:/var/lib/postgresql/data
