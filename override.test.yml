@@ -17,8 +17,6 @@ services:
     stdin_open: true
     build:
       dockerfile: ./docker/test/Dockerfile
-    depends_on:
-      - testing_db
     profiles: ['discord', 'backend']
     volumes:
       - ./discord:/app
