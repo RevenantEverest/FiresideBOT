@@ -3,6 +3,7 @@ version: "3.5"
 services:
   api:
     container_name: fireside_api
+    restart: always
     stdin_open: true
     build:
       dockerfile: ./docker/dev/Dockerfile
@@ -15,6 +16,7 @@ services:
       - /app/node_modules
   discord: 
     container_name: fireside_discord
+    restart: always
     stdin_open: true
     build:
       dockerfile: ./docker/dev/Dockerfile
@@ -25,6 +27,7 @@ services:
       - /app/node_modules
   db:
     container_name: fireside_db
+    restart: always
     image: 'postgres:14.5'
     environment:
       - POSTGRES_USER=${DB_USERNAME}
@@ -36,6 +39,7 @@ services:
       - ./postgres_data:/var/lib/postgresql/data
   testing_db:
     container_name: fireside_testing_db
+    restart: always
     image: 'postgres:14.5'
     environment:
       - POSTGRES_USER=${DB_USERNAME}
@@ -47,8 +51,8 @@ services:
       - ./postgres_testing_data:/var/lib/postgresql/data
   pgadmin:
     container_name: fireside_pgadmin
-    image: dpage/pgadmin4:6.7
     restart: always
+    image: dpage/pgadmin4:6.7
     environment:
       - PGADMIN_DEFAULT_EMAIL=admin@admin.com
       - PGADMIN_DEFAULT_PASSWORD=secret

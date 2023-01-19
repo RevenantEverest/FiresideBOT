@@ -19,10 +19,10 @@ services:
       dockerfile: ./docker/test/Dockerfile
     depends_on:
       - testing_db
+    profiles: ['discord', 'backend']
     volumes:
       - ./discord:/app
       - /app/node_modules
-    profiles: ['discord', 'backend']
   testing_db:
     container_name: fireside_testing_db
     image: 'postgres:14.5'
@@ -32,5 +32,6 @@ services:
       - POSTGRES_DB=${DB_NAME}
     ports:
       - 5678:5432
+    profiles: ['api', 'discord', 'db', 'backend']
     volumes:
       - ./postgres_testing_data:/var/lib/postgresql/data
