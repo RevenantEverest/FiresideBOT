@@ -32,7 +32,7 @@ jobs:
         
       - name: Run Api Test Script
         run: |
-          cd scripts/ && ./start_api_test.sh
+          ./scripts/tests/start_api_test.sh
   test_discord:
     runs-on: ubuntu-latest
 
@@ -64,5 +64,5 @@ jobs:
         
       - name: Run Discord Test Script
         run: |
-          cd scripts/ && ./start_discord_test.sh
+          ./scripts/tests/start_discord_test.sh
 
