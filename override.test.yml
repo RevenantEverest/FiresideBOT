@@ -19,7 +19,6 @@ services:
       dockerfile: ./docker/test/Dockerfile
     depends_on:
       - testing_db
-      - api
     volumes:
       - ./discord:/app
       - /app/node_modules
