@@ -62,9 +62,15 @@ async function viewSinglePlaylist({ bot, dispatch, args, server, options, discor
         const paginatedEmbed: PaginatedEmbed = generatePaginatedEmbed(playlistSongs.results);
 
         function generatePaginatedEmbed(playlistSongs: UserSong[]): PaginatedEmbed {
+            let playlistDuration = "";
+
+            if(userPlaylist?.duration && userPlaylist.duration > 0) {
+                playlistDuration = `(${dates.parseSeconds(userPlaylist.duration)})`;
+            }
+
             return {
                 pages: embeds.generatePaginatedEmbedPages<UserSong>({
-                    title: `**${userPlaylist?.name}**`,
+                    title: `**${userPlaylist?.name} ${playlistDuration}**`,
                     description: `${userPlaylist?.is_public ? "Public" : `${EMOJIS.LOCKED}Private`}\n\u200b`,
                     author: {
                         iconURL: dispatch.author.avatarURL({ dynamic: true }) ?? "",
