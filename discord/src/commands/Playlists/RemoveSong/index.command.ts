@@ -26,7 +26,7 @@ async function RemoveSong({ bot, args, dispatch, commandFile }: CommandParams) {
             return dispatch.reply(responseData.message);
         }
         
-        return errors.command({ bot, dispatch, err: getErr, errMessage: getErr.message, commandName: commandFile.displayName });
+        return errors.command({ dispatch, err: getErr, errMessage: getErr.message, commandName: commandFile.displayName });
     }
 
     if(!userPlaylist) {
@@ -41,7 +41,7 @@ async function RemoveSong({ bot, args, dispatch, commandFile }: CommandParams) {
             return dispatch.reply(responseData.message);
         }
 
-        return errors.command({ bot, dispatch, err, errMessage: err.message, commandName: commandFile.displayName });
+        return errors.command({ dispatch, err, errMessage: err.message, commandName: commandFile.displayName });
     }
 
     if(!removedSong) {

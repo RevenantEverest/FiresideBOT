@@ -1,5 +1,5 @@
 import { Client, UserResolvable } from 'discord.js';
-import { CommandDispatch, CommandOptions } from '../../../../types/commands.js';
+import { CommandDispatch, CommandFile, CommandOptions } from '../../../../types/commands.js';
 import { Server } from '../../../../types/server.js';
 import { UserSong } from '../../../../types/entities/UserSong.js';
 import { PaginatedEmbed } from '../../../../types/embeds.js';
@@ -20,10 +20,11 @@ export interface Params {
     server: Server,
     options: CommandOptions,
     discordId: UserResolvable,
-    playlistName: string
+    playlistName: string,
+    commandFile: CommandFile
 };
 
-async function viewSinglePlaylist({ bot, dispatch, args, server, options, discordId, playlistName }: Params) {
+async function viewSinglePlaylist({ bot, dispatch, args, server, options, discordId, playlistName, commandFile }: Params) {
     const [userPlaylist, err] = await api.userPlaylists.getByDiscordIdAndName(dispatch, discordId, playlistName);
 
     if(err) {
@@ -32,7 +33,7 @@ async function viewSinglePlaylist({ bot, dispatch, args, server, options, discor
             return dispatch.reply(responseData.message);
         }
         
-        return errors.command({ bot, dispatch, err, errMessage: err.message, commandName: "" });
+        return errors.command({ dispatch, err, errMessage: err.message, commandName: commandFile.displayName });
     }
 
     if(!userPlaylist) {
@@ -45,11 +46,10 @@ async function viewSinglePlaylist({ bot, dispatch, args, server, options, discor
 
     if(getSongsErr) {
         return errors.command({ 
-            bot, 
             dispatch, 
             err: getSongsErr, 
             errMessage: getSongsErr.message, 
-            commandName: "" 
+            commandName: commandFile.displayName
         });
     }
 
@@ -108,7 +108,7 @@ async function viewSinglePlaylist({ bot, dispatch, args, server, options, discor
                 });
         
                 if(err) {
-                    errors.command({ bot, dispatch, err, errMessage: err.message, commandName: "Playlists" });
+                    errors.command({ dispatch, err, errMessage: err.message, commandName: commandFile.displayName });
                     return [undefined, err];
                 }
             

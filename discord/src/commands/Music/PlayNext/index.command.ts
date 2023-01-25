@@ -24,7 +24,6 @@ async function PlayNext({ bot, args, dispatch, server, options, userState, comma
 
     if(youtubeSearchErr) {
         return errors.command({ 
-            bot, 
             dispatch,
             err: youtubeSearchErr,
             errMessage: "",
@@ -34,7 +33,6 @@ async function PlayNext({ bot, args, dispatch, server, options, userState, comma
 
     if(!youtubeSearchRes) {
         return errors.command({
-            bot, 
             dispatch,
             errMessage: "No Search Results Returned",
             commandName: commandFile.displayName

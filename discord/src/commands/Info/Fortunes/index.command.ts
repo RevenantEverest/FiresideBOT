@@ -9,14 +9,14 @@ import * as api from '../../../api/index.js';
 
 import { colors, embeds, pagination, errors } from '../../../utils/index.js';
 
-async function Fortunes({ bot, dispatch }: CommandParams) {
+async function Fortunes({ bot, dispatch, commandFile }: CommandParams) {
 
     const [fortunes, err] = await api.fortunes.getByGuildId(dispatch.guildId, dispatch, {
         page: 1
     });
 
     if(err) {
-        return errors.command({ bot, dispatch, err, errMessage: err.message, commandName: "" });
+        return errors.command({ dispatch, err, errMessage: err.message, commandName: commandFile.displayName });
     }
 
     if(!fortunes) {
@@ -57,7 +57,7 @@ async function Fortunes({ bot, dispatch }: CommandParams) {
             });
     
             if(err) {
-                errors.command({ bot, dispatch, err, errMessage: err.message, commandName: "Fortunes" });
+                errors.command({ dispatch, err, errMessage: err.message, commandName: commandFile.displayName });
                 return [undefined, err];
             }
         

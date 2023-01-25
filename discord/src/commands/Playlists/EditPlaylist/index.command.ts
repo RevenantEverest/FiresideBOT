@@ -6,7 +6,7 @@ import * as api from '../../../api/index.js';
 import { ERROR_MESSAGES, EMOJIS } from '../../../constants/index.js';
 import { regex, errors } from '../../../utils/index.js';
 
-async function EditPlaylist({ bot, args, dispatch }: CommandParams) {
+async function EditPlaylist({ bot, args, dispatch, commandFile }: CommandParams) {
     if(!dispatch.interaction && !args[0]) {
         return dispatch.reply(ERROR_MESSAGES.COMMANDS.EDIT_PLAYLIST.NO_ARGS);
     }
@@ -20,7 +20,7 @@ async function EditPlaylist({ bot, args, dispatch }: CommandParams) {
             return dispatch.reply(responseData.message);
         }
         
-        return errors.command({ bot, dispatch, err: getErr, errMessage: getErr.message, commandName: "" });
+        return errors.command({ dispatch, err: getErr, errMessage: getErr.message, commandName: commandFile.displayName });
     }
 
     if(!userPlaylist) {
@@ -52,7 +52,7 @@ async function EditPlaylist({ bot, args, dispatch }: CommandParams) {
             return dispatch.reply(responseData.message);
         }
         
-        return errors.command({ bot, dispatch, err: updateErr, errMessage: updateErr.message, commandName: "" });
+        return errors.command({ dispatch, err: updateErr, errMessage: updateErr.message, commandName: commandFile.displayName });
     }
 
     if(!updatedPlaylist) {

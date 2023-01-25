@@ -6,7 +6,7 @@ import * as api from '../../../api/index.js';
 import { ERROR_MESSAGES } from '../../../constants/index.js';
 import { errors } from '../../../utils/index.js';
 
-async function RemoveFortune({ bot, args, dispatch }: CommandParams) {
+async function RemoveFortune({ bot, args, dispatch, commandFile }: CommandParams) {
     if(!dispatch.interaction && !args[0]) {
         return dispatch.reply(ERROR_MESSAGES.COMMANDS.CREATE_FORTUNE.NO_ARGS);
     }
@@ -17,7 +17,7 @@ async function RemoveFortune({ bot, args, dispatch }: CommandParams) {
 
     if(!res || err) {
         const error = err ?? new Error("");
-        return errors.command({ bot, dispatch, err: error, errMessage: error.message, commandName: "RemoveFortune" });
+        return errors.command({ dispatch, err: error, errMessage: error.message, commandName: commandFile.displayName });
     }
 
     return dispatch.reply(`Fortune **${fortuneId}** removed`);

@@ -1,5 +1,5 @@
 import { Client } from 'discord.js';
-import { CommandDispatch } from '../../../../types/commands.js';
+import { CommandDispatch, CommandFile } from '../../../../types/commands.js';
 import { UserPlaylist } from '../../../../types/entities/UserPlaylist.js';
 import { PaginatedEmbed } from '../../../../types/embeds.js';
 import { ApiPaginationOptions, GetPageResponse } from '../../../../types/pagination.js';
@@ -10,14 +10,14 @@ import * as api from '../../../../api/index.js';
 import { EMOJIS, IMAGE_RESOURCES } from '../../../../constants/index.js';
 import { colors, embeds, pagination, dates, errors } from '../../../../utils/index.js';
 
-async function viewPlaylists(bot: Client, dispatch: CommandDispatch, discordId: string) {
+async function viewPlaylists(dispatch: CommandDispatch, discordId: string, commandFile: CommandFile) {
 
     const [userPlaylists, err] = await api.userPlaylists.getByDiscordId(dispatch, discordId, {
         page: 1
     });
 
     if(err) {
-        return errors.command({ bot, dispatch, err, errMessage: err.message, commandName: "" });
+        return errors.command({ dispatch, err, errMessage: err.message, commandName: commandFile.displayName });
     }
 
     if(!userPlaylists) {
@@ -65,7 +65,7 @@ async function viewPlaylists(bot: Client, dispatch: CommandDispatch, discordId: 
             });
 
             if(err) {
-                errors.command({ bot, dispatch, err, errMessage: err.message, commandName: "Playlists" });
+                errors.command({ dispatch, err, errMessage: err.message, commandName: commandFile.displayName });
                 return [undefined, err];
             }
 

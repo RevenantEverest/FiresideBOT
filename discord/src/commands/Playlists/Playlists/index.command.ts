@@ -6,12 +6,12 @@ import viewSinglePlaylist from './viewSinglePlaylist/index.js';
 
 import { regex } from '../../../utils/index.js';
 
-async function Playlists({ bot, args, server, dispatch, options }: CommandParams) {
+async function Playlists({ bot, args, server, dispatch, commandFile, options }: CommandParams) {
 
     const interaction = dispatch.interaction;
 
     if(!interaction && !args[0] || interaction && interaction.options.data.length < 1) {
-        return viewPlaylists(bot, dispatch, dispatch.author.id);
+        return viewPlaylists(dispatch, dispatch.author.id, commandFile);
     }
 
     let userMention = interaction?.options.getUser("user");
@@ -37,10 +37,11 @@ async function Playlists({ bot, args, server, dispatch, options }: CommandParams
                 server, 
                 options,
                 playlistName,
-                discordId: userMention.id
+                discordId: userMention.id,
+                commandFile
             });
         }
-        return viewPlaylists(bot, dispatch, userMention.id);
+        return viewPlaylists(dispatch, userMention.id, commandFile);
     }
 
     return viewSinglePlaylist({ 
@@ -50,7 +51,8 @@ async function Playlists({ bot, args, server, dispatch, options }: CommandParams
         server, 
         options,
         playlistName,
-        discordId: dispatch.author.id
+        discordId: dispatch.author.id,
+        commandFile
     });
 };
 
