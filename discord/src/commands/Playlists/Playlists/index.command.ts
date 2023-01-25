@@ -4,6 +4,7 @@ import { CommandParams, CommandConfigParams } from '../../../types/commands.js';
 import viewPlaylists from './viewPlaylists/index.js';
 import viewSinglePlaylist from './viewSinglePlaylist/index.js';
 
+import { FLAGS } from '../../../constants/index.js';
 import { regex } from '../../../utils/index.js';
 
 async function Playlists({ bot, args, server, dispatch, commandFile, options }: CommandParams) {
@@ -58,6 +59,7 @@ async function Playlists({ bot, args, server, dispatch, commandFile, options }: 
 
 export const config: CommandConfigParams = {
     aliases: ['playlist'],
+    flags: [FLAGS.INFO, FLAGS.SHUFFLE],
     description: "Request or display Playlist information",
     example: "playlists Revenant -s"
 };

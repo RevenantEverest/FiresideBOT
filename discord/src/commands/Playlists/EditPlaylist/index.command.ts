@@ -3,7 +3,7 @@ import { CommandParams, CommandConfigParams } from '../../../types/commands.js';
 import { UserPlaylistUpdate } from '../../../types/entities/UserPlaylist.js';
 
 import * as api from '../../../api/index.js';
-import { ERROR_MESSAGES, EMOJIS } from '../../../constants/index.js';
+import { ERROR_MESSAGES, EMOJIS, FLAGS } from '../../../constants/index.js';
 import { regex, errors } from '../../../utils/index.js';
 
 async function EditPlaylist({ bot, args, dispatch, commandFile }: CommandParams) {
@@ -74,6 +74,7 @@ async function EditPlaylist({ bot, args, dispatch, commandFile }: CommandParams)
 
 export const config: CommandConfigParams = {
     aliases: [],
+    flags: [FLAGS.PRIVATE_TOGGLE],
     description: "Edit the name and public state of your playlist",
     example: "editplaylist MyPlaylist MyNewPlaylist"
 };
