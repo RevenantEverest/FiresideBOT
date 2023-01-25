@@ -6,6 +6,7 @@ import { Server } from './server.js';
 import { UserState } from './user.js';
 import { GuildMessage } from './message.js';
 import { GuildInteraction } from './interaction.js';
+import { Flag } from './flags.js';
 
 export interface CommandDispatch {
     guildId: GuildResolvable,
@@ -41,7 +42,7 @@ export interface CommandConfigParams {
 
 export interface CommandConfigParams {
     aliases: string[],
-    flags?: string[],
+    flags?: Flag[],
     params?: CommandConfigParams,
     description: string,
     example: string,
