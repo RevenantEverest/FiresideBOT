@@ -54,6 +54,29 @@ export async function getByDiscordId(dispatch: CommandDispatch, discordId: strin
     return [res?.data, undefined];
 };
 
+export async function getByDiscordIdAndNameOrCreate(dispatch: CommandDispatch, discordId: UserResolvable, playlistName: string): HandleAxiosReturn<UserPlaylist> {
+    const token = await issueToken(dispatch);
+
+    // Check here
+    const request = axios.get(`${baseEndpoint}/discord_id/${discordId}/name/${playlistName}`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+
+    const [res, err] = await promises.handleApi<ApiResponse>(request);
+
+    if(err) {
+        console.log("Check here... => ", err.response);
+        if(err.response?.status === 404) {
+            return create(dispatch, playlistName);
+        }
+        return [undefined, err];
+    }
+
+    return [res?.data.results, undefined];
+};
+
 export async function update(dispatch: CommandDispatch, playlist: UserPlaylistUpdate): HandleAxiosReturn<UserPlaylist> {
     const token = await issueToken(dispatch);
 
