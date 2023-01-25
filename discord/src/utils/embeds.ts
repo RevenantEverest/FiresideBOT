@@ -110,7 +110,9 @@ export function createCurrentSongEmbed(dispatch: CommandDispatch, server: Server
     });
 
     server.queue.currentSongEmbed = embed;
-    dispatch.channel.send({ embeds: [embed] });
+    dispatch.channel.send({ embeds: [embed] })
+    .then(msg => reactions.likeSong(server, dispatch, msg))
+    .catch(err => console.error(err));
 };
 
 export function generateEmbed<T>(index: number, paginatedEmbed: PaginatedEmbed, paginationOptions?: ApiPaginationOptions<T>): MessageEmbed {
