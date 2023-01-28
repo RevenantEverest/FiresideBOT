@@ -60,4 +60,4 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - ./pgadmin_data:/var/lib/pgadmin  
+      - ./pgadmin_data:/var/lib/pgadmin/data  
