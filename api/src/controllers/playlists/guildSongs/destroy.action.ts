@@ -30,14 +30,14 @@ async function destroy(req: Request, res: Response, next: NextFunction) {
     const [deletedGuildSong, deleteErr] = await entities.destroy<GuildSong>(GuildSong, guildSong);
 
     if(deleteErr) {
-        return errors.sendResponse({ res, next, err: deleteErr, message: "Error Deleteing GuildSong" });
+        return errors.sendResponse({ res, next, err: deleteErr, message: "Error Deleting GuildSong" });
     }
 
     if(!deletedGuildSong) {
         return errors.sendResponse({ res, next, message: "No GuildSong, Delete Return" });
     }
 
-    return res.sendStatus(200);
+    return res.json({ results: deletedGuildSong });
 };
 
 export default destroy;
