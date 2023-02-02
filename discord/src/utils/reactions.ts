@@ -173,7 +173,6 @@ export async function createReactionNavigator<T>(message: Message, index: number
  */
 export async function likeSong(server: Server, dispatch: CommandDispatch, message: Message) {
     const heart = EMOJIS.HEARTS[common.RNG(EMOJIS.HEARTS.length)];
-    console.log(heart);
     await message.react(heart);
 
     const collector = new Discord.ReactionCollector(message, { 
