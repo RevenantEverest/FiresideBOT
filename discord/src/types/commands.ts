@@ -6,7 +6,7 @@ import {
     TextBasedChannel, 
     GuildResolvable, 
     Message,
-    PermissionFlags 
+    PermissionString
 } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 
@@ -55,7 +55,7 @@ export interface CommandConfig {
     aliases: string[],
     flags?: Flag[],
     params?: CommandConfigParams[],
-    permissions: PermissionFlags[],
+    permissions: PermissionString[],
     description: string,
     example: string,
 };
