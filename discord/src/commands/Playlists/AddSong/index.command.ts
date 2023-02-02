@@ -1,55 +1,34 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { CommandParams, CommandConfigParams } from '../../../types/commands.js';
 
-import * as api from '../../../api/index.js';
-import { ERROR_MESSAGES } from '../../../constants/index.js';
-import { errors } from'../../../utils/index.js';
+import handleGuildPlaylist from './handleGuildPlaylist/index.js';
+import handleUserPlaylist from './handleUserPlaylist/index.js';
 
-async function AddSong({ bot, args, dispatch, commandFile }: CommandParams) {
+import { ERROR_MESSAGES, FLAGS } from '../../../constants/index.js';
+import { flags } from'../../../utils/index.js';
+
+async function AddSong({ args, dispatch, commandFile }: CommandParams) {
     const interaction = dispatch.interaction;
 
     if(!interaction && !args[0]) {
         return dispatch.reply(ERROR_MESSAGES.COMMANDS.ADD_SONG.NO_ARGS);
     }
 
-    const playlistName = dispatch.interaction?.options.getString("playlist") ?? args[0];
-    args.splice(0, 1); // Remove PlaylistName from args
-    const [userPlaylist, getErr] = await api.userPlaylists.getByDiscordIdAndName(dispatch, dispatch.author.id, playlistName);
+    const argFlags = flags.getCommandArgFlags(dispatch, args);
+    const removedFlagArgs = flags.removeFromArgs(args);
+    const playlistName = dispatch.interaction?.options.getString("playlist") ?? removedFlagArgs[0];
+    const request = dispatch.interaction?.options.getString("request") ?? removedFlagArgs.slice(1, removedFlagArgs.length).join(" ");
 
-    if(getErr) {
-        if(getErr.response && getErr.response.status !== 500) {
-            const responseData = getErr.response.data;
-            return dispatch.reply(responseData.message);
-        }
-        
-        return errors.command({ dispatch, err: getErr, errMessage: getErr.message, commandName: commandFile.displayName });
+    if(flags.containsFlag(FLAGS.SERVER_PLAYLIST, argFlags)) {
+        return handleGuildPlaylist({ dispatch, commandFile, playlistName, request });
     }
 
-    if(!userPlaylist) {
-        return dispatch.reply("No Playlist found");
-    }
-
-    let request = dispatch.interaction?.options.getString("request") || args.join(" ");
-    const [userSong, err] = await api.userSongs.create(dispatch, { playlist_id: userPlaylist.id, request });
-
-    if(err) {
-        if(err.response && err.response.status !== 500) {
-            const responseData = err.response.data;
-            return dispatch.reply(responseData.message);
-        }
-
-        return errors.command({ dispatch, err, errMessage: err.message, commandName: commandFile.displayName });
-    }
-
-    if(!userSong) {
-        return dispatch.reply("No playlist returned");
-    }
-
-    return dispatch.reply(`**${userSong.title}** added to playlist **${userPlaylist.name}** with ID: **${userSong.id}**`);
+    return handleUserPlaylist({ dispatch, commandFile, playlistName, request });
 };
 
 export const config: CommandConfigParams = {
     aliases: ['as'],
+    flags: [FLAGS.SERVER_PLAYLIST],
     description: "Adds a song request to a given playlist",
     example: "addsong MyPlaylist Playing God Polyphia"
 };
@@ -69,5 +48,11 @@ export const slashCommand = new SlashCommandBuilder()
     .setDescription("YouTube Search Request or Link")
     .setRequired(true)
 )
+.addStringOption(option => 
+    option
+    .setName("flags")
+    .setDescription("Choose which flag to add to the command")
+    .addChoices({ name: FLAGS.SERVER_PLAYLIST.name, value: FLAGS.SERVER_PLAYLIST.usageSymbol[0] })
+);
 
 export default AddSong;
