@@ -11,9 +11,16 @@ async function getByGuildId(req: Request, res: Response, next: NextFunction) {
     const { limit, offset } = res.locals;
 
     const findOptions: FindOneOptions<GuildPlaylist> = {
+        select: {
+            songs: {
+                id: true,
+                duration: true
+            }
+        },
         where: {
             guild_id: guildId
-        }
+        },
+        relations: ["songs"]
     };
     const [guildPlaylists, err] = await entities.findAndCount<GuildPlaylist>(GuildPlaylist, findOptions, {
         limit, offset
@@ -27,7 +34,17 @@ async function getByGuildId(req: Request, res: Response, next: NextFunction) {
         return errors.sendResponse({ res, status: 404, message: "No GuildPlaylists Found" });
     }
 
-    const response = pagination.paginateResponse(req, res, guildPlaylists);
+    const results = guildPlaylists[0].map((guildPlaylist) => {
+        const { songs, ...playlist } = guildPlaylist;
+
+        return {
+            ...playlist,
+            duration: guildPlaylist.duration,
+            songCount: guildPlaylist.songCount
+        };
+    });
+
+    const response = pagination.paginateResponse(req, res, [results, guildPlaylists[1]]);
 
     return res.json(response);
 };
