@@ -5,6 +5,7 @@ import viewServerPlaylists from './viewServerPlaylists/index.js';
 import viewSingleServerPlaylist from './viewSingleServerPlaylist/index.js';
 
 import { FLAGS } from '../../../constants/index.js';
+import { flags } from '../../../utils/index.js';
 
 async function ServerPlaylist({ bot, args, server, dispatch, commandFile, options }: CommandParams) {
     const interaction = dispatch.interaction;
@@ -13,7 +14,8 @@ async function ServerPlaylist({ bot, args, server, dispatch, commandFile, option
         return viewServerPlaylists(dispatch, dispatch.guildId, commandFile);
     }
 
-    const playlistName = interaction?.options.getString("name") ?? args[0];
+    const argFlags = flags.getCommandArgFlags(dispatch, args);
+    const playlistName = interaction?.options.getString("name") ?? flags.removeFromArgs(args)[0];
 
     return viewSingleServerPlaylist({
         bot,
@@ -21,8 +23,8 @@ async function ServerPlaylist({ bot, args, server, dispatch, commandFile, option
         args,
         server,
         options,
+        argFlags,
         playlistName,
-        guildId: dispatch.guild.id,
         commandFile
     });
 };

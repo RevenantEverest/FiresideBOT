@@ -13,14 +13,13 @@ export interface Params {
     args: string[],
     server: Server,
     options: CommandOptions,
-    guildId: GuildResolvable,
+    argFlags: string[],
     playlistName: string,
     commandFile: CommandFile
 };
 
-async function viewSinglePlaylist({ bot, dispatch, args, server, options, guildId, playlistName, commandFile }: Params) {
+async function viewSinglePlaylist({ bot, dispatch, args, server, options, argFlags, playlistName, commandFile }: Params) {
     
-    const argFlags = flags.getCommandArgFlags(dispatch, args);
     const [guildPlaylist, err] = await api.guildPlaylists.getByGuildIdAndName(dispatch, dispatch.guildId, playlistName);
 
     if(err) {
@@ -53,6 +52,8 @@ async function viewSinglePlaylist({ bot, dispatch, args, server, options, guildI
         if(!roles) {
             return dispatch.reply("No playlist roles found");
         }
+
+        return playlists.sendPlaylistRolesEmbed({ dispatch, commandFile, playlist: guildPlaylist, roles });
     }
 
     const [songs, getSongsErr] = await api.guildSongs.getByPlaylistId(dispatch, guildPlaylist, {
@@ -78,7 +79,7 @@ async function viewSinglePlaylist({ bot, dispatch, args, server, options, guildI
             commandFile,
             playlist: guildPlaylist,
             songs,
-            setDescription: () => ``,
+            setDescription: () => `${guildPlaylist.songCount} songs\n\u200b`,
             setAuthor: () => ({
                 iconURL: dispatch.guild.iconURL({ dynamic: true }) ?? "",
                 name: `${dispatch.guild.name} - Server Playlists`
