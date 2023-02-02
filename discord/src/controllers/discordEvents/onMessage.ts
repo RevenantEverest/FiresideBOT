@@ -55,15 +55,13 @@ async function onMessage(bot: Client, message: Message) {
     if(!commandFile) {
         return;
     }
-
-    args.splice(0, 1); // Remove Command Name From Args
     
     const params: CommandParams = {
         PREFIX, 
         bot, 
         dispatch, 
         message: message as GuildMessage,
-        args, 
+        args: args.slice(1, args.length), 
         server, 
         options, 
         userState, 
@@ -71,12 +69,11 @@ async function onMessage(bot: Client, message: Message) {
         commandFile
     };
 
-    for(let i = 0; i < commandFile.permissions.length; i++) {
-        const hasPermission = dispatch.member.permissions.has(commandFile.permissions[i]);
-        if(!hasPermission) {
-            return dispatch.reply(ERROR_MESSAGES.MISSING_PERMISSIONS);
-        }
-    };
+    const hasPermission = commands.hasPermissions(dispatch, args, commandFile);
+
+    if(!hasPermission) {
+        return dispatch.reply(ERROR_MESSAGES.MISSING_PERMISSIONS);
+    }
 
     commandFile.run(params);
 };

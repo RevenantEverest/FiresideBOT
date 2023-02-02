@@ -120,12 +120,11 @@ async function onInteractionCreate(bot: Client, interaction: Interaction) {
         return;
     }
 
-    for(let i = 0; i < commandFile.permissions.length; i++) {
-        const hasPermission = dispatch.member.permissions.has(commandFile.permissions[i]);
-        if(!hasPermission) {
-            return dispatch.reply(ERROR_MESSAGES.MISSING_PERMISSIONS);
-        }
-    };
+    const hasPermission = commands.hasPermissions(dispatch, [], commandFile);
+
+    if(!hasPermission) {
+        return dispatch.reply(ERROR_MESSAGES.MISSING_PERMISSIONS);
+    }
     
     const params: CommandParams = {
         PREFIX, 
