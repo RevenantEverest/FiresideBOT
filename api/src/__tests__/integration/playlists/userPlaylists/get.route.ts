@@ -91,6 +91,14 @@ function getRoute(baseEndpoint: string, app: Application, authPayload: AuthTesti
                     expect(results[0].id).not.toBeNull();
                     expect(results[0].created_at).not.toBeNull();
                     expect(results[0].updated_at).not.toBeNull();
+                    expect(results[0].duration).not.toBeNull();
+                    expect(results[0].songCount).not.toBeNull();
+
+                    expect(results[1].id).not.toBeNull();
+                    expect(results[1].created_at).not.toBeNull();
+                    expect(results[1].updated_at).not.toBeNull();
+                    expect(results[1].duration).not.toBeNull();
+                    expect(results[1].songCount).not.toBeNull();
     
                     expect(body).toEqual({
                         count: body.count,

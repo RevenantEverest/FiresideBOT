@@ -10,15 +10,15 @@ function getRoute(baseEndpoint: string, app: Application, authPayload: AuthTesti
     describe("given the user is not logged in", () => {
         it("should return a 403 status", async () => {
             await supertest(app)
-            .get(`${baseEndpoint}/${extraParams.guildId}/songs`)
+            .get(`${baseEndpoint}/guild_id/${extraParams.guildId}/songs`)
             .expect(403)
 
             await supertest(app)
-            .get(`${baseEndpoint}/${extraParams.guildId}/id/1/songs`)
+            .get(`${baseEndpoint}/guild_id/${extraParams.guildId}/id/1/songs`)
             .expect(403)
 
             await supertest(app)
-            .get(`${baseEndpoint}/${extraParams.guildId}/id/1/songs/id/1`)
+            .get(`${baseEndpoint}/guild_id/${extraParams.guildId}/id/1/songs/id/1`)
             .expect(403)
         });
     });
@@ -30,7 +30,7 @@ function getRoute(baseEndpoint: string, app: Application, authPayload: AuthTesti
                     it("should return a 200 status and an empty paginated resonse", async () => {
                         extraParams.mocks.isGuildMember(true);
 
-                        const endpoint = `${baseEndpoint}/81726110987/id/1/songs`;
+                        const endpoint = `${baseEndpoint}/guild_id/81726110987/id/1/songs`;
                         const { body, statusCode } = await supertest(app)
                         .get(endpoint)
                         .set(authPayload.header)
@@ -50,7 +50,7 @@ function getRoute(baseEndpoint: string, app: Application, authPayload: AuthTesti
                     it("should return a 200 status and an empty paginated response", async () => {
                         extraParams.mocks.isGuildMember(true);
 
-                        const endpoint = `${baseEndpoint}/${extraParams.guildId}/id/81625/songs`;
+                        const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}/id/81625/songs`;
                         const { body, statusCode } = await supertest(app)
                         .get(endpoint)
                         .set(authPayload.header)
@@ -71,7 +71,7 @@ function getRoute(baseEndpoint: string, app: Application, authPayload: AuthTesti
                         it("should return a 404 status", async () => {
                             extraParams.mocks.isGuildMember(true);
 
-                            const endpoint = `${baseEndpoint}/${extraParams.guildId}/id/1/songs/918273`;
+                            const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}/id/1/songs/918273`;
                             await supertest(app)
                             .get(endpoint)
                             .set(authPayload.header)
@@ -83,7 +83,7 @@ function getRoute(baseEndpoint: string, app: Application, authPayload: AuthTesti
                         it("should return the guild song", async () => {
                             extraParams.mocks.isGuildMember(true);
 
-                            const endpoint = `${baseEndpoint}/${extraParams.guildId}/id/1/songs/id/${extraParams.createdSong?.id}`;
+                            const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}/id/1/songs/id/${extraParams.createdSong?.id}`;
                             const { body, statusCode } = await supertest(app)
                             .get(endpoint)
                             .set(authPayload.header)
@@ -110,7 +110,7 @@ function getRoute(baseEndpoint: string, app: Application, authPayload: AuthTesti
                 it("should return paginated songs", async () => {
                     extraParams.mocks.isGuildMember(true);
 
-                    const endpoint = `${baseEndpoint}/${extraParams.guildId}/id/1/songs`;
+                    const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}/id/1/songs`;
                     const { body, statusCode } = await supertest(app)
                     .get(endpoint)
                     .set(authPayload.header)

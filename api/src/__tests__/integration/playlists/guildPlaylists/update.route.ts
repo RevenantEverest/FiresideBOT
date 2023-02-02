@@ -9,7 +9,7 @@ import { GuildPlaylistExtraParams } from '../../../support/types/extraParams/ind
 function updateRoute(baseEndpoint: string, app: Application, authPayload: AuthTestingPayload, extraParams: GuildPlaylistExtraParams) {
     describe("given the user is not logged in", () => {
         it("should return a 403 status", async () => {
-            const endpoint = `${baseEndpoint}/${extraParams.guildId}/id/${extraParams.createdPlaylist?.id}`;
+            const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}/id/${extraParams.createdPlaylist?.id}`;
             await supertest(app)
             .put(endpoint)
             .expect(403)
@@ -22,7 +22,7 @@ function updateRoute(baseEndpoint: string, app: Application, authPayload: AuthTe
                 extraParams.mocks.hasPermission(true);
                 extraParams.mocks.isGuildMember(true);
 
-                const endpoint = `${baseEndpoint}/${extraParams.guildId}/id/${extraParams.createdPlaylist?.id}`;
+                const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}/id/${extraParams.createdPlaylist?.id}`;
                 await supertest(app)
                 .put(endpoint)
                 .set(authPayload.header)
@@ -37,7 +37,7 @@ function updateRoute(baseEndpoint: string, app: Application, authPayload: AuthTe
                     extraParams.mocks.hasPermission(true);
                     extraParams.mocks.isGuildMember(true);
 
-                    const endpoint = `${baseEndpoint}/${extraParams.guildId}/id/${extraParams.createdPlaylist?.id}`;
+                    const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}/id/${extraParams.createdPlaylist?.id}`;
                     const { body, statusCode } = await supertest(app)
                     .put(endpoint)
                     .set(authPayload.header)
@@ -68,7 +68,7 @@ function updateRoute(baseEndpoint: string, app: Application, authPayload: AuthTe
                     extraParams.mocks.hasPermission(false);
                     extraParams.mocks.isGuildMember(true);
 
-                    const endpoint = `${baseEndpoint}/${extraParams.guildId}/id/${extraParams.createdPlaylist?.id}`;
+                    const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}/id/${extraParams.createdPlaylist?.id}`;
                     await supertest(app)
                     .put(endpoint)
                     .set(authPayload.header)
@@ -82,7 +82,7 @@ function updateRoute(baseEndpoint: string, app: Application, authPayload: AuthTe
                     extraParams.mocks.hasPermission(false);
                     extraParams.mocks.isGuildMember(true);
 
-                    const endpoint = `${baseEndpoint}/${extraParams.guildId}/id/${extraParams.createdPlaylist?.id}`;
+                    const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}/id/${extraParams.createdPlaylist?.id}`;
                     await supertest(app)
                     .put(endpoint)
                     .set(authPayload.header)
