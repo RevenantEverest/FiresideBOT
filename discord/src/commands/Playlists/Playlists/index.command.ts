@@ -83,8 +83,8 @@ export const slashCommand = new SlashCommandBuilder()
     option
     .setName("flag")
     .setDescription("Choose which flag to add to the command")
-    .addChoices({ name: "Inspect", value: "-i" })
-    .addChoices({ name: "Shuffle", value: "-s" })
+    .addChoices({ name: FLAGS.INFO.name, value: FLAGS.INFO.usageSymbol[0] })
+    .addChoices({ name: FLAGS.SHUFFLE.name, value: FLAGS.SHUFFLE.usageSymbol[0] })
 );
 
 export default Playlists;
