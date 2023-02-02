@@ -25,7 +25,7 @@ async function RemoveFortune({ args, dispatch, commandFile }: CommandParams) {
 
 export const config: CommandConfig = {
     aliases: ["rf"],
-    permissions: [],
+    permissions: ["ADMINISTRATOR"],
     description: "Remove a custom fortune",
     example: ""
 };

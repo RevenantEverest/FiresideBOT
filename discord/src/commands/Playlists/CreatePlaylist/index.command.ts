@@ -8,10 +8,8 @@ import { flags, errors } from '../../../utils/index.js';
 
 async function CreatePlaylist({ args, dispatch, commandFile }: CommandParams) {
 
-    if(!dispatch.interaction) {
-        if(!args[0]) {
-            return dispatch.reply(ERROR_MESSAGES.COMMANDS.CREATE_PLAYLIST.NO_ARGS);
-        }
+    if(!dispatch.interaction && !args[0]) {
+        return dispatch.reply(ERROR_MESSAGES.COMMANDS.CREATE_PLAYLIST.NO_ARGS);
     }
 
     const argFlags = flags.getCommandArgFlags(dispatch, args);
@@ -22,6 +20,11 @@ async function CreatePlaylist({ args, dispatch, commandFile }: CommandParams) {
     }
 
     if(flags.containsFlag(FLAGS.SERVER_PLAYLIST, argFlags)) {
+
+        if(!dispatch.member.permissions.has("ADMINISTRATOR")) {
+            return dispatch.reply(ERROR_MESSAGES.MISSING_PERMISSIONS);
+        }
+
         const [serverPlaylist, err] = await api.guildPlaylists.create(dispatch, playlistName);
 
         if(err) {

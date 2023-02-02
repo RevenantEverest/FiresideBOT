@@ -35,7 +35,7 @@ async function EditPrefix({ args, dispatch, guildSettings, commandFile }: Comman
 
 export const config: CommandConfig = {
     aliases: [],
-    permissions: [],
+    permissions: ["ADMINISTRATOR"],
     description: "Edit the prefix used for Fireside commands",
     example: "exitprefix $"
 };

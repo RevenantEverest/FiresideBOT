@@ -27,7 +27,7 @@ async function AddFortune({ args, dispatch }: CommandParams) {
 
 export const config: CommandConfig = {
     aliases: ["af"],
-    permissions: [],
+    permissions: ["ADMINISTRATOR"],
     description: "Create a fortune to add to 8-Ball responses",
     example: ""
 };
