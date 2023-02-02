@@ -196,15 +196,9 @@ export function sendPlaylistRolesEmbed({ dispatch, commandFile, playlist, roles 
     const paginatedEmbed: PaginatedEmbed = generatePaginatedEmbed(roles.results);
 
     function generatePaginatedEmbed(playlistRoles: GuildPlaylistRole[]): PaginatedEmbed {
-        let playlistDuration = "";
-
-        if(playlist?.duration && playlist.duration > 0) {
-            playlistDuration = `(${dates.parseSeconds(playlist.duration)})`;
-        }
-
         return {
             pages: embeds.generatePaginatedEmbedPages<GuildPlaylistRole>({
-                title: `**${playlist.name} ${playlistDuration}**`,
+                title: `**${playlist.name}**\n\u200b`,
                 description: ``,
                 author: {
                     iconURL: dispatch.guild.iconURL({ dynamic: true }) ?? "",
@@ -215,7 +209,8 @@ export function sendPlaylistRolesEmbed({ dispatch, commandFile, playlist, roles 
                 data: playlistRoles, 
                 amountPerPage, 
                 setFieldName: (role: GuildPlaylistRole, index: number, startIndex: number): string => {
-                    return `${(startIndex + index) + 1}. ${role.role_id}`;
+                    const guildRole = dispatch.guild.roles.resolve(role.role_id);
+                    return `${(startIndex + index) + 1}. @${guildRole?.name ?? "[deleted role]"}`;
                 }, 
                 setFieldValue: (role: GuildPlaylistRole): string => {
                     const createdAt = dates.format(role.created_at, {
