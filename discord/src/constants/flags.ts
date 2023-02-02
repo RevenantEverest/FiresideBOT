@@ -20,3 +20,17 @@ export const PRIVATE_TOGGLE: Flag = {
     description: "Used in some playlists commands to toggle public/private feature on custom playlists",
     example: "editplaylist MyPlaylist -p"
 };
+
+export const SERVER_PLAYLIST: Flag = {
+    name: "Server Playlist",
+    usageSymbol: ["s"],
+    description: "Used in some playlist commands to specify that this command should run for server playlists instead of user playlists",
+    example: "createplaylist MyPlaylist -s"
+};
+
+export const GUILD_PLAYLIST_ROLES: Flag = {
+    name: "Guild Playlist Role Inspect",
+    usageSymbol: ["r"],
+    description: "Used in server playlist command to display only the roles associated with the given server playlist",
+    example: "serverplaylist OurPlaylist -r"
+};
