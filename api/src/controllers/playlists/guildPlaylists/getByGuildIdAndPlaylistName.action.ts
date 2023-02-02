@@ -7,7 +7,6 @@ import { entities, errors } from '../../../utils/index.js';
 
 async function getByGuildIdAndPlaylistName(req: Request, res: Response, next: NextFunction) {
 
-    console.log("Hello...")
     const { guildId }: ResponseLocalsParams = res.locals.params;
     const [guildPlaylist, err] = await entities.findOne<GuildPlaylist>(GuildPlaylist, {
         select: {
