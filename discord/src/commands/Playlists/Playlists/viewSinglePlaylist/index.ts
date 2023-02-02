@@ -59,7 +59,7 @@ async function viewSinglePlaylist({ bot, dispatch, args, server, options, discor
             commandFile, 
             playlist: userPlaylist, 
             songs: playlistSongs,
-            setDescription: () => `${userPlaylist?.is_public ? "Public" : `${EMOJIS.LOCKED}Private`}\n\u200b`,
+            setDescription: () => `${userPlaylist?.is_public ? "Public" : `${EMOJIS.LOCKED}Private`}\n\u200b${userPlaylist.songCount} songs\n\u200b`,
             setAuthor: () => ({
                 iconURL: dispatch.author.avatarURL({ dynamic: true }) ?? "",
                 name: `${dispatch.author.username} #${dispatch.author.discriminator}`
