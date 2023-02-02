@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { UserResolvable } from 'discord.js';
 import { CommandDispatch } from '../../types/commands.js';
 import { HandleAxiosReturn } from '../../types/promises.js';
 import { AxiosApiResponse, AxiosPaginatedApiResponse, ApiPaginatedResponse, ApiPaginationParams } from 'src/types/api.js';
@@ -9,7 +10,6 @@ import { issueToken } from '../../middleware/index.js';
 
 import { ENV } from '../../constants/index.js';
 import { promises } from '../../utils/index.js';
-import { UserResolvable } from 'discord.js';
 
 type ApiResponse = AxiosApiResponse<UserPlaylist>;
 type PaginatedApiResponse = AxiosPaginatedApiResponse<UserPlaylist>;
@@ -36,7 +36,7 @@ export async function getByDiscordIdAndName(dispatch: CommandDispatch, discordId
     return [res?.data.results, undefined];
 };
 
-export async function getByDiscordId(dispatch: CommandDispatch, discordId: string, params: ApiPaginationParams): GetByDiscordIdReturn {
+export async function getByDiscordId(dispatch: CommandDispatch, discordId: UserResolvable, params: ApiPaginationParams): GetByDiscordIdReturn {
     const token = await issueToken(dispatch);
 
     const request = axios.get(`${baseEndpoint}/discord_id/${discordId}?page=${params.page ?? 1}`, {
@@ -67,7 +67,6 @@ export async function getByDiscordIdAndNameOrCreate(dispatch: CommandDispatch, d
     const [res, err] = await promises.handleApi<ApiResponse>(request);
 
     if(err) {
-        console.log("Check here... => ", err.response);
         if(err.response?.status === 404) {
             return create(dispatch, playlistName);
         }
