@@ -47,7 +47,7 @@ async function Fortunes({ bot, dispatch, commandFile }: CommandParams) {
         };
     };
 
-    const partialOptions = pagination.generateBasicPagiationOptions<Fortune>(fortunes);  
+    const partialOptions = pagination.generateBasicPaginationOptions<Fortune>(fortunes);  
     const paginationOptions: ApiPaginationOptions<Fortune> = {
         ...partialOptions,
         amountPerPage,
