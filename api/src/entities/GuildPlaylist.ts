@@ -63,6 +63,14 @@ class GuildPlaylist extends BaseEntity {
         { onDelete: "CASCADE" }
     )
     roles: GuildPlaylistRole[];
+
+    public get duration(): number {
+        return this.songs.map(song => song.duration).reduce((a, b) => a + b, 0);
+    };
+
+    public get songCount(): number {
+        return this.songs.length;
+    };
 };
 
 export default GuildPlaylist;
