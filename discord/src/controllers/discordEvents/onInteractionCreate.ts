@@ -4,6 +4,7 @@ import { CommandParams, CommandDispatch } from '../../types/commands.js';
 
 import * as api from '../../api/index.js';
 
+import { ERROR_MESSAGES } from '../../constants/index.js';
 import { colors, logs, promises, commands } from '../../utils/index.js';
 import * as dispatchUtils from '../../utils/dispatch.js';
 
@@ -118,6 +119,13 @@ async function onInteractionCreate(bot: Client, interaction: Interaction) {
     if(!commandFile) {
         return;
     }
+
+    for(let i = 0; i < commandFile.permissions.length; i++) {
+        const hasPermission = dispatch.member.permissions.has(commandFile.permissions[i]);
+        if(!hasPermission) {
+            return dispatch.reply(ERROR_MESSAGES.MISSING_PERMISSIONS);
+        }
+    };
     
     const params: CommandParams = {
         PREFIX, 

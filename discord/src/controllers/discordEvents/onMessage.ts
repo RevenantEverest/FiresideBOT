@@ -4,6 +4,7 @@ import { GuildMessage } from '../../types/message.js';
 
 import * as api from '../../api/index.js';
 
+import { ERROR_MESSAGES } from '../../constants/index.js';
 import { logs, colors, commands } from '../../utils/index.js';
 import * as dispatchUtils from '../../utils/dispatch.js';
 
@@ -69,6 +70,14 @@ async function onMessage(bot: Client, message: Message) {
         guildSettings,
         commandFile
     };
+
+    for(let i = 0; i < commandFile.permissions.length; i++) {
+        const hasPermission = dispatch.member.permissions.has(commandFile.permissions[i]);
+        if(!hasPermission) {
+            return dispatch.reply(ERROR_MESSAGES.MISSING_PERMISSIONS);
+        }
+    };
+
     commandFile.run(params);
 };
 
