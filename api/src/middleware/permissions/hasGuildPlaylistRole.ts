@@ -53,7 +53,7 @@ async function hasGuildPlaylistRole(req: Request, res: Response, next: NextFunct
     }
 
     if(!hasRole) {
-        return errors.sendResponse({ res, status: 401, message: "Unauthorized" });
+        return errors.sendResponse({ res, status: 401, message: "You're missing a Guild Playlist Role to edit Guild Playlists" });
     }
 
     next();
