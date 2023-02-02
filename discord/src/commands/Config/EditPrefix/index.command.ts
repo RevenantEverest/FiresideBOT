@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 
-import { CommandParams, CommandConfigParams } from '../../../types/commands.js';
+import { CommandParams, CommandConfig } from '../../../types/commands.js';
 
 import * as api from '../../../api/index.js';
 import { ERROR_MESSAGES } from '../../../constants/index.js';
@@ -33,8 +33,9 @@ async function EditPrefix({ args, dispatch, guildSettings, commandFile }: Comman
     return dispatch.reply(`Prefix set to **${res.prefix}**`);
 };
 
-export const config: CommandConfigParams = {
+export const config: CommandConfig = {
     aliases: [],
+    permissions: [],
     description: "Edit the prefix used for Fireside commands",
     example: "exitprefix $"
 };

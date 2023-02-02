@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandParams, CommandConfigParams } from '../../../types/commands.js';
+import { CommandParams, CommandConfig } from '../../../types/commands.js';
 
 import viewServerPlaylists from './viewServerPlaylists/index.js';
 import viewSingleServerPlaylist from './viewSingleServerPlaylist/index.js';
@@ -27,8 +27,9 @@ async function ServerPlaylist({ bot, args, server, dispatch, commandFile, option
     });
 };
 
-export const config: CommandConfigParams = {
+export const config: CommandConfig = {
     aliases: ["sp"],
+    permissions: [],
     flags: [FLAGS.INFO, FLAGS.SHUFFLE, FLAGS.GUILD_PLAYLIST_ROLES],
     description: "Display or request a server playlist to be added to the queue",
     example: "serverplaylist MyFavoriteSongs"

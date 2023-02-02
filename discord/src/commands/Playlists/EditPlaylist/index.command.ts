@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandParams, CommandConfigParams } from '../../../types/commands.js';
+import { CommandParams, CommandConfig } from '../../../types/commands.js';
 
 import handleGuildPlaylist from './handleGuildPlaylist/index.js';
 import handleUserPlaylist from './handleUserPlaylist/index.js';
@@ -23,8 +23,9 @@ async function EditPlaylist({ args, dispatch, commandFile }: CommandParams) {
     return handleUserPlaylist({ dispatch, args, commandFile, playlistName, updatedPlaylistName, argFlags });
 };
 
-export const config: CommandConfigParams = {
+export const config: CommandConfig = {
     aliases: ["ep"],
+    permissions: [],
     flags: [FLAGS.PRIVATE_TOGGLE],
     description: "Edit the name and public state of your playlist",
     example: "editplaylist MyPlaylist MyNewPlaylist"

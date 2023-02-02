@@ -1,12 +1,12 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandParams, CommandConfigParams } from '../../../types/commands.js';
+import { CommandParams, CommandConfig } from '../../../types/commands.js';
 
 import * as api from '../../../api/index.js';
 
 import { ERROR_MESSAGES } from '../../../constants/index.js';
 import { errors } from '../../../utils/index.js';
 
-async function RemoveFortune({ bot, args, dispatch, commandFile }: CommandParams) {
+async function RemoveFortune({ args, dispatch, commandFile }: CommandParams) {
     if(!dispatch.interaction && !args[0]) {
         return dispatch.reply(ERROR_MESSAGES.COMMANDS.CREATE_FORTUNE.NO_ARGS);
     }
@@ -23,8 +23,9 @@ async function RemoveFortune({ bot, args, dispatch, commandFile }: CommandParams
     return dispatch.reply(`Fortune **${fortuneId}** removed`);
 };
 
-export const config: CommandConfigParams = {
+export const config: CommandConfig = {
     aliases: ["rf"],
+    permissions: [],
     description: "Remove a custom fortune",
     example: ""
 };

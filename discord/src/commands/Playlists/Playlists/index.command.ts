@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandParams, CommandConfigParams } from '../../../types/commands.js';
+import { CommandParams, CommandConfig } from '../../../types/commands.js';
 
 import viewPlaylists from './viewPlaylists/index.js';
 import viewSinglePlaylist from './viewSinglePlaylist/index.js';
@@ -57,8 +57,9 @@ async function Playlists({ bot, args, server, dispatch, commandFile, options }: 
     });
 };
 
-export const config: CommandConfigParams = {
+export const config: CommandConfig = {
     aliases: ['playlist'],
+    permissions: [],
     flags: [FLAGS.INFO, FLAGS.SHUFFLE],
     description: "Request or display Playlist information",
     example: "playlists Revenant -s"

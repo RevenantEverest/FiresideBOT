@@ -1,10 +1,10 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandParams, CommandConfigParams } from '../../../types/commands.js';
+import { CommandParams, CommandConfig } from '../../../types/commands.js';
 
 import { apiServices } from '../../../services/index.js';
 import { promises, errors } from '../../../utils/index.js';
 
-async function DadJoke({ bot, dispatch, commandFile }: CommandParams) {
+async function DadJoke({ dispatch, commandFile }: CommandParams) {
 
     const promise = apiServices.getDadJoke();
     const [res, err] = await promises.handle(promise);
@@ -29,8 +29,9 @@ async function DadJoke({ bot, dispatch, commandFile }: CommandParams) {
     return dispatch.reply(res.data.joke);
 };
 
-export const config: CommandConfigParams = {
+export const config: CommandConfig = {
     aliases: ["dj"],
+    permissions: [],
     description: "Returns a random Dad Joke",
     example: "dadjoke"
 };

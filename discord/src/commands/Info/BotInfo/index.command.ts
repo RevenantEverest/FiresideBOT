@@ -1,6 +1,6 @@
 import Discord from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandParams, CommandConfigParams } from '../../../types/commands.js';
+import { CommandParams, CommandConfig } from '../../../types/commands.js';
 
 import botConfig from '../../../config/index.js';
 
@@ -44,8 +44,9 @@ async function BotInfo({ bot, dispatch }: CommandParams) {
     return dispatch.reply({ embeds: [embed] });
 };
 
-export const config: CommandConfigParams = {
+export const config: CommandConfig = {
     aliases: ["bi"],
+    permissions: [],
     description: "Displays information about Fireside",
     example: "botinfo"
 };

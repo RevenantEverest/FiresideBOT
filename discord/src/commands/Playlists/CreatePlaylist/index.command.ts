@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandParams, CommandConfigParams } from '../../../types/commands.js';
+import { CommandParams, CommandConfig } from '../../../types/commands.js';
 
 import * as api from '../../../api/index.js';
 
@@ -58,8 +58,9 @@ async function CreatePlaylist({ args, dispatch, commandFile }: CommandParams) {
     return dispatch.reply(`New playlist **${userPlaylist.name}** created with **ID: ${userPlaylist.id}**`);
 };
 
-export const config: CommandConfigParams = {
+export const config: CommandConfig = {
     aliases: ["cp"],
+    permissions: [],
     flags: [FLAGS.SERVER_PLAYLIST],
     description: "Create a new playlist",
     example: "createplaylist MyPlaylist"

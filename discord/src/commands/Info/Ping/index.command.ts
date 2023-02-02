@@ -1,12 +1,13 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandParams, CommandConfigParams } from '../../../types/commands.js';
+import { CommandParams, CommandConfig } from '../../../types/commands.js';
 
 async function Ping({ dispatch }: CommandParams) {
     return await dispatch.reply("Pong");
 };
 
-export const config: CommandConfigParams = {
+export const config: CommandConfig = {
     aliases: [],
+    permissions: [],
     description: "Check Fireside's ping",
     example: ""
 };

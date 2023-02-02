@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandParams, CommandConfigParams } from '../../../types/commands.js';
+import { CommandParams, CommandConfig } from '../../../types/commands.js';
 
 import handleGuildPlaylist from './handleGuildPlaylist/index.js';
 import handleUserPlaylist from './handleUserPlaylist/index.js';
@@ -30,8 +30,9 @@ async function RemoveSong({ args, dispatch, commandFile }: CommandParams) {
     return handleUserPlaylist({ dispatch, commandFile, playlistName, parsedId });
 };
 
-export const config: CommandConfigParams = {
+export const config: CommandConfig = {
     aliases: ["rs"],
+    permissions: [],
     flags: [FLAGS.SERVER_PLAYLIST],
     description: "Removes a song from a playlist",
     example: "removesong 56"

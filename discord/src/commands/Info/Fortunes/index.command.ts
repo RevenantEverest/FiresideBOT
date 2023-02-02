@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandParams, CommandConfigParams } from '../../../types/commands.js';
+import { CommandParams, CommandConfig } from '../../../types/commands.js';
 import { Fortune } from '../../../types/entities/Fortune.js';
 import { PaginatedEmbed } from '../../../types/embeds.js';
 import { HandleReturn } from '../../../types/promises.js';
@@ -9,7 +9,7 @@ import * as api from '../../../api/index.js';
 
 import { colors, embeds, pagination, errors } from '../../../utils/index.js';
 
-async function Fortunes({ bot, dispatch, commandFile }: CommandParams) {
+async function Fortunes({ dispatch, commandFile }: CommandParams) {
 
     const [fortunes, err] = await api.fortunes.getByGuildId(dispatch.guildId, dispatch, {
         page: 1
@@ -74,8 +74,9 @@ async function Fortunes({ bot, dispatch, commandFile }: CommandParams) {
     return embeds.pagination<Fortune>(dispatch, paginatedEmbed, paginationOptions);
 };
 
-export const config: CommandConfigParams = {
+export const config: CommandConfig = {
     aliases: [],
+    permissions: [],
     description: "Displays a list of custom Fortunes added to 8 Ball responses",
     example: ""
 };

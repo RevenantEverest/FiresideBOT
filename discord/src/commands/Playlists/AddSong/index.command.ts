@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandParams, CommandConfigParams } from '../../../types/commands.js';
+import { CommandParams, CommandConfig } from '../../../types/commands.js';
 
 import handleGuildPlaylist from './handleGuildPlaylist/index.js';
 import handleUserPlaylist from './handleUserPlaylist/index.js';
@@ -26,8 +26,9 @@ async function AddSong({ args, dispatch, commandFile }: CommandParams) {
     return handleUserPlaylist({ dispatch, commandFile, playlistName, request });
 };
 
-export const config: CommandConfigParams = {
+export const config: CommandConfig = {
     aliases: ['as'],
+    permissions: [],
     flags: [FLAGS.SERVER_PLAYLIST],
     description: "Adds a song request to a given playlist",
     example: "addsong MyPlaylist Playing God Polyphia"
