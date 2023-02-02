@@ -21,10 +21,6 @@ async function CreatePlaylist({ args, dispatch, commandFile }: CommandParams) {
 
     if(flags.containsFlag(FLAGS.SERVER_PLAYLIST, argFlags)) {
 
-        if(!dispatch.member.permissions.has("ADMINISTRATOR")) {
-            return dispatch.reply(ERROR_MESSAGES.MISSING_PERMISSIONS);
-        }
-
         const [serverPlaylist, err] = await api.guildPlaylists.create(dispatch, playlistName);
 
         if(err) {
