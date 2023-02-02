@@ -2,8 +2,8 @@ export const userRegex = /<@!?(\d+)>/i;
 export const channelRegex = /<#?(\d+)>/i;
 export const roleRegex = /<@&?(\d+)>/i;
 
-export const commandFlagRegex = /(?<=-).{1}/gi;
-export const commandFlagReplaceRegex = /-.{1}/gi;
+export const commandFlagRegex = /(?<=-)\w*(?=\s?)/gi;
+export const commandFlagReplaceRegex = /-\w*(?=\s?)/gi;
 
 export function hasUserTag(str: string): boolean {
     return userRegex.test(str);
