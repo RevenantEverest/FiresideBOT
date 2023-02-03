@@ -8,6 +8,7 @@ export * as EDIT_PLAYLIST from './editPlaylist.js';
 export * as EIGHT_BALL from './eightBall.js';
 export * as PLAY from './play.js';
 export * as PROMOTE from './promote.js';
+export * as REMOVE_PLAYLIST_ROLE from './removePlaylistRole.js';
 export * as STOP from './stop.js';
 export * as VOLUME from './volume.js';
 
