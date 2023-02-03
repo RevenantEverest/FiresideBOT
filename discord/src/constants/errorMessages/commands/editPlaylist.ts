@@ -1,1 +1,1 @@
-export const NO_ARGS = "Please specify a name for your playlist";
+export const NO_ARGS = "Please specify the name of the playlist you'd like to edit";
