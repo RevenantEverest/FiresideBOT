@@ -5,6 +5,7 @@ export interface ResponseLocalsParams {
     id?: number,
     guildId?: string,
     discordId?: string,
+    roleId?: string,
     playlistId?: number
 };
 

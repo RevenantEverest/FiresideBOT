@@ -7,11 +7,11 @@ import { errors, entities } from '../../../utils/index.js';
 
 async function destroy(req: Request, res: Response, next: NextFunction) {
 
-    const { id, guildId }: ResponseLocalsParams = res.locals.params;
+    const { roleId, guildId }: ResponseLocalsParams = res.locals.params;
 
     const [guildPlaylistRole, findErr] = await entities.findOne(GuildPlaylistRole, {
         where: {
-            id: id,
+            role_id: roleId,
             playlist: {
                 guild_id: guildId
             }
@@ -36,7 +36,7 @@ async function destroy(req: Request, res: Response, next: NextFunction) {
         return errors.sendResponse({ res, status: 500, message: "No GuildPlaylistRole Delete Return" });
     }
 
-    return res.sendStatus(200);
+    return res.json({ results: deletedGuildPlaylistRole });
 };
 
 export default destroy;
