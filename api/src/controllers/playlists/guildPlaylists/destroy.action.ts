@@ -34,7 +34,7 @@ async function destroy(req: Request, res: Response, next: NextFunction) {
         return errors.sendResponse({ res, next, message: "No GuildPlaylist Delete Return" });
     }
 
-    return res.sendStatus(200);
+    return res.json({ results: deletedGuildPlaylist });
 };
 
 export default destroy;
