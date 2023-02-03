@@ -1,5 +1,7 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { CommandParams, CommandConfig } from '../../../types/commands.js';
+import { GuildPlaylist } from '../../../types/entities/GuildPlaylist.js';
+import { GuildPlaylistRole } from '../../../types/entities/GuildPlaylistRole.js';
 
 import * as api from '../../../api/index.js';
 import { ERROR_MESSAGES } from '../../../constants/index.js';
@@ -21,38 +23,36 @@ async function AddPlaylistRole({ dispatch, args, commandFile }: CommandParams) {
     if(!roleMention) {
         return dispatch.reply(ERROR_MESSAGES.COMMANDS.INVALID_ROLE_ID);
     }
+
+    if(!playlistName) {
+        return dispatch.reply(ERROR_MESSAGES.COMMANDS.ADD_PLAYLIST_ROLE.NO_PLAYLIST_NAME);
+    }
     
     const [guildPlaylist, getErr] = await api.guildPlaylists.getByGuildIdAndName(dispatch, dispatch.guildId, playlistName);
 
-    if(getErr) {
-        if(getErr.response && getErr.response.status !== 500) {
-            const responseData = getErr.response.data;
-            return dispatch.reply(responseData.message);
-        }
-        
-        return errors.command({ dispatch, err: getErr, errMessage: getErr.message, commandName: commandFile.displayName });
-    }
-
-    if(!guildPlaylist) {
-        return dispatch.reply("No Playlist found");
-    }
+    if(getErr || !guildPlaylist) {
+        return errors.commandApi<GuildPlaylist>({
+            dispatch,
+            err: getErr,
+            commandFile,
+            resource: guildPlaylist,
+            missingResourceMessage: "No Playlist found"
+        });
+    } 
 
     const [playlistRole, err] = await api.guildPlaylistRoles.create(dispatch, { 
         playlist_id: guildPlaylist.id,
         role_id: roleMention
     });
 
-    if(err) {
-        if(err.response && err.response.status !== 500) {
-            const responseData = err.response.data;
-            return dispatch.reply(responseData.message);
-        }
-        
-        return errors.command({ dispatch, err, errMessage: err.message, commandName: commandFile.displayName });
-    }
-
-    if(!playlistRole) {
-        return dispatch.reply("No Playlist Role returned");
+    if(err || !playlistRole) {
+        return errors.commandApi<GuildPlaylistRole>({
+            dispatch,
+            err,
+            commandFile,
+            resource: playlistRole,
+            missingResourceMessage: "No Playlist Role returned"
+        });
     }
 
     return dispatch.reply(`**<@&${playlistRole.role_id}>** added as a role to server playlist **${guildPlaylist.name}**`);
@@ -80,6 +80,5 @@ export const slashCommand = new SlashCommandBuilder()
     .setDescription("The role you want to add to the playlist")
     .setRequired(true)
 );
-
 
 export default AddPlaylistRole;
