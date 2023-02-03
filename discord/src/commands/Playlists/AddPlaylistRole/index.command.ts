@@ -1,25 +1,27 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandParams, CommandConfigParams } from '../../../types/commands.js';
+import { CommandParams, CommandConfig } from '../../../types/commands.js';
 
 import * as api from '../../../api/index.js';
 import { ERROR_MESSAGES } from '../../../constants/index.js';
-import { flags, regex, errors } from '../../../utils/index.js';
+import { regex, errors } from '../../../utils/index.js';
 
-async function AddPlaylistRole({ dispatch, args }: CommandParams) {
+async function AddPlaylistRole({ dispatch, args, commandFile }: CommandParams) {
     if(!dispatch.interaction && !args[0]) {
-        return dispatch.reply();
+        return dispatch.reply(ERROR_MESSAGES.COMMANDS.ADD_PLAYLIST_ROLE.NO_ARGS);
     }
 
-    if(!regex.hasRoleTag(args.join(" "))) {
-        return dispatch.reply();
+    if(!dispatch.interaction && !regex.hasRoleTag(args.join(" "))) {
+        return dispatch.reply(ERROR_MESSAGES.COMMANDS.ADD_PLAYLIST_ROLE.NO_ROLE_MENTION);
     }
 
-    const argFlags = flags.getCommandArgFlags(dispatch, args);
-    const roleMention = regex.parseRoleTag(args.join(" "));
-    const roleRemovedArgs = args.join(" ").replace(regex.roleRegex, "").split(" ");
-    const flagsRemovedArgs = flags.removeFromArgs(roleRemovedArgs);
-    const playlistName = dispatch.interaction?.options.getString("name") ?? flagsRemovedArgs[0];
+    const roleMention = dispatch.interaction?.options.getRole("role")?.id ?? regex.parseRoleTag(args.join(" "));
+    const roleRemovedArgs = args.join(" ").replace(regex.roleRegex, "").trim().split(" ");
+    const playlistName = dispatch.interaction?.options.getString("name") ?? roleRemovedArgs[0];
 
+    if(!roleMention) {
+        return dispatch.reply(ERROR_MESSAGES.COMMANDS.INVALID_ROLE_ID);
+    }
+    
     const [guildPlaylist, getErr] = await api.guildPlaylists.getByGuildIdAndName(dispatch, dispatch.guildId, playlistName);
 
     if(getErr) {
@@ -34,11 +36,31 @@ async function AddPlaylistRole({ dispatch, args }: CommandParams) {
     if(!guildPlaylist) {
         return dispatch.reply("No Playlist found");
     }
+
+    const [playlistRole, err] = await api.guildPlaylistRoles.create(dispatch, { 
+        playlist_id: guildPlaylist.id,
+        role_id: roleMention
+    });
+
+    if(err) {
+        if(err.response && err.response.status !== 500) {
+            const responseData = err.response.data;
+            return dispatch.reply(responseData.message);
+        }
+        
+        return errors.command({ dispatch, err, errMessage: err.message, commandName: commandFile.displayName });
+    }
+
+    if(!playlistRole) {
+        return dispatch.reply("No Playlist Role returned");
+    }
+
+    return dispatch.reply(`**<@&${playlistRole.role_id}>** added as a role to server playlist **${guildPlaylist.name}**`);
 };
 
-export const config: CommandConfigParams = {
+export const config: CommandConfig = {
     aliases: ["apr"],
-    permissions: [],
+    permissions: ["ADMINISTRATOR"],
     description: "Add a role to a server playlist",
     example: "addplaylistrole OurPlaylist @MyRole"
 };
