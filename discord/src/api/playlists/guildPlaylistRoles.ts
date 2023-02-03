@@ -30,7 +30,7 @@ export async function create(dispatch: CommandDispatch, guildPlaylistRole: Guild
     });
 };
 
-export async function destroy(dispatch: CommandDispatch, playlistId: number, roleId: number): HandleAxiosReturn<GuildPlaylistRole> {
+export async function destroy(dispatch: CommandDispatch, playlistId: number, roleId: string): HandleAxiosReturn<GuildPlaylistRole> {
     const endpoint = `${baseEndpoint}/guild_id/${dispatch.guildId}/id/${playlistId}/roles/id/${roleId}`;
     return apiRequests.request<GuildPlaylistRole>({
         dispatch,
