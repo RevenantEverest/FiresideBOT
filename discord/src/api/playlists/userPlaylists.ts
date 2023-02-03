@@ -60,3 +60,12 @@ export async function create(dispatch: CommandDispatch, playlistName: string): H
         }
     });
 };
+
+export async function destroy(dispatch: CommandDispatch, playlist: UserPlaylist): HandleAxiosReturn<UserPlaylist> {
+    const endpoint = `${baseEndpoint}/id/${playlist.id}`;
+    return apiRequests.request<UserPlaylist>({
+        dispatch,
+        endpoint,
+        method: "delete"
+    });
+};
