@@ -1,3 +1,4 @@
+export * as apiRequests from './apiRequests.js';
 export * as arrays from './arrays.js';
 export * as boolean from './boolean.js';
 export * as colors from './colors.js';
