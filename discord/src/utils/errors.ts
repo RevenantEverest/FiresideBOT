@@ -1,10 +1,20 @@
 import Discord, { Client, Message } from 'discord.js';
-import { CommandDispatch } from '../types/commands.js';
+import { CommandDispatch, CommandFile } from '../types/commands.js';
 import bot from '../discordBot.js';
 
 import { ERROR_MESSAGES, EMOJIS } from '../constants/index.js';
 import * as logs from './logs.js';
 import * as colors from './colors.js';
+import { AxiosApiError } from 'src/types/api.js';
+
+interface CommandApiOptions<T> {
+    dispatch: CommandDispatch,
+    err: AxiosApiError | undefined,
+    commandFile: CommandFile,
+    resource: T | undefined,
+    missingResourceMessage: string,
+
+};
 
 interface CommandErrorOptions {
     dispatch: CommandDispatch,
@@ -38,6 +48,20 @@ interface SendErrorEmbedOptions {
     resourceName: string, 
     isCommand?: boolean, 
     isUtility?: boolean
+};
+
+export function commandApi<T>({ dispatch, err, commandFile, resource, missingResourceMessage }: CommandApiOptions<T>) {
+    if(err) {
+        if(err.response && err.response.status !== 500) {
+            const responseData = err.response.data;
+            return dispatch.reply(responseData.message);
+        }
+        return command({ dispatch, err, errMessage: err.message, commandName: commandFile.displayName });
+    }
+
+    if(!resource) {
+        return dispatch.reply(missingResourceMessage);
+    }
 };
 
 export function command({ dispatch, err, errMessage, commandName }: CommandErrorOptions) {
