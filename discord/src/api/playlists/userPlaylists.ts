@@ -30,13 +30,22 @@ export async function getByDiscordIdAndName(dispatch: CommandDispatch, discordId
     });
 };
 
-export async function getByDiscordIdAndNameOrCreate(dispatch: CommandDispatch, discordId: UserResolvable, playlistName: string): HandleAxiosReturn<UserPlaylist> {
+export async function getByDiscordIdAndNameOrCreate(dispatch: CommandDispatch, discordId: UserResolvable, playlistName: string, isDefault?: boolean): HandleAxiosReturn<UserPlaylist> {
     const endpoint = `${baseEndpoint}/discord_id/${discordId}/name/${playlistName}`;
-    return apiRequests.request<UserPlaylist>({
+    const [res, err] = await apiRequests.request<UserPlaylist>({
         dispatch,
         endpoint,
         method: "get"
     });
+
+    if(err) {
+        if(err.response?.status === 404) {
+            return create(dispatch, playlistName, isDefault);
+        }
+        return [undefined, err];
+    }
+
+    return [res, undefined];
 };
 
 export async function update(dispatch: CommandDispatch, playlist: UserPlaylistUpdate): HandleAxiosReturn<UserPlaylist> {
@@ -49,14 +58,15 @@ export async function update(dispatch: CommandDispatch, playlist: UserPlaylistUp
     });
 };
 
-export async function create(dispatch: CommandDispatch, playlistName: string): HandleAxiosReturn<UserPlaylist> {
+export async function create(dispatch: CommandDispatch, playlistName: string, isDefault?: boolean): HandleAxiosReturn<UserPlaylist> {
     const endpoint = baseEndpoint;
-    return apiRequests.request<UserPlaylist, { name: string }>({
+    return apiRequests.request<UserPlaylist, { name: string, is_default?: boolean }>({
         dispatch,
         endpoint,
         method: "post",
         data: {
-            name: playlistName
+            name: playlistName,
+            is_default: isDefault
         }
     });
 };
