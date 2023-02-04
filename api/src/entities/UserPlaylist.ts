@@ -17,6 +17,7 @@ class UserPlaylist extends BaseEntity {
         discord_id: string,
         name: string,
         is_public: boolean,
+        is_default: boolean,
         created_at: Date,
         updated_at: Date,
 
@@ -27,6 +28,7 @@ class UserPlaylist extends BaseEntity {
         this.discord_id = discord_id;
         this.name = name;
         this.is_public = is_public;
+        this.is_default = is_default;
         this.created_at = created_at;
         this.updated_at = updated_at;
 
@@ -44,6 +46,9 @@ class UserPlaylist extends BaseEntity {
 
     @Column({ type: "boolean", default: true })
     is_public: boolean;
+
+    @Column({ type: "boolean", default: false })
+    is_default: boolean;
 
     @CreateDateColumn()
     created_at: Date;

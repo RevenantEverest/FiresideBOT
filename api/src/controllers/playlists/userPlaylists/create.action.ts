@@ -6,6 +6,7 @@ import { entities, errors } from '../../../utils/index.js';
 async function create(req: Request, res: Response, next: NextFunction) {
 
     const playlistName: string = req.body.name;
+    const isDefault: boolean = req.body.is_default;
 
     if(playlistName.includes(" ")) {
         return errors.sendResponse({ res, status: 400, message: "Playlist Name Cannot Contain White Space" });
@@ -28,7 +29,8 @@ async function create(req: Request, res: Response, next: NextFunction) {
 
     const [upInsert, upInsertErr] = await entities.insert<UserPlaylist>(UserPlaylist, {
         discord_id: res.locals.auth.discord_id,
-        name: playlistName
+        name: playlistName,
+        ...(isDefault ? { is_default: isDefault } : {})
     });
 
     if(upInsertErr) {
