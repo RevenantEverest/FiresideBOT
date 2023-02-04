@@ -14,7 +14,7 @@ router.route("/guild_id/:guildId/id/:playlistId/roles")
 .post(validationMiddleware, permissions.isGuildAdmin, guildPlaylistRolesController.create)
 
 router.route("/guild_id/:guildId/id/:playlistId/roles/id/:roleId")
-.get(validationMiddleware, permissions.isGuildMember, guildPlaylistRolesController.getOne)
+.get(validationMiddleware, validation.roleId, permissions.isGuildMember, guildPlaylistRolesController.getOne)
 .delete(validationMiddleware, validation.roleId, permissions.isGuildAdmin, guildPlaylistRolesController.destroy)
 
 export default router;
