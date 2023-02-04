@@ -7,7 +7,7 @@ import handleUserPlaylist from './handleUserPlaylist/index.js';
 import { ERROR_MESSAGES, FLAGS } from '../../../constants/index.js';
 import { flags } from'../../../utils/index.js';
 
-async function AddSong({ args, dispatch, commandFile }: CommandParams) {
+async function AddSong({ args, dispatch, server, commandFile }: CommandParams) {
     const interaction = dispatch.interaction;
 
     if(!interaction && !args[0]) {
@@ -17,7 +17,18 @@ async function AddSong({ args, dispatch, commandFile }: CommandParams) {
     const argFlags = flags.getCommandArgFlags(dispatch, args);
     const removedFlagArgs = flags.removeFromArgs(args);
     const playlistName = dispatch.interaction?.options.getString("playlist") ?? removedFlagArgs[0];
-    const request = dispatch.interaction?.options.getString("request") ?? removedFlagArgs.slice(1, removedFlagArgs.length).join(" ");
+
+    const interactionRequest = dispatch.interaction?.options.getString("request");
+    const argsRequest = removedFlagArgs.slice(1, removedFlagArgs.length).join(" ");
+    const currentSong = server.queue.currentSongInfo;
+
+    if(!interactionRequest && !argsRequest && !currentSong) {
+        return dispatch.reply(ERROR_MESSAGES.COMMANDS.ADD_SONG.NO_CURRENT_SONG);
+    }
+
+    const request = (!interactionRequest && !argsRequest && currentSong) ? `${currentSong.title} ${currentSong.author}` : (interactionRequest ?? argsRequest);
+
+    console.log("Add Song Request => ", request);
 
     if(flags.containsFlag(FLAGS.SERVER_PLAYLIST, argFlags)) {
         return handleGuildPlaylist({ dispatch, commandFile, playlistName, request });
@@ -47,7 +58,6 @@ export const slashCommand = new SlashCommandBuilder()
     option
     .setName("request")
     .setDescription("YouTube Search Request or Link")
-    .setRequired(true)
 )
 .addStringOption(option => 
     option
