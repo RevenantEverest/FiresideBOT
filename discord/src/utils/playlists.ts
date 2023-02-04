@@ -78,7 +78,9 @@ export function sendPlaylistsEmbed({ dispatch, commandFile, playlists, requestId
                 setFieldName(playlist: Playlist, index: number, startIndex: number) {
                     const duration = dates.parseSeconds(playlist.duration);
                     const isPrivatePlaylist = isUserPlaylist(playlist) && !playlist.is_public;
-                    return `${(startIndex + index) + 1}. ${playlist.name} (${duration}) ${isPrivatePlaylist ? EMOJIS.LOCKED : ""}`
+                    const isDefaultPlaylist = isUserPlaylist(playlist) && playlist.is_default;
+                    const playlistName = isDefaultPlaylist ? `${playlist.name} (Default Playlist)` : `${playlist.name}`;
+                    return `${(startIndex + index) + 1}. ${playlistName} (${duration}) ${isPrivatePlaylist ? EMOJIS.LOCKED : ""}`
                 },
                 setFieldValue(playlist: Playlist) {
                     return `${playlist.songCount} songs`;
