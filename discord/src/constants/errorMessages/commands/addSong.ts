@@ -1,1 +1,2 @@
 export const NO_ARGS = "Please specify a playlist name and the request you wish to add to that playlist";
+export const NO_CURRENT_SONG = "No song currently playing, please provide a request you'd like to add to this playlist";
