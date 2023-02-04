@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 
-import { CommandParams, CommandConfigParams } from '../../../types/commands.js';
+import { CommandParams, CommandConfig } from '../../../types/commands.js';
 import { SongInfo } from '../../../types/youtube.js';
 
 import { ERROR_MESSAGES, PREMIUM_LIMITS } from '../../../constants/index.js';
@@ -57,8 +57,9 @@ async function Play({ bot, args, dispatch, server, options, userState, commandFi
     }
 };
 
-export const config: CommandConfigParams = {
+export const config: CommandConfig = {
     aliases: ["p"],
+    permissions: [],
     description: "Requests song and plays it or adds it to the music queue",
     example: "play https://www.youtube.com/watch?v=dQw4w9WgXcQ"
 };

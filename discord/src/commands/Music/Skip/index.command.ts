@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 
-import { CommandParams, CommandConfigParams } from '../../../types/commands.js';
+import { CommandParams, CommandConfig } from '../../../types/commands.js';
 import { queue } from '../../../utils/index.js';
 
 async function Skip({ bot, dispatch, server}: CommandParams) {
@@ -13,8 +13,9 @@ async function Skip({ bot, dispatch, server}: CommandParams) {
     queue.nextInQueue(bot, dispatch, server);  
 };
 
-export const config: CommandConfigParams = {
+export const config: CommandConfig = {
     aliases: [],
+    permissions: [],
     description: "Skips the currently playing song",
     example: ""
 };

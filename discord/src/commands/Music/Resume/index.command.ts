@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandParams, CommandConfigParams } from '../../../types/commands.js';
+import { CommandParams, CommandConfig } from '../../../types/commands.js';
 
 import { ERROR_MESSAGES } from '../../../constants/index.js';
 
@@ -21,8 +21,9 @@ async function Resume({ dispatch, server }: CommandParams) {
     return dispatch.reply(canUnPause ? "Resuming..." : "Unable to resume current audio player");
 };
 
-export const config: CommandConfigParams = {
+export const config: CommandConfig = {
     aliases: [],
+    permissions: [],
     description: "Pauses the current playing song",
     example: "pause"
 };

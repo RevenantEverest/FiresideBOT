@@ -1,6 +1,6 @@
 import Discord from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandParams, CommandConfigParams } from '../../../types/commands.js';
+import { CommandParams, CommandConfig } from '../../../types/commands.js';
 
 import { colors, boolean } from '../../../utils/index.js';
 
@@ -29,8 +29,9 @@ async function MusicOptions({ dispatch, server }: CommandParams) {
     return dispatch.reply({ embeds: [embed] });
 };
 
-export const config: CommandConfigParams = {
+export const config: CommandConfig = {
     aliases: ["mo"],
+    permissions: [],
     description: "Displays the current music options (Volume, Looping, etc)",
     example: "musicoptions"
 };

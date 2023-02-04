@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandParams, CommandConfigParams } from '../../../types/commands.js';
+import { CommandParams, CommandConfig } from '../../../types/commands.js';
 import { SongInfo } from '../../../types/youtube.js';
 import { ServerSongInfo } from '../../../types/server';
 
@@ -58,8 +58,9 @@ async function PlayNext({ bot, args, dispatch, server, options, userState, comma
     }
 };
 
-export const config: CommandConfigParams = {
+export const config: CommandConfig = {
     aliases: ["pn"],
+    permissions: [],
     description: "Requests song and adds it to the top of the music queue",
     example: "playnext https://www.youtube.com/watch?v=dQw4w9WgXcQ"
 };
