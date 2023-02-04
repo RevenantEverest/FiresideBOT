@@ -48,26 +48,32 @@ export async function handleSearch(request: string, isLink: boolean): Promise<Ha
 };
 
 export async function getSongInfo(link: string): Promise<HandleReturn<SongInfo>> {
-    const info = await playdl.video_basic_info(link);
+    try {
+        const info = await playdl.video_basic_info(link);
 
-    if(!info) {
-        return [undefined, new Error("Info is Undefined")];
+        if(!info) {
+            return [undefined, new Error("Info is Undefined")];
+        }
+    
+        const { id, title, channel, durationInSec, thumbnails } = info.video_details;
+        const thumbnail_url = thumbnails[thumbnails.length - 1].url;
+    
+        if(!id || !title || !channel?.name) {
+            return [undefined, new Error("Missing Info Elements")];
+        }
+    
+        const songInfo: SongInfo = {
+            title,
+            videoId: id,
+            author: channel.name,
+            duration: durationInSec,
+            thumbnail_url
+        };
+    
+        return [songInfo, undefined];
+    } 
+    catch(err) {
+        const error = err as Error;
+        return [undefined, error];
     }
-
-    const { id, title, channel, durationInSec, thumbnails } = info.video_details;
-    const thumbnail_url = thumbnails[thumbnails.length - 1].url;
-
-    if(!id || !title || !channel?.name) {
-        return [undefined, new Error("Missing Info Elements")];
-    }
-
-    const songInfo: SongInfo = {
-        title,
-        videoId: id,
-        author: channel.name,
-        duration: durationInSec,
-        thumbnail_url
-    };
-
-    return [songInfo, undefined];
 };
