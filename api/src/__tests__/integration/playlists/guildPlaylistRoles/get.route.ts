@@ -62,7 +62,7 @@ function getRoute(baseEndpoint: string, app: Application, authPayload: AuthTesti
                         it("should return a 404 status", async () => {
                             extraParams.mocks.isGuildMember(true);
 
-                            const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}/id/1/roles/id/918273`;
+                            const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}/id/1/roles/id/192888371621098762`;
                             await supertest(app)
                             .get(endpoint)
                             .set(authPayload.header)
@@ -74,7 +74,7 @@ function getRoute(baseEndpoint: string, app: Application, authPayload: AuthTesti
                         it("should return the guild playlist role", async () => {
                             extraParams.mocks.isGuildMember(true);
 
-                            const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}/id/1/roles/id/1`;
+                            const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}/id/${extraParams.guildPlaylistRole?.playlist.id}/roles/id/${extraParams.guildPlaylistRole?.role_id}`;
                             const { body, statusCode } = await supertest(app)
                             .get(endpoint)
                             .set(authPayload.header)
