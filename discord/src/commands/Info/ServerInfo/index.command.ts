@@ -1,10 +1,10 @@
 import Discord from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandParams, CommandConfigParams } from '../../../types/commands.js';
+import { CommandParams, CommandConfig } from '../../../types/commands.js';
 
 import { colors, dates } from '../../../utils/index.js';
 
-async function ServerInfo({ bot, dispatch }: CommandParams) {
+async function ServerInfo({ dispatch }: CommandParams) {
 
     const roles = await dispatch.guild.roles.fetch();
     const roleCount = roles.size;
@@ -42,8 +42,9 @@ async function ServerInfo({ bot, dispatch }: CommandParams) {
     return dispatch.reply({ embeds: [embed] });
 };
 
-export const config: CommandConfigParams = {
+export const config: CommandConfig = {
     aliases: ["si"],
+    permissions: [],
     description: "Displays information about the current Server (Guild)",
     example: "serverinfo"
 };

@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandParams, CommandConfigParams } from '../../../types/commands.js';
+import { CommandParams, CommandConfig } from '../../../types/commands.js';
 import { Fortune } from '../../../types/entities/Fortune.js';
 import { PaginatedEmbed } from '../../../types/embeds.js';
 import { HandleReturn } from '../../../types/promises.js';
@@ -9,14 +9,14 @@ import * as api from '../../../api/index.js';
 
 import { colors, embeds, pagination, errors } from '../../../utils/index.js';
 
-async function Fortunes({ bot, dispatch }: CommandParams) {
+async function Fortunes({ dispatch, commandFile }: CommandParams) {
 
     const [fortunes, err] = await api.fortunes.getByGuildId(dispatch.guildId, dispatch, {
         page: 1
     });
 
     if(err) {
-        return errors.command({ bot, dispatch, err, errMessage: err.message, commandName: "" });
+        return errors.command({ dispatch, err, errMessage: err.message, commandName: commandFile.displayName });
     }
 
     if(!fortunes) {
@@ -47,7 +47,7 @@ async function Fortunes({ bot, dispatch }: CommandParams) {
         };
     };
 
-    const partialOptions = pagination.generateBasicPagiationOptions<Fortune>(fortunes);  
+    const partialOptions = pagination.generateBasicPaginationOptions<Fortune>(fortunes);  
     const paginationOptions: ApiPaginationOptions<Fortune> = {
         ...partialOptions,
         amountPerPage,
@@ -57,7 +57,7 @@ async function Fortunes({ bot, dispatch }: CommandParams) {
             });
     
             if(err) {
-                errors.command({ bot, dispatch, err, errMessage: err.message, commandName: "Fortunes" });
+                errors.command({ dispatch, err, errMessage: err.message, commandName: commandFile.displayName });
                 return [undefined, err];
             }
         
@@ -74,8 +74,9 @@ async function Fortunes({ bot, dispatch }: CommandParams) {
     return embeds.pagination<Fortune>(dispatch, paginatedEmbed, paginationOptions);
 };
 
-export const config: CommandConfigParams = {
+export const config: CommandConfig = {
     aliases: [],
+    permissions: [],
     description: "Displays a list of custom Fortunes added to 8 Ball responses",
     example: ""
 };

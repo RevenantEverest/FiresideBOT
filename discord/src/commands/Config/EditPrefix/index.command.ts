@@ -1,12 +1,12 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 
-import { CommandParams, CommandConfigParams } from '../../../types/commands.js';
+import { CommandParams, CommandConfig } from '../../../types/commands.js';
 
 import * as api from '../../../api/index.js';
 import { ERROR_MESSAGES } from '../../../constants/index.js';
 import { errors } from '../../../utils/index.js';
 
-async function EditPrefix({ args, dispatch, guildSettings }: CommandParams) {
+async function EditPrefix({ args, dispatch, guildSettings, commandFile }: CommandParams) {
     if(!dispatch.interaction && !args[0]) {
         return dispatch.reply(ERROR_MESSAGES.COMMANDS.EDIT_PREFIX.NO_ARGS);
     }
@@ -23,20 +23,21 @@ async function EditPrefix({ args, dispatch, guildSettings }: CommandParams) {
     });
 
     if(err) {
-        return console.error(err);
+        return errors.command({ dispatch, err, errMessage: err.message, commandName: commandFile.displayName });
     }
 
     if(!res) {
-        return console.error("No GuildSettings returned");
+        return errors.command({ dispatch, errMessage: "No GuildSettings Returned", commandName: commandFile.displayName });
     }
 
     return dispatch.reply(`Prefix set to **${res.prefix}**`);
 };
 
-export const config: CommandConfigParams = {
-    aliases: ["ep"],
+export const config: CommandConfig = {
+    aliases: [],
+    permissions: ["ADMINISTRATOR"],
     description: "Edit the prefix used for Fireside commands",
-    example: ""
+    example: "exitprefix $"
 };
 
 export const slashCommand = new SlashCommandBuilder()

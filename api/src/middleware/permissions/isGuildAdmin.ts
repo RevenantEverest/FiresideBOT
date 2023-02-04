@@ -18,7 +18,7 @@ async function isGuildAdmin(req: Request, res: Response, next: NextFunction) {
     }
 
     if(!hasPermission) {
-        return errors.sendResponse({ res, status: 403, message: "Unauthorized" });
+        return errors.sendResponse({ res, status: 403, message: "You're missing permissions" });
     }
 
     next();

@@ -9,12 +9,12 @@ const validationMiddleware = [validation.guildId, validation.id];
 router.route("/roles")
 .get(extractPaginationParams, guildPlaylistRolesController.index)
 
-router.route("/:guildId/id/:id/roles")
+router.route("/guild_id/:guildId/id/:playlistId/roles")
 .get(extractPaginationParams, validationMiddleware, permissions.isGuildMember, guildPlaylistRolesController.getByGuildIdAndPlaylistId)
 .post(validationMiddleware, permissions.isGuildAdmin, guildPlaylistRolesController.create)
 
-router.route("/:guildId/id/:playlistId/roles/id/:id")
-.get(validationMiddleware, permissions.isGuildMember, guildPlaylistRolesController.getOne)
-.delete(validationMiddleware, permissions.isGuildAdmin, guildPlaylistRolesController.destroy)
+router.route("/guild_id/:guildId/id/:playlistId/roles/id/:roleId")
+.get(validationMiddleware, validation.roleId, permissions.isGuildMember, guildPlaylistRolesController.getOne)
+.delete(validationMiddleware, validation.roleId, permissions.isGuildAdmin, guildPlaylistRolesController.destroy)
 
 export default router;

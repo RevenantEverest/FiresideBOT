@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandParams, CommandConfigParams } from '../../../types/commands.js';
+import { CommandParams, CommandConfig } from '../../../types/commands.js';
 
 async function Clear({ dispatch, server }: CommandParams) {
     server.queue.info = [];
@@ -7,8 +7,9 @@ async function Clear({ dispatch, server }: CommandParams) {
     return dispatch.reply("Queue cleared");
 };
 
-export const config: CommandConfigParams = {
+export const config: CommandConfig = {
     aliases: [],
+    permissions: [],
     description: "Clears the current queue",
     example: "clear"
 };

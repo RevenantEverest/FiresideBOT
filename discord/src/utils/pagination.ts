@@ -29,7 +29,7 @@ export function getPageIndex(paginationURL: string | null): number | null {
     return parseInt(pageIndexStr, 10);
 };
 
-export function generateBasicPagiationOptions<T>(paginatedRes: ApiPaginatedResponse<T>): PartialApiPaginationOptions<T> {
+export function generateBasicPaginationOptions<T>(paginatedRes: ApiPaginatedResponse<T>): PartialApiPaginationOptions<T> {
     const hasMore = Boolean(paginatedRes.next);
     const data = arrays.generatedFixedArray<T>(paginatedRes.count, paginatedRes.results);
     const count = paginatedRes.count;
@@ -44,7 +44,7 @@ export function formatGetPageResponse<T>({ page, data, paginatedRes, generatePag
     const spliceStartIndex = Math.ceil(maxDataFromPage - DEFAULTS.API_PAGINATION.LIMIT);
     paginatedRes.results = arrays.replaceElements(data, spliceStartIndex, paginatedRes.results);
 
-    const partialOptions = generateBasicPagiationOptions<T>(paginatedRes);
+    const partialOptions = generateBasicPaginationOptions<T>(paginatedRes);
 
     return {
         ...partialOptions,

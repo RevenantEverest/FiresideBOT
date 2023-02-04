@@ -8,6 +8,7 @@ services:
       dockerfile: ./docker/test/Dockerfile
     depends_on:
       - testing_db
+    profiles: ['api', 'backend']
     volumes:
       - ./api:/app
       - /app/node_modules
@@ -16,9 +17,7 @@ services:
     stdin_open: true
     build:
       dockerfile: ./docker/test/Dockerfile
-    depends_on:
-      - testing_db
-      - api
+    profiles: ['discord', 'backend']
     volumes:
       - ./discord:/app
       - /app/node_modules
@@ -31,5 +30,6 @@ services:
       - POSTGRES_DB=${DB_NAME}
     ports:
       - 5678:5432
+    profiles: ['api', 'db', 'backend']
     volumes:
       - ./postgres_testing_data:/var/lib/postgresql/data

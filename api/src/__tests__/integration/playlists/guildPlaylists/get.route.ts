@@ -7,7 +7,7 @@ import { GuildPlaylistExtraParams } from '../../../support/types/extraParams/ind
 function getRoute(baseEndpoint: string, app: Application, authPayload: AuthTestingPayload, extraParams: GuildPlaylistExtraParams) {
     describe("given the user is not logged in", () => {
         it("should return a 403 status", async () => {
-            const endpoint = `${baseEndpoint}/${extraParams.guildId}`;
+            const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}`;
             await supertest(app)
             .get(endpoint)
             .expect(403)
@@ -21,7 +21,7 @@ function getRoute(baseEndpoint: string, app: Application, authPayload: AuthTesti
                     extraParams.mocks.hasPermission(true);
                     extraParams.mocks.isGuildMember(true);
 
-                    const endpoint = `${baseEndpoint}/${extraParams.guildId}/id/887263`;
+                    const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}/id/887263`;
                     await supertest(app)
                     .get(endpoint)
                     .set(authPayload.header)
@@ -35,7 +35,7 @@ function getRoute(baseEndpoint: string, app: Application, authPayload: AuthTesti
                     extraParams.mocks.hasPermission(true);
                     extraParams.mocks.isGuildMember(true);
 
-                    const endpoint = `${baseEndpoint}/${extraParams.guildId}/id/${extraParams.createdPlaylist?.id}`;
+                    const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}/id/${extraParams.createdPlaylist?.id}`;
                     const { body, statusCode } = await supertest(app)
                     .get(endpoint)
                     .set(authPayload.header)
@@ -66,7 +66,7 @@ function getRoute(baseEndpoint: string, app: Application, authPayload: AuthTesti
                 extraParams.mocks.hasPermission(true);
                 extraParams.mocks.isGuildMember(true);
 
-                const endpoint = `${baseEndpoint}/${extraParams.guildId}`;
+                const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}`;
                 const { body, statusCode } = await supertest(app)
                 .get(endpoint)
                 .set(authPayload.header)
@@ -81,6 +81,8 @@ function getRoute(baseEndpoint: string, app: Application, authPayload: AuthTesti
                 expect(results[0].id).not.toBeNull();
                 expect(results[0].created_at).not.toBeNull();
                 expect(results[0].updated_at).not.toBeNull();
+                expect(results[0].duration).not.toBeNull();
+                expect(results[0].songCount).not.toBeNull();
 
                 expect(body).toEqual({
                     count: body.count,
@@ -91,8 +93,50 @@ function getRoute(baseEndpoint: string, app: Application, authPayload: AuthTesti
                         guild_id: extraParams.guildId,
                         name: extraParams.createdPlaylist?.name,
                         created_at: extraParams.createdPlaylist?.created_at,
-                        updated_at: results[0].updated_at
+                        updated_at: results[0].updated_at,
+                        duration: results[0].duration,
+                        songCount: results[0].duration
                     }]
+                });
+            });
+        });
+
+        describe("given the guild id and playlist name as a param", () => {
+            describe("given the playlist name doesn't exist", () => {
+                it("should return a 404 status", async () => {
+                    const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}/name/asdfasdfasdfasdf`;
+                    await supertest(app)
+                    .get(endpoint)
+                    .set(authPayload.header)
+                    .expect(404)
+                });
+            });
+
+            describe("given the playlist name does exist", () => {
+                it("should return a 200 status and the playlist", async () => {
+                    const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}/name/${extraParams.createdPlaylist?.name}`;
+                    const { body, statusCode } = await supertest(app)
+                    .get(endpoint)
+                    .set(authPayload.header)
+                    .send()
+
+                    expect(statusCode).toBe(200);
+
+                    const { results } = body;
+
+                    expect(results.id).not.toBeNull();
+                    expect(results.created_at).not.toBeNull();
+                    expect(results.updated_at).not.toBeNull();
+
+                    expect(results).toEqual({
+                        id: extraParams.createdPlaylist?.id,
+                        guild_id: extraParams.guildId,
+                        name: extraParams.createdPlaylist?.name,
+                        created_at: extraParams.createdPlaylist?.created_at,
+                        updated_at: results.updated_at,
+                        duration: results.duration,
+                        songCount: results.songCount
+                    });
                 });
             });
         });

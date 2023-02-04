@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 
-import { CommandParams, CommandConfigParams } from '../../../types/commands.js';
+import { CommandParams, CommandConfig } from '../../../types/commands.js';
 
 import { ERROR_MESSAGES } from '../../../constants/index.js';
 
@@ -35,8 +35,9 @@ async function Promote({ args, dispatch, server }: CommandParams) {
     return dispatch.reply(`**${queueElement.title}** was promoted to next in queue`);
 };
 
-export const config: CommandConfigParams = {
+export const config: CommandConfig = {
     aliases: [],
+    permissions: [],
     description: "Promotes a song in queue to be the next played",
     example: "promote 8"
 };

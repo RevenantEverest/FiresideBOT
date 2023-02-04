@@ -7,6 +7,9 @@ export const API_PAGINATION = {
 };
 export const PAGINATED_EMBED_TIME = 5;
 export const VOLUME = 50;
+export const DEFAULT_PLAYLISTS = {
+    LIKED_SONGS: "LikedSongs"
+};
 
 export async function generateDefaultServer(guildId: GuildResolvable, guildSettings: GuildSettings) {
     config.servers.push({

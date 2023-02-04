@@ -22,7 +22,7 @@ function postRoute(baseEndpoint: string, app: Application, authPayload: AuthTest
                     extraParams.mocks.hasPermission(true);
                     extraParams.mocks.isGuildMember(true);
 
-                    const endpoint = `${baseEndpoint}/${extraParams.guildId}`;
+                    const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}`;
                     await supertest(app)
                     .post(endpoint)
                     .set(authPayload.header)
@@ -37,7 +37,7 @@ function postRoute(baseEndpoint: string, app: Application, authPayload: AuthTest
                         extraParams.mocks.hasPermission(true);
                         extraParams.mocks.isGuildMember(true);
 
-                        const endpoint = `${baseEndpoint}/${extraParams.guildId}`;
+                        const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}`;
                         const { body, statusCode } = await supertest(app)
                         .post(endpoint)
                         .set(authPayload.header)
@@ -69,7 +69,7 @@ function postRoute(baseEndpoint: string, app: Application, authPayload: AuthTest
                         extraParams.mocks.hasPermission(true);
                         extraParams.mocks.isGuildMember(true);
 
-                        const endpoint = `${baseEndpoint}/${extraParams.guildId}`;
+                        const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}`;
                         await supertest(app)
                         .post(endpoint)
                         .set(authPayload.header)
@@ -85,7 +85,7 @@ function postRoute(baseEndpoint: string, app: Application, authPayload: AuthTest
                 extraParams.mocks.hasPermission(false);
                 extraParams.mocks.isGuildMember(true);
 
-                const endpoint = `${baseEndpoint}/${extraParams.guildId}`;
+                const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}`;
                 await supertest(app)
                 .post(endpoint)
                 .set(authPayload.header)
@@ -99,7 +99,7 @@ function postRoute(baseEndpoint: string, app: Application, authPayload: AuthTest
                 extraParams.mocks.hasPermission(false);
                 extraParams.mocks.isGuildMember(false);
 
-                const endpoint = `${baseEndpoint}/${extraParams.guildId}`;
+                const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}`;
                 await supertest(app)
                 .post(endpoint)
                 .set(authPayload.header)

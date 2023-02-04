@@ -1,4 +1,13 @@
-import { Client, Guild, GuildMember, User, TextBasedChannel, GuildResolvable, Message } from 'discord.js';
+import { 
+    Client, 
+    Guild, 
+    GuildMember, 
+    User, 
+    TextBasedChannel, 
+    GuildResolvable, 
+    Message,
+    PermissionString
+} from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 
 import { GuildSettings } from './entities/GuildSettings.js';
@@ -6,6 +15,7 @@ import { Server } from './server.js';
 import { UserState } from './user.js';
 import { GuildMessage } from './message.js';
 import { GuildInteraction } from './interaction.js';
+import { Flag } from './flags.js';
 
 export interface CommandDispatch {
     guildId: GuildResolvable,
@@ -31,28 +41,32 @@ export interface CommandParams {
     server: Server,
     options: CommandOptions,
     userState: UserState,
-    guildSettings: GuildSettings
+    guildSettings: GuildSettings,
+    commandFile: CommandFile
 };
 
 export interface CommandConfigParams {
-
+    name: string,
+    description: string,
+    isRequired: boolean
 };
 
-export interface CommandConfigParams {
+export interface CommandConfig {
     aliases: string[],
-    flags?: string[],
-    params?: CommandConfigParams,
+    flags?: Flag[],
+    params?: CommandConfigParams[],
+    permissions: PermissionString[],
     description: string,
     example: string,
-}
+};
 
-export interface CommandConfig extends CommandConfigParams {
+export interface Command extends CommandConfig {
     name: string,
     displayName: string,
     category: string
 };
 
-export interface CommandFile extends CommandConfig {
+export interface CommandFile extends Command {
     slashCommand?: SlashCommandBuilder,
     run: Function
 };

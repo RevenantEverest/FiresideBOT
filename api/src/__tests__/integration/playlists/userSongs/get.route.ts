@@ -2,9 +2,12 @@ import supertest from 'supertest';
 import { Application } from 'express';
 
 import * as PAYLOADS from '../../../support/payloads/userSongs.payloads.js';
+import * as AUTH_PAYLOADS from '../../../support/payloads/auth.payloads.js';
 
 import { AuthTestingPayload } from '../../../support/types/auth.js';
 import { UserSongExtraParams } from '../../../support/types/extraParams/index.js';
+
+import issueToken from '../../../support/login.support.js';
 
 function getRoute(baseEndpoint: string, app: Application, authPayload: AuthTestingPayload, extraParams: UserSongExtraParams) {
     describe("given the user is not logged in", () => {
@@ -55,7 +58,12 @@ function getRoute(baseEndpoint: string, app: Application, authPayload: AuthTesti
                     });
                 });
             });
+        });
 
+        describe("given the authenticated user is the playlist owner", () => {
+            /*
+                Since the authed user is the playlist owner is_public doesn't apply
+            */
             it("should return paginated songs", async () => {
                 const playlistId = PAYLOADS.VALID_CREATE.playlist_id;
                 const endpoint = `${baseEndpoint}/id/${playlistId}/songs`;
@@ -63,16 +71,16 @@ function getRoute(baseEndpoint: string, app: Application, authPayload: AuthTesti
                 .get(endpoint)
                 .set(authPayload.header)
                 .send()
-
+    
                 expect(statusCode).toBe(200);
                 expect(body.results).not.toBeNull();
-
+    
                 const { results } = body;
-
+    
                 expect(body.count).not.toBeNull();
                 expect(results[0].id).not.toBeNull();
                 expect(results[0].created_at).not.toBeNull();
-
+    
                 expect(results[0]).toEqual({
                     id: extraParams.createdSong?.id,
                     title: extraParams.createdSong?.title,
@@ -82,6 +90,82 @@ function getRoute(baseEndpoint: string, app: Application, authPayload: AuthTesti
                     thumbnail_url: extraParams.createdSong?.thumbnail_url,
                     created_at: extraParams.createdSong?.created_at
                 });
+            });
+        });
+
+        describe("given the authenticated user is not the playlist owner", () => {
+            describe("given the playlist is private", () => {
+                it("should return a 404 status", async () => {
+                    
+
+                    const playlistId = PAYLOADS.VALID_CREATE.playlist_id;
+                    const endpoint = `${baseEndpoint}/id/${playlistId}/songs`;
+                    
+                    const nonOwnerAuth: AuthTestingPayload = issueToken(AUTH_PAYLOADS.ALT);
+
+                    await supertest(app)
+                    .get(endpoint)
+                    .set(nonOwnerAuth.header)
+                    .expect(400)
+                });
+            });
+
+            describe("given the playlist is public", () => {
+                it("should return paginated songs", async () => {
+                    const playlistId = PAYLOADS.VALID_CREATE.playlist_id;
+                    const endpoint = `${baseEndpoint}/id/${playlistId}/songs`;
+                    const { body, statusCode } = await supertest(app)
+                    .get(endpoint)
+                    .set(authPayload.header)
+                    .send()
+
+                    expect(statusCode).toBe(200);
+                    expect(body.results).not.toBeNull();
+
+                    const { results } = body;
+
+                    expect(body.count).not.toBeNull();
+                    expect(results[0].id).not.toBeNull();
+                    expect(results[0].created_at).not.toBeNull();
+
+                    expect(results[0]).toEqual({
+                        id: extraParams.createdSong?.id,
+                        title: extraParams.createdSong?.title,
+                        author: extraParams.createdSong?.author,
+                        video_id: extraParams.createdSong?.video_id,
+                        duration: extraParams.createdSong?.duration,
+                        thumbnail_url: extraParams.createdSong?.thumbnail_url,
+                        created_at: extraParams.createdSong?.created_at
+                    });
+                });
+            });
+        });
+
+        it("should return paginated songs", async () => {
+            const playlistId = PAYLOADS.VALID_CREATE.playlist_id;
+            const endpoint = `${baseEndpoint}/id/${playlistId}/songs`;
+            const { body, statusCode } = await supertest(app)
+            .get(endpoint)
+            .set(authPayload.header)
+            .send()
+
+            expect(statusCode).toBe(200);
+            expect(body.results).not.toBeNull();
+
+            const { results } = body;
+
+            expect(body.count).not.toBeNull();
+            expect(results[0].id).not.toBeNull();
+            expect(results[0].created_at).not.toBeNull();
+
+            expect(results[0]).toEqual({
+                id: extraParams.createdSong?.id,
+                title: extraParams.createdSong?.title,
+                author: extraParams.createdSong?.author,
+                video_id: extraParams.createdSong?.video_id,
+                duration: extraParams.createdSong?.duration,
+                thumbnail_url: extraParams.createdSong?.thumbnail_url,
+                created_at: extraParams.createdSong?.created_at
             });
         });
     });

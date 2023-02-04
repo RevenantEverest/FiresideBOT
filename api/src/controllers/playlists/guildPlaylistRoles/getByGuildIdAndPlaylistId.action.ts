@@ -8,13 +8,13 @@ import { errors, entities, pagination } from '../../../utils/index.js';
 
 async function getByGuildIdAndPlaylistId(req: Request, res: Response, next: NextFunction) {
 
-    const { guildId, id } = res.locals.params;
+    const { guildId, playlistId } = res.locals.params;
     const { limit, offset } = res.locals;
 
     const findOptions: FindOneOptions<GuildPlaylistRole> = {
         where: {
             playlist: {
-                id: id,
+                id: playlistId,
                 guild_id: guildId
             }
         }

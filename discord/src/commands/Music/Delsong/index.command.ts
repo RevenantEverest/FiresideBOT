@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandParams, CommandConfigParams } from '../../../types/commands.js';
+import { CommandParams, CommandConfig } from '../../../types/commands.js';
 
 import { ERROR_MESSAGES } from '../../../constants/index.js';
 
@@ -33,8 +33,9 @@ async function Delsong({ args, dispatch, server }: CommandParams) {
     return dispatch.reply(`**${queueElement.title}** was removed from the queue`);
 };
 
-export const config: CommandConfigParams = {
+export const config: CommandConfig = {
     aliases: [],
+    permissions: [],
     description: "Deletes a song from the music queue",
     example: "delsong 1"
 };

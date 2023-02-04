@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 
-import { CommandParams, CommandConfigParams } from '../../../types/commands.js';
+import { CommandParams, CommandConfig } from '../../../types/commands.js';
 
 import { ERROR_MESSAGES } from '../../../constants/index.js';
 
@@ -12,8 +12,9 @@ async function NowPlaying({ dispatch, server }: CommandParams) {
     return dispatch.reply({ embeds: [server.queue.currentSongEmbed] });
 };
 
-export const config: CommandConfigParams = {
+export const config: CommandConfig = {
     aliases: ["np"],
+    permissions: [],
     description: "Displays the current song embed",
     example: "nowplaying"
 };

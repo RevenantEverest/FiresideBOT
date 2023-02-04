@@ -1,9 +1,8 @@
 import Discord, { 
     Message, 
     MessageEmbed, 
-    MessageEmbedOptions, 
     MessageEmbedAuthor, 
-    ColorResolvable 
+    ColorResolvable
 } from 'discord.js';
 
 import { CommandDispatch } from '../types/commands.js';
@@ -19,12 +18,12 @@ import * as reactions from './reactions.js';
 type SetFieldElement<T> = (element: T, index: number, startIndex: number, endIndex: number) => string;
 type SetTitleElement = (index: number, startIndex: number, endIndex: number) =>  string;
 
-interface GeneratePaginatedEmbedPagesParams<T> {
+interface PaginatedEmbedPageOptions<T> {
     title?: string | SetTitleElement,
     description?: string,
     author?: MessageEmbedAuthor,
-    thumbnail?: string,
     color: ColorResolvable,
+    thumbnail?: string, 
     data: T[],
     amountPerPage: number,
     setFieldName: SetFieldElement<T>,
@@ -36,8 +35,22 @@ interface GeneratePaginatedEmbedPagesOptions {
     blankFieldAfterDescription?: boolean
 };
 
-export function generatePaginatedEmbedPages<T>({ title, description, author, color, data, amountPerPage, setFieldName, setFieldValue, options }: GeneratePaginatedEmbedPagesParams<T>): PaginatedEmbedPage[] {
+export function generatePaginatedEmbedPages<T>({ title, description, author, thumbnail, color, data, amountPerPage, setFieldName, setFieldValue, options }: PaginatedEmbedPageOptions<T>): PaginatedEmbedPage[] {
     const pages: PaginatedEmbedPage[] = [];
+
+    if(data.length < 1) {
+        pages.push({
+            title: typeof title === "function" ? title(0, 0, 0) : title,
+            description,
+            author,
+            thumbnail,
+            color,
+            content: {
+                fields: []
+            }
+        })
+    }
+
     for(let i = 0; i < Math.ceil(data.length / amountPerPage); i++) {
         const startIndex = ((i + 1) * amountPerPage) - amountPerPage;
         const endIndex = ((i + 1) * amountPerPage);
@@ -50,23 +63,35 @@ export function generatePaginatedEmbedPages<T>({ title, description, author, col
         });
 
         if(options?.blankFieldAfterDescription) {
-            console.log("Adding blank field...");
             fields.splice(0, 0, { name: "\u200b", value: "\u200b" });
         }
 
-        pages.push({
+        const newPage = {
             title: typeof title === "function" ? title(i, startIndex, endIndex) : title,
             description,
             author,
+            thumbnail,
             color,
             content: {
                 fields
             }
-        })
+        };
+
+        if(thumbnail) {
+            newPage.thumbnail = thumbnail;
+        }
+
+        pages.push(newPage);
     };
+
     return pages;
 };
 
+/**
+ * Creates and sends an embed to the text channel the command was used in containing the current song info
+ * @param dispatch CommandDispatch
+ * @param server Server
+ */
 export function createCurrentSongEmbed(dispatch: CommandDispatch, server: Server) {
     const currentSong = server.queue.info[0];
     const embed = new Discord.MessageEmbed({
@@ -85,7 +110,9 @@ export function createCurrentSongEmbed(dispatch: CommandDispatch, server: Server
     });
 
     server.queue.currentSongEmbed = embed;
-    dispatch.channel.send({ embeds: [embed] });
+    dispatch.channel.send({ embeds: [embed] })
+    .then(msg => reactions.likeSong(server, dispatch, msg))
+    .catch(err => console.error(err));
 };
 
 export function generateEmbed<T>(index: number, paginatedEmbed: PaginatedEmbed, paginationOptions?: ApiPaginationOptions<T>): MessageEmbed {

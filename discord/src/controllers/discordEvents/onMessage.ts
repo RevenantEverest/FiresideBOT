@@ -4,6 +4,7 @@ import { GuildMessage } from '../../types/message.js';
 
 import * as api from '../../api/index.js';
 
+import { ERROR_MESSAGES } from '../../constants/index.js';
 import { logs, colors, commands } from '../../utils/index.js';
 import * as dispatchUtils from '../../utils/dispatch.js';
 
@@ -18,8 +19,8 @@ async function onMessage(bot: Client, message: Message) {
         guild: message.guild,
         message,
         channel: message.channel as TextBasedChannel,
-        reply: async (content: ReplyMessageOptions, deferredReply?: boolean) => {
-            return dispatchUtils.sendReply(dispatch, content, deferredReply);
+        reply: async (content: ReplyMessageOptions) => {
+            return dispatchUtils.sendReply(dispatch, content);
         }
     };
 
@@ -42,32 +43,38 @@ async function onMessage(bot: Client, message: Message) {
     
     const { server, commandFile, options } = await commands.getOptions({
         guildId: dispatch.guildId,
-        commandResolvable: args[0],
+        commandResolvable: args[0].toLowerCase(),
         guildSettings
     });
 
     const disabledCommands = null;
     const userState = {
-        premium: true
+        premium: false
     };
 
     if(!commandFile) {
         return;
     }
-
-    args.splice(0, 1); // Remove Command Name From Args
     
     const params: CommandParams = {
         PREFIX, 
         bot, 
         dispatch, 
         message: message as GuildMessage,
-        args, 
+        args: args.slice(1, args.length), 
         server, 
         options, 
         userState, 
-        guildSettings
+        guildSettings,
+        commandFile
     };
+
+    const hasPermission = commands.hasPermissions(dispatch, args, commandFile);
+
+    if(!hasPermission) {
+        return dispatch.reply(ERROR_MESSAGES.MISSING_PERMISSIONS);
+    }
+
     commandFile.run(params);
 };
 

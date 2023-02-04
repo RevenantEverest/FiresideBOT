@@ -1,38 +1,37 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandParams, CommandConfigParams } from '../../../types/commands.js';
+import { CommandParams, CommandConfig } from '../../../types/commands.js';
 
 import { apiServices } from '../../../services/index.js';
 import { promises, errors } from '../../../utils/index.js';
 
-async function DadJoke({ bot, dispatch }: CommandParams) {
+async function DadJoke({ dispatch, commandFile }: CommandParams) {
 
     const promise = apiServices.getDadJoke();
     const [res, err] = await promises.handle(promise);
 
     if(err) {
         return errors.command({
-            bot, 
             dispatch,
             err,
             errMessage: "API Error - " + err.message,
-            commandName: "DadJoke"
+            commandName: commandFile.displayName
         });
     }
 
     if(!res) {
         return errors.command({
-            bot, 
             dispatch,
             errMessage: "No data returned from API",
-            commandName: "DadJoke"
+            commandName: commandFile.displayName
         });
     }
 
     return dispatch.reply(res.data.joke);
 };
 
-export const config: CommandConfigParams = {
+export const config: CommandConfig = {
     aliases: ["dj"],
+    permissions: [],
     description: "Returns a random Dad Joke",
     example: "dadjoke"
 };

@@ -17,14 +17,19 @@ import { URLS } from '../constants/index.js';
 import * as embeds from './embeds.js';
 import * as queue from './queue.js';
 
+type BufferingTimeout = NodeJS.Timeout | null;
+
 export async function stream(bot: Client, dispatch: CommandDispatch, server: Server) {
     if(!server.queue.connection) return;
 
     try {
+        let bufferingTimer: BufferingTimeout = null;
+
         const connection = server.queue.connection;
         const resource = await createResource(server);        
-        const player = createAudioPlayer();
+        const player = server.queue.player ?? createAudioPlayer();
 
+        server.queue.currentSongInfo = server.queue.info[0];
         server.queue.resource = resource;
         server.queue.player = player;
 
@@ -32,6 +37,7 @@ export async function stream(bot: Client, dispatch: CommandDispatch, server: Ser
         player.play(resource);
 
         embeds.createCurrentSongEmbed(dispatch, server);
+        server.queue.info.shift();
 
         player.on(AudioPlayerStatus.Idle, () => {
             if(!server.queue.playing) return;
@@ -40,20 +46,24 @@ export async function stream(bot: Client, dispatch: CommandDispatch, server: Ser
         });
 
         player.on(AudioPlayerStatus.Playing, () => {
+            if(bufferingTimer) {
+                clearTimeout(bufferingTimer);
+            }
+
             server.queue.playing = true;
-            server.queue.info.shift();
             if(server.queue.disconnectTimer) {
                 queue.handleDisconnectTimer(server, dispatch);
             }
         });
 
         player.on(AudioPlayerStatus.Buffering, () => {
-            dispatch.channel.send("Buffering...");
+            bufferingTimer = setTimeout(() => {
+                dispatch.channel.send('Buffering...');
+            }, 2000);
         });
 
         player.on("error", (err: AudioPlayerError) => {
             server.queue.playing = false;
-            console.log(err); 
         });
 
         await entersState(player, AudioPlayerStatus.Playing, 5e3);

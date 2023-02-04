@@ -1,12 +1,9 @@
-import Discord, { Client, MessageEmbedAuthor } from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandParams, CommandConfigParams, CommandFile, CommandDispatch } from '../../../types/commands.js';
-import { PaginatedEmbed, PaginatedEmbedPage } from '../../../types/embeds.js';
+import { CommandParams, CommandConfig } from '../../../types/commands.js';
 
 import sendFullHelpList from './sendFullHelpList/index.js';
 
 import botConfig from '../../../config/index.js';
-import { colors, embeds } from '../../../utils/index.js';
 import sendCommandCategoryList from './sendCommandCategoryList/index.js';
 import sendSingleCommand from './sendSingleCommand/index.js';
 
@@ -42,8 +39,9 @@ async function Help({ PREFIX, bot, dispatch, args }: CommandParams) {
     }
 };
 
-export const config: CommandConfigParams = {
+export const config: CommandConfig = {
     aliases: [],
+    permissions: [],
     description: "Displays a navigatable embed that displays all Fireside commands. If given a command, command alias or category, displays that respective information",
     example: "help Admin"
 };

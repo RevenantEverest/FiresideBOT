@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandParams, CommandConfigParams } from '../../../types/commands.js';
+import { CommandParams, CommandConfig } from '../../../types/commands.js';
 import { Fortune } from '../../../types/entities/Fortune.js';
 
 import * as api from '../../../api/index.js';
@@ -7,7 +7,7 @@ import * as api from '../../../api/index.js';
 import { DEFAULTS, ERROR_MESSAGES } from '../../../constants/index.js';
 import { arrays, common, errors } from '../../../utils/index.js';
 
-async function EightBall({ bot, args, dispatch }: CommandParams) {
+async function EightBall({ args, dispatch, commandFile }: CommandParams) {
     if(!dispatch.interaction && !args[0]) {
         return dispatch.reply(ERROR_MESSAGES.COMMANDS.EIGHT_BALL.NO_ARGS);
     }
@@ -18,11 +18,10 @@ async function EightBall({ bot, args, dispatch }: CommandParams) {
 
     if(apiFortunesErr) {
         return errors.command({ 
-            bot, 
             dispatch, 
             err: apiFortunesErr, 
             errMessage: apiFortunesErr.message, 
-            commandName: "EightBall" 
+            commandName: commandFile.displayName
         });
     }
 
@@ -41,11 +40,10 @@ async function EightBall({ bot, args, dispatch }: CommandParams) {
 
         if(err) {
             return errors.command({ 
-                bot, 
                 dispatch, 
                 err, 
                 errMessage: err.message, 
-                commandName: "EightBall" 
+                commandName: commandFile.displayName
             });
         }
 
@@ -65,8 +63,9 @@ async function EightBall({ bot, args, dispatch }: CommandParams) {
     return await dispatch.reply(fortunes[RNG]);
 };
 
-export const config: CommandConfigParams = {
+export const config: CommandConfig = {
     aliases: ["8ball", "fortune"],
+    permissions: [],
     description: "Returns a Yes or No style response",
     example: ""
 };

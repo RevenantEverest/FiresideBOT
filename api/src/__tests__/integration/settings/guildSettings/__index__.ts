@@ -22,6 +22,7 @@ const baseEndpoint = "/settings/guild";
 
 const extraParams: GuildSettingsExtraParams = {
     guildId: DISCORD.TESTING_SERVER_ID,
+    altGuildId: DISCORD.ALT_TESTING_SERVER_ID,
     mocks: {
         hasPermission: (value: boolean) => {
             const spy = jest.spyOn(discord, "checkMemberPermissions");

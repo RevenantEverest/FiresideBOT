@@ -10,7 +10,7 @@ function postRoute(baseEndpoint: string, app: Application, authPayload: AuthTest
     describe("given the user is not logged in", () => {
         it("should return a 401 status", async () => {
             await supertest(app)
-            .post(`${baseEndpoint}/${extraParams.guildId}/id/1/songs`)
+            .post(`${baseEndpoint}/guild_id/${extraParams.guildId}/id/1/songs`)
             .expect(403)
         });
     });
@@ -21,7 +21,7 @@ function postRoute(baseEndpoint: string, app: Application, authPayload: AuthTest
                 extraParams.mocks.hasPermission(true);
                 
                 await supertest(app)
-                .post(`${baseEndpoint}/${extraParams.guildId}/id/12349/songs`)
+                .post(`${baseEndpoint}/guild_id/${extraParams.guildId}/id/12349/songs`)
                 .set(authPayload.header)
                 .send(PAYLOADS.INVALID)
                 .expect(404)
@@ -34,7 +34,7 @@ function postRoute(baseEndpoint: string, app: Application, authPayload: AuthTest
                 extraParams.mocks.hasRole(false);
 
                 await supertest(app)
-                .post(`${baseEndpoint}/${extraParams.guildId}/id/1/songs`)
+                .post(`${baseEndpoint}/guild_id/${extraParams.guildId}/id/1/songs`)
                 .set(authPayload.header)
                 .send(PAYLOADS.VALID_CREATE)
                 .expect(401)
@@ -48,7 +48,7 @@ function postRoute(baseEndpoint: string, app: Application, authPayload: AuthTest
                 extraParams.mocks.handleSearch(PAYLOADS.MOCK_RETURN);
                 
                 const { body, statusCode } = await supertest(app)
-                .post(`${baseEndpoint}/${extraParams.guildId}/id/1/songs`)
+                .post(`${baseEndpoint}/guild_id/${extraParams.guildId}/id/1/songs`)
                 .set(authPayload.header)
                 .send(PAYLOADS.VALID_CREATE)
 
@@ -83,7 +83,7 @@ function postRoute(baseEndpoint: string, app: Application, authPayload: AuthTest
                 extraParams.mocks.handleSearch(PAYLOADS.MOCK_RETURN);
 
                 await supertest(app)
-                .post(`${baseEndpoint}/${extraParams.guildId}/id/1/songs`)
+                .post(`${baseEndpoint}/guild_id/${extraParams.guildId}/id/1/songs`)
                 .set(authPayload.header)
                 .send(PAYLOADS.VALID_CREATE)
                 .expect(400)
@@ -97,7 +97,7 @@ function postRoute(baseEndpoint: string, app: Application, authPayload: AuthTest
                     extraParams.mocks.handleSearch(PAYLOADS.INVALID_NON_PREMIUM_MOCK_RETURN);
                 
                     await supertest(app)
-                    .post(`${baseEndpoint}/${extraParams.guildId}/id/1/songs`)
+                    .post(`${baseEndpoint}/guild_id/${extraParams.guildId}/id/1/songs`)
                     .set(authPayload.header)
                     .send(PAYLOADS.VALID_CREATE)
                     .expect(400)
@@ -110,7 +110,7 @@ function postRoute(baseEndpoint: string, app: Application, authPayload: AuthTest
                     extraParams.mocks.handleSearch(PAYLOADS.VALID_NON_PREMIUM_MOCK_RETURN);
 
                     await supertest(app)
-                    .post(`${baseEndpoint}/${extraParams.guildId}/id/1/songs`)
+                    .post(`${baseEndpoint}/guild_id/${extraParams.guildId}/id/1/songs`)
                     .set(authPayload.header)
                     .send(PAYLOADS.VALID_CREATE)
                     .expect(200)

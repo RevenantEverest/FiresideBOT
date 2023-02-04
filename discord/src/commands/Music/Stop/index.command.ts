@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 
-import { CommandParams, CommandConfigParams } from '../../../types/commands.js';
+import { CommandParams, CommandConfig } from '../../../types/commands.js';
 
 import { ERROR_MESSAGES } from '../../../constants/index.js';
 
@@ -22,8 +22,9 @@ async function Stop({ dispatch, server }: CommandParams) {
     return dispatch.reply("Bye, thanks for listening!");
 };
 
-export const config: CommandConfigParams = {
+export const config: CommandConfig = {
     aliases: ["quit"],
+    permissions: [],
     description: "Stops playing music, clears queue and leaves voice channel",
     example: "stop"
 };

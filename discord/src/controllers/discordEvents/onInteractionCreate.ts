@@ -4,11 +4,15 @@ import { CommandParams, CommandDispatch } from '../../types/commands.js';
 
 import * as api from '../../api/index.js';
 
+import { ERROR_MESSAGES } from '../../constants/index.js';
 import { colors, logs, promises, commands } from '../../utils/index.js';
 import * as dispatchUtils from '../../utils/dispatch.js';
 
 async function onInteractionCreate(bot: Client, interaction: Interaction) {
     if(!interaction.isCommand() || !interaction.inGuild()) return;
+
+    /* Defer reply on event fire to prevent 3s timeout fatal error */
+    await interaction.deferReply();
 
     const [guild, guildErr] = await promises.handle(bot.guilds.fetch(interaction.guildId));
 
@@ -75,8 +79,8 @@ async function onInteractionCreate(bot: Client, interaction: Interaction) {
         member: guildMember,
         interaction,
         channel: channel as TextBasedChannel,
-        reply: async (content: InteractionReplyOptions, deferredReply?: boolean) => {
-            return dispatchUtils.sendReply(dispatch, content, deferredReply);
+        reply: async (content: InteractionReplyOptions) => {
+            return dispatchUtils.sendReply(dispatch, content);
         }
     };
 
@@ -115,6 +119,12 @@ async function onInteractionCreate(bot: Client, interaction: Interaction) {
     if(!commandFile) {
         return;
     }
+
+    const hasPermission = commands.hasPermissions(dispatch, [], commandFile);
+
+    if(!hasPermission) {
+        return dispatch.reply(ERROR_MESSAGES.MISSING_PERMISSIONS);
+    }
     
     const params: CommandParams = {
         PREFIX, 
@@ -124,7 +134,8 @@ async function onInteractionCreate(bot: Client, interaction: Interaction) {
         server, 
         options, 
         userState, 
-        guildSettings
+        guildSettings,
+        commandFile
     };
     commandFile.run(params);
 };

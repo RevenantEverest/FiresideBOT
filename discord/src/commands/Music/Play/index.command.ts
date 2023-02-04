@@ -1,12 +1,12 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 
-import { CommandParams, CommandConfigParams } from '../../../types/commands.js';
+import { CommandParams, CommandConfig } from '../../../types/commands.js';
 import { SongInfo } from '../../../types/youtube.js';
 
 import { ERROR_MESSAGES, PREMIUM_LIMITS } from '../../../constants/index.js';
-import { youtube, errors, voiceConnection } from '../../../utils/index.js';
+import { songRequests, errors, voiceConnection } from '../../../utils/index.js';
 
-async function Play({ bot, args, dispatch, server, options, userState }: CommandParams) {
+async function Play({ bot, args, dispatch, server, options, userState, commandFile }: CommandParams) {
     if(!dispatch.interaction && !args[0]) {
         return dispatch.reply(ERROR_MESSAGES.COMMANDS.PLAY.NO_ARGS);
     }
@@ -19,41 +19,23 @@ async function Play({ bot, args, dispatch, server, options, userState }: Command
         return dispatch.reply(ERROR_MESSAGES.UPDATE_PENDING);
     }
 
-    if(dispatch.interaction) {
-        dispatch.interaction.deferReply();
-    }
-
     let request = dispatch.interaction?.options.getString("request") || args.join(" ");
-    const isLink: boolean = await youtube.isValidLink(args[0] || request);
-
-    if(isLink) {
-        const videoId = await youtube.extractVideoId(request);
-
-        if(!videoId) {
-            return dispatch.reply("No Video ID", true);
-        }
-
-        request = videoId;        
-    }
-
-    const [youtubeSearchRes, youtubeSearchErr] = await youtube.handleSearch(request, isLink);
+    const [youtubeSearchRes, youtubeSearchErr] = await songRequests.requestSong(request ?? args[0]);
 
     if(youtubeSearchErr) {
         return errors.command({ 
-            bot, 
             dispatch,
             err: youtubeSearchErr,
             errMessage: "",
-            commandName: "Play"
+            commandName: commandFile.displayName
         });
     }
 
     if(!youtubeSearchRes) {
         return errors.command({
-            bot, 
             dispatch,
             errMessage: "No Search Results Returned",
-            commandName: "Play"
+            commandName: commandFile.displayName
         });
     }
 
@@ -67,6 +49,7 @@ async function Play({ bot, args, dispatch, server, options, userState }: Command
         ...songInfo,
         requestedBy: `${dispatch.author.username} #${dispatch.author.discriminator}`
     });
+    
     dispatch.reply(`**${songInfo.title}** was added to the queue in position **${server.queue.info.length}**`, true);
 
     if(!server.queue.playing) {
@@ -74,8 +57,9 @@ async function Play({ bot, args, dispatch, server, options, userState }: Command
     }
 };
 
-export const config: CommandConfigParams = {
+export const config: CommandConfig = {
     aliases: ["p"],
+    permissions: [],
     description: "Requests song and plays it or adds it to the music queue",
     example: "play https://www.youtube.com/watch?v=dQw4w9WgXcQ"
 };

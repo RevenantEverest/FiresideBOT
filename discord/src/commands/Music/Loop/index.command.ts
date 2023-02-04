@@ -1,6 +1,6 @@
 import Discord from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandParams, CommandConfigParams } from '../../../types/commands.js';
+import { CommandParams, CommandConfig } from '../../../types/commands.js';
 
 import { colors, boolean } from '../../../utils/index.js';
 
@@ -9,7 +9,6 @@ async function Loop({ dispatch, server }: CommandParams) {
     server.queue.options.loop = !currentLoopState;
 
     if(currentLoopState && server.queue.currentSongInfo) {
-        console.log("Adding...");
         server.queue.info.push(server.queue.currentSongInfo);
     }
 
@@ -29,8 +28,9 @@ async function Loop({ dispatch, server }: CommandParams) {
     return dispatch.reply({ embeds: [embed] });
 };
 
-export const config: CommandConfigParams = {
+export const config: CommandConfig = {
     aliases: [],
+    permissions: [],
     description: "Loops the current music queue",
     example: "loop"
 };

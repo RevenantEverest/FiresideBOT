@@ -9,5 +9,6 @@ export interface GuildSettingsMocks {
 export interface GuildSettingsExtraParams {
     mocks: GuildSettingsMocks,
     guildId: GuildResolvable,
+    altGuildId: GuildResolvable,
     guildSettings?: GuildSettings
 };

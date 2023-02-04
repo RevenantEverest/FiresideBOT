@@ -3,6 +3,7 @@ on: [pull_request]
 jobs:
   test_api:
     runs-on: ubuntu-latest
+
     steps:
       - name: Check out code
         uses: actions/checkout@v2
@@ -29,7 +30,17 @@ jobs:
           echo TOPGG_TOKEN="$TOPGG_TOKEN" >> .env
           cp .env ./api/.env
         
-      - name: Run docker-compose script
+      - name: Run Api Test Script
         run: |
-          cd scripts/ && ./start_api_test.sh
+          ./scripts/tests/start_api_test.sh
+  test_discord:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+        
+      - name: Run Discord Test Script
+        run: |
+          ./scripts/tests/start_discord_test.sh
 

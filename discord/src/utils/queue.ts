@@ -8,12 +8,11 @@ export function nextInQueue(bot: Client, dispatch: CommandDispatch, server: Serv
     if(!server.queue.player) return;
 
     try {
-        server.queue.player.stop();
-        
         if(server.queue.info.length > 0) {
             audio.stream(bot, dispatch, server);
         }
         else {
+            server.queue.player.stop();
             resetQueue(server);
             handleDisconnectTimer(server, dispatch);
             dispatch.channel.send("Queue concluded");

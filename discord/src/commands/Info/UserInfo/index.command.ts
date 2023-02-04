@@ -1,11 +1,11 @@
 import Discord from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandParams, CommandConfigParams } from '../../../types/commands.js';
+import { CommandParams, CommandConfig } from '../../../types/commands.js';
 
 import { colors, dates } from '../../../utils/index.js';
 import { APIEmbedField } from 'discord-api-types/v10';
 
-async function UserInfo({ bot, dispatch }: CommandParams) {
+async function UserInfo({ dispatch }: CommandParams) {
 
     const user = dispatch.author;
     const guildMember = await dispatch.guild.members.fetch(user.id);
@@ -44,8 +44,9 @@ async function UserInfo({ bot, dispatch }: CommandParams) {
     return dispatch.reply({ embeds: [embed] });
 };
 
-export const config: CommandConfigParams = {
+export const config: CommandConfig = {
     aliases: ["ui"],
+    permissions: [],
     description: "Displays information about command user or tagged user",
     example: "userinfo"
 };

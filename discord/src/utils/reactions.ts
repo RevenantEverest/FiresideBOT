@@ -1,9 +1,15 @@
 import Discord, { MessageReaction, User, Message } from 'discord.js';
 import { PaginatedEmbed } from '../types/embeds.js';
 import { ApiPaginationOptions, GetPageResponse } from '../types/pagination.js';
+import { Server } from '../types/server.js';
+import { CommandDispatch } from '../types/commands.js';
 
-import { DEFAULTS } from '../constants/index.js';
+import * as api from '../api/index.js';
+
+import { DEFAULTS, EMOJIS } from '../constants/index.js';
 import * as embeds from './embeds.js';
+import * as common from './common.js';
+import * as errors from './errors.js';
 
 interface ShouldRequestApiPageParams<T> {
     index: number,
@@ -70,11 +76,18 @@ function getContentLength<T>({ paginatedEmbed, paginationOptions }: GetContentLe
     return contentLength;
 };
 
+/**
+ * Reacts to a message with navigation emojis and handles paginated embed content
+ * @param message Message
+ * @param index number
+ * @param paginatedEmbed PaginatedEmbed
+ * @param paginationOptions ApiPaginationOptions<T>
+ */
 export async function createReactionNavigator<T>(message: Message, index: number, paginatedEmbed: PaginatedEmbed, paginationOptions?: ApiPaginationOptions<T>) {
     const navigatorEmojis = {
-        next: "▶️",
-        stop: "⏹️",
-        prev: "◀️"
+        next: EMOJIS.NEXT,
+        stop: EMOJIS.STOP,
+        prev: EMOJIS.PREV
     };
 
     await message.react(navigatorEmojis.prev);
@@ -149,5 +162,66 @@ export async function createReactionNavigator<T>(message: Message, index: number
             content: paginatedEmbed.flavorText,
             embeds: [embed]
         });
-    }
+    };
+};
+
+/**
+ * Reacts to message with a heart and adds current song info as a song to LikedPlaylist
+ * @param server Server
+ * @param dispatch CommandDispatch
+ * @param message Message
+ */
+export async function likeSong(server: Server, dispatch: CommandDispatch, message: Message) {
+    const heart = EMOJIS.HEARTS[common.RNG(EMOJIS.HEARTS.length)];
+    await message.react(heart);
+
+    const collector = new Discord.ReactionCollector(message, { 
+        time: (server.queue.currentSongInfo?.duration ?? 0) * 60000,
+        dispose: true
+    });
+
+    collector.on("collect", handleReaction);
+    collector.on("end", async () => {
+        message.reactions.removeAll();
+    });
+
+    async function handleReaction(reaction: MessageReaction, user: User) {
+        if(user.bot) return;
+        if(heart !== reaction.emoji.name) return;
+
+        const [likedSongsPlaylist,  getPlaylistErr] = await api.userPlaylists.getByDiscordIdAndNameOrCreate(dispatch, user.id, DEFAULTS.DEFAULT_PLAYLISTS.LIKED_SONGS, true);
+
+        if(getPlaylistErr) {
+            if(getPlaylistErr.response && getPlaylistErr.response.status !== 500) {
+                const responseData = getPlaylistErr.response.data;
+                return dispatch.channel.send(responseData.message);
+            }
+            return errors.utility({ dispatch, err: getPlaylistErr, errMessage: getPlaylistErr.message, resourceName: "LikeSong" });
+        }
+
+        if(!likedSongsPlaylist) {
+            return errors.utility({ dispatch, errMessage: "No LikedSongs Playlist", resourceName: "LikeSong" });
+        }
+
+        const currentSong = server.queue.currentSongInfo;
+
+        const [likedSong, err] = await api.userSongs.create(dispatch, {
+            playlist_id: likedSongsPlaylist.id,
+            request:  `${currentSong?.title} ${currentSong?.author}`
+        });
+
+        if(err) {
+            if(err.response && err.response.status !== 500) {
+                const responseData = err.response.data;
+                return dispatch.channel.send(responseData.message);
+            }
+            return errors.utility({ dispatch, err, errMessage: err.message, resourceName: "LikeSong" });
+        }
+
+        if(!likedSong) {
+            return errors.utility({ dispatch, errMessage: "Liked Song Not Returned", resourceName: "LikeSong" });
+        }
+
+        return dispatch.channel.send(`**${likedSong.title}** added to LikedSongs with **ID: ${likedSong.id}**`);
+    };
 };

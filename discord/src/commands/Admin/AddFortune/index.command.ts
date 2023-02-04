@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandParams, CommandConfigParams } from '../../../types/commands.js';
+import { CommandParams, CommandConfig } from '../../../types/commands.js';
 
 import * as api from '../../../api/index.js';
 
@@ -25,8 +25,9 @@ async function AddFortune({ args, dispatch }: CommandParams) {
     return dispatch.reply(`Fortune **${res.fortune}** added to list of 8-Ball responses with ID: **${res.id}**`);
 };
 
-export const config: CommandConfigParams = {
+export const config: CommandConfig = {
     aliases: ["af"],
+    permissions: ["ADMINISTRATOR"],
     description: "Create a fortune to add to 8-Ball responses",
     example: ""
 };

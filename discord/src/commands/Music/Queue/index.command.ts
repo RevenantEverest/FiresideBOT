@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 
-import { CommandParams, CommandConfigParams } from '../../../types/commands.js';
+import { CommandParams, CommandConfig } from '../../../types/commands.js';
 import { PaginatedEmbed } from '../../../types/embeds.js';
 import { ServerSongInfo } from '../../../types/server.js';
 
@@ -39,8 +39,9 @@ async function Queue({ dispatch, server}: CommandParams) {
     return embeds.pagination<ServerSongInfo>(dispatch, paginatedEmbed);
 };
 
-export const config: CommandConfigParams = {
+export const config: CommandConfig = {
     aliases: ["q"],
+    permissions: [],
     description: "Display the current song queue",
     example: ""
 };

@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 
-import { CommandParams, CommandConfigParams } from '../../../types/commands.js';
+import { CommandParams, CommandConfig } from '../../../types/commands.js';
 
 import { ERROR_MESSAGES } from '../../../constants/index.js';
 import { arrays } from '../../../utils/index.js';
@@ -18,8 +18,9 @@ async function Shuffle({ dispatch, server }: CommandParams) {
     return dispatch.reply("Queue Shuffled");
 };
 
-export const config: CommandConfigParams = {
+export const config: CommandConfig = {
     aliases: [],
+    permissions: [],
     description: "Shuffle the current music queue",
     example: "shuffle"
 };

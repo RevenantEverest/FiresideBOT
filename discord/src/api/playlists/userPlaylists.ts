@@ -1,55 +1,81 @@
-import axios, { AxiosResponse } from 'axios';
-import { Message } from 'discord.js';
-import { GuildSettings } from '../../types/entities/GuildSettings.js';
-import { HandleReturn } from '../../types/promises.js';
+import { UserResolvable } from 'discord.js';
+import { CommandDispatch } from '../../types/commands.js';
+import { HandleAxiosReturn } from '../../types/promises.js';
+import { ApiPaginatedResponse, ApiPaginationParams } from 'src/types/api.js';
 
-import { issueToken } from '../../middleware/index.js';
+import { UserPlaylist, UserPlaylistUpdate } from '../../types/entities/UserPlaylist.js';
 
 import { ENV } from '../../constants/index.js';
-import { promises } from '../../utils/index.js';
+import { apiRequests } from '../../utils/index.js';
 
-const baseEndpoint = ENV.API_URL + "/settings/guild";
+type PaginatedResponse = HandleAxiosReturn<ApiPaginatedResponse<UserPlaylist>>;
 
-export async function get(guildId: string, message: Message): HandleReturn<GuildSettings> {
-    const token = await issueToken(message);
-    
-    const request = axios.get(`${baseEndpoint}/${guildId}`, {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
+const baseEndpoint = ENV.API_URL + "/playlists/user";
+
+export async function getByDiscordId(dispatch: CommandDispatch, discordId: UserResolvable, params: ApiPaginationParams): PaginatedResponse {
+    const endpoint = `${baseEndpoint}/discord_id/${discordId}?page=${params.page ?? 1}`;
+    return apiRequests.paginatedRequest<UserPlaylist>({
+        dispatch,
+        endpoint,
+        method: "get"
     });
-
-    const [res, err] = await promises.handle<AxiosResponse>(request);
-
-    if(err) {
-        return [undefined, err];
-    }
-
-    if(!res || !res.data.results) {
-        return [undefined, new Error("No Guild Settings Returned")];
-    }
-
-    return [(res.data.results as GuildSettings), undefined];
 };
 
-export async function update(guildId: string, message: Message, guildSettings: GuildSettings): HandleReturn<GuildSettings> {
-    const token = await issueToken(message);
+export async function getByDiscordIdAndName(dispatch: CommandDispatch, discordId: UserResolvable, playlistName: string): HandleAxiosReturn<UserPlaylist> {
+    const endpoint = `${baseEndpoint}/discord_id/${discordId}/name/${playlistName}`;
+    return apiRequests.request<UserPlaylist>({
+        dispatch,
+        endpoint,
+        method: "get"
+    });
+};
 
-    const request = axios.put(`${baseEndpoint}/${guildId}`, guildSettings, {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
+export async function getByDiscordIdAndNameOrCreate(dispatch: CommandDispatch, discordId: UserResolvable, playlistName: string, isDefault?: boolean): HandleAxiosReturn<UserPlaylist> {
+    const endpoint = `${baseEndpoint}/discord_id/${discordId}/name/${playlistName}`;
+    const [res, err] = await apiRequests.request<UserPlaylist>({
+        dispatch,
+        endpoint,
+        method: "get"
     });
 
-    const [res, err] = await promises.handle<AxiosResponse>(request);
-
     if(err) {
+        if(err.response?.status === 404) {
+            return create(dispatch, playlistName, isDefault);
+        }
         return [undefined, err];
     }
 
-    if(!res || !res.data.results) {
-        return [undefined, new Error("No Guild Settings Returned")];
-    }
+    return [res, undefined];
+};
 
-    return [(res.data.results as GuildSettings), undefined];
+export async function update(dispatch: CommandDispatch, playlist: UserPlaylistUpdate): HandleAxiosReturn<UserPlaylist> {
+    const endpoint = `${baseEndpoint}/id/${playlist.id}`;
+    return apiRequests.request<UserPlaylist, UserPlaylistUpdate>({
+        dispatch,
+        endpoint,
+        method: "put",
+        data: playlist
+    });
+};
+
+export async function create(dispatch: CommandDispatch, playlistName: string, isDefault?: boolean): HandleAxiosReturn<UserPlaylist> {
+    const endpoint = baseEndpoint;
+    return apiRequests.request<UserPlaylist, { name: string, is_default?: boolean }>({
+        dispatch,
+        endpoint,
+        method: "post",
+        data: {
+            name: playlistName,
+            is_default: isDefault
+        }
+    });
+};
+
+export async function destroy(dispatch: CommandDispatch, playlist: UserPlaylist): HandleAxiosReturn<UserPlaylist> {
+    const endpoint = `${baseEndpoint}/id/${playlist.id}`;
+    return apiRequests.request<UserPlaylist>({
+        dispatch,
+        endpoint,
+        method: "delete"
+    });
 };

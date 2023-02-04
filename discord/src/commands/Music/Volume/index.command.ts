@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandParams, CommandConfigParams } from '../../../types/commands.js';
+import { CommandParams, CommandConfig } from '../../../types/commands.js';
 
 import * as api from '../../../api/index.js';
 
@@ -47,8 +47,9 @@ async function Volume({ args, dispatch, server, guildSettings }: CommandParams) 
     return dispatch.reply(`Volume set to: **${guildSettings.volume}**`);
 };
 
-export const config: CommandConfigParams = {
+export const config: CommandConfig = {
     aliases: ["vol"],
+    permissions: [],
     description: "Change the volume of Fireside",
     example: ""
 };
