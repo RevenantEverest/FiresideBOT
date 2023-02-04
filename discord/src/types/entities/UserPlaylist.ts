@@ -8,6 +8,7 @@ export interface UserPlaylistCommon {
 export interface UserPlaylist extends UserPlaylistCommon {
     name: string,
     is_public: boolean,
+    is_default: boolean,
     created_at: Date,
     updated_at: Date,
     duration: number,
