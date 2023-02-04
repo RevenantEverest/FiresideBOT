@@ -59,9 +59,10 @@ function updateRoute(baseEndpoint: string, app: Application, authPayload: AuthTe
                     id: extraParams.createdPlaylist?.id,
                     discord_id: authPayload.discord_id,
                     name: PAYLOADS.VALID_UPDATE.name,
+                    is_public: extraParams.createdPlaylist?.is_public,
+                    is_default: extraParams.createdPlaylist?.is_default,
                     created_at: extraParams.createdPlaylist?.created_at,
-                    updated_at: results.updated_at,
-                    is_public: extraParams.createdPlaylist?.is_public
+                    updated_at: results.updated_at
                 });
 
                 extraParams.createdPlaylist = results;
@@ -88,9 +89,10 @@ function updateRoute(baseEndpoint: string, app: Application, authPayload: AuthTe
                     id: extraParams.createdPlaylist?.id,
                     discord_id: authPayload.discord_id,
                     name: PAYLOADS.VALID_UPDATE.name,
+                    is_public: PAYLOADS.VALID_PUBLIC_UPDATE.is_public,
+                    is_default: extraParams.createdPlaylist?.is_default,
                     created_at: extraParams.createdPlaylist?.created_at,
-                    updated_at: results.updated_at,
-                    is_public: PAYLOADS.VALID_PUBLIC_UPDATE.is_public
+                    updated_at: results.updated_at
                 });
 
                 extraParams.createdPlaylist = results;

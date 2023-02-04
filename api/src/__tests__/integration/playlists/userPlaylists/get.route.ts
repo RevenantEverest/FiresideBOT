@@ -49,6 +49,7 @@ function getRoute(baseEndpoint: string, app: Application, authPayload: AuthTesti
                         created_at: extraParams.createdPlaylist?.created_at,
                         updated_at: results.updated_at,
                         is_public: results.is_public,
+                        is_default: results.is_default,
                         songs: results.songs
                     });
                 });
@@ -110,6 +111,7 @@ function getRoute(baseEndpoint: string, app: Application, authPayload: AuthTesti
                                 discord_id: authPayload.discord_id,
                                 name: extraParams.secondaryPlaylist?.name,
                                 is_public: extraParams.secondaryPlaylist?.is_public,
+                                is_default: extraParams.secondaryPlaylist?.is_default,
                                 created_at: extraParams.secondaryPlaylist?.created_at,
                                 updated_at: results[0].updated_at,
                                 duration: results[0].duration,
@@ -120,6 +122,7 @@ function getRoute(baseEndpoint: string, app: Application, authPayload: AuthTesti
                                 discord_id: authPayload.discord_id,
                                 name: extraParams.createdPlaylist?.name,
                                 is_public: extraParams.createdPlaylist?.is_public,
+                                is_default: extraParams.createdPlaylist?.is_default,
                                 created_at: extraParams.createdPlaylist?.created_at,
                                 updated_at: results[1].updated_at,
                                 duration: results[1].duration,
@@ -175,6 +178,7 @@ function getRoute(baseEndpoint: string, app: Application, authPayload: AuthTesti
                             discord_id: authPayload.discord_id,
                             name: extraParams.createdPlaylist?.name,
                             is_public: extraParams.createdPlaylist?.is_public,
+                            is_default: extraParams.createdPlaylist?.is_default,
                             created_at: extraParams.createdPlaylist?.created_at,
                             updated_at: results.updated_at,
                             duration: results.duration,

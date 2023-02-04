@@ -48,6 +48,7 @@ function postRoute(baseEndpoint: string, app: Application, authPayload: AuthTest
                         discord_id: authPayload.discord_id,
                         name: PAYLOADS.VALID_CREATE.name,
                         is_public: true, // Should be true by default
+                        is_default: false, // should be false by default
                         created_at: results.created_at,
                         updated_at: results.updated_at
                     });

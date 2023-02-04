@@ -55,6 +55,7 @@ export default () => {
                     discord_id: authPayload.discord_id,
                     name: PAYLOADS.VALID_CREATE_ALT.name,
                     is_public: true, // Should be true by default
+                    is_default: false, // should be false by default
                     created_at: results.created_at,
                     updated_at: results.updated_at
                 });
