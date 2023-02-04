@@ -189,7 +189,7 @@ export async function likeSong(server: Server, dispatch: CommandDispatch, messag
         if(user.bot) return;
         if(heart !== reaction.emoji.name) return;
 
-        const [likedSongsPlaylist,  getPlaylistErr] = await api.userPlaylists.getByDiscordIdAndNameOrCreate(dispatch, user.id, DEFAULTS.DEFAULT_PLAYLISTS.LIKED_SONGS);
+        const [likedSongsPlaylist,  getPlaylistErr] = await api.userPlaylists.getByDiscordIdAndNameOrCreate(dispatch, user.id, DEFAULTS.DEFAULT_PLAYLISTS.LIKED_SONGS, true);
 
         if(getPlaylistErr) {
             if(getPlaylistErr.response && getPlaylistErr.response.status !== 500) {
