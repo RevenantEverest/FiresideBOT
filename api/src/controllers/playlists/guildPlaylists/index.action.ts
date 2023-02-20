@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { PaginatedResponse } from 'src/types/pagination.js';
+import { PaginatedResponse } from '../../../types/pagination.js';
 
 import { GuildPlaylist } from '../../../entities/index.js';
 
