@@ -1,5 +1,6 @@
 export * as ADD_PLAYLIST_ROLE from './addPlaylistRole.js';
 export * as ADD_SONG from './addSong.js';
+export * as BLACK_JACK from './blackJack.js';
 export * as CREATE_FORTUNE from './createFortune.js';
 export * as CREATE_PLAYLIST from './createPlaylist.js';
 export * as DELETE_PLAYLIST from './deletePlaylist.js';

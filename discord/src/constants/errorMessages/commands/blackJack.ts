@@ -1,0 +1,1 @@
+export const NO_ARGS = "Please specify an amount to wager";
