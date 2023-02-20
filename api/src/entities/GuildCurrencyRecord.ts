@@ -2,17 +2,19 @@ import {
     Entity,
     BaseEntity,
     PrimaryGeneratedColumn,
-    Column
+    Column,
+    Unique
 } from 'typeorm';
 
 @Entity('guild_currency_records')
+@Unique(['guild_id', 'discord_id'])
 class GuildCurrencyRecord extends BaseEntity {
 
     constructor(
         id: number,
         guild_id: string,
         discord_id: string,
-        balance: number
+        balance: string
     ) {
         super();
         this.id = id;
@@ -31,7 +33,7 @@ class GuildCurrencyRecord extends BaseEntity {
     discord_id: string;
 
     @Column({ type: "bigint" })
-    balance: number;
+    balance: string;
 };
 
 export default GuildCurrencyRecord;
