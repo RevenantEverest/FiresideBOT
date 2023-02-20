@@ -3,6 +3,7 @@ export { default as DiscordToken } from './DiscordToken.js';
 export { default as Fortune } from './Fortune.js';
 
 export { default as Guild } from './Guild.js';
+export { default as GuildCurrencyRecord } from './GuildCurrencyRecord.js';
 export { default as GuildPlaylist } from './GuildPlaylist.js';
 export { default as GuildPlaylistRole } from './GuildPlaylistRole.js';
 export { default as GuildSong } from './GuildSong.js';
