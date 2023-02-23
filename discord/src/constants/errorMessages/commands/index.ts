@@ -7,6 +7,7 @@ export * as DELETE_PLAYLIST from './deletePlaylist.js';
 export * as EDIT_PREFIX from './editPrefix.js';
 export * as EDIT_PLAYLIST from './editPlaylist.js';
 export * as EIGHT_BALL from './eightBall.js';
+export * as GIVE from './give.js';
 export * as PLAY from './play.js';
 export * as PROMOTE from './promote.js';
 export * as REMOVE_PLAYLIST_ROLE from './removePlaylistRole.js';
