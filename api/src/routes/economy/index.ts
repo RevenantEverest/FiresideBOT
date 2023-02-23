@@ -3,7 +3,7 @@ import guildCurrencyRecordRoutes from './guildCurrencyRecordRoutes.js';
 
 const router = express.Router();
 
-router.use("/currency/guild", guildCurrencyRecordRoutes);
+router.use("/currency/records/guild", guildCurrencyRecordRoutes);
 
 router.route("/").get((req, res) => res.json({ message: "Hello" }))
 
