@@ -39,4 +39,8 @@ export const config: CommandConfig = {
     example: "balance"
 };
 
+export const slashCommand = new SlashCommandBuilder()
+.setName('balance')
+.setDescription(config.description)
+
 export default Balance;
