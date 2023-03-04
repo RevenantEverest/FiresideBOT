@@ -1,10 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
-import { PaginatedResponse } from '../../../types/pagination.js';
 import { ResponseLocalsParams } from '../../../types/responseLocals.js';
 
 import { GuildCurrencyRecord } from '../../../entities/index.js';
 
-import { errors, entities, pagination } from '../../../utils/index.js';
+import { errors, entities } from '../../../utils/index.js';
 
 async function update(req: Request, res: Response, next: NextFunction) {
     const { guildId, discordId }: ResponseLocalsParams = res.locals.params;
@@ -15,10 +14,6 @@ async function update(req: Request, res: Response, next: NextFunction) {
             discord_id: discordId
         }
     });
-
-    if(findErr) {
-        return 
-    }
 
     if(findErr || !findRes) {
         return errors.sendEntitiesResponse<GuildCurrencyRecord>({ 
@@ -39,7 +34,7 @@ async function update(req: Request, res: Response, next: NextFunction) {
         balance: req.body.balance
     });
 
-    if (updateErr || updatedRecord) {
+    if (updateErr || !updatedRecord) {
         return errors.sendEntitiesResponse<GuildCurrencyRecord>({
             res,
             err: updateErr,
