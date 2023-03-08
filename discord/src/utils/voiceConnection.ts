@@ -1,4 +1,4 @@
-import { joinVoiceChannel, entersState, VoiceConnectionStatus } from '@discordjs/voice';
+import { joinVoiceChannel, entersState, VoiceConnectionStatus, DiscordGatewayAdapterCreator } from '@discordjs/voice';
 
 import { Client } from 'discord.js';
 import { CommandDispatch } from '../types/commands.js';
@@ -21,7 +21,7 @@ export function createConnection(bot: Client, dispatch: CommandDispatch, server:
         const connection = joinVoiceChannel({
             guildId: (dispatch.guildId as string),
             channelId: dispatch.member.voice.channel.id,
-            adapterCreator: dispatch.guild.voiceAdapterCreator
+            adapterCreator: dispatch.member.voice.channel.guild.voiceAdapterCreator as DiscordGatewayAdapterCreator
         });
 
         server.queue.connection = connection;
@@ -52,6 +52,23 @@ export function handleConnection(server: Server) {
             server.queue.connection = null;
             errors.internal({ err: error, errMessage: error.message, resourceName: "VoiceConnection - HandleConnection" });
         }
+    });
+
+    /* 
+        3/7/23 - Workaround change related to: 
+        https://github.com/Androz2091/discord-player/issues/1630#issuecomment-1452877967
+    */
+    connection.on('stateChange', (oldState, newState) => {
+        const oldNetworking = Reflect.get(oldState, 'networking');
+        const newNetworking = Reflect.get(newState, 'networking');
+      
+        const networkStateChangeHandler = (oldNetworkState: any, newNetworkState: any) => {
+          const newUdp = Reflect.get(newNetworkState, 'udp');
+          clearInterval(newUdp?.keepAliveInterval);
+        }
+      
+        oldNetworking?.off('stateChange', networkStateChangeHandler);
+        newNetworking?.on('stateChange', networkStateChangeHandler);
     });
 
     connection.on(VoiceConnectionStatus.Destroyed, () => queue.resetQueue(server, true));
