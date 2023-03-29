@@ -3,7 +3,7 @@
   "version": "2.0.0",
   "main": "server.js",
   "scripts": {
-    "build": "swc src -d dist",
+    "build": "swc src -d dist --copy-files",
     "build-dev": "yarn build && NODE_ENV=development node --inspect dist/server.js",
     "dev": "nodemon -L --ext ts --exec \"yarn build-dev\"",
     "start": "yarn build && NODE_ENV=production node dist/server.js",
@@ -33,9 +33,9 @@
     "validate.js": "^0.13.1"
   },
   "devDependencies": {
-    "@swc/cli": "^0.1.55",
-    "@swc/core": "^1.2.135",
-    "@swc/jest": "^0.2.20",
+    "@swc/cli": "^0.1.62",
+    "@swc/core": "^1.3.42",
+    "@swc/jest": "^0.2.24",
     "@types/chalk": "^2.2.0",
     "@types/cors": "^2.8.12",
     "@types/dotenv": "^8.2.0",
@@ -51,6 +51,6 @@
     "ts-jest": "^27.1.4",
     "ts-jest-resolver": "^2.0.0",
     "ts-node": "^10.4.0",
-    "typescript": "^4.5.5"
+    "typescript": "^5.0.2"
   }
 }
