@@ -3,6 +3,9 @@
         "parser": {
             "syntax": "typescript",
             "decorators": true
+        },
+        "experimental": {
+            "keepImportAssertions": true
         }
     },
     "env": {
@@ -11,3 +14,4 @@
         }
     }
 }
+
