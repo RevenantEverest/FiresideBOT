@@ -9,6 +9,8 @@ export { default as GuildSong } from './GuildSong.js';
 
 export { default as GuildSettings } from './GuildSettings.js'; 
 
+export { default as GuildWarsEventSignup } from './GuildWarsEventSignUp.js';
+
 export { default as User } from './User.js';
 export { default as UserPlaylist } from './UserPlaylist.js';
 export { default as UserSong } from './UserSong.js';
