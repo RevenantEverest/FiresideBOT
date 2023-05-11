@@ -9,11 +9,26 @@ async function destroy(req: Request, res: Response, next: NextFunction) {
 
     const { id }: ResponseLocalsParams = res.locals.params;
 
-    const [eventSignup, err] = await entities.destroy<GuildWarsEventSignup>(GuildWarsEventSignup, {
-       id: id 
+    const [eventSignup, findErr] = await entities.findOne<GuildWarsEventSignup>(GuildWarsEventSignup, {
+        where: {
+            discord_id: res.locals.auth.discord_id,
+            id: id,
+        }
     });
 
-    if(err || !eventSignup) {
+    if(findErr || !eventSignup) {
+        return errors.sendEntitiesResponse({
+            res,
+            err: findErr,
+            message: "Error Finding Event Signup",
+            entityReturn: eventSignup,
+            missingEntityReturnMessage: "No Event Signup Return"
+        });
+    }
+
+    const [eventSignupDelete, err] = await entities.destroy<GuildWarsEventSignup>(GuildWarsEventSignup, eventSignup);
+
+    if(err || !eventSignupDelete) {
         return errors.sendEntitiesResponse({
             res,
             err,
