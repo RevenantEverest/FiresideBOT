@@ -10,6 +10,7 @@ async function getOne(req: Request, res: Response, next: NextFunction) {
     const { id }: ResponseLocalsParams = res.locals.params;
     const [eventSignup, err] = await entities.findOne<GuildWarsEventSignup>(GuildWarsEventSignup, {
         where: {
+            discord_id: res.locals.auth.discord_id,
             id: id
         }
     });
