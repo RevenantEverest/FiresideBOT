@@ -1,14 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
 
-import guildwarsEventsJson from '../../../resources/guildwarsEvents.json' assert { type: "json" };
-
 import { pagination, guildwarsEvents } from '../../../utils/index.js';
 
-async function index(req: Request, res: Response, next: NextFunction) {
+async function getByEventTime(req: Request, res: Response, next: NextFunction) {
 
     const { limit, offset } = res.locals;
+    const { time } = req.params;
 
-    const events = guildwarsEvents.parse();
+    const events = guildwarsEvents.parse().filter((event) => event.times.includes(time));
 
     const count = events.length;
     const data = events.slice(offset, offset + limit);
@@ -18,4 +17,4 @@ async function index(req: Request, res: Response, next: NextFunction) {
     return res.json(response);
 };
 
-export default index;
+export default getByEventTime;
