@@ -1,22 +1,38 @@
-import { GuildWarsEvent, GuildWarsEventCategory, GuildWarsEventParse } from '../types/guildwarsEvents.js';
+import { GuildWarsGetEvent, GuildWarsEventParse } from '../types/guildwarsEvents.js';
 
 import guildwarsEvents from '../resources/guildwarsEvents.json' assert { type: "json" };
 
-export function getEvent(eventName: string, eventTime: string): GuildWarsEventParse | null | undefined {
-    const eventFilter: GuildWarsEventCategory = guildwarsEvents.filter((category) => {
-        return category.events.some((event) => event.title.toLowerCase() === eventName.toLowerCase())
-    })[0];
+export function getEvent(eventName: string, eventTime: string): GuildWarsGetEvent | null | undefined {
+    const events = parse();
+    const eventSearch = events.filter((event) => event.title.toLowerCase() === eventName.toLowerCase() && event.times.includes(eventTime))[0];
 
-    const eventData: GuildWarsEvent = eventFilter.events.filter((event) => event.title.toLowerCase() === eventName.toLowerCase())[0];
-    const isTimeAvailable = Boolean(eventData.times.filter((time) => time === eventTime)[0]);
-
-    if(!isTimeAvailable) {
+    if(!eventSearch) {
         return null;
     }
 
     return {
-        category: eventFilter.category,
-        title: eventData.title,
+        category: eventSearch.category,
+        title: eventSearch.title,
         time: eventTime
     };
 };
+
+export function parse(): GuildWarsEventParse[] {
+    const events = [];
+
+    for(let i = 0; i < guildwarsEvents.length; i++) {
+        const event = guildwarsEvents[i];
+
+        for(let x = 0; x < event.events.length; x++) {
+            const e = event.events[x];
+
+            events.push({
+                category: event.category,
+                title: e.title,
+                times: e.times
+            });
+        };
+    };
+
+    return events;
+}
