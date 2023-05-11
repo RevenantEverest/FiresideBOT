@@ -13,12 +13,15 @@ router.route("/id/:id")
 .delete(validation.id, guildwarsEventSignupsController.destroy)
 
 router.route("/discord_id/:discordId")
-.get(validation.discordId, guildwarsEventSignupsController.getByDiscordId)
+.get(extractPaginationParams, validation.discordId, guildwarsEventSignupsController.getByDiscordId)
 
 router.route("/name/:eventName")
 .get(guildwarsEventSignupsController.getByEventTitle)
 
 router.route("/name/:eventName/discord_id/:discordId")
 .get(validation.discordId, guildwarsEventSignupsController.getByEventTitleAndDiscordId)
+
+router.route("/name/:eventName/time/:eventTime")
+.get(extractPaginationParams, guildwarsEventSignupsController.getByEventTitleAndEventTime)
 
 export default router;
