@@ -10,8 +10,14 @@ export interface GuildWarsEventCategory {
 
 export type GuildWarsEventJson = GuildWarsEventCategory[];
 
-export interface GuildWarsEventParse {
+export interface GuildWarsGetEvent {
     category: string,
     title: string,
     time: string
+};
+
+export interface GuildWarsEventParse {
+    category: string,
+    title: string,
+    times: string[]
 };
