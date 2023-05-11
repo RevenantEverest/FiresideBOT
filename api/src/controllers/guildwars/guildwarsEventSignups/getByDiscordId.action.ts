@@ -15,6 +15,9 @@ async function getByDiscordId(req: Request, res: Response, next: NextFunction) {
     const findOptions: FindOneOptions<GuildWarsEventSignup> = {
         where: {
             discord_id: discordId
+        },
+        order: {
+            event_title: "ASC"
         }
     };
 
