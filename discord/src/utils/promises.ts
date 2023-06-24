@@ -6,7 +6,9 @@ import * as logs from './logs.js';
 
 interface WaitForOptions {
     intervalLength?: number,
-    retries?: number
+    retries?: number,
+    logRetries?: boolean,
+    logType?: string
 };
 
 export async function handle<T>(promise: Promise<T>): HandleReturn<T> {
@@ -48,6 +50,9 @@ export async function waitFor(conditionFunction: () => boolean, options?: WaitFo
         }
         else {
             retries -= 1;
+            if(options?.logRetries) {
+                logs.log({ color: colors.warning, type: options.logType ?? "LOG", message: `Retries left: ${retries + 1}` });
+            }
             setTimeout(() => poll(resolve), options?.intervalLength ?? 400);
         }
     };
