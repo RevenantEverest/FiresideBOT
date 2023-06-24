@@ -5,6 +5,8 @@ export const roleRegex = /<@&?(\d+)>/i;
 export const commandFlagRegex = /(?<=-)\w*(?=\s?)/gi;
 export const commandFlagReplaceRegex = /-\w*(?=\s?)/gi;
 
+export const guildwarsEventTimeRegex = /\d+(?<=\d):\w*/gi;
+
 export function hasUserTag(str: string): boolean {
     return userRegex.test(str);
 };
@@ -35,4 +37,13 @@ export function parseRoleTag(str: string): string | null {
 export function parseCommandFlags(str: string): string[] | null {
     const flags = str.match(commandFlagRegex);
     return flags ?? null;
+};
+
+export function hasGuildWarsEventTime(str: string): boolean {
+    return guildwarsEventTimeRegex.test(str);
+};
+
+export function parseGuildWarsEventTime(str: string): string | null {
+    const guildwarsEventTime = guildwarsEventTimeRegex.exec(str);
+    return guildwarsEventTime ? guildwarsEventTime[0] : null;
 };
