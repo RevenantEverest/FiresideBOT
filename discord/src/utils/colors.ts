@@ -12,6 +12,8 @@ export const fuchsia: number = 0xf300dc;
 export const songEmbed: number = 0x0be289;
 export const queueEmbed: number = 0x00ffff;
 
+export const guildwars: number = 0xaa0404;
+
 export function random(this: object): number {
     const self = this;
 
