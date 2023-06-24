@@ -1,6 +1,7 @@
 export interface DateFormatOptions {
     dateFormat?: string,
-    timeFormat?: string
+    timeFormat?: string,
+    timestampFormat?: string
 };
 
 export interface FormattedDate {
