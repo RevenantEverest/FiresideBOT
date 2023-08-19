@@ -1,8 +1,0 @@
-/node_modules/
-/dist/
-
-yarn-error.log
-
-*.env
-
-/src/commands/Dev/*/

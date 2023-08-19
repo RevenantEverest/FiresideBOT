@@ -1,7 +1,15 @@
-/node_modules/
+## Directories
+**/node_modules/
+**/.yan/
+**/dist/
+**/postgres_data/
+**/postgres_testing_data/
+**/pgadmin_data/
+*/*/resources/
+
+# File Extensions
 *.env
-nohup.out
-/postgres_data/
-/postgres_testing_data/
-/pgadmin_data/
-/old_scripts/
+*.log
+
+# Specific Files
+.pnp.*
