@@ -1,0 +1,43 @@
+{
+  "name": "fireside-trackers",
+  "version": "2.0.0",
+  "packageManager": "yarn@3.6.0",
+  "main": "server.js",
+  "scripts": {
+    "build": "swc src -d dist --copy-files",
+    "build-dev": "yarn build && NODE_ENV=development node --inspect dist/server.js",
+    "dev": "nodemon -L --ext ts --exec \"yarn build-dev\"",
+    "start": "yarn build && NODE_ENV=production node dist/server.js",
+    "test": "NODE_ENV=test jest --setupFiles dotenv/config --runInBand",
+    "reset:npm": "rm -rf node_modules && rm -rf .yarn/ && yarn install"
+  },
+  "type": "module",
+  "author": "RevenantEverest",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.4.0",
+    "chalk": "^5.3.0",
+    "dayjs": "^1.11.9",
+    "discord.js": "13.7.0",
+    "dotenv": "^16.3.1",
+    "jsonwebtoken": "^9.0.1",
+    "node-cron": "^3.0.2"
+  },
+  "devDependencies": {
+    "@swc/cli": "^0.1.62",
+    "@swc/core": "^1.3.78",
+    "@swc/jest": "^0.2.29",
+    "@types/dotenv": "^8.2.0",
+    "@types/jest": "^29.5.3",
+    "@types/node": "^20.5.1",
+    "@types/node-cron": "^3.0.8",
+    "@types/supertest": "^2.0.12",
+    "jest": "^29.6.2",
+    "nodemon": "^3.0.1",
+    "supertest": "^6.3.3",
+    "ts-jest": "^29.1.1",
+    "ts-jest-resolver": "^2.0.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.1.6"
+  }
+}

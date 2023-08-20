@@ -1,0 +1,16 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "decorators": true
+        },
+        "experimental": {
+            "keepImportAssertions": true
+        }
+    },
+    "env": {
+        "targets": {
+            "node": 17
+        }
+    }
+}
