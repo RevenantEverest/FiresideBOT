@@ -6,6 +6,7 @@
 **/postgres_testing_data/
 **/pgadmin_data/
 */*/resources/
+**/Dev/Test/
 
 # File Extensions
 *.env
