@@ -17,6 +17,8 @@ import { GuildMessage } from './message.js';
 import { GuildInteraction } from './interaction.js';
 import { Flag } from './flags.js';
 
+export type CommandPermissions = PermissionString | "FIRESIDE_ADMIN"
+
 export interface CommandDispatch {
     guildId: GuildResolvable,
     guild: Guild,
@@ -55,7 +57,7 @@ export interface CommandConfig {
     aliases: string[],
     flags?: Flag[],
     params?: CommandConfigParams[],
-    permissions: PermissionString[],
+    permissions: CommandPermissions[],
     description: string,
     example: string,
 };
