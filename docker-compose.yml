@@ -23,10 +23,10 @@ services:
       context: ./discord
     ports: 
       - "3002:3002"
-  guildwars_event_tracker:
-    image: ${DOCKER_REGISTRY:-}guildwars_event_tracker${DEPLOY_TAG:-}
+  trackers:
+    image: ${DOCKER_REGISTRY:-}trackers${DEPLOY_TAG:-}
     <<: *env
     build:
-      context: ./guildWarsEventTracker
+      context: ./trackers
     ports:
       - "3006:3006"

@@ -25,8 +25,8 @@ services:
     volumes: 
       - ./discord:/app
       - /app/node_modules
-  guildwars_event_tracker: 
-    container_name: fireside_guildwars_event_tracker
+  trackers: 
+    container_name: fireside_trackers
     restart: always
     stdin_open: true
     build:
@@ -34,7 +34,7 @@ services:
     depends_on:
       - api
     volumes: 
-      - ./guildWarsEventTracker:/app
+      - ./trackers:/app
       - /app/node_modules
   db:
     container_name: fireside_db
