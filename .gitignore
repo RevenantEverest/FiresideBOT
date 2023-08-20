@@ -1,6 +1,6 @@
 ## Directories
 **/node_modules/
-**/.yan/
+**/.yarn/
 **/dist/
 **/postgres_data/
 **/postgres_testing_data/
