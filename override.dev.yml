@@ -25,6 +25,17 @@ services:
     volumes: 
       - ./discord:/app
       - /app/node_modules
+  trackers: 
+    container_name: fireside_trackers
+    restart: always
+    stdin_open: true
+    build:
+      dockerfile: ./docker/dev/Dockerfile
+    depends_on:
+      - api
+    volumes: 
+      - ./trackers:/app
+      - /app/node_modules
   db:
     container_name: fireside_db
     restart: always

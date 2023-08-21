@@ -1,4 +1,6 @@
 export * as fortunes from './custom/fortunes.js';
+export * as guildwarsEvents from './guildwars/guildwarsEvents.js';
+export * as guildwarsEventSignups from './guildwars/guildwarsEventSignups.js'
 export * as guildSettings from './settings/guildSettings.js';
 export * as guildPlaylists from './playlists/guildPlaylists.js';
 export * as guildPlaylistRoles from './playlists/guildPlaylistRoles.js';

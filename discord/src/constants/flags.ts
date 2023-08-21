@@ -1,4 +1,5 @@
 import { Flag } from '../types/flags.js';
+import timezoneData from '../resources/timezoneData.json' assert { type: "json" };
 
 export const INFO: Flag = {
     name: "Inspect/Info",
@@ -21,7 +22,7 @@ export const PRIVATE_TOGGLE: Flag = {
     usageSymbol: ["p"],
     permissions: [],
     description: "Used in some playlists commands to toggle public/private feature on custom playlists",
-    example: "editplaylist MyPlaylist -p"
+    example: "editPlaylist MyPlaylist -p"
 };
 
 export const SERVER_PLAYLIST: Flag = {
@@ -29,7 +30,7 @@ export const SERVER_PLAYLIST: Flag = {
     usageSymbol: ["s"],
     permissions: ["ADMINISTRATOR"],
     description: "Used in some playlist commands to specify that this command should run for server playlists instead of user playlists",
-    example: "createplaylist MyPlaylist -s"
+    example: "createPlaylist MyPlaylist -s"
 };
 
 export const GUILD_PLAYLIST_ROLES: Flag = {
@@ -37,5 +38,21 @@ export const GUILD_PLAYLIST_ROLES: Flag = {
     usageSymbol: ["r"],
     permissions: [],
     description: "Used in server playlist command to display only the roles associated with the given server playlist",
-    example: "serverplaylist OurPlaylist -r"
+    example: "serverPlaylist OurPlaylist -r"
+};
+
+export const TIMEZONE: Flag = {
+    name: "Timezone",
+    usageSymbol: timezoneData.map((tz) => tz.abbreviation.toLowerCase()),
+    permissions: [],
+    description: "Used in commands that require specific timezones to convert to from UTC to be displayed properly",
+    example: "guildwarsEvents -est"
+};
+
+export const UPCOMING: Flag = {
+    name: "Upcoming",
+    usageSymbol: ["upcoming", "up"],
+    permissions: [],
+    description: "Used in Guild Wars Event command to display upcoming events in the next 10 minutes",
+    example: "guildwarsEvents -upcoming"
 };

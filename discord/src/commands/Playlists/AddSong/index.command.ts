@@ -28,8 +28,6 @@ async function AddSong({ args, dispatch, server, commandFile }: CommandParams) {
 
     const request = (!interactionRequest && !argsRequest && currentSong) ? `${currentSong.title} ${currentSong.author}` : (interactionRequest ?? argsRequest);
 
-    console.log("Add Song Request => ", request);
-
     if(flags.containsFlag(FLAGS.SERVER_PLAYLIST, argFlags)) {
         return handleGuildPlaylist({ dispatch, commandFile, playlistName, request });
     }

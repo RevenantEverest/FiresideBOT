@@ -29,7 +29,7 @@ async function destroy(req: Request, res: Response, next: NextFunction) {
     const [deletedGuildPlaylistRole, deleteErr] = await entities.destroy<GuildPlaylistRole>(GuildPlaylistRole, guildPlaylistRole);
 
     if(deleteErr) {
-        return errors.sendResponse({ res, next, err: deleteErr, message: "Error Deleteing GuildPlaylistRole" });
+        return errors.sendResponse({ res, next, err: deleteErr, message: "Error Deleting GuildPlaylistRole" });
     }
 
     if(!deletedGuildPlaylistRole) {

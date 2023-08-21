@@ -1,0 +1,1 @@
+export const GW2_LOGO = "https://i.imgur.com/mqYfoZU.png";

@@ -6,6 +6,7 @@ import { verifyToken } from './middleware/index.js';
 import { 
     authRoutes, 
     customRoutes,
+    guildwarsRoutes,
     playlistRoutes, 
     settingsRoutes, 
     webhookRoutes 
@@ -24,6 +25,7 @@ function initializeApp(): Application {
     app.use("/auth", authRoutes);
 
     app.use("/custom", verifyToken, customRoutes);
+    app.use("/guildwars", verifyToken, guildwarsRoutes);
     app.use("/playlists", verifyToken, playlistRoutes);
     app.use("/settings", verifyToken, settingsRoutes);
 

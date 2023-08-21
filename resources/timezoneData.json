@@ -1,0 +1,1042 @@
+[
+    {
+        "abbreviation": "ACDT",
+        "name": "Australian Central Daylight Saving Time",
+        "utcOffset": "+10:30"
+    },
+    {
+        "abbreviation": "ACST",
+        "name": "Australian Central Standard Time",
+        "utcOffset": "+09:30"
+    },
+    {
+        "abbreviation": "ACT",
+        "name": "Acre Time",
+        "utcOffset": "-05"
+    },
+    {
+        "abbreviation": "ACT",
+        "name": "ASEAN Common Time",
+        "utcOffset": "+08:00"
+    },
+    {
+        "abbreviation": "ACWST",
+        "name": "Australian Central Western Standard Time",
+        "utcOffset": "+08:45"
+    },
+    {
+        "abbreviation": "ADT",
+        "name": "Atlantic Daylight Time",
+        "utcOffset": "-03"
+    },
+    {
+        "abbreviation": "AEDT",
+        "name": "Australian Eastern Daylight Saving Time",
+        "utcOffset": "+11"
+    },
+    {
+        "abbreviation": "AEST",
+        "name": "Australian Eastern Standard Time",
+        "utcOffset": "+10"
+    },
+    {
+        "abbreviation": "AET",
+        "name": "Australian Eastern Time",
+        "utcOffset": "+10"
+    },
+    {
+        "abbreviation": "AFT",
+        "name": "Afghanistan Time",
+        "utcOffset": "+04:30"
+    },
+    {
+        "abbreviation": "AKDT",
+        "name": "Alaska Daylight Time",
+        "utcOffset": "-08"
+    },
+    {
+        "abbreviation": "AKST",
+        "name": "Alaska Standard Time",
+        "utcOffset": "-09"
+    },
+    {
+        "abbreviation": "ALMT",
+        "name": "Alma-Ata Time",
+        "utcOffset": "+06"
+    },
+    {
+        "abbreviation": "AMST",
+        "name": "Amazon Summer Time",
+        "utcOffset": "-03"
+    },
+    {
+        "abbreviation": "AMT",
+        "name": "Amazon Time",
+        "utcOffset": "-04"
+    },
+    {
+        "abbreviation": "AMT",
+        "name": "Armenia Time",
+        "utcOffset": "+04"
+    },
+    {
+        "abbreviation": "ANAT",
+        "name": "Anadyr Time",
+        "utcOffset": "+12"
+    },
+    {
+        "abbreviation": "AQTT",
+        "name": "Aqtobe Time",
+        "utcOffset": "+05"
+    },
+    {
+        "abbreviation": "ART",
+        "name": "Argentina Time",
+        "utcOffset": "-03"
+    },
+    {
+        "abbreviation": "AST",
+        "name": "Arabia Standard Time",
+        "utcOffset": "+03"
+    },
+    {
+        "abbreviation": "AST",
+        "name": "Atlantic Standard Time",
+        "utcOffset": "-04"
+    },
+    {
+        "abbreviation": "AWST",
+        "name": "Australian Western Standard Time",
+        "utcOffset": "+08"
+    },
+    {
+        "abbreviation": "AZOST",
+        "name": "Time in Portugal",
+        "utcOffset": "±00:00"
+    },
+    {
+        "abbreviation": "AZOT",
+        "name": "Time in Portugal",
+        "utcOffset": "-01"
+    },
+    {
+        "abbreviation": "AZT",
+        "name": "Azerbaijan Time",
+        "utcOffset": "+04"
+    },
+    {
+        "abbreviation": "BNT",
+        "name": "Brunei Time",
+        "utcOffset": "+08"
+    },
+    {
+        "abbreviation": "BIOT",
+        "name": "British Indian Ocean Time",
+        "utcOffset": "+06"
+    },
+    {
+        "abbreviation": "BIT",
+        "name": "Baker Island Time",
+        "utcOffset": "-12"
+    },
+    {
+        "abbreviation": "BOT",
+        "name": "Bolivia Time",
+        "utcOffset": "-04"
+    },
+    {
+        "abbreviation": "BRST",
+        "name": "Brasília Summer Time",
+        "utcOffset": "-02"
+    },
+    {
+        "abbreviation": "BRT",
+        "name": "Brasília Time",
+        "utcOffset": "-03"
+    },
+    {
+        "abbreviation": "BST",
+        "name": "Bangladesh Standard Time",
+        "utcOffset": "+06"
+    },
+    {
+        "abbreviation": "BST",
+        "name": "Bougainville Standard Time",
+        "utcOffset": "+11"
+    },
+    {
+        "abbreviation": "BST",
+        "name": "British Summer Time",
+        "utcOffset": "+01"
+    },
+    {
+        "abbreviation": "BTT",
+        "name": "Bhutan Time",
+        "utcOffset": "+06"
+    },
+    {
+        "abbreviation": "CAT",
+        "name": "Central Africa Time",
+        "utcOffset": "+02"
+    },
+    {
+        "abbreviation": "CCT",
+        "name": "Cocos Islands Time",
+        "utcOffset": "+06:30"
+    },
+    {
+        "abbreviation": "CDT",
+        "name": "Central Daylight Time",
+        "utcOffset": "-05"
+    },
+    {
+        "abbreviation": "CDT",
+        "name": "Cuba Daylight Time",
+        "utcOffset": "-04"
+    },
+    {
+        "abbreviation": "CEST",
+        "name": "Central European Summer Time",
+        "utcOffset": "+02"
+    },
+    {
+        "abbreviation": "CET",
+        "name": "Central European Time",
+        "utcOffset": "+01"
+    },
+    {
+        "abbreviation": "CHADT",
+        "name": "Chatham Daylight Time",
+        "utcOffset": "+13:45"
+    },
+    {
+        "abbreviation": "CHAST",
+        "name": "Chatham Standard Time",
+        "utcOffset": "+12:45"
+    },
+    {
+        "abbreviation": "CHOT",
+        "name": "Choibalsan Standard Time",
+        "utcOffset": "+08"
+    },
+    {
+        "abbreviation": "CHOST",
+        "name": "Choibalsan Summer Time",
+        "utcOffset": "+09"
+    },
+    {
+        "abbreviation": "CHST",
+        "name": "Chamorro Standard Time",
+        "utcOffset": "+10"
+    },
+    {
+        "abbreviation": "CHUT",
+        "name": "Chuuk Time",
+        "utcOffset": "+10"
+    },
+    {
+        "abbreviation": "CIST",
+        "name": "Clipperton Island Standard Time",
+        "utcOffset": "-08"
+    },
+    {
+        "abbreviation": "CKT",
+        "name": "Cook Island Time",
+        "utcOffset": "-10"
+    },
+    {
+        "abbreviation": "CLST",
+        "name": "Chile Summer Time",
+        "utcOffset": "-03"
+    },
+    {
+        "abbreviation": "CLT",
+        "name": "Chile Standard Time",
+        "utcOffset": "-04"
+    },
+    {
+        "abbreviation": "COST",
+        "name": "Colombia Summer Time",
+        "utcOffset": "-04"
+    },
+    {
+        "abbreviation": "COT",
+        "name": "Colombia Time",
+        "utcOffset": "-05"
+    },
+    {
+        "abbreviation": "CST",
+        "name": "Central Standard Time",
+        "utcOffset": "-06"
+    },
+    {
+        "abbreviation": "CST",
+        "name": "Time in China",
+        "utcOffset": "+08"
+    },
+    {
+        "abbreviation": "CST",
+        "name": "Cuba Standard Time",
+        "utcOffset": "-05"
+    },
+    {
+        "abbreviation": "CT",
+        "name": "Central Time Zone",
+        "utcOffset": "-06"
+    },
+    {
+        "abbreviation": "CVT",
+        "name": "Cape Verde Time",
+        "utcOffset": "-01"
+    },
+    {
+        "abbreviation": "CWST",
+        "name": "Central Western Standard Time",
+        "utcOffset": "+08:45"
+    },
+    {
+        "abbreviation": "CXT",
+        "name": "Christmas Island Time",
+        "utcOffset": "+07"
+    },
+    {
+        "abbreviation": "DAVT",
+        "name": "Davis Time",
+        "utcOffset": "+07"
+    },
+    {
+        "abbreviation": "DDUT",
+        "name": "Dumont d'Urville Time\n",
+        "utcOffset": "+10"
+    },
+    {
+        "abbreviation": "DFT",
+        "name": "AIX-specific equivalent of ",
+        "utcOffset": "+01"
+    },
+    {
+        "abbreviation": "EASST",
+        "name": "Easter Island Summer Time",
+        "utcOffset": "-05"
+    },
+    {
+        "abbreviation": "EAST",
+        "name": "Easter Island Standard Time",
+        "utcOffset": "-06"
+    },
+    {
+        "abbreviation": "EAT",
+        "name": "East Africa Time",
+        "utcOffset": "+03"
+    },
+    {
+        "abbreviation": "ECT",
+        "name": "Eastern Caribbean Time",
+        "utcOffset": "-04"
+    },
+    {
+        "abbreviation": "ECT",
+        "name": "Ecuador Time",
+        "utcOffset": "-05"
+    },
+    {
+        "abbreviation": "EDT",
+        "name": "Eastern Daylight Time",
+        "utcOffset": "-04"
+    },
+    {
+        "abbreviation": "EEST",
+        "name": "Eastern European Summer Time",
+        "utcOffset": "+03"
+    },
+    {
+        "abbreviation": "EET",
+        "name": "Eastern European Time",
+        "utcOffset": "+02"
+    },
+    {
+        "abbreviation": "EGST",
+        "name": "Eastern Greenland Summer Time",
+        "utcOffset": "±00:00"
+    },
+    {
+        "abbreviation": "EGT",
+        "name": "Eastern Greenland Time",
+        "utcOffset": "-01"
+    },
+    {
+        "abbreviation": "EST",
+        "name": "Eastern Standard Time (North America)",
+        "utcOffset": "-05"
+    },
+    {
+        "abbreviation": "ET",
+        "name": "Eastern Time Zone",
+        "utcOffset": "-05"
+    },
+    {
+        "abbreviation": "FET",
+        "name": "Further-eastern European Time",
+        "utcOffset": "+03"
+    },
+    {
+        "abbreviation": "FJT",
+        "name": "Fiji Time",
+        "utcOffset": "+12"
+    },
+    {
+        "abbreviation": "FKST",
+        "name": "Falkland Islands Summer Time",
+        "utcOffset": "-03"
+    },
+    {
+        "abbreviation": "FKT",
+        "name": "Falkland Islands Time",
+        "utcOffset": "-04"
+    },
+    {
+        "abbreviation": "FNT",
+        "name": "Fernando de Noronha Time",
+        "utcOffset": "-02"
+    },
+    {
+        "abbreviation": "GALT",
+        "name": "Galápagos Time",
+        "utcOffset": "-06"
+    },
+    {
+        "abbreviation": "GAMT",
+        "name": "Gambier Islands Time",
+        "utcOffset": "-09"
+    },
+    {
+        "abbreviation": "GET",
+        "name": "Georgia Standard Time",
+        "utcOffset": "+04"
+    },
+    {
+        "abbreviation": "GFT",
+        "name": "French Guiana Time",
+        "utcOffset": "-03"
+    },
+    {
+        "abbreviation": "GILT",
+        "name": "Gilbert Island Time",
+        "utcOffset": "+12"
+    },
+    {
+        "abbreviation": "GIT",
+        "name": "Gambier Island Time",
+        "utcOffset": "-09"
+    },
+    {
+        "abbreviation": "GMT",
+        "name": "Greenwich Mean Time",
+        "utcOffset": "±00:00"
+    },
+    {
+        "abbreviation": "GST",
+        "name": "South Georgia and the South Sandwich Islands Time",
+        "utcOffset": "-02"
+    },
+    {
+        "abbreviation": "GST",
+        "name": "Gulf Standard Time",
+        "utcOffset": "+04"
+    },
+    {
+        "abbreviation": "GYT",
+        "name": "Guyana Time",
+        "utcOffset": "-04"
+    },
+    {
+        "abbreviation": "HDT",
+        "name": "Hawaii–Aleutian Daylight Time",
+        "utcOffset": "-09"
+    },
+    {
+        "abbreviation": "HAEC",
+        "name": "Heure Avancée d'Europe Centrale",
+        "utcOffset": "+02"
+    },
+    {
+        "abbreviation": "HST",
+        "name": "Hawaii–Aleutian Standard Time",
+        "utcOffset": "-10"
+    },
+    {
+        "abbreviation": "HKT",
+        "name": "Hong Kong Time",
+        "utcOffset": "+08"
+    },
+    {
+        "abbreviation": "HMT",
+        "name": "Heard and McDonald Islands",
+        "utcOffset": "+05"
+    },
+    {
+        "abbreviation": "HOVST",
+        "name": "Hovd Summer Time (",
+        "utcOffset": "+08"
+    },
+    {
+        "abbreviation": "HOVT",
+        "name": "Hovd Time\n",
+        "utcOffset": "+07"
+    },
+    {
+        "abbreviation": "ICT",
+        "name": "Indochina Time",
+        "utcOffset": "+07"
+    },
+    {
+        "abbreviation": "IDLW",
+        "name": "UTC-12",
+        "utcOffset": "-12"
+    },
+    {
+        "abbreviation": "IDT",
+        "name": "Israel Daylight Time",
+        "utcOffset": "+03"
+    },
+    {
+        "abbreviation": "IOT",
+        "name": "Chagos Archipelago",
+        "utcOffset": "+03"
+    },
+    {
+        "abbreviation": "IRDT",
+        "name": "Iran Daylight Time",
+        "utcOffset": "+04:30"
+    },
+    {
+        "abbreviation": "IRKT",
+        "name": "Irkutsk Time",
+        "utcOffset": "+08"
+    },
+    {
+        "abbreviation": "IRST",
+        "name": "Iran Standard Time",
+        "utcOffset": "+03:30"
+    },
+    {
+        "abbreviation": "IST",
+        "name": "Indian Standard Time",
+        "utcOffset": "+05:30"
+    },
+    {
+        "abbreviation": "IST",
+        "name": "Irish Standard Time",
+        "utcOffset": "+01"
+    },
+    {
+        "abbreviation": "IST",
+        "name": "Israel Standard Time",
+        "utcOffset": "+02"
+    },
+    {
+        "abbreviation": "JST",
+        "name": "Japan Standard Time",
+        "utcOffset": "+09"
+    },
+    {
+        "abbreviation": "KALT",
+        "name": "Kaliningrad Time",
+        "utcOffset": "+02"
+    },
+    {
+        "abbreviation": "KGT",
+        "name": "Kyrgyzstan Time",
+        "utcOffset": "+06"
+    },
+    {
+        "abbreviation": "KOST",
+        "name": "Kosrae Time",
+        "utcOffset": "+11"
+    },
+    {
+        "abbreviation": "KRAT",
+        "name": "Krasnoyarsk Time",
+        "utcOffset": "+07"
+    },
+    {
+        "abbreviation": "KST",
+        "name": "Korea Standard Time",
+        "utcOffset": "+09"
+    },
+    {
+        "abbreviation": "LHST",
+        "name": "Lord Howe Standard Time\n",
+        "utcOffset": "+10:30"
+    },
+    {
+        "abbreviation": "LHST",
+        "name": "Lord Howe Summer Time\n",
+        "utcOffset": "+11"
+    },
+    {
+        "abbreviation": "LINT",
+        "name": "Line Islands",
+        "utcOffset": "+14"
+    },
+    {
+        "abbreviation": "MAGT",
+        "name": "Magadan Time",
+        "utcOffset": "+12"
+    },
+    {
+        "abbreviation": "MART",
+        "name": "Marquesas Islands Time",
+        "utcOffset": "-09:30"
+    },
+    {
+        "abbreviation": "MAWT",
+        "name": "Mawson Station Time\n",
+        "utcOffset": "+05"
+    },
+    {
+        "abbreviation": "MDT",
+        "name": "Mountain Daylight Time",
+        "utcOffset": "-06"
+    },
+    {
+        "abbreviation": "MET",
+        "name": "Middle European Time",
+        "utcOffset": "+01"
+    },
+    {
+        "abbreviation": "MEST",
+        "name": "Middle European Summer Time",
+        "utcOffset": "+02"
+    },
+    {
+        "abbreviation": "MHT",
+        "name": "Marshall Islands Time",
+        "utcOffset": "+12"
+    },
+    {
+        "abbreviation": "MIST",
+        "name": "Macquarie Island Station Time\n",
+        "utcOffset": "+11"
+    },
+    {
+        "abbreviation": "MIT",
+        "name": "Marquesas Islands Time",
+        "utcOffset": "-09:30"
+    },
+    {
+        "abbreviation": "MMT",
+        "name": "Myanmar Standard Time",
+        "utcOffset": "+06:30"
+    },
+    {
+        "abbreviation": "MSK",
+        "name": "Moscow Time",
+        "utcOffset": "+03"
+    },
+    {
+        "abbreviation": "MST",
+        "name": "Malaysia Standard Time",
+        "utcOffset": "+08"
+    },
+    {
+        "abbreviation": "MST",
+        "name": "Mountain Standard Time",
+        "utcOffset": "-07"
+    },
+    {
+        "abbreviation": "MUT",
+        "name": "Mauritius Time",
+        "utcOffset": "+04"
+    },
+    {
+        "abbreviation": "MVT",
+        "name": "Maldives Time",
+        "utcOffset": "+05"
+    },
+    {
+        "abbreviation": "MYT",
+        "name": "Malaysia Time",
+        "utcOffset": "+08"
+    },
+    {
+        "abbreviation": "NCT",
+        "name": "New Caledonia Time",
+        "utcOffset": "+11"
+    },
+    {
+        "abbreviation": "NDT",
+        "name": "Newfoundland Daylight Time",
+        "utcOffset": "-02:30"
+    },
+    {
+        "abbreviation": "NFT",
+        "name": "Norfolk Island Time",
+        "utcOffset": "+11"
+    },
+    {
+        "abbreviation": "NOVT",
+        "name": "Novosibirsk Time ",
+        "utcOffset": "+07"
+    },
+    {
+        "abbreviation": "NPT",
+        "name": "Nepal Time",
+        "utcOffset": "+05:45"
+    },
+    {
+        "abbreviation": "NST",
+        "name": "Newfoundland Standard Time",
+        "utcOffset": "-03:30"
+    },
+    {
+        "abbreviation": "NT",
+        "name": "Newfoundland Time",
+        "utcOffset": "-03:30"
+    },
+    {
+        "abbreviation": "NUT",
+        "name": "Niue Time",
+        "utcOffset": "-11"
+    },
+    {
+        "abbreviation": "NZDT",
+        "name": "New Zealand Daylight Time",
+        "utcOffset": "+13"
+    },
+    {
+        "abbreviation": "NZST",
+        "name": "New Zealand Standard Time",
+        "utcOffset": "+12"
+    },
+    {
+        "abbreviation": "OMST",
+        "name": "Omsk Time",
+        "utcOffset": "+06"
+    },
+    {
+        "abbreviation": "ORAT",
+        "name": "Oral Time\n",
+        "utcOffset": "+05"
+    },
+    {
+        "abbreviation": "PDT",
+        "name": "Pacific Daylight Time",
+        "utcOffset": "-07"
+    },
+    {
+        "abbreviation": "PET",
+        "name": "Peru Time",
+        "utcOffset": "-05"
+    },
+    {
+        "abbreviation": "PETT",
+        "name": "Kamchatka Time",
+        "utcOffset": "+12"
+    },
+    {
+        "abbreviation": "PGT",
+        "name": "Papua New Guinea Time",
+        "utcOffset": "+10"
+    },
+    {
+        "abbreviation": "PHOT",
+        "name": "Phoenix Island Time",
+        "utcOffset": "+13"
+    },
+    {
+        "abbreviation": "PHT",
+        "name": "Philippine Time",
+        "utcOffset": "+08"
+    },
+    {
+        "abbreviation": "PHST",
+        "name": "Philippine Standard Time",
+        "utcOffset": "+08"
+    },
+    {
+        "abbreviation": "PKT",
+        "name": "Pakistan Standard Time",
+        "utcOffset": "+05"
+    },
+    {
+        "abbreviation": "PMDT",
+        "name": "Saint Pierre and Miquelon Daylight Time",
+        "utcOffset": "-02"
+    },
+    {
+        "abbreviation": "PMST",
+        "name": "Saint Pierre and Miquelon Standard Time",
+        "utcOffset": "-03"
+    },
+    {
+        "abbreviation": "PONT",
+        "name": "Pohnpei Standard Time",
+        "utcOffset": "+11"
+    },
+    {
+        "abbreviation": "PST",
+        "name": "Pacific Standard Time",
+        "utcOffset": "-08"
+    },
+    {
+        "abbreviation": "PWT",
+        "name": "Palau Time",
+        "utcOffset": "+09"
+    },
+    {
+        "abbreviation": "PYST",
+        "name": "Paraguay Summer Time",
+        "utcOffset": "-03"
+    },
+    {
+        "abbreviation": "PYT",
+        "name": "Paraguay Time",
+        "utcOffset": "-04"
+    },
+    {
+        "abbreviation": "RET",
+        "name": "Réunion Time",
+        "utcOffset": "+04"
+    },
+    {
+        "abbreviation": "ROTT",
+        "name": "Rothera Research Station Time\n",
+        "utcOffset": "-03"
+    },
+    {
+        "abbreviation": "SAKT",
+        "name": "Sakhalin Island Time",
+        "utcOffset": "+11"
+    },
+    {
+        "abbreviation": "SAMT",
+        "name": "Samara Time",
+        "utcOffset": "+04"
+    },
+    {
+        "abbreviation": "SAST",
+        "name": "South African Standard Time",
+        "utcOffset": "+02"
+    },
+    {
+        "abbreviation": "SBT",
+        "name": "Solomon Islands Time",
+        "utcOffset": "+11"
+    },
+    {
+        "abbreviation": "SCT",
+        "name": "Seychelles Time",
+        "utcOffset": "+04"
+    },
+    {
+        "abbreviation": "SDT",
+        "name": "Samoa Daylight Time",
+        "utcOffset": "-10"
+    },
+    {
+        "abbreviation": "SGT",
+        "name": "Singapore Time",
+        "utcOffset": "+08"
+    },
+    {
+        "abbreviation": "SLST",
+        "name": "Sri Lanka Standard Time",
+        "utcOffset": "+05:30"
+    },
+    {
+        "abbreviation": "SRET",
+        "name": "Srednekolymsk Time",
+        "utcOffset": "+11"
+    },
+    {
+        "abbreviation": "SRT",
+        "name": "Suriname Time",
+        "utcOffset": "-03"
+    },
+    {
+        "abbreviation": "SST",
+        "name": "Samoa Standard Time",
+        "utcOffset": "-11"
+    },
+    {
+        "abbreviation": "SST",
+        "name": "Singapore Standard Time",
+        "utcOffset": "+08"
+    },
+    {
+        "abbreviation": "SYOT",
+        "name": "Showa Station Time\n",
+        "utcOffset": "+03"
+    },
+    {
+        "abbreviation": "TAHT",
+        "name": "Tahiti Time",
+        "utcOffset": "-10"
+    },
+    {
+        "abbreviation": "THA",
+        "name": "Thailand Standard Time",
+        "utcOffset": "+07"
+    },
+    {
+        "abbreviation": "TFT",
+        "name": "French Southern and Antarctic Time",
+        "utcOffset": "+05"
+    },
+    {
+        "abbreviation": "TJT",
+        "name": "Tajikistan Time",
+        "utcOffset": "+05"
+    },
+    {
+        "abbreviation": "TKT",
+        "name": "Tokelau Time",
+        "utcOffset": "+13"
+    },
+    {
+        "abbreviation": "TLT",
+        "name": "Timor Leste Time",
+        "utcOffset": "+09"
+    },
+    {
+        "abbreviation": "TMT",
+        "name": "Turkmenistan Time",
+        "utcOffset": "+05"
+    },
+    {
+        "abbreviation": "TRT",
+        "name": "Time in Turkey",
+        "utcOffset": "+03"
+    },
+    {
+        "abbreviation": "TOT",
+        "name": "Tonga Time",
+        "utcOffset": "+13"
+    },
+    {
+        "abbreviation": "TVT",
+        "name": "Tuvalu Time",
+        "utcOffset": "+12"
+    },
+    {
+        "abbreviation": "ULAST",
+        "name": "Ulaanbaatar Summer Time",
+        "utcOffset": "+09"
+    },
+    {
+        "abbreviation": "ULAT",
+        "name": "Ulaanbaatar Standard Time",
+        "utcOffset": "+08"
+    },
+    {
+        "abbreviation": "UTC",
+        "name": "Coordinated Universal Time",
+        "utcOffset": "±00:00"
+    },
+    {
+        "abbreviation": "UYST",
+        "name": "Uruguay Summer Time",
+        "utcOffset": "-02"
+    },
+    {
+        "abbreviation": "UYT",
+        "name": "Uruguay Standard Time",
+        "utcOffset": "-03"
+    },
+    {
+        "abbreviation": "UZT",
+        "name": "Uzbekistan Time",
+        "utcOffset": "+05"
+    },
+    {
+        "abbreviation": "VET",
+        "name": "Venezuelan Standard Time",
+        "utcOffset": "-04:00"
+    },
+    {
+        "abbreviation": "VLAT",
+        "name": "Vladivostok Time",
+        "utcOffset": "+10"
+    },
+    {
+        "abbreviation": "VOLT",
+        "name": "Volgograd Time",
+        "utcOffset": "+03"
+    },
+    {
+        "abbreviation": "VOST",
+        "name": "Vostok Station Time\n",
+        "utcOffset": "+06"
+    },
+    {
+        "abbreviation": "VUT",
+        "name": "Vanuatu",
+        "utcOffset": "+11"
+    },
+    {
+        "abbreviation": "WAKT",
+        "name": "Wake Island Time",
+        "utcOffset": "+12"
+    },
+    {
+        "abbreviation": "WAST",
+        "name": "West Africa Summer Time",
+        "utcOffset": "+02"
+    },
+    {
+        "abbreviation": "WAT",
+        "name": "West Africa Time",
+        "utcOffset": "+01"
+    },
+    {
+        "abbreviation": "WEST",
+        "name": "Western European Summer Time",
+        "utcOffset": "+01"
+    },
+    {
+        "abbreviation": "WET",
+        "name": "Western European Time",
+        "utcOffset": "±00:00"
+    },
+    {
+        "abbreviation": "WIB",
+        "name": "Western Indonesian Time",
+        "utcOffset": "+07"
+    },
+    {
+        "abbreviation": "WIT",
+        "name": "Eastern Indonesian Time",
+        "utcOffset": "+09"
+    },
+    {
+        "abbreviation": "WITA",
+        "name": "Central Indonesia Time",
+        "utcOffset": "+08"
+    },
+    {
+        "abbreviation": "WGST",
+        "name": "West Greenland Summer Time",
+        "utcOffset": "-02"
+    },
+    {
+        "abbreviation": "WGT",
+        "name": "West Greenland Time",
+        "utcOffset": "-03"
+    },
+    {
+        "abbreviation": "WST",
+        "name": "Western Standard Time",
+        "utcOffset": "+08"
+    },
+    {
+        "abbreviation": "YAKT",
+        "name": "Yakutsk Time",
+        "utcOffset": "+09"
+    },
+    {
+        "abbreviation": "YEKT",
+        "name": "Yekaterinburg Time",
+        "utcOffset": "+05"
+    }
+]

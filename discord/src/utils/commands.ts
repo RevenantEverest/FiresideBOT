@@ -48,7 +48,8 @@ export function getFile(commandResolvable: string): CommandFile {
 
 export function hasPermissions(dispatch: CommandDispatch, args: string[], commandFile: CommandFile): boolean {
     for(let i = 0; i < commandFile.permissions.length; i++) {
-        const hasPermission = dispatch.member.permissions.has(commandFile.permissions[i]);
+        const current = commandFile.permissions[i];
+        const hasPermission = current === "FIRESIDE_ADMIN" ? (dispatch.author.id === "163346982709100546" ? true : false) : dispatch.member.permissions.has(current);
         if(!hasPermission) {
             return false;
         }

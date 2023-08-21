@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "build": "swc src -d dist",
+    "build": "swc src -d dist --copy-files",
     "build-dev": "yarn build && NODE_ENV=development node --inspect dist/server.js",
     "dev": "nodemon -L --ext ts --exec \"yarn build-dev\"",
     "start": "yarn build && NODE_ENV=production node dist/server.js",

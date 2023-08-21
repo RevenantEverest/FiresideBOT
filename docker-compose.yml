@@ -23,3 +23,10 @@ services:
       context: ./discord
     ports: 
       - "3002:3002"
+  trackers:
+    image: ${DOCKER_REGISTRY:-}trackers${DEPLOY_TAG:-}
+    <<: *env
+    build:
+      context: ./trackers
+    ports:
+      - "3006:3006"

@@ -22,7 +22,9 @@ import { logs, colors, promises } from './utils/index.js';
 
     await promises.waitFor(() => bot.isReady(), {
         retries: 10,
-        intervalLength: 2000
+        intervalLength: 2000,
+        logRetries: true,
+        logType: "DISCORD"
     });
 
     getUserCount();

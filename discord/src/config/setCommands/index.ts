@@ -9,6 +9,8 @@ import { ENV } from '../../constants/index.js';
 import { logs, colors, fileSystem } from '../../utils/index.js';
 
 async function setCommands() {
+    logs.log({ color: colors.warning, type: "COMMANDS", message: "Starting Command Acquisition..." });
+
     const categoryList: string[] = await fileSystem.getDirectoryNameList("./dist/commands");
 
     for(let i = 0; i < categoryList.length; i++) {
