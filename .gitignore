@@ -1,7 +1,11 @@
-/node_modules/
+# Directories
+**/dist/
+**/node_modules/
+**/postgres_data/
+**/postgres_testing_data/
+**/pgadmin_data/
+**/.yarn/
+**/Dev/Test
+
+# Files
 *.env
-nohup.out
-/postgres_data/
-/postgres_testing_data/
-/pgadmin_data/
-/old_scripts/
