@@ -1,4 +1,4 @@
-import { 
+import type { 
     AnyChannel, 
     TextChannel, 
     Guild, 
@@ -6,19 +6,19 @@ import {
     Role,
     GuildResolvable
 } from 'discord.js';
-import BigNumber from 'bignumber.js';
+import { BigNumber } from 'bignumber.js';
 
 import bot from '../discordBot.js';
 
 import * as promises from './promises.js';
 import { NUMBERS } from '../constants/index.js';
 
-import { 
+import type { 
     TextChannelReturn, 
     CheckGuildMemberPermissionsOptions, 
     GuildMemberOptions,
     HasRoleOptions
-} from '../types/discord';
+} from '../types/discord.js';
 import { HandleReturn } from '../types/promises.js';
 
 type CheckPermissionsReturn = Promise<HandleReturn<boolean>>;
