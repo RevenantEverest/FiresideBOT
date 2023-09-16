@@ -1,5 +1,5 @@
-import AppDataSource from '../../db/dataSource';
-import waitForPostgres from '../../db/waitForPostgres';
+import AppDataSource from '../../db/dataSource.js';
+import waitForPostgres from '../../db/waitForPostgres.js';
 
 import dbConfig from './dbConfig.support.js';
 
