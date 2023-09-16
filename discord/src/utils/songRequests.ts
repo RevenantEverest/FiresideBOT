@@ -42,7 +42,7 @@ export async function requestSong(request: string): HandleReturn<SongInfo> {
         request = videoId;        
     }
 
-    const [youtubeSearchRes, youtubeSearchErr] = await youtube.handleSearch(request, isLink);
+    const [youtubeSearchRes, youtubeSearchErr] = await youtube.handleSearch(request);
 
     if(youtubeSearchErr) {
         return [undefined, youtubeSearchErr];
