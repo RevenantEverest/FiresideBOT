@@ -3,6 +3,7 @@ version: "3.5"
 services:
   api:
     container_name: fireside_api
+    restart: "no"
     stdin_open: true
     build:
       dockerfile: ./docker/test/Dockerfile
