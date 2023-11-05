@@ -1,4 +1,4 @@
-FROM node:17.8.0
+FROM node:20.6.1
 
 # Set the installation directory for bun
 ENV BUN_INSTALL="/usr/local/bun"
