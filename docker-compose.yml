@@ -7,10 +7,11 @@ x-env: &env
     - DB_PORT=${DB_PORT-5432}
     - PORT=${API_PORT}
 
-version: "3.5"
+version: "3.8"
 services:
   api:
     image: ${DOCKER_REGISTRY:-}api${DEPLOY_TAG:-}
+    restart: always
     <<: *env
     build:
       context: ./api
@@ -18,6 +19,7 @@ services:
       - "3001:3001"
   discord:
     image: ${DOCKER_REGISTRY:-}discord${DEPLOY_TAG:-}
+    restart: always
     <<: *env
     build:
       context: ./discord

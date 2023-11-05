@@ -1,9 +1,8 @@
-version: "3.5"
+version: "3.8"
 
 services:
   api:
     container_name: fireside_api
-    restart: always
     stdin_open: true
     build:
       dockerfile: ./docker/dev/Dockerfile
@@ -16,7 +15,6 @@ services:
       - /app/node_modules
   discord: 
     container_name: fireside_discord
-    restart: always
     stdin_open: true
     build:
       dockerfile: ./docker/dev/Dockerfile
