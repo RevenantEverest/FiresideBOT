@@ -30,7 +30,8 @@ class GuildPlaylistRole extends BaseEntity {
 
     @ManyToOne(
         () => GuildPlaylist,
-        (playlist: GuildPlaylist) => playlist.roles
+        (playlist: GuildPlaylist) => playlist.roles,
+        { onDelete: "CASCADE" }
     )
     @JoinColumn({ name: "playlist_id" })
     playlist: GuildPlaylist;
