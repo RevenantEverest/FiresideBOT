@@ -1,18 +1,23 @@
+import type { Application } from 'express';
+import type { AuthTestingPayload } from '@@tests/support/types/auth.js';
+import type { GuildSettingsExtraParams } from '@@tests/support/types/extraParams.js';
+
 import supertest from 'supertest';
-import { Application } from 'express';
+import AppDataSource from '@@db/dataSource.js';
+import { GuildSettings } from '@@entities/index.js';
+import { DEFAULTS } from '@@constants/index.js';
+import authenticatedRouteTest from '@@tests/support/common/authenticatedRouteTest.js';
 
-import { AuthTestingPayload } from '../../../support/types/auth.js';
-import { GuildSettingsExtraParams } from '../../../support/types/extraParams/index.js';
-import { DEFAULTS } from '../../../../constants/index.js';
+type ExtraParams = GuildSettingsExtraParams<undefined, { altGuildId: string }>;
 
-function postRoute(baseEndpoint: string, app: Application, authPayload: AuthTestingPayload, extraParams: GuildSettingsExtraParams) {
-    describe("given the user is not logged in", () => {
-        it("should return a 401 status", async () => {
-            await supertest(app)
-            .post(`${baseEndpoint}/${extraParams.guildId}`)
-            .expect(403)
-        });
+function postRoute(baseEndpoint: string, app: Application, authPayload: AuthTestingPayload, extraParams: ExtraParams) {
+
+    /* Cleanup */
+    afterAll(async () => {
+        await AppDataSource.getRepository(GuildSettings).remove(extraParams.entity as GuildSettings);
     });
+
+    authenticatedRouteTest(app, "get", `${baseEndpoint}/${extraParams.guildId}`);
 
     describe("given the user is logged in", () => {
         describe("given the user is not a guild admin", () => {
@@ -21,7 +26,7 @@ function postRoute(baseEndpoint: string, app: Application, authPayload: AuthTest
                 extraParams.mocks.hasPermission(false);
                 extraParams.mocks.isGuildMember(true);
 
-                const endpoint = `${baseEndpoint}/${extraParams.altGuildId}`;
+                const endpoint = `${baseEndpoint}/${extraParams.extras?.altGuildId}`;
                 const { body, statusCode } = await supertest(app)
                 .post(endpoint)
                 .set(authPayload.header)
@@ -37,7 +42,7 @@ function postRoute(baseEndpoint: string, app: Application, authPayload: AuthTest
 
                 expect(results).toEqual({
                     id: results.id,
-                    guild_id: extraParams.altGuildId,
+                    guild_id: extraParams.extras?.altGuildId,
                     prefix: DEFAULTS.GENERAL_SETTINGS.PREFIX,
                     volume: DEFAULTS.GENERAL_SETTINGS.VOLUME,
                     rank_increase_rate: DEFAULTS.RANK_SETTINGS.GENERAL_INCREASE_RATE,
@@ -45,6 +50,7 @@ function postRoute(baseEndpoint: string, app: Application, authPayload: AuthTest
                     rank_channel: null,
                     currency_name: DEFAULTS.ECONOMY_SETTINGS.CURRENCY_NAME,
                     currency_increase_rate: DEFAULTS.ECONOMY_SETTINGS.INCREASE_RATE,
+                    created_at: results.created_at,
                     updated_at: results.updated_at
                 });
 
@@ -81,10 +87,11 @@ function postRoute(baseEndpoint: string, app: Application, authPayload: AuthTest
                     rank_channel: null,
                     currency_name: DEFAULTS.ECONOMY_SETTINGS.CURRENCY_NAME,
                     currency_increase_rate: DEFAULTS.ECONOMY_SETTINGS.INCREASE_RATE,
+                    created_at: results.created_at,
                     updated_at: results.updated_at
                 });
 
-                extraParams.guildSettings = results;
+                extraParams.entity = results;
             });
         });
     });

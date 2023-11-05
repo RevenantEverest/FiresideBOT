@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 import { DataSourceOptions } from 'typeorm';
-import * as Entities from '../../entities/index.js';
+import * as Entities from '@@entities/index.js';
 
 dotenv.config();
 

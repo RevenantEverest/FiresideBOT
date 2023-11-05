@@ -1,19 +1,21 @@
+import type { Application } from 'express';
+import type { AuthTestingPayload } from '@@tests/support/types/auth.js';
+import type { FortuneExtraParams } from '@@tests/support/types/extraParams.js';
+
 import supertest from 'supertest';
-import { Application } from 'express';
-
-import * as PAYLOADS from '../../../support/payloads/fortune.payloads.js';
-
-import { AuthTestingPayload } from '../../../support/types/auth.js';
-import { FortuneExtraParams } from '../../../support/types/extraParams/index.js';
+import AppDataSource from '@@db/dataSource.js';
+import { Fortune } from '@@entities/index.js';
+import * as PAYLOADS from '@@tests/support/payloads/fortune.payloads.js';
+import authenticatedRouteTest from '@@tests/support/common/authenticatedRouteTest.js';
 
 function postRoute(baseEndpoint: string, app: Application, authPayload: AuthTestingPayload, extraParams: FortuneExtraParams) {
-    describe("given the user is not logged in", () => {
-        it("should return a 403 status", async () => {
-            await supertest(app)
-            .post(baseEndpoint)
-            .expect(403)
-        });
+    
+    /* Cleanup */
+    afterAll(async () => {
+        await AppDataSource.getRepository(Fortune).remove(extraParams.entity as Fortune);
     });
+
+    authenticatedRouteTest(app, "post", baseEndpoint);
 
     describe("given the user is logged in", () => {
         describe("given the user is not a guild admin", () => {
@@ -57,7 +59,7 @@ function postRoute(baseEndpoint: string, app: Application, authPayload: AuthTest
                     created_at: results.created_at
                 });
 
-                extraParams.createdFortune = results;
+                extraParams.entity = results;
             });
 
             describe("given a duplicate fortune", () => {

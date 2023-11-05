@@ -6,4 +6,4 @@ export interface AuthHeader {
 
 export interface AuthTestingPayload extends AuthPayload {
     header: AuthHeader
-}
+};

@@ -1,19 +1,37 @@
+import type { Application } from 'express';
+import type { AuthTestingPayload } from '@@tests/support/types/auth.js';
+import type { GuildSettingsExtraParams } from '@@tests/support/types/extraParams.js';
+
 import supertest from 'supertest';
-import { Application } from 'express';
+import AppDataSource from '@@db/dataSource.js';
+import { GuildSettings } from '@@entities/index.js';
+import { DEFAULTS } from '@@constants/index.js';
+import authenticatedRouteTest from '@@tests/support/common/authenticatedRouteTest';
 
-import { AuthTestingPayload } from '../../../support/types/auth.js';
-import { GuildSettingsExtraParams } from '../../../support/types/extraParams/index.js';
-import { DEFAULTS } from '../../../../constants/index.js';
+type ExtraParams = GuildSettingsExtraParams<undefined, { altGuildId: string }>;
 
-function getRoute(baseEndpoint: string, app: Application, authPayload: AuthTestingPayload, extraParams: GuildSettingsExtraParams) {
-    describe("given the user is not logged in", () => {
-        it("should return a 401 status", async () => {
-            const endpoint = `${baseEndpoint}/${extraParams.guildId}`;
-            await supertest(app)
-            .get(endpoint)
-            .expect(403)
+function getRoute(baseEndpoint: string, app: Application, authPayload: AuthTestingPayload, extraParams: ExtraParams) {
+
+    /* Setup */
+    beforeAll(async () => {
+        const repository = AppDataSource.getRepository(GuildSettings);
+        const entity = repository.create({
+            guild_id: extraParams.guildId as string,
+            ...DEFAULTS.GENERAL_SETTINGS,
+            ...DEFAULTS.RANK_SETTINGS,
+            ...DEFAULTS.ECONOMY_SETTINGS
         });
+
+        extraParams.entity = await entity.save();
     });
+
+    /* Cleanup */
+    afterAll(async () => {
+        await AppDataSource.getRepository(GuildSettings).remove(extraParams.entity as GuildSettings);
+    });
+
+    authenticatedRouteTest(app, "get", `${baseEndpoint}/${extraParams.guildId}`);
+    authenticatedRouteTest(app, "get", `${baseEndpoint}/${extraParams.guildId}/id/${extraParams.entity?.id}`);
 
     describe("given the user is logged in", () => {
         describe("given the user is not a guild member", () => {
@@ -59,6 +77,7 @@ function getRoute(baseEndpoint: string, app: Application, authPayload: AuthTesti
                         rank_channel: null,
                         currency_name: DEFAULTS.ECONOMY_SETTINGS.CURRENCY_NAME,
                         currency_increase_rate: DEFAULTS.ECONOMY_SETTINGS.INCREASE_RATE,
+                        created_at: results.created_at,
                         updated_at: results.updated_at
                     });
                 });

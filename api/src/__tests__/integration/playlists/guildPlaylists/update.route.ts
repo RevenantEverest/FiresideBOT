@@ -1,28 +1,41 @@
+import type { Application } from 'express';
+import type { AuthTestingPayload } from '@@tests/support/types/auth.js';
+import type { GuildPlaylistExtraParams } from '@@tests/support/types/extraParams.js';
+
+import * as PAYLOADS from '@@tests/support/payloads/guildPlaylists.payloads.js';
+
 import supertest from 'supertest';
-import { Application } from 'express';
-
-import * as PAYLOADS from '../../../support/payloads/guildPlaylists.payloads.js';
-
-import { AuthTestingPayload } from '../../../support/types/auth.js';
-import { GuildPlaylistExtraParams } from '../../../support/types/extraParams/index.js';
+import AppDataSource from '@@db/dataSource.js';
+import { GuildPlaylist } from '@@entities/index.js';
+import authenticatedRouteTest from '@@tests/support/common/authenticatedRouteTest.js';
 
 function updateRoute(baseEndpoint: string, app: Application, authPayload: AuthTestingPayload, extraParams: GuildPlaylistExtraParams) {
-    describe("given the user is not logged in", () => {
-        it("should return a 403 status", async () => {
-            const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}/id/${extraParams.createdPlaylist?.id}`;
-            await supertest(app)
-            .put(endpoint)
-            .expect(403)
+
+    /* Setup */
+    beforeAll(async () => {
+        const repository = AppDataSource.getRepository(GuildPlaylist);
+        const entity = repository.create({
+            ...PAYLOADS.VALID_CREATE,
+            guild_id: extraParams.guildId as string
         });
+
+        extraParams.entity = await entity.save();
     });
 
+    /* Cleanup */
+    afterAll(async () => {
+        await AppDataSource.getRepository(GuildPlaylist).remove(extraParams.entity as GuildPlaylist);
+    });
+
+    authenticatedRouteTest(app, "put", `${baseEndpoint}/guild_id/${extraParams.guildId}/id/${extraParams.entity?.id}`)
+
     describe("given the user is logged in", () => {
-        describe("given the playlist name contains whitepsace", () => {
+        describe("given the playlist name contains whitespace", () => {
             it("should return a 400 status", async () => {
                 extraParams.mocks.hasPermission(true);
                 extraParams.mocks.isGuildMember(true);
 
-                const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}/id/${extraParams.createdPlaylist?.id}`;
+                const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}/id/${extraParams.entity?.id}`;
                 await supertest(app)
                 .put(endpoint)
                 .set(authPayload.header)
@@ -37,7 +50,7 @@ function updateRoute(baseEndpoint: string, app: Application, authPayload: AuthTe
                     extraParams.mocks.hasPermission(true);
                     extraParams.mocks.isGuildMember(true);
 
-                    const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}/id/${extraParams.createdPlaylist?.id}`;
+                    const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}/id/${extraParams.entity?.id}`;
                     const { body, statusCode } = await supertest(app)
                     .put(endpoint)
                     .set(authPayload.header)
@@ -52,14 +65,14 @@ function updateRoute(baseEndpoint: string, app: Application, authPayload: AuthTe
                     expect(results.updated_at).not.toBeNull();
 
                     expect(results).toEqual({
-                        id: extraParams.createdPlaylist?.id,
+                        id: extraParams.entity?.id,
                         guild_id: extraParams.guildId,
                         name: PAYLOADS.VALID_UPDATE.name,
-                        created_at: extraParams.createdPlaylist?.created_at,
+                        created_at: results.created_at,
                         updated_at: results.updated_at
                     });
 
-                    extraParams.createdPlaylist = results;
+                    extraParams.entity = results;
                 });
             });
             
@@ -68,7 +81,7 @@ function updateRoute(baseEndpoint: string, app: Application, authPayload: AuthTe
                     extraParams.mocks.hasPermission(false);
                     extraParams.mocks.isGuildMember(true);
 
-                    const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}/id/${extraParams.createdPlaylist?.id}`;
+                    const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}/id/${extraParams.entity?.id}`;
                     await supertest(app)
                     .put(endpoint)
                     .set(authPayload.header)
@@ -82,7 +95,7 @@ function updateRoute(baseEndpoint: string, app: Application, authPayload: AuthTe
                     extraParams.mocks.hasPermission(false);
                     extraParams.mocks.isGuildMember(true);
 
-                    const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}/id/${extraParams.createdPlaylist?.id}`;
+                    const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}/id/${extraParams.entity?.id}`;
                     await supertest(app)
                     .put(endpoint)
                     .set(authPayload.header)

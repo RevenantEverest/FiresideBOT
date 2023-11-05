@@ -2,12 +2,10 @@ import { SongInfo } from '../../../types/youtube.js';
 import { PREMIUM_LIMITS } from '../../../constants/index.js';
 
 export const INVALID = {
-    playlist_id: 99875,
     request: "fake request"
 };
 
 export const VALID_CREATE = {
-    playlist_id: 1,
     request: "test request"
 };
 
