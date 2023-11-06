@@ -39,7 +39,7 @@ class UserSong extends BaseEntity {
     @ManyToOne(
         () => UserPlaylist,
         (playlist: UserPlaylist) => playlist.songs,
-        { onDelete: "CASCADE" }
+        { cascade: true, onDelete: "CASCADE" }
     )
     @JoinColumn({ name: "playlist_id" })
     playlist: UserPlaylist;

@@ -1,7 +1,7 @@
 import JWT from 'jsonwebtoken';
 
-import { ENV } from '../../constants/index.js';
-import { AuthPayload } from '../../types/auth.js';
+import { ENV } from '@@constants/index.js';
+import { AuthPayload } from '@@types/auth.js';
 import { AuthTestingPayload } from './types/auth.js';
 
 function issueToken(authPayload: AuthPayload): AuthTestingPayload {

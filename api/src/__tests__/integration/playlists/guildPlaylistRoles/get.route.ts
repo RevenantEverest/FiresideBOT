@@ -1,18 +1,47 @@
+import type { Application } from 'express';
+import type { AuthTestingPayload } from '@@tests/support/types/auth.js';
+import type { GuildPlaylistRoleExtraParams } from '@@tests/support/types/extraParams.js';
+
 import supertest from 'supertest';
-import { Application } from 'express';
+import AppDataSource from '@@db/dataSource.js';
+import { GuildPlaylist, GuildPlaylistRole } from '@@entities/index.js';
+import * as PAYLOADS from '@@tests/support/payloads/guildPlaylistRoles.payloads.js';
+import authenticatedRouteTest from '@@tests/support/common/authenticatedRouteTest.js';
 
-import { AuthTestingPayload } from '../../../support/types/auth.js';
-import { GuildPlaylistRoleExtraParams } from '../../../support/types/extraParams/index.js';
 
-function getRoute(baseEndpoint: string, app: Application, authPayload: AuthTestingPayload, extraParams: GuildPlaylistRoleExtraParams) {
-    describe("given the user is not logged in", () => {
-        it("should return a 403 status", async () => {
-            const endpoint = `${baseEndpoint}/${extraParams.guildId}`;
-            await supertest(app)
-            .get(endpoint)
-            .expect(403)
+function getRoute(baseEndpoint: string, app: Application, authPayload: AuthTestingPayload, extraParams: GuildPlaylistRoleExtraParams<GuildPlaylist>) {
+
+    /* Setup */
+    beforeAll(async () => {
+        const pRepository = AppDataSource.getRepository(GuildPlaylist);
+        const pEntity = pRepository.create({
+            guild_id: extraParams.guildId as string, // Arbitrary
+            name: "GPR_Test"
         });
+
+        const playlist = await pEntity.save();
+        extraParams.supportEntities = [playlist];
+
+        const repository = AppDataSource.getRepository(GuildPlaylistRole);
+        const entity = repository.create({
+            ...PAYLOADS.VALID_CREATE,
+            playlist
+        });
+        extraParams.entity = await entity.save();
     });
+
+    /* Cleanup */
+    afterAll(async () => {
+        await AppDataSource.getRepository(GuildPlaylistRole).remove(extraParams.entity as GuildPlaylistRole);
+        
+        if(extraParams.supportEntities) {
+            await AppDataSource.getRepository(GuildPlaylist).remove(extraParams.supportEntities[0] as GuildPlaylist);
+        }
+    });
+
+    authenticatedRouteTest(app, "get", `${baseEndpoint}/guild_id/${extraParams.guildId}/roles`);
+    authenticatedRouteTest(app, "get", `${baseEndpoint}/guild_id/${extraParams.guildId}/id/${extraParams.supportEntities && extraParams.supportEntities[0].id}/roles`);
+    authenticatedRouteTest(app, "get", `${baseEndpoint}/guild_id/${extraParams.guildId}/id/${extraParams.supportEntities && extraParams.supportEntities[0].id}/roles/id/${extraParams.entity?.id}`);
 
     describe("given the user is logged in", () => {
         describe("given the user is a guild member", () => {
@@ -62,7 +91,8 @@ function getRoute(baseEndpoint: string, app: Application, authPayload: AuthTesti
                         it("should return a 404 status", async () => {
                             extraParams.mocks.isGuildMember(true);
 
-                            const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}/id/1/roles/id/192888371621098762`;
+                            const playlist = extraParams.supportEntities && extraParams.supportEntities[0];
+                            const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}/id/${playlist?.id}/roles/id/192888371621098762`;
                             await supertest(app)
                             .get(endpoint)
                             .set(authPayload.header)
@@ -74,7 +104,9 @@ function getRoute(baseEndpoint: string, app: Application, authPayload: AuthTesti
                         it("should return the guild playlist role", async () => {
                             extraParams.mocks.isGuildMember(true);
 
-                            const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}/id/${extraParams.guildPlaylistRole?.playlist.id}/roles/id/${extraParams.guildPlaylistRole?.role_id}`;
+                            const { entity } = extraParams;
+                            const playlist = extraParams.supportEntities && extraParams.supportEntities[0];
+                            const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}/id/${playlist?.id}/roles/id/${entity?.role_id}`;
                             const { body, statusCode } = await supertest(app)
                             .get(endpoint)
                             .set(authPayload.header)
@@ -82,14 +114,13 @@ function getRoute(baseEndpoint: string, app: Application, authPayload: AuthTesti
 
                             expect(statusCode).toBe(200);
                             expect(body.results).not.toBeNull();
-                            
 
                             const { results } = body;
 
                             expect(results).toEqual({
-                                id: extraParams.guildPlaylistRole?.id,
-                                role_id: extraParams.guildPlaylistRole?.role_id,
-                                created_at: extraParams.guildPlaylistRole?.created_at
+                                id: entity?.id,
+                                role_id: entity?.role_id,
+                                created_at: results?.created_at
                             })
                         });
                     });
@@ -98,7 +129,8 @@ function getRoute(baseEndpoint: string, app: Application, authPayload: AuthTesti
                 it("should return a 200 status and paginated playlist roles", async () => {
                     extraParams.mocks.isGuildMember(true);
 
-                    const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}/id/1/roles`;
+                    const playlist = extraParams.supportEntities && extraParams.supportEntities[0];
+                    const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}/id/${playlist?.id}/roles`;
                     const { body, statusCode } = await supertest(app)
                     .get(endpoint)
                     .set(authPayload.header)
@@ -120,9 +152,9 @@ function getRoute(baseEndpoint: string, app: Application, authPayload: AuthTesti
                         next: null,
                         previous: null,
                         results: [{
-                            id: extraParams.guildPlaylistRole?.id,
-                            role_id: extraParams.guildPlaylistRole?.role_id,
-                            created_at: extraParams.guildPlaylistRole?.created_at
+                            id: extraParams.entity?.id,
+                            role_id: extraParams.entity?.role_id,
+                            created_at: results[0].created_at
                         }]
                     })
                 });

@@ -1,19 +1,22 @@
+import type { Application } from 'express';
+import { AuthTestingPayload } from '@@tests/support/types/auth.js';
+import { UserPlaylistExtraParams } from '@@tests/support/types/extraParams.js';
+
+import * as PLAYLIST_PAYLOADS from '@@tests/support/payloads/userPlaylists.payloads.js';
+
 import supertest from 'supertest';
-import { Application } from 'express';
-
-import * as PAYLOADS from '../../../support/payloads/userPlaylists.payloads.js';
-
-import { AuthTestingPayload } from '../../../support/types/auth.js';
-import { UserPlaylistExtraParams } from '../../../support/types/extraParams/index.js';
+import AppDataSource from '@@db/dataSource.js';
+import { UserPlaylist } from '@@entities/index.js';
+import authenticatedRouteTest from '@@tests/support/common/authenticatedRouteTest.js';
 
 function postRoute(baseEndpoint: string, app: Application, authPayload: AuthTestingPayload, extraParams: UserPlaylistExtraParams) {
-    describe("given the user is not logged in", () => {
-        it("should return a 403 status", async () => {
-            await supertest(app)
-            .post(baseEndpoint)
-            .expect(403)
-        });
+
+    /* Cleanup */
+    afterAll(async () => {
+        await AppDataSource.getRepository(UserPlaylist).remove(extraParams.entity as UserPlaylist);
     });
+
+    authenticatedRouteTest(app, "post", baseEndpoint);
 
     describe("given the user is logged in", () => {
         describe("given the playlist name contains whitespace", () => {
@@ -21,7 +24,7 @@ function postRoute(baseEndpoint: string, app: Application, authPayload: AuthTest
                 await supertest(app)
                 .post(baseEndpoint)
                 .set(authPayload.header)
-                .send(PAYLOADS.INVALID)
+                .send(PLAYLIST_PAYLOADS.INVALID)
                 .expect(400)
             });
         });
@@ -32,7 +35,7 @@ function postRoute(baseEndpoint: string, app: Application, authPayload: AuthTest
                     const { body, statusCode } = await supertest(app)
                     .post(baseEndpoint)
                     .set(authPayload.header)
-                    .send(PAYLOADS.VALID_CREATE)
+                    .send(PLAYLIST_PAYLOADS.VALID_CREATE)
     
                     expect(statusCode).toBe(200);
                     expect(body.results).not.toBeNull();
@@ -46,14 +49,14 @@ function postRoute(baseEndpoint: string, app: Application, authPayload: AuthTest
                     expect(results).toEqual({
                         id: results.id,
                         discord_id: authPayload.discord_id,
-                        name: PAYLOADS.VALID_CREATE.name,
+                        name: PLAYLIST_PAYLOADS.VALID_CREATE.name,
                         is_public: true, // Should be true by default
                         is_default: false, // should be false by default
                         created_at: results.created_at,
                         updated_at: results.updated_at
                     });
 
-                    extraParams.createdPlaylist = results;
+                    extraParams.entity = results;
                 });
             });
 
@@ -62,7 +65,7 @@ function postRoute(baseEndpoint: string, app: Application, authPayload: AuthTest
                     await supertest(app)
                     .post(baseEndpoint)
                     .set(authPayload.header)
-                    .send(PAYLOADS.VALID_CREATE)
+                    .send(PLAYLIST_PAYLOADS.VALID_CREATE)
                     .expect(400);
                 });
             });

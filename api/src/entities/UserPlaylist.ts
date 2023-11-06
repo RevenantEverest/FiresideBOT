@@ -59,8 +59,7 @@ class UserPlaylist extends BaseEntity {
     /* Relations */
     @OneToMany(
         () => UserSong,
-        (songs: UserSong) => songs.playlist,
-        { onDelete: "CASCADE" }
+        (songs: UserSong) => songs.playlist
     )
     songs: UserSong[];
 

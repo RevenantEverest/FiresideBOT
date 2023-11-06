@@ -1,19 +1,39 @@
+import type { Application } from 'express';
+import type { AuthTestingPayload } from '@@tests/support/types/auth.js';
+import type { GuildSongExtraParams } from '@@tests/support/types/extraParams.js';
+
+import * as PLAYLIST_PAYLOADS from '@@tests/support/payloads/guildPlaylists.payloads.js';
+import * as SONG_PAYLOADS from '@@tests/support/payloads/guildSong.payloads.js';
+
 import supertest from 'supertest';
-import { Application } from 'express';
+import AppDataSource from '@@db/dataSource.js';
+import { GuildPlaylist, GuildSong } from '@@entities/index.js';
+import authenticatedRouteTest from '@@tests/support/common/authenticatedRouteTest.js';
 
-import * as PAYLOADS from '../../../support/payloads/guildSong.payloads.js';
+function postRoute(baseEndpoint: string, app: Application, authPayload: AuthTestingPayload, extraParams: GuildSongExtraParams<GuildPlaylist>) {
 
-import { AuthTestingPayload } from '../../../support/types/auth.js';
-import { GuildSongExtraParams } from '../../../support/types/extraParams/index.js';
-
-function postRoute(baseEndpoint: string, app: Application, authPayload: AuthTestingPayload, extraParams: GuildSongExtraParams) {
-    describe("given the user is not logged in", () => {
-        it("should return a 401 status", async () => {
-            await supertest(app)
-            .post(`${baseEndpoint}/guild_id/${extraParams.guildId}/id/1/songs`)
-            .expect(403)
+    /* Setup */
+    beforeAll(async () => {
+        const pRepository = AppDataSource.getRepository(GuildPlaylist);
+        const pEntity = pRepository.create({
+            ...PLAYLIST_PAYLOADS.VALID_CREATE,
+            guild_id: extraParams.guildId as string
         });
+
+        const playlist = await pEntity.save();
+        extraParams.supportEntities = [playlist];
     });
+
+    /* Cleanup */
+    afterAll(async () => {
+        await AppDataSource.getRepository(GuildSong).remove(extraParams.entity as GuildSong);
+
+        if(extraParams.supportEntities) {
+            await AppDataSource.getRepository(GuildPlaylist).remove(extraParams.supportEntities[0] as GuildPlaylist);
+        }
+    });
+
+    authenticatedRouteTest(app, "post", `${baseEndpoint}/guild_id/${extraParams.guildId}/id/${extraParams.supportEntities && extraParams.supportEntities[0].id}/songs`);
 
     describe("given the user is logged in", () => {
         describe("given an incorrect playlist id", () => {
@@ -23,7 +43,7 @@ function postRoute(baseEndpoint: string, app: Application, authPayload: AuthTest
                 await supertest(app)
                 .post(`${baseEndpoint}/guild_id/${extraParams.guildId}/id/12349/songs`)
                 .set(authPayload.header)
-                .send(PAYLOADS.INVALID)
+                .send(SONG_PAYLOADS.INVALID)
                 .expect(404)
             });
         });
@@ -33,10 +53,12 @@ function postRoute(baseEndpoint: string, app: Application, authPayload: AuthTest
                 extraParams.mocks.hasPermission(false);
                 extraParams.mocks.hasRole(false);
 
+                const playlist = extraParams.supportEntities && extraParams.supportEntities[0];
+
                 await supertest(app)
-                .post(`${baseEndpoint}/guild_id/${extraParams.guildId}/id/1/songs`)
+                .post(`${baseEndpoint}/guild_id/${extraParams.guildId}/id/${playlist?.id}/songs`)
                 .set(authPayload.header)
-                .send(PAYLOADS.VALID_CREATE)
+                .send(SONG_PAYLOADS.VALID_CREATE)
                 .expect(401)
             });
         });
@@ -45,12 +67,13 @@ function postRoute(baseEndpoint: string, app: Application, authPayload: AuthTest
             it("should return a 200 and the guild song", async () => {
                 extraParams.mocks.hasPermission(false);
                 extraParams.mocks.hasRole(true);
-                extraParams.mocks.handleSearch(PAYLOADS.MOCK_RETURN);
-                
+                extraParams.mocks.handleSearch(SONG_PAYLOADS.MOCK_RETURN);
+
+                const playlist = extraParams.supportEntities && extraParams.supportEntities[0];
                 const { body, statusCode } = await supertest(app)
-                .post(`${baseEndpoint}/guild_id/${extraParams.guildId}/id/1/songs`)
+                .post(`${baseEndpoint}/guild_id/${extraParams.guildId}/id/${playlist?.id}/songs`)
                 .set(authPayload.header)
-                .send(PAYLOADS.VALID_CREATE)
+                .send(SONG_PAYLOADS.VALID_CREATE)
 
                 expect(statusCode).toBe(200);
                 expect(body.results).not.toBeNull();
@@ -63,29 +86,31 @@ function postRoute(baseEndpoint: string, app: Application, authPayload: AuthTest
                 expect(results).toEqual({
                     id: results.id,
                     playlist: {
-                        id: PAYLOADS.VALID_CREATE.playlist_id
+                        id: playlist?.id
                     },
-                    title: PAYLOADS.MOCK_RETURN.title,
-                    author: PAYLOADS.MOCK_RETURN.author,
-                    video_id: PAYLOADS.MOCK_RETURN.videoId,
-                    duration: PAYLOADS.MOCK_RETURN.duration,
-                    thumbnail_url: PAYLOADS.MOCK_RETURN.thumbnail_url,
+                    title: SONG_PAYLOADS.MOCK_RETURN.title,
+                    author: SONG_PAYLOADS.MOCK_RETURN.author,
+                    video_id: SONG_PAYLOADS.MOCK_RETURN.videoId,
+                    duration: SONG_PAYLOADS.MOCK_RETURN.duration,
+                    thumbnail_url: SONG_PAYLOADS.MOCK_RETURN.thumbnail_url,
                     created_at: results.created_at
                 });
 
-                extraParams.createdSong = results;
+                extraParams.entity = results;
             });
         });
 
         describe("given a duplicate song", () => {
             it("should return a 400 response", async () => {
                 extraParams.mocks.hasPermission(true);
-                extraParams.mocks.handleSearch(PAYLOADS.MOCK_RETURN);
+                extraParams.mocks.handleSearch(SONG_PAYLOADS.MOCK_RETURN);
+
+                const playlist = extraParams.supportEntities && extraParams.supportEntities[0];
 
                 await supertest(app)
-                .post(`${baseEndpoint}/guild_id/${extraParams.guildId}/id/1/songs`)
+                .post(`${baseEndpoint}/guild_id/${extraParams.guildId}/id/${playlist?.id}/songs`)
                 .set(authPayload.header)
-                .send(PAYLOADS.VALID_CREATE)
+                .send(SONG_PAYLOADS.VALID_CREATE)
                 .expect(400)
             });
         });
@@ -94,12 +119,14 @@ function postRoute(baseEndpoint: string, app: Application, authPayload: AuthTest
             describe("given a song length longer than 10 minutes", () => {
                 it("should return a 400 response", async () => {
                     extraParams.mocks.hasPermission(true);
-                    extraParams.mocks.handleSearch(PAYLOADS.INVALID_NON_PREMIUM_MOCK_RETURN);
+                    extraParams.mocks.handleSearch(SONG_PAYLOADS.INVALID_NON_PREMIUM_MOCK_RETURN);
                 
+                    const playlist = extraParams.supportEntities && extraParams.supportEntities[0];
+
                     await supertest(app)
-                    .post(`${baseEndpoint}/guild_id/${extraParams.guildId}/id/1/songs`)
+                    .post(`${baseEndpoint}/guild_id/${extraParams.guildId}/id/${playlist?.id}/songs`)
                     .set(authPayload.header)
-                    .send(PAYLOADS.VALID_CREATE)
+                    .send(SONG_PAYLOADS.VALID_CREATE)
                     .expect(400)
                 });
             });
@@ -107,12 +134,14 @@ function postRoute(baseEndpoint: string, app: Application, authPayload: AuthTest
             describe("given a song length is 10 minutes or less", () => {
                 it("should return a 200 response", async () => {
                     extraParams.mocks.hasPermission(true);
-                    extraParams.mocks.handleSearch(PAYLOADS.VALID_NON_PREMIUM_MOCK_RETURN);
+                    extraParams.mocks.handleSearch(SONG_PAYLOADS.VALID_NON_PREMIUM_MOCK_RETURN);
+
+                    const playlist = extraParams.supportEntities && extraParams.supportEntities[0];
 
                     await supertest(app)
-                    .post(`${baseEndpoint}/guild_id/${extraParams.guildId}/id/1/songs`)
+                    .post(`${baseEndpoint}/guild_id/${extraParams.guildId}/id/${playlist?.id}/songs`)
                     .set(authPayload.header)
-                    .send(PAYLOADS.VALID_CREATE)
+                    .send(SONG_PAYLOADS.VALID_CREATE)
                     .expect(200)
                 });
             });

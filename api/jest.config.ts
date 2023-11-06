@@ -1,16 +1,18 @@
-{
-    "preset": "ts-jest",
-    "testEnvironment": "node",
-    "testMatch": [
+import type { Config } from '@jest/types';
+
+const config: Config.InitialOptions = {
+    preset: "ts-jest",
+    testEnvironment: "node",
+    extensionsToTreatAsEsm: [".ts"],
+    transformIgnorePatterns: [],
+    testMatch: [
         "**/__tests__/**/*.test.ts",
         "**/__tests__/**/*.spec.ts"
     ],
-    "transform": {
-        "^.+\\.(t|j)sx?$": [
-            "@swc/jest"
-        ]
+    transform: {
+        "^.+\\.(t|j)sx?$": "@swc/jest"
     },
-    "moduleNameMapper": {
+    moduleNameMapper: {
         "^@@root/(.*)$": "<rootDir>/src/$1",
         "^@@constants/(.*)$": "<rootDir>/src/constants/$1",
         "^@@controllers/(.*)$": "<rootDir>/src/controllers/$1",
@@ -24,11 +26,13 @@
         "^@@tests/support/(.*)$": "<rootDir>/src/__tests__/support/$1",
         "^@@tests/integration/(.*)$": "<rootDir>/src/__tests__/integration/$1"
     },
-    "testSequencer": "./jestTestSequencer.cjs",
-    "resolver": "ts-jest-resolver",
-    "verbose": true,
-    "forceExit": true,
-    "clearMocks": true,
-    "resetMocks": true,
-    "restoreMocks": true
-}
+    testSequencer: "./jestTestSequencer.cjs",
+    resolver: "ts-jest-resolver",
+    verbose: true,
+    forceExit: true,
+    clearMocks: true,
+    resetMocks: true,
+    restoreMocks: true
+};
+
+export default config;
