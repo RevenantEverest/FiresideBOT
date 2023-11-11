@@ -3,8 +3,25 @@
     "jsc": {
         "parser": {
             "syntax": "typescript",
-            "decorators": true
+            "decorators": true,
+            "importAssertions": true
         },
-        "target": "es2022"
+        "target": "es2022",
+        "baseUrl": "./src",
+        "paths": {
+            "@@root/*": ["./*"],
+            "@@constants/*": ["./constants/*"],
+            "@@controllers/*": ["./controllers/*"],
+            "@@db/*": ["./db/*"],
+            "@@entities/*": ["./entities/*"],
+            "@@middleware/*": ["./middleware/*"],
+            "@@routes/*": ["./routes/*"],
+            "@@services/*": ["./services/*"],
+            "@@types/*": ["./types/*"],
+            "@@utils/*": ["./utils/*"]
+        }
+    },
+    "module": {
+        "type": "es6"
     }
 }

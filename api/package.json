@@ -4,7 +4,7 @@
   "main": "server.js",
   "scripts": {
     "build": "swc src -d dist",
-    "build-dev": "bun run build && NODE_ENV=development node --inspect dist/server.js",
+    "build-dev": "bun run build && NODE_ENV=development && SWCRC=true node --inspect --loader @swc-node/register/esm src/server.ts",
     "dev": "nodemon -L --ext ts --exec \"bun run build-dev\"",
     "start": "bun run build && NODE_ENV=production node dist/server.js",
     "test": "NODE_ENV=test && jest --setupFiles dotenv/config --runInBand",
@@ -33,8 +33,9 @@
     "validate.js": "^0.13.1"
   },
   "devDependencies": {
+    "@swc-node/core": "^1.10.6",
+    "@swc-node/register": "^1.6.8",
     "@swc/cli": "^0.1.62",
-    "@swc/core": "^1.3.88",
     "@swc/jest": "^0.2.29",
     "@types/chalk": "^2.2.0",
     "@types/cors": "^2.8.12",

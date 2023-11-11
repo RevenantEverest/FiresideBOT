@@ -25,13 +25,27 @@
   
       /* Modules */
       "module": "ES2022",                                  /* Specify what module code is generated. */
-      // "rootDir": "./",                                  /* Specify the root folder within your source files. */
-      "moduleResolution": "node",                          /* Specify how TypeScript looks up a file from a given module specifier. */
-      "baseUrl": ".",                                      /* Specify the base directory to resolve non-relative module names. */
-      // "paths": {},                                      /* Specify a set of entries that re-map imports to additional lookup locations. */
+      "rootDir": "./",                                     /* Specify the root folder within your source files. */
+      "moduleResolution": "Node",                          /* Specify how TypeScript looks up a file from a given module specifier. */
+      "baseUrl": "./src",                                  /* Specify the base directory to resolve non-relative module names. */
+      "paths": {                                           /* Specify a set of entries that re-map imports to additional lookup locations. */
+          "@@root/*": ["./*"],
+          "@@api/*": ["./api/*"],
+          "@@constants/*": ["./constants/*"],
+          "@@commands/*": ["./commands/*"],
+          "@@config/*": ["./config/*"],
+          "@@controllers/*": ["./controllers/*"],
+          "@@middleware/*": ["./middleware/*"],
+          "@@resources/*": ["./resources/*"],
+          "@@services/*": ["./services/*"],
+          "@@types/*": ["./types/*"],
+          "@@utils/*": ["./utils/*"],
+          // "@@tests/support/*": ["./__tests__/support/*"],
+          // "@@tests/integration/*": ["./__tests__/integration/*"],
+      }, 
       // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
       // "typeRoots": [],                                  /* Specify multiple folders that act like `./node_modules/@types`. */
-      "types": ["node", "jest"],                           /* Specify type package names to be included without being referenced in a source file. */
+      "types": ["node", "jest", "bun-types"],              /* Specify type package names to be included without being referenced in a source file. */
       // "allowUmdGlobalAccess": true,                     /* Allow accessing UMD globals from modules. */
       "resolveJsonModule": true,                           /* Enable importing .json files */
       // "noResolve": true,                                /* Disallow `import`s, `require`s or `<reference>`s from expanding the number of files TypeScript should add to a project. */
@@ -96,7 +110,9 @@
   
       /* Completeness */
       // "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
-      "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
+      "skipLibCheck": true,                                /* Skip type checking all .d.ts files. */
+      // "allowJs": true,                                     /* Allow importing `.js` from `.ts` */
+      // "moduleDetection": "force"
     },
     "compileOnSave": true
   }

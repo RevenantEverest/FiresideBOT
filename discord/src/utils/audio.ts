@@ -7,11 +7,11 @@ import {
 } from '@discordjs/voice';
 import playdl from 'play-dl';
 
-import { Client } from 'discord.js';
-import { Server } from 'src/types/server.js';
-import { CommandDispatch } from '../types/commands.js';
+import type { Client } from 'discord.js';
+import type { Server } from '@@types/server.js';
+import type { CommandDispatch } from '@@types/commands.js';
 
-import { URLS } from '../constants/index.js';
+import { URLS } from '@@constants/index.js';
 import * as embeds from './embeds.js';
 import * as queue from './queue.js';
 import * as errors from './errors.js';
@@ -38,7 +38,7 @@ export async function stream(bot: Client, dispatch: CommandDispatch, server: Ser
         embeds.createCurrentSongEmbed(dispatch, server);
         server.queue.info.shift();
 
-        player.once(AudioPlayerStatus.Idle, () => {
+        player.on(AudioPlayerStatus.Idle, () => {
             if(!server.queue.playing) return;
 
             queue.nextInQueue(bot, dispatch, server);

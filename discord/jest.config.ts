@@ -14,17 +14,18 @@ const config: Config.InitialOptions = {
     },
     moduleNameMapper: {
         "^@@root/(.*)$": "<rootDir>/src/$1",
+        "^@@api/(.*)$": "<rootDir>/src/api/$1",
         "^@@constants/(.*)$": "<rootDir>/src/constants/$1",
+        "^@@commands/(.*)$": "<rootDir>/src/commands/$1",
+        "^@@config/(.*)$": "<rootDir>/src/config/$1",
         "^@@controllers/(.*)$": "<rootDir>/src/controllers/$1",
-        "^@@db/(.*)$": "<rootDir>/src/db/$1",
-        "^@@entities/(.*)$": "<rootDir>/src/entities/$1",
         "^@@middleware/(.*)$": "<rootDir>/src/middleware/$1",
-        "^@@routes/(.*)$": "<rootDir>/src/routes/$1",
+        "^@@resources/(.*)$": "<rootDir>/src/resources/$1",
         "^@@services/(.*)$": "<rootDir>/src/services/$1",
         "^@@types/(.*)$": "<rootDir>/src/types/$1",
         "^@@utils/(.*)$": "<rootDir>/src/utils/$1",
-        "^@@tests/support/(.*)$": "<rootDir>/src/__tests__/support/$1",
-        "^@@tests/integration/(.*)$": "<rootDir>/src/__tests__/integration/$1"
+        // "^@@tests/support/(.*)$": "<rootDir>/src/__tests__/support/$1",
+        // "^@@tests/integration/(.*)$": "<rootDir>/src/__tests__/integration/$1"
     },
     resolver: "ts-jest-resolver",
     verbose: true,

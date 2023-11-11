@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandParams, CommandConfig } from '../../../types/commands.js';
+import { CommandParams, CommandConfig } from '@@types/commands.js';
 
 async function Ping({ dispatch }: CommandParams) {
     return await dispatch.reply("Pong");
