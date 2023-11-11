@@ -6,7 +6,7 @@
     "build": "swc src -d dist",
     "build-dev": "bun run build && NODE_ENV=development && SWCRC=true node --inspect --loader @swc-node/register/esm src/server.ts",
     "dev": "nodemon -L --ext ts --exec \"bun run build-dev\"",
-    "start": "bun run build && NODE_ENV=production node dist/server.js",
+    "start": "bun run build && NODE_ENV=production && SWCRC=true node --inspect --loader @swc-node/register/esm src/server.ts",
     "test": "NODE_ENV=test && jest --setupFiles dotenv/config --runInBand",
     "reset:npm": "rm -rf node_modules && bun install"
   },
