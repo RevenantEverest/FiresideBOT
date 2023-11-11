@@ -3,6 +3,7 @@ import {
     BaseEntity,
     PrimaryGeneratedColumn,
     Column,
+    CreateDateColumn,
     UpdateDateColumn
 } from 'typeorm';
 import { DEFAULTS } from '../constants/index.js';
@@ -20,6 +21,7 @@ class GuildSettings extends BaseEntity {
         rank_channel: string,
         currency_name: string,
         currency_increase_rate: number,
+        created_at: Date,
         updated_at: Date
     ) {
         super();
@@ -32,6 +34,7 @@ class GuildSettings extends BaseEntity {
         this.rank_channel = rank_channel;
         this.currency_name = currency_name;
         this.currency_increase_rate = currency_increase_rate;
+        this.created_at = created_at;
         this.updated_at = updated_at;
     };
 
@@ -85,6 +88,9 @@ class GuildSettings extends BaseEntity {
         default: DEFAULTS.ECONOMY_SETTINGS.INCREASE_RATE
     })
     currency_increase_rate: number;
+
+    @CreateDateColumn()
+    created_at: Date;
 
     @UpdateDateColumn()
     updated_at: Date;

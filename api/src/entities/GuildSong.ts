@@ -38,7 +38,8 @@ class GuildSong extends BaseEntity {
 
     @ManyToOne(
         () => GuildPlaylist,
-        (playlist: GuildPlaylist) => playlist.songs
+        (playlist: GuildPlaylist) => playlist.songs,
+        { cascade: true, onDelete: "CASCADE" }
     )
     @JoinColumn({ name: "playlist_id" })
     playlist: GuildPlaylist;

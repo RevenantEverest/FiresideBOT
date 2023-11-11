@@ -1,14 +1,14 @@
 import { Client } from 'discord.js';
 
-import { SongInfo } from '../types/youtube.js';
-import { HandleReturn } from '../types/promises.js';
-import { CommandDispatch, CommandOptions } from '../types/commands.js';
-import { Server } from '../types/server.js';
-import { UserPlaylist } from '../types/entities/UserPlaylist.js';
-import { GuildPlaylist } from '../types/entities/GuildPlaylist.js';
-import { UserSong } from '../types/entities/UserSong.js';
-import { GuildSong } from '../types/entities/GuildSong.js';
-import { ApiPaginatedResponse } from '../types/api.js';
+import type { SongInfo } from '@@types/youtube.js';
+import type { HandleReturn } from '@@types/promises.js';
+import type { CommandDispatch, CommandOptions } from '@@types/commands.js';
+import type { Server } from '@@types/server.js';
+import type { UserPlaylist } from '@@types/entities/UserPlaylist.js';
+import type { GuildPlaylist } from '@@types/entities/GuildPlaylist.js';
+import type { UserSong } from '@@types/entities/UserSong.js';
+import type { GuildSong } from '@@types/entities/GuildSong.js';
+import type { ApiPaginatedResponse } from '@@types/api.js';
 
 import * as api from '../api/index.js';
 
@@ -39,16 +39,10 @@ export async function requestSong(request: string): HandleReturn<SongInfo> {
             return [undefined, new Error("Invalid Video ID")];
         }
 
-        request = videoId;        
+        return youtube.videoSearch({ videoId }); 
     }
 
-    const [youtubeSearchRes, youtubeSearchErr] = await youtube.handleSearch(request, isLink);
-
-    if(youtubeSearchErr) {
-        return [undefined, youtubeSearchErr];
-    }
-
-    return [youtubeSearchRes, undefined];
+    return youtube.search({ search: request });
 };
 
 export async function playPlaylist({ bot, dispatch, server, args, playlist, songs, options, isServerPlaylist }: PlayPlaylistParams) {

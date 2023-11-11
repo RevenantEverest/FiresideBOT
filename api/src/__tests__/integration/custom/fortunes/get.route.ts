@@ -1,18 +1,32 @@
-import supertest from 'supertest';
-import { Application } from 'express';
+import type { Application } from 'express';
+import type { AuthTestingPayload } from '@@tests/support/types/auth.js';
+import type { FortuneExtraParams } from '@@tests/support/types/extraParams.js';
 
-import { AuthTestingPayload } from '../../../support/types/auth.js';
-import { FortuneExtraParams } from '../../../support/types/extraParams/index.js';
+import supertest from 'supertest';
+import AppDataSource from '@@db/dataSource.js';
+import { Fortune } from '@@entities/index.js';
+import * as PAYLOADS from '@@tests/support/payloads/fortune.payloads.js';
+import authenticatedRouteTest from '@@tests/support/common/authenticatedRouteTest.js';
 
 function getRoute(baseEndpoint: string, app: Application, authPayload: AuthTestingPayload, extraParams: FortuneExtraParams) {
-    describe("given the user is not logged in", () => {
-        it("should return a 403 status", async () => {
-            const endpoint = `${baseEndpoint}/guild/${extraParams.guildId}`;
-            await supertest(app)
-            .get(endpoint)
-            .expect(403)
+
+    /* Setup DB Rows */
+    beforeAll(async () => {
+        const repository = AppDataSource.getRepository(Fortune);
+        const entity = repository.create({
+            ...PAYLOADS.VALID_CREATE,
+            guild_id: extraParams.guildId as string,
+            created_by: authPayload.discord_id
         });
+        extraParams.entity = await entity.save();
     });
+
+    /* Cleanup */
+    afterAll(async () => {
+        await AppDataSource.getRepository(Fortune).clear();
+    });
+
+    authenticatedRouteTest(app, "get", `${baseEndpoint}/guild/${extraParams.guildId}`);
 
     describe("given the user is logged in", () => {
         describe("given the guild id as a param", () => {
@@ -40,11 +54,10 @@ function getRoute(baseEndpoint: string, app: Application, authPayload: AuthTesti
                     next: null,
                     previous: null,
                     results: [{
-                        id: extraParams.createdFortune?.id,
+                        ...extraParams.entity,
                         guild_id: extraParams.guildId,
-                        fortune: extraParams.createdFortune?.fortune,
                         created_by: authPayload.discord_id,
-                        created_at: extraParams.createdFortune?.created_at,
+                        created_at: results[0].created_at
                     }]
                 });
             });
@@ -54,7 +67,7 @@ function getRoute(baseEndpoint: string, app: Application, authPayload: AuthTesti
                     extraParams.mocks.hasPermission(false);
                     extraParams.mocks.isGuildMember(true);
 
-                    const endpoint = `${baseEndpoint}/guild/${extraParams.guildId}/id/${extraParams.createdFortune?.id}`;
+                    const endpoint = `${baseEndpoint}/guild/${extraParams.guildId}/id/${extraParams.entity?.id}`;
                     const { body, statusCode } = await supertest(app)
                     .get(endpoint)
                     .set(authPayload.header)
@@ -68,11 +81,10 @@ function getRoute(baseEndpoint: string, app: Application, authPayload: AuthTesti
                     expect(results.created_at).not.toBeNull();
 
                     expect(results).toEqual({
-                        id: extraParams.createdFortune?.id,
+                        ...extraParams.entity,
                         guild_id: extraParams.guildId,
-                        fortune: extraParams.createdFortune?.fortune,
                         created_by: authPayload.discord_id,
-                        created_at: extraParams.createdFortune?.created_at,
+                        created_at: results.created_at
                     });
                 });
             });

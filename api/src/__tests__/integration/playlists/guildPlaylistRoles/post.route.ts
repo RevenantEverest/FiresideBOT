@@ -1,19 +1,37 @@
+import type { Application } from 'express';
+import type { AuthTestingPayload } from '@@tests/support/types/auth.js';
+import type { GuildPlaylistRoleExtraParams } from '@@tests/support/types/extraParams.js';
+
 import supertest from 'supertest';
-import { Application } from 'express';
+import AppDataSource from '@@db/dataSource.js';
+import { GuildPlaylist, GuildPlaylistRole } from '@@entities/index.js';
+import * as PAYLOADS from '@@tests/support/payloads/guildPlaylistRoles.payloads.js';
+import authenticatedRouteTest from '@@tests/support/common/authenticatedRouteTest.js';
 
-import * as PAYLOADS from '../../../support/payloads/guildPlaylistRoles.payloads.js';
+function postRoute(baseEndpoint: string, app: Application, authPayload: AuthTestingPayload, extraParams: GuildPlaylistRoleExtraParams<GuildPlaylist>) {
 
-import { AuthTestingPayload } from '../../../support/types/auth.js';
-import { GuildPlaylistRoleExtraParams } from '../../../support/types/extraParams/index.js';
-
-function postRoute(baseEndpoint: string, app: Application, authPayload: AuthTestingPayload, extraParams: GuildPlaylistRoleExtraParams) {
-    describe("given the user is not logged in", () => {
-        it("should return a 403 status", async () => {
-            await supertest(app)
-            .post(baseEndpoint)
-            .expect(403)
+    /* Setup */
+    beforeAll(async () => {
+        const pRepository = AppDataSource.getRepository(GuildPlaylist);
+        const pEntity = pRepository.create({
+            guild_id: extraParams.guildId as string,
+            name: "GPR_Test"
         });
+
+        const playlist = await pEntity.save();
+        extraParams.supportEntities = [playlist];
     });
+
+    /* Cleanup */
+    afterAll(async () => {
+        await AppDataSource.getRepository(GuildPlaylistRole).remove(extraParams.entity as GuildPlaylistRole);
+
+        if(extraParams.supportEntities) {
+            await AppDataSource.getRepository(GuildPlaylist).remove(extraParams.supportEntities[0] as GuildPlaylist);
+        }
+    });
+
+    authenticatedRouteTest(app, "post", baseEndpoint);
 
     describe("given the user is logged in", () => {
         describe("given the user is a guild admin", () => {
@@ -22,7 +40,8 @@ function postRoute(baseEndpoint: string, app: Application, authPayload: AuthTest
                     extraParams.mocks.hasPermission(true);
                     extraParams.mocks.isGuildMember(true);
 
-                    const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}/id/1/roles`;
+                    const playlist = extraParams.supportEntities && extraParams.supportEntities[0];
+                    const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}/id/${playlist?.id}/roles`;
                     const { body, statusCode } = await supertest(app)
                     .post(endpoint)
                     .set(authPayload.header)
@@ -39,7 +58,7 @@ function postRoute(baseEndpoint: string, app: Application, authPayload: AuthTest
                     expect(results).toEqual({
                         id: results.id,
                         playlist: {
-                            id: 1,
+                            id: extraParams.supportEntities![0].id,
                             guild_id: extraParams.guildId,
                             name: results.playlist.name,
                             created_at: results.playlist.created_at,
@@ -49,7 +68,7 @@ function postRoute(baseEndpoint: string, app: Application, authPayload: AuthTest
                         created_at: results.created_at
                     });
 
-                    extraParams.guildPlaylistRole = results;
+                    extraParams.entity = results;
                 });
             });
 
@@ -58,7 +77,8 @@ function postRoute(baseEndpoint: string, app: Application, authPayload: AuthTest
                     extraParams.mocks.hasPermission(true);
                     extraParams.mocks.isGuildMember(true);
 
-                    const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}/id/1/roles`;
+                    const playlist = extraParams.supportEntities && extraParams.supportEntities[0];
+                    const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}/id/${playlist?.id}/roles`;
                     await supertest(app)
                     .post(endpoint)
                     .set(authPayload.header)
@@ -72,7 +92,8 @@ function postRoute(baseEndpoint: string, app: Application, authPayload: AuthTest
                     extraParams.mocks.hasPermission(true);
                     extraParams.mocks.isGuildMember(true);
 
-                    const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}/id/1/roles`;
+                    const playlist = extraParams.supportEntities && extraParams.supportEntities[0];
+                    const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}/id/${playlist?.id}/roles`;
                     await supertest(app)
                     .post(endpoint)
                     .set(authPayload.header)
@@ -87,7 +108,8 @@ function postRoute(baseEndpoint: string, app: Application, authPayload: AuthTest
                 extraParams.mocks.hasPermission(false);
                 extraParams.mocks.isGuildMember(true);
 
-                const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}/id/1/roles`;
+                const playlist = extraParams.supportEntities && extraParams.supportEntities[0];
+                const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}/id/${playlist?.id}/roles`;
                 await supertest(app)
                 .post(endpoint)
                 .set(authPayload.header)
@@ -101,7 +123,8 @@ function postRoute(baseEndpoint: string, app: Application, authPayload: AuthTest
                 extraParams.mocks.hasPermission(false);
                 extraParams.mocks.isGuildMember(false);
 
-                const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}/id/1/roles`;
+                const playlist = extraParams.supportEntities && extraParams.supportEntities[0];
+                const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}/id/${playlist?.id}/roles`;
                 await supertest(app)
                 .post(endpoint)
                 .set(authPayload.header)

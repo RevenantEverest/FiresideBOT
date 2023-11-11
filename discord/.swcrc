@@ -1,13 +1,23 @@
 {
+    "$schema": "https://json.schemastore.org/swcrc",
     "jsc": {
         "parser": {
             "syntax": "typescript",
             "decorators": true
-        }
-    },
-    "env": {
-        "targets": {
-            "node": 17
+        },
+        "baseUrl": "./src",
+        "paths": {
+            "@@root/*": ["./*"],
+            "@@api/*": ["./api/*"],
+            "@@constants/*": ["./constants/*"],
+            "@@commands/*": ["./commands/*"],
+            "@@config/*": ["./config/*"],
+            "@@controllers/*": ["./controllers/*"],
+            "@@middleware/*": ["./middleware/*"],
+            "@@resources/*": ["./resources/*"],
+            "@@services/*": ["./services/*"],
+            "@@types/*": ["./types/*"],
+            "@@utils/*": ["./utils/*"]
         }
     }
 }

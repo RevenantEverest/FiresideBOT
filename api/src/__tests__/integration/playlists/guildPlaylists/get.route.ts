@@ -1,18 +1,33 @@
-import supertest from 'supertest';
-import { Application } from 'express';
+import type { Application } from 'express';
+import type { AuthTestingPayload } from '@@tests/support/types/auth.js';
+import type { GuildPlaylistExtraParams } from '@@tests/support/types/extraParams.js';
 
-import { AuthTestingPayload } from '../../../support/types/auth.js';
-import { GuildPlaylistExtraParams } from '../../../support/types/extraParams/index.js';
+import * as PAYLOADS from '@@tests/support/payloads/guildPlaylists.payloads.js';
+
+import supertest from 'supertest';
+import AppDataSource from '@@db/dataSource.js';
+import { GuildPlaylist } from '@@entities/index.js';
+import authenticatedRouteTest from '@@tests/support/common/authenticatedRouteTest.js';
 
 function getRoute(baseEndpoint: string, app: Application, authPayload: AuthTestingPayload, extraParams: GuildPlaylistExtraParams) {
-    describe("given the user is not logged in", () => {
-        it("should return a 403 status", async () => {
-            const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}`;
-            await supertest(app)
-            .get(endpoint)
-            .expect(403)
+
+    /* Setup */
+    beforeAll(async () => {
+        const repository = AppDataSource.getRepository(GuildPlaylist);
+        const entity = repository.create({
+            ...PAYLOADS.VALID_CREATE,
+            guild_id: extraParams.guildId as string
         });
+
+        extraParams.entity = await entity.save();
     });
+
+    /* Cleanup */
+    afterAll(async () => {
+        await AppDataSource.getRepository(GuildPlaylist).remove(extraParams.entity as GuildPlaylist);
+    });
+
+    authenticatedRouteTest(app, "get", `${baseEndpoint}/guild_id/${extraParams.guildId}`);
 
     describe("given the user is logged in", () => {
         describe("given the id as a param", () => {
@@ -35,7 +50,7 @@ function getRoute(baseEndpoint: string, app: Application, authPayload: AuthTesti
                     extraParams.mocks.hasPermission(true);
                     extraParams.mocks.isGuildMember(true);
 
-                    const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}/id/${extraParams.createdPlaylist?.id}`;
+                    const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}/id/${extraParams.entity?.id}`;
                     const { body, statusCode } = await supertest(app)
                     .get(endpoint)
                     .set(authPayload.header)
@@ -49,13 +64,13 @@ function getRoute(baseEndpoint: string, app: Application, authPayload: AuthTesti
                     expect(results.created_at).not.toBeNull();
                     expect(results.updated_at).not.toBeNull();
 
+                    const { id, name } = extraParams.entity as GuildPlaylist;
+
                     expect(results).toEqual({
-                        id: extraParams.createdPlaylist?.id,
-                        guild_id: extraParams.guildId,
-                        name: extraParams.createdPlaylist?.name,
-                        created_at: extraParams.createdPlaylist?.created_at,
-                        updated_at: extraParams.createdPlaylist?.updated_at,
-                        songs: results.songs
+                        ...results,
+                        id,
+                        name,
+                        guild_id: extraParams.guildId
                     });
                 });
             });
@@ -84,18 +99,17 @@ function getRoute(baseEndpoint: string, app: Application, authPayload: AuthTesti
                 expect(results[0].duration).not.toBeNull();
                 expect(results[0].songCount).not.toBeNull();
 
+                const { id, name } = extraParams.entity as GuildPlaylist;
+
                 expect(body).toEqual({
                     count: body.count,
                     next: null,
                     previous: null,
                     results: [{
-                        id: extraParams.createdPlaylist?.id,
-                        guild_id: extraParams.guildId,
-                        name: extraParams.createdPlaylist?.name,
-                        created_at: extraParams.createdPlaylist?.created_at,
-                        updated_at: results[0].updated_at,
-                        duration: results[0].duration,
-                        songCount: results[0].duration
+                        ...results[0],
+                        id, 
+                        name,
+                        guild_id: extraParams.guildId
                     }]
                 });
             });
@@ -114,7 +128,7 @@ function getRoute(baseEndpoint: string, app: Application, authPayload: AuthTesti
 
             describe("given the playlist name does exist", () => {
                 it("should return a 200 status and the playlist", async () => {
-                    const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}/name/${extraParams.createdPlaylist?.name}`;
+                    const endpoint = `${baseEndpoint}/guild_id/${extraParams.guildId}/name/${extraParams.entity?.name}`;
                     const { body, statusCode } = await supertest(app)
                     .get(endpoint)
                     .set(authPayload.header)
@@ -128,14 +142,13 @@ function getRoute(baseEndpoint: string, app: Application, authPayload: AuthTesti
                     expect(results.created_at).not.toBeNull();
                     expect(results.updated_at).not.toBeNull();
 
+                    const { id, name } = extraParams.entity as GuildPlaylist;
+
                     expect(results).toEqual({
-                        id: extraParams.createdPlaylist?.id,
-                        guild_id: extraParams.guildId,
-                        name: extraParams.createdPlaylist?.name,
-                        created_at: extraParams.createdPlaylist?.created_at,
-                        updated_at: results.updated_at,
-                        duration: results.duration,
-                        songCount: results.songCount
+                        ...results,
+                        id,
+                        name,
+                        guild_id: extraParams.guildId
                     });
                 });
             });

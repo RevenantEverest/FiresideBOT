@@ -1,20 +1,38 @@
+import type { Application } from 'express';
+import type { AuthTestingPayload } from '@@tests/support/types/auth.js';
+import type { GuildSettingsExtraParams } from '@@tests/support/types/extraParams.js';
+
+import * as PAYLOADS from '@@tests/support/payloads/guildSettings.payloads.js';
+
 import supertest from 'supertest';
-import { Application } from 'express';
+import AppDataSource from '@@db/dataSource.js';
+import { GuildSettings } from '@@entities/index.js';
+import { DEFAULTS } from '@@constants/index.js';
+import authenticatedRouteTest from '@@tests/support/common/authenticatedRouteTest';
 
-import * as PAYLOADS from '../../../support/payloads/guildSettings.payloads.js';
+type ExtraParams = GuildSettingsExtraParams<undefined, { altGuildId: string }>;
 
-import { AuthTestingPayload } from '../../../support/types/auth.js';
-import { GuildSettingsExtraParams } from '../../../support/types/extraParams/index.js';
-
-function updateRoute(baseEndpoint: string, app: Application, authPayload: AuthTestingPayload, extraParams: GuildSettingsExtraParams) {
-    describe("given the user is not logged in", () => {
-        it("should return a 403 status", async () => {
-            const endpoint = `${baseEndpoint}/${extraParams.guildId}`;
-            await supertest(app)
-            .put(endpoint)
-            .expect(403)
+function updateRoute(baseEndpoint: string, app: Application, authPayload: AuthTestingPayload, extraParams: ExtraParams) {
+    
+    /* Setup */
+    beforeAll(async () => {
+        const repository = AppDataSource.getRepository(GuildSettings);
+        const entity = repository.create({
+            guild_id: extraParams.guildId as string,
+            ...DEFAULTS.GENERAL_SETTINGS,
+            ...DEFAULTS.RANK_SETTINGS,
+            ...DEFAULTS.ECONOMY_SETTINGS
         });
+
+        extraParams.entity = await entity.save();
     });
+
+    /* Cleanup */
+    afterAll(async () => {
+        await AppDataSource.getRepository(GuildSettings).remove(extraParams.entity as GuildSettings);
+    });
+
+    authenticatedRouteTest(app, "get", `${baseEndpoint}/${extraParams.guildId}`);
 
     describe("given the user is logged in", () => {
         describe("given the user is not a guild admin", () => {
@@ -50,7 +68,7 @@ function updateRoute(baseEndpoint: string, app: Application, authPayload: AuthTe
                 expect(results.updated_at).not.toBeNull();
 
                 expect(results).toEqual({
-                    id: extraParams.guildSettings?.id,
+                    id: extraParams.entity?.id,
                     guild_id: extraParams.guildId,
                     prefix: PAYLOADS.VALID_UPDATE.prefix,
                     volume: PAYLOADS.VALID_UPDATE.volume,
@@ -59,6 +77,7 @@ function updateRoute(baseEndpoint: string, app: Application, authPayload: AuthTe
                     rank_channel: null,
                     currency_name: PAYLOADS.VALID_UPDATE.currency_name,
                     currency_increase_rate: PAYLOADS.VALID_UPDATE.currency_increase_rate,
+                    created_at: results.created_at,
                     updated_at: results.updated_at
                 });
             });

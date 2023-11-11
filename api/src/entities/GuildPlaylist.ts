@@ -52,15 +52,13 @@ class GuildPlaylist extends BaseEntity {
     /* Relation */
     @OneToMany(
         () => GuildSong,
-        (songs: GuildSong) =>  songs.playlist,
-        { onDelete: "CASCADE" }
+        (songs: GuildSong) =>  songs.playlist
     )
     songs: GuildSong[];
 
     @OneToMany(
         () =>  GuildPlaylistRole,
-        (roles: GuildPlaylistRole) => roles.playlist,
-        { onDelete: "CASCADE" }
+        (roles: GuildPlaylistRole) => roles.playlist
     )
     roles: GuildPlaylistRole[];
 
