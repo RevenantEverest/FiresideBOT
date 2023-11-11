@@ -26,7 +26,6 @@ const config: Config.InitialOptions = {
         "^@@tests/support/(.*)$": "<rootDir>/src/__tests__/support/$1",
         "^@@tests/integration/(.*)$": "<rootDir>/src/__tests__/integration/$1"
     },
-    testSequencer: "./jestTestSequencer.cjs",
     resolver: "ts-jest-resolver",
     verbose: true,
     forceExit: true,
