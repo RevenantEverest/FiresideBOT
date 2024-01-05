@@ -1,15 +1,13 @@
-import { Client, Message } from 'discord.js';
-import { FindOneOptions } from 'typeorm';
+import type { Client, Message } from 'discord.js';
+import type { FindOneOptions } from 'typeorm';
 import BigNumber from 'bignumber.js';
 
-import { GuildSettings, GuildCurrencyRecord } from '../../../entities/index.js';
+import { GuildSettings, GuildCurrencyRecord } from '@@entities/index.js';
 
-import { entities } from '../../../utils/index.js';
+import { entities } from '@@utils/index.js';
 
 async function onMessageCreate(bot: Client, message: Message) {
     if(message.author.bot || message.channel.type === "DM" || !message.guildId) return;
-
-    console.log("Updating...");
 
     /* Get Guild Settings */
     const settingFindOptions: FindOneOptions<GuildSettings> = {
