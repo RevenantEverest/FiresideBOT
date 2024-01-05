@@ -1,12 +1,12 @@
 import "reflect-metadata";
 
-import AppDataSource from './db/dataSource.js';
-import waitForPostgres from './db/waitForPostgres.js';
-import bot from './discordBot.js';
-import initializeApp from './app.js';
+import AppDataSource from '@@root/db/dataSource.js';
+import waitForPostgres from '@@root/db/waitForPostgres.js';
+import bot from '@@root/discordBot.js';
+import initializeApp from '@@root/app.js';
 
-import { ENV } from './constants/index.js';
-import { logs, colors } from './utils/index.js';
+import { ENV } from '@@constants/index.js';
+import { logs, colors } from '@@utils/index.js';
 
 (async function main() {
     await waitForPostgres(AppDataSource);
