@@ -1,8 +1,11 @@
+export type AuthPermissions = "ADMINISTRATOR" | "FIRESIDE" | "USER";
+
 export interface AuthPayload {
-    id: string,
+    id: number,
     username: string,
     discriminator: number,
     discord_id: string,
     avatar: string,
-    token?: string
+    token?: string,
+    permissions: AuthPermissions
 };
