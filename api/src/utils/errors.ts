@@ -1,5 +1,10 @@
-import { Response, NextFunction } from 'express';
-import { SendResponseOptions, ErrorLogOptions, HandleTupleOptions } from '../types/errors.js';
+import type { Response } from '@@types/express.js';
+import type { 
+    SendResponseOptions, 
+    ErrorLogOptions, 
+    HandleTupleOptions, 
+    SendEntitiesResponseParams 
+} from '@@types/errors.js';
 
 import * as logs from './logs.js';
 import * as colors from './colors.js';
@@ -40,14 +45,6 @@ export function handleTuple<T>({res, err, errMsg}: HandleTupleOptions<T>): Error
     return undefined;
 };
 
-interface SendEntitiesResponseParams<T> {
-    res: Response,
-    err?: Error,
-    message: string,
-    entityReturn?: T | null,
-    missingEntityReturnMessage: string
-};
-
 export function sendEntitiesResponse<T>({ res, err, message, entityReturn, missingEntityReturnMessage }: SendEntitiesResponseParams<T>) {
     if(err) {
         return sendResponse({ res, err, status: 500, message: message ?? err.message });
@@ -56,4 +53,8 @@ export function sendEntitiesResponse<T>({ res, err, message, entityReturn, missi
     if(!entityReturn) {
         return sendResponse({ res, status: 404, message: missingEntityReturnMessage });
     }
+};
+
+export function sendInvalidBody(res: Response) {
+    return sendResponse({ res, status: 400, message: "Invalid Body" });
 };
