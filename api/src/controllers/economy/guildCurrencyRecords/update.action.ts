@@ -1,17 +1,29 @@
-import { Request, Response, NextFunction } from 'express';
-import { ResponseLocalsParams } from '../../../types/responseLocals.js';
+import type { Request, AuthenticatedResponse, NextFunction } from '@@types/express.js';
+import type { GuildResolvable, UserResolvable } from 'discord.js';
 
-import { GuildCurrencyRecord } from '../../../entities/index.js';
+import { GuildCurrencyRecord } from '@@entities/index.js';
 
-import { errors, entities } from '../../../utils/index.js';
+import { errors, entities } from '@@utils/index.js';
 
-async function update(req: Request, res: Response, next: NextFunction) {
-    const { guildId, discordId }: ResponseLocalsParams = res.locals.params;
+interface Params {
+    guildId: GuildResolvable,
+    discordId: UserResolvable
+};
+
+async function update(req: Request, res: AuthenticatedResponse<Params>, next: NextFunction) {
+
+    const { auth, params } = res.locals;
+
+    if(auth && auth.permissions === "USER" && auth.discord_id === params.discordId) {
+        return errors.sendResponse({ res, next, status: 400, message: "You can't manually update your own currency" });
+    }
+
+    const { guildId, discordId }: Params = params;
 
     const [findRes, findErr] = await entities.findOne<GuildCurrencyRecord>(GuildCurrencyRecord, {
         where: {
-            guild_id: guildId,
-            discord_id: discordId
+            guild_id: guildId as string,
+            discord_id: discordId as string
         }
     });
 
