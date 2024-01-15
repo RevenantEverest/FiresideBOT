@@ -1,6 +1,7 @@
 export * as ADD_PLAYLIST_ROLE from './addPlaylistRole.js';
 export * as ADD_SONG from './addSong.js';
 export * as BLACK_JACK from './blackJack.js';
+export * as BONUS from './bonus.js';
 export * as CREATE_FORTUNE from './createFortune.js';
 export * as CREATE_PLAYLIST from './createPlaylist.js';
 export * as DELETE_PLAYLIST from './deletePlaylist.js';
@@ -10,6 +11,7 @@ export * as EIGHT_BALL from './eightBall.js';
 export * as GIVE from './give.js';
 export * as PLAY from './play.js';
 export * as PROMOTE from './promote.js';
+export * as REMOVE_CURRENCY from './removeCurrency.js';
 export * as REMOVE_PLAYLIST_ROLE from './removePlaylistRole.js';
 export * as STOP from './stop.js';
 export * as VOLUME from './volume.js';
