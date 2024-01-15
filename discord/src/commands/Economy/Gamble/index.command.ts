@@ -1,12 +1,13 @@
+import type { CommandParams, CommandConfig } from '@@types/commands.js';
+
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandParams, CommandConfig } from '../../../types/commands.js';
-import bignumber, { BigNumber } from 'bignumber.js';
+import BigNumber from 'bignumber.js';
 
-import * as api from '../../../api/index.js';
+import * as api from '@@api/index.js';
 
-import { common, errors } from '../../../utils/index.js';
+import { common, errors } from '@@utils/index.js';
 
-async function Gamble({ dispatch, args, commandFile }: CommandParams) {
+async function Gamble({ dispatch, args, commandFile, guildSettings }: CommandParams) {
     if(!dispatch.interaction && !args[0]) {
         return;
     }
@@ -29,16 +30,38 @@ async function Gamble({ dispatch, args, commandFile }: CommandParams) {
         });
     }
 
-    const recordBalance = new BigNumber(record.balance);
+    const recordBalance = BigNumber(record.balance);
 
     if(recordBalance.isLessThan(wager)) {
         return dispatch.reply("You can't bet what you don't have");
     }
 
     const RNG = common.RNG(100);
-    const isWinner = RNG > 75;
-
+    const isWinner = RNG > 65; // 35% chance to win
+    const payout = isWinner ? wager : wager * -1;
+    const updatedBalance = recordBalance.plus(payout);
     
+    const [recordUpdate, recordUpdateErr] = await api.guildCurrencyRecords.update(dispatch, dispatch.author.id, updatedBalance.toString());
+
+    if(recordUpdateErr || !recordUpdate) {
+        return errors.commandApi({
+            dispatch,
+            err: recordUpdateErr,
+            commandFile,
+            resource: recordUpdate,
+            missingResourceMessage: "Unable to update Currency Record"
+        });
+    }
+
+    const authorUsername = dispatch.author;
+    const isWinnerText = isWinner ? "won" : "lost";
+    const currencyName = guildSettings.currency_name;
+    const payoutText = wager.toLocaleString();
+    const updatedBalanceText = updatedBalance.toString();
+
+    return dispatch.reply(`
+        **${authorUsername}** rolled a **${RNG}** and ${isWinnerText} **${payoutText} ${currencyName}** and now has **${updatedBalanceText} ${currencyName}**
+    `);
 };
 
 export const config: CommandConfig = {
