@@ -10,7 +10,8 @@ async function issueToken(dispatch: CommandDispatch) {
         username: dispatch.author.username,
         discord_id: dispatch.author.id,
         discriminator: parseInt(dispatch.author.discriminator, 10),
-        avatar: dispatch.author.avatar
+        avatar: dispatch.author.avatar,
+        permissions: "FIRESIDE"
     };
 
     return JWT.sign(authPayload, ENV.TOKEN_SECRET, {
