@@ -1,18 +1,27 @@
-import { Request, Response, NextFunction } from 'express';
-import { PaginatedResponse } from '../../../types/pagination.js';
-import { ResponseLocalsParams } from '../../../types/responseLocals.js';
+import type { GuildResolvable, UserResolvable } from 'discord.js';
+import type { Request, AuthenticatedResponse, NextFunction } from '@@types/express.js';
 
-import { GuildCurrencyRecord, GuildSettings } from '../../../entities/index.js';
+import { GuildCurrencyRecord, GuildSettings } from '@@entities/index.js';
 
-import { errors, entities, pagination } from '../../../utils/index.js';
+import { errors, entities } from '@@utils/index.js';
 
-async function create(req: Request, res: Response, next: NextFunction) {
+interface Params {
+    guildId: GuildResolvable,
+    discordId: UserResolvable
+};
 
-    const { guildId, discordId }: ResponseLocalsParams = res.locals;
+async function create(req: Request, res: AuthenticatedResponse<Params>, next: NextFunction) {
+
+    const { auth, params } = res.locals;
+    const { guildId, discordId } = params;
+
+    if(auth.permissions === "USER") {
+        return errors.sendResponse({ res, next, status: 401, message: "Unauthorized" });
+    }
 
     const [guildSettings, settingsErr] = await entities.findOne<GuildSettings>(GuildSettings, {
         where: {
-            guild_id: guildId
+            guild_id: guildId as string
         }
     });
 
@@ -25,8 +34,8 @@ async function create(req: Request, res: Response, next: NextFunction) {
     }
 
     const [recordInsert, err] = await entities.insert<GuildCurrencyRecord>(GuildCurrencyRecord, {
-        guild_id: guildId,
-        discord_id: discordId,
+        guild_id: guildId as string,
+        discord_id: discordId as string,
         balance: guildSettings.currency_increase_rate.toString()
     });
 
