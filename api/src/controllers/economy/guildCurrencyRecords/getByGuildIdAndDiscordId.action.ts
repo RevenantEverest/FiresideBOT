@@ -1,17 +1,28 @@
-import { Request, Response, NextFunction } from 'express';
-import { ResponseLocalsParams } from '../../../types/responseLocals.js';
+import type { GuildResolvable, UserResolvable } from 'discord.js';
+import type { Request, AuthenticatedResponse, NextFunction } from '@@types/express.js';
 
-import { GuildCurrencyRecord } from '../../../entities/index.js';
+import { GuildCurrencyRecord } from '@@entities/index.js';
 
-import { errors, entities } from '../../../utils/index.js';
+import { errors, entities } from '@@utils/index.js';
 
-async function getByGuildIdAndDiscordId(req: Request, res: Response, next: NextFunction) {
-    const { guildId, discordId }: ResponseLocalsParams = res.locals.params;
+interface Params {
+    guildId: GuildResolvable,
+    discordId: UserResolvable
+};
+
+async function getByGuildIdAndDiscordId(req: Request, res: AuthenticatedResponse<Params>, next: NextFunction) {
+
+    const { auth, params } = res.locals;
+    const { guildId, discordId } = params;
+
+    if(auth.permissions === "USER" && auth.discord_id !== discordId) {
+        return errors.sendResponse({ res, next, status: 401, message: "Unauthorized" });
+    }
 
     const [record, err] = await entities.findOne<GuildCurrencyRecord>(GuildCurrencyRecord, {
         where: {
-            guild_id: guildId,
-            discord_id: discordId
+            guild_id: guildId as string,
+            discord_id: discordId as string
         }
     });
 
