@@ -1,4 +1,4 @@
-import BigNumber from 'bignumber.js';
+import { BigNumber } from 'bignumber.js';
 import {  SlashCommandBuilder } from '@discordjs/builders';
 import { CommandParams, CommandConfig } from '../../../types/commands.js';
 
@@ -40,7 +40,7 @@ async function Give({ bot, dispatch, args, guildSettings, commandFile }: Command
         });
     }
 
-    const [recipientRecord, recipientGetErr] = await api.guildCurrencyRecords.getByGuildIdAndDiscordId(dispatch, recipientId);
+    const [recipientRecord, recipientGetErr] = await api.guildCurrencyRecords.getOrSave(dispatch, recipientId);
 
     if(recipientGetErr || !recipientRecord) {
         return errors.commandApi({ 
@@ -87,7 +87,7 @@ async function Give({ bot, dispatch, args, guildSettings, commandFile }: Command
 
     const recipient = dispatch.interaction?.options.getUser("user") ?? await bot.users.fetch(recipientId);
 
-    return dispatch.reply(`${dispatch.author} gave ${recipient} ${amountToGive.toLocaleString()} ${guildSettings.currency_name}`);
+    return dispatch.reply(`${dispatch.author} gave ${recipient} **${amountToGive.toLocaleString()} ${guildSettings.currency_name}**`);
 
     /* Handle eventual Log embed */
 };
