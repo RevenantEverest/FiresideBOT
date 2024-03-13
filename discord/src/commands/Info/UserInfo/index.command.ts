@@ -1,14 +1,28 @@
+import type { CommandParams, CommandConfig } from '@@types/commands.js';
+
 import Discord from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandParams, CommandConfig } from '../../../types/commands.js';
-
-import { colors, dates } from '../../../utils/index.js';
 import { APIEmbedField } from 'discord-api-types/v10';
 
-async function UserInfo({ dispatch }: CommandParams) {
+import { colors, dates, regex } from '@@utils/index.js';
 
-    const user = dispatch.author;
-    const guildMember = await dispatch.guild.members.fetch(user.id);
+async function UserInfo({ dispatch, args }: CommandParams) {
+
+    const interaction = dispatch.interaction;
+
+    let userMention = interaction?.options.getUser("user");
+    let userId = userMention?.id ?? dispatch.author.id;
+
+    if(!userMention && regex.hasUserTag(args.join(" "))) {
+        const userMentionParse = regex.parseUserTag(args.join(" "));
+
+        if(userMentionParse) {
+            args = args.join(" ").replace(regex.userRegex, "").split(" ").filter(el => el !== "");
+            userId = userMentionParse;
+        }
+    }
+
+    const guildMember = await dispatch.guild.members.fetch(userId);
 
     const createdAt = dates.format(guildMember.user.createdAt, {
         dateFormat: "MMMM D, YYYY"
@@ -29,7 +43,7 @@ async function UserInfo({ dispatch }: CommandParams) {
     const embed = new Discord.MessageEmbed({
         color: colors.fuchsia,
         author: {
-            name: `User Info for ${guildMember.user.username} #${guildMember.user.discriminator}`,
+            name: `User Info for ${guildMember.user.username}`,
             iconURL: guildMember.displayAvatarURL({ dynamic: true }) ?? ""
         },
         thumbnail: {
@@ -54,5 +68,10 @@ export const config: CommandConfig = {
 export const slashCommand = new SlashCommandBuilder()
 .setName("userinfo")
 .setDescription(config.description)
+.addUserOption(option => 
+    option
+    .setName("user")
+    .setDescription("The user you'd like to see info for")
+)
 
 export default UserInfo;

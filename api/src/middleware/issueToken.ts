@@ -1,18 +1,10 @@
-import { Response } from 'express';
+import type { Response } from 'express';
+import type { AuthPayload } from '@@types/auth.js';
+
 import JWT from 'jsonwebtoken';
+import { ENV } from '@@constants/index.js';
 
-import { ENV } from '../constants/index.js';
-
-interface Payload {
-    id: number,
-    username: string,
-    discriminator: number,
-    discord_id: string,
-    avatar?: string | null,
-    token?: string
-};
-
-async function issueToken(res: Response, payload: Payload) {
+async function issueToken(res: Response, payload: AuthPayload) {
     const options = {
         expiresIn: "12h"
     };

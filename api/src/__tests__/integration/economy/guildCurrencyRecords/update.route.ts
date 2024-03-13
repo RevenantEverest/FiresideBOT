@@ -1,0 +1,13 @@
+import supertest from 'supertest';
+import { Application } from 'express';
+
+import * as PAYLOADS from '../../../support/payloads/guildCurrencyRecord.payloads.js';
+
+import { AuthTestingPayload } from '../../../support/types/auth.js';
+import { GuildCurrencyRecordExtraParams } from '../../../support/types/extraParams/guildCurrencyRecord.params.js';
+
+function updateRoute(baseEndpoint: string, app: Application, authPayload: AuthTestingPayload, extraParams: GuildCurrencyRecordExtraParams) {
+
+};
+
+export default updateRoute;

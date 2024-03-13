@@ -1,4 +1,5 @@
 export * as fortunes from './custom/fortunes.js';
+export * as guildCurrencyRecords from './economy/guildCurrencyRecords.js';
 export * as guildSettings from './settings/guildSettings.js';
 export * as guildPlaylists from './playlists/guildPlaylists.js';
 export * as guildPlaylistRoles from './playlists/guildPlaylistRoles.js';

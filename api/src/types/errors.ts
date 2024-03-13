@@ -1,10 +1,10 @@
-import { Response, NextFunction } from 'express';
+import type { Response, NextFunction } from 'express';
 
 export interface SendResponseOptions {
     res: Response,
     next?: NextFunction,
     err?: Error,
-    status?: number,
+    status?: 400 | 401 | 403 | 404 | 500,
     message?: string
 };
 
@@ -18,4 +18,12 @@ export interface HandleTupleOptions<T> {
     res: T | undefined,
     err: Error | undefined,
     errMsg: string
+};
+
+export interface SendEntitiesResponseParams<T> {
+    res: Response,
+    err?: Error,
+    message: string,
+    entityReturn?: T | null,
+    missingEntityReturnMessage: string
 };

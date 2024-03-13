@@ -5,5 +5,6 @@ export * as ERROR_MESSAGES from './errorMessages/index.js';
 export * as FLAGS from './flags.js';
 export * as IMAGE_RESOURCES from './imageResources.js';
 export * as LOG_CHANNELS from './logChannels.js';
+export * as PLAYING_CARDS from './playingCards.js';
 export * as PREMIUM_LIMITS from './premiumLimits.js';
 export * as URLS from './urls.js';

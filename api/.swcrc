@@ -1,12 +1,6 @@
 {
     "$schema": "https://json.schemastore.org/swcrc",
     "jsc": {
-        "parser": {
-            "syntax": "typescript",
-            "decorators": true,
-            "importAssertions": true
-        },
-        "target": "es2022",
         "baseUrl": "./src",
         "paths": {
             "@@root/*": ["./*"],
@@ -18,10 +12,14 @@
             "@@routes/*": ["./routes/*"],
             "@@services/*": ["./services/*"],
             "@@types/*": ["./types/*"],
-            "@@utils/*": ["./utils/*"]
-        }
-    },
-    "module": {
-        "type": "es6"
+            "@@utils/*": ["./utils/*"],
+            "@@tests/support/*": ["./__tests__/support/*"],
+            "@@tests/integration/*": ["./__tests__/integration/*"]
+        },
+        "parser": {
+            "syntax": "typescript",
+            "decorators": true
+        },
+        "target": "es2022"
     }
 }

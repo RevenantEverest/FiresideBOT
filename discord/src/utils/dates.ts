@@ -24,9 +24,9 @@ export async function getTimestampAndFormat(options?: DateFormatOptions): Promis
 };
 
 export function parseSeconds(durationInSeconds: number): string {
-    const formatedDuration = dayjs.duration(durationInSeconds, "seconds").format("H:mm:ss");
+    const formattedDuration = dayjs.duration(durationInSeconds, "seconds").format("H:mm:ss");
 
-    return formatedDuration.replace(/\b0+[a-z]+\s*/gi, '').trim();
+    return formattedDuration.replace(/\b0+[a-z]+\s*/gi, '').trim();
 };
 
 export function format(timestamp: string | Date, options?: DateFormatOptions): FormattedDate {
