@@ -1,4 +1,4 @@
-import Discord, { MessageReaction, User, Message } from 'discord.js';
+import Discord, { MessageReaction, User, Message, ReactionCollector } from 'discord.js';
 import { PaginatedEmbed } from '../types/embeds.js';
 import { ApiPaginationOptions, GetPageResponse } from '../types/pagination.js';
 import { Server } from '../types/server.js';
@@ -25,6 +25,14 @@ interface GetContentLengthParams<T> {
 interface ApiNavigationReturn<T> {
     paginationOptions: ApiPaginationOptions<T>,
     paginatedEmbed: PaginatedEmbed
+};
+
+interface PlayBlackJackParams {
+    message: Message,
+    handleHit: (collector: ReactionCollector) => void,
+    handleDoubleDown: (collector: ReactionCollector) => void,
+    handleStay: (collector: ReactionCollector) => void,
+    handleSurrender: (collector: ReactionCollector) => void
 };
 
 function getPageToRequest(index: number, amountPerPage: number): number {
@@ -224,4 +232,48 @@ export async function likeSong(server: Server, dispatch: CommandDispatch, messag
 
         return dispatch.channel.send(`**${likedSong.title}** added to LikedSongs with **ID: ${likedSong.id}**`);
     };
+};
+
+/**
+ * 
+ */
+export async function playBlackJack({ message, handleHit, handleDoubleDown, handleStay, handleSurrender }: PlayBlackJackParams) {
+    await message.react(EMOJIS.HIT);
+    await message.react(EMOJIS.STAY);
+    await message.react(EMOJIS.DOUBLE_DOWN);
+    await message.react(EMOJIS.WHITE_FLAG);
+    
+    const collector = new Discord.ReactionCollector(message, {
+        time: 5 * 60000,
+        dispose: true
+    });
+
+    collector.on("collect", async (reaction, user) => {
+        if(user.bot) return;
+
+        if(reaction.emoji.name === EMOJIS.HIT) {
+            handleHit(collector);
+        }
+
+        switch(reaction.emoji.name) {
+            case EMOJIS.HIT:
+                handleHit(collector);
+                break;
+            case "DoubleDown":
+                handleDoubleDown(collector);
+                break;
+            case EMOJIS.STAY:
+                handleStay(collector);
+                break;
+            case EMOJIS.WHITE_FLAG:
+                handleSurrender(collector);
+                break;
+            default:
+                return;
+        }
+    });
+
+    collector.on("end", () => {
+        message.reactions.removeAll();
+    });
 };

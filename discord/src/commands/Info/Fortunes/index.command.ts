@@ -1,13 +1,14 @@
+import type { CommandParams, CommandConfig } from '@@types/commands.js';
+import type { Fortune } from '@@types/entities/Fortune.js';
+import type { PaginatedEmbed } from '@@types/embeds.js';
+import type { HandleReturn } from '@@types/promises.js';
+import type { ApiPaginationOptions, GetPageResponse } from '@@types/pagination.js';
+
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { CommandParams, CommandConfig } from '../../../types/commands.js';
-import { Fortune } from '../../../types/entities/Fortune.js';
-import { PaginatedEmbed } from '../../../types/embeds.js';
-import { HandleReturn } from '../../../types/promises.js';
-import { ApiPaginationOptions, GetPageResponse } from '../../../types/pagination.js';
 
-import * as api from '../../../api/index.js';
+import * as api from '@@api/index.js';
 
-import { colors, embeds, pagination, errors } from '../../../utils/index.js';
+import { colors, embeds, pagination, errors } from '@@utils/index.js';
 
 async function Fortunes({ dispatch, commandFile }: CommandParams) {
 

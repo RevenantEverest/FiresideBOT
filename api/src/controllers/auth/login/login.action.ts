@@ -1,13 +1,15 @@
-import { Request, Response } from 'express';
-import { AxiosResponse } from 'axios';
-import { discordServices } from '../../../services/index.js';
-import DiscordToken from '../../../entities/DiscordToken.js';
-import User from '../../../entities/User.js';
+import type { Request, Response } from 'express';
+import type { AxiosResponse } from 'axios';
+import type { AuthPayload } from '@@types/auth.js';
 
-import issueToken from '../../../middleware/issueToken.js';
+import { discordServices } from '@@services/index.js';
+import DiscordToken from '@@entities/DiscordToken.js';
+import User from '@@entities/User.js';
 
-import { ENV } from '../../../constants/index.js';
-import { promises, entities, errors } from '../../../utils/index.js';
+import issueToken from '@@middleware/issueToken.js';
+
+import { ENV } from '@@constants/index.js';
+import { promises, entities, authPermissions, errors } from '@@utils/index.js';
 
 async function login(req: Request, res: Response): Promise<void> {
     const { code } = req.body;
@@ -54,12 +56,13 @@ async function login(req: Request, res: Response): Promise<void> {
     if(userErr) return errors.sendResponse({ res, err: userErr, message: "User DB Error" });
     if(!user) return errors.sendResponse({ res, message: "No User Response" });
 
-    const payload = {
+    const payload: AuthPayload = {
         id: user.id,
         discord_id: discordUser.data.id,
         username: discordUser.data.username,
         discriminator: discordUser.data.discriminator,
-        avatar: discordUser.data.avatar
+        avatar: discordUser.data.avatar,
+        permissions: authPermissions.getAuthPermissions(discordUser.data.id)
     };
 
     issueToken(res, payload);
