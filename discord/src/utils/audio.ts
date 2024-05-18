@@ -6,6 +6,7 @@ import {
     entersState
 } from '@discordjs/voice';
 import playdl from 'play-dl';
+import ytdl from 'ytdl-core';
 
 import type { Client } from 'discord.js';
 import type { Server } from '@@types/server.js';
@@ -80,9 +81,8 @@ export async function stream(bot: Client, dispatch: CommandDispatch, server: Ser
 
 export async function createResource(server: Server) {
     const link = URLS.YOUTUBE_VIDEO + server.queue.info[0].videoId;
-    const source = await playdl.stream(link);
-    const resource = createAudioResource(source.stream, {
-        inputType: source.type,
+    const source = ytdl(link, { filter: 'audioonly', quality: 'highestaudio', highWaterMark: 1<<25 });
+    const resource = createAudioResource(source, {
         inlineVolume: true
     });
 

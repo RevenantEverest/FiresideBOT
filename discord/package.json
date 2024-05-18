@@ -35,7 +35,7 @@
     "sodium-native": "^4.0.4",
     "validate.js": "^0.13.1",
     "yt-search": "^2.10.4",
-    "ytdl-core": "^4.11.0"
+    "ytdl-core": "^4.11.5"
   },
   "devDependencies": {
     "@swc/cli": "0.1.57",
