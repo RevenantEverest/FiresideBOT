@@ -1,23 +1,35 @@
+import type { Application } from 'express';
+import type { AuthTestingPayload } from '@@tests/support/types/auth.js';
+import type { GuildCurrencyRecordExtraParams } from '@@tests/support/types/extraParams.js';
+
+import * as PAYLOADS from '@@tests/support/payloads/guildCurrencyRecord.payloads.js';
+
 import supertest from 'supertest';
-import { Application } from 'express';
-
-import * as PAYLOADS from '../../../support/payloads/guildCurrencyRecord.payloads.js';
-
-import { AuthTestingPayload } from '../../../support/types/auth.js';
-import { GuildCurrencyRecordExtraParams } from '../../../support/types/extraParams/guildCurrencyRecord.params.js';
+import AppDataSource from '@@db/dataSource.js';
+import { GuildCurrencyRecord } from '@@entities/index.js';
+import authenticatedRouteTest from '@@tests/support/common/authenticatedRouteTest.js';
 
 function postRoute(baseEndpoint: string, app: Application, authPayload: AuthTestingPayload, extraParams: GuildCurrencyRecordExtraParams) {
-    describe("given the user is not logged in", () => {
-        it("should return a 403 status", async () => {
-            await supertest(app)
-            .post(baseEndpoint)
-            .expect(403)
+    
+    /* Setup */
+    beforeAll(async () => {
+        const repository = AppDataSource.getRepository(GuildCurrencyRecord);
+        const entity = repository.create({
+            ...PAYLOADS.VALID_CREATE,
+            discord_id: authPayload.discord_id,
+            guild_id: extraParams.guildId as string
         });
+
+        const record = await entity.save();
+        extraParams.entity = record;
     });
 
-    describe("given the user is logged in", () => {
-        
+    /* Cleanup */
+    afterAll(async () => {
+        await AppDataSource.getRepository(GuildCurrencyRecord).remove(extraParams.entity as GuildCurrencyRecord);
     });
+
+    authenticatedRouteTest(app, "post", `${baseEndpoint}/guild_id/${extraParams.guildId}/discord_id/${authPayload.discord_id}`);
 };
 
 export default postRoute;

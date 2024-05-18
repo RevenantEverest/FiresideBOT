@@ -1,17 +1,30 @@
-import initializeApp from '../../../../app.js';
-import issueToken from '../../../support/login.support.js';
-import { DISCORD } from '../../../support/constants/index.js';
-import * as AUTH_PAYLOADS from '../../../support/payloads/auth.payloads.js';
-import { HandleReturn } from '../../../../types/promises.js';
-import { GuildCurrencyRecordExtraParams } from '../../../support/types/extraParams/guildCurrencyRecord.params.js';
+import type { GuildCurrencyRecordExtraParams } from '@@tests/support/types/extraParams.js';
 
-import { discord } from '../../../../utils/index.js';
+import AppDataSource from '@@db/dataSource.js';
+import initializeApp from '@@root/app.js';
+import issueToken from '@@tests/support/login.support.js';
+import { DISCORD } from '@@tests/support/constants/index.js';
+
+import { connectToTestingDatabase } from '@@tests/support/database.support.js';
+import { DB_TIMEOUT } from '@@tests/support/constants/database.js';
+import { hasPermission, isGuildMember } from '@@tests/support/mocks/index.js';
+
+import * as AUTH_PAYLOADS from '../../../support/payloads/auth.payloads.js';
 
 import postRouteSpec from './post.route.js';
 import updateRouteSpec from './update.route.js';
 import getRouteSpec from './get.route.js';
 
-type MockReturn = Promise<HandleReturn<boolean>>;
+jest.mock('@@utils/discord.js', () => {
+    const original = jest.requireActual('@@utils/discord.js');
+
+    return {
+        __esModule: true,
+        ...original,
+        checkMemberPermissions: jest.fn(),
+        isGuildMember: jest.fn()
+    };
+});
 
 const authPayload = issueToken(AUTH_PAYLOADS.MAIN);
 
@@ -20,35 +33,32 @@ const baseEndpoint = "/economy/records/guild/";
 
 const extraParams: GuildCurrencyRecordExtraParams = {
     guildId: DISCORD.TESTING_SERVER_ID,
-    mocks: {
-        hasPermission: (value: boolean) => {
-            const spy = jest.spyOn(discord, "checkMemberPermissions");
-            spy.mockImplementation(async (): MockReturn => [value, undefined]);
-        },
-        isGuildMember: (value: boolean) => {
-            const spy = jest.spyOn(discord, "isGuildMember");
-            spy.mockImplementation(async (): MockReturn => [value, undefined]);
-        }
-    }
+    mocks: { hasPermission, isGuildMember }
 };
 
-export default () => {
-    afterEach(() => {
+describe("Guild Currency Record", () => {
+
+    beforeAll(async () => {
+        await connectToTestingDatabase();
+    }, DB_TIMEOUT);
+
+    afterAll(async () => {
+        await AppDataSource.destroy();
         jest.clearAllMocks();
     });
 
-    /* POST */
+    /* Get */
+    describe("get route", () => {
+        getRouteSpec(baseEndpoint, app, authPayload, extraParams);
+    });
+
+    /* Post */
     describe("create route", () => {
         postRouteSpec(baseEndpoint, app, authPayload, extraParams);
     });
 
-    /* UPDATE */
+    /* Update */
     describe("update route", () => {
         updateRouteSpec(baseEndpoint, app, authPayload, extraParams);
     });
-    
-    /* GET */
-    describe("get route", () => {
-        getRouteSpec(baseEndpoint, app, authPayload, extraParams);
-    });
-};
+});
