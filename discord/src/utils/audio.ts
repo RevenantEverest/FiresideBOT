@@ -93,7 +93,6 @@ export async function stream(bot: Client, dispatch: CommandDispatch, server: Ser
 
 export async function createResource(server: Server) {
     const link = URLS.YOUTUBE_VIDEO + server.queue.info[0].videoId;
-    console.log("Link => ", link);
     const availableSources = [
         createYTDLResource,
         createPlayDLResource,
