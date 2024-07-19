@@ -5,6 +5,8 @@ import Discord, {
     ColorResolvable
 } from 'discord.js';
 
+import dayjs from 'dayjs';
+
 import { CommandDispatch } from '../types/commands.js';
 import { Server } from '../types/server.js';
 import { PaginatedEmbed, PaginatedEmbedPage } from '../types/embeds.js';
@@ -109,10 +111,14 @@ export function createCurrentSongEmbed(dispatch: CommandDispatch, server: Server
         }
     });
 
-    server.queue.currentSongEmbed = embed;
-    dispatch.channel.send({ embeds: [embed] })
-    .then(msg => reactions.likeSong(server, dispatch, msg))
-    .catch(err => console.error(err));
+    /* Prevent Audio Package Switching From Sending Multiple Embeds */
+    const lastSwitched = dayjs(server.queue.audioSourcePackage.lastSwitched).add(5, "seconds");
+    if(!server.queue.currentSongEmbed || dayjs().isAfter(lastSwitched)) {
+        server.queue.currentSongEmbed = embed;
+        dispatch.channel.send({ embeds: [embed] })
+        .then(msg => reactions.likeSong(server, dispatch, msg))
+        .catch(err => console.error(err));
+    }
 };
 
 export function generateEmbed<T>(index: number, paginatedEmbed: PaginatedEmbed, paginationOptions?: ApiPaginationOptions<T>): MessageEmbed {
