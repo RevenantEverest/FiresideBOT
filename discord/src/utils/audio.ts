@@ -16,6 +16,7 @@ import { URLS } from '@@constants/index.js';
 import * as embeds from './embeds.js';
 import * as queue from './queue.js';
 import * as errors from './errors.js';
+import dayjs from 'dayjs';
 
 type BufferingTimeout = NodeJS.Timeout | null;
 
@@ -67,12 +68,14 @@ export async function stream(bot: Client, dispatch: CommandDispatch, server: Ser
         const error = err as Error;
 
         const timesSwitched = server.queue.audioSourcePackage.timesSwitched;
-        if(timesSwitched % 3 === 0 && timesSwitched !== 0) {
+        const timeAvailableToSwitch = dayjs(server.queue.audioSourcePackage.lastSwitched).add(30, "minutes");
+        if(timesSwitched % 3 === 0 && timesSwitched !== 0 && dayjs().isBefore(timeAvailableToSwitch)) {
             server.queue.playing = false;
-            return errors.logError({ 
-                err: error, 
-                errMessage: error.message + ` - Audio Package ${server.queue.audioSourcePackage.packageIndex}`, 
-                resourceName: "Audio Player - General Error"
+            return errors.sendErrorEmbed({
+                dispatch,
+                errMessage: error.message,
+                resourceName: "Audio Player - General Error",
+                isUtility: true
             });
         }
 
