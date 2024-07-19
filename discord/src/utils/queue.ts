@@ -9,6 +9,7 @@ export function nextInQueue(bot: Client, dispatch: CommandDispatch, server: Serv
 
     try {
         if(server.queue.info.length > 0) {
+            server.queue.info.shift();
             audio.stream(bot, dispatch, server);
         }
         else {

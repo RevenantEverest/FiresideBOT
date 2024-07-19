@@ -11,7 +11,7 @@ export const DEFAULT_PLAYLISTS = {
     LIKED_SONGS: "LikedSongs"
 };
 
-export async function generateDefaultServer(guildId: GuildResolvable, guildSettings: GuildSettings) {
+export function generateDefaultServer(guildId: GuildResolvable, guildSettings: GuildSettings) {
     config.servers.push({
         id: guildId,
         premium: false,
@@ -31,7 +31,12 @@ export async function generateDefaultServer(guildId: GuildResolvable, guildSetti
             connection: null,
             resource: null,
             player: null,
-            disconnectTimer: null
+            disconnectTimer: null,
+            audioSourcePackage: {
+                lastSwitched: Date.now(),
+                timesSwitched: 0,
+                packageIndex: 0
+            }
         }
     });
 };
