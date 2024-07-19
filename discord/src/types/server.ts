@@ -24,7 +24,12 @@ export interface ServerQueue {
     connection: VoiceConnection | null,
     resource: AudioResource | null,
     player: AudioPlayer | null,
-    disconnectTimer: NodeJS.Timeout | null
+    disconnectTimer: NodeJS.Timeout | null,
+    audioSourcePackage: {
+        lastSwitched: Date | number,
+        timesSwitched: number
+        packageIndex: number
+    }
 };
 
 export interface Server {
