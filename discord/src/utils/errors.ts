@@ -1,11 +1,11 @@
-import Discord, { Client, Message } from 'discord.js';
+import type { AxiosApiError } from '../types/api.js';
+
+import Discord, { Message } from 'discord.js';
 import { CommandDispatch, CommandFile } from '../types/commands.js';
-import bot from '../discordBot.js';
 
 import { ERROR_MESSAGES, EMOJIS } from '../constants/index.js';
 import * as logs from './logs.js';
 import * as colors from './colors.js';
-import { AxiosApiError } from 'src/types/api.js';
 
 interface CommandApiOptions<T> {
     dispatch: CommandDispatch,
