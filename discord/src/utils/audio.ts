@@ -4,9 +4,7 @@ import {
     createAudioResource,
     entersState
 } from '@discordjs/voice';
-import playdl from 'play-dl';
-import ytdl from 'ytdl-core';
-import distubeYtdl from '@distube/ytdl-core';
+import { YtdlCore, toPipeableStream } from '@ybd-project/ytdl-core';
 
 import type { Client } from 'discord.js';
 import type { Server } from '@@types/server.js';
@@ -22,6 +20,9 @@ type BufferingTimeout = NodeJS.Timeout | null;
 
 export async function stream(bot: Client, dispatch: CommandDispatch, server: Server) {
     if(!server.queue.connection) return;
+
+    const maxRetries = 3; // This number should correlate with availableSources length
+    let retryCount = 0;
 
     try {
         let bufferingTimer: BufferingTimeout = null;
@@ -39,7 +40,17 @@ export async function stream(bot: Client, dispatch: CommandDispatch, server: Ser
 
         embeds.createCurrentSongEmbed(dispatch, server);
 
+        server.queue.info.shift();
+
+        player.removeAllListeners();
+
         player.on(AudioPlayerStatus.Idle, () => {
+            // Potentially fixes memory leak issues due to not clearing bufferingTimer
+            if (bufferingTimer) {
+                clearTimeout(bufferingTimer);
+                bufferingTimer = null;
+            }
+
             if(!server.queue.playing) return;
 
             queue.nextInQueue(bot, dispatch, server);
@@ -63,10 +74,26 @@ export async function stream(bot: Client, dispatch: CommandDispatch, server: Ser
         });
 
         await entersState(player, AudioPlayerStatus.Playing, 5e3);
+
+        retryCount = 0;
     }
     catch(err) {
         const error = err as Error;
 
+        if(retryCount >= maxRetries) {
+            server.queue.playing = false;
+            server.queue.connection.destroy();
+
+            return errors.sendErrorEmbed({
+                dispatch,
+                errMessage: "Max reties reached",
+                resourceName: "Audio Player - General Error",
+                isUtility: true
+            });
+        }
+
+        retryCount++;
+        
         const timesSwitched = server.queue.audioSourcePackage.timesSwitched;
         const timeAvailableToSwitch = dayjs(server.queue.audioSourcePackage.lastSwitched).add(30, "minutes");
         if(timesSwitched % 3 === 0 && timesSwitched !== 0 && dayjs().isBefore(timeAvailableToSwitch)) {
@@ -79,9 +106,10 @@ export async function stream(bot: Client, dispatch: CommandDispatch, server: Ser
             });
         }
 
-        dispatch.channel.send(`Error playing track, attempting to switch to audio package ${server.queue.audioSourcePackage.packageIndex + 2}/3 ...`);
-    
         server.queue.audioSourcePackage.timesSwitched++;
+
+        dispatch.channel.send(`Error playing track, attempting to switch to audio package ${server.queue.audioSourcePackage.packageIndex + 1}/3 ...`);
+    
         if(server.queue.audioSourcePackage.packageIndex === 2) {
             server.queue.audioSourcePackage.packageIndex = 0;
         }
@@ -89,18 +117,19 @@ export async function stream(bot: Client, dispatch: CommandDispatch, server: Ser
             server.queue.audioSourcePackage.packageIndex++;
         }
         server.queue.audioSourcePackage.lastSwitched = Date.now();
-        // server.queue.info.unshift(currentTrack);
+        
         return stream(bot, dispatch, server);
     }
 };
 
 export async function createResource(server: Server) {
     const link = URLS.YOUTUBE_VIDEO + server.queue.info[0].videoId;
+
+    /* The methods related to the audio packageIndex key */
     const availableSources = [
-        createYTDLResource,
-        createPlayDLResource,
-        createDistubeYTDLResource
+        createYTDLResource
     ];
+
     const source = await availableSources[server.queue.audioSourcePackage.packageIndex](link);
     const resource = createAudioResource(source, {
         inlineVolume: true
@@ -119,31 +148,9 @@ export async function createResource(server: Server) {
  * @returns audio source
  */
 export async function createYTDLResource(link: string) {
-    const source = ytdl(link, { filter: 'audioonly', quality: 'highestaudio', highWaterMark: 1<<25 });
-    return source;
-};
-
-/**
- * Creates an audio source to pass to the `play-dl` package
- * @param link - string
- * @returns audio source
- */
-export async function createPlayDLResource(link: string) {
-    const source = await playdl.stream(link);
-    return source.stream;
-};
-
-/**
- * Creates an audio source to pass to the `@distube/ytdl-core` package
- * @param link - string
- * @returns audio source
- */
-export async function createDistubeYTDLResource(link: string) {
-    const source = distubeYtdl(link, {
-        quality: 'highestaudio',
-        highWaterMark: 1 << 30,
-        liveBuffer: 1 << 30,
+    const ytdl = new YtdlCore({
+        filter: 'audioonly', quality: 'highestaudio', highWaterMark: 1<<25
     });
-
-    return source;
+    const source = await ytdl.download(link);
+    return toPipeableStream(source);
 };
