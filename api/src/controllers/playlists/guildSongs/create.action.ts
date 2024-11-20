@@ -39,7 +39,7 @@ async function create(req: Request, res: Response, next: NextFunction) {
         return errors.sendResponse({ res, status: 404, message: "No GuildPlaylist Found" });
     }
 
-    const [youtubeSearchRes, youtubeSearchErr] = await youtube.handleSearch(request, isLink);
+    const [youtubeSearchRes, youtubeSearchErr] = await youtube.handleSearch(request);
 
     if(youtubeSearchErr) {
         return errors.sendResponse({ res, next, err: youtubeSearchErr, message: "YouTube Search Error" });
