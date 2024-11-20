@@ -1,10 +1,10 @@
-import { GuildResolvable } from 'discord.js';
-import { CommandDispatch } from 'src/types/commands.js';
-import { GuildSettings } from '../../types/entities/GuildSettings.js';
-import { HandleAxiosReturn } from '../../types/promises.js';
+import type { GuildResolvable } from 'discord.js';
+import type { CommandDispatch } from '@@types/commands.js';
+import type { GuildSettings } from '@@types/entities/GuildSettings.js';
+import type { HandleAxiosReturn } from '@@types/promises.js';
 
-import { ENV } from '../../constants/index.js';
-import { apiRequests } from '../../utils/index.js';
+import { ENV } from '@@constants/index.js';
+import { apiRequests } from '@@utils/index.js';
 
 const baseEndpoint = ENV.API_URL + "/settings/guild";
 
