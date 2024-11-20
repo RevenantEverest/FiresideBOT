@@ -45,7 +45,6 @@ async function Play({ bot, args, dispatch, server, options, userState, commandFi
         return dispatch.reply(ERROR_MESSAGES.PREMIUM.REQUEST_DURATION, true);
     }
 
-    console.log("Putting song into queue", songInfo);
     server.queue.info.push({
         ...songInfo,
         requestedBy: `${dispatch.author.username} #${dispatch.author.discriminator}`
