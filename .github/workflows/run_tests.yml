@@ -11,11 +11,6 @@ jobs:
       - name: Setup Docker
         uses: docker/setup-buildx-action@v2
 
-      - name: Install Docker Compose
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y docker-compose
-
       - name: Create env files
         env:
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
@@ -50,11 +45,6 @@ jobs:
 
       - name: Setup Docker
         uses: docker/setup-buildx-action@v2
-
-      - name: Install Docker Compose
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y docker-compose
         
       - name: Run Discord Test Script
         run: |

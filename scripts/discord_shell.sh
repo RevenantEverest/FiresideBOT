@@ -2,4 +2,4 @@
 
 cd "$(dirname "$0")/.." || exit
 
-docker-compose exec discord sh
+docker compose exec discord sh
