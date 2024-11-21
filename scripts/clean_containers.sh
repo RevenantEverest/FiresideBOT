@@ -26,12 +26,3 @@ if [[ ! -z "$dangling_images" ]]; then
 else
     echo "No dangling images found, skipping..."
 fi
-
-# Remove PostgreSQL Database directories
-sudo rm -rf postgres_data/
-sudo rm -rf postgres_testing_data/
-
-# Remove TypeScript Build Directories
-sudo rm -rf api/dist/
-
-echo "Done"

@@ -10,10 +10,9 @@ import type { UserSong } from '@@types/entities/UserSong.js';
 import type { GuildSong } from '@@types/entities/GuildSong.js';
 import type { ApiPaginatedResponse } from '@@types/api.js';
 
-import * as api from '../api/index.js';
+import * as api from '@@api/index.js';
 
-import { DEFAULTS, FLAGS, ERROR_MESSAGES } from '../constants/index.js';
-import * as youtube from './youtube.js';
+import { DEFAULTS, FLAGS, ERROR_MESSAGES } from '@@constants/index.js';
 import * as arrays from './arrays.js';
 import * as flags from './flags.js';
 import * as voiceConnection from './voiceConnection.js';
@@ -29,20 +28,8 @@ interface PlayPlaylistParams {
     isServerPlaylist?: boolean
 };
 
-export async function requestSong(request: string): HandleReturn<SongInfo> {
-    const isLink: boolean = await youtube.isValidLink(request);
-
-    if(isLink) {
-        const videoId = await youtube.extractVideoId(request);
-
-        if(!videoId) {
-            return [undefined, new Error("Invalid Video ID")];
-        }
-
-        return youtube.videoSearch({ videoId }); 
-    }
-
-    return youtube.search({ search: request });
+export async function requestSong(dispatch: CommandDispatch, request: string): HandleReturn<SongInfo> {
+    return api.youtubeUtils.search(dispatch, request);
 };
 
 export async function playPlaylist({ bot, dispatch, server, args, playlist, songs, options, isServerPlaylist }: PlayPlaylistParams) {

@@ -20,7 +20,7 @@ async function Play({ bot, args, dispatch, server, options, userState, commandFi
     }
 
     let request = dispatch.interaction?.options.getString("request") || args.join(" ");
-    const [youtubeSearchRes, youtubeSearchErr] = await songRequests.requestSong(request ?? args[0]);
+    const [youtubeSearchRes, youtubeSearchErr] = await songRequests.requestSong(dispatch, request ?? args[0]);
 
     if(youtubeSearchErr) {
         return errors.command({ 

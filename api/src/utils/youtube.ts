@@ -1,11 +1,17 @@
-import { AxiosResponse } from 'axios';
-import playdl from 'play-dl';
+import yts from 'yt-search';
+import UserAgent from 'user-agents';
 
-import * as promises from './promises.js';
-import { HandleReturn } from '../types/promises.js';
-import { SongInfo } from '../types/youtube.js';
-import { youtubeServices } from '../services/index.js';
-import { URLS } from '../constants/index.js';
+import type { HandleReturn } from '@@types/promises.js';
+import type { 
+    SongInfo,
+    SearchOptions,
+    VideoSearchOptions
+} from '@@types/youtube.js';
+
+interface SearchInfo {
+    queryType: "videoId" | "search",
+    query: string
+};
 
 const youtubeRegex = /(?:https?:\/\/)?(?:www\.)?youtu\.?be(?:\.com)?\/?.*(?:watch|embed)?(?:.*v=|v\/|\/)([\w-_]+)/gi;
 
@@ -25,55 +31,75 @@ export async function extractVideoId(str: string): Promise<string | null> {
     return exec[1];
 };
 
-export async function handleSearch(request: string, isLink: boolean): Promise<HandleReturn<SongInfo>> {
-    let youtubeLink = request;
+/**
+ * The handler for determining which search method to use based on a request string. The request can either be a link or query
+ */
+export async function handleSearch(request: string): Promise<HandleReturn<SongInfo>> {
+    const isLink: boolean = await isValidLink(request);
 
-    if(!isLink) {
-        const promise = youtubeServices.search(request);
-        const [res, err] = await promises.handle<AxiosResponse>(promise);
+    const searchInfo: SearchInfo = {
+        queryType: "search",
+        query: request
+    };
 
-        if(err) {
-            return [undefined, err];
+    if(isLink) {
+        const videoId = await extractVideoId(request);
+
+        if(!videoId) {
+            return [undefined, new Error("Invalid Video ID")]
         }
 
-        if(!res || res.data.items.length < 1) {
-            return [undefined, new Error("No Results Found")];
-        }
-
-        const videoId = res.data.items[0].id.videoId;
-        youtubeLink = URLS.YOUTUBE_VIDEO + videoId;
+        searchInfo.queryType = "videoId";
+        searchInfo.query = request;
     }
 
-    return await getSongInfo(youtubeLink);
+    return (
+        searchInfo.queryType === "search" ? 
+        search({ search: searchInfo.query }) : 
+        videoSearch({ videoId: searchInfo.query })
+    );
 };
 
-export async function getSongInfo(link: string): Promise<HandleReturn<SongInfo>> {
-    try {
-        const info = await playdl.video_basic_info(link);
+export async function search(options: SearchOptions): Promise<HandleReturn<SongInfo>> {
 
-        if(!info) {
-            return [undefined, new Error("Info is Undefined")];
-        }
-    
-        const { id, title, channel, durationInSec, thumbnails } = info.video_details;
-        const thumbnail_url = thumbnails[thumbnails.length - 1].url;
-    
-        if(!id || !title || !channel?.name) {
-            return [undefined, new Error("Missing Info Elements")];
-        }
-    
-        const songInfo: SongInfo = {
-            title,
-            videoId: id,
-            author: channel.name,
-            duration: durationInSec,
-            thumbnail_url
-        };
-    
-        return [songInfo, undefined];
-    } 
-    catch(err) {
-        const error = err as Error;
-        return [undefined, error];
+    const search = await yts({
+        ...options,
+        pages: options.pages ?? 1,
+        userAgent: new UserAgent().toString()
+    });
+
+    if(!search.videos || search.videos.length < 1) {
+        return [undefined, new Error("No Results Found")];
     }
+
+    const { title, videoId, author, duration, thumbnail } = search.videos[0];
+    
+    const songInfo: SongInfo = {
+        title,
+        videoId,
+        author: author.name,
+        duration: duration.seconds,
+        thumbnail_url: thumbnail ?? ""
+    };
+
+    return [songInfo, undefined];
+
+};
+
+export async function videoSearch(options: VideoSearchOptions): Promise<HandleReturn<SongInfo>> {
+    const search = await yts(options);
+
+    if(!search) {
+        return [undefined, new Error("No Results Found")];
+    }
+
+    const songInfo: SongInfo = {
+        title: search.title,
+        videoId: search.videoId,
+        author: search.author.name,
+        duration: search.duration.seconds,
+        thumbnail_url: search.thumbnail ?? ""
+    };
+
+    return [songInfo, undefined];
 };

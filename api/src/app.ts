@@ -8,6 +8,7 @@ import {
     customRoutes,
     playlistRoutes, 
     settingsRoutes, 
+    utilsRoutes, 
     webhookRoutes 
 } from './routes/index.js';
 
@@ -26,6 +27,8 @@ function initializeApp(): Application {
     app.use("/custom", verifyToken, customRoutes);
     app.use("/playlists", verifyToken, playlistRoutes);
     app.use("/settings", verifyToken, settingsRoutes);
+
+    app.use("/utils", verifyToken, utilsRoutes);
 
     app.use("/webhooks", webhookRoutes);
 

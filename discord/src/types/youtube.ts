@@ -1,9 +1,3 @@
-import type { 
-    OptionsWithSearch, 
-    VideoMetadataOptions, 
-    PlaylistMetadataOptions
-} from 'yt-search';
-
 export interface SongInfo {
     title: string,
     videoId: string,
@@ -11,7 +5,3 @@ export interface SongInfo {
     duration: number,
     thumbnail_url: string
 };
-
-export type VideoSearchOptions = VideoMetadataOptions;
-export type PlaylistSearchOptions = PlaylistMetadataOptions;
-export type SearchOptions = OptionsWithSearch;
