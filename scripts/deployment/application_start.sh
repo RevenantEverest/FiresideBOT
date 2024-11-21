@@ -27,7 +27,7 @@ cd /home/ubuntu/FiresideBOT/
 
 # Build and start Docker containers
 echo "Building and starting Docker containers..."
-docker-compose -f docker-compose.yml -f override.staging.yml build api discord
-docker-compose -f docker-compose.yml -f override.staging.yml up -d api discord
+docker compose -f docker-compose.yml -f override.staging.yml build api discord
+docker compose -f docker-compose.yml -f override.staging.yml up -d api discord
 
 echo "Deployment completed successfully!"

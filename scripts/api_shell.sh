@@ -2,4 +2,4 @@
 
 cd "$(dirname "$0")/.." || exit
 
-docker-compose exec api sh
+docker compose exec api sh
